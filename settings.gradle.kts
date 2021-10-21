@@ -6,5 +6,5 @@ dependencyResolutionManagement {
         maven(url = "https://www.jitpack.io")
     }
 }
-rootProject.name = "ComposeAndroidTemplate"
+rootProject.name = "Reluct"
 include(":app")

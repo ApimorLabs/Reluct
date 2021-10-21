@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.composetemplate">
+    package="com.example.reluct">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:name=".MyApplication"
+        android:name="work.racka.reluct.MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppSplash">
         <activity
-            android:name=".ui.main.MainActivity"
+            android:name="work.racka.reluct.ui.main.MainActivity"
             android:exported="true"
             android:label="@string/app_name">
             <intent-filter>

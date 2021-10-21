@@ -1,2 +1,2 @@
-# ComposeAndroidTemplate
-This is Template repository for Android Jetpack Compose
+# Reluct App
+Digital Wellbeing and Productivity Manager
