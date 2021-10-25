@@ -110,7 +110,6 @@ class UsageDataManager(
             set(Calendar.MINUTE, 0)
             set(Calendar.SECOND, 0)
             set(Calendar.MILLISECOND, 0)
-            Timber.d("Day Start: ${calendar.get(Calendar.DATE)}")
         }
         return calendar
     }
@@ -124,7 +123,6 @@ class UsageDataManager(
             set(Calendar.MINUTE, 59)
             set(Calendar.SECOND, 59)
             set(Calendar.MILLISECOND, 999)
-            Timber.d("Day End: ${calendar.get(Calendar.DAY_OF_WEEK)}")
         }
         return calendar
     }

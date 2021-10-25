@@ -35,11 +35,25 @@ object Util {
         return mode == AppOpsManager.MODE_ALLOWED
     }
 
-    fun getFormattedTime(millis: Long): String = String.format(
-        "%02d hrs %02d min",
-        TimeUnit.MILLISECONDS.toHours(millis),
-        TimeUnit.MILLISECONDS.toMinutes(millis) % TimeUnit.HOURS.toMinutes(1)
-    )
+    fun getFormattedTime(millis: Long): String {
+        val hours = TimeUnit.MILLISECONDS.toHours(millis)
+        val minutes = TimeUnit.MILLISECONDS.toMinutes(millis) % TimeUnit.HOURS.toMinutes(1)
+        return when {
+            hours > 0 -> {
+                String.format(
+                    "%02d hrs %02d min",
+                    hours,
+                    minutes
+                )
+            }
+            minutes <= 1 -> {
+                "Less than 1 minute"
+            }
+            else -> {
+                "$minutes min"
+            }
+        }
+    }
 
     fun getFormattedDate(date: Date): String {
         val dateFormat = SimpleDateFormat("EEE, MMM d", Locale.getDefault())
@@ -61,15 +75,17 @@ object Util {
     }
 
     fun getAppIcon(packageName: String, context: Context): Drawable? {
-        return try {
-            val newContext = context.createPackageContext(packageName, Context.CONTEXT_IGNORE_SECURITY)
-            newContext.packageManager.getApplicationIcon(packageName)
+        var appIcon: Drawable? = null
+        try {
+            Timber.d("PackageName: $packageName")
+            val newContext =
+                context.createPackageContext(packageName, Context.CONTEXT_IGNORE_SECURITY)
+            appIcon = newContext.packageManager.getApplicationIcon(packageName)
         } catch (e: PackageManager.NameNotFoundException) {
             Timber.d("Package Name not found")
-            null
         } catch (e: Exception) {
             Timber.d("Error: ${e.message}")
-            null
         }
+        return appIcon
     }
 }

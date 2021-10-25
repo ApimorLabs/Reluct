@@ -51,7 +51,6 @@ class MainActivity : ComponentActivity() {
         // Enable support for Splash Screen API for
         // proper Android 12+ support
         installSplashScreen()
-        usageDataManager.getWeeklyUsage(-1)
 
         setContent {
             ComposeAndroidTemplateTheme {
@@ -63,8 +62,8 @@ class MainActivity : ComponentActivity() {
                 }
 
                 val usageStats by remember {
-                    val stats = getUsageStatistics()
-                    mutableStateOf(Util.sortByHighestForegroundTime(stats))
+                    val stats = usageDataManager.getWeeklyUsage(0)
+                    mutableStateOf(Util.sortByHighestForegroundTime(stats.first().appsData))
                 }
 
                 Surface(color = MaterialTheme.colors.background) {
@@ -86,7 +85,9 @@ class MainActivity : ComponentActivity() {
                         }
 
                         items(usageStats) {
-                            UsageStat(appInfo = it)
+                            UsageStat(
+                                appInfo = it
+                            )
                         }
 
 //                        usageStats?.let { usageStats ->

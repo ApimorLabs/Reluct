@@ -74,7 +74,7 @@ fun UsageStat(
                 it.toBitmap().asImageBitmap(),
                 contentDescription = null,
                 modifier = Modifier
-                    .size(Dimens.ExtraLargePadding.size)
+                    .size(Dimens.LargePadding.size)
             )
         }
 
