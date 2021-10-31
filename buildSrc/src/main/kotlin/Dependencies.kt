@@ -40,6 +40,7 @@ object Dependencies {
     val composeFoundation by lazy { "androidx.compose.foundation:foundation:${Versions.compose}" }
     val composeFoundationLayout by lazy { "androidx.compose.foundation:foundation-layout:${Versions.compose}" }
     val composeConstraintLayout by lazy { "androidx.constraintlayout:constraintlayout-compose:${Versions.composeConstraintLayout}" }
+    val composeMaterial3 by lazy { "androidx.compose.material3:material3:${Versions.composeMaterial3}" }
 
     // Networking & JSON
     val retrofit by lazy { "com.squareup.retrofit2:converter-moshi:${Versions.retrofit}" }

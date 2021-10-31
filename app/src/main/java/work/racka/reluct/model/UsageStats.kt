@@ -4,7 +4,7 @@ import work.racka.reluct.data.local.usagestats.AppUsageInfo
 import work.racka.reluct.data.local.usagestats.Week
 
 data class UsageStats(
-    val appsData: List<AppUsageInfo>,
+    val appsUsageList: List<AppUsageInfo>,
     val dayOfWeek: Week,
     val date: String,
     val totalScreenTime: Long

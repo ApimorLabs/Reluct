@@ -1,26 +1,27 @@
 object Versions {
     // Kotlin
-    const val kotlin = "1.5.30"
+    const val kotlin = "1.5.31"
 
     // Essentials
-    const val material = "1.4.0"
+    const val material = "1.5.0-alpha05"
     const val splashScreen = "1.0.0-alpha01"
     const val appCompat = "1.3.1"
-    const val gradlePlugin = "7.0.2"
-    const val coreKtx = "1.6.0"
+    const val gradlePlugin = "7.0.3"
+    const val coreKtx = "1.7.0"
 
     // Compose Base
-    const val composeKotlin = "1.5.30"
-    const val compose = "1.1.0-alpha04"
+    const val composeKotlin = "1.5.31"
+    const val compose = "1.1.0-beta01"
     const val composeConstraintLayout = "1.0.0-beta02"
-    const val activityCompose = "1.3.1"
+    const val composeMaterial3 = "1.0.0-alpha01"
+    const val activityCompose = "1.4.0"
 
     // Navigation
-    const val composeNavigation = "2.4.0-alpha08"
+    const val composeNavigation = "2.4.0-beta01"
 
     // Lifecycle components
-    const val lifecycleViewModelCompose = "1.0.0-alpha07"
-    const val lifecycleRuntimeKtx = "2.3.1"
+    const val lifecycleViewModelCompose = "2.4.0"
+    const val lifecycleRuntimeKtx = "2.4.0"
 
     // Dependency Injection
     const val hilt = "2.38.1"
@@ -43,7 +44,7 @@ object Versions {
     const val timber = "4.7.1"
 
     // Helpers
-    const val accompanist = "0.18.0"
+    const val accompanist = "0.21.0-beta"
     const val coilImage = "1.3.2"
 
     // Networking & JSON

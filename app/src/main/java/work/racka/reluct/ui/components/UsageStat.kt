@@ -6,7 +6,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.Text
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -17,7 +17,7 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.core.graphics.drawable.toBitmap
 import work.racka.reluct.data.local.usagestats.AppUsageInfo
 import work.racka.reluct.ui.theme.Dimens
-import work.racka.reluct.utils.Util
+import work.racka.reluct.utils.Utils
 
 @Composable
 fun UsageStat(
@@ -31,13 +31,13 @@ fun UsageStat(
     ) {
         val timeInForeground by remember {
             mutableStateOf(
-                Util.getFormattedTime(stats.totalTimeInForeground)
+                Utils.getFormattedTime(stats.totalTimeInForeground)
             )
         }
 
         val lastTimeUsed by remember {
             mutableStateOf(
-                Util.getFormattedTime(stats.lastTimeUsed)
+                Utils.getFormattedTime(stats.lastTimeUsed)
             )
         }
 
@@ -57,9 +57,9 @@ fun UsageStat(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        val timeInForeground by remember {
+        val timeInForeground by remember(appInfo) {
             mutableStateOf(
-                Util.getFormattedTime(appInfo.timeInForeground)
+                Utils.getFormattedTime(appInfo.timeInForeground)
             )
         }
 

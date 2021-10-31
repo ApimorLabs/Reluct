@@ -5,7 +5,7 @@ import android.app.usage.UsageStatsManager
 import android.content.Context
 import timber.log.Timber
 import work.racka.reluct.model.UsageStats
-import work.racka.reluct.utils.Util
+import work.racka.reluct.utils.Utils
 import java.util.*
 
 class UsageDataManager(
@@ -28,17 +28,17 @@ class UsageDataManager(
         for (dayOfWeek in daysOfTheWeek) {
             val weekOffset = if (dayOfWeek == Week.SUNDAY) offsetWeekBy + 1 else offsetWeekBy
             Timber.d("Week Day: ${dayOfWeek.day}")
-            startTime = startTime(dayOfWeek.value, weekOffset)
-            endTime = endTime(dayOfWeek.value, weekOffset)
+            startTime = startTime(dayOfWeek.value, offsetWeekBy)
+            endTime = endTime(dayOfWeek.value, offsetWeekBy)
 
-            val date = Util.getFormattedDate(startTime.time)
-            val appUsageInfo = getUsageStatistics(startTime.timeInMillis, endTime.timeInMillis)
-            val totalScreenTime = appUsageInfo.sumOf { data ->
+            val date = Utils.getFormattedDate(startTime.time)
+            val appsUsageList = getUsageStatistics(startTime.timeInMillis, endTime.timeInMillis)
+            val totalScreenTime = appsUsageList.sumOf { data ->
                 data.timeInForeground
             }
 
-            Timber.d("Screen Time for $date: ${Util.getFormattedTime(totalScreenTime)}")
-            val stats = UsageStats(appUsageInfo, dayOfWeek, date, totalScreenTime)
+            Timber.d("Screen Time for $date: ${Utils.getFormattedTime(totalScreenTime)}")
+            val stats = UsageStats(appsUsageList, dayOfWeek, date, totalScreenTime)
             usageStats.add(stats)
         }
 
@@ -46,6 +46,9 @@ class UsageDataManager(
         return usageStats
     }
 
+    /**
+     * Returns a list of AppUsageInfo that is sorted by timeInForeground descending
+     */
     private fun getUsageStatistics(startTime: Long, endTime: Long): List<AppUsageInfo> {
         val allEvents = mutableListOf<UsageEvents.Event>()
         val map = hashMapOf<String, AppUsageInfo>()
@@ -64,7 +67,7 @@ class UsageDataManager(
                 if (map[key] == null) {
                     map[key] = AppUsageInfo(
                         key,
-                        Util.getAppIcon(key, context)
+                        Utils.getAppIcon(key, context)
                     )
                 }
             }
@@ -92,7 +95,7 @@ class UsageDataManager(
             }
         }
 
-        return map.values.toList()
+        return Utils.sortByHighestForegroundTime(map.values)
     }
 
     /**

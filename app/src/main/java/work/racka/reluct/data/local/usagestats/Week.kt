@@ -6,11 +6,11 @@ enum class Week(
     val day: String,
     val value: Int
 ) {
-    MONDAY("Monday", Calendar.MONDAY),
-    TUESDAY("Tuesday", Calendar.TUESDAY),
-    WEDNESDAY("Wednesday", Calendar.WEDNESDAY),
-    THURSDAY("Thursday", Calendar.THURSDAY),
-    FRIDAY("Friday", Calendar.FRIDAY),
-    SATURDAY("Saturday", Calendar.SATURDAY),
-    SUNDAY("Sunday", Calendar.SUNDAY);
+    SUNDAY("Sun", Calendar.SUNDAY),
+    MONDAY("Mon", Calendar.MONDAY),
+    TUESDAY("Tue", Calendar.TUESDAY),
+    WEDNESDAY("Wed", Calendar.WEDNESDAY),
+    THURSDAY("Thu", Calendar.THURSDAY),
+    FRIDAY("Fri", Calendar.FRIDAY),
+    SATURDAY("Sat", Calendar.SATURDAY);
 }

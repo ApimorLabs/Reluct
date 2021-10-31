@@ -13,7 +13,8 @@ import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
 
-object Util {
+object Utils {
+
     fun checkUsageAccessPermissions(
         context: Context
     ): Boolean {
@@ -68,10 +69,10 @@ object Util {
             .toMap()
     }
 
-    fun sortByHighestForegroundTime(appUsageInfo: List<AppUsageInfo>): List<AppUsageInfo> {
-        return appUsageInfo.sortedBy { appInfo ->
+    fun sortByHighestForegroundTime(appUsageInfo: Collection<AppUsageInfo>): List<AppUsageInfo> {
+        return appUsageInfo.sortedByDescending { appInfo ->
             appInfo.timeInForeground
-        }.reversed()
+        }
     }
 
     fun getAppIcon(packageName: String, context: Context): Drawable? {

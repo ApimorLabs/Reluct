@@ -1,61 +1,73 @@
 package work.racka.reluct.ui.theme
 
+import android.os.Build
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.darkColors
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.DarkMode
 import androidx.compose.material.icons.outlined.LightMode
 import androidx.compose.material.icons.outlined.SettingsSuggest
-import androidx.compose.material.lightColors
+import androidx.compose.material.icons.outlined.Wallpaper
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 
-private val LightColorPalette = lightColors(
+private val AppLightColorScheme = lightColorScheme(
     primary = PrimaryColor,
-    primaryVariant = PrimaryDarkColor,
     onPrimary = PrimaryTextColor,
+    tertiary = PrimaryDarkColor,
+    onTertiary = PrimaryTextColor,
     secondary = SecondaryColor,
-    secondaryVariant = SecondaryDarkColor,
     onSecondary = SecondaryTextColor,
     background = Color.White,
     onBackground = Color.Black,
     surface = Color.White,
-    onSurface = Color.Black
+    onSurface = Color.Black,
+    secondaryContainer = Color.White,
+    onSecondaryContainer = Color.Black
 )
 
-private val DarkColorPalette = darkColors(
+private val AppDarkColorScheme = darkColorScheme(
     primary = PrimaryColor,
-    primaryVariant = PrimaryLightColor,
     onPrimary = PrimaryTextColor,
+    tertiary = PrimaryLightColor,
+    onTertiary = PrimaryTextColor,
     secondary = SecondaryColor,
-    secondaryVariant = SecondaryLightColor,
     onSecondary = SecondaryTextColor,
     background = Color.Black,
     onBackground = Color.White,
     surface = SurfaceDark,
-    onSurface = Color.White
+    onSurface = Color.White,
+    secondaryContainer = SurfaceDark,
+    onSecondaryContainer = Color.White
 )
 
 @Composable
 fun ComposeAndroidTemplateTheme(
-    theme: Int = Theme.FOLLOW_SYSTEM.themeValue,
+    theme: Int = Theme.MATERIAL_YOU.themeValue,
     content: @Composable () -> Unit
 ) {
-    val autoColors = if (isSystemInDarkTheme()) DarkColorPalette else LightColorPalette
+    val autoColors = if (isSystemInDarkTheme()) AppDarkColorScheme else AppLightColorScheme
+
+    val dynamicColors = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+        val context = LocalContext.current
+        if (isSystemInDarkTheme()) dynamicDarkColorScheme(context)
+        else dynamicLightColorScheme(context)
+    } else autoColors
 
     val colors = when (theme) {
-        1 -> LightColorPalette
-        2 -> DarkColorPalette
+        1 -> AppLightColorScheme
+        2 -> AppDarkColorScheme
+        12 -> dynamicColors
         else -> autoColors
     }
 
     MaterialTheme(
-        colors = colors,
+        colorScheme = colors,
         typography = Typography,
-        shapes = Shapes,
+        //shapes = Shapes,
         content = content
     )
 }
@@ -66,6 +78,11 @@ enum class Theme(
     val icon: ImageVector,
     val themeValue: Int
 ) {
+    MATERIAL_YOU(
+        themeName = "Material You",
+        icon = Icons.Outlined.Wallpaper,
+        themeValue = 12
+    ),
     FOLLOW_SYSTEM(
         themeName = "Follow System Settings",
         icon = Icons.Outlined.SettingsSuggest,
