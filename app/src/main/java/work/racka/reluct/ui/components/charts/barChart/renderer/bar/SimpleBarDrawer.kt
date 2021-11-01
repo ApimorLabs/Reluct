@@ -36,6 +36,8 @@ class SimpleBarDrawer(
             )
         )
 
+
+
         canvas.drawPath(
             path,
             barPaint.apply {

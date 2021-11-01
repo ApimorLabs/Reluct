@@ -149,4 +149,7 @@ dependencies {
 
     // Splash Screen
     implementation(Dependencies.splashScreenCore)
+
+    // Palette
+    implementation(Dependencies.palette)
 }

@@ -20,6 +20,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -33,6 +34,9 @@ import work.racka.reluct.ui.components.charts.barChart.BarChartOptions
 import work.racka.reluct.ui.components.charts.barChart.renderer.label.SimpleValueDrawer
 import work.racka.reluct.ui.components.charts.barChart.renderer.xaxis.SimpleXAxisDrawer
 import work.racka.reluct.ui.components.charts.barChart.renderer.yaxis.SimpleYAxisDrawer
+import work.racka.reluct.ui.components.charts.pieChart.PieChart
+import work.racka.reluct.ui.components.charts.pieChart.PieChartData
+import work.racka.reluct.ui.components.charts.pieChart.renderer.SimpleSliceDrawer
 import work.racka.reluct.ui.main.states.StatsState
 import work.racka.reluct.ui.main.viewmodels.UsageDataViewModel
 import work.racka.reluct.ui.theme.ComposeAndroidTemplateTheme
@@ -89,6 +93,35 @@ class MainActivity : ComponentActivity() {
                                 }) {
                                     Text(text = "Request")
                                 }
+                            }
+
+                            item {
+                                val slices = mutableListOf<PieChartData.Slice>()
+                                var otherTime = 0L
+                                data.dayStats.appsUsageList.forEach { appUsageInfo ->
+                                    if (appUsageInfo.timeInForeground >=
+                                        TimeUnit.MINUTES.toMillis(30L)
+                                    ) {
+                                        slices.add(
+                                            PieChartData.Slice(
+                                                value = appUsageInfo.timeInForeground.toFloat(),
+                                                color = Color(appUsageInfo.dominantColor)
+                                            )
+                                        )
+                                    } else {
+                                        otherTime += appUsageInfo.timeInForeground
+                                    }
+                                }
+
+                                slices.add(
+                                    PieChartData.Slice(otherTime.toFloat(), Color.Gray)
+                                )
+
+                                PieChart(
+                                    pieChartData = PieChartData(slices),
+                                    modifier = Modifier.size(size = 200.dp),
+                                    sliceDrawer = SimpleSliceDrawer(10f)
+                                )
                             }
 
                             item {

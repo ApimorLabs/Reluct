@@ -4,9 +4,12 @@ import android.app.AppOpsManager
 import android.app.usage.UsageStats
 import android.content.Context
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Process
+import androidx.core.graphics.drawable.toBitmap
+import androidx.palette.graphics.Palette
 import timber.log.Timber
 import work.racka.reluct.data.local.usagestats.AppUsageInfo
 import java.text.SimpleDateFormat
@@ -88,5 +91,15 @@ object Utils {
             Timber.d("Error: ${e.message}")
         }
         return appIcon
+    }
+
+    fun getDominantAppIconColor(appIcon: Drawable?): Int {
+        val defaultColor = Color.GRAY
+        val palette = appIcon?.let {
+            Palette
+                .from(it.toBitmap())
+                .generate()
+        }
+        return palette?.getVibrantColor(defaultColor) ?: defaultColor
     }
 }

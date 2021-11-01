@@ -65,9 +65,12 @@ class UsageDataManager(
                 val key = currentEvent.packageName
                 // taking it into a collection to access by package name
                 if (map[key] == null) {
+                    val appIcon = Utils.getAppIcon(key, context)
+                    val dominantColor = Utils.getDominantAppIconColor(appIcon)
                     map[key] = AppUsageInfo(
                         key,
-                        Utils.getAppIcon(key, context)
+                        appIcon,
+                        dominantColor
                     )
                 }
             }

@@ -57,4 +57,7 @@ object Versions {
     // DataStore
     const val dataStore = "1.0.0"
 
+    // Palette
+    const val palette = "1.0.0"
+
 }
