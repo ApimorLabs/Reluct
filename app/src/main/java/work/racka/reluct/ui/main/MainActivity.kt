@@ -36,7 +36,8 @@ import work.racka.reluct.ui.components.charts.barChart.renderer.xaxis.SimpleXAxi
 import work.racka.reluct.ui.components.charts.barChart.renderer.yaxis.SimpleYAxisDrawer
 import work.racka.reluct.ui.components.charts.pieChart.PieChart
 import work.racka.reluct.ui.components.charts.pieChart.PieChartData
-import work.racka.reluct.ui.components.charts.pieChart.renderer.SimpleSliceDrawer
+import work.racka.reluct.ui.components.charts.pieChart.renderer.slice.SimpleSliceDrawer
+import work.racka.reluct.ui.components.charts.pieChart.renderer.text.SimpleTextDrawer
 import work.racka.reluct.ui.main.states.StatsState
 import work.racka.reluct.ui.main.viewmodels.UsageDataViewModel
 import work.racka.reluct.ui.theme.ComposeAndroidTemplateTheme
@@ -100,7 +101,7 @@ class MainActivity : ComponentActivity() {
                                 var otherTime = 0L
                                 data.dayStats.appsUsageList.forEach { appUsageInfo ->
                                     if (appUsageInfo.timeInForeground >=
-                                        TimeUnit.MINUTES.toMillis(30L)
+                                        TimeUnit.MINUTES.toMillis(15L)
                                     ) {
                                         slices.add(
                                             PieChartData.Slice(
@@ -118,9 +119,15 @@ class MainActivity : ComponentActivity() {
                                 )
 
                                 PieChart(
-                                    pieChartData = PieChartData(slices),
+                                    pieChartData = PieChartData(slices, 0.05f),
                                     modifier = Modifier.size(size = 200.dp),
-                                    sliceDrawer = SimpleSliceDrawer(10f)
+                                    sliceDrawer = SimpleSliceDrawer(10f),
+                                    centerTextDrawer = SimpleTextDrawer(
+                                        labelTextColor = MaterialTheme.colorScheme.onBackground
+                                    ),
+                                    centerText = Utils.getFormattedTime(
+                                        data.dayStats.totalScreenTime
+                                    )
                                 )
                             }
 

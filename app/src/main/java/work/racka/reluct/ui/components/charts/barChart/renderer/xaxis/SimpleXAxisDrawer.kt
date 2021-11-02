@@ -21,13 +21,13 @@ class SimpleXAxisDrawer(
     private val axisLineThickness: Dp = 1.dp,
     private val axisLineColor: Color = Color.Black
 ) : XAxisDrawer {
+    private val bounds = android.graphics.Rect()
+
     private val axisLinePaint = Paint().apply {
         isAntiAlias = true
         color = axisLineColor
         style = PaintingStyle.Stroke
     }
-
-    private val bounds = android.graphics.Rect()
 
     override fun requiredHeight(drawScope: DrawScope): Float = with(drawScope) {
         (3f / 2f) * axisLineThickness.toPx()

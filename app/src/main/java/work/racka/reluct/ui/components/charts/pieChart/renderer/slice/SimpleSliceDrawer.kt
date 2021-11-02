@@ -1,17 +1,18 @@
-package work.racka.reluct.ui.components.charts.pieChart.renderer
+package work.racka.reluct.ui.components.charts.pieChart.renderer.slice
 
-import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Rect
-import androidx.compose.ui.geometry.RoundRect
 import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.graphics.*
+import androidx.compose.ui.graphics.Canvas
+import androidx.compose.ui.graphics.Paint
+import androidx.compose.ui.graphics.PaintingStyle
+import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import work.racka.reluct.ui.components.charts.pieChart.PieChartData
 
 class SimpleSliceDrawer(
-    private val sliceThickness: Float = 25f,
-    private val cornerRadius: Float = 20f
+    private val sliceThickness: Float = 25f
 ) : SliceDrawer {
+
     init {
         require(sliceThickness in 10f..100f) {
             "Thickness of $sliceThickness must be between 10-100"

@@ -5,13 +5,16 @@ import timber.log.Timber
 
 data class PieChartData(
     val slices: List<Slice>,
-    val spacing: Float = 5f
+    val spacingBy: Float = 0f
 ) {
+    init {
+        require(spacingBy in 0f..1f)
+    }
     internal val totalSize: Float
         get() {
             var total = 0f
             slices.forEach { total += it.value }
-            val emptySliceLength = (total / slices.size) * (spacing / 100f)
+            val emptySliceLength = (total / slices.size) * spacingBy
             Timber.d("Slice Total Length Before: $total")
             Timber.d("Slice Total length after: ${total + (emptySliceLength * slices.size)}")
             return total + (emptySliceLength * slices.size)
@@ -20,7 +23,7 @@ data class PieChartData(
     internal val slicesWithSpacing: List<Slice>
         get() {
             val mutableSlices = mutableListOf<Slice>()
-            val emptySliceLength = (totalSize / slices.size) * (spacing / 100f)
+            val emptySliceLength = (totalSize / slices.size) * spacingBy
             slices.forEach {
                 mutableSlices.add(it)
                 mutableSlices.add(
