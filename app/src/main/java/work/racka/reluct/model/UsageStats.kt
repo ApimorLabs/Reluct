@@ -7,5 +7,6 @@ data class UsageStats(
     val appsUsageList: List<AppUsageInfo>,
     val dayOfWeek: Week,
     val date: String,
-    val totalScreenTime: Long
+    val totalScreenTime: Long,
+    val unlockCount: Long
 )

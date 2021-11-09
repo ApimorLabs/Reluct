@@ -26,19 +26,24 @@ class UsageDataManager(
         var endTime: Calendar
 
         for (dayOfWeek in daysOfTheWeek) {
-            val weekOffset = if (dayOfWeek == Week.SUNDAY) offsetWeekBy + 1 else offsetWeekBy
             Timber.d("Week Day: ${dayOfWeek.day}")
             startTime = startTime(dayOfWeek.value, offsetWeekBy)
             endTime = endTime(dayOfWeek.value, offsetWeekBy)
 
             val date = Utils.getFormattedDate(startTime.time)
-            val appsUsageList = getUsageStatistics(startTime.timeInMillis, endTime.timeInMillis)
-            val totalScreenTime = appsUsageList.sumOf { data ->
+            val appsUsageData = getUsageStatistics(startTime.timeInMillis, endTime.timeInMillis)
+            val totalScreenTime = appsUsageData.first.sumOf { data ->
                 data.timeInForeground
             }
 
             Timber.d("Screen Time for $date: ${Utils.getFormattedTime(totalScreenTime)}")
-            val stats = UsageStats(appsUsageList, dayOfWeek, date, totalScreenTime)
+            val stats = UsageStats(
+                appsUsageData.first,
+                dayOfWeek,
+                date,
+                totalScreenTime,
+                appsUsageData.second
+            )
             usageStats.add(stats)
         }
 
@@ -49,15 +54,17 @@ class UsageDataManager(
     /**
      * Returns a list of AppUsageInfo that is sorted by timeInForeground descending
      */
-    private fun getUsageStatistics(startTime: Long, endTime: Long): List<AppUsageInfo> {
+    private fun getUsageStatistics(startTime: Long, endTime: Long): Pair<List<AppUsageInfo>, Long> {
         val allEvents = mutableListOf<UsageEvents.Event>()
         val map = hashMapOf<String, AppUsageInfo>()
+        var unlockCount = 0L
 
         val usageEvents = usageStatsManager.queryEvents(startTime, endTime)
 
         while (usageEvents.hasNextEvent()) {
             val currentEvent = UsageEvents.Event()
             usageEvents.getNextEvent(currentEvent)
+
             if (currentEvent.eventType == UsageEvents.Event.ACTIVITY_RESUMED ||
                 currentEvent.eventType == UsageEvents.Event.ACTIVITY_PAUSED
             ) {
@@ -73,6 +80,11 @@ class UsageDataManager(
                         dominantColor
                     )
                 }
+            }
+
+            if (currentEvent.eventType == UsageEvents.Event.KEYGUARD_HIDDEN) {
+                Timber.d("Unlock called")
+                unlockCount++
             }
         }
 
@@ -94,11 +106,12 @@ class UsageDataManager(
                 e1.eventType == UsageEvents.Event.ACTIVITY_RESUMED
             ) {
                 // if true, E1 (launch event of an app) app launched
-                map[e1.packageName]!!.appLaunchCount += 1
+                map[e1.packageName]!!.appLaunchCount++
             }
         }
 
-        return Utils.sortByHighestForegroundTime(map.values)
+        val appUsageInfoList = Utils.sortByHighestForegroundTime(map.values)
+        return Pair(appUsageInfoList, unlockCount)
     }
 
     /**

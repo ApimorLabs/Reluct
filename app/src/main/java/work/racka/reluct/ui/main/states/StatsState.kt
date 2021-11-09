@@ -17,6 +17,7 @@ sealed class StatsState {
                 listOf(),
                 Week.MONDAY,
                 "",
+                0L,
                 0L
             )
         )

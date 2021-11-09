@@ -22,7 +22,7 @@ class UsageDataViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val usageStatsList = MutableStateFlow(listOf<UsageStats>())
-    private val dayStats = MutableStateFlow(UsageStats(listOf(), Week.MONDAY, "", 0L))
+    private val dayStats = MutableStateFlow(UsageStats(listOf(), Week.MONDAY, "", 0L, 0L))
     private val selectedWeekOffset = MutableStateFlow(0)
     private val selectedDay = MutableStateFlow(0)
 

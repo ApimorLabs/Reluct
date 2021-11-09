@@ -45,7 +45,7 @@ private val AppDarkColorScheme = darkColorScheme(
 )
 
 @Composable
-fun ComposeAndroidTemplateTheme(
+fun ReluctAppTheme(
     theme: Int = Theme.MATERIAL_YOU.themeValue,
     content: @Composable () -> Unit
 ) {

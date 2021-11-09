@@ -3,7 +3,7 @@ package work.racka.reluct.ui.components
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import work.racka.reluct.ui.theme.ComposeAndroidTemplateTheme
+import work.racka.reluct.ui.theme.ReluctAppTheme
 
 @Composable
 fun Greeting(name: String) {
@@ -13,7 +13,7 @@ fun Greeting(name: String) {
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
-    ComposeAndroidTemplateTheme {
+    ReluctAppTheme {
         Greeting("Android")
     }
 }

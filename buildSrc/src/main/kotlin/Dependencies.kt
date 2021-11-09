@@ -77,6 +77,6 @@ object Dependencies {
     val splashScreenCore by lazy { "androidx.core:core-splashscreen:${Versions.splashScreen}" }
 
     // Palette
-    val palette by lazy { "androidx.palette:palette:${Versions.palette}" }
+    val palette by lazy { "androidx.palette:palette-ktx:${Versions.palette}" }
 
 }
