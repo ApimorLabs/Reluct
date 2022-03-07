@@ -1,5 +1,3 @@
-import org.gradle.kotlin.dsl.`kotlin-dsl`
-
 plugins {
     `kotlin-dsl`
 }
@@ -7,5 +5,4 @@ plugins {
 repositories {
     google()
     mavenCentral()
-    maven(url = "https://www.jitpack.io")
 }

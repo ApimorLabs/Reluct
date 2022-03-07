@@ -1,10 +1,8 @@
-dependencyResolutionManagement {
-    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
-    repositories {
-        google()
-        mavenCentral()
-        maven(url = "https://www.jitpack.io")
-    }
-}
 rootProject.name = "Reluct"
-include(":app")
+include(
+    ":android:app",
+    ":common:model",
+    ":common:integration",
+    ":common:persistence:database",
+    ":common:persistence:settings",
+)

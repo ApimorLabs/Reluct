@@ -1,0 +1,97 @@
+CREATE TABLE ThinkpadListTable(
+model TEXT NOT NULL PRIMARY KEY,
+imageUrl TEXT NOT NULL,
+releaseDate TEXT NOT NULL,
+series TEXT NOT NULL,
+marketPriceStart INTEGER AS Int NOT NULL ,
+marketPriceEnd INTEGER AS Int NOT NULL ,
+processorPlatforms TEXT NOT NULL,
+processors TEXT NOT NULL,
+graphics TEXT NOT NULL,
+maxRam TEXT NOT NULL,
+displayRes TEXT NOT NULL,
+touchScreen TEXT NOT NULL,
+screenSize TEXT NOT NULL,
+backlitKb TEXT NOT NULL,
+fingerPrintReader TEXT NOT NULL,
+kbType TEXT NOT NULL,
+dualBatt TEXT NOT NULL,
+internalBatt TEXT NOT NULL,
+externalBatt TEXT NOT NULL,
+psrefLink TEXT NOT NULL,
+biosVersion TEXT NOT NULL,
+knownIssues TEXT NOT NULL,
+knownIssuesLinks TEXT NOT NULL,
+displaysSupported TEXT NOT NULL,
+otherMods TEXT NOT NULL,
+otherModsLinks TEXT NOT NULL,
+biosLockIn TEXT NOT NULL,
+ports TEXT NOT NULL
+);
+
+insertAllThinkpads:
+INSERT OR REPLACE INTO ThinkpadListTable(
+model,
+imageUrl,
+releaseDate,
+series,
+marketPriceStart,
+marketPriceEnd,
+processorPlatforms,
+processors,
+graphics,
+maxRam,
+displayRes,
+touchScreen,
+screenSize,
+backlitKb,
+fingerPrintReader,
+kbType,
+dualBatt,
+internalBatt,
+externalBatt,
+psrefLink,
+biosVersion,
+knownIssues,
+knownIssuesLinks,
+displaysSupported,
+otherMods,
+otherModsLinks,
+biosLockIn,
+ports
+) VALUES ?;
+
+getAllThinkpads:
+SELECT * FROM ThinkpadListTable;
+
+deleteAll:
+DELETE FROM ThinkpadListTable;
+
+getThinkpad:
+SELECT * FROM ThinkpadListTable
+WHERE model = ?;
+
+getThinkpadsAlphaAscending:
+SELECT * FROM ThinkpadListTable
+WHERE model LIKE :query
+ORDER BY model ASC;
+
+getThinkpadsNewestFirst:
+SELECT * FROM ThinkpadListTable
+WHERE model LIKE :query
+ORDER BY substr (releaseDate, 6, 9) DESC;
+
+getThinkpadsOldestFirst:
+SELECT * FROM ThinkpadListTable
+WHERE model LIKE :query
+ORDER BY substr (releaseDate, 6, 9) ASC;
+
+getThinkpadsLowPriceFirst:
+SELECT * FROM ThinkpadListTable
+WHERE model LIKE :query
+ORDER BY marketPriceStart ASC;
+
+getThinkpadsHighPriceFirst:
+SELECT * FROM ThinkpadListTable
+WHERE model LIKE :query
+ORDER BY marketPriceStart DESC;
