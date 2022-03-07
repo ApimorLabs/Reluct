@@ -30,6 +30,9 @@ import work.racka.reluct.ui.components.charts.pieChart.PieChart
 import work.racka.reluct.ui.components.charts.pieChart.PieChartData
 import work.racka.reluct.ui.components.charts.pieChart.renderer.slice.SimpleSliceDrawer
 import work.racka.reluct.ui.components.charts.pieChart.renderer.text.SimpleTextDrawer
+import work.racka.reluct.ui.components.summary.DataPieChart
+import work.racka.reluct.ui.components.summary.SummaryPieChart
+import work.racka.reluct.ui.components.summary.SummaryPills
 import work.racka.reluct.ui.main.states.StatsState
 import work.racka.reluct.ui.main.viewmodels.UsageDataViewModel
 import work.racka.reluct.ui.theme.Dimens
@@ -77,85 +80,23 @@ fun DashboardScreen(
                 }
 
                 item {
-                    val slices = mutableListOf<PieChartData.Slice>()
-                    var otherTime = 0L
-                    data.dayStats.appsUsageList.forEach { appUsageInfo ->
-                        if (appUsageInfo.timeInForeground >=
-                            TimeUnit.MINUTES.toMillis(15L)
-                        ) {
-                            slices.add(
-                                PieChartData.Slice(
-                                    value = appUsageInfo.timeInForeground.toFloat(),
-                                    color = Color(appUsageInfo.dominantColor)
-                                )
-                            )
-                        } else {
-                            otherTime += appUsageInfo.timeInForeground
-                        }
-                    }
-
-                    slices.add(
-                        PieChartData.Slice(otherTime.toFloat(), Color.Gray)
-                    )
-
-                    PieChart(
-                        pieChartData = PieChartData(slices, 0.05f),
-                        modifier = Modifier.size(size = 200.dp),
-                        sliceDrawer = SimpleSliceDrawer(10f),
-                        centerTextDrawer = SimpleTextDrawer(
-                            labelTextColor = MaterialTheme.colorScheme.onBackground
-                        ),
-                        centerText = Utils.getFormattedTime(
-                            data.dayStats.totalScreenTime
-                        )
+                    SummaryPieChart(dayStats = data.dayStats)
+                    Spacer(modifier = Modifier.height(Dimens.MediumPadding.size))
+                    SummaryPills(
+                        modifier = Modifier
+                            .fillMaxWidth(.8f),
+                        stats = data.usageStats,
+                        availableEvents = "0",
+                        onEventsClick = { },
+                        onUnlockClick = { }
                     )
                 }
 
                 item {
-                    val list = mutableListOf<BarChartData.Bar>()
-                    chartData.forEach { stats ->
-                        list.add(
-                            BarChartData.Bar(
-                                value = stats.totalScreenTime.toFloat(),
-                                color = MaterialTheme.colorScheme.secondaryContainer,
-                                label = stats.dayOfWeek.day,
-                                uniqueId = stats.dayOfWeek.value
-                            )
-                        )
-                    }
-                    BarChart(
-                        barChartData = BarChartData(
-                            bars = list
-                        ),
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .size(size = 160.dp)
-                            .padding(Dimens.MediumPadding.size),
-                        selectedUniqueId = data.selectedDay,
-                        selectedBarColor = MaterialTheme.colorScheme.primary,
+                    DataPieChart(
+                        stats = data,
                         onBarClicked = {
                             viewModel.updateDailyAppUsageInfo(it)
-                        },
-                        xAxisDrawer = SimpleXAxisDrawer(
-                            axisLineColor = MaterialTheme.colorScheme.onBackground
-                                .copy(alpha = 0.5f)
-                        ),
-                        yAxisDrawer = SimpleYAxisDrawer(
-                            labelValueFormatter = { value ->
-                                val hr = TimeUnit.MILLISECONDS.toHours(value.toLong())
-                                "$hr h"
-                            },
-                            labelTextColor = MaterialTheme.colorScheme.onBackground
-                                .copy(alpha = 0.5f),
-                            axisLineColor = MaterialTheme.colorScheme.onBackground
-                                .copy(alpha = 0.5f)
-                        ),
-                        labelDrawer = SimpleValueDrawer(
-                            labelTextColor = MaterialTheme.colorScheme.onBackground
-                                .copy(alpha = 0.5f)
-                        ),
-                        barChartOptions = BarChartOptions().apply {
-                            barsSpacingFactor = 0.05f
                         }
                     )
                 }

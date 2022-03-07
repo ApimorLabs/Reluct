@@ -1,31 +1,31 @@
 object Versions {
     // Kotlin
-    const val kotlin = "1.5.31"
+    const val kotlin = "1.6.10"
 
     // Essentials
-    const val material = "1.5.0-alpha05"
+    const val material = "1.6.0-alpha02"
     const val splashScreen = "1.0.0-alpha01"
-    const val appCompat = "1.3.1"
-    const val gradlePlugin = "7.0.3"
+    const val appCompat = "1.4.1"
+    const val gradlePlugin = "7.1.0"
     const val coreKtx = "1.7.0"
 
     // Compose Base
-    const val composeKotlin = "1.5.31"
-    const val compose = "1.1.0-beta02"
+    const val composeKotlin = "1.6.10"
+    const val compose = "1.2.0-alpha01"
     const val composeConstraintLayout = "1.0.0-beta02"
-    const val composeMaterial3 = "1.0.0-alpha01"
+    const val composeMaterial3 = "1.0.0-alpha04"
     const val activityCompose = "1.4.0"
 
     // Navigation
-    const val composeNavigation = "2.4.0-beta01"
+    const val composeNavigation = "2.4.0"
 
     // Lifecycle components
     const val lifecycleViewModelCompose = "2.4.0"
     const val lifecycleRuntimeKtx = "2.4.0"
 
     // Dependency Injection
-    const val hilt = "2.38.1"
-    const val hiltNavigationCompose = "1.0.0-alpha03"
+    const val hilt = "2.40.5"
+    const val hiltNavigationCompose = "1.0.0"
 
     // Testing
     const val junit = "4.13.2"
@@ -41,18 +41,18 @@ object Versions {
     const val coroutineTest = "1.5.1"
 
     // Logging
-    const val timber = "4.7.1"
+    const val timber = "5.0.1"
 
     // Helpers
-    const val accompanist = "0.21.2-beta"
-    const val coilImage = "1.3.2"
+    const val accompanist = "0.24.1-alpha"
+    const val coilImage = "1.4.0"
 
     // Networking & JSON
-    const val moshi = "1.12.0"
+    const val moshi = "1.13.0"
     const val retrofit = "2.9.0"
 
     // Database
-    const val room = "2.3.0"
+    const val room = "2.4.1"
 
     // DataStore
     const val dataStore = "1.0.0"
