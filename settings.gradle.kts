@@ -1,5 +1,6 @@
 rootProject.name = "Reluct"
 include(
+    ":desktop:app",
     ":android:app",
     ":android:compose:components",
     ":android:compose:charts",

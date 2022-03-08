@@ -109,11 +109,6 @@ dependencies {
     androidTestImplementation(Dependencies.Android.Espresso.core)
     androidTestImplementation(Dependencies.Squareup.Testing.turbine)
 
-    // Architecture
-//    with(Dependencies.OrbitMVI) {
-//        implementation(core)
-//    }
-
     // Compose
     with(Dependencies.Android.Compose) {
         implementation(ui)
