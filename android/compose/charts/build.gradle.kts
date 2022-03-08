@@ -62,14 +62,8 @@ dependencies {
         implementation(animation)
         implementation(material)
         implementation(preview)
-        implementation(activity)
-        implementation(viewModel)
-        implementation(navigation)
-        implementation(materialIconsCore)
-        implementation(materialIconsExtended)
         implementation(foundation)
         implementation(foundationLayout)
-        implementation(constraintLayout)
         implementation(material3)
 
         // Testing Compose

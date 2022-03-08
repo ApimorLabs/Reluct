@@ -78,6 +78,8 @@ dependencies {
     // Dependency Modules
     implementation(project(":common:model"))
     implementation(project(":common:integration"))
+    implementation(project(":android:compose:components"))
+    implementation(project(":android:compose:charts"))
 
     // Core Functionality
     with(Dependencies.Android.Essential) {

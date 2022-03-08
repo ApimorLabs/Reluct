@@ -9,10 +9,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import work.racka.reluct.model.UsageStats
-import work.racka.reluct.ui.components.charts.pieChart.PieChart
-import work.racka.reluct.ui.components.charts.pieChart.PieChartData
-import work.racka.reluct.ui.components.charts.pieChart.renderer.slice.SimpleSliceDrawer
-import work.racka.reluct.ui.components.charts.pieChart.renderer.text.SimpleTextDrawer
+import work.racka.reluct.pieChart.PieChart
+import work.racka.reluct.pieChart.PieChartData
+import work.racka.reluct.pieChart.renderer.slice.SimpleSliceDrawer
+import work.racka.reluct.pieChart.renderer.text.SimpleTextDrawer
 import work.racka.reluct.utils.Utils
 import java.util.concurrent.TimeUnit
 
