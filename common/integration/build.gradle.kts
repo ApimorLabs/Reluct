@@ -60,7 +60,7 @@ kotlin {
         implementation(Dependencies.Android.Compose.viewModel)
 
         with(Dependencies.Koin) {
-            implementation(android)
+            api(android)
         }
     }
 

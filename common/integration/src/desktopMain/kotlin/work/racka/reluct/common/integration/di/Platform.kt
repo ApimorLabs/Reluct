@@ -1,4 +1,4 @@
-package work.racka.thinkrchive.v2.common.integration.di
+package work.racka.reluct.common.integration.di
 
 import org.koin.dsl.module
 

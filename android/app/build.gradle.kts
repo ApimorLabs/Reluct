@@ -109,6 +109,11 @@ dependencies {
     androidTestImplementation(Dependencies.Android.Espresso.core)
     androidTestImplementation(Dependencies.Squareup.Testing.turbine)
 
+    // Architecture
+//    with(Dependencies.OrbitMVI) {
+//        implementation(core)
+//    }
+
     // Compose
     with(Dependencies.Android.Compose) {
         implementation(ui)
@@ -130,7 +135,7 @@ dependencies {
         debugImplementation(tooling)
     }
 
-    // Hilt
+    // Dependency Injection
     with(Dependencies.Android.Hilt) {
         implementation(core)
         implementation(navigationCompose)
@@ -142,6 +147,11 @@ dependencies {
         // Instrumentation Test
         androidTestImplementation(test)
         kaptAndroidTest(compiler)
+    }
+
+    with(Dependencies.Koin) {
+        api(android)
+        api(compose)
     }
 
     // Coil Image loader

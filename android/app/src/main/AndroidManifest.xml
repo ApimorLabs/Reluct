@@ -15,7 +15,7 @@
     </queries>
 
     <application
-        android:name="work.racka.reluct.MyApplication"
+        android:name="work.racka.reluct.ReluctApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -24,8 +24,7 @@
         android:theme="@style/Theme.AppSplash">
         <activity
             android:name="work.racka.reluct.ui.main.MainActivity"
-            android:exported="true"
-            android:label="@string/app_name">
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -1,10 +1,10 @@
-package work.racka.thinkrchive.v2.common.settings.di
+package work.racka.reluct.common.settings.di
 
 import com.russhwolf.settings.Settings
 import org.koin.core.KoinApplication
 import org.koin.dsl.module
-import work.racka.thinkrchive.v2.common.settings.repository.SettingsRepository
-import work.racka.thinkrchive.v2.common.settings.repository.SettingsRepositoryImpl
+import work.racka.reluct.common.settings.repository.SettingsRepository
+import work.racka.reluct.common.settings.repository.SettingsRepositoryImpl
 
 object Settings {
 
