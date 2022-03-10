@@ -33,6 +33,8 @@ kotlin {
         implementation(project(":common:model"))
         implementation(project(":common:persistence:database"))
         implementation(project(":common:persistence:settings"))
+        implementation(project(":common:features:tasks"))
+        implementation(project(":common:features:goals"))
 
         implementation(Dependencies.Kotlin.serializationCore)
 

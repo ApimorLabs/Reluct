@@ -30,10 +30,7 @@ kotlin {
     jvm("desktop")
 
     sourceSets["commonMain"].dependencies {
-        with(Dependencies.Kotlin) {
-            implementation(serializationCore)
-            implementation(dateTime)
-        }
+
     }
 
     sourceSets["androidMain"].dependencies {
