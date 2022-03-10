@@ -45,6 +45,7 @@ class ReluctApplication : Application() {
                             )
                         }
                     }
+                    else -> {}
                 }
             }
         }

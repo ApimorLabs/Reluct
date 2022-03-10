@@ -17,30 +17,30 @@ import androidx.compose.ui.platform.LocalContext
 private val AppLightColorScheme = lightColorScheme(
     primary = PrimaryColor,
     onPrimary = PrimaryTextColor,
-    tertiary = PrimaryDarkColor,
+    secondary = SecondaryLightColor,
+    onSecondary = SecondaryLightTextColor,
+    tertiary = PrimaryLightColor,
     onTertiary = PrimaryTextColor,
-    secondary = SecondaryColor,
-    onSecondary = SecondaryTextColor,
-    background = Color.White,
+    background = BackgroundLightColor,
     onBackground = Color.Black,
-    surface = Color.White,
+    surface = SurfaceLight,
     onSurface = Color.Black,
-    secondaryContainer = Color.White,
-    onSecondaryContainer = Color.Black
+    secondaryContainer = PrimaryColor,
+    onSecondaryContainer = Color.White
 )
 
 private val AppDarkColorScheme = darkColorScheme(
     primary = PrimaryColor,
     onPrimary = PrimaryTextColor,
+    secondary = SecondaryDarkColor,
+    onSecondary = SecondaryDarkTextColor,
     tertiary = PrimaryLightColor,
     onTertiary = PrimaryTextColor,
-    secondary = SecondaryColor,
-    onSecondary = SecondaryTextColor,
-    background = Color.Black,
+    background = BackgroundDarkColor,
     onBackground = Color.White,
     surface = SurfaceDark,
     onSurface = Color.White,
-    secondaryContainer = SurfaceDark,
+    secondaryContainer = PrimaryColor,
     onSecondaryContainer = Color.White
 )
 

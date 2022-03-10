@@ -24,13 +24,13 @@ object Versions {
 
     // Compose Base
     const val composeKotlin = "1.6.10"
-    const val compose = "1.2.0-alpha01"
-    const val composeConstraintLayout = "1.0.0-beta02"
-    const val composeMaterial3 = "1.0.0-alpha04"
+    const val compose = "1.2.0-alpha04"
+    const val composeConstraintLayout = "1.0.0"
+    const val composeMaterial3 = "1.0.0-alpha06"
     const val activityCompose = "1.4.0"
 
     // Navigation
-    const val composeNavigation = "2.4.0"
+    const val composeNavigation = "2.4.1"
 
     // Lifecycle components
     const val lifecycleViewModelCompose = "2.4.0"

@@ -14,7 +14,7 @@ internal object Integration {
         this.apply {
             modules(
                 commonModule(),
-                work.racka.reluct.common.integration.di.Platform.platformIntegrationModule()
+                Platform.platformIntegrationModule()
             )
         }
 

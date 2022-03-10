@@ -4,6 +4,7 @@ include(
     ":android:app",
     ":android:compose:components",
     ":android:compose:charts",
+    ":android:compose:navigation",
     ":common:model",
     ":common:integration",
     ":common:persistence:database",

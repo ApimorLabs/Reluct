@@ -15,11 +15,11 @@ import work.racka.reluct.common.settings.repository.SettingsRepository
 
 internal class SettingsContainerHostImpl(
     private val settings: SettingsRepository,
-    private val scope: CoroutineScope
+    scope: CoroutineScope
 ) : SettingsContainerHost, ContainerHost<SettingsState.State, SettingsSideEffect> {
 
-    override val container: Container<SettingsState.State, SettingsSideEffect>
-        get() = scope.container(SettingsState.DefaultState) {
+    override val container: Container<SettingsState.State, SettingsSideEffect> =
+        scope.container(SettingsState.DefaultState) {
             readSettings()
         }
 

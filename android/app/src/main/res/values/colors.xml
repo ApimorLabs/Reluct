@@ -10,15 +10,23 @@
     <color name="white">#FFFFFFFF</color>
     <color name="dark">#FF1E1E1E</color>
 
-    <color name="primaryColor">#ea80fc</color>
-    <color name="primaryLightColor">#ffb2ff</color>
-    <color name="primaryDarkColor">#b64fc8</color>
-    <color name="secondaryColor">#ff80ab</color>
-    <color name="secondaryLightColor">#ffb2dd</color>
-    <color name="secondaryDarkColor">#c94f7c</color>
-    <color name="primaryTextColor">#000000</color>
-    <color name="secondaryTextColor">#000000</color>
+    <color name="primaryColor">#6167FF</color>
+    <color name="primaryLightColor">#BEC1FF</color>
+    <color name="primaryDarkColor">#6167FF</color>
+
+    <color name="secondaryColor">#6167FF</color>
+    <color name="secondaryLightColor">#BEC1FF</color>
+    <color name="secondaryDarkColor">#6167FF</color>
+
+    <color name="primaryTextColor">#ffffff</color>
+    <color name="secondaryTextColor">#ffffff</color>
+
+    <color name="surfaceLightColor">#ffffff</color>
+    <color name="surfaceDarkColor">#3A3A3A</color>
+
+    <color name="backgroundLightColor">#F1F0F5</color>
+    <color name="backgroundDarkColor">#121212</color>
 
     <color name="animated_icon_color">#99dddddd</color>
-    <color name="branding_image_text_color">#1E1E1E</color>
+    <color name="branding_image_text_color">#3a3a3a</color>
 </resources>

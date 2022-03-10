@@ -5,8 +5,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import org.koin.core.KoinApplication
 import org.koin.dsl.module
-import work.racka.thinkrchive.v2.common.database.dao.ThinkpadDao
-import work.racka.thinkrchive.v2.common.database.dao.ThinkpadDaoImpl
 
 object Database {
 
@@ -23,11 +21,8 @@ object Database {
             CoroutineScope(Dispatchers.Default + SupervisorJob())
         }
 
-        single<ThinkpadDao> {
-            ThinkpadDaoImpl(
-                coroutineScope = get(),
-                thinkpadDatabaseWrapper = get()
-            )
+        single {
+
         }
     }
 }

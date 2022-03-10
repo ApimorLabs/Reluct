@@ -29,7 +29,7 @@ fun ReluctAppNavHost(
 
     Scaffold(
         modifier = modifier,
-        bottomBar = { BottomNavBar(navController = navController) }
+        bottomBar = { }
     ) { innerPadding ->
 
         AnimatedNavHost(

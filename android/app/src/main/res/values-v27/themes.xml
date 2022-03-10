@@ -3,7 +3,7 @@
 
     <!-- Fixes Navigation Color for API 27+ for correct navbar buttons colors with white navbar color -->
 
-    <style name="Theme.ComposeAndroidTemplate" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="Theme.ReluctTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/primaryColor</item>
         <item name="colorPrimaryVariant">@color/primaryDarkColor</item>
@@ -15,16 +15,16 @@
         <item name="colorOnSecondary">@color/secondaryTextColor</item>
 
         <!-- Status bar & Nav bar color. -->
-        <item name="android:statusBarColor" tools:targetApi="l">@color/white</item>
-        <item name="android:navigationBarColor">@color/white</item>
+        <item name="android:statusBarColor" tools:targetApi="l">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
         <item name="android:windowLightStatusBar">true</item>
         <item name="android:windowLightNavigationBar">true</item>
 
         <!-- Customize your theme here. -->
-        <item name="backgroundColor">@color/white</item>
-        <item name="android:background">@color/white</item>
+        <item name="backgroundColor">@color/backgroundLightColor</item>
+        <item name="android:background">@color/backgroundLightColor</item>
         <item name="colorOnBackground">@color/black</item>
-        <item name="colorSurface">@color/white</item>
+        <item name="colorSurface">@color/surfaceLightColor</item>
         <item name="colorOnSurface">@color/black</item>
     </style>
 </resources>

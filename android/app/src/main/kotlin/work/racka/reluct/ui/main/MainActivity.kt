@@ -7,6 +7,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.core.view.WindowCompat
 import dagger.hilt.android.AndroidEntryPoint
 import work.racka.reluct.ui.navigation.ReluctApp
 import javax.inject.Inject
@@ -25,6 +26,9 @@ class MainActivity : ComponentActivity() {
         // Enable support for Splash Screen API for
         // proper Android 12+ support
         installSplashScreen()
+
+        // Enable edge-to-edge experience and ProvideWindowInsets to the composable
+        WindowCompat.setDecorFitsSystemWindows(window, false)
 
         setContent {
             ReluctApp()
