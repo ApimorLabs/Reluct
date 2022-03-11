@@ -1,5 +1,5 @@
-package work.racka.thinkrchive.v2.common.database.util
+package work.racka.reluct.common.database.util
 
 internal object Constants {
-    const val THINKPAD_DATABASE = "thinkpad.db"
+    const val RELUCT_DATABASE = "reluct_data.db"
 }

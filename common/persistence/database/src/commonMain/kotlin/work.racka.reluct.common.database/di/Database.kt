@@ -1,10 +1,12 @@
-package work.racka.thinkrchive.v2.common.database.di
+package work.racka.reluct.common.database.di
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import org.koin.core.KoinApplication
 import org.koin.dsl.module
+import work.racka.reluct.common.database.dao.tasks.TasksDao
+import work.racka.reluct.common.database.dao.tasks.TasksDaoImpl
 
 object Database {
 
@@ -21,8 +23,11 @@ object Database {
             CoroutineScope(Dispatchers.Default + SupervisorJob())
         }
 
-        single {
-
+        single<TasksDao> {
+            TasksDaoImpl(
+                coroutineScope = get(),
+                databaseWrapper = get()
+            )
         }
     }
 }

@@ -1,0 +1,55 @@
+CREATE TABLE TasksTable(
+id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT ,
+title TEXT NOT NULL,
+description TEXT,
+done INTEGER AS Boolean DEFAULT 0,
+overdue INTEGER AS Boolean DEFAULT 0,
+dueDateLocalDateTime TEXT NOT NULL,
+reminderLocalDateTime TEXT,
+timeZoneId TEXT NOT NULL
+);
+
+insertTask:
+INSERT OR REPLACE INTO TasksTable(
+id,
+title,
+description,
+done,
+overdue,
+dueDateLocalDateTime,
+reminderLocalDateTime,
+timeZoneId
+) VALUES ?;
+
+getAllTasks:
+SELECT * FROM TasksTable;
+
+getTask:
+SELECT * FROM TasksTable
+WHERE id = :id;
+
+searchTasks:
+SELECT * FROM TasksTable
+WHERE title LIKE :query
+OR description LIKE :query;
+
+getPendingTasks:
+SELECT * FROM TasksTable
+WHERE done = 0
+ORDER BY dueDateLocalDateTime ASC;
+
+getCompeletedTasks:
+SELECT * FROM TasksTable
+WHERE done = 1
+ORDER BY dueDateLocalDateTime DESC;
+
+deleteTask:
+DELETE FROM TasksTable
+WHERE id = :id;
+
+deleteAllCompletedTasks:
+DELETE FROM TasksTable
+WHERE done = 1;
+
+deleteAll:
+DELETE FROM TasksTable;
