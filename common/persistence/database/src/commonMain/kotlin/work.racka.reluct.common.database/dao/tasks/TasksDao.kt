@@ -11,6 +11,6 @@ interface TasksDao {
     fun getPendingTasks(): Flow<List<TaskDbObject>>
     fun getCompletedTasks(): Flow<List<TaskDbObject>>
     fun deleteTask(id: Long)
-    fun deleteCompletedTasks()
+    fun deleteAllCompletedTasks()
     fun deleteAll()
 }
