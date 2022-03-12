@@ -1,20 +1,32 @@
 package work.racka.reluct.common.model.states.tasks
 
+import work.racka.reluct.common.model.domain.tasks.EditTask
 import work.racka.reluct.common.model.domain.tasks.Task
 
 sealed class TasksState {
-    data class IncompleteTasks(
-        val tasks: List<Task> = listOf()
+    data class PendingTasks(
+        val tasks: Map<String, List<Task>> = mapOf(),
+        val overdueTasks: List<Task> = listOf()
     ) : TasksState()
 
-    data class DoneTasks(
-        val tasks: List<Task> = listOf()
+    data class CompletedTasks(
+        val tasks: Map<String, List<Task>> = mapOf()
     ) : TasksState()
+
+    data class Statistics(
+        val completedTasks: List<Task> = listOf(),
+        val pendingTasks: List<Task> = listOf()
+    ) : TasksState()
+
+    data class AddEditTask(
+        val task: EditTask? = null
+    )
 
     object Loading : TasksState()
 
     companion object {
-        val EmptyIncompleteTasks = IncompleteTasks()
-        val EmptyDoneTasks = DoneTasks()
+        val EmptyPendingTasks = PendingTasks()
+        val EmptyCompletedTasks = CompletedTasks()
+        val EmptyStatistics = Statistics()
     }
 }

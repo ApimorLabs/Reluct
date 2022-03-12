@@ -1,11 +1,6 @@
-package work.racka.reluct.common.model.data.local.task
+package work.racka.reluct.common.model.domain.tasks
 
-/**
- * We don't store time as Instant to avoid changes in TimeZone rules
- * It's best to store time as LocalDateTime then convert it to the correct
- * TimeZone if it changes later on.
- */
-data class TaskDbObject(
+data class EditTask(
     val id: Long,
     val title: String,
     val description: String?,

@@ -1,10 +1,11 @@
 CREATE TABLE TasksTable(
-id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT ,
+id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
 title TEXT NOT NULL,
 description TEXT,
 done INTEGER AS Boolean DEFAULT 0 NOT NULL,
 overdue INTEGER AS Boolean DEFAULT 0 NOT NULL,
 dueDateLocalDateTime TEXT NOT NULL,
+completedLocalDateTime TEXT,
 reminderLocalDateTime TEXT,
 timeZoneId TEXT NOT NULL
 );
@@ -17,6 +18,7 @@ description,
 done,
 overdue,
 dueDateLocalDateTime,
+completedLocalDateTime,
 reminderLocalDateTime,
 timeZoneId
 ) VALUES ?;

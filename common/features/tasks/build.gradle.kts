@@ -30,7 +30,20 @@ kotlin {
     jvm("desktop")
 
     sourceSets["commonMain"].dependencies {
+        implementation(project(":common:model"))
 
+        implementation(Dependencies.OrbitMVI.core)
+
+        implementation(Dependencies.Kotlin.Coroutines.core)
+
+        with(Dependencies.Koin) {
+            api(core)
+            api(test)
+        }
+
+        with(Dependencies.Log) {
+            api(kermit)
+        }
     }
 
     sourceSets["androidMain"].dependencies {
@@ -38,6 +51,6 @@ kotlin {
     }
 
     sourceSets["desktopMain"].dependencies {
-        implementation(Dependencies.Log.slf4j)
+        //implementation(Dependencies.Log.slf4j)
     }
 }
