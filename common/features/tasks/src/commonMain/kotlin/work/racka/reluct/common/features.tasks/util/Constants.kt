@@ -5,4 +5,5 @@ internal object Constants {
     const val DELETED_SUCCESSFULLY = "Task has been deleted successfully"
     const val TASK_DONE = "Task Completed"
     const val TASK_NOT_DONE = "Task Marked As Incomplete"
+    const val TASK_SAVED = "Task Saved Successfully"
 }
