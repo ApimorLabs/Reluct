@@ -11,9 +11,11 @@ actual class PendingTasksViewModel(
     backgroundDispatcher: CoroutineDispatcher,
     scope: CoroutineScope
 ) {
-    val host: PendingTasksContainerHost = PendingTasksContainerHostImpl(
-        pendingTasks = pendingTasks,
-        backgroundDispatcher = backgroundDispatcher,
-        scope = scope
-    )
+    val host: PendingTasksContainerHost by lazy {
+        PendingTasksContainerHostImpl(
+            pendingTasks = pendingTasks,
+            backgroundDispatcher = backgroundDispatcher,
+            scope = scope
+        )
+    }
 }

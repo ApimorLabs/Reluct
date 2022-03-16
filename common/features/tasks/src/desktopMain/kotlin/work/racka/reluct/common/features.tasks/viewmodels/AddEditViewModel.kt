@@ -11,9 +11,11 @@ actual class AddEditViewModel(
     backgroundDispatcher: CoroutineDispatcher,
     scope: CoroutineScope
 ) {
-    val host: AddEditTaskContainerHost = AddEditTaskContainerHostImpl(
-        addEditTask = addEditTask,
-        backgroundDispatcher = backgroundDispatcher,
-        scope = scope
-    )
+    val host: AddEditTaskContainerHost by lazy {
+        AddEditTaskContainerHostImpl(
+            addEditTask = addEditTask,
+            backgroundDispatcher = backgroundDispatcher,
+            scope = scope
+        )
+    }
 }

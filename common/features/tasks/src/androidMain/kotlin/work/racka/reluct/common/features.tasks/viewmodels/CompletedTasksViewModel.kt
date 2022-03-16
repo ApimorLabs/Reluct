@@ -12,9 +12,11 @@ actual class CompletedTasksViewModel(
     backgroundDispatcher: CoroutineDispatcher,
 ) : ViewModel() {
 
-    val host: CompletedTasksContainerHost = CompletedTasksContainerHostImpl(
-        completedTasks = completedTasks,
-        backgroundDispatcher = backgroundDispatcher,
-        scope = viewModelScope
-    )
+    val host: CompletedTasksContainerHost by lazy {
+        CompletedTasksContainerHostImpl(
+            completedTasks = completedTasks,
+            backgroundDispatcher = backgroundDispatcher,
+            scope = viewModelScope
+        )
+    }
 }

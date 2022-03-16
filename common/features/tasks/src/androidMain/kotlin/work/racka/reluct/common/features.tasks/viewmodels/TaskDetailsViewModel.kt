@@ -11,9 +11,11 @@ actual class TaskDetailsViewModel(
     taskDetails: TaskDetails,
     backgroundDispatcher: CoroutineDispatcher
 ) : ViewModel() {
-    val host: TaskDetailsContainerHost = TaskDetailsContainerHostImpl(
-        backgroundDispatcher = backgroundDispatcher,
-        taskDetails = taskDetails,
-        scope = viewModelScope
-    )
+    val host: TaskDetailsContainerHost by lazy {
+        TaskDetailsContainerHostImpl(
+            backgroundDispatcher = backgroundDispatcher,
+            taskDetails = taskDetails,
+            scope = viewModelScope
+        )
+    }
 }
