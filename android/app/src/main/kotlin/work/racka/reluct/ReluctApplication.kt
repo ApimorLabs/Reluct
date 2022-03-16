@@ -14,6 +14,7 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.logger.Level
 import timber.log.Timber
+import work.racka.reluct.android.compose.theme.Theme
 import work.racka.reluct.common.integration.containers.settings.AppSettings
 import work.racka.reluct.common.integration.di.KoinMain
 import work.racka.reluct.common.model.states.settings.SettingsSideEffect

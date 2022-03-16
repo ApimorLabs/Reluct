@@ -5,8 +5,8 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import com.google.accompanist.insets.ProvideWindowInsets
 import timber.log.Timber
-import work.racka.reluct.ReluctAppTheme
-import work.racka.reluct.compose.navigation.navhost.AppNavHost
+import work.racka.reluct.android.compose.navigation.navhost.AppNavHost
+import work.racka.reluct.android.compose.theme.ReluctAppTheme
 
 @ExperimentalMaterial3Api
 @ExperimentalAnimationApi

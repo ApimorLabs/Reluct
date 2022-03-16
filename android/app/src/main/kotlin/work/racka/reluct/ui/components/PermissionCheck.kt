@@ -9,7 +9,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import work.racka.reluct.Dimens
+import work.racka.reluct.android.compose.theme.Dimens
 
 @Composable
 fun PermCheck(

@@ -18,7 +18,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
-import work.racka.reluct.Dimens
+import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.ui.components.Greeting
 import work.racka.reluct.ui.components.PermCheck
 import work.racka.reluct.ui.components.UsageStat

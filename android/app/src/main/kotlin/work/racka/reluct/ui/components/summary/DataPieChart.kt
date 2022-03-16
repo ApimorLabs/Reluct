@@ -7,7 +7,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import work.racka.reluct.Dimens
+import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.barChart.BarChart
 import work.racka.reluct.barChart.BarChartData
 import work.racka.reluct.barChart.BarChartOptions
