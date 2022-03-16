@@ -18,6 +18,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
+import work.racka.reluct.Dimens
 import work.racka.reluct.ui.components.Greeting
 import work.racka.reluct.ui.components.PermCheck
 import work.racka.reluct.ui.components.UsageStat
@@ -26,7 +27,6 @@ import work.racka.reluct.ui.components.summary.SummaryPieChart
 import work.racka.reluct.ui.components.summary.SummaryPills
 import work.racka.reluct.ui.main.states.StatsState
 import work.racka.reluct.ui.main.viewmodels.UsageDataViewModel
-import work.racka.reluct.ui.theme.Dimens
 import work.racka.reluct.utils.Utils
 
 @Composable

@@ -5,6 +5,7 @@ include(
     ":android:compose:components",
     ":android:compose:charts",
     ":android:compose:navigation",
+    ":android:compose:theme",
     ":common:features:tasks",
     ":common:features:goals",
     ":common:model",

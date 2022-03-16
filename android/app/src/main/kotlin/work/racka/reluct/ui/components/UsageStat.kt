@@ -15,8 +15,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.core.graphics.drawable.toBitmap
+import work.racka.reluct.Dimens
 import work.racka.reluct.data.local.usagestats.AppUsageInfo
-import work.racka.reluct.ui.theme.Dimens
 import work.racka.reluct.utils.Utils
 
 @Composable

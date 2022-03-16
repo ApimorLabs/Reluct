@@ -17,7 +17,6 @@ import timber.log.Timber
 import work.racka.reluct.common.integration.containers.settings.AppSettings
 import work.racka.reluct.common.integration.di.KoinMain
 import work.racka.reluct.common.model.states.settings.SettingsSideEffect
-import work.racka.reluct.ui.theme.Theme
 
 @HiltAndroidApp
 class ReluctApplication : Application() {

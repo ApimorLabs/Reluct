@@ -7,6 +7,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import work.racka.reluct.Dimens
 import work.racka.reluct.barChart.BarChart
 import work.racka.reluct.barChart.BarChartData
 import work.racka.reluct.barChart.BarChartOptions
@@ -14,7 +15,6 @@ import work.racka.reluct.barChart.renderer.label.SimpleValueDrawer
 import work.racka.reluct.barChart.renderer.xaxis.SimpleXAxisDrawer
 import work.racka.reluct.barChart.renderer.yaxis.SimpleYAxisDrawer
 import work.racka.reluct.ui.main.states.StatsState
-import work.racka.reluct.ui.theme.Dimens
 import java.util.concurrent.TimeUnit
 
 @Composable

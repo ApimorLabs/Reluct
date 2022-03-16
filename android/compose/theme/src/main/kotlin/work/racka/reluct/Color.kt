@@ -1,4 +1,4 @@
-package work.racka.reluct.ui.theme
+package work.racka.reluct
 
 import androidx.compose.ui.graphics.Color
 

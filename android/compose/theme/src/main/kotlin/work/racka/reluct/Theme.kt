@@ -1,4 +1,4 @@
-package work.racka.reluct.ui.theme
+package work.racka.reluct
 
 import android.os.Build
 import androidx.appcompat.app.AppCompatDelegate

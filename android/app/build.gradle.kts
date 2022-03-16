@@ -81,6 +81,7 @@ dependencies {
     implementation(project(":android:compose:components"))
     implementation(project(":android:compose:charts"))
     implementation(project(":android:compose:navigation"))
+    implementation(project(":android:compose:theme"))
 
     // Core Functionality
     with(Dependencies.Android.Essential) {
