@@ -20,7 +20,15 @@ sealed class TasksState {
 
     data class AddEditTask(
         val task: EditTask? = null
-    )
+    ) : TasksState()
+
+    data class SearchTask(
+        val tasks: List<Task> = listOf()
+    ) : TasksState()
+
+    data class TaskDetails(
+        val task: Task? = null
+    ) : TasksState()
 
     object Loading : TasksState()
 
@@ -28,5 +36,8 @@ sealed class TasksState {
         val EmptyPendingTasks = PendingTasks()
         val EmptyCompletedTasks = CompletedTasks()
         val EmptyStatistics = Statistics()
+        val EmptyAddEditTask = AddEditTask()
+        val EmptySearchTask = SearchTask()
+        val EmptyTaskDetails = TaskDetails()
     }
 }

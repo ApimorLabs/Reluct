@@ -1,4 +1,4 @@
-package work.racka.reluct.common.features.tasks.pending_tasks
+package work.racka.reluct.common.features.tasks.search
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -7,11 +7,10 @@ import work.racka.reluct.common.features.tasks.util.TasksHelper
 import work.racka.reluct.common.model.domain.tasks.Task
 import work.racka.reluct.common.model.util.time.TimeUtils
 
-internal class PendingTasksImpl(
+class SearchTasksImpl(
     private val dao: TasksDao
-) : PendingTasks {
-
-    override suspend fun getTasks(): Flow<List<Task>> = dao.getPendingTasks()
+) : SearchTasks {
+    override suspend fun search(query: String): Flow<List<Task>> = dao.searchTasks(query)
         .map { list ->
             val newList = mutableListOf<Task>()
             list.forEach { taskDbObject ->
@@ -45,7 +44,4 @@ internal class PendingTasksImpl(
             }
             newList.toList()
         }
-
-    override suspend fun toggleTaskDone(taskId: Long, isDone: Boolean) =
-        dao.toggleTaskDone(taskId, isDone)
 }

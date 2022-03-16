@@ -25,6 +25,69 @@ object TimeUtils {
     }
 
     /**
+     * Check if time provided is already overdue
+     * Returns a Boolean
+     */
+    fun isDateTimeOverdue(
+        dateTime: String,
+        originalTimeZoneId: String,
+        overdueHours: Int = 1
+    ): Boolean {
+        val today = Clock.System.now()
+        val localDTInstant = getLocalDateTimeWithCorrectTimeZone(dateTime, originalTimeZoneId)
+            .toInstant(TimeZone.currentSystemDefault())
+        val diff = localDTInstant - today
+        return diff.inWholeHours >= overdueHours
+    }
+
+    /**
+     * Get a formatted day or date for grouping
+     * If showShortIntervalAsDay is true then it will show Today, Yesterday, Tomorrow
+     * or a day instead of the full date when the interval is within a 3 days difference.
+     * If false it will show the full date even if the interval is within a 3 days difference
+     */
+    fun getFormattedDateString(
+        dateTime: String,
+        originalTimeZoneId: String,
+        showShortIntervalAsDay: Boolean = true
+    ): String {
+        val today = Clock.System.todayAt(TimeZone.currentSystemDefault())
+        val localDT = getLocalDateTimeWithCorrectTimeZone(dateTime, originalTimeZoneId)
+
+        // If we don't want to show Day of week itself when intervals are near
+        // we just return from here and skip the rest of the code
+        if (!showShortIntervalAsDay) {
+            return if (today.year == localDT.year) {
+                "${localDT.dayOfWeek.toDayOfWeekShortenedString()}, " +
+                        "${localDT.month.toMonthShortenedString()} ${localDT.dayOfMonth}"
+            } else {
+                "${localDT.month.toMonthShortenedString()} ${localDT.dayOfMonth}, ${localDT.year}"
+            }
+        }
+
+        val date = LocalDate(
+            localDT.year,
+            localDT.monthNumber,
+            localDT.dayOfMonth
+        )
+        val daysUntil = today.daysUntil(date)
+        return when {
+            daysUntil == -2 -> date.dayOfWeek.toDayOfWeekString()
+            daysUntil == -1 -> "Yesterday"
+            daysUntil == 0 -> "Today"
+            daysUntil == 1 -> "Tomorrow"
+            daysUntil == 2 -> date.dayOfWeek.toDayOfWeekString()
+            today.year != date.year -> {
+                "${date.month.toMonthShortenedString()} ${date.dayOfMonth}, ${date.year}"
+            }
+            else -> {
+                "${date.dayOfWeek.toDayOfWeekShortenedString()}, " +
+                        "${date.month.toMonthShortenedString()} ${date.dayOfMonth}"
+            }
+        }
+    }
+
+    /**
      * This accounts for changes in Timezone. So you need the TimeZoneId
      * The TimeZoneId needed is the one from the database. This will convert
      * the LocalDateTime stored to the correct system TimeZone if it's different
@@ -32,9 +95,9 @@ object TimeUtils {
      */
     fun getTimeFromLocalDateTime(
         dateTime: String,
-        timeZoneId: String = TimeZone.currentSystemDefault().id
+        originalTimeZoneId: String = TimeZone.currentSystemDefault().id
     ): String {
-        val localDateTime = getLocalDateTimeWithCorrectTimeZone(dateTime, timeZoneId)
+        val localDateTime = getLocalDateTimeWithCorrectTimeZone(dateTime, originalTimeZoneId)
         val hr = localDateTime.hour
         val min =
             if (localDateTime.minute < 10) "0${localDateTime.minute}" else localDateTime.minute
@@ -49,10 +112,10 @@ object TimeUtils {
      */
     fun getTimeLeftFromLocalDateTime(
         dateTime: String,
-        timeZoneId: String = TimeZone.currentSystemDefault().id
+        originalTimeZoneId: String = TimeZone.currentSystemDefault().id
     ): String {
         val currentTime = Clock.System.now()
-        val instant = getLocalDateTimeWithCorrectTimeZone(dateTime, timeZoneId)
+        val instant = getLocalDateTimeWithCorrectTimeZone(dateTime, originalTimeZoneId)
             .toInstant(TimeZone.currentSystemDefault())
         val diff = currentTime.periodUntil(instant, TimeZone.currentSystemDefault())
         val data = when {
@@ -104,6 +167,10 @@ object TimeUtils {
         return data
     }
 
+    /**
+     * Return provided Period of time with a plural or single abbreviation appended
+     * to it
+     */
     private fun timePluralOrSingle(value: Int, period: TimePeriod): String {
         val abs = abs(value)
         return when (period) {
@@ -144,4 +211,51 @@ object TimeUtils {
             }
         }
     }
+
+    /**
+     * Get a string of the day of week provided
+     */
+    private fun DayOfWeek.toDayOfWeekShortenedString(): String =
+        when (this) {
+            DayOfWeek.MONDAY -> "Mon"
+            DayOfWeek.TUESDAY -> "Tue"
+            DayOfWeek.WEDNESDAY -> "Wed"
+            DayOfWeek.THURSDAY -> "Thu"
+            DayOfWeek.FRIDAY -> "Fri"
+            DayOfWeek.SATURDAY -> "Sat"
+            DayOfWeek.SUNDAY -> "Sun"
+            else -> throw IllegalArgumentException()
+        }
+
+    private fun DayOfWeek.toDayOfWeekString(): String =
+        when (this) {
+            DayOfWeek.MONDAY -> "Monday"
+            DayOfWeek.TUESDAY -> "Tuesday"
+            DayOfWeek.WEDNESDAY -> "Wednesday"
+            DayOfWeek.THURSDAY -> "Thursday"
+            DayOfWeek.FRIDAY -> "Friday"
+            DayOfWeek.SATURDAY -> "Saturday"
+            DayOfWeek.SUNDAY -> "Sunday"
+            else -> throw IllegalArgumentException()
+        }
+
+    /**
+     * Get a string of the month provided
+     */
+    private fun Month.toMonthShortenedString(): String =
+        when (this) {
+            Month.JANUARY -> "Jan"
+            Month.FEBRUARY -> "Feb"
+            Month.MARCH -> "Mar"
+            Month.APRIL -> "Apr"
+            Month.MAY -> "May"
+            Month.JUNE -> "Jun"
+            Month.JULY -> "Jul"
+            Month.AUGUST -> "Aug"
+            Month.SEPTEMBER -> "Sep"
+            Month.OCTOBER -> "Oct"
+            Month.NOVEMBER -> "Nov"
+            Month.DECEMBER -> "Dec"
+            else -> throw IllegalArgumentException()
+        }
 }

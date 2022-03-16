@@ -1,5 +1,5 @@
 CREATE TABLE TasksTable(
-id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+id INTEGER NOT NULL PRIMARY KEY,
 title TEXT NOT NULL,
 description TEXT,
 done INTEGER AS Boolean DEFAULT 0 NOT NULL,
@@ -44,6 +44,11 @@ getCompeletedTasks:
 SELECT * FROM TasksTable
 WHERE done = 1
 ORDER BY dueDateLocalDateTime DESC;
+
+toggleTaskDone:
+UPDATE TasksTable
+SET done = :isDone
+WHERE id = :id;
 
 deleteTask:
 DELETE FROM TasksTable

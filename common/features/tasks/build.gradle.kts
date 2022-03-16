@@ -31,6 +31,7 @@ kotlin {
 
     sourceSets["commonMain"].dependencies {
         implementation(project(":common:model"))
+        implementation(project(":common:persistence:database"))
 
         implementation(Dependencies.OrbitMVI.core)
 
