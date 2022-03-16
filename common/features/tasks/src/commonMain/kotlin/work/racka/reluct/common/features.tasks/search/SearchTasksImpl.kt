@@ -10,6 +10,10 @@ import work.racka.reluct.common.model.util.time.TimeUtils
 class SearchTasksImpl(
     private val dao: TasksDao
 ) : SearchTasks {
+
+    override suspend fun toggleDone(taskId: Long, isDone: Boolean) =
+        dao.toggleTaskDone(taskId, isDone)
+
     override suspend fun search(query: String): Flow<List<Task>> = dao.searchTasks(query)
         .map { list ->
             val newList = mutableListOf<Task>()

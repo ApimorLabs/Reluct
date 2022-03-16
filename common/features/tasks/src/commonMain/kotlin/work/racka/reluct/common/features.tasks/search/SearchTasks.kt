@@ -5,4 +5,5 @@ import work.racka.reluct.common.model.domain.tasks.Task
 
 interface SearchTasks {
     suspend fun search(query: String): Flow<List<Task>>
+    suspend fun toggleDone(taskId: Long, isDone: Boolean)
 }

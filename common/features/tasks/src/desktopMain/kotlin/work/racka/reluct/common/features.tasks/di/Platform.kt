@@ -3,10 +3,7 @@ package work.racka.reluct.common.features.tasks.di
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import org.koin.dsl.module
-import work.racka.reluct.common.features.tasks.viewmodels.AddEditViewModel
-import work.racka.reluct.common.features.tasks.viewmodels.CompletedTasksViewModel
-import work.racka.reluct.common.features.tasks.viewmodels.PendingTasksViewModel
-import work.racka.reluct.common.features.tasks.viewmodels.TaskDetailsViewModel
+import work.racka.reluct.common.features.tasks.viewmodels.*
 
 internal actual object Platform {
     actual fun platformTasksModule() = module {
@@ -33,9 +30,18 @@ internal actual object Platform {
                 scope = CoroutineScope(Dispatchers.Main)
             )
         }
+
         single {
             AddEditViewModel(
                 addEditTask = get(),
+                backgroundDispatcher = Dispatchers.IO,
+                scope = CoroutineScope(Dispatchers.Main)
+            )
+        }
+
+        single {
+            SearchTasksViewModel(
+                searchTasks = get(),
                 backgroundDispatcher = Dispatchers.IO,
                 scope = CoroutineScope(Dispatchers.Main)
             )
