@@ -48,6 +48,11 @@ kotlin {
     }
 
     sourceSets["androidMain"].dependencies {
+        with(Dependencies.Koin) {
+            api(android)
+        }
+        implementation(Dependencies.Android.Essential.lifecycleRuntimeKtx)
+        implementation(Dependencies.Android.Compose.viewModel)
 
     }
 
