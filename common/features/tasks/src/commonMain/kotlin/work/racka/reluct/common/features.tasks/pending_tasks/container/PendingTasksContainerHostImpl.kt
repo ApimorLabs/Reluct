@@ -55,12 +55,10 @@ internal class PendingTasksContainerHostImpl(
         withContext(backgroundDispatcher) {
             pendingTasks.toggleTaskDone(taskId, isDone)
         }
-        postSideEffect(
-            TasksSideEffect.TaskDone(isDone)
-        )
+        postSideEffect(TasksSideEffect.TaskDone(isDone))
     }
 
     override fun navigateToTaskDetails(taskId: Long) = intent {
-        postSideEffect(TasksSideEffect.NavigateToTaskDetails(taskId))
+        postSideEffect(TasksSideEffect.Navigation.NavigateToTaskDetails(taskId))
     }
 }

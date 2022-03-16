@@ -10,7 +10,13 @@ import work.racka.reluct.common.model.util.time.TimeUtils
 internal class TaskDetailsImpl(
     private val dao: TasksDao
 ) : TaskDetails {
-    override fun getTask(taskId: Long): Flow<Task?> =
+
+    override suspend fun deleteTask(taskId: Long) = dao.deleteTask(taskId)
+
+    override suspend fun toggleTask(taskId: Long, isDone: Boolean) =
+        dao.toggleTaskDone(taskId, isDone)
+
+    override suspend fun getTask(taskId: Long): Flow<Task?> =
         dao.getTask(taskId).map { taskDbObject ->
             if (taskDbObject == null) {
                 null

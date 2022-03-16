@@ -57,6 +57,6 @@ internal class CompletedTasksContainerHostImpl(
     }
 
     override fun navigateToTaskDetails(taskId: Long) = intent {
-        postSideEffect(TasksSideEffect.NavigateToTaskDetails(taskId))
+        postSideEffect(TasksSideEffect.Navigation.NavigateToTaskDetails(taskId))
     }
 }

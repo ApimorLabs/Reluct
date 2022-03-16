@@ -5,6 +5,7 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import work.racka.reluct.common.features.tasks.viewmodels.CompletedTasksViewModel
 import work.racka.reluct.common.features.tasks.viewmodels.PendingTasksViewModel
+import work.racka.reluct.common.features.tasks.viewmodels.TaskDetailsViewModel
 
 internal actual object Platform {
     actual fun platformTasksModule() = module {
@@ -18,6 +19,12 @@ internal actual object Platform {
         viewModel {
             PendingTasksViewModel(
                 pendingTasks = get(),
+                backgroundDispatcher = Dispatchers.IO
+            )
+        }
+        viewModel {
+            TaskDetailsViewModel(
+                taskDetails = get(),
                 backgroundDispatcher = Dispatchers.IO
             )
         }

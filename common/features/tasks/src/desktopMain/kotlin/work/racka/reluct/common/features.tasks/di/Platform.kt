@@ -5,6 +5,7 @@ import kotlinx.coroutines.Dispatchers
 import org.koin.dsl.module
 import work.racka.reluct.common.features.tasks.viewmodels.CompletedTasksViewModel
 import work.racka.reluct.common.features.tasks.viewmodels.PendingTasksViewModel
+import work.racka.reluct.common.features.tasks.viewmodels.TaskDetailsViewModel
 
 internal actual object Platform {
     actual fun platformTasksModule() = module {
@@ -19,6 +20,14 @@ internal actual object Platform {
         single {
             PendingTasksViewModel(
                 pendingTasks = get(),
+                backgroundDispatcher = Dispatchers.IO,
+                scope = CoroutineScope(Dispatchers.Main)
+            )
+        }
+
+        single {
+            TaskDetailsViewModel(
+                taskDetails = get(),
                 backgroundDispatcher = Dispatchers.IO,
                 scope = CoroutineScope(Dispatchers.Main)
             )
