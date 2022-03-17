@@ -20,7 +20,7 @@ kotlin {
                 implementation(project(":common:integration"))
                 implementation(compose.desktop.currentOs)
 
-
+                implementation(Dependencies.Kotlin.dateTime)
                 with(Dependencies.Koin) {
                     api(core)
                     api(test)

@@ -12,12 +12,12 @@ import org.orbitmvi.orbit.container
 import org.orbitmvi.orbit.syntax.simple.intent
 import org.orbitmvi.orbit.syntax.simple.postSideEffect
 import org.orbitmvi.orbit.syntax.simple.reduce
-import work.racka.reluct.common.features.tasks.pending_tasks.PendingTasks
+import work.racka.reluct.common.features.tasks.pending_tasks.repository.PendingTasksRepository
 import work.racka.reluct.common.model.states.tasks.TasksSideEffect
 import work.racka.reluct.common.model.states.tasks.TasksState
 
 internal class PendingTasksContainerHostImpl(
-    private val pendingTasks: PendingTasks,
+    private val pendingTasks: PendingTasksRepository,
     private val backgroundDispatcher: CoroutineDispatcher,
     scope: CoroutineScope
 ) : PendingTasksContainerHost, ContainerHost<TasksState, TasksSideEffect> {

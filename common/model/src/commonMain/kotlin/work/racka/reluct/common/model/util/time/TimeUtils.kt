@@ -36,7 +36,7 @@ object TimeUtils {
         val today = Clock.System.now()
         val localDTInstant = getLocalDateTimeWithCorrectTimeZone(dateTime, originalTimeZoneId)
             .toInstant(TimeZone.currentSystemDefault())
-        val diff = localDTInstant - today
+        val diff = today - localDTInstant
         return diff.inWholeHours >= overdueHours
     }
 

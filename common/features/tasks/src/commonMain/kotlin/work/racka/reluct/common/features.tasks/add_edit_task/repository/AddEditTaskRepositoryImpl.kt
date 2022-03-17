@@ -1,4 +1,4 @@
-package work.racka.reluct.common.features.tasks.add_edit_task
+package work.racka.reluct.common.features.tasks.add_edit_task.repository
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -6,9 +6,9 @@ import work.racka.reluct.common.database.dao.tasks.TasksDao
 import work.racka.reluct.common.model.data.local.task.TaskDbObject
 import work.racka.reluct.common.model.domain.tasks.EditTask
 
-internal class AddEditTaskImpl(
+internal class AddEditTaskRepositoryImpl(
     private val dao: TasksDao
-) : AddEditTask {
+) : AddEditTaskRepository {
     override suspend fun addTask(task: EditTask) =
         dao.insertTask(task)
 

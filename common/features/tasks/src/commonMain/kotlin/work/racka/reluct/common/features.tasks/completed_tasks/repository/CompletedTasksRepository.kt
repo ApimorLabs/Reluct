@@ -1,9 +1,9 @@
-package work.racka.reluct.common.features.tasks.completed_tasks
+package work.racka.reluct.common.features.tasks.completed_tasks.repository
 
 import kotlinx.coroutines.flow.Flow
 import work.racka.reluct.common.model.domain.tasks.Task
 
-interface CompletedTasks {
+interface CompletedTasksRepository {
     fun getTasks(): Flow<List<Task>>
     suspend fun toggleTaskDone(taskId: Long, isDone: Boolean)
 }

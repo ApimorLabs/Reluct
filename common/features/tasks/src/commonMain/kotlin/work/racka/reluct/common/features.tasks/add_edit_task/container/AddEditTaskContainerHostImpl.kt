@@ -12,14 +12,14 @@ import org.orbitmvi.orbit.container
 import org.orbitmvi.orbit.syntax.simple.intent
 import org.orbitmvi.orbit.syntax.simple.postSideEffect
 import org.orbitmvi.orbit.syntax.simple.reduce
-import work.racka.reluct.common.features.tasks.add_edit_task.AddEditTask
+import work.racka.reluct.common.features.tasks.add_edit_task.repository.AddEditTaskRepository
 import work.racka.reluct.common.features.tasks.util.Constants
 import work.racka.reluct.common.model.domain.tasks.EditTask
 import work.racka.reluct.common.model.states.tasks.TasksSideEffect
 import work.racka.reluct.common.model.states.tasks.TasksState
 
 class AddEditTaskContainerHostImpl(
-    private val addEditTask: AddEditTask,
+    private val addEditTask: AddEditTaskRepository,
     private val backgroundDispatcher: CoroutineDispatcher,
     scope: CoroutineScope
 ) : AddEditTaskContainerHost, ContainerHost<TasksState, TasksSideEffect> {

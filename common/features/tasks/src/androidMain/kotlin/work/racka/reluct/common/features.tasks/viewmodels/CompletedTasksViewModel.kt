@@ -3,12 +3,12 @@ package work.racka.reluct.common.features.tasks.viewmodels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.CoroutineDispatcher
-import work.racka.reluct.common.features.tasks.completed_tasks.CompletedTasks
 import work.racka.reluct.common.features.tasks.completed_tasks.container.CompletedTasksContainerHost
 import work.racka.reluct.common.features.tasks.completed_tasks.container.CompletedTasksContainerHostImpl
+import work.racka.reluct.common.features.tasks.completed_tasks.repository.CompletedTasksRepository
 
 actual class CompletedTasksViewModel(
-    completedTasks: CompletedTasks,
+    completedTasks: CompletedTasksRepository,
     backgroundDispatcher: CoroutineDispatcher,
 ) : ViewModel() {
 

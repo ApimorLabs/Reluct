@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
+import kotlinx.datetime.TimeZone
 import work.racka.reluct.common.model.util.time.TimeUtils
 
 fun main() = application {
@@ -22,6 +23,14 @@ fun main() = application {
                 mutableStateOf("2010-06-01T22:08:01")
             }
             val ans = remember { mutableStateOf("Nothing") }
+            fun click() {
+                ans.value = TimeUtils
+                    .getFormattedDateString(
+                        dateTime = text.value,
+                        originalTimeZoneId = TimeZone.currentSystemDefault().id
+                    )
+            }
+
             Column {
                 TextField(
                     value = text.value,
@@ -34,11 +43,7 @@ fun main() = application {
                 Spacer(Modifier.height(8.dp))
                 Button(
                     onClick = {
-                        ans.value = TimeUtils
-                            .getTimeLeftFromLocalDateTime(
-                                dateTime = text.value,
-
-                                )
+                        click()
                     }
                 ) {
                     Text("Compute")

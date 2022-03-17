@@ -1,4 +1,4 @@
-package work.racka.reluct.common.features.tasks.task_details
+package work.racka.reluct.common.features.tasks.completed_tasks.repository
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -7,21 +7,14 @@ import work.racka.reluct.common.features.tasks.util.TasksHelper
 import work.racka.reluct.common.model.domain.tasks.Task
 import work.racka.reluct.common.model.util.time.TimeUtils
 
-internal class TaskDetailsImpl(
+internal class CompletedTasksRepositoryImpl(
     private val dao: TasksDao
-) : TaskDetails {
-
-    override suspend fun deleteTask(taskId: Long) = dao.deleteTask(taskId)
-
-    override suspend fun toggleTask(taskId: Long, isDone: Boolean) =
-        dao.toggleTaskDone(taskId, isDone)
-
-    override suspend fun getTask(taskId: Long): Flow<Task?> =
-        dao.getTask(taskId).map { taskDbObject ->
-            if (taskDbObject == null) {
-                null
-            } else {
-                Task(
+) : CompletedTasksRepository {
+    override fun getTasks(): Flow<List<Task>> = dao.getCompletedTasks()
+        .map { list ->
+            val newList = mutableListOf<Task>()
+            list.forEach { taskDbObject ->
+                val task = Task(
                     id = taskDbObject.id,
                     title = taskDbObject.title,
                     description = taskDbObject.description ?: "No Description",
@@ -47,6 +40,11 @@ internal class TaskDetailsImpl(
                         taskDbObject.timeZoneId
                     )
                 )
+                newList.add(task)
             }
+            newList.toList()
         }
+
+    override suspend fun toggleTaskDone(taskId: Long, isDone: Boolean) =
+        dao.toggleTaskDone(taskId, isDone)
 }

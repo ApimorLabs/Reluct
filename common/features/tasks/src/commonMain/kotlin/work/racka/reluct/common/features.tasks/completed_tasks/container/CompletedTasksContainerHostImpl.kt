@@ -12,12 +12,12 @@ import org.orbitmvi.orbit.container
 import org.orbitmvi.orbit.syntax.simple.intent
 import org.orbitmvi.orbit.syntax.simple.postSideEffect
 import org.orbitmvi.orbit.syntax.simple.reduce
-import work.racka.reluct.common.features.tasks.completed_tasks.CompletedTasks
+import work.racka.reluct.common.features.tasks.completed_tasks.repository.CompletedTasksRepository
 import work.racka.reluct.common.model.states.tasks.TasksSideEffect
 import work.racka.reluct.common.model.states.tasks.TasksState
 
 internal class CompletedTasksContainerHostImpl(
-    private val completedTasks: CompletedTasks,
+    private val completedTasks: CompletedTasksRepository,
     private val backgroundDispatcher: CoroutineDispatcher,
     scope: CoroutineScope
 ) : CompletedTasksContainerHost, ContainerHost<TasksState, TasksSideEffect> {

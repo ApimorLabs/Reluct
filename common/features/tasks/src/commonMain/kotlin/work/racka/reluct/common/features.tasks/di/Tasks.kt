@@ -2,16 +2,16 @@ package work.racka.reluct.common.features.tasks.di
 
 import org.koin.core.KoinApplication
 import org.koin.dsl.module
-import work.racka.reluct.common.features.tasks.add_edit_task.AddEditTask
-import work.racka.reluct.common.features.tasks.add_edit_task.AddEditTaskImpl
-import work.racka.reluct.common.features.tasks.completed_tasks.CompletedTasks
-import work.racka.reluct.common.features.tasks.completed_tasks.CompletedTasksImpl
-import work.racka.reluct.common.features.tasks.pending_tasks.PendingTasks
-import work.racka.reluct.common.features.tasks.pending_tasks.PendingTasksImpl
-import work.racka.reluct.common.features.tasks.search.SearchTasks
-import work.racka.reluct.common.features.tasks.search.SearchTasksImpl
-import work.racka.reluct.common.features.tasks.task_details.TaskDetails
-import work.racka.reluct.common.features.tasks.task_details.TaskDetailsImpl
+import work.racka.reluct.common.features.tasks.add_edit_task.repository.AddEditTaskRepository
+import work.racka.reluct.common.features.tasks.add_edit_task.repository.AddEditTaskRepositoryImpl
+import work.racka.reluct.common.features.tasks.completed_tasks.repository.CompletedTasksRepository
+import work.racka.reluct.common.features.tasks.completed_tasks.repository.CompletedTasksRepositoryImpl
+import work.racka.reluct.common.features.tasks.pending_tasks.repository.PendingTasksRepository
+import work.racka.reluct.common.features.tasks.pending_tasks.repository.PendingTasksRepositoryImpl
+import work.racka.reluct.common.features.tasks.search.repository.SearchTasksRepository
+import work.racka.reluct.common.features.tasks.search.repository.SearchTasksRepositoryImpl
+import work.racka.reluct.common.features.tasks.task_details.repository.TaskDetailsRepository
+import work.racka.reluct.common.features.tasks.task_details.repository.TaskDetailsRepositoryImpl
 
 object Tasks {
 
@@ -25,32 +25,32 @@ object Tasks {
 
     private fun commonModule() = module {
 
-        single<PendingTasks> {
-            PendingTasksImpl(
+        single<PendingTasksRepository> {
+            PendingTasksRepositoryImpl(
                 dao = get()
             )
         }
 
-        single<CompletedTasks> {
-            CompletedTasksImpl(
+        single<CompletedTasksRepository> {
+            CompletedTasksRepositoryImpl(
                 dao = get()
             )
         }
 
-        single<AddEditTask> {
-            AddEditTaskImpl(
+        single<AddEditTaskRepository> {
+            AddEditTaskRepositoryImpl(
                 dao = get()
             )
         }
 
-        single<SearchTasks> {
-            SearchTasksImpl(
+        single<SearchTasksRepository> {
+            SearchTasksRepositoryImpl(
                 dao = get()
             )
         }
 
-        single<TaskDetails> {
-            TaskDetailsImpl(
+        single<TaskDetailsRepository> {
+            TaskDetailsRepositoryImpl(
                 dao = get()
             )
         }

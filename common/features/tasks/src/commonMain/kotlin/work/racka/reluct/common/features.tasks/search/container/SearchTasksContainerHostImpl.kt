@@ -12,12 +12,12 @@ import org.orbitmvi.orbit.container
 import org.orbitmvi.orbit.syntax.simple.intent
 import org.orbitmvi.orbit.syntax.simple.postSideEffect
 import org.orbitmvi.orbit.syntax.simple.reduce
-import work.racka.reluct.common.features.tasks.search.SearchTasks
+import work.racka.reluct.common.features.tasks.search.repository.SearchTasksRepository
 import work.racka.reluct.common.model.states.tasks.TasksSideEffect
 import work.racka.reluct.common.model.states.tasks.TasksState
 
 class SearchTasksContainerHostImpl(
-    private val searchTasks: SearchTasks,
+    private val searchTasks: SearchTasksRepository,
     private val backgroundDispatcher: CoroutineDispatcher,
     scope: CoroutineScope
 ) : SearchTasksContainerHost, ContainerHost<TasksState, TasksSideEffect> {
