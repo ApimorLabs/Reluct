@@ -27,31 +27,36 @@ object Tasks {
 
         single<PendingTasksRepository> {
             PendingTasksRepositoryImpl(
-                dao = get()
+                dao = get(),
+                backgroundDispatcher = CoroutineDispatchers.backgroundDispatcher
             )
         }
 
         single<CompletedTasksRepository> {
             CompletedTasksRepositoryImpl(
-                dao = get()
+                dao = get(),
+                backgroundDispatcher = CoroutineDispatchers.backgroundDispatcher
             )
         }
 
         single<AddEditTaskRepository> {
             AddEditTaskRepositoryImpl(
-                dao = get()
+                dao = get(),
+                backgroundDispatcher = CoroutineDispatchers.backgroundDispatcher
             )
         }
 
         single<SearchTasksRepository> {
             SearchTasksRepositoryImpl(
-                dao = get()
+                dao = get(),
+                backgroundDispatcher = CoroutineDispatchers.backgroundDispatcher
             )
         }
 
         single<TaskDetailsRepository> {
             TaskDetailsRepositoryImpl(
-                dao = get()
+                dao = get(),
+                backgroundDispatcher = CoroutineDispatchers.backgroundDispatcher
             )
         }
     }

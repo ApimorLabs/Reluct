@@ -1,11 +1,9 @@
 package work.racka.reluct.common.features.tasks.search.container
 
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.withContext
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.container
@@ -18,7 +16,6 @@ import work.racka.reluct.common.model.states.tasks.TasksState
 
 class SearchTasksContainerHostImpl(
     private val searchTasks: SearchTasksRepository,
-    private val backgroundDispatcher: CoroutineDispatcher,
     scope: CoroutineScope
 ) : SearchTasksContainerHost, ContainerHost<TasksState, TasksSideEffect> {
 
@@ -32,17 +29,13 @@ class SearchTasksContainerHostImpl(
         get() = container.sideEffectFlow
 
     override fun searchTasks(query: String) = intent {
-        withContext(backgroundDispatcher) {
-            searchTasks.search(query)
-        }.collectLatest { taskList ->
+        searchTasks.search(query).collectLatest { taskList ->
             reduce { TasksState.SearchTask(taskList) }
         }
     }
 
     override fun toggleDone(taskId: Long, isDone: Boolean) = intent {
-        withContext(backgroundDispatcher) {
-            searchTasks.toggleDone(taskId, isDone)
-        }
+        searchTasks.toggleDone(taskId, isDone)
         postSideEffect(TasksSideEffect.TaskDone(isDone))
     }
 

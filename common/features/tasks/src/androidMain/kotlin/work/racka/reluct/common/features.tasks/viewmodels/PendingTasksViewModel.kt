@@ -2,19 +2,16 @@ package work.racka.reluct.common.features.tasks.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.CoroutineDispatcher
 import work.racka.reluct.common.features.tasks.pending_tasks.container.PendingTasksContainerHost
 import work.racka.reluct.common.features.tasks.pending_tasks.container.PendingTasksContainerHostImpl
 import work.racka.reluct.common.features.tasks.pending_tasks.repository.PendingTasksRepository
 
 actual class PendingTasksViewModel(
-    pendingTasks: PendingTasksRepository,
-    backgroundDispatcher: CoroutineDispatcher
+    pendingTasks: PendingTasksRepository
 ) : ViewModel() {
     val host: PendingTasksContainerHost by lazy {
         PendingTasksContainerHostImpl(
             pendingTasks = pendingTasks,
-            backgroundDispatcher = backgroundDispatcher,
             scope = viewModelScope
         )
     }

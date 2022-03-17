@@ -1,11 +1,9 @@
 package work.racka.reluct.common.features.tasks.completed_tasks.container
 
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.withContext
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.container
@@ -18,7 +16,6 @@ import work.racka.reluct.common.model.states.tasks.TasksState
 
 internal class CompletedTasksContainerHostImpl(
     private val completedTasks: CompletedTasksRepository,
-    private val backgroundDispatcher: CoroutineDispatcher,
     scope: CoroutineScope
 ) : CompletedTasksContainerHost, ContainerHost<TasksState, TasksSideEffect> {
 
@@ -34,10 +31,7 @@ internal class CompletedTasksContainerHostImpl(
         get() = container.sideEffectFlow
 
     private fun getCompletedTasks() = intent {
-        val tasks = withContext(backgroundDispatcher) {
-            completedTasks.getTasks()
-        }
-        tasks.collectLatest { taskList ->
+        completedTasks.getTasks().collectLatest { taskList ->
             val grouped = taskList.groupBy { it.dueDate }
             reduce {
                 TasksState.CompletedTasks(
@@ -48,9 +42,7 @@ internal class CompletedTasksContainerHostImpl(
     }
 
     override fun toggleDone(taskId: Long, isDone: Boolean) = intent {
-        withContext(backgroundDispatcher) {
-            completedTasks.toggleTaskDone(taskId, isDone)
-        }
+        completedTasks.toggleTaskDone(taskId, isDone)
         postSideEffect(
             TasksSideEffect.TaskDone(isDone)
         )

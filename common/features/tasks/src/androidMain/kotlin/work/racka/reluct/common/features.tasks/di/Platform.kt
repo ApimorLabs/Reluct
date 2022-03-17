@@ -1,6 +1,5 @@
 package work.racka.reluct.common.features.tasks.di
 
-import kotlinx.coroutines.Dispatchers
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import work.racka.reluct.common.features.tasks.viewmodels.*
@@ -9,36 +8,31 @@ internal actual object Platform {
     actual fun platformTasksModule() = module {
         viewModel {
             CompletedTasksViewModel(
-                completedTasks = get(),
-                backgroundDispatcher = Dispatchers.IO
+                completedTasks = get()
             )
         }
 
         viewModel {
             PendingTasksViewModel(
-                pendingTasks = get(),
-                backgroundDispatcher = Dispatchers.IO
+                pendingTasks = get()
             )
         }
 
         viewModel {
             TaskDetailsViewModel(
-                taskDetails = get(),
-                backgroundDispatcher = Dispatchers.IO
+                taskDetails = get()
             )
         }
 
         viewModel {
             AddEditViewModel(
                 addEditTask = get(),
-                backgroundDispatcher = Dispatchers.IO
             )
         }
 
         viewModel {
             SearchTasksViewModel(
-                searchTasks = get(),
-                backgroundDispatcher = Dispatchers.IO
+                searchTasks = get()
             )
         }
     }

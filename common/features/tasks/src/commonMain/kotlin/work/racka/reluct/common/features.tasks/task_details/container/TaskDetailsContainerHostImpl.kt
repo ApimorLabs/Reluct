@@ -1,11 +1,9 @@
 package work.racka.reluct.common.features.tasks.task_details.container
 
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.withContext
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.container
@@ -19,7 +17,6 @@ import work.racka.reluct.common.model.states.tasks.TasksState
 
 class TaskDetailsContainerHostImpl(
     private val taskDetails: TaskDetailsRepository,
-    private val backgroundDispatcher: CoroutineDispatcher,
     scope: CoroutineScope
 ) : TaskDetailsContainerHost, ContainerHost<TasksState, TasksSideEffect> {
 
@@ -33,9 +30,7 @@ class TaskDetailsContainerHostImpl(
         get() = container.sideEffectFlow
 
     override fun getTask(taskId: Long) = intent {
-        withContext(backgroundDispatcher) {
-            taskDetails.getTask(taskId)
-        }.collectLatest { task ->
+        taskDetails.getTask(taskId).collectLatest { task ->
             when (task) {
                 null -> {
                     reduce { TasksState.EmptyTaskDetails }
@@ -53,9 +48,7 @@ class TaskDetailsContainerHostImpl(
     }
 
     override fun toggleDone(taskId: Long, isDone: Boolean) = intent {
-        withContext(backgroundDispatcher) {
-            taskDetails.toggleTask(taskId, isDone)
-        }
+        taskDetails.toggleTask(taskId, isDone)
         postSideEffect(TasksSideEffect.TaskDone(isDone))
     }
 
@@ -64,9 +57,7 @@ class TaskDetailsContainerHostImpl(
     }
 
     override fun deleteTask(taskId: Long) = intent {
-        withContext(backgroundDispatcher) {
-            taskDetails.deleteTask(taskId)
-        }
+        taskDetails.deleteTask(taskId)
         postSideEffect(
             TasksSideEffect.ShowSnackbar(Constants.DELETED_SUCCESSFULLY)
         )

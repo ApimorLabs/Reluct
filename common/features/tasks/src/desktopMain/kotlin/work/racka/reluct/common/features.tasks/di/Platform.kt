@@ -10,7 +10,6 @@ internal actual object Platform {
         single {
             CompletedTasksViewModel(
                 completedTasks = get(),
-                backgroundDispatcher = Dispatchers.IO,
                 scope = CoroutineScope(Dispatchers.Main)
             )
         }
@@ -18,7 +17,6 @@ internal actual object Platform {
         single {
             PendingTasksViewModel(
                 pendingTasks = get(),
-                backgroundDispatcher = Dispatchers.IO,
                 scope = CoroutineScope(Dispatchers.Main)
             )
         }
@@ -26,7 +24,6 @@ internal actual object Platform {
         single {
             TaskDetailsViewModel(
                 taskDetails = get(),
-                backgroundDispatcher = Dispatchers.IO,
                 scope = CoroutineScope(Dispatchers.Main)
             )
         }
@@ -34,7 +31,6 @@ internal actual object Platform {
         single {
             AddEditViewModel(
                 addEditTask = get(),
-                backgroundDispatcher = Dispatchers.IO,
                 scope = CoroutineScope(Dispatchers.Main)
             )
         }
@@ -42,7 +38,6 @@ internal actual object Platform {
         single {
             SearchTasksViewModel(
                 searchTasks = get(),
-                backgroundDispatcher = Dispatchers.IO,
                 scope = CoroutineScope(Dispatchers.Main)
             )
         }
