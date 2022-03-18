@@ -1,13 +1,12 @@
 package work.racka.reluct.common.database.dao.tasks
 
 import work.racka.reluct.common.model.data.local.task.TaskDbObject
-import work.racka.reluct.common.model.domain.tasks.EditTask
 import workrackathinkrchivev2commondatabase.db.TasksTable
 import workrackathinkrchivev2commondatabase.db.TasksTableQueries
 
 internal object TasksHelpers {
 
-    fun TasksTableQueries.insertTaskToDb(task: EditTask) {
+    fun TasksTableQueries.insertTaskToDb(task: TaskDbObject) {
         this.transaction {
             insertTask(
                 TasksTable(

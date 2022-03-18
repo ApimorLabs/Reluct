@@ -2,10 +2,9 @@ package work.racka.reluct.common.database.dao.tasks
 
 import kotlinx.coroutines.flow.Flow
 import work.racka.reluct.common.model.data.local.task.TaskDbObject
-import work.racka.reluct.common.model.domain.tasks.EditTask
 
 interface TasksDao {
-    fun insertTask(task: EditTask)
+    fun insertTask(task: TaskDbObject)
     fun getAllTasks(): Flow<List<TaskDbObject>>
     fun getTask(id: Long): Flow<TaskDbObject?>
     fun searchTasks(query: String): Flow<List<TaskDbObject>>

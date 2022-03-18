@@ -5,6 +5,8 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import work.racka.reluct.common.database.dao.tasks.TasksDao
+import work.racka.reluct.common.features.tasks.util.DataMappers.asDatabaseModel
+import work.racka.reluct.common.features.tasks.util.DataMappers.asEditTask
 import work.racka.reluct.common.model.data.local.task.TaskDbObject
 import work.racka.reluct.common.model.domain.tasks.EditTask
 
@@ -14,28 +16,14 @@ internal class AddEditTaskRepositoryImpl(
 ) : AddEditTaskRepository {
     override suspend fun addTask(task: EditTask) =
         withContext(backgroundDispatcher) {
-            dao.insertTask(task)
+            dao.insertTask(task.asDatabaseModel())
         }
 
     override suspend fun getTaskToEdit(taskId: Long): Flow<EditTask?> =
         withContext(backgroundDispatcher) {
             dao.getTask(taskId)
                 .map { value: TaskDbObject? ->
-                    if (value == null) {
-                        null
-                    } else {
-                        EditTask(
-                            id = value.id,
-                            title = value.title,
-                            description = value.description,
-                            done = value.done,
-                            overdue = value.overdue,
-                            dueDateLocalDateTime = value.dueDateLocalDateTime,
-                            completedLocalDateTime = value.completedLocalDateTime,
-                            reminderLocalDateTime = value.reminderLocalDateTime,
-                            timeZoneId = value.timeZoneId
-                        )
-                    }
+                    value?.asEditTask()
                 }
         }
 }

@@ -15,7 +15,6 @@ import work.racka.reluct.common.database.dao.tasks.TasksHelpers.getTaskFromDb
 import work.racka.reluct.common.database.dao.tasks.TasksHelpers.insertTaskToDb
 import work.racka.reluct.common.database.dao.tasks.TasksHelpers.searchTasksFromDb
 import work.racka.reluct.common.model.data.local.task.TaskDbObject
-import work.racka.reluct.common.model.domain.tasks.EditTask
 
 internal class TasksDaoImpl(
     private val coroutineScope: CoroutineScope = MainScope(),
@@ -24,7 +23,7 @@ internal class TasksDaoImpl(
 
     private val tasksQueries = databaseWrapper.instance?.tasksTableQueries
 
-    override fun insertTask(task: EditTask) {
+    override fun insertTask(task: TaskDbObject) {
         tasksQueries?.insertTaskToDb(task)
     }
 
