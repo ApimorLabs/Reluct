@@ -7,6 +7,7 @@ include(
     ":android:compose:navigation",
     ":android:compose:theme",
     ":android:ui:tasks",
+    ":common:compose:destinations",
     ":common:features:tasks",
     ":common:features:goals",
     ":common:model",

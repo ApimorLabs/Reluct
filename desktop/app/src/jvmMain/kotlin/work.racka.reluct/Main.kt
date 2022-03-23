@@ -9,13 +9,16 @@ import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.key.*
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import kotlinx.datetime.TimeZone
 import work.racka.reluct.common.model.util.time.TimeUtils
 
+@ExperimentalComposeUiApi
 fun main() = application {
     Window(onCloseRequest = ::exitApplication) {
         MaterialTheme {
@@ -36,7 +39,19 @@ fun main() = application {
                     value = text.value,
                     onValueChange = {
                         text.value = it
-                    }
+                    },
+                    modifier = Modifier
+                        .onPreviewKeyEvent {
+                            when {
+                                (it.isCtrlPressed && it.key == Key.Enter
+                                        && it.type == KeyEventType.KeyDown)
+                                -> {
+                                    click()
+                                    true
+                                }
+                                else -> false
+                            }
+                        }
                 )
                 Spacer(Modifier.height(8.dp))
                 Text(ans.value)

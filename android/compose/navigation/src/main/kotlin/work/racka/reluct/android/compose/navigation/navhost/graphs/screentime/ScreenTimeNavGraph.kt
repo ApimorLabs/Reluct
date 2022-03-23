@@ -13,7 +13,7 @@ import androidx.navigation.navigation
 import com.google.accompanist.navigation.animation.composable
 import timber.log.Timber
 import work.racka.reluct.android.compose.navigation.destinations.Graphs
-import work.racka.reluct.android.compose.navigation.destinations.graphs.ScreenTimeDestinations
+import work.racka.reluct.common.compose.destinations.ScreenTimeDestinations
 
 @ExperimentalAnimationApi
 internal fun NavGraphBuilder.screenTimeNavGraph(

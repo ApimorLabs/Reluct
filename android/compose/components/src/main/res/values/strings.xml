@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">Reluct</string>
+    <string name="search_icon">Search Icon</string>
+    <string name="option_icon">Options</string>
+    <string name="back_icon">Go Back</string>
+    <string name="clear_icon">Clear Input</string>
+    <string name="thinkpad_image">Image of a Thinkpad laptop</string>
+    <string name="external_link">Open External Link</string>
+    <string name="expand_icon">Show More / Show Less</string>
+    <string name="settings_icon">Settings</string>
+    <string name="close_icon">Close</string>
+    <string name="app_logo">Application Logo</string>
+    <string name="profile_picture">Profile Picture</string>
+    <string name="made_with_text">Made with ❤️ from Tanzania 🇹🇿</string>
 </resources>

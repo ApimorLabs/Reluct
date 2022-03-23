@@ -1,6 +1,6 @@
-package work.racka.reluct.android.compose.navigation.destinations.graphs
+package work.racka.reluct.common.compose.destinations
 
-internal enum class GoalsDestinations(
+enum class GoalsDestinations(
     val route: String,
     val label: String
 ) {

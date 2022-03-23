@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins {
     id("com.android.library")
     kotlin("android")
@@ -41,8 +43,8 @@ android {
 
 dependencies {
     // Dependency Modules
-    implementation(project(":common:model"))
     implementation(project(":android:compose:theme"))
+    implementation(project(":common:compose:destinations"))
 
     // Core Functionality
     /*
@@ -72,9 +74,6 @@ dependencies {
         implementation(animation)
         implementation(material)
         implementation(preview)
-        implementation(activity)
-        implementation(viewModel)
-        implementation(navigation)
         implementation(materialIconsCore)
         implementation(materialIconsExtended)
         implementation(foundation)
@@ -93,7 +92,6 @@ dependencies {
     // Accompanist
     with(Dependencies.Android.Accompanist) {
         implementation(insets)
-        implementation(navigationAnimations)
     }
 
     with(Dependencies.Android.Extras) {
@@ -102,4 +100,8 @@ dependencies {
     }
     // Timber - Logging
     implementation(Dependencies.Log.timber)
+}
+
+tasks.withType<KotlinCompile> {
+    kotlinOptions.freeCompilerArgs += "-opt-in=kotlin.RequiresOptIn"
 }
