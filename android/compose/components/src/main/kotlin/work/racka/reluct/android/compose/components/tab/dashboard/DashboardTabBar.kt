@@ -55,7 +55,7 @@ fun DashboardTabBar(
 
 @Preview
 @Composable
-fun DashTabPrev() {
+private fun DashTabPrev() {
     ReluctAppTheme {
         DashboardTabBar(
             tabPage = DashboardDestinations.Overview,

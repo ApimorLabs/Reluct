@@ -23,7 +23,7 @@ internal fun DashboardTabIndicator(
 ) {
     val transition = updateTransition(
         targetState = tabPage,
-        label = "Tab Indicator"
+        label = "Dashboard Tab Indicator"
     )
     val indicatorLeft by transition.animateDp(
         transitionSpec = {

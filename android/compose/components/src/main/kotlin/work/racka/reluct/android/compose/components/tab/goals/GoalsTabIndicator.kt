@@ -1,4 +1,4 @@
-package work.racka.reluct.android.compose.components.tab.tasks
+package work.racka.reluct.android.compose.components.tab.goals
 
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateDp
@@ -14,36 +14,30 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.zIndex
-import work.racka.reluct.common.compose.destinations.TasksDestinations
+import work.racka.reluct.common.compose.destinations.GoalsDestinations
 
 @Composable
-internal fun TasksTabIndicator(
+internal fun GoalsTabIndicator(
     modifier: Modifier = Modifier,
     tabPositions: List<TabPosition>,
-    tabPage: TasksDestinations
+    tabPage: GoalsDestinations
 ) {
     val transition = updateTransition(
         targetState = tabPage,
-        label = "Tasks Tab Indicator"
+        label = "Goals Tab Indicator"
     )
     val indicatorLeft by transition.animateDp(
         transitionSpec = {
-            when {
-                TasksDestinations.Tasks
-                        isTransitioningTo TasksDestinations.Done -> {
-                    spring(stiffness = Spring.StiffnessVeryLow)
-                }
-                TasksDestinations.Done
-                        isTransitioningTo TasksDestinations.Statistics -> {
-                    spring(stiffness = Spring.StiffnessVeryLow)
-                }
-                TasksDestinations.Tasks
-                        isTransitioningTo TasksDestinations.Statistics -> {
-                    spring(stiffness = Spring.StiffnessVeryLow)
-                }
-                else -> {
-                    spring(stiffness = Spring.StiffnessMedium)
-                }
+            if (GoalsDestinations.Ongoing
+                isTransitioningTo GoalsDestinations.Completed
+            ) {
+                // Indicator moves to the right.
+                // Low stiffness spring for the left edge so it moves slower than the right edge.
+                spring(stiffness = Spring.StiffnessVeryLow)
+            } else {
+                // Indicator moves to the left.
+                // Medium stiffness spring for the left edge so it moves faster than the right edge.
+                spring(stiffness = Spring.StiffnessMedium)
             }
         },
         label = "Indicator Left"
@@ -53,11 +47,15 @@ internal fun TasksTabIndicator(
 
     val indicatorRight by transition.animateDp(
         transitionSpec = {
-            if (TasksDestinations.Statistics
-                isTransitioningTo TasksDestinations.Tasks
+            if (GoalsDestinations.Completed
+                isTransitioningTo GoalsDestinations.Ongoing
             ) {
+                // Indicator moves to the right
+                // Medium stiffness spring for the right edge so it moves faster than the left edge.
                 spring(stiffness = Spring.StiffnessMedium)
             } else {
+                // Indicator moves to the left.
+                // Low stiffness spring for the right edge so it moves slower than the left edge.
                 spring(stiffness = Spring.StiffnessVeryLow)
             }
         },
