@@ -12,7 +12,7 @@ import work.racka.reluct.android.compose.theme.ReluctAppTheme
 @ExperimentalAnimationApi
 @Composable
 fun ReluctApp(
-    themeValue: Int = -1
+    themeValue: Int = 12
 ) {
 
     ProvideWindowInsets {

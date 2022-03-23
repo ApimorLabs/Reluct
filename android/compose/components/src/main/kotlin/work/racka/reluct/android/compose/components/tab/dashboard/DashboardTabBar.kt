@@ -69,6 +69,6 @@ private fun getDashboardTabTextColor(
     tabPage: DashboardDestinations,
     selectedTabPage: DashboardDestinations
 ): Color =
-    if (tabPage == selectedTabPage) Color.White
+    if (tabPage == selectedTabPage) MaterialTheme.colorScheme.onPrimary
     else MaterialTheme.colorScheme.onBackground
         .copy(alpha = .5f)

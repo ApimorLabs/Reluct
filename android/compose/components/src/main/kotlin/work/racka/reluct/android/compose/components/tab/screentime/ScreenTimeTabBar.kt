@@ -56,6 +56,6 @@ private fun getScreenTimeTabTextColor(
     tabPage: ScreenTimeDestinations,
     selectedTabPage: ScreenTimeDestinations
 ): Color =
-    if (tabPage == selectedTabPage) Color.White
+    if (tabPage == selectedTabPage) MaterialTheme.colorScheme.onPrimary
     else MaterialTheme.colorScheme.onBackground
         .copy(alpha = .5f)
