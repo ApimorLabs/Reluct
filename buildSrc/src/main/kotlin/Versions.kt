@@ -25,9 +25,9 @@ object Versions {
 
     // Compose Base
     const val composeKotlin = "1.6.10"
-    const val compose = "1.2.0-alpha04"
+    const val compose = "1.2.0-alpha06"
     const val composeConstraintLayout = "1.0.0"
-    const val composeMaterial3 = "1.0.0-alpha06"
+    const val composeMaterial3 = "1.0.0-alpha08"
     const val activityCompose = "1.4.0"
 
     // Navigation
@@ -60,7 +60,7 @@ object Versions {
     const val kermit = "1.0.0"
 
     // Helpers
-    const val accompanist = "0.24.1-alpha"
+    const val accompanist = "0.24.5-alpha"
     const val coilImage = "1.4.0"
 
     // DataStore & Preferences

@@ -89,11 +89,6 @@ dependencies {
     // Coil Image loader
     implementation(Dependencies.Android.Coil.image)
 
-    // Accompanist
-    with(Dependencies.Android.Accompanist) {
-        implementation(insets)
-    }
-
     with(Dependencies.Android.Extras) {
         // Palette
         implementation(palette)

@@ -159,6 +159,7 @@ object Dependencies {
 
         // Accompanist
         object Accompanist {
+            @Deprecated("Replace with Foundation Layout insets")
             val insets by lazy { "com.google.accompanist:accompanist-insets:${Versions.accompanist}" }
             val navigationAnimations by lazy {
                 "com.google.accompanist:accompanist-navigation-animation:${Versions.accompanist}"
