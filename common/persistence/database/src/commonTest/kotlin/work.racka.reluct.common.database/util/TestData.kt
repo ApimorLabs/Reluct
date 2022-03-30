@@ -7,7 +7,7 @@ internal object TestData {
     val taskDbObjects = listOf(
         TaskDbObject(
             id = 1,
-            title = "Tasks 1",
+            title = "Task 1",
             description = null,
             done = false,
             overdue = false,
@@ -18,7 +18,7 @@ internal object TestData {
         ),
         TaskDbObject(
             id = 2,
-            title = "Tasks 2",
+            title = "Task 2",
             description = null,
             done = false,
             overdue = false,
@@ -29,7 +29,7 @@ internal object TestData {
         ),
         TaskDbObject(
             id = 3,
-            title = "Tasks 3",
+            title = "Task 3",
             description = "Some description",
             done = false,
             overdue = false,
@@ -40,8 +40,8 @@ internal object TestData {
         ),
         TaskDbObject(
             id = 4,
-            title = "Tasks 4",
-            description = "Some description",
+            title = "Task 4",
+            description = "Desc4",
             done = true,
             overdue = false,
             dueDateLocalDateTime = forwardTimeBy(days = -2),
@@ -51,8 +51,8 @@ internal object TestData {
         ),
         TaskDbObject(
             id = 5,
-            title = "Tasks 5",
-            description = "Some description",
+            title = "Task 5",
+            description = "Desc5",
             done = true,
             overdue = false,
             dueDateLocalDateTime = forwardTimeBy(months = -1, days = -2),
