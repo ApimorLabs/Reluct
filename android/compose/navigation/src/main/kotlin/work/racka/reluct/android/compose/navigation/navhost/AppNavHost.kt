@@ -17,8 +17,7 @@ import work.racka.reluct.android.compose.navigation.navhost.graphs.goals.goalsNa
 import work.racka.reluct.android.compose.navigation.navhost.graphs.screentime.screenTimeNavGraph
 import work.racka.reluct.android.compose.navigation.navhost.graphs.tasks.tasksNavGraph
 
-@ExperimentalMaterial3Api
-@ExperimentalAnimationApi
+@OptIn(ExperimentalAnimationApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun AppNavHost(
     modifier: Modifier = Modifier,

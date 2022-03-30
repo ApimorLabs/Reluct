@@ -3,6 +3,7 @@ package work.racka.reluct.common.integration.containers.settings
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collectLatest
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.container
@@ -11,10 +12,10 @@ import org.orbitmvi.orbit.syntax.simple.postSideEffect
 import org.orbitmvi.orbit.syntax.simple.reduce
 import work.racka.reluct.common.model.states.settings.SettingsSideEffect
 import work.racka.reluct.common.model.states.settings.SettingsState
-import work.racka.reluct.common.settings.repository.SettingsRepository
+import work.racka.reluct.common.settings.repository.MultiplatformSettings
 
 internal class SettingsContainerHostImpl(
-    private val settings: SettingsRepository,
+    private val settings: MultiplatformSettings,
     scope: CoroutineScope
 ) : SettingsContainerHost, ContainerHost<SettingsState.State, SettingsSideEffect> {
 
@@ -29,9 +30,9 @@ internal class SettingsContainerHostImpl(
     override val sideEffect: Flow<SettingsSideEffect>
         get() = container.sideEffectFlow
 
-    override fun saveThemeSettings(themeValue: Int) {
+    override fun saveThemeSettings(themeValue: Int) = intent {
         settings.saveThemeSettings(themeValue)
-        readThemeSettings()
+        postSideEffect(SettingsSideEffect.ApplyThemeOption(themeValue))
     }
 
     // Read Settings Values
@@ -40,8 +41,8 @@ internal class SettingsContainerHostImpl(
     }
 
     private fun readThemeSettings() = intent {
-        val themeValue = settings.readThemeSettings()
-        postSideEffect(SettingsSideEffect.ApplyThemeOption(themeValue))
-        reduce { state.copy(themeValue = themeValue) }
+        settings.theme.collectLatest { themeValue ->
+            reduce { state.copy(themeValue = themeValue) }
+        }
     }
 }

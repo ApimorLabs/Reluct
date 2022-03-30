@@ -3,10 +3,10 @@ package work.racka.reluct.common.settings.di
 import com.russhwolf.settings.Settings
 import org.koin.core.KoinApplication
 import org.koin.dsl.module
-import work.racka.reluct.common.settings.repository.SettingsRepository
-import work.racka.reluct.common.settings.repository.SettingsRepositoryImpl
+import work.racka.reluct.common.settings.repository.MultiplatformSettings
+import work.racka.reluct.common.settings.repository.MultiplatformSettingsImpl
 
-object Settings {
+object MultiplatformSettings {
 
     fun KoinApplication.settingsModules() =
         this.apply {
@@ -17,9 +17,9 @@ object Settings {
         }
 
     private fun commonModule() = module {
-        single<SettingsRepository> {
+        single<MultiplatformSettings> {
             val settings = Settings()
-            SettingsRepositoryImpl(settings)
+            MultiplatformSettingsImpl(settings)
         }
     }
 }

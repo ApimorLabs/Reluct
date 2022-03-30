@@ -1,3 +1,4 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.jetbrains.kotlin.konan.properties.Properties
 
 plugins {
@@ -78,6 +79,7 @@ dependencies {
     // Dependency Modules
     implementation(project(":common:model"))
     implementation(project(":common:integration"))
+    implementation(project(":common:persistence:settings"))
     implementation(project(":android:compose:components"))
     implementation(project(":android:compose:charts"))
     implementation(project(":android:compose:navigation"))
@@ -156,6 +158,8 @@ dependencies {
 
     // Accompanist
     with(Dependencies.Android.Accompanist) {
+        implementation(swipeRefresh)
+        implementation(systemUiController)
         implementation(navigationAnimations)
     }
 
@@ -171,4 +175,8 @@ dependencies {
     }
     // Timber - Logging
     implementation(Dependencies.Log.timber)
+}
+
+tasks.withType<KotlinCompile> {
+    kotlinOptions.freeCompilerArgs += "-opt-in=kotlin.RequiresOptIn"
 }
