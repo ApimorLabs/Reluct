@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
@@ -47,6 +49,20 @@ kotlin {
         }
     }
 
+    sourceSets["commonTest"].dependencies {
+        implementation(Dependencies.Mockk.core)
+        implementation(Dependencies.Mockk.commonMultiplatform)
+
+        implementation(Dependencies.OrbitMVI.test)
+
+        implementation(Dependencies.Kotlin.dateTime)
+        implementation(Dependencies.Koin.test)
+        implementation(Dependencies.Kotlin.Coroutines.test)
+        implementation(Dependencies.Squareup.Testing.turbine)
+        implementation(kotlin("test-common"))
+        implementation(kotlin("test-annotations-common"))
+    }
+
     sourceSets["androidMain"].dependencies {
         with(Dependencies.Koin) {
             api(android)
@@ -56,7 +72,19 @@ kotlin {
 
     }
 
+    sourceSets["androidTest"].dependencies {
+        implementation(Dependencies.Android.JUnit.core)
+    }
+
     sourceSets["desktopMain"].dependencies {
         //implementation(Dependencies.Log.slf4j)
     }
+
+    sourceSets["desktopTest"].dependencies {
+
+    }
+}
+
+tasks.withType<KotlinCompile> {
+    kotlinOptions.freeCompilerArgs += "-opt-in=kotlin.RequiresOptIn"
 }

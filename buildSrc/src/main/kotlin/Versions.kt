@@ -49,6 +49,7 @@ object Versions {
     const val testCore = "1.4.0"
     const val testArchCore = "2.1.0"
     const val testExtJUnit = "1.1.3"
+    const val mockk = "1.12.3"
     const val mockito = "3.12.4"
     const val turbine = "0.7.0"
 

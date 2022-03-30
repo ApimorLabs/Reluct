@@ -84,6 +84,13 @@ object Dependencies {
         }
     }
 
+    object Mockk {
+        val core by lazy { "io.mockk:mockk:${Versions.mockk}" }
+        val android by lazy { "io.mockk:mockk-android:${Versions.mockk}" }
+        val jvm by lazy { "io.mockk:mockk-agent-jvm:${Versions.mockk}" }
+        val commonMultiplatform by lazy { "io.mockk:mockk-common:${Versions.mockk}" }
+    }
+
     object Log {
         val slf4j by lazy { "org.slf4j:slf4j-simple:${Versions.slf4j}" }
         val logback by lazy { "ch.qos.logback:logback-classic:${Versions.logback}" }
