@@ -50,8 +50,7 @@ object Versions {
     const val testArchCore = "2.1.0"
     const val testExtJUnit = "1.1.3"
     const val mockito = "3.12.4"
-    const val turbine = "0.6.1"
-    const val coroutineTest = "1.5.1"
+    const val turbine = "0.7.0"
 
     // Logging
     const val timber = "5.0.1"

@@ -17,7 +17,7 @@ object Dependencies {
             private const val VERSION = "1.6.0"
             val core by lazy { "org.jetbrains.kotlinx:kotlinx-coroutines-core:$VERSION" }
             val android by lazy { "org.jetbrains.kotlinx:kotlinx-coroutines-android:$VERSION" }
-            val test by lazy { "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.coroutineTest}" }
+            val test by lazy { "org.jetbrains.kotlinx:kotlinx-coroutines-test:$VERSION" }
         }
     }
 
@@ -63,6 +63,7 @@ object Dependencies {
             val core by lazy { "com.russhwolf:multiplatform-settings:${Versions.multiplatformSettings}" }
             val noArg by lazy { "com.russhwolf:multiplatform-settings-no-arg:${Versions.multiplatformSettings}" }
             val coroutines by lazy { "com.russhwolf:multiplatform-settings-coroutines:${Versions.multiplatformSettings}" }
+            val test by lazy { "com.russhwolf:multiplatform-settings-test:${Versions.multiplatformSettings}" }
         }
     }
 

@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins {
     kotlin("multiplatform")
 }
@@ -22,4 +24,17 @@ kotlin {
             api(kermit)
         }
     }
+
+    sourceSets["commonTest"].dependencies {
+        implementation(Dependencies.RusshWolf.MultiplatformSettings.test)
+        implementation(Dependencies.Koin.test)
+        implementation(Dependencies.Kotlin.Coroutines.test)
+        implementation(Dependencies.Squareup.Testing.turbine)
+        implementation(kotlin("test-common"))
+        implementation(kotlin("test-annotations-common"))
+    }
+}
+
+tasks.withType<KotlinCompile> {
+    kotlinOptions.freeCompilerArgs += "-opt-in=kotlin.RequiresOptIn"
 }
