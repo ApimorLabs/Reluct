@@ -5,10 +5,9 @@ import kotlinx.coroutines.flow.StateFlow
 import work.racka.reluct.common.model.states.tasks.TasksSideEffect
 import work.racka.reluct.common.model.states.tasks.TasksState
 
-interface TaskDetailsContainerHost {
+internal interface TaskDetails {
     val uiState: StateFlow<TasksState>
-    val sideEffect: Flow<TasksSideEffect>
-    fun getTask(taskId: Long)
+    val events: Flow<TasksSideEffect>
     fun deleteTask(taskId: Long)
     fun toggleDone(taskId: Long, isDone: Boolean)
     fun editTask(taskId: Long)

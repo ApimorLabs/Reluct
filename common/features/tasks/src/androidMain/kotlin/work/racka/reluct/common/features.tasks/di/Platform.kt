@@ -18,9 +18,10 @@ internal actual object Platform {
             )
         }
 
-        viewModel {
+        viewModel { (taskId: Long?) ->
             TaskDetailsViewModel(
-                taskDetails = get()
+                taskDetails = get(),
+                taskId = taskId
             )
         }
 

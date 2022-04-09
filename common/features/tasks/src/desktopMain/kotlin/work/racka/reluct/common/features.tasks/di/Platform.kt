@@ -21,9 +21,10 @@ internal actual object Platform {
             )
         }
 
-        factory {
+        factory { (taskId: Long?) ->
             TaskDetailsViewModel(
                 taskDetails = get(),
+                taskId = taskId,
                 scope = CoroutineScope(Dispatchers.Main)
             )
         }
