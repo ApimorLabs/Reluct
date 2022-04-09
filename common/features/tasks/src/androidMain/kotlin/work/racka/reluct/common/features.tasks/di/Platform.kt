@@ -24,9 +24,10 @@ internal actual object Platform {
             )
         }
 
-        viewModel {
-            AddEditViewModel(
+        viewModel { (taskId: Long?) ->
+            AddEditTaskViewModel(
                 addEditTask = get(),
+                taskId = taskId
             )
         }
 

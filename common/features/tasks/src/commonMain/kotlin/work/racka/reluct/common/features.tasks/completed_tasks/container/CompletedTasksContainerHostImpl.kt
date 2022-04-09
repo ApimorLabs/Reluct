@@ -17,7 +17,7 @@ import work.racka.reluct.common.model.states.tasks.TasksState
 internal class CompletedTasksContainerHostImpl(
     private val completedTasks: CompletedTasksRepository,
     scope: CoroutineScope
-) : CompletedTasksContainerHost, ContainerHost<TasksState, TasksSideEffect> {
+) : CompletedTasks, ContainerHost<TasksState, TasksSideEffect> {
 
     override val container: Container<TasksState, TasksSideEffect> =
         scope.container(TasksState.Loading) {
@@ -27,7 +27,7 @@ internal class CompletedTasksContainerHostImpl(
     override val uiState: StateFlow<TasksState>
         get() = container.stateFlow
 
-    override val sideEffect: Flow<TasksSideEffect>
+    override val events: Flow<TasksSideEffect>
         get() = container.sideEffectFlow
 
     private fun getCompletedTasks() = intent {

@@ -18,8 +18,9 @@ import work.racka.reluct.common.model.states.tasks.TasksState
 
 class AddEditTaskContainerHostImpl(
     private val addEditTask: AddEditTaskRepository,
+    private val taskId: Long? = null,
     scope: CoroutineScope
-) : AddEditTaskContainerHost, ContainerHost<TasksState, TasksSideEffect> {
+) : AddEditTask, ContainerHost<TasksState, TasksSideEffect> {
 
     override val container: Container<TasksState, TasksSideEffect> =
         scope.container(TasksState.Loading)
@@ -27,14 +28,17 @@ class AddEditTaskContainerHostImpl(
     override val uiState: StateFlow<TasksState>
         get() = container.stateFlow
 
-    override val sideEffect: Flow<TasksSideEffect>
+    override val events: Flow<TasksSideEffect>
         get() = container.sideEffectFlow
 
-    override fun getTask(taskId: Long) = intent {
-        addEditTask.getTaskToEdit(taskId).collectLatest { task ->
-            when (task) {
-                null -> reduce { TasksState.EmptyAddEditTask }
-                else -> reduce { TasksState.AddEditTask(task) }
+    override fun getTask() = intent {
+        when (taskId) {
+            null -> reduce { TasksState.EmptyAddEditTask }
+            else -> addEditTask.getTaskToEdit(taskId).collectLatest { task ->
+                when (task) {
+                    null -> reduce { TasksState.EmptyAddEditTask }
+                    else -> reduce { TasksState.AddEditTask(task) }
+                }
             }
         }
     }

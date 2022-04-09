@@ -44,7 +44,7 @@ object Tasks {
             }
         }
 
-        scope<AddEditViewModel> {
+        scope<AddEditTaskViewModel> {
             scoped<AddEditTaskRepository> {
                 AddEditTaskRepositoryImpl(
                     dao = get(),
