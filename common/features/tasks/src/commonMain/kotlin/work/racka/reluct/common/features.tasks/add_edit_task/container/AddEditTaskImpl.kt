@@ -23,6 +23,9 @@ internal class AddEditTaskImpl(
     override val events: Flow<TasksSideEffect>
         get() = _events
 
+    init {
+        getTask()
+    }
 
     override fun getTask() {
         scope.launch {
