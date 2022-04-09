@@ -1,4 +1,4 @@
-package work.racka.reluct.common.features.tasks.completed_tasks.container
+package work.racka.reluct.common.features.tasks.pending_tasks.container
 
 import app.cash.turbine.test
 import io.mockk.MockKAnnotations
@@ -19,7 +19,7 @@ import org.koin.core.context.stopKoin
 import org.koin.dsl.module
 import org.koin.test.KoinTest
 import org.koin.test.inject
-import work.racka.reluct.common.features.tasks.completed_tasks.repository.CompletedTasksRepository
+import work.racka.reluct.common.features.tasks.pending_tasks.repository.PendingTasksRepository
 import work.racka.reluct.common.features.tasks.util.DataMappers.asTask
 import work.racka.reluct.common.features.tasks.util.TestData
 import work.racka.reluct.common.model.states.tasks.TasksSideEffect
@@ -27,12 +27,12 @@ import work.racka.reluct.common.model.states.tasks.TasksState
 import kotlin.test.*
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class CompletedTasksImplTest : KoinTest {
+class PendingTasksImplTest : KoinTest {
 
-    private val completedTasks: CompletedTasks by inject()
+    private val pendingTasks: PendingTasks by inject()
 
     @RelaxedMockK
-    private lateinit var repo: CompletedTasksRepository
+    private lateinit var repo: PendingTasksRepository
 
     @BeforeTest
     fun setup() {
@@ -41,9 +41,9 @@ class CompletedTasksImplTest : KoinTest {
         startKoin {
             modules(
                 module {
-                    factory<CompletedTasks> {
-                        CompletedTasksImpl(
-                            completedTasks = repo,
+                    factory<PendingTasks> {
+                        PendingTasksImpl(
+                            pendingTasks = repo,
                             scope = CoroutineScope(Dispatchers.Default)
                         )
                     }
@@ -59,16 +59,21 @@ class CompletedTasksImplTest : KoinTest {
     }
 
     @Test
-    fun getCompletedTasks_OnClassInit_ShouldUpdateUIStateWithCompletedTasks() =
+    fun getPendingTasks_OnClassInit_ShouldUpdateUIStateWithCompletedTasks() =
         runTest {
-            val tasks = TestData.taskDbObjects.map { it.asTask() }
-            val expectedState = TasksState.CompletedTasks(
-                tasks = tasks.groupBy { it.dueDate }
+            val taskList = TestData.taskDbObjects.map { it.asTask() }
+            val overdueList = taskList.filter { it.overdue }
+            val grouped = taskList
+                .filterNot { it.overdue }
+                .groupBy { it.dueDate }
+            val expectedState = TasksState.PendingTasks(
+                tasks = grouped,
+                overdueTasks = overdueList
             )
 
-            coEvery { repo.getTasks() } returns flowOf(tasks)
+            coEvery { repo.getTasks() } returns flowOf(taskList)
 
-            val result = completedTasks.uiState
+            val result = pendingTasks.uiState
             launch {
                 result.test {
                     val initial = awaitItem()
@@ -76,7 +81,7 @@ class CompletedTasksImplTest : KoinTest {
                     println(actual)
 
                     assertTrue(initial is TasksState.Loading)
-                    assertTrue(actual is TasksState.CompletedTasks)
+                    assertTrue(actual is TasksState.PendingTasks)
                     assertEquals(expectedState, actual)
                     coVerify { repo.getTasks() }
                     awaitComplete()
@@ -92,8 +97,8 @@ class CompletedTasksImplTest : KoinTest {
             val expectedEvent = TasksSideEffect.TaskDone(isDone)
             coEvery { repo.toggleTaskDone(taskId, isDone) } returns Unit
 
-            completedTasks.toggleDone(taskId, isDone)
-            val result = completedTasks.events
+            pendingTasks.toggleDone(taskId, isDone)
+            val result = pendingTasks.events
             launch {
                 result.test {
                     val actual = expectMostRecentItem()
@@ -111,9 +116,9 @@ class CompletedTasksImplTest : KoinTest {
             val taskId = 2L
             val expectedEvent = TasksSideEffect.Navigation.NavigateToTaskDetails(taskId)
 
-            completedTasks.navigateToTaskDetails(taskId)
+            pendingTasks.navigateToTaskDetails(taskId)
 
-            val result = completedTasks.events
+            val result = pendingTasks.events
             launch {
                 result.test {
                     val actual = expectMostRecentItem()
