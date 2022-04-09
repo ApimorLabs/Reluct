@@ -25,6 +25,10 @@ class TaskDetailsImpl(
     override val events: Flow<TasksSideEffect>
         get() = _events
 
+    init {
+        getTask()
+    }
+
     private fun getTask() {
         scope.launch {
             when (taskId) {
