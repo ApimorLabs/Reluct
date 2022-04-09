@@ -15,13 +15,7 @@ internal class CompletedTasksRepositoryImpl(
     override suspend fun getTasks(): Flow<List<Task>> =
         withContext(backgroundDispatcher) {
             dao.getCompletedTasks()
-                .map { list ->
-                    val newList = mutableListOf<Task>()
-                    list.forEach { taskDbObject ->
-                        newList.add(taskDbObject.asTask())
-                    }
-                    newList.toList()
-                }
+                .map { list -> list.map { it.asTask() } }
         }
 
     override suspend fun toggleTaskDone(taskId: Long, isDone: Boolean) =

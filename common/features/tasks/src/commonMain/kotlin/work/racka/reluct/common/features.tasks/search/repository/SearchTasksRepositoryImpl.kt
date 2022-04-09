@@ -21,12 +21,6 @@ class SearchTasksRepositoryImpl(
     override suspend fun search(query: String): Flow<List<Task>> =
         withContext(backgroundDispatcher) {
             dao.searchTasks(query)
-                .map { list ->
-                    val newList = mutableListOf<Task>()
-                    list.forEach { taskDbObject ->
-                        newList.add(taskDbObject.asTask())
-                    }
-                    newList.toList()
-                }
+                .map { list -> list.map { it.asTask() } }
         }
 }
