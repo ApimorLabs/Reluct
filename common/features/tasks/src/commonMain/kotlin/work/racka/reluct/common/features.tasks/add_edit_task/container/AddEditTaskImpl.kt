@@ -9,7 +9,7 @@ import work.racka.reluct.common.model.domain.tasks.EditTask
 import work.racka.reluct.common.model.states.tasks.TasksSideEffect
 import work.racka.reluct.common.model.states.tasks.TasksState
 
-class AddEditTaskImpl(
+internal class AddEditTaskImpl(
     private val addEditTask: AddEditTaskRepository,
     private val taskId: Long?,
     private val scope: CoroutineScope

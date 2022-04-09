@@ -1,16 +1,16 @@
-package work.racka.reluct.common.features.tasks.completed_tasks.container
+package work.racka.reluct.common.features.tasks.pending_tasks.container
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import work.racka.reluct.common.features.tasks.completed_tasks.repository.CompletedTasksRepository
+import work.racka.reluct.common.features.tasks.pending_tasks.repository.PendingTasksRepository
 import work.racka.reluct.common.model.states.tasks.TasksSideEffect
 import work.racka.reluct.common.model.states.tasks.TasksState
 
-internal class CompletedTasksImpl(
-    private val completedTasks: CompletedTasksRepository,
+internal class PendingTasksImpl(
+    private val pendingTasks: PendingTasksRepository,
     private val scope: CoroutineScope
-) : CompletedTasks {
+) : PendingTasks {
 
     private val _uiState: MutableStateFlow<TasksState> =
         MutableStateFlow(TasksState.Loading)
@@ -19,20 +19,25 @@ internal class CompletedTasksImpl(
 
     override val uiState: StateFlow<TasksState>
         get() = _uiState
+
     override val events: Flow<TasksSideEffect>
         get() = _events
 
     init {
-        getCompletedTasks()
+        getPendingTasks()
     }
 
-    private fun getCompletedTasks() {
+    private fun getPendingTasks() {
         scope.launch {
-            completedTasks.getTasks().collectLatest { taskList ->
-                val grouped = taskList.groupBy { it.dueDate }
+            pendingTasks.getTasks().collectLatest { taskList ->
+                val overdueList = taskList.filter { it.overdue }
+                val grouped = taskList
+                    .filterNot { it.overdue }
+                    .groupBy { it.dueDate }
                 _uiState.update {
-                    TasksState.CompletedTasks(
-                        tasks = grouped
+                    TasksState.PendingTasks(
+                        tasks = grouped,
+                        overdueTasks = overdueList
                     )
                 }
             }
@@ -41,10 +46,8 @@ internal class CompletedTasksImpl(
 
     override fun toggleDone(taskId: Long, isDone: Boolean) {
         scope.launch {
-            completedTasks.toggleTaskDone(taskId, isDone)
-            _events.update {
-                TasksSideEffect.TaskDone(isDone)
-            }
+            pendingTasks.toggleTaskDone(taskId, isDone)
+            _events.update { TasksSideEffect.TaskDone(isDone) }
         }
     }
 

@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.StateFlow
 import work.racka.reluct.common.model.states.tasks.TasksSideEffect
 import work.racka.reluct.common.model.states.tasks.TasksState
 
-interface CompletedTasks {
+internal interface CompletedTasks {
     val uiState: StateFlow<TasksState>
     val events: Flow<TasksSideEffect>
     fun toggleDone(taskId: Long, isDone: Boolean)
