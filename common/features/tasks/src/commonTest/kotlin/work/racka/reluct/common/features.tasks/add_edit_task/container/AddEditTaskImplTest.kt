@@ -28,7 +28,7 @@ class AddEditTaskImplTest : KoinTest {
     private val addEditTask: AddEditTask by inject()
 
     @RelaxedMockK
-    lateinit var repo: AddEditTaskRepository
+    private lateinit var repo: AddEditTaskRepository
 
     private val taskId = 2L
 
@@ -39,7 +39,7 @@ class AddEditTaskImplTest : KoinTest {
         startKoin {
             modules(
                 module {
-                    single<AddEditTask> {
+                    factory<AddEditTask> {
                         AddEditTaskImpl(
                             addEditTask = repo,
                             taskId = taskId,
