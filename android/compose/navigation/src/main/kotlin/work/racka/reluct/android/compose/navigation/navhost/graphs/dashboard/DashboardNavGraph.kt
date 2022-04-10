@@ -22,13 +22,13 @@ import work.racka.reluct.android.compose.components.ComponentsPreview
 import work.racka.reluct.android.compose.components.search.ReluctSearchBar
 import work.racka.reluct.android.compose.components.tab.dashboard.DashboardTabBar
 import work.racka.reluct.android.compose.components.topBar.ProfilePicture
-import work.racka.reluct.android.compose.navigation.destinations.Graphs
 import work.racka.reluct.common.compose.destinations.DashboardDestinations
+import work.racka.reluct.common.compose.destinations.navbar.Graphs
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @ExperimentalAnimationApi
 internal fun NavGraphBuilder.dashboardNavGraph(
-    navController: NavHostController
+    navController: NavHostController,
 ) {
     navigation(
         route = Graphs.DashboardDestinations.route,

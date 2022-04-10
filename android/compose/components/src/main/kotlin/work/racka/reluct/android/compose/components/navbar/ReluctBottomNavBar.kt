@@ -1,4 +1,4 @@
-package work.racka.reluct.android.compose.navigation.navbar
+package work.racka.reluct.android.compose.components.navbar
 
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.material3.*
@@ -12,12 +12,13 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import timber.log.Timber
-import work.racka.reluct.android.compose.navigation.destinations.NavbarDestinations
+import work.racka.reluct.android.compose.theme.Typography
+import work.racka.reluct.common.compose.destinations.navbar.NavbarDestinations
 
 @Composable
-internal fun ReluctBottomNavBar(
+fun ReluctBottomNavBar(
     modifier: Modifier = Modifier,
-    navController: NavHostController
+    navController: NavHostController,
 ) {
 
     val items = NavbarDestinations.values()
@@ -41,7 +42,9 @@ internal fun ReluctBottomNavBar(
                 } ?: false
 
                 NavigationBarItem(
-                    label = { Text(text = item.label) },
+                    label = {
+                        Text(text = item.label, style = Typography.labelMedium)
+                    },
                     selected = selected,
                     //colors = ,
                     icon = {

@@ -19,13 +19,13 @@ import androidx.navigation.navigation
 import com.google.accompanist.navigation.animation.composable
 import timber.log.Timber
 import work.racka.reluct.android.compose.components.tab.screentime.ScreenTimeTabBar
-import work.racka.reluct.android.compose.navigation.destinations.Graphs
 import work.racka.reluct.common.compose.destinations.ScreenTimeDestinations
+import work.racka.reluct.common.compose.destinations.navbar.Graphs
 
 @OptIn(ExperimentalMaterial3Api::class)
 @ExperimentalAnimationApi
 internal fun NavGraphBuilder.screenTimeNavGraph(
-    navController: NavHostController
+    navController: NavHostController,
 ) {
     navigation(
         route = Graphs.ScreenTimeDestinations.route,

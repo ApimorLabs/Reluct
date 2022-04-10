@@ -1,4 +1,4 @@
-package work.racka.reluct.android.compose.navigation.navbar
+package work.racka.reluct.android.compose.components.navbar
 
 import androidx.compose.ui.unit.dp
 

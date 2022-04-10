@@ -8,7 +8,7 @@ object Versions {
     const val kotlinSerialization = "1.3.2"
 
     // Jetbrains
-    const val composeDesktop = "1.0.1"
+    const val composeDesktop = "1.1.1"
 
     // Squareup
     const val sqlDelight = "1.5.0"

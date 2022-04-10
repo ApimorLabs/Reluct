@@ -76,6 +76,7 @@ dependencies {
         implementation(preview)
         implementation(materialIconsCore)
         implementation(materialIconsExtended)
+        implementation(navigation)
         implementation(foundation)
         implementation(foundationLayout)
         implementation(constraintLayout)

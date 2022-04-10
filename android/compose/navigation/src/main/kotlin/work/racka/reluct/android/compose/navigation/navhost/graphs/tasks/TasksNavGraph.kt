@@ -19,13 +19,13 @@ import androidx.navigation.navigation
 import com.google.accompanist.navigation.animation.composable
 import timber.log.Timber
 import work.racka.reluct.android.compose.components.tab.tasks.TasksTabBar
-import work.racka.reluct.android.compose.navigation.destinations.Graphs
 import work.racka.reluct.common.compose.destinations.TasksDestinations
+import work.racka.reluct.common.compose.destinations.navbar.Graphs
 
 @OptIn(ExperimentalMaterial3Api::class)
 @ExperimentalAnimationApi
 internal fun NavGraphBuilder.tasksNavGraph(
-    navController: NavHostController
+    navController: NavHostController,
 ) {
     navigation(
         route = Graphs.TasksDestinations.route,

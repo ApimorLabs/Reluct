@@ -1,7 +1,7 @@
-package work.racka.reluct.android.compose.navigation.destinations
+package work.racka.reluct.common.compose.destinations.navbar
 
-internal enum class Graphs(
-    val route: String
+enum class Graphs(
+    val route: String,
 ) {
     RootDestinations(
         route = "RootDestination"

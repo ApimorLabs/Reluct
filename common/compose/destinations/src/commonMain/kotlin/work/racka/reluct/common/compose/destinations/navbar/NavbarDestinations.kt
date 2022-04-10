@@ -1,4 +1,4 @@
-package work.racka.reluct.android.compose.navigation.destinations
+package work.racka.reluct.common.compose.destinations.navbar
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Aod
@@ -11,11 +11,11 @@ import androidx.compose.material.icons.rounded.GridView
 import androidx.compose.material.icons.rounded.TaskAlt
 import androidx.compose.ui.graphics.vector.ImageVector
 
-internal enum class NavbarDestinations(
+enum class NavbarDestinations(
     val iconActive: ImageVector,
     val iconInactive: ImageVector,
     val label: String,
-    val description: String? = null
+    val description: String? = null,
 ) {
     Dashboard(
         iconActive = Icons.Rounded.GridView,

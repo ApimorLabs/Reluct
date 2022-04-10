@@ -10,12 +10,12 @@ import androidx.navigation.NavHostController
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import timber.log.Timber
-import work.racka.reluct.android.compose.navigation.destinations.Graphs
-import work.racka.reluct.android.compose.navigation.navbar.ReluctBottomNavBar
+import work.racka.reluct.android.compose.components.navbar.ReluctBottomNavBar
 import work.racka.reluct.android.compose.navigation.navhost.graphs.dashboard.dashboardNavGraph
 import work.racka.reluct.android.compose.navigation.navhost.graphs.goals.goalsNavGraph
 import work.racka.reluct.android.compose.navigation.navhost.graphs.screentime.screenTimeNavGraph
 import work.racka.reluct.android.compose.navigation.navhost.graphs.tasks.tasksNavGraph
+import work.racka.reluct.common.compose.destinations.navbar.Graphs
 
 @OptIn(ExperimentalAnimationApi::class, ExperimentalMaterial3Api::class)
 @Composable
