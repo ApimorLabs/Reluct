@@ -33,11 +33,11 @@ internal fun TabEntry(
             .clickable(onClick = onClick)
             .background(
                 color = Color.Transparent
-            )
-            .padding(Dimens.MediumPadding.size),
+            ),
         contentAlignment = Alignment.Center
     ) {
         Text(
+            modifier = Modifier.padding(Dimens.MediumPadding.size),
             text = title,
             style = Typography.titleMedium,
             color = textColor,
