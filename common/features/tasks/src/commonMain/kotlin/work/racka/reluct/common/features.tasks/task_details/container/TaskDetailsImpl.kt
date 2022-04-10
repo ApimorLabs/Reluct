@@ -60,10 +60,8 @@ class TaskDetailsImpl(
     }
 
     override fun toggleDone(taskId: Long, isDone: Boolean) {
-        scope.launch {
-            taskDetails.toggleTask(taskId, isDone)
-            _events.update { TasksSideEffect.TaskDone(isDone) }
-        }
+        taskDetails.toggleTask(taskId, isDone)
+        _events.update { TasksSideEffect.TaskDone(isDone) }
     }
 
     override fun editTask(taskId: Long) {

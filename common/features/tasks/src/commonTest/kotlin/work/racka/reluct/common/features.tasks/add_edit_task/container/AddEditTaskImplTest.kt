@@ -109,12 +109,15 @@ class AddEditTaskImplTest : KoinTest {
             val result = addEditTask.uiState
             launch {
                 result.test {
-                    val actual = expectMostRecentItem()
+                    val initial = awaitItem()
+                    val actual = awaitItem()
                     println(actual)
 
+                    assertTrue(initial is TasksState.Loading)
                     assertEquals(expectedState, actual)
                     assertNull((actual as TasksState.AddEditTask).task)
                     coVerify { repo.getTaskToEdit(taskId) }
+                    awaitComplete()
                 }
             }
         }

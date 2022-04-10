@@ -2,6 +2,7 @@ package work.racka.reluct.common.features.tasks.task_details.repository
 
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import work.racka.reluct.common.database.dao.tasks.TasksDao
@@ -18,15 +19,11 @@ internal class TaskDetailsRepositoryImpl(
             dao.deleteTask(taskId)
         }
 
-    override suspend fun toggleTask(taskId: Long, isDone: Boolean) =
-        withContext(backgroundDispatcher) {
-            dao.toggleTaskDone(taskId, isDone)
-        }
+    override fun toggleTask(taskId: Long, isDone: Boolean) =
+        dao.toggleTaskDone(taskId, isDone)
 
-    override suspend fun getTask(taskId: Long): Flow<Task?> =
-        withContext(backgroundDispatcher) {
-            dao.getTask(taskId).map { taskDbObject ->
-                taskDbObject?.asTask()
-            }
-        }
+    override fun getTask(taskId: Long): Flow<Task?> =
+        dao.getTask(taskId).map { taskDbObject ->
+            taskDbObject?.asTask()
+        }.flowOn(backgroundDispatcher)
 }

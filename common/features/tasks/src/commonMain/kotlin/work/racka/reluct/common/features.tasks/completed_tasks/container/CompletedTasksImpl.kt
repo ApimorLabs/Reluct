@@ -40,11 +40,9 @@ internal class CompletedTasksImpl(
     }
 
     override fun toggleDone(taskId: Long, isDone: Boolean) {
-        scope.launch {
-            completedTasks.toggleTaskDone(taskId, isDone)
-            _events.update {
-                TasksSideEffect.TaskDone(isDone)
-            }
+        completedTasks.toggleTaskDone(taskId, isDone)
+        _events.update {
+            TasksSideEffect.TaskDone(isDone)
         }
     }
 

@@ -68,11 +68,12 @@ class CompletedTasksRepositoryImplTest : KoinTest {
         val result = repo.getTasks()
         launch {
             result.test {
-                val actual = expectMostRecentItem()
+                val actual = awaitItem()
                 println(actual)
 
                 assertEquals(expectedTasks, actual)
                 verify { dao.getCompletedTasks() }
+                awaitComplete()
             }
         }
     }

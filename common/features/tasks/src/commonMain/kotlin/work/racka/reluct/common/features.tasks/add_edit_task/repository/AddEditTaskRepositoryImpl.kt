@@ -2,6 +2,7 @@ package work.racka.reluct.common.features.tasks.add_edit_task.repository
 
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import work.racka.reluct.common.database.dao.tasks.TasksDao
@@ -19,11 +20,9 @@ internal class AddEditTaskRepositoryImpl(
             dao.insertTask(task.asDatabaseModel())
         }
 
-    override suspend fun getTaskToEdit(taskId: Long): Flow<EditTask?> =
-        withContext(backgroundDispatcher) {
-            dao.getTask(taskId)
-                .map { value: TaskDbObject? ->
-                    value?.asEditTask()
-                }
-        }
+    override fun getTaskToEdit(taskId: Long): Flow<EditTask?> =
+        dao.getTask(taskId)
+            .map { value: TaskDbObject? ->
+                value?.asEditTask()
+            }.flowOn(backgroundDispatcher)
 }

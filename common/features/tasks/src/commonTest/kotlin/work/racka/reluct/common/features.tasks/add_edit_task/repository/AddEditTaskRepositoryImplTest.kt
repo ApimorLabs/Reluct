@@ -74,11 +74,12 @@ class AddEditTaskRepositoryImplTest : KoinTest {
         launch {
             val result = repo.getTaskToEdit(taskId)
             result.test {
-                val actual = expectMostRecentItem()
+                val actual = awaitItem()
                 println(actual)
 
                 assertEquals(expectedTask, actual)
                 verify { dao.getTask(taskId) }
+                awaitComplete()
             }
         }
     }
@@ -91,11 +92,12 @@ class AddEditTaskRepositoryImplTest : KoinTest {
         launch {
             val result = repo.getTaskToEdit(taskId)
             result.test {
-                val actual = expectMostRecentItem()
+                val actual = awaitItem()
                 println("Result is :$actual")
 
                 assertNull(actual)
                 verify { dao.getTask(taskId) }
+                awaitComplete()
             }
         }
     }

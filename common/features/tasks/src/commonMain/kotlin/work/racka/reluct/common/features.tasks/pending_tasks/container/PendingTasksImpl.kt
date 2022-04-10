@@ -45,10 +45,8 @@ internal class PendingTasksImpl(
     }
 
     override fun toggleDone(taskId: Long, isDone: Boolean) {
-        scope.launch {
-            pendingTasks.toggleTaskDone(taskId, isDone)
-            _events.update { TasksSideEffect.TaskDone(isDone) }
-        }
+        pendingTasks.toggleTaskDone(taskId, isDone)
+        _events.update { TasksSideEffect.TaskDone(isDone) }
     }
 
     override fun navigateToTaskDetails(taskId: Long) {

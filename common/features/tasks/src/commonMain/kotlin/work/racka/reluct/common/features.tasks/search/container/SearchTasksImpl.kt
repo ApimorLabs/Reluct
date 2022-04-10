@@ -32,10 +32,8 @@ internal class SearchTasksImpl(
     }
 
     override fun toggleDone(taskId: Long, isDone: Boolean) {
-        scope.launch {
-            searchTasks.toggleDone(taskId, isDone)
-            _events.update { TasksSideEffect.TaskDone(isDone) }
-        }
+        searchTasks.toggleDone(taskId, isDone)
+        _events.update { TasksSideEffect.TaskDone(isDone) }
     }
 
     override fun navigateToTaskDetails(taskId: Long) {
