@@ -1,13 +1,17 @@
 package work.racka.reluct.android.compose.components.cards.task_entry
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -25,7 +29,8 @@ internal fun TaskHeading(
         text = text,
         style = MaterialTheme.typography.titleLarge,
         maxLines = 1,
-        overflow = TextOverflow.Ellipsis
+        overflow = TextOverflow.Ellipsis,
+        color = LocalContentColor.current
     )
 }
 
@@ -39,7 +44,8 @@ internal fun TaskDescription(
         text = text,
         style = MaterialTheme.typography.bodyLarge,
         maxLines = 2,
-        overflow = TextOverflow.Ellipsis
+        overflow = TextOverflow.Ellipsis,
+        color = LocalContentColor.current
     )
 }
 
@@ -57,14 +63,15 @@ fun TaskTimeInfo(
             style = MaterialTheme.typography.bodyMedium,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
-            color = LocalContentColor.current.copy(alpha = .9f)
+            color = LocalContentColor.current.copy(alpha = .8f)
         )
 
         if (showOverdueLabel) {
             Spacer(modifier = Modifier.width(Dimens.ExtraSmallPadding.size))
             Text(
                 text = "-",
-                style = MaterialTheme.typography.bodyMedium
+                style = MaterialTheme.typography.bodyMedium,
+                color = LocalContentColor.current.copy(alpha = .8f)
             )
             Spacer(modifier = Modifier.width(Dimens.ExtraSmallPadding.size))
             Text(
@@ -83,7 +90,11 @@ fun TaskTimeInfo(
 @Composable
 internal fun LabelsPreview() {
     ReluctAppTheme {
-        Surface {
+        Surface(
+            color = MaterialTheme.colorScheme.background
+        ) {
+            val context = LocalContext.current
+            val isChecked = remember { mutableStateOf(false) }
             Column {
                 TaskHeading(text = "Tasks Title Here")
                 Spacer(modifier = Modifier.height(Dimens.ExtraSmallPadding.size))
@@ -92,6 +103,15 @@ internal fun LabelsPreview() {
                 TaskTimeInfo(timeText = "In 3 hrs")
                 TaskTimeInfo(timeText = "Thu, 20 Feb", showOverdueLabel = true)
                 TaskTimeInfo(timeText = "Thu, 20 Feb", showOverdueLabel = true, overdue = true)
+                Spacer(modifier = Modifier.height(Dimens.ExtraSmallPadding.size))
+                RoundCheckbox(
+                    onCheckedChange = {
+                        isChecked.value = it
+                        Toast.makeText(context, "IsChecked: $it", Toast.LENGTH_SHORT)
+                            .show()
+                    },
+                    isChecked = isChecked.value
+                )
             }
         }
     }

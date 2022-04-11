@@ -43,6 +43,7 @@ android {
 
 dependencies {
     // Dependency Modules
+    implementation(project(":common:model"))
     implementation(project(":android:compose:theme"))
     implementation(project(":common:compose:destinations"))
 

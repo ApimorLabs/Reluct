@@ -36,8 +36,14 @@ internal object DataMappers {
             timeZoneId = this.timeZoneId
         )
 
-    // Convert a Task database object to a domain Task model
-    fun TaskDbObject.asTask(): Task =
+    /**
+     * Convert a Task database object to a domain Task model
+     *
+     * If showShortIntervalAsDay is true then it will show Today, Yesterday, Tomorrow
+     * or a day instead of the full date when the interval is within a 3 days difference.
+     * If false it will show the full date even if the interval is within a 3 days difference
+     */
+    fun TaskDbObject.asTask(showShortIntervalAsDay: Boolean = true): Task =
         Task(
             id = this.id,
             title = this.title,
@@ -49,7 +55,8 @@ internal object DataMappers {
             ),
             dueDate = TimeUtils.getFormattedDateString(
                 dateTime = this.dueDateLocalDateTime,
-                originalTimeZoneId = this.timeZoneId
+                originalTimeZoneId = this.timeZoneId,
+                showShortIntervalAsDay = showShortIntervalAsDay
             ),
             dueTime = TimeUtils.getTimeFromLocalDateTime(
                 dateTime = this.dueDateLocalDateTime,

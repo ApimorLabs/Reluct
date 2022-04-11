@@ -15,4 +15,7 @@
 
     <string name="overdue_text">Overdue</string>
     <string name="in_time_text">In Time</string>
+
+    <string name="checkbox_checked">Checkbox - Checked</string>
+    <string name="checkbox_unchecked">Checkbox - Unchecked</string>
 </resources>

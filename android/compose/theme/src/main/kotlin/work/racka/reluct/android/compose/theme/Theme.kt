@@ -25,6 +25,8 @@ private val AppLightColorScheme = lightColorScheme(
     onBackground = Color.Black,
     surface = SurfaceLight,
     onSurface = Color.Black,
+    surfaceVariant = SurfaceLight,
+    onSurfaceVariant = Color.Black,
     secondaryContainer = PrimaryColor,
     onSecondaryContainer = Color.White
 )
@@ -40,14 +42,16 @@ private val AppDarkColorScheme = darkColorScheme(
     onBackground = Color.White,
     surface = SurfaceDark,
     onSurface = Color.White,
+    surfaceVariant = SurfaceDark,
+    onSurfaceVariant = Color.White,
     secondaryContainer = PrimaryColor,
     onSecondaryContainer = Color.White
 )
 
 @Composable
 fun ReluctAppTheme(
-    theme: Int = Theme.MATERIAL_YOU.themeValue,
-    content: @Composable () -> Unit
+    theme: Int = Theme.FOLLOW_SYSTEM.themeValue,
+    content: @Composable () -> Unit,
 ) {
     val autoColors = if (isSystemInDarkTheme()) AppDarkColorScheme else AppLightColorScheme
 
