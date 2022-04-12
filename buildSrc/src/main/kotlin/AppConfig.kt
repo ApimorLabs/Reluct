@@ -8,6 +8,6 @@ object AppConfig {
 
     object Desktop {
         const val version = "1.0.0"
-        const val packageName = "jvm"
+        const val packageName = "work.racka.reluct"
     }
 }

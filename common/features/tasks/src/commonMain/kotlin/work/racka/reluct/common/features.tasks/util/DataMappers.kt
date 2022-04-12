@@ -49,7 +49,7 @@ internal object DataMappers {
             title = this.title,
             description = this.description ?: "No Description",
             done = this.done,
-            overdue = TimeUtils.isDateTimeOverdue(
+            overdue = if (this.done) this.overdue else TimeUtils.isDateTimeOverdue(
                 this.dueDateLocalDateTime,
                 this.timeZoneId
             ),
