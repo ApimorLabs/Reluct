@@ -9,6 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import work.racka.reluct.android.compose.components.checkboxes.RoundCheckbox
 import work.racka.reluct.android.compose.components.util.PreviewData
 import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.android.compose.theme.Shapes

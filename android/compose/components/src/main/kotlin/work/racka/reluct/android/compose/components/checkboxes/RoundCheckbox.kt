@@ -1,4 +1,4 @@
-package work.racka.reluct.android.compose.components.cards.task_entry
+package work.racka.reluct.android.compose.components.checkboxes
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi

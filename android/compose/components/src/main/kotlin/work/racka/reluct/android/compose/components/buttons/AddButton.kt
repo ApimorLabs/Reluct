@@ -1,4 +1,4 @@
-package work.racka.reluct.android.compose.components.cards.buttons
+package work.racka.reluct.android.compose.components.buttons
 
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.*

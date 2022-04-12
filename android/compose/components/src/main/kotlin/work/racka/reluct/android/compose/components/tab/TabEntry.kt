@@ -12,12 +12,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.zIndex
 import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.android.compose.theme.ReluctAppTheme
-import work.racka.reluct.android.compose.theme.Typography
 
 @Composable
 internal fun TabEntry(
@@ -37,9 +37,13 @@ internal fun TabEntry(
         contentAlignment = Alignment.Center
     ) {
         Text(
-            modifier = Modifier.padding(Dimens.MediumPadding.size),
+            modifier = Modifier.padding(
+                horizontal = Dimens.SmallPadding.size,
+                vertical = Dimens.SmallPadding.size + Dimens.ExtraSmallPadding.size
+            ),
             text = title,
-            style = Typography.titleMedium,
+            style = MaterialTheme.typography.titleMedium,
+            fontWeight = FontWeight.Medium,
             color = textColor,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis

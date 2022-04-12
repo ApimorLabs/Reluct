@@ -16,6 +16,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import work.racka.reluct.android.compose.components.R
+import work.racka.reluct.android.compose.components.checkboxes.RoundCheckbox
 import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.android.compose.theme.ReluctAppTheme
 
