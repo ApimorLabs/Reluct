@@ -95,7 +95,6 @@ fun SheetButton(
     buttonTextStyle: TextStyle = MaterialTheme.typography.bodyLarge,
     icon: ImageVector?,
     buttonColor: Color = MaterialTheme.colorScheme.primary,
-    contentColor: Color = LocalContentColor.current,
     onButtonClicked: () -> Unit,
     enabled: Boolean = true,
 ) {
@@ -110,7 +109,7 @@ fun SheetButton(
         colors = ButtonDefaults
             .buttonColors(
                 containerColor = buttonColor,
-                contentColor = contentColor
+                contentColor = LocalContentColor.current
             ),
         modifier = modifier,
         enabled = enabled
@@ -119,7 +118,7 @@ fun SheetButton(
             Icon(
                 imageVector = icon,
                 contentDescription = null,
-                tint = MaterialTheme.colorScheme.onPrimary
+                tint = LocalContentColor.current
             )
             Spacer(modifier = Modifier.width(4.dp))
         }
@@ -130,7 +129,7 @@ fun SheetButton(
                     horizontal = Dimens.ExtraSmallPadding.size,
                     vertical = Dimens.SmallPadding.size
                 ),
-            color = contentColor,
+            color = LocalContentColor.current,
             style = buttonTextStyle,
             textAlign = TextAlign.Center,
             maxLines = 1,
