@@ -3,7 +3,7 @@ package work.racka.reluct.android.compose.navigation.navhost.graphs.dashboard
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -20,6 +20,7 @@ import androidx.navigation.navigation
 import com.google.accompanist.navigation.animation.composable
 import timber.log.Timber
 import work.racka.reluct.android.compose.components.ComponentsPreview
+import work.racka.reluct.android.compose.components.cards.buttons.AddButton
 import work.racka.reluct.android.compose.components.search.ReluctSearchBar
 import work.racka.reluct.android.compose.components.tab.dashboard.DashboardTabBar
 import work.racka.reluct.android.compose.components.topBar.ProfilePicture
@@ -42,6 +43,10 @@ internal fun NavGraphBuilder.dashboardNavGraph(
         ) {
             val tabPage = remember {
                 mutableStateOf(DashboardDestinations.Overview)
+            }
+            val listState = rememberLazyListState()
+            val buttonExpanded = remember {
+                mutableStateOf(true)
             }
             Scaffold(
                 topBar = {
@@ -68,9 +73,15 @@ internal fun NavGraphBuilder.dashboardNavGraph(
                             )
                         }
                     }
+                },
+                floatingActionButton = {
+                    AddButton(
+                        buttonText = "New Task",
+                        onButtonClicked = { buttonExpanded.value = !buttonExpanded.value },
+                        expanded = buttonExpanded.value
+                    )
                 }
             ) {
-                val scrollState = rememberScrollState()
                 Box(
                     modifier = Modifier.fillMaxSize(),
                     contentAlignment = Alignment.Center
@@ -78,7 +89,8 @@ internal fun NavGraphBuilder.dashboardNavGraph(
                     LazyColumn(
                         Modifier
                             .fillMaxWidth(.9f),
-                        verticalArrangement = Arrangement.spacedBy(16.dp)
+                        verticalArrangement = Arrangement.spacedBy(16.dp),
+                        state = listState
                     ) {
                         item {
                             ComponentsPreview()
