@@ -1,10 +1,7 @@
 package work.racka.reluct.android.compose.components.cards.task_entry
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.gestures.Orientation
-import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -23,8 +20,8 @@ internal fun TaskEntry(
     modifier: Modifier = Modifier,
     task: Task,
     entryType: EntryType,
-    onEntryClick: () -> Unit = { },
-    onCheckedChange: (Boolean) -> Unit = { },
+    onEntryClick: () -> Unit,
+    onCheckedChange: (Boolean) -> Unit,
 ) {
 
     Card(
@@ -65,7 +62,8 @@ private fun TaskEntryText(
     entryType: EntryType,
 ) {
     Column(
-        modifier = modifier
+        modifier = modifier,
+        verticalArrangement = Arrangement.spacedBy(Dimens.SmallPadding.size)
     ) {
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -83,10 +81,8 @@ private fun TaskEntryText(
             )
         }
         AnimatedVisibility(visible = entryType == EntryType.PendingTask) {
-            Spacer(modifier = Modifier.height(Dimens.ExtraSmallPadding.size))
             TaskDescription(text = task.description)
         }
-        Spacer(modifier = Modifier.height(Dimens.SmallPadding.size))
         TaskTimeInfo(
             timeText = if (
                 entryType == EntryType.PendingTask ||
@@ -106,35 +102,37 @@ internal fun TaskEntryPrev() {
         color = MaterialTheme.colorScheme.background
     ) {
         Column(
-            Modifier
-                .scrollable(
-                    rememberScrollState(),
-                    orientation = Orientation.Vertical
-                )
+            verticalArrangement = Arrangement.spacedBy(Dimens.SmallPadding.size)
         ) {
             TaskEntry(
                 task = PreviewData.task1,
-                entryType = EntryType.PendingTask
+                entryType = EntryType.PendingTask,
+                onEntryClick = {},
+                onCheckedChange = {}
             )
-            Spacer(modifier = Modifier.height(Dimens.SmallPadding.size))
             TaskEntry(
                 task = PreviewData.task2,
-                entryType = EntryType.CompletedTask
+                entryType = EntryType.CompletedTask,
+                onEntryClick = {},
+                onCheckedChange = {}
             )
-            Spacer(modifier = Modifier.height(Dimens.SmallPadding.size))
             TaskEntry(
                 task = PreviewData.task5,
-                entryType = EntryType.CompletedTask
+                entryType = EntryType.CompletedTask,
+                onEntryClick = {},
+                onCheckedChange = {}
             )
-            Spacer(modifier = Modifier.height(Dimens.SmallPadding.size))
             TaskEntry(
                 task = PreviewData.task3,
-                entryType = EntryType.Statistics
+                entryType = EntryType.Statistics,
+                onEntryClick = {},
+                onCheckedChange = {}
             )
-            Spacer(modifier = Modifier.height(Dimens.SmallPadding.size))
             TaskEntry(
                 task = PreviewData.task4,
-                entryType = EntryType.PendingTaskOverdue
+                entryType = EntryType.PendingTaskOverdue,
+                onEntryClick = {},
+                onCheckedChange = {}
             )
             Spacer(modifier = Modifier.height(Dimens.SmallPadding.size))
         }

@@ -18,6 +18,12 @@ val myFonts = FontFamily(
 
 // Set of Material typography styles to start with
 val Typography = Typography(
+    headlineSmall = TextStyle(
+        fontFamily = myFonts,
+        fontWeight = FontWeight.Normal,
+        fontSize = 24.sp,
+        lineHeight = 32.sp
+    ),
     bodyLarge = TextStyle(
         fontFamily = myFonts,
         fontWeight = FontWeight.Normal,

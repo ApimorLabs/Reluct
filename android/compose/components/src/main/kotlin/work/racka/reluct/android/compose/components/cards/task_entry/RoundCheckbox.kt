@@ -24,7 +24,7 @@ import work.racka.reluct.android.compose.components.R
 internal fun RoundCheckbox(
     modifier: Modifier = Modifier,
     isChecked: Boolean,
-    onCheckedChange: (Boolean) -> Unit = { },
+    onCheckedChange: (Boolean) -> Unit,
 ) {
 
     Box(
