@@ -1,8 +1,8 @@
 package work.racka.reluct.common.settings.repository
 
-import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.Flow
 
 interface MultiplatformSettings {
-    val theme: SharedFlow<Int>
+    val theme: Flow<Int>
     fun saveThemeSettings(value: Int)
 }
