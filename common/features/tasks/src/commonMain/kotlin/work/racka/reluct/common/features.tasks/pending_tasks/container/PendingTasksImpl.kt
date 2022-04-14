@@ -1,6 +1,7 @@
 package work.racka.reluct.common.features.tasks.pending_tasks.container
 
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import work.racka.reluct.common.features.tasks.pending_tasks.repository.PendingTasksRepository
@@ -14,14 +15,13 @@ internal class PendingTasksImpl(
 
     private val _uiState: MutableStateFlow<TasksState> =
         MutableStateFlow(TasksState.Loading)
-    private val _events: MutableStateFlow<TasksSideEffect> =
-        MutableStateFlow(TasksSideEffect.Nothing)
+    private val _events: Channel<TasksSideEffect> = Channel()
 
     override val uiState: StateFlow<TasksState>
         get() = _uiState
 
     override val events: Flow<TasksSideEffect>
-        get() = _events
+        get() = _events.receiveAsFlow()
 
     init {
         getPendingTasks()
@@ -46,10 +46,10 @@ internal class PendingTasksImpl(
 
     override fun toggleDone(taskId: Long, isDone: Boolean) {
         pendingTasks.toggleTaskDone(taskId, isDone)
-        _events.update { TasksSideEffect.TaskDone(isDone) }
+        _events.trySend(TasksSideEffect.TaskDone(isDone))
     }
 
     override fun navigateToTaskDetails(taskId: Long) {
-        _events.update { TasksSideEffect.Navigation.NavigateToTaskDetails(taskId) }
+        _events.trySend(TasksSideEffect.Navigation.NavigateToTaskDetails(taskId))
     }
 }

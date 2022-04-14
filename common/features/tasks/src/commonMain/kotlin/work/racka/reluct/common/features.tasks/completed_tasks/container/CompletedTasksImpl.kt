@@ -1,6 +1,7 @@
 package work.racka.reluct.common.features.tasks.completed_tasks.container
 
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import work.racka.reluct.common.features.tasks.completed_tasks.repository.CompletedTasksRepository
@@ -14,13 +15,12 @@ internal class CompletedTasksImpl(
 
     private val _uiState: MutableStateFlow<TasksState> =
         MutableStateFlow(TasksState.Loading)
-    private val _events: MutableStateFlow<TasksSideEffect> =
-        MutableStateFlow(TasksSideEffect.Nothing)
+    private val _events: Channel<TasksSideEffect> = Channel()
 
     override val uiState: StateFlow<TasksState>
         get() = _uiState
     override val events: Flow<TasksSideEffect>
-        get() = _events
+        get() = _events.receiveAsFlow()
 
     init {
         getCompletedTasks()
@@ -41,12 +41,10 @@ internal class CompletedTasksImpl(
 
     override fun toggleDone(taskId: Long, isDone: Boolean) {
         completedTasks.toggleTaskDone(taskId, isDone)
-        _events.update {
-            TasksSideEffect.TaskDone(isDone)
-        }
+        _events.trySend(TasksSideEffect.TaskDone(isDone))
     }
 
     override fun navigateToTaskDetails(taskId: Long) {
-        _events.update { TasksSideEffect.Navigation.NavigateToTaskDetails(taskId) }
+        _events.trySend(TasksSideEffect.Navigation.NavigateToTaskDetails(taskId))
     }
 }

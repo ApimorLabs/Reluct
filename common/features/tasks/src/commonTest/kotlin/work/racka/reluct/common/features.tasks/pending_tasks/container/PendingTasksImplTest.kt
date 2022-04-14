@@ -97,10 +97,10 @@ class PendingTasksImplTest : KoinTest {
             val expectedEvent = TasksSideEffect.TaskDone(isDone)
             coEvery { repo.toggleTaskDone(taskId, isDone) } returns Unit
 
-            pendingTasks.toggleDone(taskId, isDone)
             val result = pendingTasks.events
             launch {
                 result.test {
+                    pendingTasks.toggleDone(taskId, isDone)
                     val actual = expectMostRecentItem()
                     println(actual)
 
@@ -116,11 +116,11 @@ class PendingTasksImplTest : KoinTest {
             val taskId = 2L
             val expectedEvent = TasksSideEffect.Navigation.NavigateToTaskDetails(taskId)
 
-            pendingTasks.navigateToTaskDetails(taskId)
 
             val result = pendingTasks.events
             launch {
                 result.test {
+                    pendingTasks.navigateToTaskDetails(taskId)
                     val actual = expectMostRecentItem()
                     println(actual)
 

@@ -147,10 +147,10 @@ class AddEditTaskImplTest : KoinTest {
     @Test
     fun goBack_WhenGoBackCalled_ProducesGoBackNavigationEvent() = runTest {
         val expectedEvent = TasksSideEffect.Navigation.GoBack
-        addEditTask.goBack()
         val result = addEditTask.events
         launch {
             result.test {
+                addEditTask.goBack()
                 val actual = expectMostRecentItem()
                 println(actual)
 

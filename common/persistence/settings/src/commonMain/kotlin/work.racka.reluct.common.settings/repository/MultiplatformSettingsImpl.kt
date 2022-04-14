@@ -1,9 +1,9 @@
 package work.racka.reluct.common.settings.repository
 
 import com.russhwolf.settings.Settings
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 
 internal class MultiplatformSettingsImpl(
     private val settings: Settings
@@ -13,17 +13,25 @@ internal class MultiplatformSettingsImpl(
         const val THEME_OPTION = "THEME_OPTION"
     }
 
-    private val _themeFlow = MutableStateFlow(readThemeSettings())
+    private val _themeFlow = MutableSharedFlow<Int>(replay = 1)
 
-    override val theme: Flow<Int>
-        get() = _themeFlow
+    override val theme: SharedFlow<Int>
+        get() = _themeFlow.asSharedFlow()
+
+    init {
+        initializeSettings()
+    }
+
+    private fun initializeSettings() {
+        _themeFlow.tryEmit(readThemeSettings())
+    }
 
     override fun saveThemeSettings(value: Int) {
         settings.putInt(
             key = Keys.THEME_OPTION,
             value = value
         )
-        _themeFlow.update { readThemeSettings() }
+        _themeFlow.tryEmit(readThemeSettings())
     }
 
     private fun readThemeSettings(): Int =

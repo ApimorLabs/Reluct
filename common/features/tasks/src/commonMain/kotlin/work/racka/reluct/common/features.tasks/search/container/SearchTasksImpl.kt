@@ -1,6 +1,7 @@
 package work.racka.reluct.common.features.tasks.search.container
 
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import work.racka.reluct.common.features.tasks.search.repository.SearchTasksRepository
@@ -14,14 +15,13 @@ internal class SearchTasksImpl(
 
     private val _uiState: MutableStateFlow<TasksState> =
         MutableStateFlow(TasksState.Loading)
-    private val _events: MutableStateFlow<TasksSideEffect> =
-        MutableStateFlow(TasksSideEffect.Nothing)
+    private val _events: Channel<TasksSideEffect> = Channel()
 
     override val uiState: StateFlow<TasksState>
         get() = _uiState
 
     override val events: Flow<TasksSideEffect>
-        get() = _events
+        get() = _events.receiveAsFlow()
 
     override fun searchTasks(query: String) {
         scope.launch {
@@ -33,14 +33,14 @@ internal class SearchTasksImpl(
 
     override fun toggleDone(taskId: Long, isDone: Boolean) {
         searchTasks.toggleDone(taskId, isDone)
-        _events.update { TasksSideEffect.TaskDone(isDone) }
+        _events.trySend(TasksSideEffect.TaskDone(isDone))
     }
 
     override fun navigateToTaskDetails(taskId: Long) {
-        _events.update { TasksSideEffect.Navigation.NavigateToTaskDetails(taskId) }
+        _events.trySend(TasksSideEffect.Navigation.NavigateToTaskDetails(taskId))
     }
 
     override fun goBack() {
-        _events.update { TasksSideEffect.Navigation.GoBack }
+        _events.trySend(TasksSideEffect.Navigation.GoBack)
     }
 }

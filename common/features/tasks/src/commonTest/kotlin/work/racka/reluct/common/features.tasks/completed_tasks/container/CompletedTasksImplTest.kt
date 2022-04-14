@@ -92,10 +92,10 @@ class CompletedTasksImplTest : KoinTest {
             val expectedEvent = TasksSideEffect.TaskDone(isDone)
             coEvery { repo.toggleTaskDone(taskId, isDone) } returns Unit
 
-            completedTasks.toggleDone(taskId, isDone)
             val result = completedTasks.events
             launch {
                 result.test {
+                    completedTasks.toggleDone(taskId, isDone)
                     val actual = expectMostRecentItem()
                     println(actual)
 
@@ -111,11 +111,11 @@ class CompletedTasksImplTest : KoinTest {
             val taskId = 2L
             val expectedEvent = TasksSideEffect.Navigation.NavigateToTaskDetails(taskId)
 
-            completedTasks.navigateToTaskDetails(taskId)
 
             val result = completedTasks.events
             launch {
                 result.test {
+                    completedTasks.navigateToTaskDetails(taskId)
                     val actual = expectMostRecentItem()
                     println(actual)
 
