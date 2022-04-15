@@ -84,6 +84,12 @@ object Dependencies {
         }
     }
 
+    object Vanpra {
+        object ComposeMaterialDialogs {
+            val dateTime by lazy { "io.github.vanpra.compose-material-dialogs:datetime:${Versions.composeMaterialDialogs}" }
+        }
+    }
+
     object Mockk {
         val core by lazy { "io.mockk:mockk:${Versions.mockk}" }
         val android by lazy { "io.mockk:mockk-android:${Versions.mockk}" }
@@ -172,6 +178,7 @@ object Dependencies {
             val navigationAnimations by lazy {
                 "com.google.accompanist:accompanist-navigation-animation:${Versions.accompanist}"
             }
+            val pager by lazy { "com.google.accompanist:accompanist-pager:${Versions.accompanist}" }
             val swipeRefresh by lazy { "com.google.accompanist:accompanist-swiperefresh:${Versions.accompanist}" }
             val systemUiController by lazy { "com.google.accompanist:accompanist-systemuicontroller:${Versions.accompanist}" }
         }

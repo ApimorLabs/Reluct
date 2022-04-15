@@ -88,8 +88,16 @@ dependencies {
         debugImplementation(tooling)
     }
 
+    // DateTime
+    implementation(Dependencies.Kotlin.dateTime)
+
     // Coil Image loader
     implementation(Dependencies.Android.Coil.image)
+
+    // Accompanist: Keep an eye out for deprecated features
+    with(Dependencies.Android.Accompanist) {
+        implementation(pager)
+    }
 
     with(Dependencies.Android.Extras) {
         // Palette

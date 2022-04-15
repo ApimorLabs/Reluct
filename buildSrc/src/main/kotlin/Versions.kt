@@ -11,7 +11,7 @@ object Versions {
     const val composeDesktop = "1.1.1"
 
     // Squareup
-    const val sqlDelight = "1.5.0"
+    const val sqlDelight = "1.5.3"
 
     // Architecture
     const val orbitMVI = "4.3.2"
@@ -62,6 +62,7 @@ object Versions {
     // Helpers
     const val accompanist = "0.24.5-alpha"
     const val coilImage = "1.4.0"
+    const val composeMaterialDialogs = "0.7.0"
 
     // DataStore & Preferences
     const val multiplatformSettings = "0.8.1"

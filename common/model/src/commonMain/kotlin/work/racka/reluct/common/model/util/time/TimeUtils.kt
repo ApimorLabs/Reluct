@@ -215,7 +215,7 @@ object TimeUtils {
     /**
      * Get a string of the day of week provided
      */
-    private fun DayOfWeek.toDayOfWeekShortenedString(): String =
+    fun DayOfWeek.toDayOfWeekShortenedString(): String =
         when (this) {
             DayOfWeek.MONDAY -> "Mon"
             DayOfWeek.TUESDAY -> "Tue"
@@ -242,7 +242,7 @@ object TimeUtils {
     /**
      * Get a string of the month provided
      */
-    private fun Month.toMonthShortenedString(): String =
+    fun Month.toMonthShortenedString(): String =
         when (this) {
             Month.JANUARY -> "Jan"
             Month.FEBRUARY -> "Feb"
@@ -256,6 +256,26 @@ object TimeUtils {
             Month.OCTOBER -> "Oct"
             Month.NOVEMBER -> "Nov"
             Month.DECEMBER -> "Dec"
+            else -> throw IllegalArgumentException()
+        }
+
+    /**
+     * Get a full string of the month provided
+     */
+    fun Month.toMonthString(): String =
+        when (this) {
+            Month.JANUARY -> "January"
+            Month.FEBRUARY -> "February"
+            Month.MARCH -> "March"
+            Month.APRIL -> "April"
+            Month.MAY -> "May"
+            Month.JUNE -> "June"
+            Month.JULY -> "July"
+            Month.AUGUST -> "August"
+            Month.SEPTEMBER -> "September"
+            Month.OCTOBER -> "October"
+            Month.NOVEMBER -> "November"
+            Month.DECEMBER -> "December"
             else -> throw IllegalArgumentException()
         }
 }
