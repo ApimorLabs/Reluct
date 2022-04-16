@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -95,13 +96,14 @@ fun SheetButton(
     buttonTextStyle: TextStyle = MaterialTheme.typography.bodyLarge,
     icon: ImageVector?,
     buttonColor: Color = MaterialTheme.colorScheme.primary,
+    shape: Shape = CircleShape,
     onButtonClicked: () -> Unit,
     enabled: Boolean = true,
 ) {
 
     Button(
         onClick = onButtonClicked,
-        shape = CircleShape,
+        shape = shape,
         elevation = ButtonDefaults
             .buttonElevation(
                 defaultElevation = 0.dp
@@ -120,13 +122,15 @@ fun SheetButton(
                 contentDescription = null,
                 tint = LocalContentColor.current
             )
-            Spacer(modifier = Modifier.width(4.dp))
+            Spacer(
+                modifier = Modifier
+                    .width(Dimens.ExtraSmallPadding.size),
+            )
         }
         Text(
             text = buttonText,
             modifier = Modifier
                 .padding(
-                    horizontal = Dimens.ExtraSmallPadding.size,
                     vertical = Dimens.SmallPadding.size
                 ),
             color = LocalContentColor.current,

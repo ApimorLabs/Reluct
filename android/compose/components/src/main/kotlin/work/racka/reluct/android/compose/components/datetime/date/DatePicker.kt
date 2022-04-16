@@ -60,7 +60,7 @@ fun MaterialDialogScope.DatePicker(
     initialDate: LocalDate = currentLocalDate(),
     title: String = "SELECT DATE",
     colors: DatePickerColors = DatePickerDefaults.colors(),
-    yearRange: IntRange = IntRange(1900, 2100),
+    yearRange: IntRange = IntRange(2000, 2100),
     waitForPositiveButton: Boolean = true,
     allowedDateValidator: (LocalDate) -> Boolean = { true },
     onDateChange: (LocalDate) -> Unit = {},

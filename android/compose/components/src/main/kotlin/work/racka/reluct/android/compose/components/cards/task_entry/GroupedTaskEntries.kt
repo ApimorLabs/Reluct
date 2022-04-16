@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import work.racka.reluct.android.compose.components.bottom_sheet.add_edit_task.DateTimePills
 import work.racka.reluct.android.compose.components.datetime.core.MaterialDialog
 import work.racka.reluct.android.compose.components.datetime.core.rememberMaterialDialogState
 import work.racka.reluct.android.compose.components.datetime.date.DatePicker
@@ -67,11 +68,18 @@ internal fun GroupedTasksPrev() {
         val dialogState = rememberMaterialDialogState()
         val list = listOf(PreviewData.task1, PreviewData.task2,
             PreviewData.task3, PreviewData.task4, PreviewData.task5)
+        val context = LocalContext.current
         Column {
             ReluctTextField(
                 hint = "Task",
                 modifier = Modifier
                     .fillMaxWidth(.9f)
+            )
+            DateTimePills(
+                onLocalDateTimeChange = { dateTime ->
+                    Toast.makeText(context, dateTime, Toast.LENGTH_SHORT)
+                        .show()
+                },
             )
             GroupedTaskEntries(
                 entryType = EntryType.PendingTask,
@@ -81,8 +89,6 @@ internal fun GroupedTasksPrev() {
                 onCheckedChange = {}
             )
         }
-
-        val context = LocalContext.current
 
         MaterialDialog(
             dialogState = dialogState,
