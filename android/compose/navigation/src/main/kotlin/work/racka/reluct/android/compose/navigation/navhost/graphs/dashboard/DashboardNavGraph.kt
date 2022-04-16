@@ -21,8 +21,8 @@ import com.google.accompanist.navigation.animation.composable
 import timber.log.Timber
 import work.racka.reluct.android.compose.components.ComponentsPreview
 import work.racka.reluct.android.compose.components.buttons.AddButton
-import work.racka.reluct.android.compose.components.search.ReluctSearchBar
 import work.racka.reluct.android.compose.components.tab.dashboard.DashboardTabBar
+import work.racka.reluct.android.compose.components.textfields.search.ReluctSearchBar
 import work.racka.reluct.android.compose.components.topBar.ProfilePicture
 import work.racka.reluct.common.compose.destinations.DashboardDestinations
 import work.racka.reluct.common.compose.destinations.navbar.Graphs

@@ -1,4 +1,4 @@
-package work.racka.reluct.android.compose.components.search
+package work.racka.reluct.android.compose.components.textfields.search
 
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.animateDpAsState
@@ -19,6 +19,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -56,7 +57,7 @@ fun ReluctSearchBar(
     extraButton: @Composable BoxScope.() -> Unit = { }
 ) {
     val focusRequester = remember { FocusRequester() }
-    var searchText by remember {
+    var searchText by rememberSaveable {
         mutableStateOf("")
     }
 
@@ -64,7 +65,7 @@ fun ReluctSearchBar(
         mutableStateOf(hint.isNotEmpty())
     }
     var isTyping by remember {
-        mutableStateOf(false)
+        mutableStateOf(searchText.isNotEmpty())
     }
 
     val externalPadding: Dp by animateDpAsState(
