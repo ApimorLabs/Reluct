@@ -12,7 +12,7 @@ import work.racka.reluct.common.model.states.tasks.TasksState
 
 internal class AddEditTaskImpl(
     private val addEditTask: AddEditTaskRepository,
-    private val taskId: Long?,
+    private val taskId: String?,
     private val scope: CoroutineScope,
 ) : AddEditTask {
     private val _uiState: MutableStateFlow<TasksState> = MutableStateFlow(TasksState.Loading)

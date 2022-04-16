@@ -11,11 +11,11 @@ sealed class TasksSideEffect {
 
     sealed class Navigation : TasksSideEffect() {
         data class NavigateToTaskDetails(
-            val taskId: Long
+            val taskId: String,
         ) : Navigation()
 
         data class NavigateToEdit(
-            val taskId: Long
+            val taskId: String,
         ) : Navigation()
 
         object GoBack : Navigation()

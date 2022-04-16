@@ -87,7 +87,7 @@ class CompletedTasksImplTest : KoinTest {
     @Test
     fun toggleDone_WhenCalled_ShouldCallRepoMethodAndProduceATaskDoneSideEffect() =
         runTest {
-            val taskId = 2L
+            val taskId = "2L"
             val isDone = true
             val expectedEvent = TasksSideEffect.TaskDone(isDone)
             coEvery { repo.toggleTaskDone(taskId, isDone) } returns Unit
@@ -108,7 +108,7 @@ class CompletedTasksImplTest : KoinTest {
     @Test
     fun navigateToTaskDetails_WhenProvidedTaskId_ProvidesNavigateToDetailsEventWithGivenId() =
         runTest {
-            val taskId = 2L
+            val taskId = "2L"
             val expectedEvent = TasksSideEffect.Navigation.NavigateToTaskDetails(taskId)
 
 

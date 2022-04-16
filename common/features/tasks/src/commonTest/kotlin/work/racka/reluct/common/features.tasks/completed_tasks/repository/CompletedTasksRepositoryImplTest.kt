@@ -80,7 +80,7 @@ class CompletedTasksRepositoryImplTest : KoinTest {
 
     @Test
     fun toggleTaskDone_WhenCalled_ShouldCallDaoMethod() = runTest {
-        val taskId = 2L
+        val taskId = "2L"
         val isDone = true
 
         every { dao.toggleTaskDone(taskId, isDone) } returns Unit

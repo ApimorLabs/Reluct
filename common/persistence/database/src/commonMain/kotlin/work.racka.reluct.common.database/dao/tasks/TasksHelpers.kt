@@ -57,11 +57,13 @@ internal object TasksHelpers {
             }
         )
 
-    fun TasksTableQueries.getTaskFromDb(taskId: Long) =
+    fun TasksTableQueries.getTaskFromDb(taskId: String) =
         this.getTask(
             id = taskId,
-            mapper = { id, title, description, done, overdue, dueDateLocalDateTime,
-                       completedLocalDateTime, reminderLocalDateTime, timeZoneId ->
+            mapper = {
+                    id, title, description, done, overdue, dueDateLocalDateTime,
+                    completedLocalDateTime, reminderLocalDateTime, timeZoneId,
+                ->
                 taskDbObjectMapper(
                     id, title, description, done, overdue, dueDateLocalDateTime,
                     completedLocalDateTime, reminderLocalDateTime, timeZoneId
@@ -83,9 +85,9 @@ internal object TasksHelpers {
 
 
     private fun taskDbObjectMapper(
-        id: Long, title: String, description: String?, done: Boolean, overdue: Boolean,
+        id: String, title: String, description: String?, done: Boolean, overdue: Boolean,
         dueDateLocalDateTime: String, completedLocalDateTime: String?,
-        reminderLocalDateTime: String?, timeZoneId: String
+        reminderLocalDateTime: String?, timeZoneId: String,
     ): TaskDbObject {
         return TaskDbObject(
             id = id,

@@ -9,10 +9,13 @@ import work.racka.reluct.common.model.domain.tasks.EditTask
 @Composable
 fun AddEditTaskSheet(
     modifier: Modifier,
-    editTask: EditTask,
+    editTask: EditTask?,
     onSave: (EditTask) -> Unit = { },
 ) {
     val task = remember {
+        if (editTask == null) {
+
+        }
         mutableStateOf(editTask)
     }
 }

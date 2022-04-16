@@ -1,7 +1,7 @@
 package work.racka.reluct.common.model.domain.tasks
 
 data class EditTask(
-    val id: Long,
+    val id: String,
     val title: String,
     val description: String?,
     val done: Boolean,
@@ -9,5 +9,5 @@ data class EditTask(
     val dueDateLocalDateTime: String,
     val completedLocalDateTime: String?,
     val reminderLocalDateTime: String?,
-    val timeZoneId: String
+    val timeZoneId: String,
 )

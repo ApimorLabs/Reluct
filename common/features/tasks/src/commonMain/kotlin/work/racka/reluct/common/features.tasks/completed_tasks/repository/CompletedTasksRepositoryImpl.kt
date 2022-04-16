@@ -17,6 +17,6 @@ internal class CompletedTasksRepositoryImpl(
             .map { list -> list.map { it.asTask() } }
             .flowOn(backgroundDispatcher)
 
-    override fun toggleTaskDone(taskId: Long, isDone: Boolean) =
+    override fun toggleTaskDone(taskId: String, isDone: Boolean) =
         dao.toggleTaskDone(taskId, isDone)
 }

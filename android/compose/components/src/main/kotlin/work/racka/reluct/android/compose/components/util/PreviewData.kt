@@ -4,7 +4,7 @@ import work.racka.reluct.common.model.domain.tasks.Task
 
 object PreviewData {
     val task1 = Task(
-        id = 1L,
+        id = "1L",
         title = "Task 1 Title Goes Here",
         description = "This is a long description. This is a long description. This is a long description. This is a long description.",
         done = false,
@@ -16,7 +16,7 @@ object PreviewData {
     )
 
     val task2 = Task(
-        id = 2L,
+        id = "2L",
         title = "Task 2 Title Goes Here",
         description = "This is a long description. This is a long description. This is a long description. This is a long description.",
         done = true,
@@ -28,7 +28,7 @@ object PreviewData {
     )
 
     val task3 = Task(
-        id = 3L,
+        id = "3L",
         title = "Task 3 Title Goes Here",
         description = "This is a long description. This is a long description. This is a long description. This is a long description.",
         done = true,
@@ -40,7 +40,7 @@ object PreviewData {
     )
 
     val task4 = Task(
-        id = 4L,
+        id = "4L",
         title = "Task 4 Title Goes Here",
         description = "This is a long description. This is a long description. This is a long description. This is a long description.",
         done = false,
@@ -52,7 +52,7 @@ object PreviewData {
     )
 
     val task5 = Task(
-        id = 2L,
+        id = "2L",
         title = "Task 2 Title Goes Here",
         description = "This is a long description. This is a long description. This is a long description. This is a long description.",
         done = true,

@@ -34,7 +34,7 @@ internal class TasksDaoImpl(
             ?: flowOf(emptyList())
 
 
-    override fun getTask(id: Long): Flow<TaskDbObject?> =
+    override fun getTask(id: String): Flow<TaskDbObject?> =
         tasksQueries?.getTaskFromDb(id)
             ?.asFlow()
             ?.mapToOne(coroutineScope.coroutineContext)
@@ -58,13 +58,13 @@ internal class TasksDaoImpl(
             ?.mapToList(coroutineScope.coroutineContext)
             ?: flowOf(emptyList())
 
-    override fun toggleTaskDone(id: Long, isDone: Boolean) {
+    override fun toggleTaskDone(id: String, isDone: Boolean) {
         tasksQueries?.transaction {
             tasksQueries.toggleTaskDone(isDone, id)
         }
     }
 
-    override fun deleteTask(id: Long) {
+    override fun deleteTask(id: String) {
         tasksQueries?.deleteTask(id)
     }
 

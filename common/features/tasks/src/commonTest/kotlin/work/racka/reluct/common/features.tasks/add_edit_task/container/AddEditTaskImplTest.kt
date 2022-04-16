@@ -30,7 +30,7 @@ class AddEditTaskImplTest : KoinTest {
     @RelaxedMockK
     private lateinit var repo: AddEditTaskRepository
 
-    private val taskId = 2L
+    private val taskId = "2L"
 
     @BeforeTest
     fun setup() {

@@ -18,14 +18,14 @@ internal actual object Platform {
             )
         }
 
-        viewModel { (taskId: Long?) ->
+        viewModel { (taskId: String?) ->
             TaskDetailsViewModel(
                 taskDetails = get(),
                 taskId = taskId
             )
         }
 
-        viewModel { (taskId: Long?) ->
+        viewModel { (taskId: String?) ->
             AddEditTaskViewModel(
                 addEditTask = get(),
                 taskId = taskId

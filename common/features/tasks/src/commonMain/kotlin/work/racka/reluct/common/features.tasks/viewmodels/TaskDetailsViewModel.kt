@@ -8,8 +8,8 @@ import work.racka.reluct.common.model.states.tasks.TasksState
 expect class TaskDetailsViewModel {
     val uiState: StateFlow<TasksState>
     val events: Flow<TasksSideEffect>
-    fun deleteTask(taskId: Long)
-    fun toggleDone(taskId: Long, isDone: Boolean)
-    fun editTask(taskId: Long)
+    fun deleteTask(taskId: String)
+    fun toggleDone(taskId: String, isDone: Boolean)
+    fun editTask(taskId: String)
     fun goBack()
 }

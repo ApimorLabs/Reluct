@@ -7,7 +7,7 @@ import work.racka.reluct.common.model.domain.tasks.EditTask
 internal object TestData {
     val taskDbObjects = listOf(
         TaskDbObject(
-            id = 1L,
+            id = "1L",
             title = "Task 1",
             description = null,
             done = false,
@@ -18,7 +18,7 @@ internal object TestData {
             timeZoneId = TimeZone.currentSystemDefault().id
         ),
         TaskDbObject(
-            id = 2L,
+            id = "2L",
             title = "Task 2",
             description = null,
             done = false,
@@ -29,7 +29,7 @@ internal object TestData {
             timeZoneId = TimeZone.currentSystemDefault().id
         ),
         TaskDbObject(
-            id = 3L,
+            id = "3L",
             title = "Task 3",
             description = "Some description",
             done = false,
@@ -40,7 +40,7 @@ internal object TestData {
             timeZoneId = TimeZone.currentSystemDefault().id
         ),
         TaskDbObject(
-            id = 4L,
+            id = "4L",
             title = "Task 4",
             description = "Desc4",
             done = true,
@@ -51,7 +51,7 @@ internal object TestData {
             timeZoneId = TimeZone.currentSystemDefault().id
         ),
         TaskDbObject(
-            id = 5L,
+            id = "5L",
             title = "Task 5",
             description = "Desc5",
             done = true,
@@ -64,7 +64,7 @@ internal object TestData {
     )
 
     val editTask = EditTask(
-        id = 2L,
+        id = "2L",
         title = "Task 2",
         description = null,
         done = false,

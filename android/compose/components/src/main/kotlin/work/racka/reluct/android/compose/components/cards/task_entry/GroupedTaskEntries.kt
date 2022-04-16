@@ -30,7 +30,7 @@ fun GroupedTaskEntries(
     entryType: EntryType,
     groupTitle: String,
     taskList: List<Task>,
-    onEntryClicked: (taskId: Long) -> Unit,
+    onEntryClicked: (taskId: String) -> Unit,
     onCheckedChange: (Boolean) -> Unit,
 ) {
     Column(

@@ -6,7 +6,7 @@ import work.racka.reluct.common.model.data.local.task.TaskDbObject
 internal object TestData {
     val taskDbObjects = listOf(
         TaskDbObject(
-            id = 1,
+            id = "1L",
             title = "Task 1",
             description = null,
             done = false,
@@ -17,7 +17,7 @@ internal object TestData {
             timeZoneId = TimeZone.currentSystemDefault().id
         ),
         TaskDbObject(
-            id = 2,
+            id = "2L",
             title = "Task 2",
             description = null,
             done = false,
@@ -28,7 +28,7 @@ internal object TestData {
             timeZoneId = TimeZone.currentSystemDefault().id
         ),
         TaskDbObject(
-            id = 3,
+            id = "3L",
             title = "Task 3",
             description = "Some description",
             done = false,
@@ -39,7 +39,7 @@ internal object TestData {
             timeZoneId = TimeZone.currentSystemDefault().id
         ),
         TaskDbObject(
-            id = 4,
+            id = "4L",
             title = "Task 4",
             description = "Desc4",
             done = true,
@@ -50,7 +50,7 @@ internal object TestData {
             timeZoneId = TimeZone.currentSystemDefault().id
         ),
         TaskDbObject(
-            id = 5,
+            id = "5L",
             title = "Task 5",
             description = "Desc5",
             done = true,

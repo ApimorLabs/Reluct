@@ -14,15 +14,15 @@ internal class TaskDetailsRepositoryImpl(
     private val backgroundDispatcher: CoroutineDispatcher
 ) : TaskDetailsRepository {
 
-    override suspend fun deleteTask(taskId: Long) =
+    override suspend fun deleteTask(taskId: String) =
         withContext(backgroundDispatcher) {
             dao.deleteTask(taskId)
         }
 
-    override fun toggleTask(taskId: Long, isDone: Boolean) =
+    override fun toggleTask(taskId: String, isDone: Boolean) =
         dao.toggleTaskDone(taskId, isDone)
 
-    override fun getTask(taskId: Long): Flow<Task?> =
+    override fun getTask(taskId: String): Flow<Task?> =
         dao.getTask(taskId).map { taskDbObject ->
             taskDbObject?.asTask()
         }.flowOn(backgroundDispatcher)

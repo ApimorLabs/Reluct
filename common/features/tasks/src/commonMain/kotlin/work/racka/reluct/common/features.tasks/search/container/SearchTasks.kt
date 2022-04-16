@@ -9,7 +9,7 @@ internal interface SearchTasks {
     val uiState: StateFlow<TasksState>
     val events: Flow<TasksSideEffect>
     fun searchTasks(query: String)
-    fun toggleDone(taskId: Long, isDone: Boolean)
-    fun navigateToTaskDetails(taskId: Long)
+    fun toggleDone(taskId: String, isDone: Boolean)
+    fun navigateToTaskDetails(taskId: String)
     fun goBack()
 }

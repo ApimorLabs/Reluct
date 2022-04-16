@@ -11,8 +11,8 @@ import work.racka.reluct.common.model.states.tasks.TasksState
 
 actual class TaskDetailsViewModel(
     taskDetails: TaskDetailsRepository,
-    taskId: Long?,
-    scope: CoroutineScope
+    taskId: String?,
+    scope: CoroutineScope,
 ) {
     private val host: TaskDetails by lazy {
         TaskDetailsImpl(
@@ -24,8 +24,8 @@ actual class TaskDetailsViewModel(
 
     actual val uiState: StateFlow<TasksState> = host.uiState
     actual val events: Flow<TasksSideEffect> = host.events
-    actual fun deleteTask(taskId: Long) = host.deleteTask(taskId)
-    actual fun toggleDone(taskId: Long, isDone: Boolean) = host.toggleDone(taskId, isDone)
-    actual fun editTask(taskId: Long) = host.editTask(taskId)
+    actual fun deleteTask(taskId: String) = host.deleteTask(taskId)
+    actual fun toggleDone(taskId: String, isDone: Boolean) = host.toggleDone(taskId, isDone)
+    actual fun editTask(taskId: String) = host.editTask(taskId)
     actual fun goBack() = host.goBack()
 }

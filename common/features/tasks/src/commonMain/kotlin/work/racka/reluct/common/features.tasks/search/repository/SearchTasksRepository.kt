@@ -5,5 +5,5 @@ import work.racka.reluct.common.model.domain.tasks.Task
 
 interface SearchTasksRepository {
     fun search(query: String): Flow<List<Task>>
-    fun toggleDone(taskId: Long, isDone: Boolean)
+    fun toggleDone(taskId: String, isDone: Boolean)
 }

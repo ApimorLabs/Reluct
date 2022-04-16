@@ -20,7 +20,7 @@ internal class AddEditTaskRepositoryImpl(
             dao.insertTask(task.asDatabaseModel())
         }
 
-    override fun getTaskToEdit(taskId: Long): Flow<EditTask?> =
+    override fun getTaskToEdit(taskId: String): Flow<EditTask?> =
         dao.getTask(taskId)
             .map { value: TaskDbObject? ->
                 value?.asEditTask()

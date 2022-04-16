@@ -27,9 +27,9 @@ actual class SearchTasksViewModel(
 
     actual fun searchTasks(query: String) = host.searchTasks(query)
 
-    actual fun toggleDone(taskId: Long, isDone: Boolean) = host.toggleDone(taskId, isDone)
+    actual fun toggleDone(taskId: String, isDone: Boolean) = host.toggleDone(taskId, isDone)
 
-    actual fun navigateToTaskDetails(taskId: Long) = host.navigateToTaskDetails(taskId)
+    actual fun navigateToTaskDetails(taskId: String) = host.navigateToTaskDetails(taskId)
 
     actual fun goBack() = host.goBack()
 }

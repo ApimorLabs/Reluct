@@ -8,6 +8,6 @@ import work.racka.reluct.common.model.states.tasks.TasksState
 internal interface PendingTasks {
     val uiState: StateFlow<TasksState>
     val events: Flow<TasksSideEffect>
-    fun toggleDone(taskId: Long, isDone: Boolean)
-    fun navigateToTaskDetails(taskId: Long)
+    fun toggleDone(taskId: String, isDone: Boolean)
+    fun navigateToTaskDetails(taskId: String)
 }

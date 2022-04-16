@@ -5,5 +5,5 @@ import work.racka.reluct.common.model.domain.tasks.EditTask
 
 interface AddEditTaskRepository {
     suspend fun addTask(task: EditTask)
-    fun getTaskToEdit(taskId: Long): Flow<EditTask?>
+    fun getTaskToEdit(taskId: String): Flow<EditTask?>
 }

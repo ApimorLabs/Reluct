@@ -24,7 +24,7 @@ actual class PendingTasksViewModel(
 
     actual val events: Flow<TasksSideEffect> = host.events
 
-    actual fun toggleDone(taskId: Long, isDone: Boolean) = host.toggleDone(taskId, isDone)
+    actual fun toggleDone(taskId: String, isDone: Boolean) = host.toggleDone(taskId, isDone)
 
-    actual fun navigateToTaskDetails(taskId: Long) = host.navigateToTaskDetails(taskId)
+    actual fun navigateToTaskDetails(taskId: String) = host.navigateToTaskDetails(taskId)
 }

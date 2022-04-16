@@ -13,7 +13,7 @@ class SearchTasksRepositoryImpl(
     private val backgroundDispatcher: CoroutineDispatcher
 ) : SearchTasksRepository {
 
-    override fun toggleDone(taskId: Long, isDone: Boolean) =
+    override fun toggleDone(taskId: String, isDone: Boolean) =
         dao.toggleTaskDone(taskId, isDone)
 
     override fun search(query: String): Flow<List<Task>> =

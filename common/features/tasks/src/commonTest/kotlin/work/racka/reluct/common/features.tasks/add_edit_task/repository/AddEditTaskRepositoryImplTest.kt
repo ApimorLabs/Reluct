@@ -68,7 +68,7 @@ class AddEditTaskRepositoryImplTest : KoinTest {
     @Test
     fun getTaskToEdit_WhenCalledWithIdAndTaskFoundInDb_ReturnsNonNullFlowOfEditTask() = runTest {
         val expectedTask = TestData.editTask
-        val taskId = 2L
+        val taskId = "2L"
         every { dao.getTask(taskId) } returns flowOf(expectedTask.asDatabaseModel())
 
         launch {
@@ -86,7 +86,7 @@ class AddEditTaskRepositoryImplTest : KoinTest {
 
     @Test
     fun getTaskToEdit_WhenCalledWithIdAndTaskNotFoundInDb_ReturnsNullFlowOfEditTask() = runTest {
-        val taskId = 2L
+        val taskId = "2L"
         every { dao.getTask(taskId) } returns flowOf(null)
 
         launch {

@@ -39,12 +39,12 @@ internal class CompletedTasksImpl(
         }
     }
 
-    override fun toggleDone(taskId: Long, isDone: Boolean) {
+    override fun toggleDone(taskId: String, isDone: Boolean) {
         completedTasks.toggleTaskDone(taskId, isDone)
         _events.trySend(TasksSideEffect.TaskDone(isDone))
     }
 
-    override fun navigateToTaskDetails(taskId: Long) {
+    override fun navigateToTaskDetails(taskId: String) {
         _events.trySend(TasksSideEffect.Navigation.NavigateToTaskDetails(taskId))
     }
 }

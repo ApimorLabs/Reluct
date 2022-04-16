@@ -6,7 +6,7 @@ package work.racka.reluct.common.model.data.local.task
  * TimeZone if it changes later on.
  */
 data class TaskDbObject(
-    val id: Long,
+    val id: String,
     val title: String,
     val description: String?,
     val done: Boolean,
@@ -14,5 +14,5 @@ data class TaskDbObject(
     val dueDateLocalDateTime: String,
     val completedLocalDateTime: String?,
     val reminderLocalDateTime: String?,
-    val timeZoneId: String
+    val timeZoneId: String,
 )

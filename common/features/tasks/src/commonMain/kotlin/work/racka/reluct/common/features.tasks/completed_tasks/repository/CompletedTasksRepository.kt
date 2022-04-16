@@ -5,5 +5,5 @@ import work.racka.reluct.common.model.domain.tasks.Task
 
 interface CompletedTasksRepository {
     fun getTasks(): Flow<List<Task>>
-    fun toggleTaskDone(taskId: Long, isDone: Boolean)
+    fun toggleTaskDone(taskId: String, isDone: Boolean)
 }

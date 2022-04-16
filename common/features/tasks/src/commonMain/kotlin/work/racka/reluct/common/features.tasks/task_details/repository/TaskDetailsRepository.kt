@@ -4,7 +4,7 @@ import kotlinx.coroutines.flow.Flow
 import work.racka.reluct.common.model.domain.tasks.Task
 
 interface TaskDetailsRepository {
-    fun getTask(taskId: Long): Flow<Task?>
-    suspend fun deleteTask(taskId: Long)
-    fun toggleTask(taskId: Long, isDone: Boolean)
+    fun getTask(taskId: String): Flow<Task?>
+    suspend fun deleteTask(taskId: String)
+    fun toggleTask(taskId: String, isDone: Boolean)
 }

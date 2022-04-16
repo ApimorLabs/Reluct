@@ -11,7 +11,7 @@ import work.racka.reluct.common.model.states.tasks.TasksState
 
 class TaskDetailsImpl(
     private val taskDetails: TaskDetailsRepository,
-    private val taskId: Long?,
+    private val taskId: String?,
     private val scope: CoroutineScope,
 ) : TaskDetails {
 
@@ -59,16 +59,16 @@ class TaskDetailsImpl(
         }
     }
 
-    override fun toggleDone(taskId: Long, isDone: Boolean) {
+    override fun toggleDone(taskId: String, isDone: Boolean) {
         taskDetails.toggleTask(taskId, isDone)
         _events.trySend(TasksSideEffect.TaskDone(isDone))
     }
 
-    override fun editTask(taskId: Long) {
+    override fun editTask(taskId: String) {
         _events.trySend(TasksSideEffect.Navigation.NavigateToEdit(taskId))
     }
 
-    override fun deleteTask(taskId: Long) {
+    override fun deleteTask(taskId: String) {
         scope.launch {
             taskDetails.deleteTask(taskId)
             _events.send(

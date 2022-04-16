@@ -21,7 +21,7 @@ internal actual object Platform {
             )
         }
 
-        factory { (taskId: Long?) ->
+        factory { (taskId: String?) ->
             TaskDetailsViewModel(
                 taskDetails = get(),
                 taskId = taskId,
@@ -29,7 +29,7 @@ internal actual object Platform {
             )
         }
 
-        factory { (taskId: Long?) ->
+        factory { (taskId: String?) ->
             AddEditTaskViewModel(
                 addEditTask = get(),
                 taskId = taskId,

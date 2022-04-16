@@ -12,8 +12,8 @@ import work.racka.reluct.common.model.states.tasks.TasksState
 
 actual class AddEditTaskViewModel(
     addEditTask: AddEditTaskRepository,
-    taskId: Long?,
-    scope: CoroutineScope
+    taskId: String?,
+    scope: CoroutineScope,
 ) {
     private val host: AddEditTask by lazy {
         AddEditTaskImpl(

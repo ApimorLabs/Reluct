@@ -82,7 +82,7 @@ class TasksDaoImplTest : KoinTest {
     @Test
     fun getTask_WhenTaskNotFoundInDb_ReturnsNull() = runTest {
         val tasks = TestData.taskDbObjects
-        val wrongId = 20000L
+        val wrongId = "20000L"
         val expectedError = NullPointerException::class
         tasks.forEach {
             dao.insertTask(it)
