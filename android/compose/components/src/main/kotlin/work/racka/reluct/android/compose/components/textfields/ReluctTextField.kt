@@ -11,6 +11,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.text.selection.LocalTextSelectionColors
+import androidx.compose.foundation.text.selection.TextSelectionColors
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
@@ -40,7 +42,7 @@ internal fun ReluctTextField(
     modifier: Modifier = Modifier,
     hint: String,
     textStyle: TextStyle = MaterialTheme.typography.titleMedium,
-    onTextChange: (String) -> Unit = { },
+    onTextChange: (String) -> Unit,
     maxLines: Int = Int.MAX_VALUE,
     singleLine: Boolean = false,
     containerColor: Color = MaterialTheme.colorScheme.surfaceVariant,
@@ -76,13 +78,12 @@ internal fun ReluctTextField(
     )
 
     Column(
-        modifier = modifier,
         verticalArrangement = Arrangement
             .spacedBy(Dimens.ExtraSmallPadding.size)
     ) {
 
         Row(
-            modifier = Modifier
+            modifier = modifier
                 .clip(shape)
                 .background(color = containerColor)
                 .border(
@@ -114,34 +115,42 @@ internal fun ReluctTextField(
                         overflow = TextOverflow.Ellipsis
                     )
                 }
-                BasicTextField(
-                    value = fieldText,
-                    onValueChange = {
-                        fieldText = it
-                        onTextChange(it)
-                        isTyping = fieldText.isNotEmpty()
+                CompositionLocalProvider(
+                    LocalTextSelectionColors provides TextSelectionColors(
+                        handleColor = MaterialTheme.colorScheme.primary,
+                        backgroundColor = MaterialTheme.colorScheme.primary
+                            .copy(alpha = .3f)
+                    )
+                ) {
+                    BasicTextField(
+                        value = fieldText,
+                        onValueChange = {
+                            fieldText = it
+                            onTextChange(it)
+                            isTyping = fieldText.isNotEmpty()
 
-                        if (isErrorActive.value) {
-                            isErrorActive.value = false
-                        }
-                    },
-                    visualTransformation = visualTransformation,
-                    maxLines = maxLines,
-                    cursorBrush = cursorBrush,
-                    singleLine = singleLine,
-                    textStyle = textStyle
-                        .copy(color = if (isErrorActive.value) errorColor else contentColor),
-                    keyboardOptions = keyboardOptions,
-                    keyboardActions = keyboardActions,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(end = Dimens.MediumPadding.size)
-                        .padding(vertical = Dimens.MediumPadding.size)
-                        .focusRequester(focusRequester)
-                        .onFocusChanged {
-                            isHintActive = !it.isFocused
-                        }
-                )
+                            if (isErrorActive.value) {
+                                isErrorActive.value = false
+                            }
+                        },
+                        visualTransformation = visualTransformation,
+                        maxLines = maxLines,
+                        cursorBrush = cursorBrush,
+                        singleLine = singleLine,
+                        textStyle = textStyle
+                            .copy(color = if (isErrorActive.value) errorColor else contentColor),
+                        keyboardOptions = keyboardOptions,
+                        keyboardActions = keyboardActions,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(end = Dimens.MediumPadding.size)
+                            .padding(vertical = Dimens.MediumPadding.size)
+                            .focusRequester(focusRequester)
+                            .onFocusChanged {
+                                isHintActive = !it.isFocused
+                            }
+                    )
+                }
             }
         }
 

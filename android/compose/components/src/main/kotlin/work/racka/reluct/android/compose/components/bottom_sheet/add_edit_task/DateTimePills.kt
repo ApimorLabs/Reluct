@@ -25,6 +25,7 @@ import work.racka.reluct.android.compose.components.datetime.time.Timepicker
 import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.android.compose.theme.Shapes
 import work.racka.reluct.common.model.util.time.TimeUtils
+import work.racka.reluct.common.model.util.time.TimeUtils.plus
 
 @Composable
 internal fun DateTimePills(
@@ -35,16 +36,17 @@ internal fun DateTimePills(
     val dateDialogState = rememberMaterialDialogState()
     val timeDialogState = rememberMaterialDialogState()
 
-    val currentTime = remember {
+    val advancedDateTime = remember {
         derivedStateOf {
             Clock.System.now()
                 .toLocalDateTime(TimeZone.currentSystemDefault())
+                .plus(hours = 1)
         }
     }
 
     val localDateTime = remember {
         mutableStateOf(
-            currentTime.value
+            advancedDateTime.value
         )
     }
 
@@ -57,7 +59,7 @@ internal fun DateTimePills(
     val dateString = rememberSaveable {
         mutableStateOf(
             TimeUtils.getFormattedDateString(
-                dateTime = currentTime.value.toString(),
+                dateTime = advancedDateTime.value.toString(),
                 originalTimeZoneId = TimeZone.currentSystemDefault().id
             )
         )
@@ -66,7 +68,7 @@ internal fun DateTimePills(
     val timeString = rememberSaveable {
         mutableStateOf(
             TimeUtils.getTimeFromLocalDateTime(
-                dateTime = currentTime.value.toString(),
+                dateTime = advancedDateTime.value.toString(),
                 originalTimeZoneId = TimeZone.currentSystemDefault().id
             )
         )
@@ -132,15 +134,17 @@ private fun DateAndTimeMaterialDialogs(
     timeDialogState: MaterialDialogState,
     onLocalDateTimeChange: (dateChange: LocalDateTime?, timeChange: LocalDateTime?) -> Unit,
 ) {
-    val currentTime = remember {
+    val advancedDateTime = remember {
         derivedStateOf {
+            TimeUtils
             Clock.System.now()
                 .toLocalDateTime(TimeZone.currentSystemDefault())
+                .plus(hours = 1)
         }
     }
     val localDateTime = remember {
         mutableStateOf(
-            currentTime.value
+            advancedDateTime.value
         )
     }
 

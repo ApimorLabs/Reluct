@@ -17,7 +17,7 @@
 
         <!-- Customize your theme here. -->
         <item name="backgroundColor">@color/backgroundDarkColor</item>
-        <item name="android:background">@color/backgroundDarkColor</item>
+        <item name="android:windowBackground">@color/backgroundDarkColor</item>
         <item name="colorOnBackground">@color/white</item>
         <item name="colorSurface">@color/surfaceDarkColor</item>
         <item name="colorOnSurface">@color/white</item>

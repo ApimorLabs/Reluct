@@ -21,4 +21,12 @@
 
     <string name="positive_dialog_button">OK</string>
     <string name="negative_dialog_button">Cancel</string>
+
+    <string name="add_task">Add Task</string>
+    <string name="edit_task">Edit Task</string>
+    <string name="task_title_hint">Task name</string>
+    <string name="task_description_hint">Description</string>
+    <string name="task_title_error_text">Task Name can not be empty</string>
+    <string name="task_to_be_done_at_text">To Be Done At</string>
+
 </resources>

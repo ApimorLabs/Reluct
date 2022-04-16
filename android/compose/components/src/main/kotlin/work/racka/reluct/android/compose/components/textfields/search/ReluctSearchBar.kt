@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.text.selection.LocalTextSelectionColors
+import androidx.compose.foundation.text.selection.TextSelectionColors
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Close
@@ -171,38 +173,46 @@ fun ReluctSearchBar(
                         overflow = TextOverflow.Ellipsis
                     )
                 }
-                BasicTextField(
-                    value = searchText,
-                    onValueChange = {
-                        searchText = it
-                        onSearch(it)
-                        isTyping = searchText.isNotBlank()
-                    },
-                    maxLines = 1,
-                    cursorBrush = SolidColor(MaterialTheme.colorScheme.primary),
-                    singleLine = true,
-                    textStyle = MaterialTheme.typography.titleMedium
-                        .copy(color = MaterialTheme.colorScheme.onSurfaceVariant),
-                    keyboardOptions = KeyboardOptions(
-                        capitalization = KeyboardCapitalization.Words,
-                        imeAction = ImeAction.Search
-                    ),
-                    keyboardActions = KeyboardActions(
-                        onSearch = {
-                            keyboardController?.hide()
-                            if (searchText.isBlank()) {
-                                focusManager.clearFocus()
+                CompositionLocalProvider(
+                    LocalTextSelectionColors provides TextSelectionColors(
+                        handleColor = MaterialTheme.colorScheme.primary,
+                        backgroundColor = MaterialTheme.colorScheme.primary
+                            .copy(alpha = .3f)
+                    )
+                ) {
+                    BasicTextField(
+                        value = searchText,
+                        onValueChange = {
+                            searchText = it
+                            onSearch(it)
+                            isTyping = searchText.isNotBlank()
+                        },
+                        maxLines = 1,
+                        cursorBrush = SolidColor(MaterialTheme.colorScheme.primary),
+                        singleLine = true,
+                        textStyle = MaterialTheme.typography.titleMedium
+                            .copy(color = MaterialTheme.colorScheme.onSurfaceVariant),
+                        keyboardOptions = KeyboardOptions(
+                            capitalization = KeyboardCapitalization.Words,
+                            imeAction = ImeAction.Search
+                        ),
+                        keyboardActions = KeyboardActions(
+                            onSearch = {
+                                keyboardController?.hide()
+                                if (searchText.isBlank()) {
+                                    focusManager.clearFocus()
+                                }
                             }
-                        }
-                    ),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(end = Dimens.MediumPadding.size)
-                        .focusRequester(focusRequester)
-                        .onFocusChanged {
-                            isHintActive = !it.isFocused
-                        }
-                )
+                        ),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(end = Dimens.MediumPadding.size)
+                            .focusRequester(focusRequester)
+                            .onFocusChanged {
+                                isHintActive = !it.isFocused
+                            }
+                    )
+                }
             }
         }
 

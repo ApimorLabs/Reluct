@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -18,6 +19,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.navigation
 import com.google.accompanist.navigation.animation.composable
 import timber.log.Timber
+import work.racka.reluct.android.compose.components.ComponentsPreview2
 import work.racka.reluct.android.compose.components.tab.tasks.TasksTabBar
 import work.racka.reluct.common.compose.destinations.TasksDestinations
 import work.racka.reluct.common.compose.destinations.navbar.Graphs
@@ -54,14 +56,29 @@ internal fun NavGraphBuilder.tasksNavGraph(
                     }
                 }
             ) {
+                val listState = rememberLazyListState()
                 Box(
                     modifier = Modifier.fillMaxSize(),
                     contentAlignment = Alignment.Center
                 ) {
-                    Text(
-                        text = "Tasks: $route",
-                        color = MaterialTheme.colorScheme.onBackground
-                    )
+                    ComponentsPreview2()
+                    /*LazyColumn(
+                        Modifier
+                            .fillMaxWidth(.9f),
+                        verticalArrangement = Arrangement.spacedBy(16.dp),
+                        state = listState
+                    ) {
+                        item {
+                            ComponentsPreview2()
+                        }
+
+                        item {
+                            Text(
+                                text = "Tasks: $route",
+                                color = MaterialTheme.colorScheme.onBackground
+                            )
+                        }
+                    }*/
                 }
             }
         }

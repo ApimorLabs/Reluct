@@ -24,9 +24,9 @@ import work.racka.reluct.android.compose.theme.Dimens
 internal fun TopSheetSection(
     modifier: Modifier = Modifier,
     sheetTitle: String,
-    rightButtonIcon: ImageVector,
-    rightButtonContentDescription: String?,
-    onCloseClicked: () -> Unit = { },
+    rightButtonIcon: ImageVector? = null,
+    rightButtonContentDescription: String? = null,
+    onCloseClicked: () -> Unit,
     onRightButtonClicked: () -> Unit = { },
     closeButtonVisible: Boolean = true,
     rightButtonVisible: Boolean = false,
@@ -66,7 +66,7 @@ internal fun TopSheetSection(
 
             Text(
                 text = sheetTitle,
-                style = MaterialTheme.typography.titleLarge,
+                style = MaterialTheme.typography.headlineSmall,
                 color = LocalContentColor.current,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
@@ -77,7 +77,7 @@ internal fun TopSheetSection(
                 onClick = onRightButtonClicked,
                 enabled = rightButtonVisible
             ) {
-                if (rightButtonVisible) {
+                if (rightButtonVisible && rightButtonIcon != null) {
                     Icon(
                         imageVector = rightButtonIcon,
                         contentDescription = rightButtonContentDescription,

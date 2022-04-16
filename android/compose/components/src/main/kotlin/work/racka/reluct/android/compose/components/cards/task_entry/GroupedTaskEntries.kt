@@ -73,7 +73,8 @@ internal fun GroupedTasksPrev() {
             ReluctTextField(
                 hint = "Task",
                 modifier = Modifier
-                    .fillMaxWidth(.9f)
+                    .fillMaxWidth(.9f),
+                onTextChange = {}
             )
             DateTimePills(
                 onLocalDateTimeChange = { dateTime ->

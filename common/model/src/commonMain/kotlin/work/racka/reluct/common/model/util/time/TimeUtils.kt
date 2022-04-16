@@ -10,7 +10,7 @@ object TimeUtils {
      */
     private fun getLocalDateTimeWithCorrectTimeZone(
         dateTime: String,
-        originalTimeZoneId: String
+        originalTimeZoneId: String,
     ): LocalDateTime {
         val timeZone = TimeZone.of(originalTimeZoneId)
         val localDateTime = dateTime.toLocalDateTime()
@@ -31,7 +31,7 @@ object TimeUtils {
     fun isDateTimeOverdue(
         dateTime: String,
         originalTimeZoneId: String,
-        overdueHours: Int = 1
+        overdueHours: Int = 1,
     ): Boolean {
         val today = Clock.System.now()
         val localDTInstant = getLocalDateTimeWithCorrectTimeZone(dateTime, originalTimeZoneId)
@@ -49,7 +49,7 @@ object TimeUtils {
     fun getFormattedDateString(
         dateTime: String,
         originalTimeZoneId: String,
-        showShortIntervalAsDay: Boolean = true
+        showShortIntervalAsDay: Boolean = true,
     ): String {
         val today = Clock.System.todayAt(TimeZone.currentSystemDefault())
         val localDT = getLocalDateTimeWithCorrectTimeZone(dateTime, originalTimeZoneId)
@@ -95,7 +95,7 @@ object TimeUtils {
      */
     fun getTimeFromLocalDateTime(
         dateTime: String,
-        originalTimeZoneId: String = TimeZone.currentSystemDefault().id
+        originalTimeZoneId: String = TimeZone.currentSystemDefault().id,
     ): String {
         val localDateTime = getLocalDateTimeWithCorrectTimeZone(dateTime, originalTimeZoneId)
         val hr = localDateTime.hour
@@ -112,7 +112,7 @@ object TimeUtils {
      */
     fun getTimeLeftFromLocalDateTime(
         dateTime: String,
-        originalTimeZoneId: String = TimeZone.currentSystemDefault().id
+        originalTimeZoneId: String = TimeZone.currentSystemDefault().id,
     ): String {
         val currentTime = Clock.System.now()
         val instant = getLocalDateTimeWithCorrectTimeZone(dateTime, originalTimeZoneId)
@@ -278,4 +278,20 @@ object TimeUtils {
             Month.DECEMBER -> "December"
             else -> throw IllegalArgumentException()
         }
+
+    fun LocalDateTime.plus(
+        years: Int = 0,
+        months: Int = 0,
+        days: Int = 0,
+        hours: Int = 0,
+        minutes: Int = 0,
+        seconds: Int = 0,
+        timeZoneId: String = TimeZone.currentSystemDefault().id,
+    ): LocalDateTime {
+        val timeZone = TimeZone.of(timeZoneId)
+        val instant = this.toInstant(timeZone)
+        val dateTimePeriod = DateTimePeriod(years, months, days, hours, minutes, seconds)
+        return instant.plus(dateTimePeriod, timeZone)
+            .toLocalDateTime(timeZone)
+    }
 }
