@@ -28,7 +28,7 @@ import work.racka.reluct.common.model.util.time.TimeUtils
 import work.racka.reluct.common.model.util.time.TimeUtils.plus
 
 @Composable
-internal fun DateTimePills(
+fun DateTimePills(
     modifier: Modifier = Modifier,
     onLocalDateTimeChange: (dateTimeString: String) -> Unit,
 ) {

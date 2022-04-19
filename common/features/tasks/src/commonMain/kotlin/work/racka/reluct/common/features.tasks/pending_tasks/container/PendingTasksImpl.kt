@@ -46,7 +46,7 @@ internal class PendingTasksImpl(
 
     override fun toggleDone(taskId: String, isDone: Boolean) {
         pendingTasks.toggleTaskDone(taskId, isDone)
-        _events.trySend(TasksSideEffect.TaskDone(isDone))
+        _events.trySend(TasksSideEffect.ShowMessageTaskDone(isDone))
     }
 
     override fun navigateToTaskDetails(taskId: String) {

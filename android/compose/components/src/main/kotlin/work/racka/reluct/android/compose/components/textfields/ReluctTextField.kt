@@ -38,7 +38,7 @@ import work.racka.reluct.android.compose.theme.Shapes
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-internal fun ReluctTextField(
+fun ReluctTextField(
     modifier: Modifier = Modifier,
     hint: String,
     textStyle: TextStyle = MaterialTheme.typography.titleMedium,

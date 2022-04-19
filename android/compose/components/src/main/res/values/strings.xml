@@ -28,5 +28,11 @@
     <string name="task_description_hint">Description</string>
     <string name="task_title_error_text">Task Name can not be empty</string>
     <string name="task_to_be_done_at_text">To Be Done At</string>
+    <string name="reminder_at">Remind At</string>
+    <string name="set_reminder">Set a reminder</string>
+    <string name="set_reminder_desc">Remind you about the task at set time</string>
+
+    <string name="turn_on_focus_mode">Turn On Focus Mode</string>
+    <string name="turn_on_focus_mode_desc">Selected apps will be disabled</string>
 
 </resources>

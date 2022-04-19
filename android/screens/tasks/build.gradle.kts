@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins {
     id("com.android.library")
     kotlin("android")
@@ -39,10 +41,16 @@ android {
     }
 }
 
+tasks.withType<KotlinCompile> {
+    kotlinOptions.freeCompilerArgs += "-opt-in=kotlin.RequiresOptIn"
+}
+
 dependencies {
     // Dependency Modules
     implementation(project(":common:model"))
     implementation(project(":android:compose:theme"))
+    implementation(project(":android:compose:components"))
+    implementation(project(":common:features:tasks"))
 
     // Core Functionality
     /*
@@ -85,6 +93,11 @@ dependencies {
         // Testing Compose
         androidTestImplementation(junit)
         debugImplementation(tooling)
+    }
+
+    // Koin
+    with(Dependencies.Koin) {
+        implementation(compose)
     }
 
     // Coil Image loader

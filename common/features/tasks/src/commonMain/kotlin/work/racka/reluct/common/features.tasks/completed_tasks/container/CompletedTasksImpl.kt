@@ -41,7 +41,7 @@ internal class CompletedTasksImpl(
 
     override fun toggleDone(taskId: String, isDone: Boolean) {
         completedTasks.toggleTaskDone(taskId, isDone)
-        _events.trySend(TasksSideEffect.TaskDone(isDone))
+        _events.trySend(TasksSideEffect.ShowMessageTaskDone(isDone))
     }
 
     override fun navigateToTaskDetails(taskId: String) {

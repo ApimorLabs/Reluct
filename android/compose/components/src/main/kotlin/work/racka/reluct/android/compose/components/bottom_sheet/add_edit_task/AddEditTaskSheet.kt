@@ -1,7 +1,10 @@
 package work.racka.reluct.android.compose.components.bottom_sheet.add_edit_task
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material3.LocalContentColor
@@ -25,7 +28,7 @@ import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import work.racka.reluct.android.compose.components.R
-import work.racka.reluct.android.compose.components.bottom_sheet.TopSheetSection
+import work.racka.reluct.android.compose.components.cards.settings.EntryWithCheckbox
 import work.racka.reluct.android.compose.components.textfields.ReluctTextField
 import work.racka.reluct.android.compose.theme.BottomSheetShape
 import work.racka.reluct.android.compose.theme.Dimens
@@ -73,93 +76,106 @@ fun AddEditTaskSheet(
                 dueDateLocalDateTime = advancedDateTime.value.toString(),
                 timeZoneId = TimeZone.currentSystemDefault().id,
                 completedLocalDateTime = null,
-                reminderLocalDateTime =
-                if (setReminder.value) advancedDateTime.value.toString()
-                else null
+                reminderLocalDateTime = null
             )
         mutableStateOf(taskToEdit)
     }
 
-    Surface(
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement
+            .spacedBy(Dimens.MediumPadding.size),
         modifier = modifier
-            .fillMaxSize()
-            .statusBarsPadding(),
-        shape = shape,
-        color = containerColor
+            .animateContentSize()
+            .fillMaxWidth()
     ) {
-        Column(
+        ReluctTextField(
+            hint = stringResource(R.string.task_title_hint),
+            isError = taskTitleError.value,
+            errorText = stringResource(R.string.task_title_error_text),
+            maxLines = 1,
+            singleLine = true,
+            keyboardOptions = KeyboardOptions(
+                capitalization = KeyboardCapitalization.Sentences
+            ),
+            onTextChange = { text ->
+                task.value = task.value.copy(title = text)
+            }
+        )
+
+        ReluctTextField(
             modifier = Modifier
-                .navigationBarsPadding(),
-            verticalArrangement = Arrangement
-                .spacedBy(Dimens.MediumPadding.size)
+                .height(200.dp),
+            hint = stringResource(R.string.task_description_hint),
+            keyboardOptions = KeyboardOptions(
+                capitalization = KeyboardCapitalization.Sentences
+            ),
+            onTextChange = { text ->
+                task.value = task.value.copy(title = text)
+            }
+        )
+
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            TopSheetSection(
-                sheetTitle = sheetTitle,
+            Text(
                 modifier = Modifier
-                    .padding(top = Dimens.SmallPadding.size)
-                    .padding(horizontal = Dimens.SmallPadding.size),
-                onCloseClicked = onClose
+                    .padding(horizontal = Dimens.MediumPadding.size)
+                    .fillMaxWidth(),
+                text = stringResource(R.string.task_to_be_done_at_text),
+                style = MaterialTheme.typography.titleMedium,
+                color = LocalContentColor.current,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
             )
+            Spacer(modifier = Modifier.height(Dimens.SmallPadding.size))
+            DateTimePills(
+                onLocalDateTimeChange = { dateTimeString ->
+                    task.value = task.value.copy(dueDateLocalDateTime = dateTimeString)
+                }
+            )
+        }
 
-            LazyColumn(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement
-                    .spacedBy(Dimens.MediumPadding.size),
-                modifier = Modifier
-                    .fillMaxWidth()
+        EntryWithCheckbox(
+            title = stringResource(R.string.set_reminder),
+            description = stringResource(R.string.set_reminder_desc),
+            onCheckedChanged = { checked ->
+                setReminder.value = checked
+                task.value = task.value.copy(
+                    reminderLocalDateTime =
+                    if (setReminder.value) advancedDateTime.value.toString()
+                    else null
+                )
+            }
+        )
+
+        AnimatedVisibility(
+            visible = setReminder.value,
+            enter = fadeIn(),
+            exit = fadeOut()
+        ) {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                item {
-                    ReluctTextField(
-                        hint = stringResource(R.string.task_title_hint),
-                        isError = taskTitleError.value,
-                        errorText = stringResource(R.string.task_title_error_text),
-                        maxLines = 1,
-                        singleLine = true,
-                        keyboardOptions = KeyboardOptions(
-                            capitalization = KeyboardCapitalization.Sentences
-                        ),
-                        onTextChange = { text ->
-                            task.value = task.value.copy(title = text)
-                        }
-                    )
-                }
-
-                item {
-                    ReluctTextField(
-                        modifier = Modifier
-                            .height(200.dp),
-                        hint = stringResource(R.string.task_description_hint),
-                        keyboardOptions = KeyboardOptions(
-                            capitalization = KeyboardCapitalization.Sentences
-                        ),
-                        onTextChange = { text ->
-                            task.value = task.value.copy(title = text)
-                        }
-                    )
-                }
-
-                item {
-                    Text(
-                        modifier = Modifier
-                            .padding(horizontal = Dimens.MediumPadding.size)
-                            .fillMaxWidth(),
-                        text = stringResource(R.string.task_to_be_done_at_text),
-                        style = MaterialTheme.typography.titleMedium,
-                        color = LocalContentColor.current,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
-                    )
-                    Spacer(modifier = Modifier.height(Dimens.SmallPadding.size))
-                    DateTimePills(
-                        onLocalDateTimeChange = { dateTimeString ->
-                            task.value = task.value.copy(dueDateLocalDateTime = dateTimeString)
-                        }
-                    )
-                }
+                Text(
+                    modifier = Modifier
+                        .padding(horizontal = Dimens.MediumPadding.size)
+                        .fillMaxWidth(),
+                    text = stringResource(R.string.reminder_at),
+                    style = MaterialTheme.typography.titleMedium,
+                    color = LocalContentColor.current,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+                Spacer(modifier = Modifier.height(Dimens.SmallPadding.size))
+                DateTimePills(
+                    onLocalDateTimeChange = { dateTimeString ->
+                        task.value = task.value.copy(reminderLocalDateTime = dateTimeString)
+                    }
+                )
             }
         }
     }
-
 }
 
 

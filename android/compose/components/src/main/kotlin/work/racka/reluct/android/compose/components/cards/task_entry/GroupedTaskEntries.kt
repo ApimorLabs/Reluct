@@ -30,8 +30,8 @@ fun GroupedTaskEntries(
     entryType: EntryType,
     groupTitle: String,
     taskList: List<Task>,
-    onEntryClicked: (taskId: String) -> Unit,
-    onCheckedChange: (Boolean) -> Unit,
+    onEntryClicked: (task: Task) -> Unit,
+    onCheckedChange: (isDone: Boolean, taskId: String) -> Unit,
 ) {
     Column(
         modifier = modifier,
@@ -51,8 +51,10 @@ fun GroupedTaskEntries(
             TaskEntry(
                 task = task,
                 entryType = entryType,
-                onEntryClick = { onEntryClicked(task.id) },
-                onCheckedChange = { isChecked -> onCheckedChange(isChecked) }
+                onEntryClick = { onEntryClicked(task) },
+                onCheckedChange = { isChecked ->
+                    onCheckedChange(isChecked, task.id)
+                }
             )
         }
     }
@@ -87,7 +89,7 @@ internal fun GroupedTasksPrev() {
                 groupTitle = "Monday",
                 taskList = list,
                 onEntryClicked = { dialogState.show() },
-                onCheckedChange = {}
+                onCheckedChange = { _, _ -> }
             )
         }
 

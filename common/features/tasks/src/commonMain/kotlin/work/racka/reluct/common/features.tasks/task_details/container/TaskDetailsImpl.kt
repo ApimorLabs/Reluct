@@ -61,7 +61,7 @@ class TaskDetailsImpl(
 
     override fun toggleDone(taskId: String, isDone: Boolean) {
         taskDetails.toggleTask(taskId, isDone)
-        _events.trySend(TasksSideEffect.TaskDone(isDone))
+        _events.trySend(TasksSideEffect.ShowMessageTaskDone(isDone))
     }
 
     override fun editTask(taskId: String) {

@@ -1,0 +1,9 @@
+<resources>
+    <string name="add_task_button_text">New Task</string>
+    <string name="edit_task_button_text">Edit Task</string>
+    <string name="edit_button_text">Edit</string>
+
+    <string name="overdue_tasks_header">Overdue</string>
+
+    <string name="task_marked_as_done">Task Marked As Done</string>
+</resources>
