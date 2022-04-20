@@ -20,6 +20,7 @@ import work.racka.reluct.common.model.states.tasks.TasksSideEffect
 fun PendingTasksScreen(
     onNavigateToAddTask: (task: Task?) -> Unit,
     onNavigateToTaskDetails: (taskId: String) -> Unit,
+    updateTopBar: (toolbarOffset: Float) -> Unit,
 ) {
 
     val scaffoldState = rememberScaffoldState()
@@ -53,6 +54,9 @@ fun PendingTasksScreen(
         },
         onToggleTaskDone = { isDone, taskId ->
             viewModel.toggleDone(taskId, isDone)
+        },
+        updateTopBar = { toolbarOffset ->
+            updateTopBar(toolbarOffset)
         }
     )
 }

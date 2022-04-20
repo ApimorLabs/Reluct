@@ -2,6 +2,8 @@
     <string name="add_task_button_text">New Task</string>
     <string name="edit_task_button_text">Edit Task</string>
     <string name="edit_button_text">Edit</string>
+    <string name="add_task_text">Add Task</string>
+    <string name="no_tasks_text">No Tasks</string>
 
     <string name="overdue_tasks_header">Overdue</string>
 

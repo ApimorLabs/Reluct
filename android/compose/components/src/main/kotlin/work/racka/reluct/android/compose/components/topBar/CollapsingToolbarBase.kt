@@ -11,10 +11,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -47,7 +44,8 @@ import work.racka.reluct.android.compose.theme.Shapes
 @Composable
 fun CollapsingToolbarBase(
     modifier: Modifier = Modifier,
-    toolbarHeading: String,
+    toolbarHeading: String?,
+    showBackButton: Boolean = true,
     onBackButtonPressed: () -> Unit = { },
     contentAlignment: Alignment = Alignment.Center,
     shape: Shape = Shapes.large,
@@ -56,7 +54,8 @@ fun CollapsingToolbarBase(
     toolbarHeight: Dp,
     minShrinkHeight: Dp = 100.dp,
     toolbarOffset: Float,
-    content: @Composable BoxScope.() -> Unit
+    onCollapsed: (Boolean) -> Unit,
+    content: @Composable BoxScope.() -> Unit,
 ) {
     //Scale animation
     val animatedProgress = remember {
@@ -64,6 +63,11 @@ fun CollapsingToolbarBase(
     }
 
     val scrollDp = toolbarHeight + toolbarOffset.dp
+    val collapsed by remember(scrollDp) {
+        mutableStateOf(
+            scrollDp < minShrinkHeight + 20.dp
+        )
+    }
     val animatedCardSize by animateDpAsState(
         targetValue = if (scrollDp <= minShrinkHeight) minShrinkHeight else scrollDp,
         animationSpec = tween(300, easing = LinearOutSlowInEasing)
@@ -73,7 +77,7 @@ fun CollapsingToolbarBase(
         animationSpec = tween(500, easing = LinearOutSlowInEasing)
     )
     val animatedTitleAlpha by animateFloatAsState(
-        targetValue = if (toolbarHeading.isNotBlank()) {
+        targetValue = if (!toolbarHeading.isNullOrBlank()) {
             if (scrollDp <= minShrinkHeight + 20.dp) 1f else 0f
         } else 0f,
         animationSpec = tween(300, easing = LinearOutSlowInEasing)
@@ -91,15 +95,18 @@ fun CollapsingToolbarBase(
         )
     }
 
-    val animatedModifier = modifier
+    LaunchedEffect(key1 = collapsed) {
+        onCollapsed(collapsed)
+    }
+
+    val animatedModifier = Modifier
         .graphicsLayer(
             scaleX = animatedProgress.value
         )
 
     Box(
-        modifier = animatedModifier
+        modifier = Modifier
             .fillMaxWidth()
-            .height(animatedCardSize)
             .shadow(
                 elevation = animatedElevation,
                 shape = shape
@@ -109,42 +116,48 @@ fun CollapsingToolbarBase(
                 shape = shape
             )
     ) {
-        Row(
-            modifier = Modifier
-                .statusBarsPadding(),
-            horizontalArrangement = Arrangement.Start,
-            verticalAlignment = Alignment.CenterVertically
+        Box(
+            modifier = modifier
+                .height(animatedCardSize)
         ) {
-            IconButton(
-                onClick = onBackButtonPressed,
-                modifier = Modifier
-                    .padding(Dimens.SmallPadding.size)
+            Row(
+                horizontalArrangement = Arrangement.Start,
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                Icon(
-                    imageVector = Icons.Rounded.ArrowBack,
-                    contentDescription = stringResource(id = R.string.back_icon),
-                    tint = MaterialTheme.colorScheme.onSecondaryContainer
-                )
+                if (showBackButton) {
+                    IconButton(
+                        onClick = onBackButtonPressed,
+                        modifier = Modifier
+                            .padding(Dimens.SmallPadding.size)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Rounded.ArrowBack,
+                            contentDescription = stringResource(id = R.string.back_icon),
+                            tint = MaterialTheme.colorScheme.onSecondaryContainer
+                        )
+                    }
+                }
+                toolbarHeading?.let {
+                    Text(
+                        text = toolbarHeading,
+                        color = MaterialTheme.colorScheme.onSecondaryContainer.copy(
+                            alpha = animatedTitleAlpha
+                        ),
+                        style = MaterialTheme.typography.headlineLarge,
+                        modifier = Modifier
+                            .padding(horizontal = Dimens.SmallPadding.size)
+                    )
+                }
             }
-            Text(
-                text = toolbarHeading,
-                color = MaterialTheme.colorScheme.onSecondaryContainer.copy(
-                    alpha = animatedTitleAlpha
-                ),
-                style = MaterialTheme.typography.headlineLarge,
+
+            Box(
                 modifier = Modifier
-                    .padding(horizontal = Dimens.SmallPadding.size)
+                    .fillMaxSize()
+                    .alpha(1 - animatedTitleAlpha),
+                contentAlignment = contentAlignment,
+                content = content
             )
         }
-
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .statusBarsPadding()
-                .alpha(1 - animatedTitleAlpha),
-            contentAlignment = contentAlignment,
-            content = content
-        )
     }
 }
 
@@ -156,6 +169,7 @@ fun CollapsingToolbarPrev() {
             toolbarHeading = "Settings",
             toolbarOffset = 0f,
             toolbarHeight = 300.dp,
+            onCollapsed = {},
             content = {
                 Text(
                     text = "Settings",

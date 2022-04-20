@@ -195,6 +195,9 @@ object Dependencies {
 
             // Palette
             val palette by lazy { "androidx.palette:palette-ktx:${Versions.palette}" }
+
+            // Lottie animations
+            val lottieCompose by lazy { "com.airbnb.android:lottie-compose:${Versions.lottie}" }
         }
     }
 

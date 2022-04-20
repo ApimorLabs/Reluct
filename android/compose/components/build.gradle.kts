@@ -102,6 +102,8 @@ dependencies {
     with(Dependencies.Android.Extras) {
         // Palette
         implementation(palette)
+        // Lottie - Compose
+        implementation(lottieCompose)
     }
     // Timber - Logging
     implementation(Dependencies.Log.timber)

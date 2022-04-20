@@ -76,4 +76,7 @@ object Versions {
 
     // Palette
     const val palette = "1.0.0"
+
+    // Lottie Animations
+    const val lottie = "5.0.3"
 }
