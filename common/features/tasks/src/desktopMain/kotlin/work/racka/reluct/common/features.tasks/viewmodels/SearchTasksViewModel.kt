@@ -6,6 +6,7 @@ import kotlinx.coroutines.flow.StateFlow
 import work.racka.reluct.common.features.tasks.search.container.SearchTasks
 import work.racka.reluct.common.features.tasks.search.container.SearchTasksImpl
 import work.racka.reluct.common.features.tasks.search.repository.SearchTasksRepository
+import work.racka.reluct.common.model.domain.tasks.Task
 import work.racka.reluct.common.model.states.tasks.TasksSideEffect
 import work.racka.reluct.common.model.states.tasks.TasksState
 
@@ -26,7 +27,7 @@ actual class SearchTasksViewModel(
 
     actual fun searchTasks(query: String) = host.searchTasks(query)
 
-    actual fun toggleDone(taskId: String, isDone: Boolean) = host.toggleDone(taskId, isDone)
+    actual fun toggleDone(task: Task, isDone: Boolean) = host.toggleDone(task, isDone)
 
     actual fun navigateToTaskDetails(taskId: String) = host.navigateToTaskDetails(taskId)
 

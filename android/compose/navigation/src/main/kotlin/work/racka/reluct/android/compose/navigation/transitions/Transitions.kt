@@ -7,7 +7,7 @@ import androidx.compose.animation.core.tween
 @ExperimentalAnimationApi
 fun scaleInEnterTransition() = scaleIn(
     initialScale = .9f,
-    animationSpec = tween(300)
+    animationSpec = tween(500)
 ) + fadeIn(
     animationSpec = tween(300)
 )
@@ -25,7 +25,7 @@ fun scaleOutExitTransition() = scaleOut(
 @ExperimentalAnimationApi
 fun scaleInPopEnterTransition() = scaleIn(
     initialScale = 1.1f,
-    animationSpec = tween(300)
+    animationSpec = tween(500)
 ) + fadeIn(
     animationSpec = tween(300)
 )

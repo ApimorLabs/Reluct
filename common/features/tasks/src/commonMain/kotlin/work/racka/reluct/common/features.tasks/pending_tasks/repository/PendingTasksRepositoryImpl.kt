@@ -18,6 +18,6 @@ internal class PendingTasksRepositoryImpl(
             .map { list -> list.map { it.asTask() } }
             .flowOn(backgroundDispatcher)
 
-    override fun toggleTaskDone(taskId: String, isDone: Boolean) =
-        dao.toggleTaskDone(taskId, isDone)
+    override fun toggleTaskDone(task: Task, isDone: Boolean) =
+        dao.toggleTaskDone(task.id, isDone, task.overdue)
 }

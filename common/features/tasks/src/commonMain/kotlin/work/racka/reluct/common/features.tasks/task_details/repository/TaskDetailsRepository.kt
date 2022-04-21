@@ -6,5 +6,5 @@ import work.racka.reluct.common.model.domain.tasks.Task
 interface TaskDetailsRepository {
     fun getTask(taskId: String): Flow<Task?>
     suspend fun deleteTask(taskId: String)
-    fun toggleTask(taskId: String, isDone: Boolean)
+    fun toggleTask(task: Task, isDone: Boolean)
 }

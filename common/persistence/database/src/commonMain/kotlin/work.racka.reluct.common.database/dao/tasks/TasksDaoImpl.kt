@@ -18,7 +18,7 @@ import work.racka.reluct.common.model.data.local.task.TaskDbObject
 
 internal class TasksDaoImpl(
     private val coroutineScope: CoroutineScope = MainScope(),
-    databaseWrapper: DatabaseWrapper
+    databaseWrapper: DatabaseWrapper,
 ) : TasksDao {
 
     private val tasksQueries = databaseWrapper.instance?.tasksTableQueries
@@ -58,9 +58,13 @@ internal class TasksDaoImpl(
             ?.mapToList(coroutineScope.coroutineContext)
             ?: flowOf(emptyList())
 
-    override fun toggleTaskDone(id: String, isDone: Boolean) {
+    override fun toggleTaskDone(id: String, isDone: Boolean, wasOverDue: Boolean) {
         tasksQueries?.transaction {
-            tasksQueries.toggleTaskDone(isDone, id)
+            tasksQueries.toggleTaskDone(
+                isDone = isDone,
+                wasOverdue = wasOverDue,
+                id = id
+            )
         }
     }
 

@@ -6,6 +6,7 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import work.racka.reluct.common.features.tasks.task_details.repository.TaskDetailsRepository
 import work.racka.reluct.common.features.tasks.util.Constants
+import work.racka.reluct.common.model.domain.tasks.Task
 import work.racka.reluct.common.model.states.tasks.TasksSideEffect
 import work.racka.reluct.common.model.states.tasks.TasksState
 
@@ -59,8 +60,8 @@ class TaskDetailsImpl(
         }
     }
 
-    override fun toggleDone(taskId: String, isDone: Boolean) {
-        taskDetails.toggleTask(taskId, isDone)
+    override fun toggleDone(task: Task, isDone: Boolean) {
+        taskDetails.toggleTask(task, isDone)
         _events.trySend(TasksSideEffect.ShowMessageDone(isDone))
     }
 

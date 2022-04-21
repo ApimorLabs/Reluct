@@ -1,9 +1,9 @@
-package work.racka.reluct.android.screens.tasks.pending
+package work.racka.reluct.android.screens.tasks.done
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.animation.scaleIn
-import androidx.compose.animation.scaleOut
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -38,7 +38,7 @@ import work.racka.reluct.common.model.states.tasks.TasksState
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
 @Composable
-internal fun PendingTasksUI(
+internal fun CompletedTasksUI(
     modifier: Modifier = Modifier,
     scaffoldState: ScaffoldState,
     uiState: TasksState,
@@ -109,8 +109,8 @@ internal fun PendingTasksUI(
                 modifier = Modifier
                     .fillMaxSize(),
                 visible = uiState is TasksState.Loading,
-                enter = scaleIn(),
-                exit = scaleOut()
+                enter = fadeIn(),
+                exit = fadeOut()
             ) {
                 Box(
                     modifier = Modifier.fillMaxSize(),
@@ -120,9 +120,9 @@ internal fun PendingTasksUI(
                 }
             }
 
-            if (uiState is TasksState.PendingTasks) {
+            if (uiState is TasksState.CompletedTasks) {
                 // Show Empty Graphic
-                if (uiState.overdueTasks.isEmpty() && uiState.tasks.isEmpty()) {
+                if (uiState.tasks.isEmpty()) {
                     Box(
                         modifier = Modifier.fillMaxSize(),
                         contentAlignment = Alignment.Center
@@ -147,33 +147,17 @@ internal fun PendingTasksUI(
                             Spacer(modifier = Modifier)
                         }
 
-                        if (uiState.overdueTasks.isNotEmpty()) {
-                            item {
-                                GroupedTaskEntries(
-                                    entryType = EntryType.PendingTaskOverdue,
-                                    groupTitle = stringResource(R.string.overdue_tasks_header),
-                                    taskList = uiState.overdueTasks,
-                                    onEntryClicked = { task ->
-                                        onTaskClicked(task)
-                                    },
-                                    onCheckedChange = { isDone, task ->
-                                        onToggleTaskDone(isDone, task)
-                                    }
-                                )
-                            }
-                        }
-
                         uiState.tasks.forEach { taskGroup ->
                             item {
                                 GroupedTaskEntries(
-                                    entryType = EntryType.PendingTask,
+                                    entryType = EntryType.CompletedTask,
                                     groupTitle = taskGroup.key,
                                     taskList = taskGroup.value,
                                     onEntryClicked = { task ->
                                         onTaskClicked(task)
                                     },
-                                    onCheckedChange = { isDone, taskId ->
-                                        onToggleTaskDone(isDone, taskId)
+                                    onCheckedChange = { isDone, task ->
+                                        onToggleTaskDone(isDone, task)
                                     }
                                 )
                             }

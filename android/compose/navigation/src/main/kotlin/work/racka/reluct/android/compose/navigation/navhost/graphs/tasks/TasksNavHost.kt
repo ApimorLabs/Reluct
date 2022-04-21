@@ -16,6 +16,7 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.google.accompanist.navigation.animation.AnimatedNavHost
@@ -29,6 +30,7 @@ import work.racka.reluct.android.compose.navigation.transitions.scaleInEnterTran
 import work.racka.reluct.android.compose.navigation.transitions.scaleInPopEnterTransition
 import work.racka.reluct.android.compose.navigation.transitions.scaleOutExitTransition
 import work.racka.reluct.android.compose.navigation.transitions.scaleOutPopExitTransition
+import work.racka.reluct.android.screens.tasks.done.CompletedTasksScreen
 import work.racka.reluct.android.screens.tasks.pending.PendingTasksScreen
 import work.racka.reluct.common.compose.destinations.TasksDestinations
 import work.racka.reluct.common.compose.destinations.navbar.Graphs
@@ -63,7 +65,13 @@ internal fun TasksNavHost(
                     toolbarCollapsed.value = it
                 },
                 updateTabPage = {
-                    navController.navigate(it.route)
+                    navController.navigate(it.route) {
+                        popUpTo(navController.graph.findStartDestination().id) {
+                            saveState = true
+                        }
+                        launchSingleTop = true
+                        restoreState = true
+                    }
                 },
             )
         }
@@ -108,7 +116,7 @@ internal fun TasksNavHost(
                 )
             }
 
-            // Done
+            // Done - Completed Tasks
             composable(
                 route = TasksDestinations.Done.route,
                 enterTransition = {
@@ -124,15 +132,19 @@ internal fun TasksNavHost(
                     scaleOutPopExitTransition()
                 }
             ) {
-                Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text(
-                        text = "Tasks: ",
-                        color = MaterialTheme.colorScheme.onBackground
-                    )
-                }
+                CompletedTasksScreen(
+                    onNavigateToAddTask = {
+                        mainNavController.navigate(
+                            "${TasksDestinations.Paths.AddEditTask.route}/$it"
+                        )
+                    },
+                    onNavigateToTaskDetails = {
+
+                    },
+                    updateToolbarOffset = { toolbarOffset ->
+                        toolbarOffsetHeightPx.value = toolbarOffset
+                    }
+                )
             }
             // Statistics
             composable(
@@ -155,7 +167,7 @@ internal fun TasksNavHost(
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
-                        text = "Tasks: ",
+                        text = "Tasks: $route",
                         color = MaterialTheme.colorScheme.onBackground
                     )
                 }

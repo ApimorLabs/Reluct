@@ -19,8 +19,8 @@ internal class TaskDetailsRepositoryImpl(
             dao.deleteTask(taskId)
         }
 
-    override fun toggleTask(taskId: String, isDone: Boolean) =
-        dao.toggleTaskDone(taskId, isDone)
+    override fun toggleTask(task: Task, isDone: Boolean) =
+        dao.toggleTaskDone(task.id, isDone, task.overdue)
 
     override fun getTask(taskId: String): Flow<Task?> =
         dao.getTask(taskId).map { taskDbObject ->

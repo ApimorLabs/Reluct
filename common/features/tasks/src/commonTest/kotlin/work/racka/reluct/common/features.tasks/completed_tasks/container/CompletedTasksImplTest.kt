@@ -89,18 +89,21 @@ class CompletedTasksImplTest : KoinTest {
         runTest {
             val taskId = "2L"
             val isDone = true
+            val task = TestData.taskDbObjects.first()
+                .asTask()
+                .copy(id = taskId, done = isDone)
             val expectedEvent = TasksSideEffect.ShowMessageDone(isDone)
-            coEvery { repo.toggleTaskDone(taskId, isDone) } returns Unit
+            coEvery { repo.toggleTaskDone(task, isDone) } returns Unit
 
             val result = completedTasks.events
             launch {
                 result.test {
-                    completedTasks.toggleDone(taskId, isDone)
+                    completedTasks.toggleDone(task, isDone)
                     val actual = expectMostRecentItem()
                     println(actual)
 
                     assertEquals(expectedEvent, actual)
-                    coVerify { repo.toggleTaskDone(taskId, isDone) }
+                    coVerify { repo.toggleTaskDone(task, isDone) }
                 }
             }
         }

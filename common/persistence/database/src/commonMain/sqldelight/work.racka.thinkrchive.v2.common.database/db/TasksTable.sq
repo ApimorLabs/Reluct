@@ -47,7 +47,8 @@ ORDER BY dueDateLocalDateTime DESC;
 
 toggleTaskDone:
 UPDATE TasksTable
-SET done = :isDone
+SET done = :isDone,
+overdue = :wasOverdue
 WHERE id = :id;
 
 deleteTask:

@@ -58,6 +58,7 @@ class TasksDaoImplTest : KoinTest {
                     val actual = awaitItem()
                     assertTrue(actual.isNotEmpty())
                     assertTrue(actual.containsAll(tasks))
+                    awaitComplete()
                 }
             }
         }
@@ -75,6 +76,7 @@ class TasksDaoImplTest : KoinTest {
                 val actual = awaitItem()
                 assertNotNull(actual)
                 assertEquals(expected, actual)
+                awaitComplete()
             }
         }
     }
@@ -83,16 +85,16 @@ class TasksDaoImplTest : KoinTest {
     fun getTask_WhenTaskNotFoundInDb_ReturnsNull() = runTest {
         val tasks = TestData.taskDbObjects
         val wrongId = "20000L"
-        val expectedError = NullPointerException::class
+        val expected = null
         tasks.forEach {
             dao.insertTask(it)
         }
         val result = dao.getTask(wrongId)
         launch {
             result.test {
-                // Result will be null and NullPointerException will be thrown
-                val actualError = awaitError()::class
-                assertEquals(expectedError, actualError)
+                val actual = awaitItem()
+                assertNull(actual)
+                awaitComplete()
             }
         }
     }
@@ -109,6 +111,7 @@ class TasksDaoImplTest : KoinTest {
             result.test {
                 val actual = awaitItem()
                 assertTrue(actual.containsAll(expectedTasks))
+                awaitComplete()
             }
         }
     }
@@ -125,6 +128,7 @@ class TasksDaoImplTest : KoinTest {
             result.test {
                 val actual = awaitItem()
                 assertTrue(actual.containsAll(expectedTasks))
+                awaitComplete()
             }
         }
     }
@@ -147,6 +151,7 @@ class TasksDaoImplTest : KoinTest {
                 println(actual)
                 println(expectedTasks1)
                 assertTrue(actual.containsAll(expectedTasks1))
+                awaitComplete()
             }
 
             result2.test {
@@ -154,6 +159,7 @@ class TasksDaoImplTest : KoinTest {
                 println(actual)
                 println(expectedTasks2)
                 assertTrue(actual.containsAll(expectedTasks2))
+                awaitComplete()
             }
         }
     }
@@ -171,6 +177,7 @@ class TasksDaoImplTest : KoinTest {
                 val actual = awaitItem()
                 println(actual)
                 assertTrue(actual.isEmpty())
+                awaitComplete()
             }
         }
     }
@@ -184,17 +191,19 @@ class TasksDaoImplTest : KoinTest {
         tasks.forEach {
             dao.insertTask(it)
         }
-        dao.toggleTaskDone(taskNotDone.id, true)
+        dao.toggleTaskDone(id = taskNotDone.id, isDone = true, wasOverDue = false)
         val pendingTasks = dao.getPendingTasks()
         val completedTasks = dao.getCompletedTasks()
         launch {
             pendingTasks.test {
                 val actual = awaitItem()
                 assertFalse(actual.contains(taskNotDone))
+                awaitComplete()
             }
             completedTasks.test {
                 val actual = awaitItem()
                 assertTrue(actual.contains(taskDone))
+                awaitComplete()
             }
         }
     }
@@ -212,6 +221,7 @@ class TasksDaoImplTest : KoinTest {
             result.test {
                 val actual = awaitItem()
                 assertFalse(actual.contains(deletedTask))
+                awaitComplete()
             }
         }
     }
@@ -229,6 +239,7 @@ class TasksDaoImplTest : KoinTest {
             result.test {
                 val actual = awaitItem()
                 assertFalse(actual.containsAll(deletedTasks))
+                awaitComplete()
             }
         }
     }
@@ -245,6 +256,7 @@ class TasksDaoImplTest : KoinTest {
             result.test {
                 val actual = awaitItem()
                 assertTrue(actual.isEmpty())
+                awaitComplete()
             }
         }
     }

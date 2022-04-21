@@ -1,4 +1,4 @@
-package work.racka.reluct.android.screens.tasks.pending
+package work.racka.reluct.android.screens.tasks.done
 
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.SnackbarDuration
@@ -12,11 +12,11 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.viewModel
 import work.racka.reluct.android.screens.tasks.R
-import work.racka.reluct.common.features.tasks.viewmodels.PendingTasksViewModel
+import work.racka.reluct.common.features.tasks.viewmodels.CompletedTasksViewModel
 import work.racka.reluct.common.model.states.tasks.TasksSideEffect
 
 @Composable
-fun PendingTasksScreen(
+fun CompletedTasksScreen(
     onNavigateToAddTask: (taskId: String?) -> Unit,
     onNavigateToTaskDetails: (taskId: String) -> Unit,
     updateToolbarOffset: (toolbarOffset: Float) -> Unit,
@@ -24,11 +24,11 @@ fun PendingTasksScreen(
 
     val scaffoldState = rememberScaffoldState()
 
-    val viewModel: PendingTasksViewModel by viewModel()
+    val viewModel: CompletedTasksViewModel by viewModel()
     val uiState by viewModel.uiState.collectAsState()
     val events by viewModel.events.collectAsState(initial = TasksSideEffect.Nothing)
 
-    val taskDone = stringResource(R.string.task_marked_as_done)
+    val taskDone = stringResource(R.string.task_marked_as_not_done)
 
     LaunchedEffect(events) {
         handleEvents(
@@ -42,7 +42,7 @@ fun PendingTasksScreen(
         )
     }
 
-    PendingTasksUI(
+    CompletedTasksUI(
         uiState = uiState,
         scaffoldState = scaffoldState,
         onTaskClicked = {

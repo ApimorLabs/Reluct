@@ -82,11 +82,13 @@ class CompletedTasksRepositoryImplTest : KoinTest {
     fun toggleTaskDone_WhenCalled_ShouldCallDaoMethod() = runTest {
         val taskId = "2L"
         val isDone = true
+        val task = TestData.taskDbObjects.first()
+            .asTask()
+            .copy(id = taskId, done = isDone)
+        every { dao.toggleTaskDone(task.id, isDone, task.overdue) } returns Unit
 
-        every { dao.toggleTaskDone(taskId, isDone) } returns Unit
+        repo.toggleTaskDone(task, isDone)
 
-        repo.toggleTaskDone(taskId, isDone)
-
-        verify { dao.toggleTaskDone(taskId, isDone) }
+        verify { dao.toggleTaskDone(task.id, isDone, task.overdue) }
     }
 }

@@ -11,7 +11,8 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.DateRange
+import androidx.compose.material.icons.rounded.DeleteSweep
+import androidx.compose.material.icons.rounded.Save
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -103,7 +104,7 @@ fun AddEditTaskFields(
                 maxLines = 1,
                 singleLine = true,
                 keyboardOptions = KeyboardOptions(
-                    capitalization = KeyboardCapitalization.Sentences
+                    capitalization = KeyboardCapitalization.Words
                 ),
                 onTextChange = { text ->
                     task.value = task.value.copy(title = text)
@@ -128,7 +129,6 @@ fun AddEditTaskFields(
         item {
             Text(
                 modifier = Modifier
-                    .padding(horizontal = Dimens.MediumPadding.size)
                     .fillMaxWidth(),
                 text = stringResource(R.string.task_to_be_done_at_text),
                 style = MaterialTheme.typography.titleMedium,
@@ -159,33 +159,30 @@ fun AddEditTaskFields(
             )
         }
 
-        if (setReminder.value) {
-            item {
-                AnimatedVisibility(
-                    visible = setReminder.value,
-                    enter = fadeIn(),
-                    exit = fadeOut()
+        item {
+            AnimatedVisibility(
+                visible = setReminder.value,
+                enter = fadeIn(),
+                exit = fadeOut()
+            ) {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Column(
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        Text(
-                            modifier = Modifier
-                                .padding(horizontal = Dimens.MediumPadding.size)
-                                .fillMaxWidth(),
-                            text = stringResource(R.string.reminder_at),
-                            style = MaterialTheme.typography.titleMedium,
-                            color = LocalContentColor.current,
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis
-                        )
-                        Spacer(modifier = Modifier.height(Dimens.SmallPadding.size))
-                        DateTimePills(
-                            onLocalDateTimeChange = { dateTimeString ->
-                                task.value = task.value.copy(reminderLocalDateTime = dateTimeString)
-                            }
-                        )
-                    }
+                    Text(
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        text = stringResource(R.string.reminder_at),
+                        style = MaterialTheme.typography.titleMedium,
+                        color = LocalContentColor.current,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                    Spacer(modifier = Modifier.height(Dimens.SmallPadding.size))
+                    DateTimePills(
+                        onLocalDateTimeChange = { dateTimeString ->
+                            task.value = task.value.copy(reminderLocalDateTime = dateTimeString)
+                        }
+                    )
                 }
             }
         }
@@ -198,7 +195,7 @@ fun AddEditTaskFields(
             ) {
                 SheetButton(
                     buttonText = discardButtonText,
-                    icon = Icons.Rounded.DateRange,
+                    icon = Icons.Rounded.DeleteSweep,
                     onButtonClicked = onDiscard,
                     shape = Shapes.large,
                     buttonColor = MaterialTheme.colorScheme.surfaceVariant
@@ -206,7 +203,7 @@ fun AddEditTaskFields(
                 Spacer(modifier = Modifier.width(Dimens.MediumPadding.size))
                 SheetButton(
                     buttonText = saveButtonText,
-                    icon = Icons.Rounded.DateRange,
+                    icon = Icons.Rounded.Save,
                     shape = Shapes.large,
                     buttonColor = MaterialTheme.colorScheme.primary,
                     onButtonClicked = {

@@ -29,7 +29,7 @@ fun GroupedTaskEntries(
     groupTitle: String,
     taskList: List<Task>,
     onEntryClicked: (task: Task) -> Unit,
-    onCheckedChange: (isDone: Boolean, taskId: String) -> Unit,
+    onCheckedChange: (isDone: Boolean, task: Task) -> Unit,
 ) {
     Column(
         modifier = modifier,
@@ -51,7 +51,7 @@ fun GroupedTaskEntries(
                 entryType = entryType,
                 onEntryClick = { onEntryClicked(task) },
                 onCheckedChange = { isChecked ->
-                    onCheckedChange(isChecked, task.id)
+                    onCheckedChange(isChecked, task)
                 }
             )
         }

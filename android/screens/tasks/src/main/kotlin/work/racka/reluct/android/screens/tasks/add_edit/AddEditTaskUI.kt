@@ -72,32 +72,28 @@ fun AddEditTaskUI(
             }
         }
     ) {
-        // Loading
-        AnimatedVisibility(
+        Box(
             modifier = Modifier
-                .padding(Dimens.MediumPadding.size)
-                .fillMaxSize(),
-            visible = uiState is TasksState.Loading,
-            enter = scaleIn(),
-            exit = scaleOut()
+                .padding(horizontal = Dimens.MediumPadding.size)
+                .fillMaxSize()
         ) {
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center
+            // Loading
+            AnimatedVisibility(
+                modifier = Modifier
+                    .fillMaxSize(),
+                visible = uiState is TasksState.Loading,
+                enter = scaleIn(),
+                exit = scaleOut()
             ) {
-                CircularProgressIndicator()
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    CircularProgressIndicator()
+                }
             }
-        }
 
-        // Add or Edit Task
-        AnimatedVisibility(
-            modifier = Modifier
-                .padding(Dimens.MediumPadding.size)
-                .fillMaxSize(),
-            visible = uiState is TasksState.AddEditTask,
-            enter = scaleIn(),
-            exit = scaleOut()
-        ) {
+            // Add or Edit Task
             if (uiState is TasksState.AddEditTask) {
                 AddEditTaskFields(
                     editTask = uiState.task,
