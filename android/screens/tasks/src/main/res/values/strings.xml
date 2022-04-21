@@ -1,7 +1,9 @@
 <resources>
     <string name="add_task_button_text">New Task</string>
-    <string name="edit_task_button_text">Edit Task</string>
     <string name="edit_button_text">Edit</string>
+    <string name="save_button_text">Save</string>
+    <string name="discard_button_text">Discard</string>
+    <string name="edit_task_text">Edit Task</string>
     <string name="add_task_text">Add Task</string>
     <string name="no_tasks_text">No Tasks</string>
 

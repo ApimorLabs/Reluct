@@ -126,7 +126,7 @@ class AddEditTaskImplTest : KoinTest {
     @Test
     fun saveTask_WhenTaskSaved_CallsSaveMethodOnRepo_Then_ProvidesShowSnackbarEvent() =
         runTest {
-            val expectedEvent = TasksSideEffect.ShowSnackbar(Constants.TASK_SAVED)
+            val expectedEvent = TasksSideEffect.ShowMessage(Constants.TASK_SAVED)
             val task = TestData.editTask
             coEvery { repo.addTask(task) } returns Unit
 

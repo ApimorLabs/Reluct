@@ -17,5 +17,8 @@ enum class Graphs(
     ),
     GoalsDestinations(
         route = NavbarDestinations.Goals.name
+    ),
+    OtherDestinations(
+        route = "OtherScreenDestinations"
     );
 }

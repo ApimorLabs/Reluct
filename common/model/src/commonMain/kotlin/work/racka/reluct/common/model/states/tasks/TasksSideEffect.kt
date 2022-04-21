@@ -3,10 +3,10 @@ package work.racka.reluct.common.model.states.tasks
 sealed class TasksSideEffect {
     object Nothing : TasksSideEffect()
     object AddTask : TasksSideEffect()
-    data class ShowMessageTaskDone(val isDone: Boolean) : TasksSideEffect()
-    data class ShowSnackbar(val msg: String) : TasksSideEffect()
+    data class ShowMessageDone(val isDone: Boolean) : TasksSideEffect()
+    data class ShowMessage(val msg: String) : TasksSideEffect()
     data class DisplayErrorMsg(
-        val msg: String
+        val msg: String,
     ) : TasksSideEffect()
 
     sealed class Navigation : TasksSideEffect() {

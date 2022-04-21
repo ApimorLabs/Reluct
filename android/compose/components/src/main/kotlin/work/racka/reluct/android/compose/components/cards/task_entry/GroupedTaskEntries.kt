@@ -3,7 +3,6 @@ package work.racka.reluct.android.compose.components.cards.task_entry
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
@@ -19,7 +18,6 @@ import work.racka.reluct.android.compose.components.bottom_sheet.add_edit_task.D
 import work.racka.reluct.android.compose.components.datetime.core.MaterialDialog
 import work.racka.reluct.android.compose.components.datetime.core.rememberMaterialDialogState
 import work.racka.reluct.android.compose.components.datetime.date.DatePicker
-import work.racka.reluct.android.compose.components.textfields.ReluctTextField
 import work.racka.reluct.android.compose.components.util.PreviewData
 import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.common.model.domain.tasks.Task
@@ -72,12 +70,6 @@ internal fun GroupedTasksPrev() {
             PreviewData.task3, PreviewData.task4, PreviewData.task5)
         val context = LocalContext.current
         Column {
-            ReluctTextField(
-                hint = "Task",
-                modifier = Modifier
-                    .fillMaxWidth(.9f),
-                onTextChange = {}
-            )
             DateTimePills(
                 onLocalDateTimeChange = { dateTime ->
                     Toast.makeText(context, dateTime, Toast.LENGTH_SHORT)

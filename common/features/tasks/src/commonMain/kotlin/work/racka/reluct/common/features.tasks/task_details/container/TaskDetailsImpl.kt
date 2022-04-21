@@ -61,7 +61,7 @@ class TaskDetailsImpl(
 
     override fun toggleDone(taskId: String, isDone: Boolean) {
         taskDetails.toggleTask(taskId, isDone)
-        _events.trySend(TasksSideEffect.ShowMessageTaskDone(isDone))
+        _events.trySend(TasksSideEffect.ShowMessageDone(isDone))
     }
 
     override fun editTask(taskId: String) {
@@ -72,7 +72,7 @@ class TaskDetailsImpl(
         scope.launch {
             taskDetails.deleteTask(taskId)
             _events.send(
-                TasksSideEffect.ShowSnackbar(Constants.DELETED_SUCCESSFULLY)
+                TasksSideEffect.ShowMessage(Constants.DELETED_SUCCESSFULLY)
             )
         }
     }

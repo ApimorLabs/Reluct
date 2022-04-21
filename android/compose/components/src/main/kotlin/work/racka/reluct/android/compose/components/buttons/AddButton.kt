@@ -44,7 +44,6 @@ fun AddButton(
                 )
                 if (expanded) {
                     Text(
-                        modifier = modifier,
                         text = buttonText,
                         style = MaterialTheme.typography.bodyLarge,
                         maxLines = 1,

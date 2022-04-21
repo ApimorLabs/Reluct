@@ -4,10 +4,7 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.Scaffold
@@ -35,7 +32,6 @@ import work.racka.reluct.android.compose.components.cards.task_entry.EntryType
 import work.racka.reluct.android.compose.components.cards.task_entry.GroupedTaskEntries
 import work.racka.reluct.android.compose.components.images.LottieAnimationWithDescription
 import work.racka.reluct.android.compose.theme.Dimens
-import work.racka.reluct.android.compose.theme.Shapes
 import work.racka.reluct.android.screens.tasks.R
 import work.racka.reluct.common.model.domain.tasks.Task
 import work.racka.reluct.common.model.states.tasks.TasksState
@@ -49,7 +45,7 @@ internal fun PendingTasksUI(
     onTaskClicked: (task: Task) -> Unit,
     onAddTaskClicked: (task: Task?) -> Unit,
     onToggleTaskDone: (isDone: Boolean, taskId: String) -> Unit,
-    updateTopBar: (toolbarOffset: Float) -> Unit,
+    updateToolbarOffset: (toolbarOffset: Float) -> Unit,
 ) {
     val listState = rememberLazyListState()
 
@@ -74,8 +70,8 @@ internal fun PendingTasksUI(
         }
     }
 
-    LaunchedEffect(key1 = toolbarOffsetHeightPx) {
-        updateTopBar(toolbarOffsetHeightPx.value)
+    LaunchedEffect(key1 = toolbarOffsetHeightPx.value) {
+        updateToolbarOffset(toolbarOffsetHeightPx.value)
     }
 
     Scaffold(
@@ -85,13 +81,10 @@ internal fun PendingTasksUI(
         snackbarHost = {
             SnackbarHost(hostState = it) { data ->
                 Snackbar(
-                    modifier = Modifier
-                        .navigationBarsPadding(),
                     snackbarData = data,
                     backgroundColor = MaterialTheme.colorScheme.inverseSurface,
                     contentColor = MaterialTheme.colorScheme.inverseOnSurface,
                     actionColor = MaterialTheme.colorScheme.primary,
-                    shape = Shapes.large
                 )
             }
         },
@@ -107,7 +100,9 @@ internal fun PendingTasksUI(
         }
     ) {
         AnimatedVisibility(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier
+                .padding(horizontal = Dimens.MediumPadding.size)
+                .fillMaxSize(),
             visible = uiState is TasksState.Loading,
             enter = scaleIn(),
             exit = scaleOut()
@@ -121,7 +116,9 @@ internal fun PendingTasksUI(
         }
 
         AnimatedVisibility(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier
+                .padding(horizontal = Dimens.MediumPadding.size)
+                .fillMaxSize(),
             visible = uiState is TasksState.PendingTasks,
             enter = scaleIn(),
             exit = scaleOut()
@@ -148,24 +145,31 @@ internal fun PendingTasksUI(
                         verticalArrangement = Arrangement
                             .spacedBy(Dimens.MediumPadding.size)
                     ) {
+                        // Top Space
                         item {
-                            GroupedTaskEntries(
-                                entryType = EntryType.PendingTaskOverdue,
-                                groupTitle = stringResource(R.string.overdue_tasks_header),
-                                taskList = uiState.overdueTasks,
-                                onEntryClicked = { task ->
-                                    onTaskClicked(task)
-                                },
-                                onCheckedChange = { isDone, taskId ->
-                                    onToggleTaskDone(isDone, taskId)
-                                }
-                            )
+                            Spacer(modifier = Modifier)
+                        }
+
+                        if (uiState.overdueTasks.isNotEmpty()) {
+                            item {
+                                GroupedTaskEntries(
+                                    entryType = EntryType.PendingTaskOverdue,
+                                    groupTitle = stringResource(R.string.overdue_tasks_header),
+                                    taskList = uiState.overdueTasks,
+                                    onEntryClicked = { task ->
+                                        onTaskClicked(task)
+                                    },
+                                    onCheckedChange = { isDone, taskId ->
+                                        onToggleTaskDone(isDone, taskId)
+                                    }
+                                )
+                            }
                         }
 
                         uiState.tasks.forEach { taskGroup ->
                             item {
                                 GroupedTaskEntries(
-                                    entryType = EntryType.PendingTaskOverdue,
+                                    entryType = EntryType.PendingTask,
                                     groupTitle = taskGroup.key,
                                     taskList = taskGroup.value,
                                     onEntryClicked = { task ->
@@ -176,6 +180,11 @@ internal fun PendingTasksUI(
                                     }
                                 )
                             }
+                        }
+
+                        // Bottom Space
+                        item {
+                            Spacer(modifier = Modifier)
                         }
                     }
                 }

@@ -33,7 +33,7 @@ internal class SearchTasksImpl(
 
     override fun toggleDone(taskId: String, isDone: Boolean) {
         searchTasks.toggleDone(taskId, isDone)
-        _events.trySend(TasksSideEffect.ShowMessageTaskDone(isDone))
+        _events.trySend(TasksSideEffect.ShowMessageDone(isDone))
     }
 
     override fun navigateToTaskDetails(taskId: String) {

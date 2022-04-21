@@ -89,7 +89,7 @@ class CompletedTasksImplTest : KoinTest {
         runTest {
             val taskId = "2L"
             val isDone = true
-            val expectedEvent = TasksSideEffect.ShowMessageTaskDone(isDone)
+            val expectedEvent = TasksSideEffect.ShowMessageDone(isDone)
             coEvery { repo.toggleTaskDone(taskId, isDone) } returns Unit
 
             val result = completedTasks.events

@@ -46,7 +46,7 @@ internal class AddEditTaskImpl(
     override fun saveTask(task: EditTask) {
         scope.launch {
             addEditTask.addTask(task)
-            _events.send(TasksSideEffect.ShowSnackbar(Constants.TASK_SAVED))
+            _events.send(TasksSideEffect.ShowMessage(Constants.TASK_SAVED))
         }
     }
 

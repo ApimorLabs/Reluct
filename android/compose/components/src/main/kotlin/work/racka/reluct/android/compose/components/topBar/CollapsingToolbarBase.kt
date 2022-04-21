@@ -2,7 +2,10 @@ package work.racka.reluct.android.compose.components.topBar
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.animateContentSize
-import androidx.compose.animation.core.*
+import androidx.compose.animation.core.LinearOutSlowInEasing
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
@@ -18,7 +21,6 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
@@ -33,10 +35,10 @@ import work.racka.reluct.android.compose.theme.Shapes
  * It has a back button, default bottom rounded corners
  * & a box scope which holds content centered by default.
  * You need to implement nestedScrollConnection to set the offset values
- * See Usage of this in AboutScreen or SettingsScreen or DetailsScreen
+ * See Usage of this in DashboardScreen or TasksScreen or GoalsScreen
  *
- * To use this Toolbar with a persistent Image that's always visible
- * and just shrinks when scroll then leave the toolbarHeading blank("")
+ * To use this Toolbar without a heading text just make toolbarHeading `null`
+ * To Disable the back button at the top set showBackButton to false
  *
  * With nestedScrollConnection know that the maximum offset that can be
  * reached is -132.0
@@ -57,10 +59,6 @@ fun CollapsingToolbarBase(
     onCollapsed: (Boolean) -> Unit,
     content: @Composable BoxScope.() -> Unit,
 ) {
-    //Scale animation
-    val animatedProgress = remember {
-        Animatable(initialValue = 0.9f)
-    }
 
     val scrollDp = toolbarHeight + toolbarOffset.dp
     val collapsed by remember(scrollDp) {
@@ -88,21 +86,9 @@ fun CollapsingToolbarBase(
         animationSpec = tween(300, easing = LinearOutSlowInEasing)
     )
 
-    LaunchedEffect(key1 = animatedProgress) {
-        animatedProgress.animateTo(
-            targetValue = 1f,
-            animationSpec = tween(500, easing = FastOutSlowInEasing)
-        )
-    }
-
     LaunchedEffect(key1 = collapsed) {
         onCollapsed(collapsed)
     }
-
-    val animatedModifier = Modifier
-        .graphicsLayer(
-            scaleX = animatedProgress.value
-        )
 
     Box(
         modifier = Modifier

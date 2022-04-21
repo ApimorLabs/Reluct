@@ -11,7 +11,7 @@ import work.racka.reluct.android.compose.theme.Theme
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ReluctApp(
-    themeValue: Int = Theme.MATERIAL_YOU.themeValue,
+    themeValue: Int = Theme.FOLLOW_SYSTEM.themeValue,
 ) {
     ReluctAppTheme(theme = themeValue) {
         Timber.d("Reluct app called")

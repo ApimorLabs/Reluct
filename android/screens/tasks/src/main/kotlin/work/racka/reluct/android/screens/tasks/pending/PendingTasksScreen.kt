@@ -13,14 +13,13 @@ import kotlinx.coroutines.launch
 import org.koin.androidx.compose.viewModel
 import work.racka.reluct.android.screens.tasks.R
 import work.racka.reluct.common.features.tasks.viewmodels.PendingTasksViewModel
-import work.racka.reluct.common.model.domain.tasks.Task
 import work.racka.reluct.common.model.states.tasks.TasksSideEffect
 
 @Composable
 fun PendingTasksScreen(
-    onNavigateToAddTask: (task: Task?) -> Unit,
+    onNavigateToAddTask: (taskId: String?) -> Unit,
     onNavigateToTaskDetails: (taskId: String) -> Unit,
-    updateTopBar: (toolbarOffset: Float) -> Unit,
+    updateToolbarOffset: (toolbarOffset: Float) -> Unit,
 ) {
 
     val scaffoldState = rememberScaffoldState()
@@ -50,13 +49,13 @@ fun PendingTasksScreen(
             viewModel.navigateToTaskDetails(it.id)
         },
         onAddTaskClicked = {
-            onNavigateToAddTask(it)
+            onNavigateToAddTask(it?.id)
         },
         onToggleTaskDone = { isDone, taskId ->
             viewModel.toggleDone(taskId, isDone)
         },
-        updateTopBar = { toolbarOffset ->
-            updateTopBar(toolbarOffset)
+        updateToolbarOffset = { toolbarOffset ->
+            updateToolbarOffset(toolbarOffset)
         }
     )
 }
@@ -69,7 +68,7 @@ private fun handleEvents(
     navigateToTaskDetails: (taskId: String) -> Unit,
 ) {
     when (events) {
-        is TasksSideEffect.ShowMessageTaskDone -> {
+        is TasksSideEffect.ShowMessageDone -> {
             scope.launch {
                 val result = scaffoldState.snackbarHostState.showSnackbar(
                     message = taskDoneText,

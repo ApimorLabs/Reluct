@@ -12,6 +12,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
@@ -20,11 +21,14 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
-import timber.log.Timber
 import work.racka.reluct.android.compose.components.tab.tasks.TasksTabBar
 import work.racka.reluct.android.compose.components.textfields.search.ReluctSearchBar
 import work.racka.reluct.android.compose.components.topBar.CollapsingToolbarBase
 import work.racka.reluct.android.compose.components.topBar.ProfilePicture
+import work.racka.reluct.android.compose.navigation.transitions.scaleInEnterTransition
+import work.racka.reluct.android.compose.navigation.transitions.scaleInPopEnterTransition
+import work.racka.reluct.android.compose.navigation.transitions.scaleOutExitTransition
+import work.racka.reluct.android.compose.navigation.transitions.scaleOutPopExitTransition
 import work.racka.reluct.android.screens.tasks.pending.PendingTasksScreen
 import work.racka.reluct.common.compose.destinations.TasksDestinations
 import work.racka.reluct.common.compose.destinations.navbar.Graphs
@@ -33,6 +37,7 @@ import work.racka.reluct.common.compose.destinations.navbar.Graphs
 @ExperimentalAnimationApi
 @Composable
 internal fun TasksNavHost(
+    mainNavController: NavHostController,
     navController: NavHostController = rememberAnimatedNavController(),
 ) {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
@@ -51,7 +56,7 @@ internal fun TasksNavHost(
         topBar = {
             TasksScreenTopBar(
                 tabPage = tabPage,
-                profilePicUrl = null,
+                profilePicUrl = "https://via.placeholder.com/150",
                 toolbarOffset = toolbarOffsetHeightPx.value,
                 toolbarCollapsed = toolbarCollapsed.value,
                 onCollapsed = {
@@ -62,26 +67,42 @@ internal fun TasksNavHost(
                 },
             )
         }
-    ) {
+    ) { innerPapping ->
         AnimatedNavHost(
+            modifier = Modifier.padding(innerPapping),
             navController = navController,
             route = Graphs.RootDestinations.route + Graphs.TasksDestinations.route,
             startDestination = TasksDestinations.Tasks.route
         ) {
-            Timber.d("Tasks screen called")
 
             // Tasks
             composable(
-                route = TasksDestinations.Tasks.route
+                route = TasksDestinations.Tasks.route,
+                // Transition animations
+                enterTransition = {
+                    scaleInEnterTransition()
+                },
+                exitTransition = {
+                    scaleOutExitTransition()
+                },
+                // popEnter and popExit default to enterTransition & exitTransition respectively
+                popEnterTransition = {
+                    scaleInPopEnterTransition()
+                },
+                popExitTransition = {
+                    scaleOutPopExitTransition()
+                }
             ) {
                 PendingTasksScreen(
                     onNavigateToAddTask = {
-
+                        mainNavController.navigate(
+                            "${TasksDestinations.Paths.AddEditTask.route}/$it"
+                        )
                     },
                     onNavigateToTaskDetails = {
 
                     },
-                    updateTopBar = { toolbarOffset ->
+                    updateToolbarOffset = { toolbarOffset ->
                         toolbarOffsetHeightPx.value = toolbarOffset
                     }
                 )
@@ -89,7 +110,19 @@ internal fun TasksNavHost(
 
             // Done
             composable(
-                route = TasksDestinations.Done.route
+                route = TasksDestinations.Done.route,
+                enterTransition = {
+                    scaleInEnterTransition()
+                },
+                exitTransition = {
+                    scaleOutExitTransition()
+                },
+                popEnterTransition = {
+                    scaleInPopEnterTransition()
+                },
+                popExitTransition = {
+                    scaleOutPopExitTransition()
+                }
             ) {
                 Box(
                     modifier = Modifier.fillMaxSize(),
@@ -103,7 +136,19 @@ internal fun TasksNavHost(
             }
             // Statistics
             composable(
-                route = TasksDestinations.Statistics.route
+                route = TasksDestinations.Statistics.route,
+                enterTransition = {
+                    scaleInEnterTransition()
+                },
+                exitTransition = {
+                    scaleOutExitTransition()
+                },
+                popEnterTransition = {
+                    scaleInPopEnterTransition()
+                },
+                popExitTransition = {
+                    scaleOutPopExitTransition()
+                }
             ) {
                 Box(
                     modifier = Modifier.fillMaxSize(),
@@ -137,6 +182,7 @@ private fun TasksScreenTopBar(
         toolbarOffset = toolbarOffset,
         showBackButton = false,
         minShrinkHeight = 60.dp,
+        shape = RectangleShape,
         onCollapsed = {
             onCollapsed(it)
         }

@@ -2,7 +2,7 @@ package work.racka.reluct.common.database.dao.tasks
 
 import com.squareup.sqldelight.runtime.coroutines.asFlow
 import com.squareup.sqldelight.runtime.coroutines.mapToList
-import com.squareup.sqldelight.runtime.coroutines.mapToOne
+import com.squareup.sqldelight.runtime.coroutines.mapToOneOrNull
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.flow.Flow
@@ -37,7 +37,7 @@ internal class TasksDaoImpl(
     override fun getTask(id: String): Flow<TaskDbObject?> =
         tasksQueries?.getTaskFromDb(id)
             ?.asFlow()
-            ?.mapToOne(coroutineScope.coroutineContext)
+            ?.mapToOneOrNull(coroutineScope.coroutineContext)
             ?: flowOf(null)
 
     override fun searchTasks(query: String): Flow<List<TaskDbObject>> =
