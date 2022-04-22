@@ -6,12 +6,11 @@ import androidx.compose.runtime.Composable
 import timber.log.Timber
 import work.racka.reluct.android.compose.navigation.navhost.AppNavHost
 import work.racka.reluct.android.compose.theme.ReluctAppTheme
-import work.racka.reluct.android.compose.theme.Theme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ReluctApp(
-    themeValue: Int = Theme.FOLLOW_SYSTEM.themeValue,
+    themeValue: Int,
 ) {
     ReluctAppTheme(theme = themeValue) {
         Timber.d("Reluct app called")

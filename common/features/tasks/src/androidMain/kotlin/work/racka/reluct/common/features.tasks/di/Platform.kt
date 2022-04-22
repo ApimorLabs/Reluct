@@ -2,39 +2,40 @@ package work.racka.reluct.common.features.tasks.di
 
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
-import work.racka.reluct.common.features.tasks.viewmodels.*
+import work.racka.reluct.common.features.tasks.viewmodels.AddEditTaskViewModel
+import work.racka.reluct.common.features.tasks.viewmodels.CompletedTasksViewModel
+import work.racka.reluct.common.features.tasks.viewmodels.PendingTasksViewModel
+import work.racka.reluct.common.features.tasks.viewmodels.TaskDetailsViewModel
 
 internal actual object Platform {
     actual fun platformTasksModule() = module {
         viewModel {
             CompletedTasksViewModel(
-                completedTasks = get()
+                getTasksUseCase = get(),
+                modifyTasksUsesCase = get()
             )
         }
 
         viewModel {
             PendingTasksViewModel(
-                pendingTasks = get()
+                getTasksUseCase = get(),
+                modifyTasksUsesCase = get()
             )
         }
 
         viewModel { (taskId: String?) ->
             TaskDetailsViewModel(
-                taskDetails = get(),
+                getTasksUseCase = get(),
+                modifyTasksUsesCase = get(),
                 taskId = taskId
             )
         }
 
         viewModel { (taskId: String?) ->
             AddEditTaskViewModel(
-                addEditTask = get(),
+                modifyTasksUseCase = get(),
+                getTasksUseCase = get(),
                 taskId = taskId
-            )
-        }
-
-        viewModel {
-            SearchTasksViewModel(
-                searchTasks = get()
             )
         }
     }

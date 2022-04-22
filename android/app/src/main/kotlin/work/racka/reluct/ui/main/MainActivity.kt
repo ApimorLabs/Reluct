@@ -32,7 +32,7 @@ class MainActivity : ComponentActivity() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
         setContent {
-            val themeValue = 12
+            val themeValue = Theme.MATERIAL_YOU.themeValue
             val systemUiController = rememberSystemUiController()
             val isDarkMode = isSystemInDarkTheme()
             val useDarkIcons = derivedStateOf {
@@ -49,7 +49,7 @@ class MainActivity : ComponentActivity() {
                     color = Color.Transparent
                 )
             }
-            ReluctApp()
+            ReluctApp(themeValue = themeValue)
         }
     }
 }

@@ -3,27 +3,33 @@ package work.racka.reluct.common.features.tasks.di
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import org.koin.dsl.module
-import work.racka.reluct.common.features.tasks.viewmodels.*
+import work.racka.reluct.common.features.tasks.viewmodels.AddEditTaskViewModel
+import work.racka.reluct.common.features.tasks.viewmodels.CompletedTasksViewModel
+import work.racka.reluct.common.features.tasks.viewmodels.PendingTasksViewModel
+import work.racka.reluct.common.features.tasks.viewmodels.TaskDetailsViewModel
 
 internal actual object Platform {
     actual fun platformTasksModule() = module {
         factory {
             CompletedTasksViewModel(
-                completedTasks = get(),
+                getTasksUseCase = get(),
+                modifyTasksUsesCase = get(),
                 scope = CoroutineScope(Dispatchers.Main)
             )
         }
 
         factory {
             PendingTasksViewModel(
-                pendingTasks = get(),
+                getTasksUseCase = get(),
+                modifyTasksUsesCase = get(),
                 scope = CoroutineScope(Dispatchers.Main)
             )
         }
 
         factory { (taskId: String?) ->
             TaskDetailsViewModel(
-                taskDetails = get(),
+                getTasksUseCase = get(),
+                modifyTasksUsesCase = get(),
                 taskId = taskId,
                 scope = CoroutineScope(Dispatchers.Main)
             )
@@ -31,15 +37,9 @@ internal actual object Platform {
 
         factory { (taskId: String?) ->
             AddEditTaskViewModel(
-                addEditTask = get(),
+                modifyTasksUseCase = get(),
+                getTasksUseCase = get(),
                 taskId = taskId,
-                scope = CoroutineScope(Dispatchers.Main)
-            )
-        }
-
-        factory {
-            SearchTasksViewModel(
-                searchTasks = get(),
                 scope = CoroutineScope(Dispatchers.Main)
             )
         }

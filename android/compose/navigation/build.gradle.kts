@@ -46,7 +46,7 @@ dependencies {
     implementation(project(":common:model"))
     implementation(project(":common:compose:destinations"))
     implementation(project(":android:compose:components"))
-    implementation(project(":android:screens:tasks"))
+    implementation(project(":android:screens"))
 
     // Core Functionality
     /*

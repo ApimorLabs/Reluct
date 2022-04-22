@@ -96,6 +96,7 @@ fun SheetButton(
     buttonTextStyle: TextStyle = MaterialTheme.typography.bodyLarge,
     icon: ImageVector?,
     buttonColor: Color = MaterialTheme.colorScheme.primary,
+    contentColor: Color = LocalContentColor.current,
     shape: Shape = CircleShape,
     onButtonClicked: () -> Unit,
     enabled: Boolean = true,
@@ -111,7 +112,7 @@ fun SheetButton(
         colors = ButtonDefaults
             .buttonColors(
                 containerColor = buttonColor,
-                contentColor = LocalContentColor.current
+                contentColor = contentColor
             ),
         modifier = modifier,
         enabled = enabled

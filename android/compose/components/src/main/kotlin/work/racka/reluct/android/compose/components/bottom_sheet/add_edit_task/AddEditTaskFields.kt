@@ -49,6 +49,7 @@ fun AddEditTaskFields(
     editTask: EditTask?,
     saveButtonText: String,
     discardButtonText: String,
+    onReminderSet: (reminderLocalDateTime: String) -> Unit = { },
     onSave: (EditTask) -> Unit,
     onDiscard: () -> Unit = { },
 ) {
@@ -107,6 +108,7 @@ fun AddEditTaskFields(
                     capitalization = KeyboardCapitalization.Words
                 ),
                 onTextChange = { text ->
+                    taskTitleError.value = false
                     task.value = task.value.copy(title = text)
                 }
             )
@@ -121,7 +123,7 @@ fun AddEditTaskFields(
                     capitalization = KeyboardCapitalization.Sentences
                 ),
                 onTextChange = { text ->
-                    task.value = task.value.copy(title = text)
+                    task.value = task.value.copy(description = text)
                 }
             )
         }
@@ -206,10 +208,13 @@ fun AddEditTaskFields(
                     icon = Icons.Rounded.Save,
                     shape = Shapes.large,
                     buttonColor = MaterialTheme.colorScheme.primary,
+                    contentColor = MaterialTheme.colorScheme.onPrimary,
                     onButtonClicked = {
                         val isTitleBlank = task.value.title.isBlank()
                         if (isTitleBlank) taskTitleError.value = true
                         else onSave(task.value)
+
+                        task.value.reminderLocalDateTime?.let { onReminderSet(it) }
                     }
                 )
             }

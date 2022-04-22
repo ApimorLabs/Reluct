@@ -56,9 +56,9 @@ class TasksDaoImplTest : KoinTest {
             launch {
                 dbObjects.test {
                     val actual = awaitItem()
+                    awaitComplete()
                     assertTrue(actual.isNotEmpty())
                     assertTrue(actual.containsAll(tasks))
-                    awaitComplete()
                 }
             }
         }
@@ -74,9 +74,9 @@ class TasksDaoImplTest : KoinTest {
         launch {
             result.test {
                 val actual = awaitItem()
+                awaitComplete()
                 assertNotNull(actual)
                 assertEquals(expected, actual)
-                awaitComplete()
             }
         }
     }
@@ -85,7 +85,6 @@ class TasksDaoImplTest : KoinTest {
     fun getTask_WhenTaskNotFoundInDb_ReturnsNull() = runTest {
         val tasks = TestData.taskDbObjects
         val wrongId = "20000L"
-        val expected = null
         tasks.forEach {
             dao.insertTask(it)
         }
@@ -110,8 +109,8 @@ class TasksDaoImplTest : KoinTest {
         launch {
             result.test {
                 val actual = awaitItem()
-                assertTrue(actual.containsAll(expectedTasks))
                 awaitComplete()
+                assertTrue(actual.containsAll(expectedTasks))
             }
         }
     }
@@ -127,8 +126,8 @@ class TasksDaoImplTest : KoinTest {
         launch {
             result.test {
                 val actual = awaitItem()
-                assertTrue(actual.containsAll(expectedTasks))
                 awaitComplete()
+                assertTrue(actual.containsAll(expectedTasks))
             }
         }
     }
@@ -148,18 +147,18 @@ class TasksDaoImplTest : KoinTest {
         launch {
             result1.test {
                 val actual = awaitItem()
+                awaitComplete()
                 println(actual)
                 println(expectedTasks1)
                 assertTrue(actual.containsAll(expectedTasks1))
-                awaitComplete()
             }
 
             result2.test {
                 val actual = awaitItem()
+                awaitComplete()
                 println(actual)
                 println(expectedTasks2)
                 assertTrue(actual.containsAll(expectedTasks2))
-                awaitComplete()
             }
         }
     }
@@ -175,9 +174,9 @@ class TasksDaoImplTest : KoinTest {
         launch {
             result.test {
                 val actual = awaitItem()
+                awaitComplete()
                 println(actual)
                 assertTrue(actual.isEmpty())
-                awaitComplete()
             }
         }
     }
@@ -197,13 +196,13 @@ class TasksDaoImplTest : KoinTest {
         launch {
             pendingTasks.test {
                 val actual = awaitItem()
-                assertFalse(actual.contains(taskNotDone))
                 awaitComplete()
+                assertFalse(actual.contains(taskNotDone))
             }
             completedTasks.test {
                 val actual = awaitItem()
-                assertTrue(actual.contains(taskDone))
                 awaitComplete()
+                assertTrue(actual.contains(taskDone))
             }
         }
     }
@@ -220,8 +219,8 @@ class TasksDaoImplTest : KoinTest {
         launch {
             result.test {
                 val actual = awaitItem()
-                assertFalse(actual.contains(deletedTask))
                 awaitComplete()
+                assertFalse(actual.contains(deletedTask))
             }
         }
     }
@@ -238,8 +237,8 @@ class TasksDaoImplTest : KoinTest {
         launch {
             result.test {
                 val actual = awaitItem()
-                assertFalse(actual.containsAll(deletedTasks))
                 awaitComplete()
+                assertFalse(actual.containsAll(deletedTasks))
             }
         }
     }
@@ -255,8 +254,8 @@ class TasksDaoImplTest : KoinTest {
         launch {
             result.test {
                 val actual = awaitItem()
-                assertTrue(actual.isEmpty())
                 awaitComplete()
+                assertTrue(actual.isEmpty())
             }
         }
     }

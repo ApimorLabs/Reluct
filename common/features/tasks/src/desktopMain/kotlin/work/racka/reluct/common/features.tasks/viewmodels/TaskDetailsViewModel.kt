@@ -3,21 +3,24 @@ package work.racka.reluct.common.features.tasks.viewmodels
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
-import work.racka.reluct.common.features.tasks.task_details.container.TaskDetails
-import work.racka.reluct.common.features.tasks.task_details.container.TaskDetailsImpl
-import work.racka.reluct.common.features.tasks.task_details.repository.TaskDetailsRepository
+import work.racka.reluct.common.features.tasks.task_details.TaskDetails
+import work.racka.reluct.common.features.tasks.task_details.TaskDetailsImpl
+import work.racka.reluct.common.features.tasks.usecases.interfaces.GetTasksUseCase
+import work.racka.reluct.common.features.tasks.usecases.interfaces.ModifyTasksUseCase
 import work.racka.reluct.common.model.domain.tasks.Task
 import work.racka.reluct.common.model.states.tasks.TasksSideEffect
 import work.racka.reluct.common.model.states.tasks.TasksState
 
-actual class TaskDetailsViewModel(
-    taskDetails: TaskDetailsRepository,
+actual class TaskDetailsViewModel internal constructor(
+    getTasksUseCase: GetTasksUseCase,
+    modifyTasksUsesCase: ModifyTasksUseCase,
     taskId: String?,
     scope: CoroutineScope,
 ) {
     private val host: TaskDetails by lazy {
         TaskDetailsImpl(
-            taskDetails = taskDetails,
+            getTasksUseCase = getTasksUseCase,
+            modifyTasksUsesCase = modifyTasksUsesCase,
             taskId = taskId,
             scope = scope
         )

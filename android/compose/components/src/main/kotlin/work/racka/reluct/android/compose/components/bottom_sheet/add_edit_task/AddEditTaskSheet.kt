@@ -111,7 +111,7 @@ fun AddEditTaskSheet(
                 capitalization = KeyboardCapitalization.Sentences
             ),
             onTextChange = { text ->
-                task.value = task.value.copy(title = text)
+                task.value = task.value.copy(description = text)
             }
         )
 
