@@ -13,13 +13,18 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import work.racka.reluct.android.compose.components.bottom_sheet.ReluctButton
 import work.racka.reluct.android.compose.components.bottom_sheet.add_edit_task.AddEditTaskFields
 import work.racka.reluct.android.compose.components.topBar.ReluctSmallTopAppBar
 import work.racka.reluct.android.compose.theme.Dimens
+import work.racka.reluct.android.compose.theme.Shapes
 import work.racka.reluct.android.screens.R
+import work.racka.reluct.android.screens.util.BackPressHandler
 import work.racka.reluct.common.model.domain.tasks.EditTask
 import work.racka.reluct.common.model.states.tasks.TasksState
 
@@ -41,6 +46,9 @@ fun AddEditTaskUI(
         else -> stringResource(R.string.add_task_text)
     }
 
+    val openDialog = remember { mutableStateOf(false) }
+
+    BackPressHandler { openDialog.value = true }
 
     Scaffold(
         scaffoldState = scaffoldState,
@@ -51,7 +59,7 @@ fun AddEditTaskUI(
                 modifier = Modifier.statusBarsPadding(),
                 title = titleText,
                 navigationIcon = {
-                    IconButton(onClick = onBackClicked) {
+                    IconButton(onClick = { openDialog.value = true }) {
                         Icon(
                             imageVector = Icons.Rounded.ArrowBack,
                             contentDescription = null
@@ -100,10 +108,45 @@ fun AddEditTaskUI(
                     saveButtonText = stringResource(R.string.save_button_text),
                     discardButtonText = stringResource(R.string.discard_button_text),
                     onSave = { editTask -> onSaveTask(editTask) },
-                    onDiscard = { }
+                    onDiscard = { openDialog.value = true }
                 )
             }
         }
-    }
 
+        // Discard Dialog
+        if (openDialog.value) {
+            AlertDialog(
+                onDismissRequest = { openDialog.value = false },
+                title = {
+                    Text(text = stringResource(R.string.discard_task))
+                },
+                text = {
+                    Text(text = stringResource(R.string.discard_task_message))
+                },
+                confirmButton = {
+                    ReluctButton(
+                        buttonText = stringResource(R.string.ok),
+                        icon = null,
+                        shape = Shapes.large,
+                        buttonColor = MaterialTheme.colorScheme.primary,
+                        contentColor = MaterialTheme.colorScheme.onPrimary,
+                        onButtonClicked = {
+                            openDialog.value = false
+                            onBackClicked()
+                        }
+                    )
+                },
+                dismissButton = {
+                    ReluctButton(
+                        buttonText = stringResource(R.string.cancel),
+                        icon = null,
+                        shape = Shapes.large,
+                        buttonColor = MaterialTheme.colorScheme.surfaceVariant,
+                        contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                        onButtonClicked = { openDialog.value = false }
+                    )
+                }
+            )
+        }
+    }
 }

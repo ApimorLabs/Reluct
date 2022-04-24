@@ -90,7 +90,7 @@ internal fun TopSheetSection(
 }
 
 @Composable
-fun SheetButton(
+fun ReluctButton(
     modifier: Modifier = Modifier,
     buttonText: String,
     buttonTextStyle: TextStyle = MaterialTheme.typography.bodyLarge,

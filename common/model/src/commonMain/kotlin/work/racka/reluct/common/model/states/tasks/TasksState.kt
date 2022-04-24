@@ -19,7 +19,8 @@ sealed class TasksState {
     ) : TasksState()
 
     data class AddEditTask(
-        val task: EditTask? = null
+        val task: EditTask? = null,
+        val taskSaved: Boolean = false,
     ) : TasksState()
 
     data class SearchTask(

@@ -30,7 +30,7 @@ import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import work.racka.reluct.android.compose.components.R
-import work.racka.reluct.android.compose.components.bottom_sheet.SheetButton
+import work.racka.reluct.android.compose.components.bottom_sheet.ReluctButton
 import work.racka.reluct.android.compose.components.cards.settings.EntryWithCheckbox
 import work.racka.reluct.android.compose.components.textfields.ReluctTextField
 import work.racka.reluct.android.compose.theme.Dimens
@@ -195,7 +195,7 @@ fun AddEditTaskFields(
                 horizontalArrangement = Arrangement.End,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                SheetButton(
+                ReluctButton(
                     buttonText = discardButtonText,
                     icon = Icons.Rounded.DeleteSweep,
                     onButtonClicked = onDiscard,
@@ -203,7 +203,7 @@ fun AddEditTaskFields(
                     buttonColor = MaterialTheme.colorScheme.surfaceVariant
                 )
                 Spacer(modifier = Modifier.width(Dimens.MediumPadding.size))
-                SheetButton(
+                ReluctButton(
                     buttonText = saveButtonText,
                     icon = Icons.Rounded.Save,
                     shape = Shapes.large,

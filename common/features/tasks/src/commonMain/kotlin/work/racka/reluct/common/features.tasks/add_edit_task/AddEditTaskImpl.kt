@@ -49,6 +49,7 @@ internal class AddEditTaskImpl(
         scope.launch {
             modifyTasksUseCase.addTask(task)
             _events.send(TasksSideEffect.ShowMessage(Constants.TASK_SAVED))
+            _uiState.update { TasksState.AddEditTask(taskSaved = true) }
         }
     }
 
