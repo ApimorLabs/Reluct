@@ -1,10 +1,9 @@
 package work.racka.reluct.android.screens.tasks.add_edit
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.animation.scaleIn
-import androidx.compose.animation.scaleOut
+import androidx.compose.animation.*
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Scaffold
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.Snackbar
@@ -18,8 +17,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import work.racka.reluct.android.compose.components.bottom_sheet.ReluctButton
 import work.racka.reluct.android.compose.components.bottom_sheet.add_edit_task.AddEditTaskFields
+import work.racka.reluct.android.compose.components.images.LottieAnimationWithDescription
 import work.racka.reluct.android.compose.components.topBar.ReluctSmallTopAppBar
 import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.android.compose.theme.Shapes
@@ -49,6 +50,8 @@ fun AddEditTaskUI(
     val openDialog = remember { mutableStateOf(false) }
 
     BackPressHandler { openDialog.value = true }
+
+
 
     Scaffold(
         scaffoldState = scaffoldState,
@@ -100,16 +103,55 @@ fun AddEditTaskUI(
                     CircularProgressIndicator()
                 }
             }
-
             // Add or Edit Task
             if (uiState is TasksState.AddEditTask) {
-                AddEditTaskFields(
-                    editTask = uiState.task,
-                    saveButtonText = stringResource(R.string.save_button_text),
-                    discardButtonText = stringResource(R.string.discard_button_text),
-                    onSave = { editTask -> onSaveTask(editTask) },
-                    onDiscard = { openDialog.value = true }
-                )
+                AnimatedVisibility(
+                    modifier = Modifier
+                        .fillMaxSize(),
+                    visible = !uiState.taskSaved,
+                    enter = fadeIn(),
+                    exit = scaleOut()
+                ) {
+                    AddEditTaskFields(
+                        modifier = Modifier.navigationBarsPadding(),
+                        editTask = uiState.task,
+                        saveButtonText = stringResource(R.string.save_button_text),
+                        discardButtonText = stringResource(R.string.discard_button_text),
+                        onSave = { editTask -> onSaveTask(editTask) },
+                        onDiscard = { openDialog.value = true }
+                    )
+                }
+
+                AnimatedVisibility(
+                    modifier = Modifier
+                        .fillMaxSize(),
+                    visible = uiState.taskSaved,
+                    enter = scaleIn(),
+                    exit = scaleOut()
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .navigationBarsPadding()
+                            .verticalScroll(rememberScrollState()),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement
+                            .spacedBy(Dimens.MediumPadding.size)
+                    ) {
+                        LottieAnimationWithDescription(
+                            lottieResId = R.raw.task_saved,
+                            imageSize = 300.dp,
+                            description = null
+                        )
+                        ReluctButton(
+                            buttonText = stringResource(R.string.go_back_button_text),
+                            icon = Icons.Rounded.ArrowBack,
+                            shape = Shapes.large,
+                            buttonColor = MaterialTheme.colorScheme.primary,
+                            contentColor = MaterialTheme.colorScheme.onPrimary,
+                            onButtonClicked = onBackClicked
+                        )
+                    }
+                }
             }
         }
 

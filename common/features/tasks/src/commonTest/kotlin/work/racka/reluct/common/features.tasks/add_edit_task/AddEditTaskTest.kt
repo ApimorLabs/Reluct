@@ -138,20 +138,30 @@ class AddEditTaskTest : KoinTest {
     fun saveTask_WhenTaskSaved_CallsSaveMethodOnRepo_Then_ProvidesShowSnackbarEvent() =
         runTest {
             val expectedEvent = TasksSideEffect.ShowMessage(Constants.TASK_SAVED)
+            val expectedUiState = TasksState.AddEditTask(taskSaved = true)
             val task = TestData.editTask
             coEvery { modifyTasksUsesCase.addTask(task) } returns Unit
 
             addEditTask.saveTask(task)
 
-            val result = addEditTask.events
+            val events = addEditTask.events
+            val uiState = addEditTask.uiState
             launch {
-                result.test {
+                events.test {
                     val actual = expectMostRecentItem()
                     println(actual)
 
                     assertEquals(expectedEvent, actual)
-                    coVerify { modifyTasksUsesCase.addTask(task) }
                 }
+                uiState.test {
+                    val initial = awaitItem()
+                    val actual = awaitItem()
+                    println(actual)
+
+                    assertTrue(initial is TasksState.Loading)
+                    assertEquals(expectedUiState, actual)
+                }
+                coVerify { modifyTasksUsesCase.addTask(task) }
             }
         }
 

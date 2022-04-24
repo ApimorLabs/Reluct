@@ -35,12 +35,13 @@ internal class AddEditTaskImpl(
                 null -> {
                     _uiState.update { TasksState.EmptyAddEditTask }
                 }
-                else -> getTasksUseCase.getTaskToEdit(taskId).collectLatest { task ->
-                    when (task) {
-                        null -> _uiState.update { TasksState.EmptyAddEditTask }
-                        else -> _uiState.update { TasksState.AddEditTask(task) }
+                else -> getTasksUseCase.getTaskToEdit(taskId).take(1)
+                    .collectLatest { task ->
+                        when (task) {
+                            null -> _uiState.update { TasksState.EmptyAddEditTask }
+                            else -> _uiState.update { TasksState.AddEditTask(task) }
+                        }
                     }
-                }
             }
         }
     }

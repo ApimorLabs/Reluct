@@ -6,6 +6,7 @@ import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.Scaffold
 import androidx.compose.material.ScaffoldState
@@ -15,16 +16,8 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
-import androidx.compose.ui.input.nestedscroll.NestedScrollSource
-import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import work.racka.reluct.android.compose.components.buttons.AddButton
@@ -45,34 +38,10 @@ internal fun PendingTasksUI(
     onTaskClicked: (task: Task) -> Unit,
     onAddTaskClicked: (task: Task?) -> Unit,
     onToggleTaskDone: (isDone: Boolean, task: Task) -> Unit,
-    updateToolbarOffset: (toolbarOffset: Float) -> Unit,
 ) {
     val listState = rememberLazyListState()
 
     val buttonExpanded = listState.firstVisibleItemIndex <= 0
-
-    // CollapsingToolbar Impl
-    val toolbarHeight = 120.dp
-    val toolbarHeightPx = with(LocalDensity.current) { toolbarHeight.roundToPx().toFloat() }
-    val toolbarOffsetHeightPx = remember { mutableStateOf(0f) }
-    val nestedScrollConnection = remember {
-        object : NestedScrollConnection {
-            override fun onPreScroll(
-                available: Offset,
-                source: NestedScrollSource,
-            ): Offset {
-                val delta = available.y
-                val newOffset = toolbarOffsetHeightPx.value + delta
-                toolbarOffsetHeightPx.value = newOffset.coerceIn(-toolbarHeightPx, 0f)
-                // Returning Zero so we just observe the scroll but don't execute it
-                return Offset.Zero
-            }
-        }
-    }
-
-    LaunchedEffect(key1 = toolbarOffsetHeightPx.value) {
-        updateToolbarOffset(toolbarOffsetHeightPx.value)
-    }
 
     Scaffold(
         modifier = modifier
@@ -136,7 +105,6 @@ internal fun PendingTasksUI(
                 } else { // Show Pending Tasks
                     LazyColumn(
                         modifier = Modifier
-                            .nestedScroll(nestedScrollConnection)
                             .fillMaxSize(),
                         state = listState,
                         verticalArrangement = Arrangement
@@ -163,20 +131,18 @@ internal fun PendingTasksUI(
                             }
                         }
 
-                        uiState.tasks.forEach { taskGroup ->
-                            item {
-                                GroupedTaskEntries(
-                                    entryType = EntryType.PendingTask,
-                                    groupTitle = taskGroup.key,
-                                    taskList = taskGroup.value,
-                                    onEntryClicked = { task ->
-                                        onTaskClicked(task)
-                                    },
-                                    onCheckedChange = { isDone, taskId ->
-                                        onToggleTaskDone(isDone, taskId)
-                                    }
-                                )
-                            }
+                        items(uiState.tasks.toList()) { taskGroup ->
+                            GroupedTaskEntries(
+                                entryType = EntryType.PendingTask,
+                                groupTitle = taskGroup.first,
+                                taskList = taskGroup.second,
+                                onEntryClicked = { task ->
+                                    onTaskClicked(task)
+                                },
+                                onCheckedChange = { isDone, taskId ->
+                                    onToggleTaskDone(isDone, taskId)
+                                }
+                            )
                         }
 
                         // Bottom Space

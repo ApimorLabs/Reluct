@@ -28,7 +28,8 @@ sealed class TasksState {
     ) : TasksState()
 
     data class TaskDetails(
-        val task: Task? = null
+        val task: Task? = null,
+        val taskDeleted: Boolean = false,
     ) : TasksState()
 
     object Loading : TasksState()

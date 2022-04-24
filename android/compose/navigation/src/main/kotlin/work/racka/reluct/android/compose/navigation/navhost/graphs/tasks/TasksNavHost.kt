@@ -1,14 +1,16 @@
 package work.racka.reluct.android.compose.navigation.navhost.graphs.tasks
 
-import androidx.compose.animation.*
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.runtime.*
-import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -24,8 +26,8 @@ import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import work.racka.reluct.android.compose.components.tab.tasks.TasksTabBar
 import work.racka.reluct.android.compose.components.textfields.search.ReluctSearchBar
-import work.racka.reluct.android.compose.components.topBar.CollapsingToolbarBase
 import work.racka.reluct.android.compose.components.topBar.ProfilePicture
+import work.racka.reluct.android.compose.components.topBar.ReluctTopBarBase
 import work.racka.reluct.android.compose.navigation.transitions.scaleInEnterTransition
 import work.racka.reluct.android.compose.navigation.transitions.scaleInPopEnterTransition
 import work.racka.reluct.android.compose.navigation.transitions.scaleOutExitTransition
@@ -50,20 +52,11 @@ internal fun TasksNavHost(
         }
     }
 
-    // CollapsingToolbar Implementation
-    val toolbarCollapsed = rememberSaveable { mutableStateOf(false) }
-    val toolbarOffsetHeightPx = rememberSaveable { mutableStateOf(0f) }
-
     Scaffold(
         topBar = {
             TasksScreenTopBar(
                 tabPage = tabPage,
                 profilePicUrl = "https://via.placeholder.com/150",
-                toolbarOffset = toolbarOffsetHeightPx.value,
-                toolbarCollapsed = toolbarCollapsed.value,
-                onCollapsed = {
-                    toolbarCollapsed.value = it
-                },
                 updateTabPage = {
                     navController.navigate(it.route) {
                         popUpTo(navController.graph.findStartDestination().id) {
@@ -109,9 +102,6 @@ internal fun TasksNavHost(
                     },
                     onNavigateToTaskDetails = {
 
-                    },
-                    updateToolbarOffset = { toolbarOffset ->
-                        toolbarOffsetHeightPx.value = toolbarOffset
                     }
                 )
             }
@@ -140,9 +130,6 @@ internal fun TasksNavHost(
                     },
                     onNavigateToTaskDetails = {
 
-                    },
-                    updateToolbarOffset = { toolbarOffset ->
-                        toolbarOffsetHeightPx.value = toolbarOffset
                     }
                 )
             }
@@ -181,45 +168,30 @@ internal fun TasksNavHost(
 private fun TasksScreenTopBar(
     tabPage: TasksDestinations,
     profilePicUrl: String?,
-    toolbarOffset: Float,
-    toolbarCollapsed: Boolean,
-    onCollapsed: (Boolean) -> Unit,
     updateTabPage: (TasksDestinations) -> Unit,
 ) {
-    CollapsingToolbarBase(
+    ReluctTopBarBase(
         modifier = Modifier
+            .padding(vertical = 8.dp)
             .statusBarsPadding(),
         toolbarHeading = null,
-        toolbarHeight = 120.dp,
-        toolbarOffset = toolbarOffset,
         showBackButton = false,
-        minShrinkHeight = 60.dp,
-        shape = RectangleShape,
-        onCollapsed = {
-            onCollapsed(it)
-        }
+        shape = RectangleShape
     ) {
         Column(
             modifier = Modifier
-                .animateContentSize()
                 .fillMaxWidth(),
             verticalArrangement = Arrangement
                 .spacedBy(16.dp)
         ) {
-            AnimatedVisibility(
-                visible = !toolbarCollapsed,
-                enter = fadeIn(),
-                exit = fadeOut()
-            ) {
-                ReluctSearchBar(
-                    extraButton = {
-                        ProfilePicture(
-                            modifier = Modifier,//.padding(4.dp),
-                            pictureUrl = profilePicUrl
-                        )
-                    }
-                )
-            }
+            ReluctSearchBar(
+                extraButton = {
+                    ProfilePicture(
+                        modifier = Modifier,//.padding(4.dp),
+                        pictureUrl = profilePicUrl
+                    )
+                }
+            )
             LazyRow {
                 item {
                     TasksTabBar(

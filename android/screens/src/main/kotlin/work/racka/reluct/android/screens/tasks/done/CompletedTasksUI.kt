@@ -15,16 +15,8 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
-import androidx.compose.ui.input.nestedscroll.NestedScrollSource
-import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import work.racka.reluct.android.compose.components.buttons.AddButton
@@ -45,34 +37,10 @@ internal fun CompletedTasksUI(
     onTaskClicked: (task: Task) -> Unit,
     onAddTaskClicked: (task: Task?) -> Unit,
     onToggleTaskDone: (isDone: Boolean, task: Task) -> Unit,
-    updateToolbarOffset: (toolbarOffset: Float) -> Unit,
 ) {
     val listState = rememberLazyListState()
 
     val buttonExpanded = listState.firstVisibleItemIndex <= 0
-
-    // CollapsingToolbar Impl
-    val toolbarHeight = 120.dp
-    val toolbarHeightPx = with(LocalDensity.current) { toolbarHeight.roundToPx().toFloat() }
-    val toolbarOffsetHeightPx = remember { mutableStateOf(0f) }
-    val nestedScrollConnection = remember {
-        object : NestedScrollConnection {
-            override fun onPreScroll(
-                available: Offset,
-                source: NestedScrollSource,
-            ): Offset {
-                val delta = available.y
-                val newOffset = toolbarOffsetHeightPx.value + delta
-                toolbarOffsetHeightPx.value = newOffset.coerceIn(-toolbarHeightPx, 0f)
-                // Returning Zero so we just observe the scroll but don't execute it
-                return Offset.Zero
-            }
-        }
-    }
-
-    LaunchedEffect(key1 = toolbarOffsetHeightPx.value) {
-        updateToolbarOffset(toolbarOffsetHeightPx.value)
-    }
 
     Scaffold(
         modifier = modifier
@@ -136,7 +104,6 @@ internal fun CompletedTasksUI(
                 } else { // Show Pending Tasks
                     LazyColumn(
                         modifier = Modifier
-                            .nestedScroll(nestedScrollConnection)
                             .fillMaxSize(),
                         state = listState,
                         verticalArrangement = Arrangement
