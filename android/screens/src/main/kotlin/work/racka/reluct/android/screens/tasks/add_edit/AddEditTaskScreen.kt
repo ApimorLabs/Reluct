@@ -22,9 +22,7 @@ fun AddEditTaskScreen(
 ) {
 
     val scaffoldState = rememberScaffoldState()
-    val viewModel: AddEditTaskViewModel by viewModel {
-        parametersOf(taskId)
-    }
+    val viewModel: AddEditTaskViewModel by viewModel { parametersOf(taskId) }
     val uiState by viewModel.uiState.collectAsState()
     val events by viewModel.events.collectAsState(TasksSideEffect.Nothing)
 

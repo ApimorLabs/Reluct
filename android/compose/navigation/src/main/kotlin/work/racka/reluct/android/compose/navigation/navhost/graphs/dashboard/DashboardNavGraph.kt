@@ -4,6 +4,8 @@ import androidx.compose.animation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -22,6 +24,7 @@ import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavGraphBuilder
@@ -30,11 +33,12 @@ import androidx.navigation.navigation
 import com.google.accompanist.navigation.animation.composable
 import timber.log.Timber
 import work.racka.reluct.android.compose.components.ComponentsPreview
-import work.racka.reluct.android.compose.components.buttons.AddButton
+import work.racka.reluct.android.compose.components.buttons.ReluctFloatingActionButton
 import work.racka.reluct.android.compose.components.tab.dashboard.DashboardTabBar
 import work.racka.reluct.android.compose.components.textfields.search.ReluctSearchBar
 import work.racka.reluct.android.compose.components.topBar.CollapsingToolbarBase
 import work.racka.reluct.android.compose.components.topBar.ProfilePicture
+import work.racka.reluct.android.screens.R
 import work.racka.reluct.common.compose.destinations.DashboardDestinations
 import work.racka.reluct.common.compose.destinations.navbar.Graphs
 
@@ -103,8 +107,10 @@ internal fun NavGraphBuilder.dashboardNavGraph(
                     )
                 },
                 floatingActionButton = {
-                    AddButton(
+                    ReluctFloatingActionButton(
                         buttonText = "New Task",
+                        contentDescription = stringResource(R.string.add_icon),
+                        icon = Icons.Rounded.Add,
                         onButtonClicked = { buttonExpanded.value = !buttonExpanded.value },
                         expanded = buttonExpanded.value
                     )

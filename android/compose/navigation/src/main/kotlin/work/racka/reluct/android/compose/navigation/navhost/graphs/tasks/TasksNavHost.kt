@@ -57,7 +57,7 @@ internal fun TasksNavHost(
         topBar = {
             TasksScreenTopBar(
                 tabPage = tabPage,
-                profilePicUrl = "https://via.placeholder.com/150",
+                profilePicUrl = "https://pbs.twimg.com/profile_images/1451052243067805698/LIEt076e_400x400.jpg",
                 updateTabPage = {
                     navController.navigate(it.route) {
                         popUpTo(navController.graph.findStartDestination().id) {
