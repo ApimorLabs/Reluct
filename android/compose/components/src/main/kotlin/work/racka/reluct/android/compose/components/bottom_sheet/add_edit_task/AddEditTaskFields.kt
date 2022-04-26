@@ -30,7 +30,7 @@ import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import work.racka.reluct.android.compose.components.R
-import work.racka.reluct.android.compose.components.bottom_sheet.ReluctButton
+import work.racka.reluct.android.compose.components.buttons.ReluctButton
 import work.racka.reluct.android.compose.components.cards.settings.EntryWithCheckbox
 import work.racka.reluct.android.compose.components.textfields.ReluctTextField
 import work.racka.reluct.android.compose.theme.Dimens

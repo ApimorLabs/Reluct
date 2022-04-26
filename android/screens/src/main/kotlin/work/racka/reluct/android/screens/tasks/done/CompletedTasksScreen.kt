@@ -1,5 +1,6 @@
 package work.racka.reluct.android.screens.tasks.done
 
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.SnackbarDuration
 import androidx.compose.material.rememberScaffoldState
@@ -17,6 +18,7 @@ import work.racka.reluct.common.model.states.tasks.TasksSideEffect
 
 @Composable
 fun CompletedTasksScreen(
+    mainScaffoldPadding: PaddingValues,
     onNavigateToAddTask: (taskId: String?) -> Unit,
     onNavigateToTaskDetails: (taskId: String) -> Unit,
 ) {
@@ -42,6 +44,7 @@ fun CompletedTasksScreen(
     }
 
     CompletedTasksUI(
+        mainScaffoldPadding = mainScaffoldPadding,
         uiState = uiState,
         scaffoldState = scaffoldState,
         onTaskClicked = {

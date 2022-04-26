@@ -9,7 +9,7 @@ import work.racka.reluct.common.model.states.tasks.TasksState
 expect class AddEditTaskViewModel {
     val uiState: StateFlow<TasksState>
     val events: Flow<TasksSideEffect>
-    fun getTask()
+    fun getTask(id: String?)
     fun saveTask(task: EditTask)
     fun goBack()
 }

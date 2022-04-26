@@ -26,11 +26,12 @@ internal class AddEditTaskImpl(
         get() = _events.receiveAsFlow()
 
     init {
-        getTask()
+        getTask(taskId)
     }
 
-    override fun getTask() {
+    override fun getTask(id: String?) {
         scope.launch {
+            resetEvents()
             when (taskId) {
                 null -> {
                     _uiState.update { TasksState.EmptyAddEditTask }
@@ -56,5 +57,9 @@ internal class AddEditTaskImpl(
 
     override fun goBack() {
         _events.trySend(TasksSideEffect.Navigation.GoBack)
+    }
+
+    private suspend fun resetEvents() {
+        _events.send(TasksSideEffect.Nothing)
     }
 }

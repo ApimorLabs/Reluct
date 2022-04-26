@@ -16,7 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import kotlinx.datetime.*
 import work.racka.reluct.android.compose.components.R
-import work.racka.reluct.android.compose.components.bottom_sheet.ReluctButton
+import work.racka.reluct.android.compose.components.buttons.ReluctButton
 import work.racka.reluct.android.compose.components.datetime.core.MaterialDialog
 import work.racka.reluct.android.compose.components.datetime.core.MaterialDialogState
 import work.racka.reluct.android.compose.components.datetime.core.rememberMaterialDialogState
@@ -185,7 +185,7 @@ private fun DateAndTimeMaterialDialogs(
         }
     ) {
         Timepicker(
-            initialTime = localDateTime.value
+            initialTime = advancedDateTime.value
         ) { dateTime ->
             localDateTime.value = LocalDateTime(
                 localDateTime.value.year,

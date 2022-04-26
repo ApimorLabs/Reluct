@@ -9,6 +9,7 @@ import androidx.compose.material.ScaffoldState
 import androidx.compose.material.Snackbar
 import androidx.compose.material.SnackbarHost
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -18,8 +19,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import work.racka.reluct.android.compose.components.bottom_sheet.ReluctButton
 import work.racka.reluct.android.compose.components.bottom_sheet.add_edit_task.AddEditTaskFields
+import work.racka.reluct.android.compose.components.buttons.OutlinedReluctButton
+import work.racka.reluct.android.compose.components.buttons.ReluctButton
 import work.racka.reluct.android.compose.components.images.LottieAnimationWithDescription
 import work.racka.reluct.android.compose.components.topBar.ReluctSmallTopAppBar
 import work.racka.reluct.android.compose.theme.Dimens
@@ -36,6 +38,7 @@ fun AddEditTaskUI(
     scaffoldState: ScaffoldState,
     uiState: TasksState,
     onSaveTask: (task: EditTask) -> Unit,
+    onAddTaskClicked: () -> Unit = { },
     onBackClicked: () -> Unit = { },
 ) {
 
@@ -47,11 +50,13 @@ fun AddEditTaskUI(
         else -> stringResource(R.string.add_task_text)
     }
 
+    val taskSaved = remember { mutableStateOf(false) }
     val openDialog = remember { mutableStateOf(false) }
 
-    BackPressHandler { openDialog.value = true }
-
-
+    BackPressHandler {
+        if (taskSaved.value) onBackClicked()
+        else openDialog.value = true
+    }
 
     Scaffold(
         scaffoldState = scaffoldState,
@@ -85,6 +90,7 @@ fun AddEditTaskUI(
     ) {
         Box(
             modifier = Modifier
+                .navigationBarsPadding()
                 .padding(horizontal = Dimens.MediumPadding.size)
                 .fillMaxSize()
         ) {
@@ -105,6 +111,7 @@ fun AddEditTaskUI(
             }
             // Add or Edit Task
             if (uiState is TasksState.AddEditTask) {
+                taskSaved.value = uiState.taskSaved
                 AnimatedVisibility(
                     modifier = Modifier
                         .fillMaxSize(),
@@ -112,8 +119,8 @@ fun AddEditTaskUI(
                     enter = fadeIn(),
                     exit = scaleOut()
                 ) {
+
                     AddEditTaskFields(
-                        modifier = Modifier.navigationBarsPadding(),
                         editTask = uiState.task,
                         saveButtonText = stringResource(R.string.save_button_text),
                         discardButtonText = stringResource(R.string.discard_button_text),
@@ -131,7 +138,6 @@ fun AddEditTaskUI(
                 ) {
                     Column(
                         modifier = Modifier
-                            .navigationBarsPadding()
                             .verticalScroll(rememberScrollState()),
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement
@@ -143,11 +149,18 @@ fun AddEditTaskUI(
                             description = null
                         )
                         ReluctButton(
-                            buttonText = stringResource(R.string.go_back_button_text),
-                            icon = Icons.Rounded.ArrowBack,
+                            buttonText = stringResource(R.string.add_task_button_text),
+                            icon = Icons.Rounded.Add,
                             shape = Shapes.large,
                             buttonColor = MaterialTheme.colorScheme.primary,
                             contentColor = MaterialTheme.colorScheme.onPrimary,
+                            onButtonClicked = onAddTaskClicked
+                        )
+                        OutlinedReluctButton(
+                            buttonText = stringResource(R.string.go_back_button_text),
+                            icon = Icons.Rounded.ArrowBack,
+                            shape = Shapes.large,
+                            borderColor = MaterialTheme.colorScheme.primary,
                             onButtonClicked = onBackClicked
                         )
                     }

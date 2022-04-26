@@ -30,7 +30,7 @@ actual class AddEditTaskViewModel internal constructor(
 
     actual val events: Flow<TasksSideEffect> = host.events
 
-    actual fun getTask() = host.getTask()
+    actual fun getTask(id: String?) = host.getTask(id)
 
     actual fun saveTask(task: EditTask) = host.saveTask(task)
 

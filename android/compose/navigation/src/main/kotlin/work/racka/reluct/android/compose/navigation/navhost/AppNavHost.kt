@@ -7,7 +7,6 @@ import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -54,8 +53,7 @@ fun AppNavHost(
     ) { innerPadding ->
 
         AnimatedNavHost(
-            modifier = Modifier
-                .padding(innerPadding),
+            modifier = Modifier,
             navController = navController,
             startDestination = Graphs.DashboardDestinations.route,
             route = Graphs.RootDestinations.route
@@ -72,7 +70,8 @@ fun AppNavHost(
             ) {
                 hideNavBar.value = false
                 TasksNavHost(
-                    mainNavController = navController
+                    mainNavController = navController,
+                    mainScaffoldPadding = innerPadding
                 )
             }
 

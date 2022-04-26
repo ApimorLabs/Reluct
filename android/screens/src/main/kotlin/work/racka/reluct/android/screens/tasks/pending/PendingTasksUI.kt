@@ -33,6 +33,7 @@ import work.racka.reluct.common.model.states.tasks.TasksState
 @Composable
 internal fun PendingTasksUI(
     modifier: Modifier = Modifier,
+    mainScaffoldPadding: PaddingValues,
     scaffoldState: ScaffoldState,
     uiState: TasksState,
     onTaskClicked: (task: Task) -> Unit,
@@ -60,7 +61,9 @@ internal fun PendingTasksUI(
         backgroundColor = MaterialTheme.colorScheme.background,
         floatingActionButton = {
             AddButton(
-                buttonText = stringResource(R.string.add_task_button_text),
+                modifier = Modifier
+                    .padding(bottom = mainScaffoldPadding.calculateBottomPadding()),
+                buttonText = stringResource(R.string.new_task_button_text),
                 onButtonClicked = {
                     onAddTaskClicked(null)
                 },
@@ -70,6 +73,7 @@ internal fun PendingTasksUI(
     ) {
         Box(
             modifier = Modifier
+                .padding(bottom = mainScaffoldPadding.calculateBottomPadding())
                 .padding(horizontal = Dimens.MediumPadding.size)
                 .fillMaxSize(),
             contentAlignment = Alignment.Center

@@ -43,6 +43,7 @@ import work.racka.reluct.common.compose.destinations.navbar.Graphs
 internal fun TasksNavHost(
     mainNavController: NavHostController,
     navController: NavHostController = rememberAnimatedNavController(),
+    mainScaffoldPadding: PaddingValues,
 ) {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
@@ -95,6 +96,7 @@ internal fun TasksNavHost(
                 }
             ) {
                 PendingTasksScreen(
+                    mainScaffoldPadding = mainScaffoldPadding,
                     onNavigateToAddTask = {
                         mainNavController.navigate(
                             "${TasksDestinations.Paths.AddEditTask.route}/$it"
@@ -123,6 +125,7 @@ internal fun TasksNavHost(
                 }
             ) {
                 CompletedTasksScreen(
+                    mainScaffoldPadding = mainScaffoldPadding,
                     onNavigateToAddTask = {
                         mainNavController.navigate(
                             "${TasksDestinations.Paths.AddEditTask.route}/$it"
