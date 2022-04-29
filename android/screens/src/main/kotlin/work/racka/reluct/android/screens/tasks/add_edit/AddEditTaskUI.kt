@@ -148,14 +148,16 @@ fun AddEditTaskUI(
                             imageSize = 300.dp,
                             description = null
                         )
-                        ReluctButton(
-                            buttonText = stringResource(R.string.add_task_button_text),
-                            icon = Icons.Rounded.Add,
-                            shape = Shapes.large,
-                            buttonColor = MaterialTheme.colorScheme.primary,
-                            contentColor = MaterialTheme.colorScheme.onPrimary,
-                            onButtonClicked = onAddTaskClicked
-                        )
+                        if (uiState.task != null) {
+                            ReluctButton(
+                                buttonText = stringResource(R.string.add_task_button_text),
+                                icon = Icons.Rounded.Add,
+                                shape = Shapes.large,
+                                buttonColor = MaterialTheme.colorScheme.primary,
+                                contentColor = MaterialTheme.colorScheme.onPrimary,
+                                onButtonClicked = onAddTaskClicked
+                            )
+                        }
                         OutlinedReluctButton(
                             buttonText = stringResource(R.string.go_back_button_text),
                             icon = Icons.Rounded.ArrowBack,
