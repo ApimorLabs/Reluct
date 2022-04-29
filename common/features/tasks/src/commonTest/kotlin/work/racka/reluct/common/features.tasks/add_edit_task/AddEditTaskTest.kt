@@ -100,9 +100,13 @@ class AddEditTaskTest : KoinTest {
             val result = addEditTaskWithNullTaskId.uiState
             launch {
                 result.test {
-                    val actual = expectMostRecentItem()
+                    val initial = awaitItem()
+                    val resetState = awaitItem()
+                    val actual = awaitItem()
                     println(actual)
 
+                    assertTrue(initial is TasksState.Loading)
+                    assertEquals(TasksState.EmptyAddEditTask, resetState)
                     assertEquals(expectedState, actual)
                     coVerify(exactly = 0) { myGetTasksUseCase.getTaskToEdit(taskId) }
                     cancelAndIgnoreRemainingEvents()
