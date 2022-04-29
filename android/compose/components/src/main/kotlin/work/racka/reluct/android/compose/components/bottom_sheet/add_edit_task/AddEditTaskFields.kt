@@ -64,28 +64,6 @@ fun AddEditTaskFields(
         mutableStateOf(false)
     }
 
-    val initialDueTime = remember {
-        derivedStateOf {
-            editTask?.run {
-                getLocalDateTimeWithCorrectTimeZone(
-                    dateTime = this.dueDateLocalDateTime,
-                    originalTimeZoneId = this.timeZoneId
-                )
-            }
-        }
-    }
-
-    val initialReminderTime = remember {
-        derivedStateOf {
-            editTask?.run {
-                getLocalDateTimeWithCorrectTimeZone(
-                    dateTime = this.dueDateLocalDateTime,
-                    originalTimeZoneId = this.timeZoneId
-                )
-            }
-        }
-    }
-
     val advancedDateTime = remember {
         derivedStateOf {
             Clock.System.now()
@@ -108,6 +86,26 @@ fun AddEditTaskFields(
                 reminderLocalDateTime = null
             )
         mutableStateOf(taskToEdit)
+    }
+
+    val initialDueTime = remember {
+        derivedStateOf {
+            getLocalDateTimeWithCorrectTimeZone(
+                dateTime = task.value.dueDateLocalDateTime,
+                originalTimeZoneId = task.value.timeZoneId
+            )
+        }
+    }
+
+    val initialReminderTime = remember {
+        derivedStateOf {
+            if (!task.value.reminderLocalDateTime.isNullOrBlank()) {
+                getLocalDateTimeWithCorrectTimeZone(
+                    dateTime = task.value.reminderLocalDateTime!!,
+                    originalTimeZoneId = task.value.timeZoneId
+                )
+            } else advancedDateTime.value
+        }
     }
 
     LazyColumn(
@@ -136,6 +134,9 @@ fun AddEditTaskFields(
                 }
             )
         }
+
+        item { Text(text = task.value.dueDateLocalDateTime) }
+        item { Text(text = task.value.reminderLocalDateTime ?: "") }
 
         item {
             ReluctTextField(

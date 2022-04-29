@@ -99,18 +99,8 @@ internal fun LocalDateTime.withMinute(minute: Int): LocalDateTime =
     )
 
 internal object LocalDateTimeRange {
-    private val currentTime
-        get() = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
     val MIN
-        get() = LocalDateTime(currentTime.year,
-            currentTime.monthNumber,
-            currentTime.dayOfMonth,
-            0,
-            0)
+        get() = LocalDateTime(-999_999_999, 1, 1, 0, 0, 0, 0)
     val MAX
-        get() = LocalDateTime(currentTime.year,
-            currentTime.monthNumber,
-            currentTime.dayOfMonth,
-            23,
-            59)
+        get() = LocalDateTime(999_999_999, 12, 31, 23, 59, 59, 999_999_999)
 }
