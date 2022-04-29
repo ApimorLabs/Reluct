@@ -29,7 +29,7 @@ import work.racka.reluct.android.compose.components.images.LottieAnimationWithDe
 import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.android.screens.R
 import work.racka.reluct.common.model.domain.tasks.Task
-import work.racka.reluct.common.model.states.tasks.TasksState
+import work.racka.reluct.common.model.states.tasks.PendingTasksState
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
 @Composable
@@ -37,7 +37,7 @@ internal fun PendingTasksUI(
     modifier: Modifier = Modifier,
     mainScaffoldPadding: PaddingValues,
     scaffoldState: ScaffoldState,
-    uiState: TasksState,
+    uiState: PendingTasksState,
     onTaskClicked: (task: Task) -> Unit,
     onAddTaskClicked: (task: Task?) -> Unit,
     onToggleTaskDone: (isDone: Boolean, task: Task) -> Unit,
@@ -85,7 +85,7 @@ internal fun PendingTasksUI(
             AnimatedVisibility(
                 modifier = Modifier
                     .fillMaxSize(),
-                visible = uiState is TasksState.Loading,
+                visible = uiState is PendingTasksState.Loading,
                 enter = scaleIn(),
                 exit = scaleOut()
             ) {
@@ -97,7 +97,7 @@ internal fun PendingTasksUI(
                 }
             }
 
-            if (uiState is TasksState.PendingTasks) {
+            if (uiState is PendingTasksState.Data) {
                 // Show Empty Graphic
                 if (uiState.overdueTasks.isEmpty() && uiState.tasks.isEmpty()) {
                     Box(

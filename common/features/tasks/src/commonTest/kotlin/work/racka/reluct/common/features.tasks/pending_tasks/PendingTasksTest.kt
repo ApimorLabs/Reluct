@@ -23,8 +23,8 @@ import work.racka.reluct.common.features.tasks.usecases.interfaces.GetTasksUseCa
 import work.racka.reluct.common.features.tasks.usecases.interfaces.ModifyTasksUseCase
 import work.racka.reluct.common.features.tasks.util.DataMappers.asTask
 import work.racka.reluct.common.features.tasks.util.TestData
-import work.racka.reluct.common.model.states.tasks.TasksSideEffect
-import work.racka.reluct.common.model.states.tasks.TasksState
+import work.racka.reluct.common.model.states.tasks.PendingTasksState
+import work.racka.reluct.common.model.states.tasks.TasksEvents
 import kotlin.test.*
 
 @OptIn(ExperimentalCoroutinesApi::class)
@@ -71,7 +71,7 @@ class PendingTasksTest : KoinTest {
             val grouped = taskList
                 .filterNot { it.overdue }
                 .groupBy { it.dueDate }
-            val expectedState = TasksState.PendingTasks(
+            val expectedState = PendingTasksState.Data(
                 tasks = grouped,
                 overdueTasks = overdueList
             )
@@ -85,8 +85,8 @@ class PendingTasksTest : KoinTest {
                     val actual = awaitItem()
                     println(actual)
 
-                    assertTrue(initial is TasksState.Loading)
-                    assertTrue(actual is TasksState.PendingTasks)
+                    assertTrue(initial is PendingTasksState.Loading)
+                    assertTrue(actual is PendingTasksState.Data)
                     assertEquals(expectedState, actual)
                     coVerify { getTasksUseCase.getPendingTasks() }
                     awaitComplete()
@@ -102,7 +102,7 @@ class PendingTasksTest : KoinTest {
             val task = TestData.taskDbObjects.first()
                 .asTask()
                 .copy(id = taskId, done = isDone)
-            val expectedEvent = TasksSideEffect.ShowMessageDone(isDone)
+            val expectedEvent = TasksEvents.ShowMessageDone(isDone)
             coEvery { modifyTasksUsesCase.toggleTaskDone(task, isDone) } returns Unit
 
             val result = pendingTasks.events
@@ -122,7 +122,7 @@ class PendingTasksTest : KoinTest {
     fun navigateToTaskDetails_WhenProvidedTaskId_ProvidesNavigateToDetailsEventWithGivenId() =
         runTest {
             val taskId = "2L"
-            val expectedEvent = TasksSideEffect.Navigation.NavigateToTaskDetails(taskId)
+            val expectedEvent = TasksEvents.Navigation.NavigateToTaskDetails(taskId)
 
 
             val result = pendingTasks.events

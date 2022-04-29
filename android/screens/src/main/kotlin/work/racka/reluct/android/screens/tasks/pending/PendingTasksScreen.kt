@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 import org.koin.androidx.compose.viewModel
 import work.racka.reluct.android.screens.R
 import work.racka.reluct.common.features.tasks.viewmodels.PendingTasksViewModel
-import work.racka.reluct.common.model.states.tasks.TasksSideEffect
+import work.racka.reluct.common.model.states.tasks.TasksEvents
 
 @Composable
 fun PendingTasksScreen(
@@ -27,7 +27,7 @@ fun PendingTasksScreen(
 
     val viewModel: PendingTasksViewModel by viewModel()
     val uiState by viewModel.uiState.collectAsState()
-    val events by viewModel.events.collectAsState(initial = TasksSideEffect.Nothing)
+    val events by viewModel.events.collectAsState(initial = TasksEvents.Nothing)
 
     val taskDone = stringResource(R.string.task_marked_as_done)
 
@@ -60,14 +60,14 @@ fun PendingTasksScreen(
 }
 
 private fun handleEvents(
-    events: TasksSideEffect,
+    events: TasksEvents,
     scope: CoroutineScope,
     scaffoldState: ScaffoldState,
     taskDoneText: String,
     navigateToTaskDetails: (taskId: String) -> Unit,
 ) {
     when (events) {
-        is TasksSideEffect.ShowMessageDone -> {
+        is TasksEvents.ShowMessageDone -> {
             scope.launch {
                 val result = scaffoldState.snackbarHostState.showSnackbar(
                     message = taskDoneText,
@@ -75,7 +75,7 @@ private fun handleEvents(
                 )
             }
         }
-        is TasksSideEffect.Navigation.NavigateToTaskDetails -> {
+        is TasksEvents.Navigation.NavigateToTaskDetails -> {
             navigateToTaskDetails(events.taskId)
         }
         else -> {}
