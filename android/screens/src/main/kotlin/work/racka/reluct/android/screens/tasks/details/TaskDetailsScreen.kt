@@ -47,10 +47,10 @@ fun TaskDetailsScreen(
     TaskDetailsUI(
         uiState = uiState,
         scaffoldState = scaffoldState,
-        onEditTaskClicked = { task ->
+        onEditTask = { task ->
             task?.let { viewModel.editTask(it.id) }
         },
-        onDeleteTaskClicked = { task ->
+        onDeleteTask = { task ->
             task?.let { viewModel.deleteTask(it.id) }
             onBackClicked()
         },

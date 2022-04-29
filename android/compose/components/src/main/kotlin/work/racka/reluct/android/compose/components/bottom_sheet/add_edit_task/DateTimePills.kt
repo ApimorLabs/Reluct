@@ -45,7 +45,7 @@ fun DateTimePills(
 
     val localDateTimeString = rememberSaveable(localDateTime.value) {
         mutableStateOf(
-            localDateTime.toString()
+            localDateTime.value.toString()
         )
     }
 

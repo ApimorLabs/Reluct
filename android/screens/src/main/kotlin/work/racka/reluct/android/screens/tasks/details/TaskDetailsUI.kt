@@ -17,6 +17,8 @@ import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.Edit
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -40,13 +42,15 @@ fun TaskDetailsUI(
     modifier: Modifier = Modifier,
     scaffoldState: ScaffoldState,
     uiState: TasksState,
-    onEditTaskClicked: (task: Task?) -> Unit = { },
-    onDeleteTaskClicked: (task: Task?) -> Unit,
+    onEditTask: (task: Task?) -> Unit = { },
+    onDeleteTask: (task: Task?) -> Unit,
     onToggleTaskDone: (isDone: Boolean, task: Task) -> Unit,
     onBackClicked: () -> Unit = { },
 ) {
 
     val listState = rememberLazyListState()
+
+    val openDialog = remember { mutableStateOf(false) }
 
     Scaffold(
         scaffoldState = scaffoldState,
@@ -69,8 +73,8 @@ fun TaskDetailsUI(
         bottomBar = {
             val task = if (uiState is TasksState.TaskDetails) uiState.task else null
             DetailsBottomBar(
-                onEditTaskClicked = { onEditTaskClicked(task) },
-                onDeleteTaskClicked = { onDeleteTaskClicked(task) }
+                onEditTaskClicked = { onEditTask(task) },
+                onDeleteTaskClicked = { openDialog.value = true }
             )
         },
         snackbarHost = {
@@ -166,6 +170,47 @@ fun TaskDetailsUI(
                 }
             }
         }
+
+
+        // Delete Task Dialog
+        if (openDialog.value) {
+            AlertDialog(
+                onDismissRequest = { openDialog.value = false },
+                title = {
+                    Text(text = stringResource(R.string.delete_task))
+                },
+                text = {
+                    Text(text = stringResource(R.string.delete_task_message))
+                },
+                confirmButton = {
+                    ReluctButton(
+                        buttonText = stringResource(R.string.ok),
+                        icon = null,
+                        shape = Shapes.large,
+                        buttonColor = MaterialTheme.colorScheme.primary,
+                        contentColor = MaterialTheme.colorScheme.onPrimary,
+                        onButtonClicked = {
+                            openDialog.value = false
+                            onBackClicked()
+                        }
+                    )
+                },
+                dismissButton = {
+                    ReluctButton(
+                        buttonText = stringResource(R.string.cancel),
+                        icon = null,
+                        shape = Shapes.large,
+                        buttonColor = MaterialTheme.colorScheme.surfaceVariant,
+                        contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                        onButtonClicked = {
+                            val task = if (uiState is TasksState.TaskDetails) uiState.task else null
+                            onDeleteTask(task)
+                        }
+                    )
+                }
+            )
+        }
+
     }
 }
 

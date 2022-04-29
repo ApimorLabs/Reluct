@@ -19,6 +19,8 @@
     <string name="task_marked_as_not_done">Task Marked As Pending</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
+    <string name="delete_task_message">This action will permanently delete the current Task</string>
+    <string name="delete_task">Delete Task</string>
     <string name="discard_task">Discard Task</string>
-    <string name="discard_task_message">This action will delete the current Task</string>
+    <string name="discard_task_message">This action will discard all the current changes</string>
 </resources>
