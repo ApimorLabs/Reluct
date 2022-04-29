@@ -8,8 +8,8 @@ import work.racka.reluct.common.features.tasks.completed_tasks.CompletedTasksImp
 import work.racka.reluct.common.features.tasks.usecases.interfaces.GetTasksUseCase
 import work.racka.reluct.common.features.tasks.usecases.interfaces.ModifyTasksUseCase
 import work.racka.reluct.common.model.domain.tasks.Task
-import work.racka.reluct.common.model.states.tasks.TasksSideEffect
-import work.racka.reluct.common.model.states.tasks.TasksState
+import work.racka.reluct.common.model.states.tasks.CompletedTasksState
+import work.racka.reluct.common.model.states.tasks.TasksEvents
 
 actual class CompletedTasksViewModel internal constructor(
     getTasksUseCase: GetTasksUseCase,
@@ -24,9 +24,9 @@ actual class CompletedTasksViewModel internal constructor(
         )
     }
 
-    actual val uiState: StateFlow<TasksState> = host.uiState
+    actual val uiState: StateFlow<CompletedTasksState> = host.uiState
 
-    actual val events: Flow<TasksSideEffect> = host.events
+    actual val events: Flow<TasksEvents> = host.events
 
     actual fun toggleDone(task: Task, isDone: Boolean) = host.toggleDone(task, isDone)
 

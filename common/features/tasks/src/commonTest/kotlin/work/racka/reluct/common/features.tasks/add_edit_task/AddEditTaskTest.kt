@@ -20,8 +20,8 @@ import work.racka.reluct.common.features.tasks.usecases.interfaces.GetTasksUseCa
 import work.racka.reluct.common.features.tasks.usecases.interfaces.ModifyTasksUseCase
 import work.racka.reluct.common.features.tasks.util.Constants
 import work.racka.reluct.common.features.tasks.util.TestData
-import work.racka.reluct.common.model.states.tasks.TasksSideEffect
-import work.racka.reluct.common.model.states.tasks.TasksState
+import work.racka.reluct.common.model.states.tasks.AddEditTasksState
+import work.racka.reluct.common.model.states.tasks.TasksEvents
 import kotlin.test.*
 
 @OptIn(ExperimentalCoroutinesApi::class)
@@ -75,8 +75,8 @@ class AddEditTaskTest : KoinTest {
                     val actual = awaitItem()
                     println(actual)
 
-                    assertTrue(initial is TasksState.Loading)
-                    assertTrue(actual is TasksState.AddEditTask)
+                    assertTrue(initial is AddEditTasksState.Loading)
+                    assertTrue(actual is AddEditTasksState.Data)
                     assertEquals(expectedTask, actual.task)
                     coVerify { getTasksUseCase.getTaskToEdit(taskId) }
                     awaitComplete()
@@ -85,9 +85,8 @@ class AddEditTaskTest : KoinTest {
         }
 
     @Test
-    fun getTasks_OnClassInit_WhenTaskIdIsNull_ProvidesEmptyAddEditTaskUIState() =
+    fun getTasks_OnClassInit_WhenTaskIdIsNull_ProvidesAddEditTaskUIStateWithNullTask() =
         runTest {
-            val expectedState = TasksState.EmptyAddEditTask
             val myGetTasksUseCase: GetTasksUseCase = mockk()
             val myModifyTasksUsesCase: ModifyTasksUseCase = mockk()
             val addEditTaskWithNullTaskId: AddEditTask = AddEditTaskImpl(
@@ -100,14 +99,11 @@ class AddEditTaskTest : KoinTest {
             val result = addEditTaskWithNullTaskId.uiState
             launch {
                 result.test {
-                    val initial = awaitItem()
-                    val resetState = awaitItem()
-                    val actual = awaitItem()
+                    val actual = expectMostRecentItem()
                     println(actual)
 
-                    assertTrue(initial is TasksState.Loading)
-                    assertEquals(TasksState.EmptyAddEditTask, resetState)
-                    assertEquals(expectedState, actual)
+                    assertTrue(actual is AddEditTasksState.Data)
+                    assertNull(actual.task)
                     coVerify(exactly = 0) { myGetTasksUseCase.getTaskToEdit(taskId) }
                     cancelAndIgnoreRemainingEvents()
                 }
@@ -116,9 +112,8 @@ class AddEditTaskTest : KoinTest {
 
 
     @Test
-    fun getTasks_OnClassInit_WhenTaskNotFoundInDb_ProvidesEmptyAddEditTaskUIState() =
+    fun getTasks_OnClassInit_WhenTaskNotFoundInDb_ProvidesAddEditTaskUIStateWithNullTask() =
         runTest {
-            val expectedState = TasksState.EmptyAddEditTask
             coEvery { getTasksUseCase.getTaskToEdit(taskId) } returns flowOf(null)
 
             val result = addEditTask.uiState
@@ -128,9 +123,9 @@ class AddEditTaskTest : KoinTest {
                     val actual = awaitItem()
                     println(actual)
 
-                    assertTrue(initial is TasksState.Loading)
-                    assertEquals(expectedState, actual)
-                    assertNull((actual as TasksState.AddEditTask).task)
+                    assertTrue(initial is AddEditTasksState.Loading)
+                    assertTrue(actual is AddEditTasksState.Data)
+                    assertNull(actual.task)
                     coVerify { getTasksUseCase.getTaskToEdit(taskId) }
                     awaitComplete()
                 }
@@ -139,31 +134,72 @@ class AddEditTaskTest : KoinTest {
 
 
     @Test
-    fun saveTask_WhenTaskSaved_CallsSaveMethodOnRepo_Then_ProvidesShowSnackbarEvent() =
+    fun saveTask_WhenNewTaskSaved_AndTaskIdIsNull_CallsSaveMethodOnRepo_Then_ProvidesShowMessageEventAndGoBackNavigationEvent() =
         runTest {
-            val expectedEvent = TasksSideEffect.ShowMessage(Constants.TASK_SAVED)
-            val expectedUiState = TasksState.AddEditTask(taskSaved = true)
+            val myGetTasksUseCase: GetTasksUseCase = mockk()
+            val myModifyTasksUsesCase: ModifyTasksUseCase = mockk()
+            val addEditTaskWithNullTaskId: AddEditTask = AddEditTaskImpl(
+                getTasksUseCase = myGetTasksUseCase,
+                modifyTasksUseCase = myModifyTasksUsesCase,
+                taskId = null,
+                scope = CoroutineScope(StandardTestDispatcher())
+            )
+
+            val expectedEvent = TasksEvents.ShowMessage(Constants.TASK_SAVED)
+            val task = TestData.editTask
+            coEvery { myModifyTasksUsesCase.addTask(task) } returns Unit
+
+
+            val events = addEditTaskWithNullTaskId.events
+            val uiState = addEditTaskWithNullTaskId.uiState
+            launch {
+                addEditTaskWithNullTaskId.saveTask(task)
+                events.test {
+                    val actual = awaitItem()
+                    println(actual)
+
+                    assertEquals(expectedEvent, actual)
+                    awaitComplete()
+                }
+                uiState.test {
+                    val actual = awaitItem()
+                    println(actual)
+
+                    assertTrue(actual is AddEditTasksState.TaskSaved)
+                    awaitComplete()
+                }
+                coVerify { myModifyTasksUsesCase.addTask(task) }
+            }
+        }
+
+    @Test
+    fun saveTask_WhenEditedTaskSaved_AndTaskIdIsNotNull_CallsSaveMethodOnRepo_Then_ProvidesShowMessageEventAndTaskSavedUIState() =
+        runTest {
+            val expectedEvent = TasksEvents.ShowMessage(Constants.TASK_SAVED)
             val task = TestData.editTask
             coEvery { modifyTasksUsesCase.addTask(task) } returns Unit
 
-            addEditTask.saveTask(task)
 
             val events = addEditTask.events
             val uiState = addEditTask.uiState
             launch {
+                addEditTask.saveTask(task)
                 events.test {
-                    val actual = expectMostRecentItem()
-                    println(actual)
+                    val event1 = awaitItem()
+                    val event2 = awaitItem()
+                    println(event1)
+                    println(event2)
 
-                    assertEquals(expectedEvent, actual)
+                    assertEquals(expectedEvent, event1)
+                    assertTrue(event2 is TasksEvents.Navigation.GoBack)
+                    awaitComplete()
                 }
                 uiState.test {
-                    val initial = awaitItem()
                     val actual = awaitItem()
                     println(actual)
 
-                    assertTrue(initial is TasksState.Loading)
-                    assertEquals(expectedUiState, actual)
+                    assertTrue(actual is AddEditTasksState.TaskSaved)
+                    awaitComplete()
                 }
                 coVerify { modifyTasksUsesCase.addTask(task) }
             }
@@ -171,7 +207,7 @@ class AddEditTaskTest : KoinTest {
 
     @Test
     fun goBack_WhenGoBackCalled_ProducesGoBackNavigationEvent() = runTest {
-        val expectedEvent = TasksSideEffect.Navigation.GoBack
+        val expectedEvent = TasksEvents.Navigation.GoBack
         val result = addEditTask.events
         launch {
             result.test {

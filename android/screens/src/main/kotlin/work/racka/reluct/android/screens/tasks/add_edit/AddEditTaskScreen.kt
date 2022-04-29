@@ -13,7 +13,7 @@ import org.koin.androidx.compose.viewModel
 import org.koin.core.parameter.parametersOf
 import timber.log.Timber
 import work.racka.reluct.common.features.tasks.viewmodels.AddEditTaskViewModel
-import work.racka.reluct.common.model.states.tasks.TasksSideEffect
+import work.racka.reluct.common.model.states.tasks.TasksEvents
 
 @Composable
 fun AddEditTaskScreen(
@@ -24,7 +24,7 @@ fun AddEditTaskScreen(
     val scaffoldState = rememberScaffoldState()
     val viewModel: AddEditTaskViewModel by viewModel { parametersOf(taskId) }
     val uiState by viewModel.uiState.collectAsState()
-    val events by viewModel.events.collectAsState(TasksSideEffect.Nothing)
+    val events by viewModel.events.collectAsState(TasksEvents.Nothing)
 
     LaunchedEffect(events) {
         Timber.d("Event is : $events")
@@ -46,13 +46,13 @@ fun AddEditTaskScreen(
 }
 
 private fun handleEvents(
-    events: TasksSideEffect,
+    events: TasksEvents,
     scope: CoroutineScope,
     scaffoldState: ScaffoldState,
     goBack: () -> Unit,
 ) {
     when (events) {
-        is TasksSideEffect.ShowMessage -> {
+        is TasksEvents.ShowMessage -> {
             scope.launch {
                 val result = scaffoldState.snackbarHostState.showSnackbar(
                     message = events.msg,
@@ -60,7 +60,7 @@ private fun handleEvents(
                 )
             }
         }
-        is TasksSideEffect.Navigation.GoBack -> goBack()
+        is TasksEvents.Navigation.GoBack -> goBack()
         else -> {}
     }
 }

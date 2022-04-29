@@ -2,14 +2,15 @@ package work.racka.reluct.common.features.tasks.add_edit_task
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.channels.onSuccess
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import work.racka.reluct.common.features.tasks.usecases.interfaces.GetTasksUseCase
 import work.racka.reluct.common.features.tasks.usecases.interfaces.ModifyTasksUseCase
 import work.racka.reluct.common.features.tasks.util.Constants
 import work.racka.reluct.common.model.domain.tasks.EditTask
-import work.racka.reluct.common.model.states.tasks.TasksSideEffect
-import work.racka.reluct.common.model.states.tasks.TasksState
+import work.racka.reluct.common.model.states.tasks.AddEditTasksState
+import work.racka.reluct.common.model.states.tasks.TasksEvents
 
 internal class AddEditTaskImpl(
     private val modifyTasksUseCase: ModifyTasksUseCase,
@@ -17,12 +18,13 @@ internal class AddEditTaskImpl(
     private val taskId: String?,
     private val scope: CoroutineScope,
 ) : AddEditTask {
-    private val _uiState: MutableStateFlow<TasksState> = MutableStateFlow(TasksState.Loading)
-    private val _events: Channel<TasksSideEffect> = Channel()
+    private val _uiState: MutableStateFlow<AddEditTasksState> =
+        MutableStateFlow(AddEditTasksState.Loading)
+    private val _events: Channel<TasksEvents> = Channel()
 
-    override val uiState: StateFlow<TasksState>
+    override val uiState: StateFlow<AddEditTasksState>
         get() = _uiState
-    override val events: Flow<TasksSideEffect>
+    override val events: Flow<TasksEvents>
         get() = _events.receiveAsFlow()
 
     init {
@@ -31,16 +33,15 @@ internal class AddEditTaskImpl(
 
     override fun getTask(id: String?) {
         scope.launch {
-            resetEvents()
             when (id) {
                 null -> {
-                    _uiState.update { TasksState.EmptyAddEditTask }
+                    _uiState.update { AddEditTasksState.Data() }
                 }
                 else -> getTasksUseCase.getTaskToEdit(id).take(1)
                     .collectLatest { task ->
                         when (task) {
-                            null -> _uiState.update { TasksState.EmptyAddEditTask }
-                            else -> _uiState.update { TasksState.AddEditTask(task) }
+                            null -> _uiState.update { AddEditTasksState.Data() }
+                            else -> _uiState.update { AddEditTasksState.Data(task) }
                         }
                     }
             }
@@ -50,16 +51,27 @@ internal class AddEditTaskImpl(
     override fun saveTask(task: EditTask) {
         scope.launch {
             modifyTasksUseCase.addTask(task)
-            _events.send(TasksSideEffect.ShowMessage(Constants.TASK_SAVED))
-            _uiState.update { TasksState.AddEditTask(taskSaved = true) }
+            val result = _events.trySend(TasksEvents.ShowMessage(Constants.TASK_SAVED))
+            result.onSuccess {
+                println("AddEdit Task: $taskId")
+                /**
+                 * Go back after saving if you are just editing a Task and the [taskId]
+                 * is not null else just show the TaskSaved State for adding more tasks
+                 */
+                if (taskId != null) {
+                    _events.send(TasksEvents.Navigation.GoBack)
+                } else {
+                    _uiState.update { AddEditTasksState.TaskSaved }
+                }
+            }
         }
     }
 
     override fun goBack() {
-        _events.trySend(TasksSideEffect.Navigation.GoBack)
+        _events.trySend(TasksEvents.Navigation.GoBack)
     }
 
     private suspend fun resetEvents() {
-        _events.send(TasksSideEffect.Nothing)
+        _events.send(TasksEvents.Nothing)
     }
 }

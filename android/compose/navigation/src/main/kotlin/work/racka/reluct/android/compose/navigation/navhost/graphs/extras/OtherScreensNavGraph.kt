@@ -9,6 +9,7 @@ import work.racka.reluct.android.compose.navigation.transitions.scaleInPopEnterT
 import work.racka.reluct.android.compose.navigation.transitions.scaleOutExitTransition
 import work.racka.reluct.android.compose.navigation.transitions.scaleOutPopExitTransition
 import work.racka.reluct.android.compose.navigation.util.NavArgKeys
+import work.racka.reluct.android.compose.navigation.util.NavHelpers
 import work.racka.reluct.android.screens.tasks.add_edit.AddEditTaskScreen
 import work.racka.reluct.android.screens.tasks.details.TaskDetailsScreen
 import work.racka.reluct.common.compose.destinations.OtherDestinations
@@ -46,11 +47,8 @@ fun NavGraphBuilder.otherScreenNavGraph(
         ) { navBackStackEntry ->
             updateNavBar(true)
             AddEditTaskScreen(
-                taskId = navBackStackEntry.arguments?.getString(NavArgKeys.ADD_EDIT_TASK_ID),
-                onBackClicked = {
-                    navBackStackEntry.arguments?.remove(NavArgKeys.ADD_EDIT_TASK_ID)
-                    navController.popBackStack()
-                }
+                taskId = NavHelpers.getStringArgs(navBackStackEntry, NavArgKeys.ADD_EDIT_TASK_ID),
+                onBackClicked = { navController.popBackStack() }
             )
         }
 
@@ -75,16 +73,13 @@ fun NavGraphBuilder.otherScreenNavGraph(
         ) { navBackStackEntry ->
             updateNavBar(true)
             TaskDetailsScreen(
-                taskId = navBackStackEntry.arguments?.getString(NavArgKeys.TASK_DETAILS_ID),
+                taskId = NavHelpers.getStringArgs(navBackStackEntry, NavArgKeys.TASK_DETAILS_ID),
                 onNavigateToEditTask = {
                     navController.navigate(
                         "${OtherDestinations.AddEditTask.route}/$it"
                     )
                 },
-                onBackClicked = {
-                    navBackStackEntry.arguments?.remove(NavArgKeys.ADD_EDIT_TASK_ID)
-                    navController.popBackStack()
-                }
+                onBackClicked = { navController.popBackStack() }
             )
         }
     }

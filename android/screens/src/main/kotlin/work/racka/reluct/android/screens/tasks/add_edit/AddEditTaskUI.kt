@@ -29,21 +29,21 @@ import work.racka.reluct.android.compose.theme.Shapes
 import work.racka.reluct.android.screens.R
 import work.racka.reluct.android.screens.util.BackPressHandler
 import work.racka.reluct.common.model.domain.tasks.EditTask
-import work.racka.reluct.common.model.states.tasks.TasksState
+import work.racka.reluct.common.model.states.tasks.AddEditTasksState
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
 @Composable
 fun AddEditTaskUI(
     modifier: Modifier = Modifier,
     scaffoldState: ScaffoldState,
-    uiState: TasksState,
+    uiState: AddEditTasksState,
     onSaveTask: (task: EditTask) -> Unit,
     onAddTaskClicked: () -> Unit = { },
     onBackClicked: () -> Unit = { },
 ) {
 
     val titleText = when (uiState) {
-        is TasksState.AddEditTask -> {
+        is AddEditTasksState.Data -> {
             if (uiState.task == null) stringResource(R.string.add_task_text)
             else stringResource(R.string.edit_task_text)
         }
@@ -98,7 +98,7 @@ fun AddEditTaskUI(
             AnimatedVisibility(
                 modifier = Modifier
                     .fillMaxSize(),
-                visible = uiState is TasksState.Loading,
+                visible = uiState is AddEditTasksState.Loading,
                 enter = scaleIn(),
                 exit = scaleOut()
             ) {
@@ -110,16 +110,14 @@ fun AddEditTaskUI(
                 }
             }
             // Add or Edit Task
-            if (uiState is TasksState.AddEditTask) {
-                taskSaved.value = uiState.taskSaved
-                AnimatedVisibility(
-                    modifier = Modifier
-                        .fillMaxSize(),
-                    visible = !uiState.taskSaved,
-                    enter = fadeIn(),
-                    exit = scaleOut()
-                ) {
-
+            AnimatedVisibility(
+                modifier = Modifier
+                    .fillMaxSize(),
+                visible = uiState is AddEditTasksState.Data,
+                enter = fadeIn(),
+                exit = scaleOut()
+            ) {
+                if (uiState is AddEditTasksState.Data) {
                     AddEditTaskFields(
                         editTask = uiState.task,
                         saveButtonText = stringResource(R.string.save_button_text),
@@ -128,44 +126,43 @@ fun AddEditTaskUI(
                         onDiscard = { openDialog.value = true }
                     )
                 }
+            }
 
-                AnimatedVisibility(
+            AnimatedVisibility(
+                modifier = Modifier
+                    .fillMaxSize(),
+                visible = uiState is AddEditTasksState.TaskSaved,
+                enter = scaleIn(),
+                exit = scaleOut()
+            ) {
+                taskSaved.value = true
+                Column(
                     modifier = Modifier
-                        .fillMaxSize(),
-                    visible = uiState.taskSaved,
-                    enter = scaleIn(),
-                    exit = scaleOut()
+                        .verticalScroll(rememberScrollState()),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement
+                        .spacedBy(Dimens.MediumPadding.size)
                 ) {
-                    Column(
-                        modifier = Modifier
-                            .verticalScroll(rememberScrollState()),
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement
-                            .spacedBy(Dimens.MediumPadding.size)
-                    ) {
-                        LottieAnimationWithDescription(
-                            lottieResId = R.raw.task_saved,
-                            imageSize = 300.dp,
-                            description = null
-                        )
-                        if (uiState.task != null) {
-                            ReluctButton(
-                                buttonText = stringResource(R.string.add_task_button_text),
-                                icon = Icons.Rounded.Add,
-                                shape = Shapes.large,
-                                buttonColor = MaterialTheme.colorScheme.primary,
-                                contentColor = MaterialTheme.colorScheme.onPrimary,
-                                onButtonClicked = onAddTaskClicked
-                            )
-                        }
-                        OutlinedReluctButton(
-                            buttonText = stringResource(R.string.go_back_button_text),
-                            icon = Icons.Rounded.ArrowBack,
-                            shape = Shapes.large,
-                            borderColor = MaterialTheme.colorScheme.primary,
-                            onButtonClicked = onBackClicked
-                        )
-                    }
+                    LottieAnimationWithDescription(
+                        lottieResId = R.raw.task_saved,
+                        imageSize = 300.dp,
+                        description = null
+                    )
+                    ReluctButton(
+                        buttonText = stringResource(R.string.add_task_button_text),
+                        icon = Icons.Rounded.Add,
+                        shape = Shapes.large,
+                        buttonColor = MaterialTheme.colorScheme.primary,
+                        contentColor = MaterialTheme.colorScheme.onPrimary,
+                        onButtonClicked = onAddTaskClicked
+                    )
+                    OutlinedReluctButton(
+                        buttonText = stringResource(R.string.go_back_button_text),
+                        icon = Icons.Rounded.ArrowBack,
+                        shape = Shapes.large,
+                        borderColor = MaterialTheme.colorScheme.primary,
+                        onButtonClicked = onBackClicked
+                    )
                 }
             }
         }

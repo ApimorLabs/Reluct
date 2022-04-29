@@ -28,7 +28,7 @@ import work.racka.reluct.android.compose.components.images.LottieAnimationWithDe
 import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.android.screens.R
 import work.racka.reluct.common.model.domain.tasks.Task
-import work.racka.reluct.common.model.states.tasks.TasksState
+import work.racka.reluct.common.model.states.tasks.CompletedTasksState
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
 @Composable
@@ -36,7 +36,7 @@ internal fun CompletedTasksUI(
     modifier: Modifier = Modifier,
     mainScaffoldPadding: PaddingValues,
     scaffoldState: ScaffoldState,
-    uiState: TasksState,
+    uiState: CompletedTasksState,
     onTaskClicked: (task: Task) -> Unit,
     onAddTaskClicked: (task: Task?) -> Unit,
     onToggleTaskDone: (isDone: Boolean, task: Task) -> Unit,
@@ -84,7 +84,7 @@ internal fun CompletedTasksUI(
             AnimatedVisibility(
                 modifier = Modifier
                     .fillMaxSize(),
-                visible = uiState is TasksState.Loading,
+                visible = uiState is CompletedTasksState.Loading,
                 enter = fadeIn(),
                 exit = fadeOut()
             ) {
@@ -96,7 +96,7 @@ internal fun CompletedTasksUI(
                 }
             }
 
-            if (uiState is TasksState.CompletedTasks) {
+            if (uiState is CompletedTasksState.Data) {
                 // Show Empty Graphic
                 if (uiState.tasks.isEmpty()) {
                     Box(

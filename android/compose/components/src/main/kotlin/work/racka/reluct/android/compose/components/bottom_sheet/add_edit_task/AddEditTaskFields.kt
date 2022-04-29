@@ -135,9 +135,6 @@ fun AddEditTaskFields(
             )
         }
 
-        item { Text(text = task.value.dueDateLocalDateTime) }
-        item { Text(text = task.value.reminderLocalDateTime ?: "") }
-
         item {
             ReluctTextField(
                 modifier = Modifier

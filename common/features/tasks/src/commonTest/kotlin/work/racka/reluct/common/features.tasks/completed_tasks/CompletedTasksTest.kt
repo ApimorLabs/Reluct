@@ -23,8 +23,8 @@ import work.racka.reluct.common.features.tasks.usecases.interfaces.GetTasksUseCa
 import work.racka.reluct.common.features.tasks.usecases.interfaces.ModifyTasksUseCase
 import work.racka.reluct.common.features.tasks.util.DataMappers.asTask
 import work.racka.reluct.common.features.tasks.util.TestData
-import work.racka.reluct.common.model.states.tasks.TasksSideEffect
-import work.racka.reluct.common.model.states.tasks.TasksState
+import work.racka.reluct.common.model.states.tasks.CompletedTasksState
+import work.racka.reluct.common.model.states.tasks.TasksEvents
 import kotlin.test.*
 
 @OptIn(ExperimentalCoroutinesApi::class)
@@ -67,7 +67,7 @@ class CompletedTasksTest : KoinTest {
     fun getCompletedTasks_OnClassInit_ShouldUpdateUIStateWithCompletedTasks() =
         runTest {
             val tasks = TestData.taskDbObjects.map { it.asTask() }
-            val expectedState = TasksState.CompletedTasks(
+            val expectedState = CompletedTasksState.Data(
                 tasks = tasks.groupBy { it.dueDate }
             )
 
@@ -80,8 +80,8 @@ class CompletedTasksTest : KoinTest {
                     val actual = awaitItem()
                     println(actual)
 
-                    assertTrue(initial is TasksState.Loading)
-                    assertTrue(actual is TasksState.CompletedTasks)
+                    assertTrue(initial is CompletedTasksState.Loading)
+                    assertTrue(actual is CompletedTasksState.Data)
                     assertEquals(expectedState, actual)
                     coVerify { getTasksUseCase.getCompletedTasks() }
                     awaitComplete()
@@ -97,7 +97,7 @@ class CompletedTasksTest : KoinTest {
             val task = TestData.taskDbObjects.first()
                 .asTask()
                 .copy(id = taskId, done = isDone)
-            val expectedEvent = TasksSideEffect.ShowMessageDone(isDone)
+            val expectedEvent = TasksEvents.ShowMessageDone(isDone)
             coEvery { modifyTasksUsesCase.toggleTaskDone(task, isDone) } returns Unit
 
             val result = completedTasks.events
@@ -117,7 +117,7 @@ class CompletedTasksTest : KoinTest {
     fun navigateToTaskDetails_WhenProvidedTaskId_ProvidesNavigateToDetailsEventWithGivenId() =
         runTest {
             val taskId = "2L"
-            val expectedEvent = TasksSideEffect.Navigation.NavigateToTaskDetails(taskId)
+            val expectedEvent = TasksEvents.Navigation.NavigateToTaskDetails(taskId)
 
 
             val result = completedTasks.events
