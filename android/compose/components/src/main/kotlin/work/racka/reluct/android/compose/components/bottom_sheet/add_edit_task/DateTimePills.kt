@@ -30,6 +30,7 @@ import work.racka.reluct.common.model.util.time.TimeUtils.plus
 @Composable
 fun DateTimePills(
     modifier: Modifier = Modifier,
+    initialLocalDateTime: LocalDateTime? = null,
     onLocalDateTimeChange: (dateTimeString: String) -> Unit,
 ) {
 
@@ -38,7 +39,7 @@ fun DateTimePills(
 
     val advancedDateTime = remember {
         derivedStateOf {
-            Clock.System.now()
+            initialLocalDateTime ?: Clock.System.now()
                 .toLocalDateTime(TimeZone.currentSystemDefault())
                 .plus(hours = 1)
         }
@@ -50,13 +51,13 @@ fun DateTimePills(
         )
     }
 
-    val localDateTimeString = rememberSaveable {
+    val localDateTimeString = rememberSaveable(initialLocalDateTime) {
         mutableStateOf(
             localDateTime.toString()
         )
     }
 
-    val dateString = rememberSaveable {
+    val dateString = rememberSaveable(initialLocalDateTime) {
         mutableStateOf(
             TimeUtils.getFormattedDateString(
                 dateTime = advancedDateTime.value.toString(),
@@ -65,7 +66,7 @@ fun DateTimePills(
         )
     }
 
-    val timeString = rememberSaveable {
+    val timeString = rememberSaveable(initialLocalDateTime) {
         mutableStateOf(
             TimeUtils.getTimeFromLocalDateTime(
                 dateTime = advancedDateTime.value.toString(),
@@ -75,6 +76,7 @@ fun DateTimePills(
     }
 
     DateAndTimeMaterialDialogs(
+        initialLocalDateTime = localDateTime.value,
         dateDialogState = dateDialogState,
         timeDialogState = timeDialogState,
         onLocalDateTimeChange = { dateChange, timeChange ->
@@ -130,6 +132,7 @@ fun DateTimePills(
 
 @Composable
 private fun DateAndTimeMaterialDialogs(
+    initialLocalDateTime: LocalDateTime,
     dateDialogState: MaterialDialogState,
     timeDialogState: MaterialDialogState,
     onLocalDateTimeChange: (dateChange: LocalDateTime?, timeChange: LocalDateTime?) -> Unit,
@@ -144,7 +147,7 @@ private fun DateAndTimeMaterialDialogs(
     }
     val localDateTime = remember {
         mutableStateOf(
-            advancedDateTime.value
+            initialLocalDateTime
         )
     }
 
@@ -158,9 +161,9 @@ private fun DateAndTimeMaterialDialogs(
     ) {
         DatePicker(
             initialDate = LocalDate(
-                localDateTime.value.year,
-                localDateTime.value.monthNumber,
-                localDateTime.value.dayOfMonth
+                initialLocalDateTime.year,
+                initialLocalDateTime.monthNumber,
+                initialLocalDateTime.dayOfMonth
             )
         ) { dateTime ->
             localDateTime.value = LocalDateTime(
@@ -185,7 +188,7 @@ private fun DateAndTimeMaterialDialogs(
         }
     ) {
         Timepicker(
-            initialTime = advancedDateTime.value
+            initialTime = initialLocalDateTime
         ) { dateTime ->
             localDateTime.value = LocalDateTime(
                 localDateTime.value.year,

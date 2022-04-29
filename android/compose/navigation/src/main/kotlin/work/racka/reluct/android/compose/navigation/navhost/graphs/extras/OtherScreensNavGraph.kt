@@ -8,9 +8,10 @@ import work.racka.reluct.android.compose.navigation.transitions.scaleInEnterTran
 import work.racka.reluct.android.compose.navigation.transitions.scaleInPopEnterTransition
 import work.racka.reluct.android.compose.navigation.transitions.scaleOutExitTransition
 import work.racka.reluct.android.compose.navigation.transitions.scaleOutPopExitTransition
+import work.racka.reluct.android.compose.navigation.util.NavArgKeys
 import work.racka.reluct.android.screens.tasks.add_edit.AddEditTaskScreen
+import work.racka.reluct.android.screens.tasks.details.TaskDetailsScreen
 import work.racka.reluct.common.compose.destinations.OtherDestinations
-import work.racka.reluct.common.compose.destinations.TasksDestinations
 import work.racka.reluct.common.compose.destinations.navbar.Graphs
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -26,9 +27,9 @@ fun NavGraphBuilder.otherScreenNavGraph(
     ) {
         // Add Task
         composable(
-            route = "${TasksDestinations.Paths.AddEditTask.route}/{EditTask}",
+            route = "${OtherDestinations.AddEditTask.route}/{${NavArgKeys.ADD_EDIT_TASK_ID}}",
             arguments = listOf(
-                navArgument(name = "EditTask") { type = NavType.StringType }
+                navArgument(name = NavArgKeys.ADD_EDIT_TASK_ID) { type = NavType.StringType }
             ),
             enterTransition = {
                 scaleInEnterTransition()
@@ -45,10 +46,44 @@ fun NavGraphBuilder.otherScreenNavGraph(
         ) { navBackStackEntry ->
             updateNavBar(true)
             AddEditTaskScreen(
-                taskId = navBackStackEntry.arguments?.getString("EditTask"),
+                taskId = navBackStackEntry.arguments?.getString(NavArgKeys.ADD_EDIT_TASK_ID),
                 onBackClicked = {
+                    navBackStackEntry.arguments?.remove(NavArgKeys.ADD_EDIT_TASK_ID)
                     navController.popBackStack()
-                    navBackStackEntry.arguments?.remove("EditTask")
+                }
+            )
+        }
+
+        // Task Details
+        composable(
+            route = "${OtherDestinations.TaskDetails.route}/{${NavArgKeys.TASK_DETAILS_ID}}",
+            arguments = listOf(
+                navArgument(name = NavArgKeys.TASK_DETAILS_ID) { type = NavType.StringType }
+            ),
+            enterTransition = {
+                scaleInEnterTransition()
+            },
+            exitTransition = {
+                scaleOutExitTransition()
+            },
+            popEnterTransition = {
+                scaleInPopEnterTransition()
+            },
+            popExitTransition = {
+                scaleOutPopExitTransition()
+            }
+        ) { navBackStackEntry ->
+            updateNavBar(true)
+            TaskDetailsScreen(
+                taskId = navBackStackEntry.arguments?.getString(NavArgKeys.TASK_DETAILS_ID),
+                onNavigateToEditTask = {
+                    navController.navigate(
+                        "${OtherDestinations.AddEditTask.route}/$it"
+                    )
+                },
+                onBackClicked = {
+                    navBackStackEntry.arguments?.remove(NavArgKeys.ADD_EDIT_TASK_ID)
+                    navController.popBackStack()
                 }
             )
         }

@@ -60,9 +60,7 @@ private fun handleEvents(
                 )
             }
         }
-        is TasksSideEffect.Navigation.GoBack -> {
-            goBack()
-        }
+        is TasksSideEffect.Navigation.GoBack -> goBack()
         else -> {}
     }
 }

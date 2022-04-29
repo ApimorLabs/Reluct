@@ -20,6 +20,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -36,6 +37,7 @@ import work.racka.reluct.android.compose.components.textfields.ReluctTextField
 import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.android.compose.theme.Shapes
 import work.racka.reluct.common.model.domain.tasks.EditTask
+import work.racka.reluct.common.model.util.time.TimeUtils.getLocalDateTimeWithCorrectTimeZone
 import work.racka.reluct.common.model.util.time.TimeUtils.plus
 import java.util.*
 
@@ -53,16 +55,36 @@ fun AddEditTaskFields(
     onSave: (EditTask) -> Unit,
     onDiscard: () -> Unit = { },
 ) {
-    val setReminder = remember {
-        mutableStateOf(false)
+    val setReminder = rememberSaveable(editTask) {
+        val reminderPresent = !editTask?.reminderLocalDateTime.isNullOrBlank()
+        mutableStateOf(reminderPresent)
     }
 
     val taskTitleError = remember {
         mutableStateOf(false)
     }
 
-    val sheetTitle = if (editTask == null) stringResource(id = R.string.add_task)
-    else stringResource(id = R.string.edit_task)
+    val initialDueTime = remember {
+        derivedStateOf {
+            editTask?.run {
+                getLocalDateTimeWithCorrectTimeZone(
+                    dateTime = this.dueDateLocalDateTime,
+                    originalTimeZoneId = this.timeZoneId
+                )
+            }
+        }
+    }
+
+    val initialReminderTime = remember {
+        derivedStateOf {
+            editTask?.run {
+                getLocalDateTimeWithCorrectTimeZone(
+                    dateTime = this.dueDateLocalDateTime,
+                    originalTimeZoneId = this.timeZoneId
+                )
+            }
+        }
+    }
 
     val advancedDateTime = remember {
         derivedStateOf {
@@ -99,6 +121,7 @@ fun AddEditTaskFields(
     ) {
         item {
             ReluctTextField(
+                value = task.value.title,
                 hint = stringResource(R.string.task_title_hint),
                 isError = taskTitleError.value,
                 errorText = stringResource(R.string.task_title_error_text),
@@ -118,6 +141,7 @@ fun AddEditTaskFields(
             ReluctTextField(
                 modifier = Modifier
                     .height(200.dp),
+                value = task.value.description ?: "",
                 hint = stringResource(R.string.task_description_hint),
                 keyboardOptions = KeyboardOptions(
                     capitalization = KeyboardCapitalization.Sentences
@@ -140,6 +164,7 @@ fun AddEditTaskFields(
             )
             Spacer(modifier = Modifier.height(Dimens.SmallPadding.size))
             DateTimePills(
+                initialLocalDateTime = initialDueTime.value,
                 onLocalDateTimeChange = { dateTimeString ->
                     task.value = task.value.copy(dueDateLocalDateTime = dateTimeString)
                 }
@@ -148,6 +173,7 @@ fun AddEditTaskFields(
 
         item {
             EntryWithCheckbox(
+                isChecked = setReminder.value,
                 title = stringResource(R.string.set_reminder),
                 description = stringResource(R.string.set_reminder_desc),
                 onCheckedChanged = { checked ->
@@ -181,6 +207,7 @@ fun AddEditTaskFields(
                     )
                     Spacer(modifier = Modifier.height(Dimens.SmallPadding.size))
                     DateTimePills(
+                        initialLocalDateTime = initialReminderTime.value,
                         onLocalDateTimeChange = { dateTimeString ->
                             task.value = task.value.copy(reminderLocalDateTime = dateTimeString)
                         }

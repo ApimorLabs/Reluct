@@ -35,4 +35,7 @@
     <string name="turn_on_focus_mode">Turn On Focus Mode</string>
     <string name="turn_on_focus_mode_desc">Selected apps will be disabled</string>
 
+    <string name="task_info_due_text">Due: %1$s</string>
+    <string name="task_info_reminder_text">Reminder: %1$s</string>
+
 </resources>

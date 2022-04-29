@@ -8,7 +8,7 @@ object TimeUtils {
     /**
      * Retrieve the correct LocalDateTime with account to TimeZone
      */
-    private fun getLocalDateTimeWithCorrectTimeZone(
+    fun getLocalDateTimeWithCorrectTimeZone(
         dateTime: String,
         originalTimeZoneId: String,
     ): LocalDateTime {

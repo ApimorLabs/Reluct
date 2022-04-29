@@ -6,8 +6,6 @@ import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
@@ -19,12 +17,9 @@ fun EntryWithCheckbox(
     modifier: Modifier = Modifier,
     title: String,
     description: String,
+    isChecked: Boolean,
     onCheckedChanged: (Boolean) -> Unit,
 ) {
-
-    val isChecked = remember {
-        mutableStateOf(false)
-    }
 
     Row(
         modifier = modifier
@@ -56,11 +51,8 @@ fun EntryWithCheckbox(
         Spacer(modifier = Modifier.width(Dimens.MediumPadding.size))
 
         RoundCheckbox(
-            isChecked = isChecked.value,
-            onCheckedChange = { checked ->
-                isChecked.value = checked
-                onCheckedChanged(isChecked.value)
-            }
+            isChecked = isChecked,
+            onCheckedChange = { checked -> onCheckedChanged(checked) }
         )
     }
 }

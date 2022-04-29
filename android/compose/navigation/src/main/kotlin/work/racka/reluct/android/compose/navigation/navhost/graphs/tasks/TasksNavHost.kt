@@ -34,6 +34,7 @@ import work.racka.reluct.android.compose.navigation.transitions.scaleOutExitTran
 import work.racka.reluct.android.compose.navigation.transitions.scaleOutPopExitTransition
 import work.racka.reluct.android.screens.tasks.done.CompletedTasksScreen
 import work.racka.reluct.android.screens.tasks.pending.PendingTasksScreen
+import work.racka.reluct.common.compose.destinations.OtherDestinations
 import work.racka.reluct.common.compose.destinations.TasksDestinations
 import work.racka.reluct.common.compose.destinations.navbar.Graphs
 
@@ -99,11 +100,13 @@ internal fun TasksNavHost(
                     mainScaffoldPadding = mainScaffoldPadding,
                     onNavigateToAddTask = {
                         mainNavController.navigate(
-                            "${TasksDestinations.Paths.AddEditTask.route}/$it"
+                            "${OtherDestinations.AddEditTask.route}/$it"
                         )
                     },
                     onNavigateToTaskDetails = {
-
+                        mainNavController.navigate(
+                            "${OtherDestinations.TaskDetails.route}/$it"
+                        )
                     }
                 )
             }
@@ -128,11 +131,13 @@ internal fun TasksNavHost(
                     mainScaffoldPadding = mainScaffoldPadding,
                     onNavigateToAddTask = {
                         mainNavController.navigate(
-                            "${TasksDestinations.Paths.AddEditTask.route}/$it"
+                            "${OtherDestinations.AddEditTask.route}/$it"
                         )
                     },
                     onNavigateToTaskDetails = {
-
+                        mainNavController.navigate(
+                            "${OtherDestinations.TaskDetails.route}/$it"
+                        )
                     }
                 )
             }

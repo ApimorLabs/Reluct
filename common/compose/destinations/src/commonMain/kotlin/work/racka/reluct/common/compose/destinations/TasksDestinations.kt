@@ -19,12 +19,5 @@ enum class TasksDestinations(
 
     enum class Paths(
         val route: String,
-    ) {
-        AddEditTask(
-            route = "TasksDestinations-AddEditTask"
-        ),
-        TaskDetails(
-            route = "TasksDestinations-TaskDetails"
-        );
-    }
+    )
 }

@@ -90,6 +90,7 @@ fun AddEditTaskSheet(
             .fillMaxWidth()
     ) {
         ReluctTextField(
+            value = task.value.title,
             hint = stringResource(R.string.task_title_hint),
             isError = taskTitleError.value,
             errorText = stringResource(R.string.task_title_error_text),
@@ -106,6 +107,7 @@ fun AddEditTaskSheet(
         ReluctTextField(
             modifier = Modifier
                 .height(200.dp),
+            value = task.value.description ?: "",
             hint = stringResource(R.string.task_description_hint),
             keyboardOptions = KeyboardOptions(
                 capitalization = KeyboardCapitalization.Sentences
@@ -137,6 +139,7 @@ fun AddEditTaskSheet(
         }
 
         EntryWithCheckbox(
+            isChecked = setReminder.value,
             title = stringResource(R.string.set_reminder),
             description = stringResource(R.string.set_reminder_desc),
             onCheckedChanged = { checked ->

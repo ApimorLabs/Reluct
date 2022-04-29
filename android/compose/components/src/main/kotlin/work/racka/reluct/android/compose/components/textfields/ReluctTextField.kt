@@ -40,6 +40,7 @@ import work.racka.reluct.android.compose.theme.Shapes
 @Composable
 fun ReluctTextField(
     modifier: Modifier = Modifier,
+    value: String,
     hint: String,
     textStyle: TextStyle = MaterialTheme.typography.titleMedium,
     onTextChange: (String) -> Unit,
@@ -62,15 +63,11 @@ fun ReluctTextField(
         mutableStateOf(isError)
     }
 
-    var fieldText by rememberSaveable {
-        mutableStateOf("")
-    }
-
     var isHintActive by remember {
         mutableStateOf(hint.isNotEmpty())
     }
-    var isTyping by remember {
-        mutableStateOf(fieldText.isNotEmpty())
+    var isTyping by remember(value) {
+        mutableStateOf(value.isNotEmpty())
     }
 
     val hintAlpha: Float by animateFloatAsState(
@@ -123,11 +120,10 @@ fun ReluctTextField(
                     )
                 ) {
                     BasicTextField(
-                        value = fieldText,
+                        value = value,
                         onValueChange = {
-                            fieldText = it
                             onTextChange(it)
-                            isTyping = fieldText.isNotEmpty()
+                            isTyping = value.isNotEmpty()
 
                             if (isErrorActive.value) {
                                 isErrorActive.value = false

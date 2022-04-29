@@ -32,11 +32,11 @@ internal class AddEditTaskImpl(
     override fun getTask(id: String?) {
         scope.launch {
             resetEvents()
-            when (taskId) {
+            when (id) {
                 null -> {
                     _uiState.update { TasksState.EmptyAddEditTask }
                 }
-                else -> getTasksUseCase.getTaskToEdit(taskId).take(1)
+                else -> getTasksUseCase.getTaskToEdit(id).take(1)
                     .collectLatest { task ->
                         when (task) {
                             null -> _uiState.update { TasksState.EmptyAddEditTask }
