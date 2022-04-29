@@ -105,7 +105,6 @@ class AddEditTaskTest : KoinTest {
                     assertTrue(actual is AddEditTasksState.Data)
                     assertNull(actual.task)
                     coVerify(exactly = 0) { myGetTasksUseCase.getTaskToEdit(taskId) }
-                    cancelAndIgnoreRemainingEvents()
                 }
             }
         }
@@ -155,10 +154,13 @@ class AddEditTaskTest : KoinTest {
             launch {
                 addEditTaskWithNullTaskId.saveTask(task)
                 events.test {
-                    val actual = awaitItem()
-                    println(actual)
+                    val event1 = awaitItem()
+                    val event2 = awaitItem()
+                    println(event1)
+                    println(event2)
 
-                    assertEquals(expectedEvent, actual)
+                    assertTrue(event1 is TasksEvents.Nothing)
+                    assertEquals(expectedEvent, event2)
                     awaitComplete()
                 }
                 uiState.test {
@@ -187,11 +189,14 @@ class AddEditTaskTest : KoinTest {
                 events.test {
                     val event1 = awaitItem()
                     val event2 = awaitItem()
+                    val event3 = awaitItem()
                     println(event1)
                     println(event2)
+                    println(event3)
 
-                    assertEquals(expectedEvent, event1)
-                    assertTrue(event2 is TasksEvents.Navigation.GoBack)
+                    assertTrue(event1 is TasksEvents.Nothing)
+                    assertEquals(expectedEvent, event2)
+                    assertTrue(event3 is TasksEvents.Navigation.GoBack)
                     awaitComplete()
                 }
                 uiState.test {

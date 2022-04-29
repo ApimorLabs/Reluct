@@ -23,27 +23,25 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
 import work.racka.reluct.android.compose.components.buttons.OutlinedReluctButton
 import work.racka.reluct.android.compose.components.buttons.ReluctButton
 import work.racka.reluct.android.compose.components.cards.task_entry.TaskDetailsHeading
 import work.racka.reluct.android.compose.components.cards.task_entry.TaskInfoCard
-import work.racka.reluct.android.compose.components.images.LottieAnimationWithDescription
 import work.racka.reluct.android.compose.components.topBar.ReluctSmallTopAppBar
 import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.android.compose.theme.Shapes
 import work.racka.reluct.android.screens.R
 import work.racka.reluct.common.model.domain.tasks.Task
-import work.racka.reluct.common.model.states.tasks.TasksState
+import work.racka.reluct.common.model.states.tasks.TaskDetailsState
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun TaskDetailsUI(
     modifier: Modifier = Modifier,
     scaffoldState: ScaffoldState,
-    uiState: TasksState,
-    onEditTask: (task: Task?) -> Unit = { },
-    onDeleteTask: (task: Task?) -> Unit,
+    uiState: TaskDetailsState,
+    onEditTask: (task: Task) -> Unit = { },
+    onDeleteTask: (task: Task) -> Unit,
     onToggleTaskDone: (isDone: Boolean, task: Task) -> Unit,
     onBackClicked: () -> Unit = { },
 ) {
@@ -71,11 +69,13 @@ fun TaskDetailsUI(
             )
         },
         bottomBar = {
-            val task = if (uiState is TasksState.TaskDetails) uiState.task else null
-            DetailsBottomBar(
-                onEditTaskClicked = { onEditTask(task) },
-                onDeleteTaskClicked = { openDialog.value = true }
-            )
+            val task = if (uiState is TaskDetailsState.Data) uiState.task else null
+            task?.let {
+                DetailsBottomBar(
+                    onEditTaskClicked = { onEditTask(it) },
+                    onDeleteTaskClicked = { openDialog.value = true }
+                )
+            }
         },
         snackbarHost = {
             SnackbarHost(hostState = it) { data ->
@@ -100,7 +100,7 @@ fun TaskDetailsUI(
             AnimatedVisibility(
                 modifier = Modifier
                     .fillMaxSize(),
-                visible = uiState is TasksState.Loading,
+                visible = uiState is TaskDetailsState.Loading,
                 enter = scaleIn(),
                 exit = scaleOut()
             ) {
@@ -112,19 +112,8 @@ fun TaskDetailsUI(
                 }
             }
             // Add or Edit Task
-            if (uiState is TasksState.TaskDetails) {
-                if (uiState.task == null) {
-                    Box(
-                        modifier = Modifier.fillMaxSize(),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        LottieAnimationWithDescription(
-                            lottieResId = R.raw.no_task_animation,
-                            imageSize = 200.dp,
-                            description = stringResource(R.string.no_tasks_text)
-                        )
-                    }
-                } else {
+            if (uiState is TaskDetailsState.Data) {
+                if (uiState.task != null) {
                     LazyColumn(
                         state = listState,
                         verticalArrangement = Arrangement
@@ -191,7 +180,8 @@ fun TaskDetailsUI(
                         contentColor = MaterialTheme.colorScheme.onPrimary,
                         onButtonClicked = {
                             openDialog.value = false
-                            onBackClicked()
+                            val task = if (uiState is TaskDetailsState.Data) uiState.task else null
+                            task?.let { onDeleteTask(it) }
                         }
                     )
                 },
@@ -202,10 +192,7 @@ fun TaskDetailsUI(
                         shape = Shapes.large,
                         buttonColor = MaterialTheme.colorScheme.surfaceVariant,
                         contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                        onButtonClicked = {
-                            val task = if (uiState is TasksState.TaskDetails) uiState.task else null
-                            onDeleteTask(task)
-                        }
+                        onButtonClicked = { openDialog.value = false }
                     )
                 }
             )

@@ -32,6 +32,7 @@ internal class AddEditTaskImpl(
     }
 
     override fun getTask(id: String?) {
+        resetEvents()
         scope.launch {
             when (id) {
                 null -> {
@@ -71,7 +72,7 @@ internal class AddEditTaskImpl(
         _events.trySend(TasksEvents.Navigation.GoBack)
     }
 
-    private suspend fun resetEvents() {
-        _events.send(TasksEvents.Nothing)
+    private fun resetEvents() {
+        _events.trySend(TasksEvents.Nothing)
     }
 }

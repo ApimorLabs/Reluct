@@ -2,14 +2,15 @@ package work.racka.reluct.common.features.tasks.task_details
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.channels.onSuccess
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import work.racka.reluct.common.features.tasks.usecases.interfaces.GetTasksUseCase
 import work.racka.reluct.common.features.tasks.usecases.interfaces.ModifyTasksUseCase
 import work.racka.reluct.common.features.tasks.util.Constants
 import work.racka.reluct.common.model.domain.tasks.Task
-import work.racka.reluct.common.model.states.tasks.TasksSideEffect
-import work.racka.reluct.common.model.states.tasks.TasksState
+import work.racka.reluct.common.model.states.tasks.TaskDetailsState
+import work.racka.reluct.common.model.states.tasks.TasksEvents
 
 internal class TaskDetailsImpl(
     private val getTasksUseCase: GetTasksUseCase,
@@ -18,14 +19,14 @@ internal class TaskDetailsImpl(
     private val scope: CoroutineScope,
 ) : TaskDetails {
 
-    private val _uiState: MutableStateFlow<TasksState> =
-        MutableStateFlow(TasksState.Loading)
-    private val _events: Channel<TasksSideEffect> = Channel()
+    private val _uiState: MutableStateFlow<TaskDetailsState> =
+        MutableStateFlow(TaskDetailsState.Loading)
+    private val _events: Channel<TasksEvents> = Channel()
 
-    override val uiState: StateFlow<TasksState>
+    override val uiState: StateFlow<TaskDetailsState>
         get() = _uiState
 
-    override val events: Flow<TasksSideEffect>
+    override val events: Flow<TasksEvents>
         get() = _events.receiveAsFlow()
 
     init {
@@ -36,26 +37,12 @@ internal class TaskDetailsImpl(
         scope.launch {
             when (taskId) {
                 null -> {
-                    _uiState.update { TasksState.EmptyTaskDetails }
-                    _events.send(
-                        TasksSideEffect.DisplayErrorMsg(
-                            Constants.TASK_NOT_FOUND
-                        )
-                    )
+                    _uiState.update { TaskDetailsState.Data() }
                 }
                 else -> getTasksUseCase.getTask(taskId).collectLatest { task ->
                     when (task) {
-                        null -> {
-                            _uiState.update { TasksState.EmptyTaskDetails }
-                            _events.send(
-                                TasksSideEffect.DisplayErrorMsg(
-                                    Constants.TASK_NOT_FOUND
-                                )
-                            )
-                        }
-                        else -> {
-                            _uiState.update { TasksState.TaskDetails(task) }
-                        }
+                        null -> _uiState.update { TaskDetailsState.Data() }
+                        else -> _uiState.update { TaskDetailsState.Data(task) }
                     }
                 }
             }
@@ -64,23 +51,24 @@ internal class TaskDetailsImpl(
 
     override fun toggleDone(task: Task, isDone: Boolean) {
         modifyTasksUsesCase.toggleTaskDone(task, isDone)
-        _events.trySend(TasksSideEffect.ShowMessageDone(isDone))
+        _events.trySend(TasksEvents.ShowMessageDone(isDone))
     }
 
     override fun editTask(taskId: String) {
-        _events.trySend(TasksSideEffect.Navigation.NavigateToEdit(taskId))
+        _events.trySend(TasksEvents.Navigation.NavigateToEdit(taskId))
     }
 
     override fun deleteTask(taskId: String) {
         scope.launch {
             modifyTasksUsesCase.deleteTask(taskId)
-            _events.send(
-                TasksSideEffect.ShowMessage(Constants.DELETED_SUCCESSFULLY)
+            val result = _events.trySend(
+                TasksEvents.ShowMessage(Constants.DELETED_SUCCESSFULLY)
             )
+            result.onSuccess { _events.send(TasksEvents.Navigation.GoBack) }
         }
     }
 
     override fun goBack() {
-        _events.trySend(TasksSideEffect.Navigation.GoBack)
+        _events.trySend(TasksEvents.Navigation.GoBack)
     }
 }

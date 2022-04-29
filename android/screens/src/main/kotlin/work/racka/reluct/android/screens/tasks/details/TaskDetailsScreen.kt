@@ -14,7 +14,7 @@ import org.koin.androidx.compose.viewModel
 import org.koin.core.parameter.parametersOf
 import work.racka.reluct.android.screens.R
 import work.racka.reluct.common.features.tasks.viewmodels.TaskDetailsViewModel
-import work.racka.reluct.common.model.states.tasks.TasksSideEffect
+import work.racka.reluct.common.model.states.tasks.TasksEvents
 
 @Composable
 fun TaskDetailsScreen(
@@ -27,7 +27,7 @@ fun TaskDetailsScreen(
 
     val viewModel: TaskDetailsViewModel by viewModel { parametersOf(taskId) }
     val uiState by viewModel.uiState.collectAsState()
-    val events by viewModel.events.collectAsState(initial = TasksSideEffect.Nothing)
+    val events by viewModel.events.collectAsState(initial = TasksEvents.Nothing)
 
     val taskDone = stringResource(R.string.task_marked_as_done)
     val taskNotDone = stringResource(R.string.task_marked_as_not_done)
@@ -47,22 +47,15 @@ fun TaskDetailsScreen(
     TaskDetailsUI(
         uiState = uiState,
         scaffoldState = scaffoldState,
-        onEditTask = { task ->
-            task?.let { viewModel.editTask(it.id) }
-        },
-        onDeleteTask = { task ->
-            task?.let { viewModel.deleteTask(it.id) }
-            onBackClicked()
-        },
-        onToggleTaskDone = { isDone, task ->
-            viewModel.toggleDone(task, isDone)
-        },
-        onBackClicked = onBackClicked
+        onEditTask = { viewModel.editTask(it.id) },
+        onDeleteTask = { viewModel.deleteTask(it.id) },
+        onToggleTaskDone = { isDone, task -> viewModel.toggleDone(task, isDone) },
+        onBackClicked = { viewModel.goBack() }
     )
 }
 
 private fun handleEvents(
-    events: TasksSideEffect,
+    events: TasksEvents,
     scope: CoroutineScope,
     scaffoldState: ScaffoldState,
     taskDoneText: String,
@@ -71,7 +64,7 @@ private fun handleEvents(
     goBack: () -> Unit,
 ) {
     when (events) {
-        is TasksSideEffect.ShowMessage -> {
+        is TasksEvents.ShowMessage -> {
             scope.launch {
                 val result = scaffoldState.snackbarHostState.showSnackbar(
                     message = events.msg,
@@ -79,7 +72,7 @@ private fun handleEvents(
                 )
             }
         }
-        is TasksSideEffect.ShowMessageDone -> {
+        is TasksEvents.ShowMessageDone -> {
             val msg = if (events.isDone) taskDoneText else taskNotDoneText
             scope.launch {
                 val result = scaffoldState.snackbarHostState.showSnackbar(
@@ -88,8 +81,8 @@ private fun handleEvents(
                 )
             }
         }
-        is TasksSideEffect.Navigation.NavigateToEdit -> navigateToEditTask(events.taskId)
-        is TasksSideEffect.Navigation.GoBack -> goBack()
+        is TasksEvents.Navigation.NavigateToEdit -> navigateToEditTask(events.taskId)
+        is TasksEvents.Navigation.GoBack -> goBack()
         else -> {}
     }
 }
