@@ -4,7 +4,6 @@ import com.squareup.sqldelight.runtime.coroutines.asFlow
 import com.squareup.sqldelight.runtime.coroutines.mapToList
 import com.squareup.sqldelight.runtime.coroutines.mapToOneOrNull
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import work.racka.reluct.common.database.dao.DatabaseWrapper
@@ -12,12 +11,13 @@ import work.racka.reluct.common.database.dao.tasks.TasksHelpers.getAllTasksFromD
 import work.racka.reluct.common.database.dao.tasks.TasksHelpers.getCompletedTasksFromDb
 import work.racka.reluct.common.database.dao.tasks.TasksHelpers.getPendingTasksFromDb
 import work.racka.reluct.common.database.dao.tasks.TasksHelpers.getTaskFromDb
+import work.racka.reluct.common.database.dao.tasks.TasksHelpers.getTasksBetweenDateTimeStringsFromDb
 import work.racka.reluct.common.database.dao.tasks.TasksHelpers.insertTaskToDb
 import work.racka.reluct.common.database.dao.tasks.TasksHelpers.searchTasksFromDb
 import work.racka.reluct.common.model.data.local.task.TaskDbObject
 
 internal class TasksDaoImpl(
-    private val coroutineScope: CoroutineScope = MainScope(),
+    private val coroutineScope: CoroutineScope,
     databaseWrapper: DatabaseWrapper,
 ) : TasksDao {
 
@@ -54,6 +54,15 @@ internal class TasksDaoImpl(
 
     override fun getCompletedTasks(): Flow<List<TaskDbObject>> =
         tasksQueries?.getCompletedTasksFromDb()
+            ?.asFlow()
+            ?.mapToList(coroutineScope.coroutineContext)
+            ?: flowOf(emptyList())
+
+    override fun getTasksBetweenDateTimeStrings(
+        startLocalDateTime: String,
+        endLocalDateTime: String,
+    ): Flow<List<TaskDbObject>> =
+        tasksQueries?.getTasksBetweenDateTimeStringsFromDb(startLocalDateTime, endLocalDateTime)
             ?.asFlow()
             ?.mapToList(coroutineScope.coroutineContext)
             ?: flowOf(emptyList())

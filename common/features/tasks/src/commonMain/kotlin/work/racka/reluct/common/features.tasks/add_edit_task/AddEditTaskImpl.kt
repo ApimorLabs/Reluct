@@ -51,7 +51,7 @@ internal class AddEditTaskImpl(
 
     override fun saveTask(task: EditTask) {
         scope.launch {
-            modifyTasksUseCase.addTask(task)
+            modifyTasksUseCase.saveTask(task)
             val result = _events.trySend(TasksEvents.ShowMessage(Constants.TASK_SAVED))
             result.onSuccess {
                 println("AddEdit Task: $taskId")

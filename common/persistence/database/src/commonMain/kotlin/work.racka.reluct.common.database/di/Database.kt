@@ -1,7 +1,6 @@
 package work.racka.reluct.common.database.di
 
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import org.koin.core.KoinApplication
 import org.koin.dsl.module
@@ -19,13 +18,9 @@ object Database {
         }
 
     private fun commonModule() = module {
-        single {
-            CoroutineScope(Dispatchers.Default + SupervisorJob())
-        }
-
-        single<TasksDao> {
+        factory<TasksDao> {
             TasksDaoImpl(
-                coroutineScope = get(),
+                coroutineScope = CoroutineScope(CoroutineDispatchers.backgroundDispatcher + SupervisorJob()),
                 databaseWrapper = get()
             )
         }

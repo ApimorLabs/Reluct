@@ -118,6 +118,8 @@ object TimeUtils {
         val instant = getLocalDateTimeWithCorrectTimeZone(dateTime, originalTimeZoneId)
             .toInstant(TimeZone.currentSystemDefault())
         val diff = currentTime.periodUntil(instant, TimeZone.currentSystemDefault())
+        val dssd = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
+        dssd.dayOfWeek.name
         val data = when {
             diff.years > 0 -> {
                 val yr = timePluralOrSingle(diff.years, TimePeriod.YEAR)

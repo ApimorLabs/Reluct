@@ -12,7 +12,7 @@ internal class ModifyTasksUseCaseImpl(
     private val dao: TasksDao,
     private val backgroundDispatcher: CoroutineDispatcher,
 ) : ModifyTasksUseCase {
-    override suspend fun addTask(task: EditTask) =
+    override suspend fun saveTask(task: EditTask) =
         withContext(backgroundDispatcher) {
             dao.insertTask(task.asDatabaseModel())
         }

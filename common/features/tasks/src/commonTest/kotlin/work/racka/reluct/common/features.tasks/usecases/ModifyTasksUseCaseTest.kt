@@ -62,7 +62,7 @@ class ModifyTasksUseCaseTest : KoinTest {
         val task = TestData.editTask
         every { dao.insertTask(task.asDatabaseModel()) } returns Unit
 
-        useCase.addTask(task)
+        useCase.saveTask(task)
 
         verify { dao.insertTask(task.asDatabaseModel()) }
     }

@@ -45,6 +45,13 @@ SELECT * FROM TasksTable
 WHERE done = 1
 ORDER BY dueDateLocalDateTime DESC;
 
+getTasksBetweenDateTimeStrings:
+SELECT * FROM TasksTable
+WHERE dueDateLocalDateTime
+BETWEEN :startLocalDateTime
+AND :endLocalDateTime
+ORDER BY dueDateLocalDateTime ASC;
+
 toggleTaskDone:
 UPDATE TasksTable
 SET done = :isDone,

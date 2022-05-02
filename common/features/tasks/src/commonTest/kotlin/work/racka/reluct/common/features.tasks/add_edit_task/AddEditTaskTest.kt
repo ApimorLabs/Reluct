@@ -146,7 +146,7 @@ class AddEditTaskTest : KoinTest {
 
             val expectedEvent = TasksEvents.ShowMessage(Constants.TASK_SAVED)
             val task = TestData.editTask
-            coEvery { myModifyTasksUsesCase.addTask(task) } returns Unit
+            coEvery { myModifyTasksUsesCase.saveTask(task) } returns Unit
 
 
             val events = addEditTaskWithNullTaskId.events
@@ -170,7 +170,7 @@ class AddEditTaskTest : KoinTest {
                     assertTrue(actual is AddEditTasksState.TaskSaved)
                     awaitComplete()
                 }
-                coVerify { myModifyTasksUsesCase.addTask(task) }
+                coVerify { myModifyTasksUsesCase.saveTask(task) }
             }
         }
 
@@ -179,7 +179,7 @@ class AddEditTaskTest : KoinTest {
         runTest {
             val expectedEvent = TasksEvents.ShowMessage(Constants.TASK_SAVED)
             val task = TestData.editTask
-            coEvery { modifyTasksUsesCase.addTask(task) } returns Unit
+            coEvery { modifyTasksUsesCase.saveTask(task) } returns Unit
 
 
             val events = addEditTask.events
@@ -206,7 +206,7 @@ class AddEditTaskTest : KoinTest {
                     assertTrue(actual is AddEditTasksState.TaskSaved)
                     awaitComplete()
                 }
-                coVerify { modifyTasksUsesCase.addTask(task) }
+                coVerify { modifyTasksUsesCase.saveTask(task) }
             }
         }
 

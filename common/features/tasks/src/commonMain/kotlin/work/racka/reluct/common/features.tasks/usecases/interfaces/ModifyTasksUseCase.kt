@@ -4,7 +4,7 @@ import work.racka.reluct.common.model.domain.tasks.EditTask
 import work.racka.reluct.common.model.domain.tasks.Task
 
 internal interface ModifyTasksUseCase {
-    suspend fun addTask(task: EditTask)
+    suspend fun saveTask(task: EditTask)
     suspend fun deleteTask(taskId: String)
     fun toggleTaskDone(task: Task, isDone: Boolean)
 }
