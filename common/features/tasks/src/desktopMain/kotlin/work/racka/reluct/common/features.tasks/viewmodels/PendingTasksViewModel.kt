@@ -6,14 +6,14 @@ import kotlinx.coroutines.flow.StateFlow
 import work.racka.reluct.common.features.tasks.pending_tasks.PendingTasks
 import work.racka.reluct.common.features.tasks.pending_tasks.PendingTasksImpl
 import work.racka.reluct.common.features.tasks.usecases.interfaces.GetTasksUseCase
-import work.racka.reluct.common.features.tasks.usecases.interfaces.ModifyTasksUseCase
+import work.racka.reluct.common.features.tasks.usecases.interfaces.ModifyTaskUseCase
 import work.racka.reluct.common.model.domain.tasks.Task
 import work.racka.reluct.common.model.states.tasks.PendingTasksState
 import work.racka.reluct.common.model.states.tasks.TasksEvents
 
 actual class PendingTasksViewModel internal constructor(
     getTasksUseCase: GetTasksUseCase,
-    modifyTasksUsesCase: ModifyTasksUseCase,
+    modifyTasksUsesCase: ModifyTaskUseCase,
     scope: CoroutineScope,
 ) {
     private val host: PendingTasks by lazy {

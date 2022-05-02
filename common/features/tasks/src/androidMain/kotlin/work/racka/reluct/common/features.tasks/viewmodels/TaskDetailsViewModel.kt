@@ -7,14 +7,14 @@ import kotlinx.coroutines.flow.StateFlow
 import work.racka.reluct.common.features.tasks.task_details.TaskDetails
 import work.racka.reluct.common.features.tasks.task_details.TaskDetailsImpl
 import work.racka.reluct.common.features.tasks.usecases.interfaces.GetTasksUseCase
-import work.racka.reluct.common.features.tasks.usecases.interfaces.ModifyTasksUseCase
+import work.racka.reluct.common.features.tasks.usecases.interfaces.ModifyTaskUseCase
 import work.racka.reluct.common.model.domain.tasks.Task
 import work.racka.reluct.common.model.states.tasks.TaskDetailsState
 import work.racka.reluct.common.model.states.tasks.TasksEvents
 
 actual class TaskDetailsViewModel internal constructor(
     getTasksUseCase: GetTasksUseCase,
-    modifyTasksUsesCase: ModifyTasksUseCase,
+    modifyTasksUsesCase: ModifyTaskUseCase,
     taskId: String?,
 ) : ViewModel() {
     private val host: TaskDetails by lazy {

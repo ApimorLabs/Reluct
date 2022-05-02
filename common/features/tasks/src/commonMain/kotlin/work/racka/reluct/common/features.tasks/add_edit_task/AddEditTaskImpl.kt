@@ -5,16 +5,14 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.onSuccess
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import work.racka.reluct.common.features.tasks.usecases.interfaces.GetTasksUseCase
-import work.racka.reluct.common.features.tasks.usecases.interfaces.ModifyTasksUseCase
+import work.racka.reluct.common.features.tasks.usecases.interfaces.ModifyTaskUseCase
 import work.racka.reluct.common.features.tasks.util.Constants
 import work.racka.reluct.common.model.domain.tasks.EditTask
 import work.racka.reluct.common.model.states.tasks.AddEditTasksState
 import work.racka.reluct.common.model.states.tasks.TasksEvents
 
 internal class AddEditTaskImpl(
-    private val modifyTasksUseCase: ModifyTasksUseCase,
-    private val getTasksUseCase: GetTasksUseCase,
+    private val modifyTaskUseCase: ModifyTaskUseCase,
     private val taskId: String?,
     private val scope: CoroutineScope,
 ) : AddEditTask {
@@ -38,20 +36,19 @@ internal class AddEditTaskImpl(
                 null -> {
                     _uiState.update { AddEditTasksState.Data() }
                 }
-                else -> getTasksUseCase.getTaskToEdit(id).take(1)
-                    .collectLatest { task ->
-                        when (task) {
-                            null -> _uiState.update { AddEditTasksState.Data() }
-                            else -> _uiState.update { AddEditTasksState.Data(task) }
-                        }
+                else -> modifyTaskUseCase.getTaskToEdit(id).collectLatest { task ->
+                    when (task) {
+                        null -> _uiState.update { AddEditTasksState.Data() }
+                        else -> _uiState.update { AddEditTasksState.Data(task) }
                     }
+                }
             }
         }
     }
 
     override fun saveTask(task: EditTask) {
         scope.launch {
-            modifyTasksUseCase.saveTask(task)
+            modifyTaskUseCase.saveTask(task)
             val result = _events.trySend(TasksEvents.ShowMessage(Constants.TASK_SAVED))
             result.onSuccess {
                 println("AddEdit Task: $taskId")

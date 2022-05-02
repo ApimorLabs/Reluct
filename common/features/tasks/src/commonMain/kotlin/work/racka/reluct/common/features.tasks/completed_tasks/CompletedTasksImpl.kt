@@ -5,14 +5,14 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import work.racka.reluct.common.features.tasks.usecases.interfaces.GetTasksUseCase
-import work.racka.reluct.common.features.tasks.usecases.interfaces.ModifyTasksUseCase
+import work.racka.reluct.common.features.tasks.usecases.interfaces.ModifyTaskUseCase
 import work.racka.reluct.common.model.domain.tasks.Task
 import work.racka.reluct.common.model.states.tasks.CompletedTasksState
 import work.racka.reluct.common.model.states.tasks.TasksEvents
 
 internal class CompletedTasksImpl(
     private val getTasksUseCase: GetTasksUseCase,
-    private val modifyTasksUsesCase: ModifyTasksUseCase,
+    private val modifyTasksUsesCase: ModifyTaskUseCase,
     private val scope: CoroutineScope,
 ) : CompletedTasks {
 

@@ -16,8 +16,7 @@ import org.koin.core.context.stopKoin
 import org.koin.dsl.module
 import org.koin.test.KoinTest
 import org.koin.test.inject
-import work.racka.reluct.common.features.tasks.usecases.interfaces.GetTasksUseCase
-import work.racka.reluct.common.features.tasks.usecases.interfaces.ModifyTasksUseCase
+import work.racka.reluct.common.features.tasks.usecases.interfaces.ModifyTaskUseCase
 import work.racka.reluct.common.features.tasks.util.Constants
 import work.racka.reluct.common.features.tasks.util.TestData
 import work.racka.reluct.common.model.states.tasks.AddEditTasksState
@@ -29,10 +28,7 @@ class AddEditTaskTest : KoinTest {
     private val addEditTask: AddEditTask by inject()
 
     @RelaxedMockK
-    private lateinit var getTasksUseCase: GetTasksUseCase
-
-    @RelaxedMockK
-    private lateinit var modifyTasksUsesCase: ModifyTasksUseCase
+    private lateinit var modifyTasksUsesCase: ModifyTaskUseCase
 
     private val taskId = "2L"
 
@@ -45,8 +41,7 @@ class AddEditTaskTest : KoinTest {
                 module {
                     factory<AddEditTask> {
                         AddEditTaskImpl(
-                            getTasksUseCase = getTasksUseCase,
-                            modifyTasksUseCase = modifyTasksUsesCase,
+                            modifyTaskUseCase = modifyTasksUsesCase,
                             taskId = taskId,
                             scope = CoroutineScope(StandardTestDispatcher())
                         )
@@ -66,7 +61,7 @@ class AddEditTaskTest : KoinTest {
     fun getTasks_OnClassInit_WhenTaskIdIsNotNull_ProvidesAddEditTaskUIStateWithTask() =
         runTest {
             val expectedTask = TestData.editTask
-            coEvery { getTasksUseCase.getTaskToEdit(taskId) } returns flowOf(expectedTask)
+            coEvery { modifyTasksUsesCase.getTaskToEdit(taskId) } returns flowOf(expectedTask)
 
             val result = addEditTask.uiState
             launch {
@@ -78,7 +73,7 @@ class AddEditTaskTest : KoinTest {
                     assertTrue(initial is AddEditTasksState.Loading)
                     assertTrue(actual is AddEditTasksState.Data)
                     assertEquals(expectedTask, actual.task)
-                    coVerify { getTasksUseCase.getTaskToEdit(taskId) }
+                    coVerify { modifyTasksUsesCase.getTaskToEdit(taskId) }
                     awaitComplete()
                 }
             }
@@ -87,11 +82,9 @@ class AddEditTaskTest : KoinTest {
     @Test
     fun getTasks_OnClassInit_WhenTaskIdIsNull_ProvidesAddEditTaskUIStateWithNullTask() =
         runTest {
-            val myGetTasksUseCase: GetTasksUseCase = mockk()
-            val myModifyTasksUsesCase: ModifyTasksUseCase = mockk()
+            val myModifyTasksUsesCase: ModifyTaskUseCase = mockk()
             val addEditTaskWithNullTaskId: AddEditTask = AddEditTaskImpl(
-                getTasksUseCase = myGetTasksUseCase,
-                modifyTasksUseCase = myModifyTasksUsesCase,
+                modifyTaskUseCase = myModifyTasksUsesCase,
                 taskId = null,
                 scope = CoroutineScope(StandardTestDispatcher())
             )
@@ -104,7 +97,7 @@ class AddEditTaskTest : KoinTest {
 
                     assertTrue(actual is AddEditTasksState.Data)
                     assertNull(actual.task)
-                    coVerify(exactly = 0) { myGetTasksUseCase.getTaskToEdit(taskId) }
+                    coVerify(exactly = 0) { myModifyTasksUsesCase.getTaskToEdit(taskId) }
                 }
             }
         }
@@ -113,7 +106,7 @@ class AddEditTaskTest : KoinTest {
     @Test
     fun getTasks_OnClassInit_WhenTaskNotFoundInDb_ProvidesAddEditTaskUIStateWithNullTask() =
         runTest {
-            coEvery { getTasksUseCase.getTaskToEdit(taskId) } returns flowOf(null)
+            coEvery { modifyTasksUsesCase.getTaskToEdit(taskId) } returns flowOf(null)
 
             val result = addEditTask.uiState
             launch {
@@ -125,7 +118,7 @@ class AddEditTaskTest : KoinTest {
                     assertTrue(initial is AddEditTasksState.Loading)
                     assertTrue(actual is AddEditTasksState.Data)
                     assertNull(actual.task)
-                    coVerify { getTasksUseCase.getTaskToEdit(taskId) }
+                    coVerify { modifyTasksUsesCase.getTaskToEdit(taskId) }
                     awaitComplete()
                 }
             }
@@ -135,11 +128,9 @@ class AddEditTaskTest : KoinTest {
     @Test
     fun saveTask_WhenNewTaskSaved_AndTaskIdIsNull_CallsSaveMethodOnRepo_Then_ProvidesShowMessageEventAndGoBackNavigationEvent() =
         runTest {
-            val myGetTasksUseCase: GetTasksUseCase = mockk()
-            val myModifyTasksUsesCase: ModifyTasksUseCase = mockk()
+            val myModifyTasksUsesCase: ModifyTaskUseCase = mockk()
             val addEditTaskWithNullTaskId: AddEditTask = AddEditTaskImpl(
-                getTasksUseCase = myGetTasksUseCase,
-                modifyTasksUseCase = myModifyTasksUsesCase,
+                modifyTaskUseCase = myModifyTasksUsesCase,
                 taskId = null,
                 scope = CoroutineScope(StandardTestDispatcher())
             )

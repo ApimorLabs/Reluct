@@ -38,7 +38,6 @@ internal actual object Platform {
         factory { (taskId: String?) ->
             AddEditTaskViewModel(
                 modifyTasksUseCase = get(),
-                getTasksUseCase = get(),
                 taskId = taskId,
                 scope = CoroutineScope(Dispatchers.Main)
             )

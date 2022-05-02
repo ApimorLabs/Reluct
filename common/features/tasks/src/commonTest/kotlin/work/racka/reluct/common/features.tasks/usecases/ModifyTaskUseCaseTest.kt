@@ -16,8 +16,8 @@ import org.koin.dsl.module
 import org.koin.test.KoinTest
 import org.koin.test.inject
 import work.racka.reluct.common.database.dao.tasks.TasksDao
-import work.racka.reluct.common.features.tasks.usecases.impl.ModifyTasksUseCaseImpl
-import work.racka.reluct.common.features.tasks.usecases.interfaces.ModifyTasksUseCase
+import work.racka.reluct.common.features.tasks.usecases.impl.ModifyTaskUseCaseImpl
+import work.racka.reluct.common.features.tasks.usecases.interfaces.ModifyTaskUseCase
 import work.racka.reluct.common.features.tasks.util.DataMappers.asDatabaseModel
 import work.racka.reluct.common.features.tasks.util.DataMappers.asTask
 import work.racka.reluct.common.features.tasks.util.TestData
@@ -26,9 +26,9 @@ import kotlin.test.BeforeTest
 import kotlin.test.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class ModifyTasksUseCaseTest : KoinTest {
+class ModifyTaskUseCaseTest : KoinTest {
 
-    private val useCase: ModifyTasksUseCase by inject()
+    private val useCase: ModifyTaskUseCase by inject()
 
     @RelaxedMockK
     private lateinit var dao: TasksDao
@@ -40,8 +40,8 @@ class ModifyTasksUseCaseTest : KoinTest {
         startKoin {
             modules(
                 module {
-                    factory<ModifyTasksUseCase> {
-                        ModifyTasksUseCaseImpl(
+                    factory<ModifyTaskUseCase> {
+                        ModifyTaskUseCaseImpl(
                             dao = dao,
                             backgroundDispatcher = StandardTestDispatcher()
                         )

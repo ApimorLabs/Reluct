@@ -34,7 +34,6 @@ internal actual object Platform {
         viewModel { (taskId: String?) ->
             AddEditTaskViewModel(
                 modifyTasksUseCase = get(),
-                getTasksUseCase = get(),
                 taskId = taskId
             )
         }
