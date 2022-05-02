@@ -1,5 +1,6 @@
 package work.racka.reluct.common.features.tasks.usecases
 
+import app.cash.turbine.test
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.RelaxedMockK
@@ -7,6 +8,8 @@ import io.mockk.unmockkAll
 import io.mockk.verify
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
@@ -21,9 +24,7 @@ import work.racka.reluct.common.features.tasks.usecases.interfaces.ModifyTaskUse
 import work.racka.reluct.common.features.tasks.util.DataMappers.asDatabaseModel
 import work.racka.reluct.common.features.tasks.util.DataMappers.asTask
 import work.racka.reluct.common.features.tasks.util.TestData
-import kotlin.test.AfterTest
-import kotlin.test.BeforeTest
-import kotlin.test.Test
+import kotlin.test.*
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class ModifyTaskUseCaseTest : KoinTest {
@@ -58,7 +59,46 @@ class ModifyTaskUseCaseTest : KoinTest {
     }
 
     @Test
-    fun addTask_WhenCalled_DaoShouldReceiveTaskToSave() = runTest {
+    fun getTaskToEdit_WhenCalledWithCorrectIdAndTaskFoundInDb_ReturnsNonNullFlowOfEditTask() =
+        runTest {
+            val expectedTask = TestData.editTask
+            val taskId = "2L"
+            every { dao.getTask(taskId) } returns flowOf(expectedTask.asDatabaseModel())
+
+            launch {
+                val result = useCase.getTaskToEdit(taskId)
+                result.test {
+                    val actual = awaitItem()
+                    awaitComplete()
+                    println(actual)
+
+                    assertEquals(expectedTask, actual)
+                    verify { dao.getTask(taskId) }
+                }
+            }
+        }
+
+    @Test
+    fun getTaskToEdit_WhenCalledWithWrongIdAndTaskNotFoundInDb_ReturnsNullFlowOfEditTask() =
+        runTest {
+            val taskId = "200000L"
+            every { dao.getTask(taskId) } returns flowOf(null)
+
+            launch {
+                val result = useCase.getTaskToEdit(taskId)
+                result.test {
+                    val actual = awaitItem()
+                    awaitComplete()
+                    println(actual)
+
+                    assertNull(actual)
+                    verify { dao.getTask(taskId) }
+                }
+            }
+        }
+
+    @Test
+    fun saveTask_WhenCalled_DaoShouldReceiveTaskToSave() = runTest {
         val task = TestData.editTask
         every { dao.insertTask(task.asDatabaseModel()) } returns Unit
 

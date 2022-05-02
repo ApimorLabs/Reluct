@@ -21,7 +21,6 @@ import org.koin.test.inject
 import work.racka.reluct.common.database.dao.tasks.TasksDao
 import work.racka.reluct.common.features.tasks.usecases.impl.GetTasksUseCaseImpl
 import work.racka.reluct.common.features.tasks.usecases.interfaces.GetTasksUseCase
-import work.racka.reluct.common.features.tasks.util.DataMappers.asDatabaseModel
 import work.racka.reluct.common.features.tasks.util.DataMappers.asTask
 import work.racka.reluct.common.features.tasks.util.TestData
 import kotlin.test.*
@@ -148,45 +147,6 @@ class GetTasksUseCaseTest : KoinTest {
 
             launch {
                 val result = useCase.getTask(taskId)
-                result.test {
-                    val actual = awaitItem()
-                    awaitComplete()
-                    println(actual)
-
-                    assertNull(actual)
-                    verify { dao.getTask(taskId) }
-                }
-            }
-        }
-
-    @Test
-    fun getTaskToEdit_WhenCalledWithCorrectIdAndTaskFoundInDb_ReturnsNonNullFlowOfEditTask() =
-        runTest {
-            val expectedTask = TestData.editTask
-            val taskId = "2L"
-            every { dao.getTask(taskId) } returns flowOf(expectedTask.asDatabaseModel())
-
-            launch {
-                val result = useCase.getTaskToEdit(taskId)
-                result.test {
-                    val actual = awaitItem()
-                    awaitComplete()
-                    println(actual)
-
-                    assertEquals(expectedTask, actual)
-                    verify { dao.getTask(taskId) }
-                }
-            }
-        }
-
-    @Test
-    fun getTaskToEdit_WhenCalledWithWrongIdAndTaskNotFoundInDb_ReturnsNullFlowOfEditTask() =
-        runTest {
-            val taskId = "200000L"
-            every { dao.getTask(taskId) } returns flowOf(null)
-
-            launch {
-                val result = useCase.getTaskToEdit(taskId)
                 result.test {
                     val actual = awaitItem()
                     awaitComplete()

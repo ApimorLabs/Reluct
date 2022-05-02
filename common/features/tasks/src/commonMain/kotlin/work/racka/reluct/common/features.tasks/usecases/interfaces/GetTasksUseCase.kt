@@ -1,7 +1,6 @@
 package work.racka.reluct.common.features.tasks.usecases.interfaces
 
 import kotlinx.coroutines.flow.Flow
-import work.racka.reluct.common.model.domain.tasks.EditTask
 import work.racka.reluct.common.model.domain.tasks.Task
 
 /**
@@ -14,5 +13,4 @@ internal interface GetTasksUseCase {
     fun getCompletedTasks(): Flow<List<Task>>
     fun getSearchedTasks(query: String): Flow<List<Task>>
     fun getTask(taskId: String): Flow<Task?>
-    fun getTaskToEdit(taskId: String): Flow<EditTask?>
 }

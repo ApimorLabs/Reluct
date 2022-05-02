@@ -6,10 +6,7 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import work.racka.reluct.common.database.dao.tasks.TasksDao
 import work.racka.reluct.common.features.tasks.usecases.interfaces.GetTasksUseCase
-import work.racka.reluct.common.features.tasks.util.DataMappers.asEditTask
 import work.racka.reluct.common.features.tasks.util.DataMappers.asTask
-import work.racka.reluct.common.model.data.local.task.TaskDbObject
-import work.racka.reluct.common.model.domain.tasks.EditTask
 import work.racka.reluct.common.model.domain.tasks.Task
 
 internal class GetTasksUseCaseImpl(
@@ -35,10 +32,4 @@ internal class GetTasksUseCaseImpl(
         dao.getTask(taskId).map { taskDbObject ->
             taskDbObject?.asTask()
         }.flowOn(backgroundDispatcher)
-
-    override fun getTaskToEdit(taskId: String): Flow<EditTask?> =
-        dao.getTask(taskId)
-            .map { value: TaskDbObject? ->
-                value?.asEditTask()
-            }.flowOn(backgroundDispatcher)
 }
