@@ -58,7 +58,7 @@ internal class TasksDaoImpl(
             ?.mapToList(coroutineScope.coroutineContext)
             ?: flowOf(emptyList())
 
-    override fun getTasksBetweenDateTimeStrings(
+    override fun getTasksBetweenDateTime(
         startLocalDateTime: String,
         endLocalDateTime: String,
     ): Flow<List<TaskDbObject>> =

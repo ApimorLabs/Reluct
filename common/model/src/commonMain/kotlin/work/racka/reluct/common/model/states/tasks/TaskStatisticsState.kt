@@ -6,8 +6,8 @@ import work.racka.reluct.common.model.domain.tasks.TasksStatistics
 sealed class TaskStatisticsState {
     data class Data(
         val tasksStatistics: TasksStatistics,
-        val completedTasks: List<Task> = listOf(),
-        val pendingTasks: List<Task> = listOf(),
+        val dayCompletedTasks: List<Task> = listOf(),
+        val dayPendingTasks: List<Task> = listOf(),
     ) : TaskStatisticsState()
 
     object Loading : TaskStatisticsState()

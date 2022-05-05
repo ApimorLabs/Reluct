@@ -10,7 +10,7 @@ interface TasksDao {
     fun searchTasks(query: String): Flow<List<TaskDbObject>>
     fun getPendingTasks(): Flow<List<TaskDbObject>>
     fun getCompletedTasks(): Flow<List<TaskDbObject>>
-    fun getTasksBetweenDateTimeStrings(
+    fun getTasksBetweenDateTime(
         startLocalDateTime: String,
         endLocalDateTime: String,
     ): Flow<List<TaskDbObject>>
