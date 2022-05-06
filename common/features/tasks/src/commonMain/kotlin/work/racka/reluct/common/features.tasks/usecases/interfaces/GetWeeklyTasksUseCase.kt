@@ -10,4 +10,9 @@ internal interface GetWeeklyTasksUseCase {
      * dueDateLocalDateTime from [TaskDbObject] as the first and the relevant [Task] as the second
      */
     operator fun invoke(weekOffset: Int = 0): Flow<List<Pair<String, Task>>>
+
+    /**
+     * Get the total of all tasks in the given week
+     */
+    fun totalWeeklyTasksCount(weekOffset: Int = 0): Flow<Int>
 }
