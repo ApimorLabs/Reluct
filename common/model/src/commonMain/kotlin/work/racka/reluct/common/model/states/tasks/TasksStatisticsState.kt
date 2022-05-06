@@ -11,8 +11,8 @@ data class TasksStatisticsState(
 
 sealed class WeeklyTasksState {
     data class Data(
-        val tasksDone: Int,
-        val taskPending: Int,
+        val tasksCompleted: Int,
+        val tasksPending: Int,
     ) : WeeklyTasksState()
 
     object Loading : WeeklyTasksState()
