@@ -1,7 +1,6 @@
 package work.racka.reluct.common.model.util.time
 
-import kotlinx.datetime.DayOfWeek
-import kotlinx.datetime.isoDayNumber
+import kotlinx.datetime.*
 
 enum class Week(
     val isoDayNumber: Int,
@@ -27,4 +26,13 @@ enum class Week(
     SUNDAY(
         isoDayNumber = DayOfWeek.SUNDAY.isoDayNumber
     );
+}
+
+object WeekUtils {
+    fun currentDayOfWeek(): Week {
+        val ktxDayOfWeek = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
+            .dayOfWeek
+        return Week.values()
+            .first { it.isoDayNumber == ktxDayOfWeek.isoDayNumber }
+    }
 }

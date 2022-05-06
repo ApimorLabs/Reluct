@@ -44,6 +44,7 @@ internal actual object Platform {
         factory {
             TasksStatisticsViewModel(
                 modifyTasksUsesCase = get(),
+                getWeeklyTasksUseCase = get(),
                 getDailyTasksUseCase = get(),
                 scope = viewModelScope
             )

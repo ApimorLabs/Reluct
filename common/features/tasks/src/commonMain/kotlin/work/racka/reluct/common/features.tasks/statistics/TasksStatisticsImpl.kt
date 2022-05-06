@@ -5,21 +5,25 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import work.racka.reluct.common.features.tasks.usecases.interfaces.GetDailyTasksUseCase
+import work.racka.reluct.common.features.tasks.usecases.interfaces.GetWeeklyTasksUseCase
 import work.racka.reluct.common.features.tasks.usecases.interfaces.ModifyTaskUseCase
 import work.racka.reluct.common.model.domain.tasks.Task
 import work.racka.reluct.common.model.states.tasks.DailyTasksState
 import work.racka.reluct.common.model.states.tasks.TasksEvents
 import work.racka.reluct.common.model.states.tasks.TasksStatisticsState
 import work.racka.reluct.common.model.states.tasks.WeeklyTasksState
+import work.racka.reluct.common.model.util.time.Week
+import work.racka.reluct.common.model.util.time.WeekUtils
 
 internal class TasksStatisticsImpl(
     private val modifyTasksUsesCase: ModifyTaskUseCase,
+    private val getWeeklyTasksUseCase: GetWeeklyTasksUseCase,
     private val getDailyTasksUseCase: GetDailyTasksUseCase,
     private val scope: CoroutineScope,
 ) : TasksStatistics {
 
     private val weekOffset: MutableStateFlow<Int> = MutableStateFlow(0)
-    private val selectedDay: MutableStateFlow<Int> = MutableStateFlow(0)
+    private val selectedDay: MutableStateFlow<Week> = MutableStateFlow(WeekUtils.currentDayOfWeek())
     private val weeklyTasksState: MutableStateFlow<WeeklyTasksState> =
         MutableStateFlow(WeeklyTasksState.Loading)
     private val dailyTasksState: MutableStateFlow<DailyTasksState> =
@@ -51,40 +55,27 @@ internal class TasksStatisticsImpl(
 
     private fun getData() {
         scope.launch {
-            val dayCompletedTasks =
-                getDailyTasksUseCase.getDailyCompletedTasks(weekOffset = weekOffset.value,
-                    dayIsoNumber = selectedDay.value)
-            val dayPendingTasks =
-                getDailyTasksUseCase.getDailyPendingTasks(weekOffset = weekOffset.value,
-                    dayIsoNumber = selectedDay.value)
+            getDailyTasksUseCase(weekOffset = weekOffset.value,
+                dayOfWeek = selectedDay.value).collectLatest { tasks ->
+                dailyTasksState.update { DailyTasksState.Data(dailyTasks = tasks) }
+            }
+        }
 
-            combine(dayCompletedTasks, dayPendingTasks) { completed, pending ->
-                if (completed.isEmpty() && pending.isEmpty()) {
-                    dailyTasksState.update {
-                        DailyTasksState.Data(dayCompletedTasks = completed,
-                            dayPendingTasks = pending)
-                    }
-                } else dailyTasksState.update { DailyTasksState.Empty }
-                Pair(completed.size, pending.size)
-            }.collectLatest { tasksPair ->
-                if (tasksPair.first.plus(tasksPair.second) != 0) {
-                    weeklyTasksState.update {
-                        WeeklyTasksState.Data(tasksCompleted = tasksPair.first,
-                            tasksPending = tasksPair.second)
-                    }
-                } else weeklyTasksState.update { WeeklyTasksState.Empty }
+        scope.launch {
+            getWeeklyTasksUseCase(weekOffset = weekOffset.value).collectLatest { weeklyTasks ->
+                weeklyTasksState.update { WeeklyTasksState.Data(weeklyTasks = weeklyTasks) }
             }
         }
     }
 
-    override fun selectDay(selectedDayIsoNumber: Int) {
+    override fun selectDay(selectedDayOfWeek: Week) {
         dailyTasksState.update { DailyTasksState.Loading }
-        selectedDay.update { selectedDayIsoNumber }
+        selectedDay.update { selectedDayOfWeek }
     }
 
-    override fun updateWeekOffset(weekOffset: Int) {
+    override fun updateWeekOffset(weekOffsetValue: Int) {
         weeklyTasksState.update { WeeklyTasksState.Loading }
-        this.weekOffset.update { weekOffset }
+        weekOffset.update { weekOffsetValue }
     }
 
     override fun toggleDone(task: Task, isDone: Boolean) {
