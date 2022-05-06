@@ -57,13 +57,17 @@ internal class TasksStatisticsImpl(
         scope.launch {
             getDailyTasksUseCase(weekOffset = weekOffset.value,
                 dayOfWeek = selectedDay.value).collectLatest { tasks ->
-                dailyTasksState.update { DailyTasksState.Data(dailyTasks = tasks) }
+                if (tasks.completedTasks.isNotEmpty() && tasks.pendingTasks.isNotEmpty()) {
+                    dailyTasksState.update { DailyTasksState.Data(dailyTasks = tasks) }
+                } else dailyTasksState.update { DailyTasksState.Empty }
             }
         }
 
         scope.launch {
             getWeeklyTasksUseCase(weekOffset = weekOffset.value).collectLatest { weeklyTasks ->
-                weeklyTasksState.update { WeeklyTasksState.Data(weeklyTasks = weeklyTasks) }
+                if (weeklyTasks.isNotEmpty()) {
+                    weeklyTasksState.update { WeeklyTasksState.Data(weeklyTasks = weeklyTasks) }
+                } else weeklyTasksState.update { WeeklyTasksState.Empty }
             }
         }
     }
