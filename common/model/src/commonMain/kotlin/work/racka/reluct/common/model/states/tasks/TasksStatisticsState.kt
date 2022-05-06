@@ -1,6 +1,7 @@
 package work.racka.reluct.common.model.states.tasks
 
-import work.racka.reluct.common.model.domain.tasks.Task
+import work.racka.reluct.common.model.domain.tasks.DailyTasksStats
+import work.racka.reluct.common.model.util.time.Week
 
 data class TasksStatisticsState(
     val weekOffset: Int = 0,
@@ -11,8 +12,7 @@ data class TasksStatisticsState(
 
 sealed class WeeklyTasksState {
     data class Data(
-        val tasksCompleted: Int,
-        val tasksPending: Int,
+        val weeklyTasks: Map<Week, DailyTasksStats>,
     ) : WeeklyTasksState()
 
     object Loading : WeeklyTasksState()
@@ -22,8 +22,7 @@ sealed class WeeklyTasksState {
 
 sealed class DailyTasksState {
     data class Data(
-        val dayCompletedTasks: List<Task>,
-        val dayPendingTasks: List<Task>,
+        val dailyTasks: DailyTasksStats,
     ) : DailyTasksState()
 
     object Loading : DailyTasksState()

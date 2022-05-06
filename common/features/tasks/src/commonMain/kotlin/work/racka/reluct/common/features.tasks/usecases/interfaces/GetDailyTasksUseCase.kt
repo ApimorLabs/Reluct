@@ -1,9 +1,9 @@
 package work.racka.reluct.common.features.tasks.usecases.interfaces
 
 import kotlinx.coroutines.flow.Flow
-import work.racka.reluct.common.model.domain.tasks.Task
+import work.racka.reluct.common.model.domain.tasks.DailyTasksStats
+import work.racka.reluct.common.model.util.time.Week
 
 internal interface GetDailyTasksUseCase {
-    fun getDailyCompletedTasks(weekOffset: Int = 0, dayIsoNumber: Int): Flow<List<Task>>
-    fun getDailyPendingTasks(weekOffset: Int = 0, dayIsoNumber: Int): Flow<List<Task>>
+    operator fun invoke(weekOffset: Int = 0, dayOfWeek: Week): Flow<DailyTasksStats>
 }
