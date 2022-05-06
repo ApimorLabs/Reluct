@@ -58,7 +58,7 @@ internal class TasksStatisticsImpl(
             getDailyTasksUseCase(weekOffset = weekOffset.value,
                 dayIsoNumber = selectedDay.value).collectLatest { tasks ->
                 if (tasks.completedTasks.isNotEmpty() && tasks.pendingTasks.isNotEmpty()) {
-                    dailyTasksState.update { DailyTasksState.Data(dailyTasks = tasks) }
+                    dailyTasksState.update { DailyTasksState.Data(tasks = tasks) }
                 } else dailyTasksState.update { DailyTasksState.Empty }
             }
         }
