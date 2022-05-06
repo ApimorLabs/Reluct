@@ -41,13 +41,13 @@ fun ScreenTimePieChart(
 ) {
 
     val list = mutableListOf<BarChartData.Bar>()
-    stats.usageStats.forEach { stats ->
+    stats.usageStats.forEach { stat ->
         list.add(
             BarChartData.Bar(
-                value = stats.totalScreenTime.toFloat(),
+                value = stat.totalScreenTime.toFloat(),
                 color = MaterialTheme.colorScheme.secondaryContainer,
-                label = stats.dayOfWeek.day,
-                uniqueId = stats.dayOfWeek.value
+                label = stat.dayOfWeek.day,
+                uniqueId = stat.dayOfWeek.value
             )
         )
     }

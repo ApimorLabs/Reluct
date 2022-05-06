@@ -5,7 +5,7 @@ import work.racka.reluct.common.model.util.time.Week
 
 data class TasksStatisticsState(
     val weekOffset: Int = 0,
-    val selectedDay: Week = Week.MONDAY,
+    val selectedDay: Int = 0,
     val weeklyTasksState: WeeklyTasksState = WeeklyTasksState.Loading,
     val dailyTasksState: DailyTasksState = DailyTasksState.Loading,
 )

@@ -14,8 +14,10 @@ internal class GetDailyTasksUseCaseImpl(
     private val backgroundDispatcher: CoroutineDispatcher,
 ) : GetDailyTasksUseCase {
 
-    override fun invoke(weekOffset: Int, dayOfWeek: Week): Flow<DailyTasksStats> =
+    override fun invoke(weekOffset: Int, dayIsoNumber: Int): Flow<DailyTasksStats> =
         weeklyTasks(weekOffset).map { mapOfWeeklyTasks ->
+            val dayOfWeek = Week.values()
+                .first { it.isoDayNumber == dayIsoNumber }
             mapOfWeeklyTasks[dayOfWeek] ?: DailyTasksStats()
         }.flowOn(backgroundDispatcher)
 }

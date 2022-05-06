@@ -12,7 +12,6 @@ import work.racka.reluct.common.model.states.tasks.DailyTasksState
 import work.racka.reluct.common.model.states.tasks.TasksEvents
 import work.racka.reluct.common.model.states.tasks.TasksStatisticsState
 import work.racka.reluct.common.model.states.tasks.WeeklyTasksState
-import work.racka.reluct.common.model.util.time.Week
 import work.racka.reluct.common.model.util.time.WeekUtils
 
 internal class TasksStatisticsImpl(
@@ -23,7 +22,8 @@ internal class TasksStatisticsImpl(
 ) : TasksStatistics {
 
     private val weekOffset: MutableStateFlow<Int> = MutableStateFlow(0)
-    private val selectedDay: MutableStateFlow<Week> = MutableStateFlow(WeekUtils.currentDayOfWeek())
+    private val selectedDay: MutableStateFlow<Int> =
+        MutableStateFlow(WeekUtils.currentDayOfWeek().isoDayNumber)
     private val weeklyTasksState: MutableStateFlow<WeeklyTasksState> =
         MutableStateFlow(WeeklyTasksState.Loading)
     private val dailyTasksState: MutableStateFlow<DailyTasksState> =
@@ -56,7 +56,7 @@ internal class TasksStatisticsImpl(
     private fun getData() {
         scope.launch {
             getDailyTasksUseCase(weekOffset = weekOffset.value,
-                dayOfWeek = selectedDay.value).collectLatest { tasks ->
+                dayIsoNumber = selectedDay.value).collectLatest { tasks ->
                 if (tasks.completedTasks.isNotEmpty() && tasks.pendingTasks.isNotEmpty()) {
                     dailyTasksState.update { DailyTasksState.Data(dailyTasks = tasks) }
                 } else dailyTasksState.update { DailyTasksState.Empty }
@@ -72,9 +72,9 @@ internal class TasksStatisticsImpl(
         }
     }
 
-    override fun selectDay(selectedDayOfWeek: Week) {
+    override fun selectDay(selectedDayIsoNumber: Int) {
         dailyTasksState.update { DailyTasksState.Loading }
-        selectedDay.update { selectedDayOfWeek }
+        selectedDay.update { selectedDayIsoNumber }
     }
 
     override fun updateWeekOffset(weekOffsetValue: Int) {

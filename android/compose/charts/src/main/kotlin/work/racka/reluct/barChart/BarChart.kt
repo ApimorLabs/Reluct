@@ -5,7 +5,10 @@ import androidx.compose.animation.core.AnimationSpec
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Rect
@@ -44,8 +47,8 @@ fun BarChart(
     val selectedBar = remember {
         mutableStateOf(-1)
     }
-    val bars by remember {
-        mutableStateOf(mutableMapOf<Int, Rect>())
+    val bars = remember {
+        mutableMapOf<Int, Rect>()
     }
 
     LaunchedEffect(barChartData.bars) {
