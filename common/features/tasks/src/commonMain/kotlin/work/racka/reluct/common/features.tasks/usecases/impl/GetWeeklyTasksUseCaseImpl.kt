@@ -67,8 +67,4 @@ internal class GetWeeklyTasksUseCaseImpl(
             }
             .flowOn(backgroundDispatcher)
     }
-
-    override fun totalWeeklyTasksCount(weekOffset: Int): Flow<Int> = invoke(weekOffset)
-        .map { list -> list.size }
-        .flowOn(backgroundDispatcher)
 }

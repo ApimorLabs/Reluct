@@ -13,9 +13,4 @@ internal interface GetWeeklyTasksUseCase {
      * previous weeks.
      */
     operator fun invoke(weekOffset: Int = 0): Flow<Map<Week, DailyTasksStats>>
-
-    /**
-     * Get the total of all tasks in the given week
-     */
-    fun totalWeeklyTasksCount(weekOffset: Int = 0): Flow<Int>
 }
