@@ -4,14 +4,11 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
@@ -34,6 +31,7 @@ import work.racka.reluct.android.compose.navigation.transitions.scaleOutExitTran
 import work.racka.reluct.android.compose.navigation.transitions.scaleOutPopExitTransition
 import work.racka.reluct.android.screens.tasks.done.CompletedTasksScreen
 import work.racka.reluct.android.screens.tasks.pending.PendingTasksScreen
+import work.racka.reluct.android.screens.tasks.statistics.TasksStatisticsScreen
 import work.racka.reluct.common.compose.destinations.OtherDestinations
 import work.racka.reluct.common.compose.destinations.TasksDestinations
 import work.racka.reluct.common.compose.destinations.navbar.Graphs
@@ -157,15 +155,14 @@ internal fun TasksNavHost(
                     scaleOutPopExitTransition()
                 }
             ) {
-                Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text(
-                        text = "Tasks: $route",
-                        color = MaterialTheme.colorScheme.onBackground
-                    )
-                }
+                TasksStatisticsScreen(
+                    mainScaffoldPadding = mainScaffoldPadding,
+                    onNavigateToTaskDetails = {
+                        mainNavController.navigate(
+                            "${OtherDestinations.TaskDetails.route}/$it"
+                        )
+                    }
+                )
             }
         }
     }

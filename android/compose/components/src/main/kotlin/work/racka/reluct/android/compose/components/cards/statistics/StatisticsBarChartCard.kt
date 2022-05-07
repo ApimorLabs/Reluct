@@ -22,7 +22,7 @@ import work.racka.reluct.barChart.BarChartData
 internal fun StatisticsBarChartCard(
     modifier: Modifier = Modifier,
     containerColor: Color = MaterialTheme.colorScheme.surfaceVariant,
-    contentColor: Color = MaterialTheme.colorScheme.secondary,
+    contentColor: Color = MaterialTheme.colorScheme.primary,
     shape: Shape = Shapes.large,
     bars: List<BarChartData.Bar>,
     dataLoading: Boolean,

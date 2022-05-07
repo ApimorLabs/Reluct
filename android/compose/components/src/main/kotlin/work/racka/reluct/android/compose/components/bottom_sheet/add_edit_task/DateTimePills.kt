@@ -43,12 +43,6 @@ fun DateTimePills(
         )
     }
 
-    val localDateTimeString = rememberSaveable(localDateTime.value) {
-        mutableStateOf(
-            localDateTime.value.toString()
-        )
-    }
-
     val dateString = rememberSaveable(localDateTime.value) {
         mutableStateOf(
             TimeUtils.getFormattedDateString(
@@ -75,7 +69,7 @@ fun DateTimePills(
             dateChange?.let { localDateTime.value = it }
             timeChange?.let { localDateTime.value = it }
             onLocalDateTimeChange(
-                localDateTimeString.value
+                localDateTime.value.toString()
             )
         },
     )

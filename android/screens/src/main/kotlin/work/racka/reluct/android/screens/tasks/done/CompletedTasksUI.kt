@@ -137,6 +137,11 @@ internal fun CompletedTasksUI(
                                 )
                             }
                         }
+
+                        // Bottom Space
+                        item {
+                            Spacer(modifier = Modifier)
+                        }
                     }
                 }
             }

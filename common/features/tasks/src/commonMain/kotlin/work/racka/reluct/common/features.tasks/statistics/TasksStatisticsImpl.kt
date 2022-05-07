@@ -27,7 +27,7 @@ internal class TasksStatisticsImpl(
     private val weeklyTasksState: MutableStateFlow<WeeklyTasksState> =
         MutableStateFlow(WeeklyTasksState.Loading)
     private val dailyTasksState: MutableStateFlow<DailyTasksState> =
-        MutableStateFlow(DailyTasksState.Loading)
+        MutableStateFlow(DailyTasksState.Loading())
 
 
     override val uiState: StateFlow<TasksStatisticsState> = combine(
@@ -54,32 +54,47 @@ internal class TasksStatisticsImpl(
     }
 
     private fun getData() {
+        getWeeklyData()
+        getDailyData()
+    }
+
+    private fun getDailyData() {
         scope.launch {
             getDailyTasksUseCase(weekOffset = weekOffset.value,
                 dayIsoNumber = selectedDay.value).collectLatest { tasks ->
-                if (tasks.completedTasks.isNotEmpty() && tasks.pendingTasks.isNotEmpty()) {
+                if (tasks.completedTasks.isNotEmpty() || tasks.pendingTasks.isNotEmpty()) {
                     dailyTasksState.update { DailyTasksState.Data(tasks = tasks) }
-                } else dailyTasksState.update { DailyTasksState.Empty }
+                } else dailyTasksState.update { DailyTasksState.Empty(it.dayText) }
             }
         }
+    }
 
+    private fun getWeeklyData() {
         scope.launch {
             getWeeklyTasksUseCase(weekOffset = weekOffset.value).collectLatest { weeklyTasks ->
                 if (weeklyTasks.isNotEmpty()) {
-                    weeklyTasksState.update { WeeklyTasksState.Data(weeklyTasks = weeklyTasks) }
+                    var totalTasksCount = 0
+                    weeklyTasks.entries.forEach {
+                        totalTasksCount += (it.value.completedTasksCount + it.value.pendingTasksCount)
+                    }
+                    weeklyTasksState.update {
+                        WeeklyTasksState.Data(tasks = weeklyTasks, totalTaskCount = totalTasksCount)
+                    }
                 } else weeklyTasksState.update { WeeklyTasksState.Empty }
             }
         }
     }
 
     override fun selectDay(selectedDayIsoNumber: Int) {
-        dailyTasksState.update { DailyTasksState.Loading }
+        dailyTasksState.update { DailyTasksState.Loading(it.dayText) }
         selectedDay.update { selectedDayIsoNumber }
+        getDailyData()
     }
 
     override fun updateWeekOffset(weekOffsetValue: Int) {
         weeklyTasksState.update { WeeklyTasksState.Loading }
         weekOffset.update { weekOffsetValue }
+        getWeeklyData()
     }
 
     override fun toggleDone(task: Task, isDone: Boolean) {

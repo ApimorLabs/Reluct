@@ -9,6 +9,7 @@ import work.racka.reluct.common.features.tasks.usecases.interfaces.GetWeeklyTask
 import work.racka.reluct.common.features.tasks.util.DataMappers.asTask
 import work.racka.reluct.common.model.domain.tasks.DailyTasksStats
 import work.racka.reluct.common.model.util.time.StatisticsTimeUtils
+import work.racka.reluct.common.model.util.time.TimeUtils
 import work.racka.reluct.common.model.util.time.Week
 
 internal class GetWeeklyTasksUseCaseImpl(
@@ -59,6 +60,8 @@ internal class GetWeeklyTasksUseCaseImpl(
                         .filter { rangePair.second.contains(it.dueDateLocalDateTime) && it.done }
                         .map { it.asTask() }
                     val dailyTasksStats = DailyTasksStats(
+                        dateFormatted = TimeUtils
+                            .getFormattedDateString(dateTime = rangePair.second.start),
                         completedTasks = completedTempList,
                         pendingTasks = pendingTempList
                     )

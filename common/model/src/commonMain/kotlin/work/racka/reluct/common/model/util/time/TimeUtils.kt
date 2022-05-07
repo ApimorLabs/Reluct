@@ -48,7 +48,7 @@ object TimeUtils {
      */
     fun getFormattedDateString(
         dateTime: String,
-        originalTimeZoneId: String,
+        originalTimeZoneId: String = TimeZone.currentSystemDefault().id,
         showShortIntervalAsDay: Boolean = true,
     ): String {
         val today = Clock.System.todayAt(TimeZone.currentSystemDefault())

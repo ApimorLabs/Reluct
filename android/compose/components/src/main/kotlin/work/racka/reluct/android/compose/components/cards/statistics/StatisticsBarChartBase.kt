@@ -43,6 +43,8 @@ internal fun StatisticsBarChartBase(
         ),
         barChartOptions = BarChartOptions().apply {
             barsSpacingFactor = 0.05f
+            showIntervalLines = false
+            showYAxisLabels = false
         }
     )
 }
