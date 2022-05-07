@@ -25,7 +25,7 @@ internal class TasksStatisticsImpl(
     private val selectedDay: MutableStateFlow<Int> =
         MutableStateFlow(WeekUtils.currentDayOfWeek().isoDayNumber)
     private val weeklyTasksState: MutableStateFlow<WeeklyTasksState> =
-        MutableStateFlow(WeeklyTasksState.Loading)
+        MutableStateFlow(WeeklyTasksState.Loading())
     private val dailyTasksState: MutableStateFlow<DailyTasksState> =
         MutableStateFlow(DailyTasksState.Loading())
 
@@ -63,8 +63,12 @@ internal class TasksStatisticsImpl(
             getDailyTasksUseCase(weekOffset = weekOffset.value,
                 dayIsoNumber = selectedDay.value).collectLatest { tasks ->
                 if (tasks.completedTasks.isNotEmpty() || tasks.pendingTasks.isNotEmpty()) {
-                    dailyTasksState.update { DailyTasksState.Data(tasks = tasks) }
-                } else dailyTasksState.update { DailyTasksState.Empty(it.dayText) }
+                    dailyTasksState.update {
+                        DailyTasksState.Data(tasks = tasks, dayTextValue = tasks.dateFormatted)
+                    }
+                } else dailyTasksState.update {
+                    DailyTasksState.Empty(dayTextValue = tasks.dateFormatted)
+                }
             }
         }
     }
@@ -80,19 +84,19 @@ internal class TasksStatisticsImpl(
                     weeklyTasksState.update {
                         WeeklyTasksState.Data(tasks = weeklyTasks, totalTaskCount = totalTasksCount)
                     }
-                } else weeklyTasksState.update { WeeklyTasksState.Empty }
+                } else weeklyTasksState.update { WeeklyTasksState.Empty(tasks = weeklyTasks) }
             }
         }
     }
 
     override fun selectDay(selectedDayIsoNumber: Int) {
-        dailyTasksState.update { DailyTasksState.Loading(it.dayText) }
+        dailyTasksState.update { DailyTasksState.Loading(dayTextValue = it.dayText) }
         selectedDay.update { selectedDayIsoNumber }
         getDailyData()
     }
 
     override fun updateWeekOffset(weekOffsetValue: Int) {
-        weeklyTasksState.update { WeeklyTasksState.Loading }
+        weeklyTasksState.update { WeeklyTasksState.Loading(totalTaskCount = it.totalWeekTasksCount) }
         weekOffset.update { weekOffsetValue }
         getWeeklyData()
     }

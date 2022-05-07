@@ -11,14 +11,15 @@ internal object BarChartUtils {
     fun axisAreas(
         drawScope: DrawScope,
         totalSize: Size,
+        withYAxisLabels: Boolean,
         xAxisDrawer: XAxisDrawer,
-        labelDrawer: LabelDrawer
+        labelDrawer: LabelDrawer,
     ): Pair<Rect, Rect> = with(drawScope) {
         // yAxis
         val yAxisTop = labelDrawer.requiredAboveBarHeight(drawScope)
 
         // Either 50dp or 10% of the chart width.
-        val yAxisRight = minOf(50.dp.toPx(), size.width * 10f / 100f)
+        val yAxisRight = if (withYAxisLabels) minOf(50.dp.toPx(), size.width * 10f / 100f) else 0f
 
         // xAxis
         val xAxisRight = totalSize.width
@@ -47,7 +48,7 @@ internal object BarChartUtils {
         progress: Float,
         labelDrawer: LabelDrawer,
         barsSpacingFactor: Float,
-        block: (barArea: Rect, bar: BarChartData.Bar) -> Unit
+        block: (barArea: Rect, bar: BarChartData.Bar) -> Unit,
     ) {
         require(barsSpacingFactor in 0f..1f)
         val totalBars = bars.size

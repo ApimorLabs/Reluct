@@ -9,6 +9,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -79,8 +80,9 @@ internal fun StatisticsBarChartCard(
                     LinearProgressIndicator()
                 } else if (sumOfBarsValue.equals(0.0) && !dataLoading) {
                     Text(
-                        text = stringResource(id = R.string.no_data_text),
-                        style = MaterialTheme.typography.headlineSmall,
+                        text = stringResource(id = R.string.no_completed_tasks_text),
+                        style = MaterialTheme.typography.titleLarge
+                            .copy(fontWeight = FontWeight.Medium),
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                         color = LocalContentColor.current

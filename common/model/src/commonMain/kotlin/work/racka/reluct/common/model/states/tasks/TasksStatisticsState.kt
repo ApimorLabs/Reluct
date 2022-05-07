@@ -7,7 +7,7 @@ data class TasksStatisticsState(
     val weekOffset: Int = 0,
     val selectedWeekText: String = "...",
     val selectedDay: Int = 0,
-    val weeklyTasksState: WeeklyTasksState = WeeklyTasksState.Loading,
+    val weeklyTasksState: WeeklyTasksState = WeeklyTasksState.Loading(),
     val dailyTasksState: DailyTasksState = DailyTasksState.Loading(),
 )
 
@@ -20,9 +20,15 @@ sealed class WeeklyTasksState(
         val totalTaskCount: Int,
     ) : WeeklyTasksState(tasks, totalTaskCount)
 
-    object Loading : WeeklyTasksState()
+    class Loading(
+        tasks: Map<Week, DailyTasksStats> = mapOf(),
+        totalTaskCount: Int = 0,
+    ) : WeeklyTasksState(tasks, totalTaskCount)
 
-    object Empty : WeeklyTasksState()
+    class Empty(
+        tasks: Map<Week, DailyTasksStats>,
+        totalTaskCount: Int = 0,
+    ) : WeeklyTasksState(tasks, totalTaskCount)
 }
 
 sealed class DailyTasksState(
@@ -34,9 +40,13 @@ sealed class DailyTasksState(
         val dayTextValue: String = tasks.dateFormatted,
     ) : DailyTasksState(dailyTasks = tasks, dayText = dayTextValue)
 
-    class Loading(dayTextValue: String = "...") :
-        DailyTasksState(dailyTasks = DailyTasksStats(), dayText = dayTextValue)
+    class Loading(
+        tasks: DailyTasksStats = DailyTasksStats(),
+        dayTextValue: String = "...",
+    ) : DailyTasksState(dailyTasks = tasks, dayText = dayTextValue)
 
-    class Empty(dayTextValue: String = "...") :
-        DailyTasksState(dailyTasks = DailyTasksStats(), dayText = dayTextValue)
+    class Empty(
+        tasks: DailyTasksStats = DailyTasksStats(),
+        dayTextValue: String = "...",
+    ) : DailyTasksState(dailyTasks = tasks, dayText = dayTextValue)
 }

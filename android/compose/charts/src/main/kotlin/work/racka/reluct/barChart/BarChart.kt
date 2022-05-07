@@ -15,7 +15,6 @@ import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.input.pointer.pointerInput
-import timber.log.Timber
 import work.racka.reluct.barChart.BarChartUtils.axisAreas
 import work.racka.reluct.barChart.BarChartUtils.barDrawableArea
 import work.racka.reluct.barChart.BarChartUtils.forEachWithArea
@@ -41,7 +40,7 @@ fun BarChart(
     labelDrawer: LabelDrawer = SimpleValueDrawer(),
     onBarClicked: (id: Int) -> Unit = { },
     selectedBarColor: Color = Color.Blue,
-    selectedUniqueId: Int? = null
+    selectedUniqueId: Int? = null,
 ) {
     val transitionAnimation = remember(barChartData.bars) { Animatable(initialValue = 0f) }
     val selectedBar = remember {
@@ -66,7 +65,6 @@ fun BarChart(
                         if (rect.contains(offset)) {
                             selectedBar.value = key
                             onBarClicked(key)
-                            Timber.d("Rect Clicked: $key")
                         }
                     }
                 }
@@ -77,6 +75,7 @@ fun BarChart(
                 val (xAxisArea, yAxisArea) = axisAreas(
                     drawScope = this,
                     totalSize = size,
+                    withYAxisLabels = barChartOptions.showYAxisLabels,
                     xAxisDrawer = xAxisDrawer,
                     labelDrawer = labelDrawer
                 )
@@ -139,6 +138,7 @@ fun BarChart(
             val (xAxisArea, yAxisArea) = axisAreas(
                 drawScope = this,
                 totalSize = size,
+                withYAxisLabels = barChartOptions.showYAxisLabels,
                 xAxisDrawer = xAxisDrawer,
                 labelDrawer = labelDrawer
             )
