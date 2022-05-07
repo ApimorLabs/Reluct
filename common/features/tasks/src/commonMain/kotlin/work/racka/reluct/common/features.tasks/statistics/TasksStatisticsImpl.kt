@@ -1,6 +1,7 @@
 package work.racka.reluct.common.features.tasks.statistics
 
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -32,6 +33,9 @@ internal class TasksStatisticsImpl(
     private val dailyTasksState: MutableStateFlow<DailyTasksState> =
         MutableStateFlow(DailyTasksState.Loading())
 
+    private lateinit var collectDailyTasksJob: Job
+    private lateinit var collectWeeklyTasksJob: Job
+
 
     override val uiState: StateFlow<TasksStatisticsState> = combine(
         weekOffset, selectedWeekText, selectedDay, weeklyTasksState, dailyTasksState
@@ -62,8 +66,13 @@ internal class TasksStatisticsImpl(
         getDailyData()
     }
 
+    private fun cancelCurrentJobs() {
+        collectDailyTasksJob.cancel()
+        collectWeeklyTasksJob.cancel()
+    }
+
     private fun getDailyData() {
-        scope.launch {
+        collectDailyTasksJob = scope.launch {
             getDailyTasksUseCase(weekOffset = weekOffset.value,
                 dayIsoNumber = selectedDay.value).collectLatest { tasks ->
                 if (tasks.completedTasks.isNotEmpty() || tasks.pendingTasks.isNotEmpty()) {
@@ -77,8 +86,10 @@ internal class TasksStatisticsImpl(
         }
     }
 
+    val che = Channel<Int>()
+
     private fun getWeeklyData() {
-        scope.launch {
+        collectWeeklyTasksJob = scope.launch {
             selectedWeekText.update { getWeekRangeFromOffset(weekOffset.value) }
             getWeeklyTasksUseCase(weekOffset = weekOffset.value).collectLatest { weeklyTasks ->
                 if (weeklyTasks.isNotEmpty()) {
@@ -97,13 +108,14 @@ internal class TasksStatisticsImpl(
     override fun selectDay(selectedDayIsoNumber: Int) {
         dailyTasksState.update { DailyTasksState.Loading(dayTextValue = it.dayText) }
         selectedDay.update { selectedDayIsoNumber }
+        cancelCurrentJobs()
         getDailyData()
     }
 
     override fun updateWeekOffset(weekOffsetValue: Int) {
         weeklyTasksState.update { WeeklyTasksState.Loading(totalTaskCount = it.totalWeekTasksCount) }
-
         weekOffset.update { weekOffsetValue }
+        cancelCurrentJobs()
         getData()
     }
 

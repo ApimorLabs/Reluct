@@ -12,6 +12,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import work.racka.reluct.android.compose.components.checkboxes.RoundCheckbox
 import work.racka.reluct.android.compose.components.util.PreviewData
 import work.racka.reluct.android.compose.theme.Dimens
+import work.racka.reluct.android.compose.theme.ReluctAppTheme
 import work.racka.reluct.android.compose.theme.Shapes
 import work.racka.reluct.common.model.domain.tasks.Task
 
@@ -25,6 +26,9 @@ internal fun TaskEntry(
     onCheckedChange: (Boolean) -> Unit,
 ) {
 
+    ReluctAppTheme {
+
+    }
     Card(
         containerColor = if (entryType == EntryType.PendingTaskOverdue && task.overdue)
             MaterialTheme.colorScheme.error

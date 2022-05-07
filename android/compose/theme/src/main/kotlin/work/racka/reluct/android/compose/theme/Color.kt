@@ -22,3 +22,6 @@ val SurfaceVariantLightTextColor = Color(0xFF7A7A7A)
 
 val BackgroundLightColor = Color(0xffF1F0F5)
 val BackgroundDarkColor = Color(0xff121212)
+
+val ErrorColor = Color(0xFFFF8989)
+val OnErrorColor = Color(0xFF000000)

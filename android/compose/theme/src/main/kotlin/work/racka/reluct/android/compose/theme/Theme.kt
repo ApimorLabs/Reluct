@@ -28,7 +28,9 @@ private val AppLightColorScheme = lightColorScheme(
     surfaceVariant = SurfaceLight,
     onSurfaceVariant = Color.Black,
     secondaryContainer = PrimaryColor,
-    onSecondaryContainer = Color.White
+    onSecondaryContainer = Color.White,
+    error = ErrorColor,
+    onError = OnErrorColor
 )
 
 private val AppDarkColorScheme = darkColorScheme(
@@ -45,7 +47,9 @@ private val AppDarkColorScheme = darkColorScheme(
     surfaceVariant = SurfaceDark,
     onSurfaceVariant = Color.White,
     secondaryContainer = PrimaryColor,
-    onSecondaryContainer = Color.White
+    onSecondaryContainer = Color.White,
+    error = ErrorColor,
+    onError = OnErrorColor
 )
 
 @Composable

@@ -112,7 +112,7 @@ internal fun TaskTimeInfo(
                 style = MaterialTheme.typography.bodyMedium,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
-                color = if (overdue) MaterialTheme.colorScheme.error else Color.Green
+                color = if (overdue) MaterialTheme.colorScheme.error else Color(0xFF23B33A)
             )
         }
     }
