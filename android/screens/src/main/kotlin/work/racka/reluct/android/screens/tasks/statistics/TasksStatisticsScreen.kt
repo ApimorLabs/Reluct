@@ -51,7 +51,8 @@ fun TasksStatisticsScreen(
         onTaskClicked = { onNavigateToTaskDetails(it.id) },
         onToggleTaskDone = { isDone, task ->
             viewModel.host.toggleDone(task, isDone)
-        }
+        },
+        onUpdateWeekOffset = { viewModel.host.updateWeekOffset(it) }
     )
 }
 

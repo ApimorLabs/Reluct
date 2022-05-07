@@ -12,6 +12,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
@@ -30,6 +31,7 @@ import work.racka.reluct.common.model.util.time.TimeUtils
 @Composable
 fun DateTimePills(
     modifier: Modifier = Modifier,
+    dialogShape: Shape = Shapes.large,
     initialLocalDateTime: LocalDateTime,
     onLocalDateTimeChange: (dateTimeString: String) -> Unit,
 ) {
@@ -62,6 +64,7 @@ fun DateTimePills(
     }
 
     DateAndTimeMaterialDialogs(
+        shape = dialogShape,
         initialLocalDateTime = localDateTime.value,
         dateDialogState = dateDialogState,
         timeDialogState = timeDialogState,
@@ -105,6 +108,7 @@ fun DateTimePills(
 
 @Composable
 private fun DateAndTimeMaterialDialogs(
+    shape: Shape = Shapes.large,
     initialLocalDateTime: LocalDateTime,
     dateDialogState: MaterialDialogState,
     timeDialogState: MaterialDialogState,
@@ -120,6 +124,7 @@ private fun DateAndTimeMaterialDialogs(
     // Date
     MaterialDialog(
         dialogState = dateDialogState,
+        shape = shape,
         buttons = {
             PositiveButton(text = stringResource(id = R.string.positive_dialog_button))
             NegativeButton(text = stringResource(id = R.string.negative_dialog_button))
@@ -148,6 +153,7 @@ private fun DateAndTimeMaterialDialogs(
     // Time
     MaterialDialog(
         dialogState = timeDialogState,
+        shape = shape,
         buttons = {
             PositiveButton(text = stringResource(id = R.string.positive_dialog_button))
             NegativeButton(text = stringResource(id = R.string.negative_dialog_button))

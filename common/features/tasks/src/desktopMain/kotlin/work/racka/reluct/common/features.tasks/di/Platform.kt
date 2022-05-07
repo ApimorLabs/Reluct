@@ -7,8 +7,8 @@ import work.racka.reluct.common.features.tasks.viewmodels.*
 
 internal actual object Platform {
     actual fun platformTasksModule() = module {
-        val viewModelScope = CoroutineScope(Dispatchers.Main.immediate)
         factory {
+            val viewModelScope = CoroutineScope(Dispatchers.Main.immediate)
             CompletedTasksViewModel(
                 getTasksUseCase = get(),
                 modifyTasksUsesCase = get(),
@@ -17,6 +17,7 @@ internal actual object Platform {
         }
 
         factory {
+            val viewModelScope = CoroutineScope(Dispatchers.Main.immediate)
             PendingTasksViewModel(
                 getTasksUseCase = get(),
                 modifyTasksUsesCase = get(),
@@ -25,6 +26,7 @@ internal actual object Platform {
         }
 
         factory { (taskId: String?) ->
+            val viewModelScope = CoroutineScope(Dispatchers.Main.immediate)
             TaskDetailsViewModel(
                 getTasksUseCase = get(),
                 modifyTasksUsesCase = get(),
@@ -34,6 +36,7 @@ internal actual object Platform {
         }
 
         factory { (taskId: String?) ->
+            val viewModelScope = CoroutineScope(Dispatchers.Main.immediate)
             AddEditTaskViewModel(
                 modifyTasksUseCase = get(),
                 taskId = taskId,
@@ -42,10 +45,12 @@ internal actual object Platform {
         }
 
         factory {
+            val viewModelScope = CoroutineScope(Dispatchers.Main.immediate)
             TasksStatisticsViewModel(
                 modifyTasksUsesCase = get(),
                 getWeeklyTasksUseCase = get(),
                 getDailyTasksUseCase = get(),
+                getWeekRangeFromOffset = get(),
                 scope = viewModelScope
             )
         }

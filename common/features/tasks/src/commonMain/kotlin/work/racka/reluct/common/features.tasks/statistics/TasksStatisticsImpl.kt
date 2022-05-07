@@ -5,6 +5,7 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import work.racka.reluct.common.features.tasks.usecases.interfaces.GetDailyTasksUseCase
+import work.racka.reluct.common.features.tasks.usecases.interfaces.GetWeekRangeFromOffset
 import work.racka.reluct.common.features.tasks.usecases.interfaces.GetWeeklyTasksUseCase
 import work.racka.reluct.common.features.tasks.usecases.interfaces.ModifyTaskUseCase
 import work.racka.reluct.common.model.domain.tasks.Task
@@ -18,10 +19,12 @@ internal class TasksStatisticsImpl(
     private val modifyTasksUsesCase: ModifyTaskUseCase,
     private val getWeeklyTasksUseCase: GetWeeklyTasksUseCase,
     private val getDailyTasksUseCase: GetDailyTasksUseCase,
+    private val getWeekRangeFromOffset: GetWeekRangeFromOffset,
     private val scope: CoroutineScope,
 ) : TasksStatistics {
 
     private val weekOffset: MutableStateFlow<Int> = MutableStateFlow(0)
+    private val selectedWeekText: MutableStateFlow<String> = MutableStateFlow("...")
     private val selectedDay: MutableStateFlow<Int> =
         MutableStateFlow(WeekUtils.currentDayOfWeek().isoDayNumber)
     private val weeklyTasksState: MutableStateFlow<WeeklyTasksState> =
@@ -31,10 +34,11 @@ internal class TasksStatisticsImpl(
 
 
     override val uiState: StateFlow<TasksStatisticsState> = combine(
-        weekOffset, selectedDay, weeklyTasksState, dailyTasksState
-    ) { weekOffset, selectedDay, weeklyTasksState, dailyTasksState ->
+        weekOffset, selectedWeekText, selectedDay, weeklyTasksState, dailyTasksState
+    ) { weekOffset, selectedWeekText, selectedDay, weeklyTasksState, dailyTasksState ->
         TasksStatisticsState(
             weekOffset = weekOffset,
+            selectedWeekText = selectedWeekText,
             selectedDay = selectedDay,
             weeklyTasksState = weeklyTasksState,
             dailyTasksState = dailyTasksState
@@ -75,6 +79,7 @@ internal class TasksStatisticsImpl(
 
     private fun getWeeklyData() {
         scope.launch {
+            selectedWeekText.update { getWeekRangeFromOffset(weekOffset.value) }
             getWeeklyTasksUseCase(weekOffset = weekOffset.value).collectLatest { weeklyTasks ->
                 if (weeklyTasks.isNotEmpty()) {
                     var totalTasksCount = 0
@@ -97,8 +102,9 @@ internal class TasksStatisticsImpl(
 
     override fun updateWeekOffset(weekOffsetValue: Int) {
         weeklyTasksState.update { WeeklyTasksState.Loading(totalTaskCount = it.totalWeekTasksCount) }
+
         weekOffset.update { weekOffsetValue }
-        getWeeklyData()
+        getData()
     }
 
     override fun toggleDone(task: Task, isDone: Boolean) {

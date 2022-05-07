@@ -2,14 +2,8 @@ package work.racka.reluct.common.features.tasks.di
 
 import org.koin.core.KoinApplication
 import org.koin.dsl.module
-import work.racka.reluct.common.features.tasks.usecases.impl.GetDailyTasksUseCaseImpl
-import work.racka.reluct.common.features.tasks.usecases.impl.GetTasksUseCaseImpl
-import work.racka.reluct.common.features.tasks.usecases.impl.GetWeeklyTasksUseCaseImpl
-import work.racka.reluct.common.features.tasks.usecases.impl.ModifyTaskUseCaseImpl
-import work.racka.reluct.common.features.tasks.usecases.interfaces.GetDailyTasksUseCase
-import work.racka.reluct.common.features.tasks.usecases.interfaces.GetTasksUseCase
-import work.racka.reluct.common.features.tasks.usecases.interfaces.GetWeeklyTasksUseCase
-import work.racka.reluct.common.features.tasks.usecases.interfaces.ModifyTaskUseCase
+import work.racka.reluct.common.features.tasks.usecases.impl.*
+import work.racka.reluct.common.features.tasks.usecases.interfaces.*
 
 object Tasks {
 
@@ -50,5 +44,7 @@ object Tasks {
                 backgroundDispatcher = CoroutineDispatchers.backgroundDispatcher
             )
         }
+
+        factory<GetWeekRangeFromOffset> { GetWeekRangeFromOffsetImpl() }
     }
 }

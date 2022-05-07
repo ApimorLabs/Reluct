@@ -39,7 +39,8 @@ internal actual object Platform {
             TasksStatisticsViewModel(
                 modifyTasksUsesCase = get(),
                 getWeeklyTasksUseCase = get(),
-                getDailyTasksUseCase = get()
+                getDailyTasksUseCase = get(),
+                getWeekRangeFromOffset = get()
             )
         }
     }

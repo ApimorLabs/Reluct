@@ -13,9 +13,11 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import work.racka.reluct.android.compose.components.buttons.ValueOffsetButton
 import work.racka.reluct.android.compose.components.cards.statistics.StatisticsChartState
 import work.racka.reluct.android.compose.components.cards.statistics.tasks.TasksStatisticsCard
 import work.racka.reluct.android.compose.theme.Dimens
+import work.racka.reluct.android.compose.theme.Shapes
 import work.racka.reluct.common.model.domain.tasks.Task
 import work.racka.reluct.common.model.states.tasks.TasksStatisticsState
 import work.racka.reluct.common.model.states.tasks.WeeklyTasksState
@@ -27,6 +29,7 @@ internal fun TasksStatisticsUI(
     scaffoldState: ScaffoldState,
     uiState: TasksStatisticsState,
     onSelectDay: (dayIsoNumber: Int) -> Unit,
+    onUpdateWeekOffset: (weekOffsetValue: Int) -> Unit,
     onTaskClicked: (task: Task) -> Unit,
     onToggleTaskDone: (isDone: Boolean, task: Task) -> Unit,
 ) {
@@ -97,7 +100,17 @@ internal fun TasksStatisticsUI(
                         totalWeekTaskCount = uiState.weeklyTasksState.totalWeekTasksCount,
                         selectedDayIsoNumber = uiState.selectedDay,
                         onBarClicked = { onSelectDay(it) }
-                    ) { }
+                    ) {
+                        ValueOffsetButton(
+                            text = uiState.selectedWeekText,
+                            offsetValue = uiState.weekOffset,
+                            onOffsetValueChange = { onUpdateWeekOffset(it) },
+                            containerColor = MaterialTheme.colorScheme.primary,
+                            contentColor = MaterialTheme.colorScheme.onPrimary,
+                            shape = Shapes.large,
+                            incrementEnabled = uiState.weekOffset < 0
+                        )
+                    }
                 }
 
                 // Bottom Space
