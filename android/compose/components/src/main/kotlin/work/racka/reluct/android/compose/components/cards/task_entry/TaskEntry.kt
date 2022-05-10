@@ -4,6 +4,8 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -12,7 +14,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import work.racka.reluct.android.compose.components.checkboxes.RoundCheckbox
 import work.racka.reluct.android.compose.components.util.PreviewData
 import work.racka.reluct.android.compose.theme.Dimens
-import work.racka.reluct.android.compose.theme.ReluctAppTheme
 import work.racka.reluct.android.compose.theme.Shapes
 import work.racka.reluct.common.model.domain.tasks.Task
 
@@ -25,13 +26,13 @@ internal fun TaskEntry(
     onEntryClick: () -> Unit,
     onCheckedChange: (Boolean) -> Unit,
 ) {
-
-    ReluctAppTheme {
-
+    val showErrorColor = remember(task.overdue, entryType) {
+        derivedStateOf {
+            entryType == EntryType.PendingTaskOverdue && task.overdue
+        }
     }
     Card(
-        containerColor = if (entryType == EntryType.PendingTaskOverdue && task.overdue)
-            MaterialTheme.colorScheme.error
+        containerColor = if (showErrorColor.value) MaterialTheme.colorScheme.error
         else MaterialTheme.colorScheme.surfaceVariant,
         onClick = { onEntryClick() },
         modifier = modifier
