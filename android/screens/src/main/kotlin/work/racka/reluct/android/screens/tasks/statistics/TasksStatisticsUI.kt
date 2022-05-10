@@ -151,6 +151,7 @@ internal fun TasksStatisticsUI(
                 if (uiState.dailyTasksState.dailyTasks.pendingTasks.isNotEmpty()) {
                     item {
                         GroupedTaskEntries(
+                            playScaleAnimation = true,
                             entryType = EntryType.PendingTaskOverdue,
                             groupTitle = stringResource(R.string.not_done_tasks_header),
                             taskList = uiState.dailyTasksState.dailyTasks.pendingTasks,
@@ -165,6 +166,7 @@ internal fun TasksStatisticsUI(
                 if (uiState.dailyTasksState.dailyTasks.completedTasks.isNotEmpty()) {
                     item {
                         GroupedTaskEntries(
+                            playScaleAnimation = true,
                             entryType = EntryType.CompletedTask,
                             groupTitle = stringResource(R.string.done_tasks_header),
                             taskList = uiState.dailyTasksState.dailyTasks.completedTasks,

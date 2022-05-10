@@ -24,6 +24,7 @@ import work.racka.reluct.common.model.domain.tasks.Task
 @Composable
 fun GroupedTaskEntries(
     modifier: Modifier = Modifier,
+    playScaleAnimation: Boolean = false,
     entryType: EntryType,
     groupTitle: String,
     taskList: List<Task>,
@@ -46,6 +47,7 @@ fun GroupedTaskEntries(
 
         taskList.forEach { task ->
             TaskEntry(
+                playScaleAnimation = playScaleAnimation,
                 task = task,
                 entryType = entryType,
                 onEntryClick = { onEntryClicked(task) },

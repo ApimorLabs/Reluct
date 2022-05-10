@@ -52,8 +52,7 @@ fun ValueOffsetButton(
                 .animateContentSize()
                 .padding(horizontal = Dimens.SmallPadding.size),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement
-                .spacedBy(Dimens.MediumPadding.size)
+            horizontalArrangement = Arrangement.SpaceBetween
         ) {
             // Decrement
             IconButton(
