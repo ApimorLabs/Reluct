@@ -187,10 +187,16 @@ class TasksDaoImplTest : KoinTest {
         val tasksNotDone = tasks.filter { !it.done }
         val taskNotDone = tasksNotDone.first()
         val taskDone = taskNotDone.copy(done = true)
+        val completedLDT = taskNotDone.dueDateLocalDateTime
         tasks.forEach {
             dao.insertTask(it)
         }
-        dao.toggleTaskDone(id = taskNotDone.id, isDone = true, wasOverDue = false)
+        dao.toggleTaskDone(
+            id = taskNotDone.id,
+            isDone = true,
+            wasOverDue = false,
+            completedLocalDateTime = completedLDT
+        )
         val pendingTasks = dao.getPendingTasks()
         val completedTasks = dao.getCompletedTasks()
         launch {

@@ -15,7 +15,13 @@ interface TasksDao {
         endLocalDateTime: String,
     ): Flow<List<TaskDbObject>>
 
-    fun toggleTaskDone(id: String, isDone: Boolean, wasOverDue: Boolean)
+    fun toggleTaskDone(
+        id: String,
+        isDone: Boolean,
+        wasOverDue: Boolean,
+        completedLocalDateTime: String?,
+    )
+
     fun deleteTask(id: String)
     fun deleteAllCompletedTasks()
     fun deleteAll()

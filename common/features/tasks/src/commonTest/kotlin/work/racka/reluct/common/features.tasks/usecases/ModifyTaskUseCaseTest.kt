@@ -121,13 +121,13 @@ class ModifyTaskUseCaseTest : KoinTest {
     fun toggleTaskDone_WhenCalled_ShouldCallDaoMethodWithCorrectValues() = runTest {
         val taskId = "2L"
         val isDone = true
-        val task = TestData.taskDbObjects.first()
-            .asTask()
-            .copy(id = taskId, done = isDone)
-        every { dao.toggleTaskDone(task.id, isDone, task.overdue) } returns Unit
+        val dbObject = TestData.taskDbObjects.first()
+        val completedLDT = dbObject.dueDateLocalDateTime
+        val task = dbObject.asTask().copy(id = taskId, done = isDone)
+        every { dao.toggleTaskDone(task.id, isDone, task.overdue, completedLDT) } returns Unit
 
         useCase.toggleTaskDone(task, isDone)
 
-        verify { dao.toggleTaskDone(task.id, isDone, task.overdue) }
+        verify { dao.toggleTaskDone(task.id, isDone, task.overdue, completedLDT) }
     }
 }

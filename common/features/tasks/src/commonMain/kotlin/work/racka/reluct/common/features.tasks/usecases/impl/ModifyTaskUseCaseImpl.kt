@@ -13,6 +13,7 @@ import work.racka.reluct.common.features.tasks.util.DataMappers.asEditTask
 import work.racka.reluct.common.model.data.local.task.TaskDbObject
 import work.racka.reluct.common.model.domain.tasks.EditTask
 import work.racka.reluct.common.model.domain.tasks.Task
+import work.racka.reluct.common.model.util.time.TimeUtils
 
 internal class ModifyTaskUseCaseImpl(
     private val dao: TasksDao,
@@ -38,6 +39,7 @@ internal class ModifyTaskUseCaseImpl(
     }
 
     override fun toggleTaskDone(task: Task, isDone: Boolean) {
-        dao.toggleTaskDone(task.id, isDone, task.overdue)
+        val completedLocalDateTime = if (isDone) TimeUtils.currentLocalDateTime() else null
+        dao.toggleTaskDone(task.id, isDone, task.overdue, completedLocalDateTime)
     }
 }

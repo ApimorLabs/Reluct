@@ -6,6 +6,14 @@ import kotlin.math.abs
 object TimeUtils {
 
     /**
+     * Current LocalDateTime as string
+     */
+    fun currentLocalDateTime(timeZoneId: String = TimeZone.currentSystemDefault().id): String {
+        val timeZone = TimeZone.of(timeZoneId)
+        return Clock.System.now().toLocalDateTime(timeZone).toString()
+    }
+
+    /**
      * Retrieve the correct LocalDateTime with account to TimeZone
      */
     fun getLocalDateTimeWithCorrectTimeZone(

@@ -19,7 +19,6 @@ import androidx.navigation.NavHostController
 import androidx.navigation.navigation
 import com.google.accompanist.navigation.animation.composable
 import timber.log.Timber
-import work.racka.reluct.android.compose.components.ComponentsPreview2
 import work.racka.reluct.android.compose.components.tab.screentime.ScreenTimeTabBar
 import work.racka.reluct.common.compose.destinations.ScreenTimeDestinations
 import work.racka.reluct.common.compose.destinations.navbar.Graphs
@@ -60,7 +59,10 @@ internal fun NavGraphBuilder.screenTimeNavGraph(
                     modifier = Modifier.fillMaxSize(),
                     contentAlignment = Alignment.Center
                 ) {
-                    ComponentsPreview2()
+                    Text(
+                        text = "Tasks: $route",
+                        color = MaterialTheme.colorScheme.onBackground
+                    )
                     /*LazyColumn(
                         Modifier
                             .fillMaxWidth(.9f),

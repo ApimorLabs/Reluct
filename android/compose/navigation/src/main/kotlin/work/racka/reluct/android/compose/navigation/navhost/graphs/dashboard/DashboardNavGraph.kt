@@ -2,16 +2,12 @@ package work.racka.reluct.android.compose.navigation.navhost.graphs.dashboard
 
 import androidx.compose.animation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -22,9 +18,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.NestedScrollSource
-import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavGraphBuilder
@@ -32,13 +26,10 @@ import androidx.navigation.NavHostController
 import androidx.navigation.navigation
 import com.google.accompanist.navigation.animation.composable
 import timber.log.Timber
-import work.racka.reluct.android.compose.components.ComponentsPreview
-import work.racka.reluct.android.compose.components.buttons.ReluctFloatingActionButton
 import work.racka.reluct.android.compose.components.tab.dashboard.DashboardTabBar
 import work.racka.reluct.android.compose.components.textfields.search.ReluctSearchBar
 import work.racka.reluct.android.compose.components.topBar.CollapsingToolbarBase
 import work.racka.reluct.android.compose.components.topBar.ProfilePicture
-import work.racka.reluct.android.screens.R
 import work.racka.reluct.common.compose.destinations.DashboardDestinations
 import work.racka.reluct.common.compose.destinations.navbar.Graphs
 
@@ -86,10 +77,6 @@ internal fun NavGraphBuilder.dashboardNavGraph(
                 }
             }
 
-            LaunchedEffect(key1 = nestedScrollConnection) {
-
-            }
-
             Scaffold(
                 topBar = {
                     DashboardScreenTopBar(
@@ -105,22 +92,13 @@ internal fun NavGraphBuilder.dashboardNavGraph(
                             tabPage.value = it
                         },
                     )
-                },
-                floatingActionButton = {
-                    ReluctFloatingActionButton(
-                        buttonText = "New Task",
-                        contentDescription = stringResource(R.string.add_icon),
-                        icon = Icons.Rounded.Add,
-                        onButtonClicked = { buttonExpanded.value = !buttonExpanded.value },
-                        expanded = buttonExpanded.value
-                    )
                 }
             ) {
                 Box(
                     modifier = Modifier.fillMaxSize(),
                     contentAlignment = Alignment.Center
                 ) {
-                    LazyColumn(
+                    /*LazyColumn(
                         Modifier
                             .nestedScroll(nestedScrollConnection)
                             .fillMaxWidth(.9f),
@@ -137,7 +115,11 @@ internal fun NavGraphBuilder.dashboardNavGraph(
                                 color = MaterialTheme.colorScheme.onBackground
                             )
                         }
-                    }
+                    }*/
+                    Text(
+                        text = "Dashboard: $route",
+                        color = MaterialTheme.colorScheme.onBackground
+                    )
                 }
             }
         }

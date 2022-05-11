@@ -67,12 +67,18 @@ internal class TasksDaoImpl(
             ?.mapToList(coroutineScope.coroutineContext)
             ?: flowOf(emptyList())
 
-    override fun toggleTaskDone(id: String, isDone: Boolean, wasOverDue: Boolean) {
+    override fun toggleTaskDone(
+        id: String,
+        isDone: Boolean,
+        wasOverDue: Boolean,
+        completedLocalDateTime: String?,
+    ) {
         tasksQueries?.transaction {
             tasksQueries.toggleTaskDone(
                 isDone = isDone,
                 wasOverdue = wasOverDue,
-                id = id
+                id = id,
+                completeLocalDateTime = completedLocalDateTime
             )
         }
     }
