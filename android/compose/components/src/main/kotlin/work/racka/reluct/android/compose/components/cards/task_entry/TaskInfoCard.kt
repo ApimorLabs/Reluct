@@ -1,11 +1,9 @@
 package work.racka.reluct.android.compose.components.cards.task_entry
 
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.NotificationsActive
-import androidx.compose.material.icons.rounded.Schedule
-import androidx.compose.material.icons.rounded.Timelapse
-import androidx.compose.material.icons.rounded.Timer
+import androidx.compose.material.icons.rounded.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -37,6 +35,7 @@ fun TaskInfoCard(
         containerColor = containerColor,
         contentColor = contentColor,
         modifier = modifier
+            .animateContentSize()
             .fillMaxWidth()
             .clip(shape)
     ) {
@@ -52,11 +51,13 @@ fun TaskInfoCard(
                 icon = Icons.Rounded.Schedule,
                 contentDescription = null
             )
+
             TaskInfoEntry(
                 text = stringResource(R.string.task_info_reminder_text, task.reminder),
                 icon = Icons.Rounded.NotificationsActive,
                 contentDescription = null
             )
+
             TaskInfoEntry(
                 text = if (task.overdue) stringResource(id = R.string.overdue_text)
                 else stringResource(id = R.string.in_time_text),
@@ -65,11 +66,23 @@ fun TaskInfoCard(
                 color = if (task.overdue) MaterialTheme.colorScheme.error
                 else Color.Green
             )
-            TaskInfoEntry(
-                text = task.timeLeftLabel,
-                icon = Icons.Rounded.Timelapse,
-                contentDescription = null
-            )
+
+            if (task.done) {
+                TaskInfoEntry(
+                    text = stringResource(R.string.task_completed_date_time_text,
+                        task.completedDateAndTime),
+                    icon = Icons.Rounded.AlarmOn,
+                    contentDescription = null
+                )
+            }
+
+            if (!task.done) {
+                TaskInfoEntry(
+                    text = task.timeLeftLabel,
+                    icon = Icons.Rounded.Timelapse,
+                    contentDescription = null
+                )
+            }
         }
     }
 }

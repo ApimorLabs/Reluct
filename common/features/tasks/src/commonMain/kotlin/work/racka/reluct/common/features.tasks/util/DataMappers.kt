@@ -43,8 +43,16 @@ internal object DataMappers {
      * or a day instead of the full date when the interval is within a 3 days difference.
      * If false it will show the full date even if the interval is within a 3 days difference
      */
-    fun TaskDbObject.asTask(showShortIntervalAsDay: Boolean = true): Task =
-        Task(
+    fun TaskDbObject.asTask(showShortIntervalAsDay: Boolean = true): Task {
+        val completedDateAndTime = if (this.completedLocalDateTime != null) {
+            TimeUtils.getDateAndTime(
+                localDateTime = this.completedLocalDateTime!!,
+                showShortIntervalAsDay = showShortIntervalAsDay,
+                timeZoneId = this.timeZoneId
+            )
+        } else "--/--"
+
+        return Task(
             id = this.id,
             title = this.title,
             description = this.description ?: "No Description",
@@ -69,6 +77,8 @@ internal object DataMappers {
             reminder = TasksHelper.getReminderDateTime(
                 this.reminderLocalDateTime,
                 this.timeZoneId
-            )
+            ),
+            completedDateAndTime = completedDateAndTime
         )
+    }
 }

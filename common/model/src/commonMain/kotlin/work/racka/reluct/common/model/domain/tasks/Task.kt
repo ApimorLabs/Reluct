@@ -10,4 +10,5 @@ data class Task(
     val dueTime: String,
     val timeLeftLabel: String,
     val reminder: String,
+    val completedDateAndTime: String,
 )

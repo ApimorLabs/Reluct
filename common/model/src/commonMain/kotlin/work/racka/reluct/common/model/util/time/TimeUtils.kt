@@ -113,6 +113,28 @@ object TimeUtils {
     }
 
     /**
+     * Consolidates both date and time to a human readable format.
+     * This accounts for changes in Timezone. So you need the TimeZoneId
+     */
+    fun getDateAndTime(
+        localDateTime: String,
+        showShortIntervalAsDay: Boolean = true,
+        timeZoneId: String = TimeZone.currentSystemDefault().id,
+        separator: String = "-",
+    ): String {
+        val date = getFormattedDateString(
+            dateTime = localDateTime,
+            originalTimeZoneId = timeZoneId,
+            showShortIntervalAsDay = showShortIntervalAsDay
+        )
+        val time = getTimeFromLocalDateTime(
+            dateTime = localDateTime,
+            originalTimeZoneId = timeZoneId
+        )
+        return "$date $separator $time"
+    }
+
+    /**
      * This accounts for changes in Timezone. So you need the TimeZoneId
      * The TimeZoneId needed is the one from the database. This will convert
      * the LocalDateTime stored to the correct system TimeZone if it's different

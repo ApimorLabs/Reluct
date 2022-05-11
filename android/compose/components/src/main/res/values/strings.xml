@@ -37,6 +37,7 @@
 
     <string name="task_info_due_text">Due: %1$s - %2$s</string>
     <string name="task_info_reminder_text">Reminder: %1$s</string>
+    <string name="task_completed_date_time_text">Completed: %1$s</string>
 
     <string name="no_completed_tasks_text">No Completed Tasks</string>
     <string name="weekly_task_count_arg">You have %1s tasks this week</string>

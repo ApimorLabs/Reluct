@@ -12,7 +12,8 @@ object PreviewData {
         dueDate = "Thu, 2 Feb",
         dueTime = "15:30",
         timeLeftLabel = "In 3 hours",
-        reminder = ""
+        reminder = "",
+        completedDateAndTime = "Time Here"
     )
 
     val task2 = Task(
@@ -24,7 +25,8 @@ object PreviewData {
         dueDate = "Thu, 2 Feb",
         dueTime = "15:30",
         timeLeftLabel = "In 3 hours",
-        reminder = ""
+        reminder = "",
+        completedDateAndTime = "Time Here"
     )
 
     val task3 = Task(
@@ -36,7 +38,8 @@ object PreviewData {
         dueDate = "Thu, 2 Feb",
         dueTime = "15:30",
         timeLeftLabel = "In 3 hours",
-        reminder = ""
+        reminder = "",
+        completedDateAndTime = "Time Here"
     )
 
     val task4 = Task(
@@ -48,7 +51,8 @@ object PreviewData {
         dueDate = "Thu, 2 Feb",
         dueTime = "15:30",
         timeLeftLabel = "3 hours ago",
-        reminder = ""
+        reminder = "",
+        completedDateAndTime = "Time Here"
     )
 
     val task5 = Task(
@@ -60,6 +64,7 @@ object PreviewData {
         dueDate = "Thu, 2 Feb",
         dueTime = "15:30",
         timeLeftLabel = "In 3 hours",
-        reminder = ""
+        reminder = "",
+        completedDateAndTime = "Time Here"
     )
 }
