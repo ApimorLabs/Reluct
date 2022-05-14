@@ -18,7 +18,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import work.racka.reluct.android.compose.components.R
 import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.android.compose.theme.Shapes
-import work.racka.reluct.android.compose.theme.Typography
 import work.racka.reluct.common.model.domain.tasks.Task
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -121,7 +120,6 @@ internal fun TaskInfoText(
     style: TextStyle,
     color: Color = LocalContentColor.current,
 ) {
-    Typography
     Text(
         modifier = modifier,
         text = text,
