@@ -122,12 +122,12 @@ class ModifyTaskUseCaseTest : KoinTest {
         val taskId = "2L"
         val isDone = true
         val dbObject = TestData.taskDbObjects.first()
-        val completedLDT = dbObject.dueDateLocalDateTime
         val task = dbObject.asTask().copy(id = taskId, done = isDone)
-        every { dao.toggleTaskDone(task.id, isDone, task.overdue, completedLDT) } returns Unit
+        // We used any because completedLocalDateTime is computed from current time
+        every { dao.toggleTaskDone(task.id, isDone, task.overdue, any()) } returns Unit
 
         useCase.toggleTaskDone(task, isDone)
 
-        verify { dao.toggleTaskDone(task.id, isDone, task.overdue, completedLDT) }
+        verify { dao.toggleTaskDone(task.id, isDone, task.overdue, any()) }
     }
 }

@@ -102,10 +102,13 @@ class TasksDaoImplTest : KoinTest {
     fun getPendingTasks_ReturnsAllPendingTasks() = runTest {
         val tasks = TestData.taskDbObjects
         val expectedTasks = tasks.filter { !it.done }
+        val factor = 1L
+        val limitBy = 50L
+
         tasks.forEach {
             dao.insertTask(it)
         }
-        val result = dao.getPendingTasks()
+        val result = dao.getPendingTasks(factor, limitBy)
         launch {
             result.test {
                 val actual = awaitItem()
@@ -119,10 +122,13 @@ class TasksDaoImplTest : KoinTest {
     fun getCompletedTasks_ReturnsAllCompletedTasks() = runTest {
         val tasks = TestData.taskDbObjects
         val expectedTasks = tasks.filter { it.done }
+        val factor = 1L
+        val limitBy = 50L
+
         tasks.forEach {
             dao.insertTask(it)
         }
-        val result = dao.getCompletedTasks()
+        val result = dao.getCompletedTasks(factor, limitBy)
         launch {
             result.test {
                 val actual = awaitItem()
@@ -139,11 +145,14 @@ class TasksDaoImplTest : KoinTest {
         val descQuery = "Desc4"
         val expectedTasks1 = tasks.filter { it.title.contains(titleQuery) }
         val expectedTasks2 = tasks.filter { it.description?.contains(descQuery) ?: false }
+        val factor = 1L
+        val limitBy = 50L
+
         tasks.forEach {
             dao.insertTask(it)
         }
-        val result1 = dao.searchTasks(titleQuery)
-        val result2 = dao.searchTasks(descQuery)
+        val result1 = dao.searchTasks(titleQuery, factor, limitBy)
+        val result2 = dao.searchTasks(descQuery, factor, limitBy)
         launch {
             result1.test {
                 val actual = awaitItem()
@@ -167,10 +176,13 @@ class TasksDaoImplTest : KoinTest {
     fun searchTasks_WhenQueryNotMatchedTitleOrDesc_ReturnsEmptyList() = runTest {
         val tasks = TestData.taskDbObjects
         val query = "Task no where to be found"
+        val factor = 1L
+        val limitBy = 50L
+
         tasks.forEach {
             dao.insertTask(it)
         }
-        val result = dao.searchTasks(query)
+        val result = dao.searchTasks(query, factor, limitBy)
         launch {
             result.test {
                 val actual = awaitItem()
@@ -188,6 +200,9 @@ class TasksDaoImplTest : KoinTest {
         val taskNotDone = tasksNotDone.first()
         val taskDone = taskNotDone.copy(done = true)
         val completedLDT = taskNotDone.dueDateLocalDateTime
+        val factor = 1L
+        val limitBy = 50L
+
         tasks.forEach {
             dao.insertTask(it)
         }
@@ -197,8 +212,8 @@ class TasksDaoImplTest : KoinTest {
             wasOverDue = false,
             completedLocalDateTime = completedLDT
         )
-        val pendingTasks = dao.getPendingTasks()
-        val completedTasks = dao.getCompletedTasks()
+        val pendingTasks = dao.getPendingTasks(factor, limitBy)
+        val completedTasks = dao.getCompletedTasks(factor, limitBy)
         launch {
             pendingTasks.test {
                 val actual = awaitItem()
@@ -235,11 +250,14 @@ class TasksDaoImplTest : KoinTest {
     fun deleteAllCompleted_RemovesAllCompletedTasksFromDb() = runTest {
         val tasks = TestData.taskDbObjects
         val deletedTasks = tasks.filter { it.done }
+        val factor = 1L
+        val limitBy = 50L
+
         tasks.forEach {
             dao.insertTask(it)
         }
         dao.deleteAllCompletedTasks()
-        val result = dao.getCompletedTasks()
+        val result = dao.getCompletedTasks(factor, limitBy)
         launch {
             result.test {
                 val actual = awaitItem()

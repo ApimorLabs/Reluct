@@ -66,6 +66,7 @@ class PendingTasksTest : KoinTest {
     @Test
     fun getPendingTasks_OnClassInit_ShouldUpdateUIStateWithCompletedTasks() =
         runTest {
+            val factor = 1L
             val taskList = TestData.taskDbObjects.map { it.asTask() }
             val overdueList = taskList.filter { it.overdue }
             val grouped = taskList
@@ -76,7 +77,7 @@ class PendingTasksTest : KoinTest {
                 overdueTasks = overdueList
             )
 
-            coEvery { getTasksUseCase.getPendingTasks() } returns flowOf(taskList)
+            coEvery { getTasksUseCase.getPendingTasks(factor) } returns flowOf(taskList)
 
             val result = pendingTasks.uiState
             launch {
@@ -88,7 +89,7 @@ class PendingTasksTest : KoinTest {
                     assertTrue(initial is PendingTasksState.Loading)
                     assertTrue(actual is PendingTasksState.Data)
                     assertEquals(expectedState, actual)
-                    coVerify { getTasksUseCase.getPendingTasks() }
+                    coVerify { getTasksUseCase.getPendingTasks(factor) }
                     awaitComplete()
                 }
             }

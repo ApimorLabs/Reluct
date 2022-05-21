@@ -23,7 +23,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import timber.log.Timber
 import work.racka.reluct.android.compose.components.buttons.ReluctFloatingActionButton
 import work.racka.reluct.android.compose.components.cards.task_entry.EntryType
 import work.racka.reluct.android.compose.components.cards.task_entry.GroupedTaskEntries
@@ -55,7 +54,6 @@ internal fun PendingTasksUI(
         && uiState !is PendingTasksState.Loading
     ) {
         fetchMoreData()
-        Timber.d("We are at the bottom")
     }
 
     Scaffold(

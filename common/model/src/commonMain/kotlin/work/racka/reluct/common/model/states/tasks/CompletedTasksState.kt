@@ -8,7 +8,7 @@ sealed class CompletedTasksState(
 ) {
     data class Data(
         val tasks: Map<String, List<Task>> = mapOf(),
-        val newDataPresent: Boolean,
+        val newDataPresent: Boolean = true,
     ) : CompletedTasksState(tasks, newDataPresent)
 
     data class Loading(

@@ -61,10 +61,11 @@ class GetTasksUseCaseTest : KoinTest {
     fun getPendingTasks_WhenCalled_ReturnsFlowOfListOfTasksFromDb() = runTest {
         val tasksFromDb = TestData.taskDbObjects
         val expectedTasks = tasksFromDb.map { it.asTask() }
+        val factor = 1L
 
-        every { dao.getPendingTasks() } returns flowOf(tasksFromDb)
+        every { dao.getPendingTasks(factor) } returns flowOf(tasksFromDb)
 
-        val result = useCase.getPendingTasks()
+        val result = useCase.getPendingTasks(factor)
         launch {
             result.test {
                 val actual = awaitItem()
@@ -72,7 +73,7 @@ class GetTasksUseCaseTest : KoinTest {
                 println(actual)
 
                 assertEquals(expectedTasks, actual)
-                verify { dao.getPendingTasks() }
+                verify { dao.getPendingTasks(factor) }
             }
         }
     }
@@ -81,10 +82,11 @@ class GetTasksUseCaseTest : KoinTest {
     fun getCompletedTasks_WhenCalled_ReturnsFlowOfListOfTasksFromDb() = runTest {
         val tasksFromDb = TestData.taskDbObjects
         val expectedTasks = tasksFromDb.map { it.asTask() }
+        val factor = 1L
 
-        every { dao.getCompletedTasks() } returns flowOf(tasksFromDb)
+        every { dao.getCompletedTasks(factor) } returns flowOf(tasksFromDb)
 
-        val result = useCase.getCompletedTasks()
+        val result = useCase.getCompletedTasks(factor)
         launch {
             result.test {
                 val actual = awaitItem()
@@ -92,7 +94,7 @@ class GetTasksUseCaseTest : KoinTest {
                 println(actual)
 
                 assertEquals(expectedTasks, actual)
-                verify { dao.getCompletedTasks() }
+                verify { dao.getCompletedTasks(factor) }
             }
         }
     }
@@ -102,10 +104,11 @@ class GetTasksUseCaseTest : KoinTest {
         val tasksFromDb = TestData.taskDbObjects
         val expectedTasks = tasksFromDb.map { it.asTask() }
         val query = "some task"
+        val factor = 1L
 
-        every { dao.searchTasks(query) } returns flowOf(tasksFromDb)
+        every { dao.searchTasks(query, factor) } returns flowOf(tasksFromDb)
 
-        val result = useCase.getSearchedTasks(query)
+        val result = useCase.getSearchedTasks(query, factor)
         launch {
             result.test {
                 val actual = awaitItem()
@@ -113,7 +116,7 @@ class GetTasksUseCaseTest : KoinTest {
                 println(actual)
 
                 assertEquals(expectedTasks, actual)
-                verify { dao.searchTasks(query) }
+                verify { dao.searchTasks(query, factor) }
             }
         }
     }

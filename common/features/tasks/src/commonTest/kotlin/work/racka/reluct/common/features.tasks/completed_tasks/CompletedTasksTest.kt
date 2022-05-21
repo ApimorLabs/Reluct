@@ -66,12 +66,13 @@ class CompletedTasksTest : KoinTest {
     @Test
     fun getCompletedTasks_OnClassInit_ShouldUpdateUIStateWithCompletedTasks() =
         runTest {
+            val factor = 1L
             val tasks = TestData.taskDbObjects.map { it.asTask() }
             val expectedState = CompletedTasksState.Data(
                 tasks = tasks.groupBy { it.dueDate }
             )
 
-            coEvery { getTasksUseCase.getCompletedTasks() } returns flowOf(tasks)
+            coEvery { getTasksUseCase.getCompletedTasks(factor) } returns flowOf(tasks)
 
             val result = completedTasks.uiState
             launch {
@@ -83,7 +84,7 @@ class CompletedTasksTest : KoinTest {
                     assertTrue(initial is CompletedTasksState.Loading)
                     assertTrue(actual is CompletedTasksState.Data)
                     assertEquals(expectedState, actual)
-                    coVerify { getTasksUseCase.getCompletedTasks() }
+                    coVerify { getTasksUseCase.getCompletedTasks(factor) }
                     awaitComplete()
                 }
             }
