@@ -15,13 +15,13 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import timber.log.Timber
 import work.racka.reluct.android.compose.components.buttons.ReluctFloatingActionButton
 import work.racka.reluct.android.compose.components.cards.task_entry.EntryType
 import work.racka.reluct.android.compose.components.cards.task_entry.GroupedTaskEntries
@@ -47,9 +47,10 @@ internal fun CompletedTasksUI(
     val listState = rememberLazyListState()
     val scrollContext = rememberScrollContext(listState = listState)
 
-    if (scrollContext.isBottom && uiState.shouldUpdateData) {
+    if (scrollContext.isBottom && uiState.shouldUpdateData
+        && uiState !is CompletedTasksState.Loading
+    ) {
         fetchMoreData()
-        Timber.d("We are the bottom, state is $uiState")
     }
 
     val buttonExpanded = listState.firstVisibleItemIndex <= 0
@@ -148,14 +149,14 @@ internal fun CompletedTasksUI(
                     }
 
                     // Loading when fetching more data
-                    if (uiState is CompletedTasksState.Loading &&
-                        uiState.tasksData.isNotEmpty()
-                    ) {
-                        item {
+                    item {
+                        if (uiState is CompletedTasksState.Loading &&
+                            uiState.tasksData.isNotEmpty()
+                        ) {
                             Box(
                                 contentAlignment = Alignment.Center
                             ) {
-                                CircularProgressIndicator()
+                                LinearProgressIndicator()
                             }
                         }
                     }

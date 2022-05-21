@@ -6,9 +6,10 @@ import work.racka.reluct.common.model.domain.tasks.Task
 import work.racka.reluct.common.model.states.tasks.PendingTasksState
 import work.racka.reluct.common.model.states.tasks.TasksEvents
 
-internal interface PendingTasks {
+interface PendingTasks {
     val uiState: StateFlow<PendingTasksState>
     val events: Flow<TasksEvents>
+    fun fetchMoreData()
     fun toggleDone(task: Task, isDone: Boolean)
     fun navigateToTaskDetails(taskId: String)
 }

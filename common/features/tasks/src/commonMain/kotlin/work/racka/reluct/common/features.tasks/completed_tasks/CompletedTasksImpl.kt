@@ -32,12 +32,12 @@ internal class CompletedTasksImpl(
     private lateinit var completedTasksJob: Job
 
     init {
-        getCompletedTasks(factor = limitFactor)
+        getCompletedTasks(limitFactor = limitFactor)
     }
 
-    private fun getCompletedTasks(factor: Long = 1) {
+    private fun getCompletedTasks(limitFactor: Long) {
         completedTasksJob = scope.launch {
-            getTasksUseCase.getCompletedTasks(factor = factor).collectLatest { taskList ->
+            getTasksUseCase.getCompletedTasks(factor = limitFactor).collectLatest { taskList ->
                 val grouped = taskList.groupBy { it.dueDate }
                 _uiState.update {
                     newDataPresent = it.tasksData != grouped
