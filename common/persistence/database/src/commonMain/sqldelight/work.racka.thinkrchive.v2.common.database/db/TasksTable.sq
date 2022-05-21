@@ -33,12 +33,14 @@ WHERE id = :id;
 searchTasks:
 SELECT * FROM TasksTable
 WHERE title LIKE :query
-OR description LIKE :query;
+OR description LIKE :query
+LIMIT :factor * :limitBy;
 
 getPendingTasks:
 SELECT * FROM TasksTable
 WHERE done = 0
-ORDER BY dueDateLocalDateTime ASC;
+ORDER BY dueDateLocalDateTime ASC
+LIMIT :factor * :limitBy;
 
 getCompeletedTasks:
 SELECT * FROM TasksTable

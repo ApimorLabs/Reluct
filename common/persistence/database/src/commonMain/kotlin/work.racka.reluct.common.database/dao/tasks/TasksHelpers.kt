@@ -37,8 +37,10 @@ internal object TasksHelpers {
             }
         )
 
-    fun TasksTableQueries.getPendingTasksFromDb() =
+    fun TasksTableQueries.getPendingTasksFromDb(factor: Long, limitBy: Long) =
         this.getPendingTasks(
+            factor = factor,
+            limitBy = limitBy,
             mapper = {
                     id, title, description, done, overdue, dueDateLocalDateTime,
                     completedLocalDateTime, reminderLocalDateTime, timeZoneId,
@@ -96,9 +98,11 @@ internal object TasksHelpers {
             }
         )
 
-    fun TasksTableQueries.searchTasksFromDb(query: String) =
+    fun TasksTableQueries.searchTasksFromDb(query: String, factor: Long, limitBy: Long) =
         this.searchTasks(
             query = query,
+            factor = factor,
+            limitBy = limitBy,
             mapper = {
                     id, title, description, done, overdue, dueDateLocalDateTime,
                     completedLocalDateTime, reminderLocalDateTime, timeZoneId,

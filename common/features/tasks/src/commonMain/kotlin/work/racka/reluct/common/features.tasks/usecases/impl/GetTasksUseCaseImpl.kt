@@ -13,8 +13,8 @@ internal class GetTasksUseCaseImpl(
     private val dao: TasksDao,
     private val backgroundDispatcher: CoroutineDispatcher,
 ) : GetTasksUseCase {
-    override fun getPendingTasks(): Flow<List<Task>> =
-        dao.getPendingTasks()
+    override fun getPendingTasks(factor: Long, limitBy: Long): Flow<List<Task>> =
+        dao.getPendingTasks(factor, limitBy)
             .map { list -> list.map { it.asTask() } }
             .flowOn(backgroundDispatcher)
 
@@ -23,8 +23,8 @@ internal class GetTasksUseCaseImpl(
             .map { list -> list.map { it.asTask() } }
             .flowOn(backgroundDispatcher)
 
-    override fun getSearchedTasks(query: String): Flow<List<Task>> =
-        dao.searchTasks(query)
+    override fun getSearchedTasks(query: String, factor: Long, limitBy: Long): Flow<List<Task>> =
+        dao.searchTasks(query, factor, limitBy)
             .map { list -> list.map { it.asTask() } }
             .flowOn(backgroundDispatcher)
 

@@ -40,14 +40,14 @@ internal class TasksDaoImpl(
             ?.mapToOneOrNull(coroutineScope.coroutineContext)
             ?: flowOf(null)
 
-    override fun searchTasks(query: String): Flow<List<TaskDbObject>> =
-        tasksQueries?.searchTasksFromDb("%$query%")
+    override fun searchTasks(query: String, factor: Long, limitBy: Long): Flow<List<TaskDbObject>> =
+        tasksQueries?.searchTasksFromDb("%$query%", factor, limitBy)
             ?.asFlow()
             ?.mapToList(coroutineScope.coroutineContext)
             ?: flowOf(emptyList())
 
-    override fun getPendingTasks(): Flow<List<TaskDbObject>> =
-        tasksQueries?.getPendingTasksFromDb()
+    override fun getPendingTasks(factor: Long, limitBy: Long): Flow<List<TaskDbObject>> =
+        tasksQueries?.getPendingTasksFromDb(factor, limitBy)
             ?.asFlow()
             ?.mapToList(coroutineScope.coroutineContext)
             ?: flowOf(emptyList())

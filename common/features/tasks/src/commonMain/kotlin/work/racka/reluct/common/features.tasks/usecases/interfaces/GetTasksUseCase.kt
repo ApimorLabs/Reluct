@@ -9,13 +9,23 @@ import work.racka.reluct.common.model.domain.tasks.Task
  * Implementations found in the impl folder
  */
 internal interface GetTasksUseCase {
-    fun getPendingTasks(): Flow<List<Task>>
+    /**
+     * [factor] is for how much limit is applied in query. Default is 10
+     * [limitBy] * [factor] produces required limit applied in query
+     **/
+    fun getPendingTasks(factor: Long, limitBy: Long = 10): Flow<List<Task>>
 
     /**
      * [factor] is for how much limit is applied in query. Default is 10
      * [limitBy] * [factor] produces required limit applied in query
      * **/
     fun getCompletedTasks(factor: Long, limitBy: Long = 10): Flow<List<Task>>
-    fun getSearchedTasks(query: String): Flow<List<Task>>
+
+    /**
+     * [factor] is for how much limit is applied in query. Default is 10
+     * [limitBy] * [factor] produces required limit applied in query
+     * **/
+    fun getSearchedTasks(query: String, factor: Long, limitBy: Long = 10): Flow<List<Task>>
+
     fun getTask(taskId: String): Flow<Task?>
 }
