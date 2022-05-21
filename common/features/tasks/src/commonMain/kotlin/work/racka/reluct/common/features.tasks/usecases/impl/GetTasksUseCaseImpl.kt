@@ -18,8 +18,8 @@ internal class GetTasksUseCaseImpl(
             .map { list -> list.map { it.asTask() } }
             .flowOn(backgroundDispatcher)
 
-    override fun getCompletedTasks(): Flow<List<Task>> =
-        dao.getCompletedTasks()
+    override fun getCompletedTasks(factor: Long, limitBy: Long): Flow<List<Task>> =
+        dao.getCompletedTasks(factor, limitBy)
             .map { list -> list.map { it.asTask() } }
             .flowOn(backgroundDispatcher)
 

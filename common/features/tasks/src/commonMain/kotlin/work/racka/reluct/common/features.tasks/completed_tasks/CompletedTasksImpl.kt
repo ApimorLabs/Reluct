@@ -1,6 +1,7 @@
 package work.racka.reluct.common.features.tasks.completed_tasks
 
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -17,7 +18,7 @@ internal class CompletedTasksImpl(
 ) : CompletedTasks {
 
     private val _uiState: MutableStateFlow<CompletedTasksState> =
-        MutableStateFlow(CompletedTasksState.Loading)
+        MutableStateFlow(CompletedTasksState.Loading())
     private val _events: Channel<TasksEvents> = Channel()
 
     override val uiState: StateFlow<CompletedTasksState>
@@ -25,20 +26,41 @@ internal class CompletedTasksImpl(
     override val events: Flow<TasksEvents>
         get() = _events.receiveAsFlow()
 
+    private var limitFactor = 1L
+    private var newDataPresent = true
+
+    private lateinit var completedTasksJob: Job
+
     init {
-        getCompletedTasks()
+        getCompletedTasks(factor = limitFactor)
     }
 
-    private fun getCompletedTasks() {
-        scope.launch {
-            getTasksUseCase.getCompletedTasks().collectLatest { taskList ->
+    private fun getCompletedTasks(factor: Long = 1) {
+        completedTasksJob = scope.launch {
+            getTasksUseCase.getCompletedTasks(factor = factor).collectLatest { taskList ->
                 val grouped = taskList.groupBy { it.dueDate }
                 _uiState.update {
+                    newDataPresent = it.tasksData != grouped
                     CompletedTasksState.Data(
-                        tasks = grouped
+                        tasks = grouped,
+                        newDataPresent = newDataPresent
                     )
                 }
             }
+        }
+    }
+
+    override fun fetchMoreData() {
+        if (newDataPresent) {
+            limitFactor++
+            completedTasksJob.cancel()
+            _uiState.update {
+                CompletedTasksState.Loading(
+                    tasks = it.tasksData,
+                    newDataPresent = newDataPresent
+                )
+            }
+            getCompletedTasks(limitFactor)
         }
     }
 

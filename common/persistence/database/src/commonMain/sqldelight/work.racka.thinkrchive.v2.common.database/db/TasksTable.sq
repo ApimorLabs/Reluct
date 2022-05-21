@@ -43,7 +43,8 @@ ORDER BY dueDateLocalDateTime ASC;
 getCompeletedTasks:
 SELECT * FROM TasksTable
 WHERE done = 1
-ORDER BY dueDateLocalDateTime DESC;
+ORDER BY dueDateLocalDateTime DESC
+LIMIT :factor * :limitBy;
 
 getTasksBetweenDateTimeStrings:
 SELECT * FROM TasksTable

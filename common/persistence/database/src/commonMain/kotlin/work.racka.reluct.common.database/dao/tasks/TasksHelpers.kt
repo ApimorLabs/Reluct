@@ -50,8 +50,10 @@ internal object TasksHelpers {
             }
         )
 
-    fun TasksTableQueries.getCompletedTasksFromDb() =
+    fun TasksTableQueries.getCompletedTasksFromDb(factor: Long, limitBy: Long) =
         this.getCompeletedTasks(
+            factor = factor,
+            limitBy = limitBy,
             mapper = {
                     id, title, description, done, overdue, dueDateLocalDateTime,
                     completedLocalDateTime, reminderLocalDateTime, timeZoneId,

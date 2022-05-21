@@ -21,10 +21,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import timber.log.Timber
 import work.racka.reluct.android.compose.components.buttons.ReluctFloatingActionButton
 import work.racka.reluct.android.compose.components.cards.task_entry.EntryType
 import work.racka.reluct.android.compose.components.cards.task_entry.GroupedTaskEntries
 import work.racka.reluct.android.compose.components.images.LottieAnimationWithDescription
+import work.racka.reluct.android.compose.components.util.rememberScrollContext
 import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.android.screens.R
 import work.racka.reluct.common.model.domain.tasks.Task
@@ -40,8 +42,15 @@ internal fun CompletedTasksUI(
     onTaskClicked: (task: Task) -> Unit,
     onAddTaskClicked: (task: Task?) -> Unit,
     onToggleTaskDone: (isDone: Boolean, task: Task) -> Unit,
+    fetchMoreData: () -> Unit,
 ) {
     val listState = rememberLazyListState()
+    val scrollContext = rememberScrollContext(listState = listState)
+
+    if (scrollContext.isBottom && uiState.shouldUpdateData) {
+        fetchMoreData()
+        Timber.d("We are the bottom, state is $uiState")
+    }
 
     val buttonExpanded = listState.firstVisibleItemIndex <= 0
 
@@ -84,7 +93,8 @@ internal fun CompletedTasksUI(
             AnimatedVisibility(
                 modifier = Modifier
                     .fillMaxSize(),
-                visible = uiState is CompletedTasksState.Loading,
+                visible = uiState is CompletedTasksState.Loading &&
+                        uiState.tasksData.isEmpty(),
                 enter = fadeIn(),
                 exit = fadeOut()
             ) {
@@ -95,53 +105,64 @@ internal fun CompletedTasksUI(
                     CircularProgressIndicator()
                 }
             }
-
-            if (uiState is CompletedTasksState.Data) {
-                // Show Empty Graphic
-                if (uiState.tasks.isEmpty()) {
-                    Box(
-                        modifier = Modifier.fillMaxSize(),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        LottieAnimationWithDescription(
-                            lottieResId = R.raw.no_task_animation,
-                            imageSize = 200.dp,
-                            description = stringResource(R.string.no_tasks_text)
-                        )
+            // Show Empty Graphic
+            if (uiState.tasksData.isEmpty()) {
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    LottieAnimationWithDescription(
+                        lottieResId = R.raw.no_task_animation,
+                        imageSize = 200.dp,
+                        description = stringResource(R.string.no_tasks_text)
+                    )
+                }
+            } else { // Show Pending Tasks
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxSize(),
+                    state = listState,
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement
+                        .spacedBy(Dimens.MediumPadding.size)
+                ) {
+                    // Top Space
+                    item {
+                        Spacer(modifier = Modifier)
                     }
-                } else { // Show Pending Tasks
-                    LazyColumn(
-                        modifier = Modifier
-                            .fillMaxSize(),
-                        state = listState,
-                        verticalArrangement = Arrangement
-                            .spacedBy(Dimens.MediumPadding.size)
-                    ) {
-                        // Top Space
-                        item {
-                            Spacer(modifier = Modifier)
-                        }
 
-                        uiState.tasks.forEach { taskGroup ->
-                            item {
-                                GroupedTaskEntries(
-                                    entryType = EntryType.CompletedTask,
-                                    groupTitle = taskGroup.key,
-                                    taskList = taskGroup.value,
-                                    onEntryClicked = { task ->
-                                        onTaskClicked(task)
-                                    },
-                                    onCheckedChange = { isDone, task ->
-                                        onToggleTaskDone(isDone, task)
-                                    }
-                                )
+                    uiState.tasksData.forEach { taskGroup ->
+                        item {
+                            GroupedTaskEntries(
+                                entryType = EntryType.CompletedTask,
+                                groupTitle = taskGroup.key,
+                                taskList = taskGroup.value,
+                                onEntryClicked = { task ->
+                                    onTaskClicked(task)
+                                },
+                                onCheckedChange = { isDone, task ->
+                                    onToggleTaskDone(isDone, task)
+                                }
+                            )
+                        }
+                    }
+
+                    // Loading when fetching more data
+                    if (uiState is CompletedTasksState.Loading &&
+                        uiState.tasksData.isNotEmpty()
+                    ) {
+                        item {
+                            Box(
+                                contentAlignment = Alignment.Center
+                            ) {
+                                CircularProgressIndicator()
                             }
                         }
+                    }
 
-                        // Bottom Space
-                        item {
-                            Spacer(modifier = Modifier)
-                        }
+                    // Bottom Space
+                    item {
+                        Spacer(modifier = Modifier)
                     }
                 }
             }

@@ -6,9 +6,10 @@ import work.racka.reluct.common.model.domain.tasks.Task
 import work.racka.reluct.common.model.states.tasks.CompletedTasksState
 import work.racka.reluct.common.model.states.tasks.TasksEvents
 
-internal interface CompletedTasks {
-    val uiState: StateFlow<CompletedTasksState>
-    val events: Flow<TasksEvents>
-    fun toggleDone(task: Task, isDone: Boolean)
-    fun navigateToTaskDetails(taskId: String)
-}
+ interface CompletedTasks {
+     val uiState: StateFlow<CompletedTasksState>
+     val events: Flow<TasksEvents>
+     fun fetchMoreData()
+     fun toggleDone(task: Task, isDone: Boolean)
+     fun navigateToTaskDetails(taskId: String)
+ }

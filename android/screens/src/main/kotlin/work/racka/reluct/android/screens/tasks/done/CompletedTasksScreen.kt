@@ -26,8 +26,8 @@ fun CompletedTasksScreen(
     val scaffoldState = rememberScaffoldState()
 
     val viewModel: CompletedTasksViewModel by viewModel()
-    val uiState by viewModel.uiState.collectAsState()
-    val events by viewModel.events.collectAsState(initial = TasksEvents.Nothing)
+    val uiState by viewModel.host.uiState.collectAsState()
+    val events by viewModel.host.events.collectAsState(initial = TasksEvents.Nothing)
 
     val taskDone = stringResource(R.string.task_marked_as_not_done)
 
@@ -48,14 +48,15 @@ fun CompletedTasksScreen(
         uiState = uiState,
         scaffoldState = scaffoldState,
         onTaskClicked = {
-            viewModel.navigateToTaskDetails(it.id)
+            viewModel.host.navigateToTaskDetails(it.id)
         },
         onAddTaskClicked = {
             onNavigateToAddTask(it?.id)
         },
         onToggleTaskDone = { isDone, task ->
-            viewModel.toggleDone(task, isDone)
-        }
+            viewModel.host.toggleDone(task, isDone)
+        },
+        fetchMoreData = { viewModel.host.fetchMoreData() }
     )
 }
 

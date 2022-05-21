@@ -52,8 +52,8 @@ internal class TasksDaoImpl(
             ?.mapToList(coroutineScope.coroutineContext)
             ?: flowOf(emptyList())
 
-    override fun getCompletedTasks(): Flow<List<TaskDbObject>> =
-        tasksQueries?.getCompletedTasksFromDb()
+    override fun getCompletedTasks(factor: Long, limitBy: Long): Flow<List<TaskDbObject>> =
+        tasksQueries?.getCompletedTasksFromDb(factor, limitBy)
             ?.asFlow()
             ?.mapToList(coroutineScope.coroutineContext)
             ?: flowOf(emptyList())
