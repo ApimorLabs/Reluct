@@ -86,8 +86,6 @@ internal class TasksStatisticsImpl(
         }
     }
 
-    val che = Channel<Int>()
-
     private fun getWeeklyData() {
         collectWeeklyTasksJob = scope.launch {
             selectedWeekText.update { getWeekRangeFromOffset(weekOffset.value) }
@@ -100,7 +98,7 @@ internal class TasksStatisticsImpl(
                     weeklyTasksState.update {
                         WeeklyTasksState.Data(tasks = weeklyTasks, totalTaskCount = totalTasksCount)
                     }
-                } else weeklyTasksState.update { WeeklyTasksState.Empty(tasks = weeklyTasks) }
+                } else weeklyTasksState.update { WeeklyTasksState.Empty }
             }
         }
     }

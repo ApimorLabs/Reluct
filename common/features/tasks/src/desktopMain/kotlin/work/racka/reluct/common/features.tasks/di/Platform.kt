@@ -54,5 +54,14 @@ internal actual object Platform {
                 scope = viewModelScope
             )
         }
+
+        factory {
+            val viewModelScope = CoroutineScope(Dispatchers.Main.immediate)
+            SearchTasksViewModel(
+                getTasksUseCase = get(),
+                modifyTasksUsesCase = get(),
+                scope = viewModelScope
+            )
+        }
     }
 }

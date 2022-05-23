@@ -25,10 +25,7 @@ sealed class WeeklyTasksState(
         totalTaskCount: Int = 0,
     ) : WeeklyTasksState(tasks, totalTaskCount)
 
-    class Empty(
-        tasks: Map<Week, DailyTasksStats>,
-        totalTaskCount: Int = 0,
-    ) : WeeklyTasksState(tasks, totalTaskCount)
+    object Empty : WeeklyTasksState(mapOf(), 0)
 }
 
 sealed class DailyTasksState(

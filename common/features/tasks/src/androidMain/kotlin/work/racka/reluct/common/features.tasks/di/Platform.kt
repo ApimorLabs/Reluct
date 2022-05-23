@@ -43,5 +43,12 @@ internal actual object Platform {
                 getWeekRangeFromOffset = get()
             )
         }
+
+        viewModel {
+            SearchTasksViewModel(
+                getTasksUseCase = get(),
+                modifyTasksUsesCase = get()
+            )
+        }
     }
 }
