@@ -56,6 +56,7 @@ internal fun TasksNavHost(
             TasksScreenTopBar(
                 tabPage = tabPage,
                 profilePicUrl = "https://pbs.twimg.com/profile_images/1451052243067805698/LIEt076e_400x400.jpg",
+                navigateToSearch = { mainNavController.navigate(OtherDestinations.SearchTasks.route) },
                 updateTabPage = {
                     navController.navigate(it.route) {
                         popUpTo(navController.graph.findStartDestination().id) {
@@ -171,6 +172,7 @@ internal fun TasksNavHost(
 private fun TasksScreenTopBar(
     tabPage: TasksDestinations,
     profilePicUrl: String?,
+    navigateToSearch: () -> Unit,
     updateTabPage: (TasksDestinations) -> Unit,
 ) {
     ReluctTopBarBase(
@@ -189,7 +191,7 @@ private fun TasksScreenTopBar(
         ) {
             PlaceholderMaterialSearchBar(
                 modifier = Modifier.padding(horizontal = 16.dp),
-                onClick = {},
+                onClick = navigateToSearch,
                 extraButton = {
                     ProfilePicture(
                         modifier = Modifier,//.padding(4.dp),

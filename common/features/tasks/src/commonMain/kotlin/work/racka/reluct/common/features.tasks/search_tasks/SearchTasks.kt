@@ -13,4 +13,5 @@ interface SearchTasks {
     fun fetchMoreData()
     fun toggleDone(task: Task, isDone: Boolean)
     fun navigateToTaskDetails(taskId: String)
+    fun goBack()
 }

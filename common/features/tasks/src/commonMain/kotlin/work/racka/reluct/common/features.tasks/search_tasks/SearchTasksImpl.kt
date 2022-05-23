@@ -88,4 +88,8 @@ internal class SearchTasksImpl(
     override fun navigateToTaskDetails(taskId: String) {
         _events.trySend(TasksEvents.Navigation.NavigateToTaskDetails(taskId))
     }
+
+    override fun goBack() {
+        _events.trySend(TasksEvents.Navigation.GoBack)
+    }
 }

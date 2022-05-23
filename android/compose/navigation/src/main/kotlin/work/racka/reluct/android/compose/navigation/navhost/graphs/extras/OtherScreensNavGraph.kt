@@ -13,6 +13,7 @@ import work.racka.reluct.android.compose.navigation.util.NavArgKeys
 import work.racka.reluct.android.compose.navigation.util.NavHelpers
 import work.racka.reluct.android.screens.tasks.add_edit.AddEditTaskScreen
 import work.racka.reluct.android.screens.tasks.details.TaskDetailsScreen
+import work.racka.reluct.android.screens.tasks.search.TasksSearchScreen
 
 @ExperimentalAnimationApi
 fun NavGraphBuilder.otherScreenNavGraph(
@@ -98,6 +99,14 @@ fun NavGraphBuilder.otherScreenNavGraph(
             }
         ) {
             updateNavBar(true)
+            TasksSearchScreen(
+                onNavigateToTaskDetails = {
+                    navController.navigate(
+                        "${OtherDestinations.TaskDetails.route}/$it"
+                    )
+                },
+                onBackClicked = { navController.popBackStack() }
+            )
         }
     }
 }

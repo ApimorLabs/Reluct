@@ -24,7 +24,7 @@ import work.racka.reluct.common.model.domain.tasks.Task
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun TaskEntry(
+fun TaskEntry(
     modifier: Modifier = Modifier,
     playScaleAnimation: Boolean = false,
     task: Task,
