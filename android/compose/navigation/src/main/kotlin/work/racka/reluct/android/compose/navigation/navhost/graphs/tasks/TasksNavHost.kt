@@ -22,7 +22,7 @@ import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import work.racka.reluct.android.compose.components.tab.tasks.TasksTabBar
-import work.racka.reluct.android.compose.components.textfields.search.ReluctSearchBar
+import work.racka.reluct.android.compose.components.textfields.search.PlaceholderMaterialSearchBar
 import work.racka.reluct.android.compose.components.topBar.ProfilePicture
 import work.racka.reluct.android.compose.components.topBar.ReluctTopBarBase
 import work.racka.reluct.android.compose.navigation.transitions.scaleInEnterTransition
@@ -189,7 +189,9 @@ private fun TasksScreenTopBar(
             verticalArrangement = Arrangement
                 .spacedBy(16.dp)
         ) {
-            ReluctSearchBar(
+            PlaceholderMaterialSearchBar(
+                modifier = Modifier.padding(horizontal = 16.dp),
+                onClick = {},
                 extraButton = {
                     ProfilePicture(
                         modifier = Modifier,//.padding(4.dp),
