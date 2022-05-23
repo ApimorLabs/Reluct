@@ -1,4 +1,4 @@
-package work.racka.reluct.common.compose.destinations
+package work.racka.reluct.android.compose.destinations
 
 enum class TasksDestinations(
     val route: String,

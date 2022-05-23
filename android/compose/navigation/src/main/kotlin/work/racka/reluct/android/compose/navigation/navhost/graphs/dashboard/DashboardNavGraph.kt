@@ -30,10 +30,10 @@ import work.racka.reluct.android.compose.components.tab.dashboard.DashboardTabBa
 import work.racka.reluct.android.compose.components.textfields.search.ReluctSearchBar
 import work.racka.reluct.android.compose.components.topBar.CollapsingToolbarBase
 import work.racka.reluct.android.compose.components.topBar.ProfilePicture
-import work.racka.reluct.common.compose.destinations.DashboardDestinations
-import work.racka.reluct.common.compose.destinations.navbar.Graphs
+import work.racka.reluct.android.compose.destinations.DashboardDestinations
+import work.racka.reluct.android.compose.destinations.navbar.Graphs
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @ExperimentalAnimationApi
 internal fun NavGraphBuilder.dashboardNavGraph(
     navController: NavHostController,
@@ -93,9 +93,11 @@ internal fun NavGraphBuilder.dashboardNavGraph(
                         },
                     )
                 }
-            ) {
+            ) { innerPadding ->
                 Box(
-                    modifier = Modifier.fillMaxSize(),
+                    modifier = Modifier
+                        .padding(innerPadding)
+                        .fillMaxSize(),
                     contentAlignment = Alignment.Center
                 ) {
                     /*LazyColumn(

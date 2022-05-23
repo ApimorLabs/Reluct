@@ -84,9 +84,10 @@ internal fun PendingTasksUI(
                 expanded = buttonExpanded
             )
         }
-    ) {
+    ) { innerPadding ->
         Box(
             modifier = Modifier
+                .padding(innerPadding)
                 .padding(bottom = mainScaffoldPadding.calculateBottomPadding())
                 .padding(horizontal = Dimens.MediumPadding.size)
                 .fillMaxSize(),
@@ -137,7 +138,7 @@ internal fun PendingTasksUI(
                     if (uiState.overdueTasksData.isNotEmpty()) {
                         item {
                             GroupedTaskEntries(
-                                entryType = EntryType.PendingTaskOverdue,
+                                entryType = EntryType.TasksWithOverdue,
                                 groupTitle = stringResource(R.string.overdue_tasks_header),
                                 taskList = uiState.overdueTasksData,
                                 onEntryClicked = { task ->

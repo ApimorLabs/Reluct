@@ -80,9 +80,10 @@ internal fun CompletedTasksUI(
                 expanded = buttonExpanded
             )
         }
-    ) {
+    ) { innerPadding ->
         Box(
             modifier = Modifier
+                .padding(innerPadding)
                 .padding(bottom = mainScaffoldPadding.calculateBottomPadding())
                 .padding(horizontal = Dimens.MediumPadding.size)
                 .fillMaxSize(),

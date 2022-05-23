@@ -14,13 +14,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.zIndex
-import work.racka.reluct.common.compose.destinations.TasksDestinations
+import work.racka.reluct.android.compose.destinations.TasksDestinations
 
 @Composable
 internal fun TasksTabIndicator(
     modifier: Modifier = Modifier,
     tabPositions: List<TabPosition>,
-    tabPage: TasksDestinations
+    tabPage: TasksDestinations,
 ) {
     val transition = updateTransition(
         targetState = tabPage,

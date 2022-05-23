@@ -8,13 +8,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import work.racka.reluct.android.compose.components.tab.TabEntry
-import work.racka.reluct.common.compose.destinations.ScreenTimeDestinations
+import work.racka.reluct.android.compose.destinations.ScreenTimeDestinations
 
 @Composable
 fun ScreenTimeTabBar(
     modifier: Modifier = Modifier,
     tabPage: ScreenTimeDestinations,
-    onTabSelected: (tabPage: ScreenTimeDestinations) -> Unit
+    onTabSelected: (tabPage: ScreenTimeDestinations) -> Unit,
 ) {
     TabRow(
         modifier = modifier.width(250.dp),
@@ -54,7 +54,7 @@ fun ScreenTimeTabBar(
 @Composable
 private fun getScreenTimeTabTextColor(
     tabPage: ScreenTimeDestinations,
-    selectedTabPage: ScreenTimeDestinations
+    selectedTabPage: ScreenTimeDestinations,
 ): Color =
     if (tabPage == selectedTabPage) MaterialTheme.colorScheme.onPrimary
     else MaterialTheme.colorScheme.onBackground

@@ -13,13 +13,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
-import work.racka.reluct.common.compose.destinations.DashboardDestinations
+import work.racka.reluct.android.compose.destinations.DashboardDestinations
 
 @Composable
 internal fun DashboardTabIndicator(
     modifier: Modifier = Modifier,
     tabPositions: List<TabPosition>,
-    tabPage: DashboardDestinations
+    tabPage: DashboardDestinations,
 ) {
     val transition = updateTransition(
         targetState = tabPage,

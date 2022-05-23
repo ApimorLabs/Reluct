@@ -9,14 +9,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import work.racka.reluct.android.compose.components.tab.TabEntry
+import work.racka.reluct.android.compose.destinations.DashboardDestinations
 import work.racka.reluct.android.compose.theme.ReluctAppTheme
-import work.racka.reluct.common.compose.destinations.DashboardDestinations
 
 @Composable
 fun DashboardTabBar(
     modifier: Modifier = Modifier,
     tabPage: DashboardDestinations,
-    onTabSelected: (tabPage: DashboardDestinations) -> Unit
+    onTabSelected: (tabPage: DashboardDestinations) -> Unit,
 ) {
     TabRow(
         modifier = modifier.width(250.dp),
@@ -67,7 +67,7 @@ private fun DashTabPrev() {
 @Composable
 private fun getDashboardTabTextColor(
     tabPage: DashboardDestinations,
-    selectedTabPage: DashboardDestinations
+    selectedTabPage: DashboardDestinations,
 ): Color =
     if (tabPage == selectedTabPage) MaterialTheme.colorScheme.onPrimary
     else MaterialTheme.colorScheme.onBackground

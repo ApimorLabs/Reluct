@@ -8,13 +8,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import work.racka.reluct.android.compose.components.tab.TabEntry
-import work.racka.reluct.common.compose.destinations.TasksDestinations
+import work.racka.reluct.android.compose.destinations.TasksDestinations
 
 @Composable
 fun TasksTabBar(
     modifier: Modifier = Modifier,
     tabPage: TasksDestinations,
-    onTabSelected: (tabPage: TasksDestinations) -> Unit
+    onTabSelected: (tabPage: TasksDestinations) -> Unit,
 ) {
     TabRow(
         modifier = modifier.width(300.dp),
@@ -64,7 +64,7 @@ fun TasksTabBar(
 @Composable
 private fun getTasksTabTextColor(
     tabPage: TasksDestinations,
-    selectedTabPage: TasksDestinations
+    selectedTabPage: TasksDestinations,
 ): Color =
     if (tabPage == selectedTabPage) MaterialTheme.colorScheme.onPrimary
     else MaterialTheme.colorScheme.onBackground

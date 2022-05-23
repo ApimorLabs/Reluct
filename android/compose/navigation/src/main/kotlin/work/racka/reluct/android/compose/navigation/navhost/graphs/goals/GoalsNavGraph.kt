@@ -19,8 +19,8 @@ import androidx.navigation.navigation
 import com.google.accompanist.navigation.animation.composable
 import timber.log.Timber
 import work.racka.reluct.android.compose.components.tab.goals.GoalsTabBar
-import work.racka.reluct.common.compose.destinations.GoalsDestinations
-import work.racka.reluct.common.compose.destinations.navbar.Graphs
+import work.racka.reluct.android.compose.destinations.GoalsDestinations
+import work.racka.reluct.android.compose.destinations.navbar.Graphs
 
 @OptIn(ExperimentalMaterial3Api::class)
 @ExperimentalAnimationApi

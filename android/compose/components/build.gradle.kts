@@ -43,10 +43,10 @@ android {
 
 dependencies {
     // Dependency Modules
-    implementation(project(":common:model"))
-    implementation(project(":android:compose:theme"))
     implementation(project(":android:compose:charts"))
-    implementation(project(":common:compose:destinations"))
+    implementation(project(":android:compose:destinations"))
+    implementation(project(":android:compose:theme"))
+    implementation(project(":common:model"))
 
     // Core Functionality
     /*

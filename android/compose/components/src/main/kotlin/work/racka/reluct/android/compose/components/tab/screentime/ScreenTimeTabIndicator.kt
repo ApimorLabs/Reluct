@@ -14,13 +14,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.zIndex
-import work.racka.reluct.common.compose.destinations.ScreenTimeDestinations
+import work.racka.reluct.android.compose.destinations.ScreenTimeDestinations
 
 @Composable
 internal fun ScreenTimeTabIndicator(
     modifier: Modifier = Modifier,
     tabPositions: List<TabPosition>,
-    tabPage: ScreenTimeDestinations
+    tabPage: ScreenTimeDestinations,
 ) {
     val transition = updateTransition(
         targetState = tabPage,

@@ -18,12 +18,12 @@ import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import work.racka.reluct.android.compose.components.navbar.ReluctBottomNavBar
+import work.racka.reluct.android.compose.destinations.navbar.Graphs
 import work.racka.reluct.android.compose.navigation.navhost.graphs.dashboard.dashboardNavGraph
 import work.racka.reluct.android.compose.navigation.navhost.graphs.extras.otherScreenNavGraph
 import work.racka.reluct.android.compose.navigation.navhost.graphs.goals.goalsNavGraph
 import work.racka.reluct.android.compose.navigation.navhost.graphs.screentime.screenTimeNavGraph
 import work.racka.reluct.android.compose.navigation.navhost.graphs.tasks.TasksNavHost
-import work.racka.reluct.common.compose.destinations.navbar.Graphs
 
 @OptIn(ExperimentalAnimationApi::class, ExperimentalMaterial3Api::class)
 @Composable

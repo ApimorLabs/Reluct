@@ -1,4 +1,4 @@
-package work.racka.reluct.common.compose.destinations.navbar
+package work.racka.reluct.android.compose.destinations.navbar
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Aod

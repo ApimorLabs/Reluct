@@ -82,10 +82,11 @@ internal fun TasksStatisticsUI(
             }
         },
         backgroundColor = MaterialTheme.colorScheme.background,
-    ) {
+    ) { padding ->
         Box(
             modifier = Modifier
                 .animateContentSize()
+                .padding(padding)
                 .padding(bottom = mainScaffoldPadding.calculateBottomPadding())
                 .padding(horizontal = Dimens.MediumPadding.size)
                 .fillMaxSize(),
@@ -152,7 +153,7 @@ internal fun TasksStatisticsUI(
                     item {
                         GroupedTaskEntries(
                             playScaleAnimation = true,
-                            entryType = EntryType.PendingTaskOverdue,
+                            entryType = EntryType.TasksWithOverdue,
                             groupTitle = stringResource(R.string.not_done_tasks_header),
                             taskList = uiState.dailyTasksState.dailyTasks.pendingTasks,
                             onEntryClicked = { onTaskClicked(it) },
@@ -167,7 +168,7 @@ internal fun TasksStatisticsUI(
                     item {
                         GroupedTaskEntries(
                             playScaleAnimation = true,
-                            entryType = EntryType.CompletedTask,
+                            entryType = EntryType.PendingTask,
                             groupTitle = stringResource(R.string.done_tasks_header),
                             taskList = uiState.dailyTasksState.dailyTasks.completedTasks,
                             onEntryClicked = { onTaskClicked(it) },

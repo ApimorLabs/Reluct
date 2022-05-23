@@ -12,8 +12,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import timber.log.Timber
+import work.racka.reluct.android.compose.destinations.navbar.NavbarDestinations
 import work.racka.reluct.android.compose.theme.Typography
-import work.racka.reluct.common.compose.destinations.navbar.NavbarDestinations
 
 @Composable
 fun ReluctBottomNavBar(

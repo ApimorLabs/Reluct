@@ -44,7 +44,7 @@ android {
 dependencies {
     // Dependency Modules
     implementation(project(":common:model"))
-    implementation(project(":common:compose:destinations"))
+    implementation(project(":android:compose:destinations"))
     implementation(project(":android:compose:components"))
     implementation(project(":android:screens"))
 

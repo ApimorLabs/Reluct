@@ -31,8 +31,10 @@ fun TaskInfoCard(
 ) {
 
     Card(
-        containerColor = containerColor,
-        contentColor = contentColor,
+        colors = CardDefaults.cardColors(
+            containerColor = containerColor,
+            contentColor = contentColor
+        ),
         modifier = modifier
             .animateContentSize()
             .fillMaxWidth()

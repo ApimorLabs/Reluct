@@ -3,6 +3,7 @@ package work.racka.reluct.android.compose.navigation.navhost.graphs.screentime
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -20,8 +21,8 @@ import androidx.navigation.navigation
 import com.google.accompanist.navigation.animation.composable
 import timber.log.Timber
 import work.racka.reluct.android.compose.components.tab.screentime.ScreenTimeTabBar
-import work.racka.reluct.common.compose.destinations.ScreenTimeDestinations
-import work.racka.reluct.common.compose.destinations.navbar.Graphs
+import work.racka.reluct.android.compose.destinations.ScreenTimeDestinations
+import work.racka.reluct.android.compose.destinations.navbar.Graphs
 
 @OptIn(ExperimentalMaterial3Api::class)
 @ExperimentalAnimationApi
@@ -53,10 +54,12 @@ internal fun NavGraphBuilder.screenTimeNavGraph(
                         }
                     }
                 }
-            ) {
+            ) { innerPadding ->
                 val listState = rememberLazyListState()
                 Box(
-                    modifier = Modifier.fillMaxSize(),
+                    modifier = Modifier
+                        .padding(innerPadding)
+                        .fillMaxSize(),
                     contentAlignment = Alignment.Center
                 ) {
                     Text(

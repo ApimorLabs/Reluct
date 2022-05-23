@@ -1,9 +1,10 @@
 package work.racka.reluct.android.compose.navigation.navhost.graphs.extras
 
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.navigation.*
 import com.google.accompanist.navigation.animation.composable
+import work.racka.reluct.android.compose.destinations.OtherDestinations
+import work.racka.reluct.android.compose.destinations.navbar.Graphs
 import work.racka.reluct.android.compose.navigation.transitions.scaleInEnterTransition
 import work.racka.reluct.android.compose.navigation.transitions.scaleInPopEnterTransition
 import work.racka.reluct.android.compose.navigation.transitions.scaleOutExitTransition
@@ -12,10 +13,7 @@ import work.racka.reluct.android.compose.navigation.util.NavArgKeys
 import work.racka.reluct.android.compose.navigation.util.NavHelpers
 import work.racka.reluct.android.screens.tasks.add_edit.AddEditTaskScreen
 import work.racka.reluct.android.screens.tasks.details.TaskDetailsScreen
-import work.racka.reluct.common.compose.destinations.OtherDestinations
-import work.racka.reluct.common.compose.destinations.navbar.Graphs
 
-@OptIn(ExperimentalMaterial3Api::class)
 @ExperimentalAnimationApi
 fun NavGraphBuilder.otherScreenNavGraph(
     navController: NavHostController,
@@ -81,6 +79,25 @@ fun NavGraphBuilder.otherScreenNavGraph(
                 },
                 onBackClicked = { navController.popBackStack() }
             )
+        }
+
+        // Task Search
+        composable(
+            route = OtherDestinations.SearchTasks.route,
+            enterTransition = {
+                scaleInEnterTransition()
+            },
+            exitTransition = {
+                scaleOutExitTransition()
+            },
+            popEnterTransition = {
+                scaleInPopEnterTransition()
+            },
+            popExitTransition = {
+                scaleOutPopExitTransition()
+            }
+        ) {
+            updateNavBar(true)
         }
     }
 }

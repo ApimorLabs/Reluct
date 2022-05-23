@@ -8,13 +8,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import work.racka.reluct.android.compose.components.tab.TabEntry
-import work.racka.reluct.common.compose.destinations.GoalsDestinations
+import work.racka.reluct.android.compose.destinations.GoalsDestinations
 
 @Composable
 fun GoalsTabBar(
     modifier: Modifier = Modifier,
     tabPage: GoalsDestinations,
-    onTabSelected: (tabPage: GoalsDestinations) -> Unit
+    onTabSelected: (tabPage: GoalsDestinations) -> Unit,
 ) {
     TabRow(
         modifier = modifier.width(250.dp),
@@ -54,7 +54,7 @@ fun GoalsTabBar(
 @Composable
 private fun getGoalsTabTextColor(
     tabPage: GoalsDestinations,
-    selectedTabPage: GoalsDestinations
+    selectedTabPage: GoalsDestinations,
 ): Color =
     if (tabPage == selectedTabPage) MaterialTheme.colorScheme.onPrimary
     else MaterialTheme.colorScheme.onBackground

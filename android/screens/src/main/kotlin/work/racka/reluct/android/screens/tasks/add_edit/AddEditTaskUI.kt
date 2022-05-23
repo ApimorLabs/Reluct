@@ -31,7 +31,7 @@ import work.racka.reluct.android.screens.util.BackPressHandler
 import work.racka.reluct.common.model.domain.tasks.EditTask
 import work.racka.reluct.common.model.states.tasks.AddEditTasksState
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun AddEditTaskUI(
     modifier: Modifier = Modifier,
@@ -87,9 +87,10 @@ fun AddEditTaskUI(
                 )
             }
         }
-    ) {
+    ) { innerPadding ->
         Box(
             modifier = Modifier
+                .padding(innerPadding)
                 .navigationBarsPadding()
                 .padding(horizontal = Dimens.MediumPadding.size)
                 .fillMaxSize()

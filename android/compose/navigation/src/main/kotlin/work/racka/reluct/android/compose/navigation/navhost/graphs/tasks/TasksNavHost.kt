@@ -9,7 +9,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.unit.dp
@@ -25,6 +24,9 @@ import work.racka.reluct.android.compose.components.tab.tasks.TasksTabBar
 import work.racka.reluct.android.compose.components.textfields.search.PlaceholderMaterialSearchBar
 import work.racka.reluct.android.compose.components.topBar.ProfilePicture
 import work.racka.reluct.android.compose.components.topBar.ReluctTopBarBase
+import work.racka.reluct.android.compose.destinations.OtherDestinations
+import work.racka.reluct.android.compose.destinations.TasksDestinations
+import work.racka.reluct.android.compose.destinations.navbar.Graphs
 import work.racka.reluct.android.compose.navigation.transitions.scaleInEnterTransition
 import work.racka.reluct.android.compose.navigation.transitions.scaleInPopEnterTransition
 import work.racka.reluct.android.compose.navigation.transitions.scaleOutExitTransition
@@ -32,9 +34,6 @@ import work.racka.reluct.android.compose.navigation.transitions.scaleOutPopExitT
 import work.racka.reluct.android.screens.tasks.done.CompletedTasksScreen
 import work.racka.reluct.android.screens.tasks.pending.PendingTasksScreen
 import work.racka.reluct.android.screens.tasks.statistics.TasksStatisticsScreen
-import work.racka.reluct.common.compose.destinations.OtherDestinations
-import work.racka.reluct.common.compose.destinations.TasksDestinations
-import work.racka.reluct.common.compose.destinations.navbar.Graphs
 
 @OptIn(ExperimentalMaterial3Api::class)
 @ExperimentalAnimationApi
@@ -168,7 +167,6 @@ internal fun TasksNavHost(
     }
 }
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 private fun TasksScreenTopBar(
     tabPage: TasksDestinations,

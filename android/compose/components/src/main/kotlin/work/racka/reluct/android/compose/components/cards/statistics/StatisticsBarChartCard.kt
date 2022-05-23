@@ -36,8 +36,10 @@ internal fun StatisticsBarChartCard(
     bodyContent: @Composable () -> Unit,
 ) {
     Card(
-        containerColor = containerColor,
-        contentColor = contentColor,
+        colors = CardDefaults.cardColors(
+            containerColor = containerColor,
+            contentColor = contentColor
+        ),
         modifier = modifier
             .fillMaxWidth()
             .clip(shape)

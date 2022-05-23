@@ -52,12 +52,14 @@ internal fun TaskEntry(
 
     val showErrorColor = remember(task.overdue, entryType) {
         derivedStateOf {
-            entryType == EntryType.PendingTaskOverdue && task.overdue
+            entryType == EntryType.TasksWithOverdue && task.overdue
         }
     }
     Card(
-        containerColor = if (showErrorColor.value) MaterialTheme.colorScheme.error
-        else MaterialTheme.colorScheme.surfaceVariant,
+        colors = CardDefaults.cardColors(
+            containerColor = if (showErrorColor.value) MaterialTheme.colorScheme.error
+            else MaterialTheme.colorScheme.surfaceVariant,
+        ),
         onClick = { onEntryClick() },
         modifier = animatedModifier
             .fillMaxWidth()
@@ -116,7 +118,7 @@ private fun TaskEntryText(
         TaskTimeInfo(
             timeText = if (
                 entryType == EntryType.PendingTask ||
-                entryType == EntryType.PendingTaskOverdue
+                entryType == EntryType.TasksWithOverdue
             ) task.timeLeftLabel
             else task.dueDate,
             showOverdueLabel = entryType == EntryType.CompletedTask,
@@ -160,7 +162,7 @@ internal fun TaskEntryPrev() {
             )
             TaskEntry(
                 task = PreviewData.task4,
-                entryType = EntryType.PendingTaskOverdue,
+                entryType = EntryType.TasksWithOverdue,
                 onEntryClick = {},
                 onCheckedChange = {}
             )

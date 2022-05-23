@@ -1,6 +1,6 @@
 object Versions {
     // Kotlin
-    const val kotlin = "1.6.10"
+    const val kotlin = "1.6.21"
     const val kotlinxDateTime = "0.3.2"
 
     // Networking & JSON
@@ -24,10 +24,10 @@ object Versions {
     const val coreKtx = "1.7.0"
 
     // Compose Base
-    const val composeKotlin = "1.6.10"
-    const val compose = "1.2.0-alpha06"
+    const val composeKotlin = "1.6.21"
+    const val compose = "1.2.0-beta02"
     const val composeConstraintLayout = "1.0.0"
-    const val composeMaterial3 = "1.0.0-alpha08"
+    const val composeMaterial3 = "1.0.0-alpha12"
     const val activityCompose = "1.4.0"
 
     // Navigation
