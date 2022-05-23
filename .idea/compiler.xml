@@ -6,6 +6,10 @@
       <module name="Reluct.common.compose.destinations.commonTest" target="1.8" />
       <module name="Reluct.common.compose.destinations.jvmMain" target="1.8" />
       <module name="Reluct.common.compose.destinations.jvmTest" target="1.8" />
+      <module name="Reluct.common.data.commonMain" target="1.8" />
+      <module name="Reluct.common.data.commonTest" target="1.8" />
+      <module name="Reluct.common.data.desktopMain" target="1.8" />
+      <module name="Reluct.common.data.desktopTest" target="1.8" />
       <module name="Reluct.common.features.goals.commonMain" target="1.8" />
       <module name="Reluct.common.features.goals.commonTest" target="1.8" />
       <module name="Reluct.common.features.goals.desktopMain" target="1.8" />

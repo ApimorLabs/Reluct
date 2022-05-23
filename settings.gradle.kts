@@ -8,10 +8,11 @@ include(
     ":android:compose:theme",
     ":android:screens",
     ":common:compose:destinations",
-    ":common:features:tasks",
+    ":common:data",
     ":common:features:goals",
-    ":common:model",
+    ":common:features:tasks",
     ":common:integration",
+    ":common:model",
     ":common:persistence:database",
     ":common:persistence:settings",
 )
