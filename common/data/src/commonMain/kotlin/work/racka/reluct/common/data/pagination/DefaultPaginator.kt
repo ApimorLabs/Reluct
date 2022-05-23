@@ -1,13 +1,13 @@
 package work.racka.reluct.common.data.pagination
 
-class DefaultPaginatior<Key, Item>(
+class DefaultPaginator<Key, Item>(
     private val initialKey: Key,
     private inline val onLoadUpdated: (Boolean) -> Unit,
     private inline val onRequest: suspend (nextKey: Key) -> Result<Collection<Item>>,
     private inline val getNextKey: suspend (currentItems: Collection<Item>) -> Key,
     private inline val onError: suspend (e: Throwable?) -> Unit,
     private inline val onSuccess: suspend (items: Collection<Item>) -> Unit,
-) : Paginatior<Key, Item> {
+) : Paginator<Key, Item> {
 
     var currentKey = initialKey
     var isMakingRequest = false
