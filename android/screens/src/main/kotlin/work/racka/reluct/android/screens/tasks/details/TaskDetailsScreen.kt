@@ -26,8 +26,8 @@ fun TaskDetailsScreen(
     val scaffoldState = rememberScaffoldState()
 
     val viewModel: TaskDetailsViewModel by viewModel { parametersOf(taskId) }
-    val uiState by viewModel.uiState.collectAsState()
-    val events by viewModel.events.collectAsState(initial = TasksEvents.Nothing)
+    val uiState by viewModel.host.uiState.collectAsState()
+    val events by viewModel.host.events.collectAsState(initial = TasksEvents.Nothing)
 
     val taskDone = stringResource(R.string.task_marked_as_done)
     val taskNotDone = stringResource(R.string.task_marked_as_not_done)
@@ -47,10 +47,10 @@ fun TaskDetailsScreen(
     TaskDetailsUI(
         uiState = uiState,
         scaffoldState = scaffoldState,
-        onEditTask = { viewModel.editTask(it.id) },
-        onDeleteTask = { viewModel.deleteTask(it.id) },
-        onToggleTaskDone = { isDone, task -> viewModel.toggleDone(task, isDone) },
-        onBackClicked = { viewModel.goBack() }
+        onEditTask = { viewModel.host.editTask(it.id) },
+        onDeleteTask = { viewModel.host.deleteTask(it.id) },
+        onToggleTaskDone = { isDone, task -> viewModel.host.toggleDone(task, isDone) },
+        onBackClicked = { viewModel.host.goBack() }
     )
 }
 

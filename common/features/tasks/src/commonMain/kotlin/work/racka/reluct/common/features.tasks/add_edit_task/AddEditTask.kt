@@ -6,7 +6,7 @@ import work.racka.reluct.common.model.domain.tasks.EditTask
 import work.racka.reluct.common.model.states.tasks.AddEditTasksState
 import work.racka.reluct.common.model.states.tasks.TasksEvents
 
-internal interface AddEditTask {
+interface AddEditTask {
     val uiState: StateFlow<AddEditTasksState>
     val events: Flow<TasksEvents>
     fun getTask(id: String?)

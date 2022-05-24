@@ -23,8 +23,8 @@ fun AddEditTaskScreen(
 
     val scaffoldState = rememberScaffoldState()
     val viewModel: AddEditTaskViewModel by viewModel { parametersOf(taskId) }
-    val uiState by viewModel.uiState.collectAsState()
-    val events by viewModel.events.collectAsState(TasksEvents.Nothing)
+    val uiState by viewModel.host.uiState.collectAsState()
+    val events by viewModel.host.events.collectAsState(TasksEvents.Nothing)
 
     LaunchedEffect(events) {
         Timber.d("Event is : $events")
@@ -39,9 +39,9 @@ fun AddEditTaskScreen(
     AddEditTaskUI(
         scaffoldState = scaffoldState,
         uiState = uiState,
-        onSaveTask = { viewModel.saveTask(it) },
-        onAddTaskClicked = { viewModel.getTask(null) },
-        onBackClicked = { viewModel.goBack() }
+        onSaveTask = { viewModel.host.saveTask(it) },
+        onAddTaskClicked = { viewModel.host.getTask(null) },
+        onBackClicked = { viewModel.host.goBack() }
     )
 }
 
