@@ -1,4 +1,4 @@
-package work.racka.reluct.common.features.tasks.usecases
+package work.racka.reluct.common.data.usecases
 
 import app.cash.turbine.test
 import io.mockk.MockKAnnotations
@@ -18,12 +18,12 @@ import org.koin.core.context.stopKoin
 import org.koin.dsl.module
 import org.koin.test.KoinTest
 import org.koin.test.inject
+import work.racka.reluct.common.data.mappers.tasks.asDatabaseModel
+import work.racka.reluct.common.data.mappers.tasks.asTask
+import work.racka.reluct.common.data.usecases.tasks.ModifyTaskUseCase
+import work.racka.reluct.common.data.usecases.tasks.impl.ModifyTaskUseCaseImpl
+import work.racka.reluct.common.data.util.TestData
 import work.racka.reluct.common.database.dao.tasks.TasksDao
-import work.racka.reluct.common.features.tasks.usecases.impl.ModifyTaskUseCaseImpl
-import work.racka.reluct.common.features.tasks.usecases.interfaces.ModifyTaskUseCase
-import work.racka.reluct.common.features.tasks.util.DataMappers.asDatabaseModel
-import work.racka.reluct.common.features.tasks.util.DataMappers.asTask
-import work.racka.reluct.common.features.tasks.util.TestData
 import kotlin.test.*
 
 @OptIn(ExperimentalCoroutinesApi::class)

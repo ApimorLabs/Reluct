@@ -1,10 +1,10 @@
-package work.racka.reluct.common.features.tasks.usecases.interfaces
+package work.racka.reluct.common.data.usecases.tasks
 
 import kotlinx.coroutines.flow.Flow
 import work.racka.reluct.common.model.domain.tasks.EditTask
 import work.racka.reluct.common.model.domain.tasks.Task
 
-internal interface ModifyTaskUseCase {
+interface ModifyTaskUseCase {
     fun getTaskToEdit(taskId: String): Flow<EditTask?>
     suspend fun saveTask(task: EditTask)
     suspend fun deleteTask(taskId: String)

@@ -1,10 +1,10 @@
 package work.racka.reluct.common.features.tasks.viewmodels
 
 import kotlinx.coroutines.CoroutineScope
+import work.racka.reluct.common.data.usecases.tasks.GetTasksUseCase
+import work.racka.reluct.common.data.usecases.tasks.ModifyTaskUseCase
 import work.racka.reluct.common.features.tasks.completed_tasks.CompletedTasks
 import work.racka.reluct.common.features.tasks.completed_tasks.CompletedTasksImpl
-import work.racka.reluct.common.features.tasks.usecases.interfaces.GetTasksUseCase
-import work.racka.reluct.common.features.tasks.usecases.interfaces.ModifyTaskUseCase
 
 actual class CompletedTasksViewModel internal constructor(
     getTasksUseCase: GetTasksUseCase,

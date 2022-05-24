@@ -1,12 +1,12 @@
-package work.racka.reluct.common.features.tasks.usecases.impl
+package work.racka.reluct.common.data.usecases.tasks.impl
 
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
+import work.racka.reluct.common.data.mappers.tasks.asTask
+import work.racka.reluct.common.data.usecases.tasks.GetTasksUseCase
 import work.racka.reluct.common.database.dao.tasks.TasksDao
-import work.racka.reluct.common.features.tasks.usecases.interfaces.GetTasksUseCase
-import work.racka.reluct.common.features.tasks.util.DataMappers.asTask
 import work.racka.reluct.common.model.domain.tasks.Task
 
 internal class GetTasksUseCaseImpl(

@@ -1,12 +1,12 @@
 package work.racka.reluct.common.features.tasks.viewmodels
 
 import kotlinx.coroutines.CoroutineScope
+import work.racka.reluct.common.data.usecases.tasks.GetDailyTasksUseCase
+import work.racka.reluct.common.data.usecases.tasks.GetWeeklyTasksUseCase
+import work.racka.reluct.common.data.usecases.tasks.ModifyTaskUseCase
+import work.racka.reluct.common.data.usecases.time.GetWeekRangeFromOffset
 import work.racka.reluct.common.features.tasks.statistics.TasksStatistics
 import work.racka.reluct.common.features.tasks.statistics.TasksStatisticsImpl
-import work.racka.reluct.common.features.tasks.usecases.interfaces.GetDailyTasksUseCase
-import work.racka.reluct.common.features.tasks.usecases.interfaces.GetWeekRangeFromOffset
-import work.racka.reluct.common.features.tasks.usecases.interfaces.GetWeeklyTasksUseCase
-import work.racka.reluct.common.features.tasks.usecases.interfaces.ModifyTaskUseCase
 
 actual class TasksStatisticsViewModel internal constructor(
     modifyTasksUsesCase: ModifyTaskUseCase,

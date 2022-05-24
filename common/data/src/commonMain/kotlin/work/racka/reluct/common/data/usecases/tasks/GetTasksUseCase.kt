@@ -1,4 +1,4 @@
-package work.racka.reluct.common.features.tasks.usecases.interfaces
+package work.racka.reluct.common.data.usecases.tasks
 
 import kotlinx.coroutines.flow.Flow
 import work.racka.reluct.common.model.domain.tasks.Task
@@ -8,7 +8,7 @@ import work.racka.reluct.common.model.domain.tasks.Task
  * It should be used with respective ViewModels to perform actions
  * Implementations found in the impl folder
  */
-internal interface GetTasksUseCase {
+interface GetTasksUseCase {
     /**
      * [factor] is for how much limit is applied in query. Default is 10
      * [limitBy] * [factor] produces required limit applied in query

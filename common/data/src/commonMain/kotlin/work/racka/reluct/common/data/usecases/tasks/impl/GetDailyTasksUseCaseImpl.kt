@@ -1,11 +1,11 @@
-package work.racka.reluct.common.features.tasks.usecases.impl
+package work.racka.reluct.common.data.usecases.tasks.impl
 
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
-import work.racka.reluct.common.features.tasks.usecases.interfaces.GetDailyTasksUseCase
-import work.racka.reluct.common.features.tasks.usecases.interfaces.GetWeeklyTasksUseCase
+import work.racka.reluct.common.data.usecases.tasks.GetDailyTasksUseCase
+import work.racka.reluct.common.data.usecases.tasks.GetWeeklyTasksUseCase
 import work.racka.reluct.common.model.domain.tasks.DailyTasksStats
 import work.racka.reluct.common.model.util.time.Week
 

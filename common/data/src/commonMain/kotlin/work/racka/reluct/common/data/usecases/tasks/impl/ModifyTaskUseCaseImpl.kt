@@ -1,4 +1,4 @@
-package work.racka.reluct.common.features.tasks.usecases.impl
+package work.racka.reluct.common.data.usecases.tasks.impl
 
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
@@ -6,10 +6,10 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.withContext
+import work.racka.reluct.common.data.mappers.tasks.asDatabaseModel
+import work.racka.reluct.common.data.mappers.tasks.asEditTask
+import work.racka.reluct.common.data.usecases.tasks.ModifyTaskUseCase
 import work.racka.reluct.common.database.dao.tasks.TasksDao
-import work.racka.reluct.common.features.tasks.usecases.interfaces.ModifyTaskUseCase
-import work.racka.reluct.common.features.tasks.util.DataMappers.asDatabaseModel
-import work.racka.reluct.common.features.tasks.util.DataMappers.asEditTask
 import work.racka.reluct.common.model.data.local.task.TaskDbObject
 import work.racka.reluct.common.model.domain.tasks.EditTask
 import work.racka.reluct.common.model.domain.tasks.Task

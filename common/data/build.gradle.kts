@@ -31,19 +31,48 @@ kotlin {
 
     sourceSets["commonMain"].dependencies {
         implementation(project(":common:model"))
+        implementation(project(":common:persistence:database"))
 
         implementation(Dependencies.Kotlin.serializationCore)
+
+        implementation(Dependencies.Kotlin.Coroutines.core)
+
+        with(Dependencies.Koin) {
+            api(core)
+            api(test)
+        }
 
         with(Dependencies.Log) {
             api(kermit)
         }
     }
 
-    sourceSets["androidMain"].dependencies {
+    sourceSets["commonTest"].dependencies {
+        implementation(Dependencies.Mockk.core)
+        implementation(Dependencies.Mockk.commonMultiplatform)
 
+        implementation(Dependencies.Kotlin.dateTime)
+        implementation(Dependencies.Koin.test)
+        implementation(Dependencies.Kotlin.Coroutines.test)
+        implementation(Dependencies.Squareup.Testing.turbine)
+        implementation(kotlin("test-common"))
+        implementation(kotlin("test-annotations-common"))
+    }
+
+    sourceSets["androidMain"].dependencies {
+        with(Dependencies.Koin) {
+            api(android)
+        }
+    }
+
+    sourceSets["androidTest"].dependencies {
+        implementation(Dependencies.Android.JUnit.core)
     }
 
     sourceSets["desktopMain"].dependencies {
-        implementation(Dependencies.Log.slf4j)
+        //implementation(Dependencies.Log.slf4j)
+    }
+
+    sourceSets["desktopTest"].dependencies {
     }
 }

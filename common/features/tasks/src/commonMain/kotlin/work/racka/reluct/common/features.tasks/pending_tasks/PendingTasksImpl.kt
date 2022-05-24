@@ -5,8 +5,8 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import work.racka.reluct.common.features.tasks.usecases.interfaces.GetTasksUseCase
-import work.racka.reluct.common.features.tasks.usecases.interfaces.ModifyTaskUseCase
+import work.racka.reluct.common.data.usecases.tasks.GetTasksUseCase
+import work.racka.reluct.common.data.usecases.tasks.ModifyTaskUseCase
 import work.racka.reluct.common.model.domain.tasks.Task
 import work.racka.reluct.common.model.states.tasks.PendingTasksState
 import work.racka.reluct.common.model.states.tasks.TasksEvents

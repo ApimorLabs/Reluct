@@ -1,6 +1,6 @@
-package work.racka.reluct.common.features.tasks.usecases.impl
+package work.racka.reluct.common.data.usecases.time.impl
 
-import work.racka.reluct.common.features.tasks.usecases.interfaces.GetWeekRangeFromOffset
+import work.racka.reluct.common.data.usecases.time.GetWeekRangeFromOffset
 import work.racka.reluct.common.model.util.time.StatisticsTimeUtils
 import work.racka.reluct.common.model.util.time.TimeUtils
 

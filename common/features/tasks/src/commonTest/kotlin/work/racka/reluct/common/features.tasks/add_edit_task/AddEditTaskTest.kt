@@ -16,7 +16,7 @@ import org.koin.core.context.stopKoin
 import org.koin.dsl.module
 import org.koin.test.KoinTest
 import org.koin.test.inject
-import work.racka.reluct.common.features.tasks.usecases.interfaces.ModifyTaskUseCase
+import work.racka.reluct.common.data.usecases.tasks.ModifyTaskUseCase
 import work.racka.reluct.common.features.tasks.util.Constants
 import work.racka.reluct.common.features.tasks.util.TestData
 import work.racka.reluct.common.model.states.tasks.AddEditTasksState

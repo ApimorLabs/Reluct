@@ -5,10 +5,10 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import work.racka.reluct.common.features.tasks.usecases.interfaces.GetDailyTasksUseCase
-import work.racka.reluct.common.features.tasks.usecases.interfaces.GetWeekRangeFromOffset
-import work.racka.reluct.common.features.tasks.usecases.interfaces.GetWeeklyTasksUseCase
-import work.racka.reluct.common.features.tasks.usecases.interfaces.ModifyTaskUseCase
+import work.racka.reluct.common.data.usecases.tasks.GetDailyTasksUseCase
+import work.racka.reluct.common.data.usecases.tasks.GetWeeklyTasksUseCase
+import work.racka.reluct.common.data.usecases.tasks.ModifyTaskUseCase
+import work.racka.reluct.common.data.usecases.time.GetWeekRangeFromOffset
 import work.racka.reluct.common.model.domain.tasks.Task
 import work.racka.reluct.common.model.states.tasks.DailyTasksState
 import work.racka.reluct.common.model.states.tasks.TasksEvents
