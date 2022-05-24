@@ -74,7 +74,7 @@ kotlin {
     }
 
     sourceSets["androidTest"].dependencies {
-        implementation(Dependencies.Android.JUnit.core)
+        //implementation(Dependencies.Android.JUnit.core)
     }
 
     sourceSets["desktopMain"].dependencies {

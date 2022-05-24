@@ -71,7 +71,7 @@ kotlin {
 
     sourceSets["androidTest"].dependencies {
         implementation(Dependencies.Squareup.SQLDelight.sqliteDriver)
-        implementation(Dependencies.Android.JUnit.core)
+        //implementation(Dependencies.Android.JUnit.core)
     }
 
     sourceSets["desktopMain"].dependencies {
