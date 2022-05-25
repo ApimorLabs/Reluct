@@ -12,7 +12,7 @@ buildscript {
     dependencies {
         // Leaving this plugin here so it can be automatically
         // updated by Android Studio
-        classpath("com.android.tools.build:gradle:7.2.0")
+        classpath("com.android.tools.build:gradle:7.1.3")
 
         classpath(BuildPlugins.kotlin)
         classpath(BuildPlugins.sqlDelight)
@@ -35,7 +35,7 @@ allprojects {
     }
 
     tasks.withType<KotlinJvmCompile>().configureEach {
-        kotlinOptions.freeCompilerArgs += "-Xopt-in=kotlin.RequiresOptIn"
+        kotlinOptions.freeCompilerArgs += "-opt-in=kotlin.RequiresOptIn"
         kotlinOptions.jvmTarget = JavaVersion.VERSION_11.majorVersion
     }
 }
