@@ -3,7 +3,6 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
-    kotlin("plugin.serialization") version Versions.kotlin
 }
 
 android {
@@ -31,51 +30,49 @@ kotlin {
     android()
     jvm("desktop")
 
-    sourceSets["commonMain"].dependencies {
-        implementation(project(":common:data"))
-        implementation(project(":common:model"))
-        implementation(project(":common:persistence:database"))
+    sourceSets {
+        val commonMain by getting {
+            dependencies {
+                implementation(project(":common:data"))
+                implementation(project(":common:model"))
+                implementation(project(":common:persistence:database"))
 
-        implementation(Dependencies.Kotlin.Coroutines.core)
-        with(Dependencies.Koin) {
-            api(core)
+                implementation(Dependencies.Kotlin.Coroutines.core)
+                implementation(Dependencies.Koin.core)
+                implementation(Dependencies.Log.kermit)
+            }
         }
 
-        with(Dependencies.Log) {
-            api(kermit)
+        val commonTest by getting {
+            dependencies {
+                implementation(Dependencies.Mockk.core)
+                implementation(Dependencies.Mockk.commonMultiplatform)
+                implementation(Dependencies.Kotlin.dateTime)
+                implementation(Dependencies.Koin.test)
+                implementation(Dependencies.Kotlin.Coroutines.test)
+                implementation(Dependencies.Squareup.Testing.turbine)
+                implementation(kotlin("test-common"))
+                implementation(kotlin("test-annotations-common"))
+            }
         }
-    }
 
-    sourceSets["commonTest"].dependencies {
-        implementation(Dependencies.Mockk.core)
-        implementation(Dependencies.Mockk.commonMultiplatform)
-        implementation(Dependencies.Kotlin.dateTime)
-        implementation(Dependencies.Koin.test)
-        implementation(Dependencies.Kotlin.Coroutines.test)
-        implementation(Dependencies.Squareup.Testing.turbine)
-        implementation(kotlin("test-common"))
-        implementation(kotlin("test-annotations-common"))
-    }
-
-    sourceSets["androidMain"].dependencies {
-        with(Dependencies.Koin) {
-            api(android)
+        val androidMain by getting {
+            dependencies {
+                implementation(Dependencies.Koin.android)
+                implementation(Dependencies.Android.Essential.lifecycleRuntimeKtx)
+                implementation(Dependencies.Android.Compose.viewModel)
+            }
         }
-        implementation(Dependencies.Android.Essential.lifecycleRuntimeKtx)
-        implementation(Dependencies.Android.Compose.viewModel)
 
-    }
+        val androidTest by getting
 
-    sourceSets["androidTest"].dependencies {
-        //implementation(Dependencies.Android.JUnit.core)
-    }
+        val desktopMain by getting {
+            dependencies {
 
-    sourceSets["desktopMain"].dependencies {
-        //implementation(Dependencies.Log.slf4j)
-    }
+            }
+        }
 
-    sourceSets["desktopTest"].dependencies {
-
+        val desktopTest by getting
     }
 }
 

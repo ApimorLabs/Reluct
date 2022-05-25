@@ -1,7 +1,6 @@
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
-    kotlin("plugin.serialization") version Versions.kotlin
 }
 
 android {
@@ -29,45 +28,38 @@ kotlin {
     android()
     jvm("desktop")
 
-    sourceSets["commonMain"].dependencies {
-        implementation(project(":common:data"))
-        implementation(project(":common:model"))
-        implementation(project(":common:persistence:database"))
-        implementation(project(":common:persistence:settings"))
-        implementation(project(":common:features:tasks"))
-        implementation(project(":common:features:goals"))
+    sourceSets {
+        val commonMain by getting {
+            dependencies {
+                implementation(project(":common:data"))
+                implementation(project(":common:model"))
+                implementation(project(":common:persistence:database"))
+                implementation(project(":common:persistence:settings"))
+                implementation(project(":common:features:tasks"))
+                implementation(project(":common:features:goals"))
 
-        implementation(Dependencies.Kotlin.serializationCore)
-
-        implementation(Dependencies.OrbitMVI.core)
-
-        with(Dependencies.Squareup.SQLDelight) {
-            implementation(coroutineExtensions)
+                implementation(Dependencies.OrbitMVI.core) // Should be removed
+                implementation(Dependencies.Squareup.SQLDelight.coroutineExtensions)
+                implementation(Dependencies.Koin.core)
+                implementation(Dependencies.Log.kermit)
+            }
         }
 
-        with(Dependencies.Koin) {
-            api(core)
-            api(test)
+        val commonTest by getting
+
+        val androidMain by getting {
+            dependencies {
+
+            }
         }
 
-        with(Dependencies.Log) {
-            api(kermit)
+        val androidTest by getting
+
+        val desktopMain by getting {
+            dependencies {
+            }
         }
-    }
 
-    sourceSets["androidMain"].dependencies {
-
-        implementation(Dependencies.Revenuecat.android)
-
-        implementation(Dependencies.Android.Essential.lifecycleRuntimeKtx)
-        implementation(Dependencies.Android.Compose.viewModel)
-
-        with(Dependencies.Koin) {
-            api(android)
-        }
-    }
-
-    sourceSets["desktopMain"].dependencies {
-        implementation(Dependencies.Log.slf4j)
+        val desktopTest by getting
     }
 }

@@ -7,27 +7,24 @@ plugins {
 }
 
 kotlin {
-    jvm {
+    jvm("desktop") {
         compilations.all {
             kotlinOptions.jvmTarget = JavaVersion.VERSION_11.majorVersion
         }
         withJava()
     }
     sourceSets {
-        val jvmMain by getting {
+        val desktopMain by getting {
             dependencies {
                 implementation(project(":common:model"))
                 implementation(project(":common:integration"))
-                implementation(compose.desktop.currentOs)
 
+                implementation(compose.desktop.currentOs)
                 implementation(Dependencies.Kotlin.dateTime)
-                with(Dependencies.Koin) {
-                    api(core)
-                    api(test)
-                }
+                implementation(Dependencies.Koin.core)
             }
         }
-        val jvmTest by getting
+        val desktopTest by getting
     }
 }
 

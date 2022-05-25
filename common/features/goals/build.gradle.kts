@@ -1,7 +1,6 @@
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
-    kotlin("plugin.serialization") version Versions.kotlin
 }
 
 android {
@@ -29,15 +28,29 @@ kotlin {
     android()
     jvm("desktop")
 
-    sourceSets["commonMain"].dependencies {
+    sourceSets {
+        val commonMain by getting {
+            dependencies {
 
-    }
+            }
+        }
 
-    sourceSets["androidMain"].dependencies {
+        val commonTest by getting
 
-    }
+        val androidMain by getting {
+            dependencies {
 
-    sourceSets["desktopMain"].dependencies {
-        implementation(Dependencies.Log.slf4j)
+            }
+        }
+
+        val androidTest by getting
+
+        val desktopMain by getting {
+            dependencies {
+                implementation(Dependencies.Log.slf4j)
+            }
+        }
+
+        val desktopTest by getting
     }
 }

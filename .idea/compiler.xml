@@ -42,6 +42,8 @@
       <module name="Reluct.common.persistence.settings.desktopTest" target="1.8" />
       <module name="Reluct.desktop.app.commonMain" target="11" />
       <module name="Reluct.desktop.app.commonTest" target="11" />
+      <module name="Reluct.desktop.app.desktopMain" target="11" />
+      <module name="Reluct.desktop.app.desktopTest" target="11" />
       <module name="Reluct.desktop.app.jvmMain" target="11" />
       <module name="Reluct.desktop.app.jvmTest" target="11" />
     </bytecodeTargetLevel>

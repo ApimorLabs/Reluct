@@ -7,31 +7,29 @@ plugins {
 kotlin {
     jvm("desktop")
 
-    sourceSets["commonMain"].dependencies {
-        implementation(Dependencies.Kotlin.Coroutines.core)
-
-        with(Dependencies.RusshWolf.MultiplatformSettings) {
-            implementation(core)
-            implementation(noArg)
+    sourceSets {
+        val commonMain by getting {
+            dependencies {
+                implementation(Dependencies.Kotlin.Coroutines.core)
+                implementation(Dependencies.Koin.core)
+                implementation(Dependencies.Log.kermit)
+                with(Dependencies.RusshWolf.MultiplatformSettings) {
+                    implementation(core)
+                    implementation(noArg)
+                }
+            }
         }
 
-        with(Dependencies.Koin) {
-            api(core)
-            api(test)
+        val commonTest by getting {
+            dependencies {
+                implementation(Dependencies.RusshWolf.MultiplatformSettings.test)
+                implementation(Dependencies.Koin.test)
+                implementation(Dependencies.Kotlin.Coroutines.test)
+                implementation(Dependencies.Squareup.Testing.turbine)
+                implementation(kotlin("test-common"))
+                implementation(kotlin("test-annotations-common"))
+            }
         }
-
-        with(Dependencies.Log) {
-            api(kermit)
-        }
-    }
-
-    sourceSets["commonTest"].dependencies {
-        implementation(Dependencies.RusshWolf.MultiplatformSettings.test)
-        implementation(Dependencies.Koin.test)
-        implementation(Dependencies.Kotlin.Coroutines.test)
-        implementation(Dependencies.Squareup.Testing.turbine)
-        implementation(kotlin("test-common"))
-        implementation(kotlin("test-annotations-common"))
     }
 }
 

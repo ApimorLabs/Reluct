@@ -38,49 +38,51 @@ kotlin {
     android()
     jvm("desktop")
 
-    sourceSets["commonMain"].dependencies {
-        implementation(project(":common:model"))
+    sourceSets {
+        val commonMain by getting {
+            dependencies {
+                implementation(project(":common:model"))
 
-        with(Dependencies.Squareup.SQLDelight) {
-            implementation(runtime)
-            implementation(coroutineExtensions)
+                implementation(Dependencies.Koin.core)
+                implementation(Dependencies.Log.kermit)
+                with(Dependencies.Squareup.SQLDelight) {
+                    implementation(runtime)
+                    implementation(coroutineExtensions)
+                }
+            }
         }
 
-        with(Dependencies.Koin) {
-            api(core)
-            api(test)
+        val commonTest by getting {
+            dependencies {
+                implementation(Dependencies.Kotlin.dateTime)
+                implementation(Dependencies.Koin.test)
+                implementation(Dependencies.Kotlin.Coroutines.test)
+                implementation(Dependencies.Squareup.Testing.turbine)
+                implementation(kotlin("test-common"))
+                implementation(kotlin("test-annotations-common"))
+            }
         }
 
-        with(Dependencies.Log) {
-            api(kermit)
+        val androidMain by getting {
+            dependencies {
+                implementation(Dependencies.Squareup.SQLDelight.androidDriver)
+            }
         }
-    }
 
-    sourceSets["commonTest"].dependencies {
-        implementation(Dependencies.Kotlin.dateTime)
-        implementation(Dependencies.Koin.test)
-        implementation(Dependencies.Kotlin.Coroutines.test)
-        implementation(Dependencies.Squareup.Testing.turbine)
-        implementation(kotlin("test-common"))
-        implementation(kotlin("test-annotations-common"))
-    }
+        val androidTest by getting {
+            dependencies {
+                implementation(Dependencies.Squareup.SQLDelight.sqliteDriver)
+            }
+        }
 
-    sourceSets["androidMain"].dependencies {
-        implementation(Dependencies.Squareup.SQLDelight.androidDriver)
-    }
+        val desktopMain by getting {
+            dependencies {
+                implementation(Dependencies.Squareup.SQLDelight.sqliteDriver)
+                implementation(Dependencies.Log.slf4j)
+            }
+        }
 
-    sourceSets["androidTest"].dependencies {
-        implementation(Dependencies.Squareup.SQLDelight.sqliteDriver)
-        //implementation(Dependencies.Android.JUnit.core)
-    }
-
-    sourceSets["desktopMain"].dependencies {
-        implementation(Dependencies.Squareup.SQLDelight.sqliteDriver)
-        implementation(Dependencies.Log.slf4j)
-    }
-
-    sourceSets["desktopTest"].dependencies {
-
+        val desktopTest by getting
     }
 }
 
