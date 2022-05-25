@@ -29,11 +29,8 @@ kotlin {
     jvm("desktop")
 
     sourceSets["commonMain"].dependencies {
-        implementation(project(":common:app-usage-stats"))
         implementation(project(":common:model"))
-        implementation(project(":common:persistence:database"))
 
-        implementation(Dependencies.Kotlin.Coroutines.core)
         with(Dependencies.Koin) {
             api(core)
         }
@@ -47,8 +44,6 @@ kotlin {
         implementation(Dependencies.Mockk.commonMultiplatform)
         implementation(Dependencies.Kotlin.dateTime)
         implementation(Dependencies.Koin.test)
-        implementation(Dependencies.Kotlin.Coroutines.test)
-        implementation(Dependencies.Squareup.Testing.turbine)
         implementation(kotlin("test-common"))
         implementation(kotlin("test-annotations-common"))
     }

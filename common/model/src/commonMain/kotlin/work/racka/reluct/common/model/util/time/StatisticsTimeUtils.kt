@@ -5,7 +5,7 @@ import work.racka.reluct.common.model.util.time.TimeUtils.plus
 
 object StatisticsTimeUtils {
 
-    private fun startOfWeekLocalDateTimeString(
+    private fun startOfWeekLocalDateTime(
         weekOffset: Int = 0,
         timeZoneId: String = TimeZone.currentSystemDefault().id,
     ): LocalDateTime {
@@ -24,7 +24,7 @@ object StatisticsTimeUtils {
         }
     }
 
-    private fun endOfWeekLocalDateTimeString(
+    private fun endOfWeekLocalDateTime(
         weekOffset: Int = 0,
         timeZoneId: String = TimeZone.currentSystemDefault().id,
     ): LocalDateTime {
@@ -58,8 +58,9 @@ object StatisticsTimeUtils {
         weekOffset: Int = 0,
         timeZoneId: String = TimeZone.currentSystemDefault().id,
     ): ClosedRange<String> {
-        val start = startOfWeekLocalDateTimeString(weekOffset, timeZoneId).toString()
-        val end = endOfWeekLocalDateTimeString(weekOffset, timeZoneId).toString()
+        val dhe = startOfWeekLocalDateTime().toInstant(TimeZone.currentSystemDefault())
+        val start = startOfWeekLocalDateTime(weekOffset, timeZoneId).toString()
+        val end = endOfWeekLocalDateTime(weekOffset, timeZoneId).toString()
         return start..end
     }
 
