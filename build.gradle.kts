@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
+
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
 
@@ -29,6 +31,21 @@ allprojects {
         maven(url = "https://maven.pkg.jetbrains.space/public/p/compose/dev")
         maven(url = "https://maven.pkg.jetbrains.space/kotlin/p/kotlin/kotlin-js-wrappers")
         maven(url = "https://maven.pkg.jetbrains.space/public/p/kotlinx-coroutines/maven")
+    }
+}
+
+subprojects {
+    afterEvaluate {
+        project.extensions.findByType<KotlinMultiplatformExtension>()?.let { ext ->
+            ext.sourceSets.removeAll { sourceSet ->
+                setOf(
+                    "androidAndroidTestRelease",
+                    "androidTestFixtures",
+                    "androidTestFixturesDebug",
+                    "androidTestFixturesRelease",
+                ).contains(sourceSet.name)
+            }
+        }
     }
 }
 
