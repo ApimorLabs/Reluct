@@ -36,13 +36,9 @@ kotlin {
         implementation(project(":common:model"))
         implementation(project(":common:persistence:database"))
 
-        implementation(Dependencies.OrbitMVI.core)
-
         implementation(Dependencies.Kotlin.Coroutines.core)
-
         with(Dependencies.Koin) {
             api(core)
-            api(test)
         }
 
         with(Dependencies.Log) {
@@ -53,9 +49,6 @@ kotlin {
     sourceSets["commonTest"].dependencies {
         implementation(Dependencies.Mockk.core)
         implementation(Dependencies.Mockk.commonMultiplatform)
-
-        implementation(Dependencies.OrbitMVI.test)
-
         implementation(Dependencies.Kotlin.dateTime)
         implementation(Dependencies.Koin.test)
         implementation(Dependencies.Kotlin.Coroutines.test)
