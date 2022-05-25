@@ -1,4 +1,4 @@
-package work.racka.reluct.common.app.usage.stats.util
+package work.racka.reluct.common.data.util
 
 import kotlinx.datetime.*
 import work.racka.reluct.common.model.data.local.task.TaskDbObject

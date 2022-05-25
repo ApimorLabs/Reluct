@@ -18,10 +18,10 @@ import org.koin.core.context.stopKoin
 import org.koin.dsl.module
 import org.koin.test.KoinTest
 import org.koin.test.inject
-import work.racka.reluct.common.app.usage.stats.util.TestData
 import work.racka.reluct.common.data.mappers.tasks.asTask
 import work.racka.reluct.common.data.usecases.tasks.GetTasksUseCase
 import work.racka.reluct.common.data.usecases.tasks.impl.GetTasksUseCaseImpl
+import work.racka.reluct.common.data.util.TestData
 import work.racka.reluct.common.database.dao.tasks.TasksDao
 import kotlin.test.*
 

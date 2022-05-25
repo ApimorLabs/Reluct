@@ -1,4 +1,4 @@
-package work.racka.reluct.common.app.usage.stats.di
+package work.racka.reluct.common.data.di
 
 import kotlinx.coroutines.CoroutineDispatcher
 
