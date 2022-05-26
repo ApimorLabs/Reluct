@@ -31,6 +31,7 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
+                implementation(project(":common:app-usage-stats"))
                 implementation(project(":common:data"))
                 implementation(project(":common:model"))
                 implementation(project(":common:persistence:database"))
