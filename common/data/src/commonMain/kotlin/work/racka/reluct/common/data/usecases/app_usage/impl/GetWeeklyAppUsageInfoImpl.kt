@@ -4,15 +4,15 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import work.racka.reluct.common.app.usage.stats.manager.UsageDataManager
 import work.racka.reluct.common.data.mappers.usagestats.asAppUsageStats
-import work.racka.reluct.common.data.usecases.app_usage.GetWeeklyAppUsageInfoUseCase
+import work.racka.reluct.common.data.usecases.app_usage.GetWeeklyAppUsageInfo
 import work.racka.reluct.common.model.domain.usagestats.AppUsageStats
 import work.racka.reluct.common.model.util.time.StatisticsTimeUtils
 import work.racka.reluct.common.model.util.time.Week
 
-internal class GetWeeklyAppUsageInfoUseCaseImpl(
+internal class GetWeeklyAppUsageInfoImpl(
     private val usageManager: UsageDataManager,
     private val backgroundDispatcher: CoroutineDispatcher
-) : GetWeeklyAppUsageInfoUseCase {
+) : GetWeeklyAppUsageInfo {
 
     private val daysOfWeek = Week.values()
 
