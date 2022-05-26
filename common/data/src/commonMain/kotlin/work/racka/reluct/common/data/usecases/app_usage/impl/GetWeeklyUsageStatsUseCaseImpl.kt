@@ -19,6 +19,7 @@ internal class GetWeeklyUsageStatsUseCaseImpl(
             val usageStatsList = mutableListOf<UsageStats>()
             daysOfWeek.forEach { dayOfWeek ->
                 val usageStats = dailyUsageStats(weekOffset, dayOfWeek.isoDayNumber)
+                usageStatsList.add(usageStats)
             }
             usageStatsList.toList()
         }
