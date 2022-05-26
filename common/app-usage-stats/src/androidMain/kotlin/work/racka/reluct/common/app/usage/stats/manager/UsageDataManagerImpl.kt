@@ -86,4 +86,13 @@ internal class UsageDataManagerImpl(
             unlockCount = unlockCount
         )
     }
+
+    override suspend fun getAppUsage(
+        startTimeMillis: Long,
+        endTimeMillis: Long,
+        packageName: String
+    ): DataAppUsageInfo {
+        val allAppsData = getUsageStats(startTimeMillis, endTimeMillis)
+        return allAppsData.appsUsageList.first { it.packageName == packageName }
+    }
 }

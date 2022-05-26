@@ -8,7 +8,7 @@ import work.racka.reluct.common.data.usecases.app_usage.GetDailyUsageStatsUseCas
 import work.racka.reluct.common.model.domain.usagestats.UsageStats
 import work.racka.reluct.common.model.util.time.StatisticsTimeUtils
 
-class GetDailyUsageStatsUseCaseImpl(
+internal class GetDailyUsageStatsUseCaseImpl(
     private val usageManager: UsageDataManager,
     private val backgroundDispatcher: CoroutineDispatcher
 ) : GetDailyUsageStatsUseCase {
