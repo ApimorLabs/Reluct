@@ -3,13 +3,13 @@ package work.racka.reluct.common.app.usage.stats.di
 import org.koin.core.KoinApplication
 import org.koin.dsl.module
 
-object Data {
+object AppUsageStats {
 
-    fun KoinApplication.dataModules() =
+    fun KoinApplication.appUsageModules() =
         this.apply {
             modules(
                 commonModule(),
-                Platform.platformTasksModule()
+                Platform.module()
             )
         }
 
