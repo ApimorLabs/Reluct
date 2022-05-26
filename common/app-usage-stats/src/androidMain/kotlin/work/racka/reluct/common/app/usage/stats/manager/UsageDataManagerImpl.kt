@@ -23,7 +23,7 @@ internal class UsageDataManagerImpl(
      * You can use UsageStatsManager.queryUsageStats to get more data but that is not very
      * accurate and can deviate a lot from the actual usage statistics
      */
-    override fun getUsageStats(startTimeMillis: Long, endTimeMillis: Long): DataUsageStats {
+    override suspend fun getUsageStats(startTimeMillis: Long, endTimeMillis: Long): DataUsageStats {
         val allEvents = mutableListOf<UsageEvents.Event>()
         // The key is the package name for the app
         val appUsageInfoMap = hashMapOf<String, DataAppUsageInfo>()
