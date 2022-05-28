@@ -5,6 +5,7 @@ import org.koin.dsl.KoinAppDeclaration
 import work.racka.reluct.common.app.usage.stats.di.AppUsageStats
 import work.racka.reluct.common.data.di.Data
 import work.racka.reluct.common.database.di.Database
+import work.racka.reluct.common.features.settings.di.AppSettings
 import work.racka.reluct.common.features.tasks.di.Tasks
 import work.racka.reluct.common.settings.di.MultiplatformSettings
 
@@ -28,5 +29,6 @@ object KoinMain {
 
         // Features
         Tasks.run { tasksModules() }
+        AppSettings.run { appSettingsModules() }
     }
 }

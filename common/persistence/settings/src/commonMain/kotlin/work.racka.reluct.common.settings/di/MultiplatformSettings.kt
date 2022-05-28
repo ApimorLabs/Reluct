@@ -3,8 +3,8 @@ package work.racka.reluct.common.settings.di
 import com.russhwolf.settings.Settings
 import org.koin.core.KoinApplication
 import org.koin.dsl.module
-import work.racka.reluct.common.settings.repository.MultiplatformSettings
-import work.racka.reluct.common.settings.repository.MultiplatformSettingsImpl
+import work.racka.reluct.common.settings.MultiplatformSettings
+import work.racka.reluct.common.settings.MultiplatformSettingsImpl
 
 object MultiplatformSettings {
 

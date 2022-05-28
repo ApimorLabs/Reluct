@@ -6,7 +6,7 @@ import work.racka.reluct.common.data.usecases.tasks.ModifyTaskUseCase
 import work.racka.reluct.common.features.tasks.add_edit_task.AddEditTask
 import work.racka.reluct.common.features.tasks.add_edit_task.AddEditTaskImpl
 
-actual class AddEditTaskViewModel internal constructor(
+actual class AddEditTaskViewModel(
     modifyTasksUseCase: ModifyTaskUseCase,
     taskId: String?,
 ) : ViewModel() {

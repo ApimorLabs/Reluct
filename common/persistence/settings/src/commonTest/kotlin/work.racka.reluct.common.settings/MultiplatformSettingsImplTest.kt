@@ -1,6 +1,5 @@
-package work.racka.reluct.common.settings.repository
+package work.racka.reluct.common.settings
 
-import app.cash.turbine.test
 import com.russhwolf.settings.MockSettings
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi

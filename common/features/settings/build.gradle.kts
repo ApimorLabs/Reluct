@@ -31,27 +31,31 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation(project(":common:app-usage-stats"))
-                implementation(project(":common:data"))
                 implementation(project(":common:model"))
-                implementation(project(":common:persistence:database"))
                 implementation(project(":common:persistence:settings"))
-                implementation(project(":common:features:goals"))
-                implementation(project(":common:features:tasks"))
-                implementation(project(":common:features:settings"))
 
-                implementation(Dependencies.OrbitMVI.core) // Should be removed
-                implementation(Dependencies.Squareup.SQLDelight.coroutineExtensions)
+                implementation(Dependencies.Kotlin.Coroutines.core)
                 implementation(Dependencies.Koin.core)
-                implementation(Dependencies.Log.kermit)
             }
         }
 
-        val commonTest by getting
+        val commonTest by getting {
+            dependencies {
+                implementation(Dependencies.Mockk.core)
+                implementation(Dependencies.Mockk.commonMultiplatform)
+                implementation(Dependencies.Koin.test)
+                implementation(Dependencies.Kotlin.Coroutines.test)
+                implementation(Dependencies.Squareup.Testing.turbine)
+                implementation(kotlin("test-common"))
+                implementation(kotlin("test-annotations-common"))
+            }
+        }
 
         val androidMain by getting {
             dependencies {
-
+                implementation(Dependencies.Koin.android)
+                implementation(Dependencies.Android.Essential.lifecycleRuntimeKtx)
+                implementation(Dependencies.Android.Compose.viewModel)
             }
         }
 
@@ -59,6 +63,7 @@ kotlin {
 
         val desktopMain by getting {
             dependencies {
+                implementation(Dependencies.Log.slf4j)
             }
         }
 

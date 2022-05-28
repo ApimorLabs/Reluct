@@ -11,6 +11,7 @@ include(
     ":common:app-usage-stats",
     ":common:data",
     ":common:features:goals",
+    ":common:features:settings",
     ":common:features:tasks",
     ":common:integration",
     ":common:model",
