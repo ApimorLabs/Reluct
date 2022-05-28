@@ -4,8 +4,10 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.Scaffold
 import androidx.compose.material.ScaffoldState
@@ -21,10 +23,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import work.racka.reluct.android.compose.components.buttons.ValueOffsetButton
+import work.racka.reluct.android.compose.components.cards.headers.TaskGroupHeadingHeader
 import work.racka.reluct.android.compose.components.cards.statistics.StatisticsChartState
 import work.racka.reluct.android.compose.components.cards.statistics.tasks.TasksStatisticsCard
 import work.racka.reluct.android.compose.components.cards.task_entry.EntryType
-import work.racka.reluct.android.compose.components.cards.task_entry.GroupedTaskEntries
+import work.racka.reluct.android.compose.components.cards.task_entry.TaskEntry
 import work.racka.reluct.android.compose.components.images.LottieAnimationWithDescription
 import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.android.compose.theme.Shapes
@@ -34,6 +37,7 @@ import work.racka.reluct.common.model.states.tasks.DailyTasksState
 import work.racka.reluct.common.model.states.tasks.TasksStatisticsState
 import work.racka.reluct.common.model.states.tasks.WeeklyTasksState
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 internal fun TasksStatisticsUI(
     modifier: Modifier = Modifier,
@@ -97,7 +101,7 @@ internal fun TasksStatisticsUI(
                     .fillMaxSize(),
                 state = listState,
                 verticalArrangement = Arrangement
-                    .spacedBy(Dimens.MediumPadding.size)
+                    .spacedBy(Dimens.SmallPadding.size)
             ) {
                 // Top Space
                 item {
@@ -150,31 +154,33 @@ internal fun TasksStatisticsUI(
                 }
 
                 if (uiState.dailyTasksState.dailyTasks.pendingTasks.isNotEmpty()) {
-                    item {
-                        GroupedTaskEntries(
+                    stickyHeader {
+                        TaskGroupHeadingHeader(text = stringResource(R.string.not_done_tasks_header))
+                    }
+
+                    items(uiState.dailyTasksState.dailyTasks.pendingTasks) { item ->
+                        TaskEntry(
                             playScaleAnimation = true,
+                            task = item,
                             entryType = EntryType.TasksWithOverdue,
-                            groupTitle = stringResource(R.string.not_done_tasks_header),
-                            taskList = uiState.dailyTasksState.dailyTasks.pendingTasks,
-                            onEntryClicked = { onTaskClicked(it) },
-                            onCheckedChange = { isDone, task ->
-                                onToggleTaskDone(isDone, task)
-                            }
+                            onEntryClick = { onTaskClicked(item) },
+                            onCheckedChange = { onToggleTaskDone(it, item) }
                         )
                     }
                 }
 
                 if (uiState.dailyTasksState.dailyTasks.completedTasks.isNotEmpty()) {
-                    item {
-                        GroupedTaskEntries(
+                    stickyHeader {
+                        TaskGroupHeadingHeader(text = stringResource(R.string.done_tasks_header))
+                    }
+
+                    items(uiState.dailyTasksState.dailyTasks.completedTasks) { item ->
+                        TaskEntry(
                             playScaleAnimation = true,
-                            entryType = EntryType.PendingTask,
-                            groupTitle = stringResource(R.string.done_tasks_header),
-                            taskList = uiState.dailyTasksState.dailyTasks.completedTasks,
-                            onEntryClicked = { onTaskClicked(it) },
-                            onCheckedChange = { isDone, task ->
-                                onToggleTaskDone(isDone, task)
-                            }
+                            task = item,
+                            entryType = EntryType.CompletedTask,
+                            onEntryClick = { onTaskClicked(item) },
+                            onCheckedChange = { onToggleTaskDone(it, item) }
                         )
                     }
                 }

@@ -4,6 +4,7 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -24,8 +25,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import work.racka.reluct.android.compose.components.buttons.ReluctFloatingActionButton
+import work.racka.reluct.android.compose.components.cards.headers.TaskGroupHeadingHeader
 import work.racka.reluct.android.compose.components.cards.task_entry.EntryType
-import work.racka.reluct.android.compose.components.cards.task_entry.GroupedTaskEntries
+import work.racka.reluct.android.compose.components.cards.task_entry.TaskEntry
 import work.racka.reluct.android.compose.components.images.LottieAnimationWithDescription
 import work.racka.reluct.android.compose.components.util.rememberScrollContext
 import work.racka.reluct.android.compose.theme.Dimens
@@ -33,7 +35,10 @@ import work.racka.reluct.android.screens.R
 import work.racka.reluct.common.model.domain.tasks.Task
 import work.racka.reluct.common.model.states.tasks.PendingTasksState
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
+@OptIn(
+    ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class,
+    ExperimentalFoundationApi::class
+)
 @Composable
 internal fun PendingTasksUI(
     modifier: Modifier = Modifier,
@@ -128,41 +133,35 @@ internal fun PendingTasksUI(
                     state = listState,
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement
-                        .spacedBy(Dimens.MediumPadding.size)
+                        .spacedBy(Dimens.SmallPadding.size)
                 ) {
-                    // Top Space
-                    item {
-                        Spacer(modifier = Modifier)
-                    }
 
                     if (uiState.overdueTasksData.isNotEmpty()) {
-                        item {
-                            GroupedTaskEntries(
+                        stickyHeader {
+                            TaskGroupHeadingHeader(text = stringResource(R.string.overdue_tasks_header))
+                        }
+                        items(uiState.overdueTasksData) { item ->
+                            TaskEntry(
+                                task = item,
                                 entryType = EntryType.TasksWithOverdue,
-                                groupTitle = stringResource(R.string.overdue_tasks_header),
-                                taskList = uiState.overdueTasksData,
-                                onEntryClicked = { task ->
-                                    onTaskClicked(task)
-                                },
-                                onCheckedChange = { isDone, task ->
-                                    onToggleTaskDone(isDone, task)
-                                }
+                                onEntryClick = { onTaskClicked(item) },
+                                onCheckedChange = { onToggleTaskDone(it, item) }
                             )
                         }
                     }
 
-                    items(uiState.tasksData.toList()) { taskGroup ->
-                        GroupedTaskEntries(
-                            entryType = EntryType.PendingTask,
-                            groupTitle = taskGroup.first,
-                            taskList = taskGroup.second,
-                            onEntryClicked = { task ->
-                                onTaskClicked(task)
-                            },
-                            onCheckedChange = { isDone, taskId ->
-                                onToggleTaskDone(isDone, taskId)
-                            }
-                        )
+                    uiState.tasksData.forEach { taskGroup ->
+                        stickyHeader {
+                            TaskGroupHeadingHeader(text = taskGroup.key)
+                        }
+                        items(taskGroup.value) { item ->
+                            TaskEntry(
+                                task = item,
+                                entryType = EntryType.PendingTask,
+                                onEntryClick = { onTaskClicked(item) },
+                                onCheckedChange = { onToggleTaskDone(it, item) }
+                            )
+                        }
                     }
 
                     // Loading when fetching more data

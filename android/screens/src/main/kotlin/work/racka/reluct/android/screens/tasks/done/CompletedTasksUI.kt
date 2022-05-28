@@ -3,8 +3,10 @@ package work.racka.reluct.android.screens.tasks.done
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.Scaffold
 import androidx.compose.material.ScaffoldState
@@ -21,8 +23,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import work.racka.reluct.android.compose.components.buttons.ReluctFloatingActionButton
+import work.racka.reluct.android.compose.components.cards.headers.TaskGroupHeadingHeader
 import work.racka.reluct.android.compose.components.cards.task_entry.EntryType
-import work.racka.reluct.android.compose.components.cards.task_entry.GroupedTaskEntries
+import work.racka.reluct.android.compose.components.cards.task_entry.TaskEntry
 import work.racka.reluct.android.compose.components.images.LottieAnimationWithDescription
 import work.racka.reluct.android.compose.components.util.rememberScrollContext
 import work.racka.reluct.android.compose.theme.Dimens
@@ -30,6 +33,7 @@ import work.racka.reluct.android.screens.R
 import work.racka.reluct.common.model.domain.tasks.Task
 import work.racka.reluct.common.model.states.tasks.CompletedTasksState
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 internal fun CompletedTasksUI(
     modifier: Modifier = Modifier,
@@ -123,25 +127,19 @@ internal fun CompletedTasksUI(
                     state = listState,
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement
-                        .spacedBy(Dimens.MediumPadding.size)
+                        .spacedBy(Dimens.SmallPadding.size)
                 ) {
-                    // Top Space
-                    item {
-                        Spacer(modifier = Modifier)
-                    }
 
                     uiState.tasksData.forEach { taskGroup ->
-                        item {
-                            GroupedTaskEntries(
+                        stickyHeader {
+                            TaskGroupHeadingHeader(text = taskGroup.key)
+                        }
+                        items(taskGroup.value) { item ->
+                            TaskEntry(
+                                task = item,
                                 entryType = EntryType.CompletedTask,
-                                groupTitle = taskGroup.key,
-                                taskList = taskGroup.value,
-                                onEntryClicked = { task ->
-                                    onTaskClicked(task)
-                                },
-                                onCheckedChange = { isDone, task ->
-                                    onToggleTaskDone(isDone, task)
-                                }
+                                onEntryClick = { onTaskClicked(item) },
+                                onCheckedChange = { onToggleTaskDone(it, item) }
                             )
                         }
                     }
@@ -159,7 +157,8 @@ internal fun CompletedTasksUI(
                         }
                     }
 
-                    // Bottom Space
+                    // Bottom Space for spaceBy
+                    // Needed so that the load more indicator is shown
                     item {
                         Spacer(modifier = Modifier)
                     }

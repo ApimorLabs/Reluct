@@ -97,13 +97,18 @@ internal fun TasksSearchUI(
                     state = listState,
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement
-                        .spacedBy(Dimens.MediumPadding.size)
+                        .spacedBy(Dimens.SmallPadding.size)
                 ) {
+
+                    // Top Space for spaceBy
+                    item {
+                        Spacer(modifier = Modifier)
+                    }
 
                     items(uiState.searchData.tasksData) { item ->
                         TaskEntry(
                             task = item,
-                            entryType = EntryType.TasksWithOverdue,
+                            entryType = EntryType.CompletedTask,
                             onEntryClick = { onTaskClicked(item) },
                             onCheckedChange = { onToggleTaskDone(it, item) }
                         )
@@ -120,7 +125,8 @@ internal fun TasksSearchUI(
                         }
                     }
 
-                    // Bottom Space
+                    // Bottom Space for spaceBy
+                    // Needed so that the load more indicator is shown
                     item {
                         Spacer(modifier = Modifier)
                     }
