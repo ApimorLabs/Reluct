@@ -3,30 +3,12 @@ plugins {
     kotlin("android")
 }
 
-android {
-    compileSdk = AppConfig.compileSdkVersion
-
-    defaultConfig {
-        minSdk = AppConfig.minSdkVersion
-        targetSdk = AppConfig.targetSdkVersion
-    }
-
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
+android.apply {
     buildFeatures {
         compose = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = Versions.compose
-    }
-
-    sourceSets {
-        named("main") {
-            manifest.srcFile("src/main/AndroidManifest.xml")
-            res.srcDirs("src/main/res")
-        }
     }
 }
 

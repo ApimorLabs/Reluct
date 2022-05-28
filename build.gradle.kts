@@ -42,7 +42,13 @@ allprojects {
 
 subprojects {
     afterEvaluate {
-        project.extensions.findByType<KotlinMultiplatformExtension>()?.let { ext ->
+        val kmpExtension = project.extensions.findByType<KotlinMultiplatformExtension>()
+
+        // Check if the subproject is KMP or a normal Android subproject
+        val isAndroidKMP = kmpExtension != null
+
+        // Remove unused Kotlin Multiplatform source sets
+        kmpExtension?.let { ext ->
             ext.sourceSets.removeAll { sourceSet ->
                 setOf(
                     "androidAndroidTestRelease",
@@ -50,6 +56,51 @@ subprojects {
                     "androidTestFixturesDebug",
                     "androidTestFixturesRelease",
                 ).contains(sourceSet.name)
+            }
+        }
+
+        // Provide default library configurations for each Android source
+        project.extensions.findByType<com.android.build.gradle.LibraryExtension>()?.apply {
+            compileSdk = AppConfig.compileSdkVersion
+
+            defaultConfig {
+                minSdk = AppConfig.minSdkVersion
+                targetSdk = AppConfig.targetSdkVersion
+
+                testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+                vectorDrawables {
+                    useSupportLibrary = true
+                }
+
+            }
+
+            buildTypes {
+                getByName("release") {
+                    isMinifyEnabled = true
+                }
+            }
+
+            compileOptions {
+                sourceCompatibility = JavaVersion.VERSION_11
+                targetCompatibility = JavaVersion.VERSION_11
+            }
+
+            // If the subproject is KMP we need to check in "androidMain" for manifest files
+            // Else we check in the normal "main" folder
+            if (isAndroidKMP) {
+                sourceSets {
+                    named("main") {
+                        manifest.srcFile("src/androidMain/AndroidManifest.xml")
+                        res.srcDirs("src/androidMain/res")
+                    }
+                }
+            } else {
+                sourceSets {
+                    named("main") {
+                        manifest.srcFile("src/main/AndroidManifest.xml")
+                        res.srcDirs("src/main/res")
+                    }
+                }
             }
         }
     }
