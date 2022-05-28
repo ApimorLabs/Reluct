@@ -17,7 +17,7 @@ kotlin {
         val desktopMain by getting {
             dependencies {
                 implementation(project(":common:model"))
-                implementation(project(":common:integration"))
+                implementation(project(":common:di-integration"))
 
                 implementation(compose.desktop.currentOs)
                 implementation(Dependencies.Kotlin.dateTime)

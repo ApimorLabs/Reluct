@@ -74,7 +74,7 @@ android {
 dependencies {
     // Dependency Modules
     implementation(project(":common:model"))
-    implementation(project(":common:integration"))
+    implementation(project(":common:di-integration"))
     implementation(project(":common:persistence:settings"))
     implementation(project(":android:compose:components"))
     implementation(project(":android:compose:charts"))

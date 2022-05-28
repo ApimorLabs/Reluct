@@ -26,7 +26,7 @@ android {
 
 kotlin {
     android()
-    jvm("desktop")
+    jvm()
 
     sourceSets {
         val commonMain by getting {
@@ -40,28 +40,18 @@ kotlin {
                 implementation(project(":common:features:tasks"))
                 implementation(project(":common:features:settings"))
 
-                implementation(Dependencies.OrbitMVI.core) // Should be removed
-                implementation(Dependencies.Squareup.SQLDelight.coroutineExtensions)
                 implementation(Dependencies.Koin.core)
-                implementation(Dependencies.Log.kermit)
             }
         }
 
         val commonTest by getting
 
-        val androidMain by getting {
-            dependencies {
-
-            }
-        }
+        val androidMain by getting
 
         val androidTest by getting
 
-        val desktopMain by getting {
-            dependencies {
-            }
-        }
+        val jvmMain by getting
 
-        val desktopTest by getting
+        val jvmTest by getting
     }
 }
