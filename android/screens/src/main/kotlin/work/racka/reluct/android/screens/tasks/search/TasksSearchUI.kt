@@ -8,27 +8,31 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.Snackbar
 import androidx.compose.material.SnackbarHost
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import work.racka.reluct.android.compose.components.cards.task_entry.EntryType
 import work.racka.reluct.android.compose.components.cards.task_entry.TaskEntry
 import work.racka.reluct.android.compose.components.images.LottieAnimationWithDescription
 import work.racka.reluct.android.compose.components.textfields.search.MaterialSearchBar
+import work.racka.reluct.android.compose.components.topBar.ReluctContentTopBar
 import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.android.screens.R
 import work.racka.reluct.common.model.domain.tasks.Task
 import work.racka.reluct.common.model.states.tasks.SearchData
 import work.racka.reluct.common.model.states.tasks.SearchTasksState
 
-@OptIn(ExperimentalComposeUiApi::class)
+@OptIn(ExperimentalComposeUiApi::class, ExperimentalMaterial3Api::class)
 @Composable
 internal fun TasksSearchUI(
     modifier: Modifier = Modifier,
@@ -44,20 +48,28 @@ internal fun TasksSearchUI(
         FocusRequester()
     }
 
+    val scrollBehavior = remember { TopAppBarDefaults.enterAlwaysScrollBehavior() }
+
     Scaffold(
         modifier = modifier
+            .nestedScroll(scrollBehavior.nestedScrollConnection)
             .fillMaxSize(),
         scaffoldState = scaffoldState,
         topBar = {
-            MaterialSearchBar(
-                modifier = Modifier
-                    .padding(vertical = Dimens.SmallPadding.size)
-                    .statusBarsPadding(),
-                value = uiState.searchQuery,
-                onSearch = { onSearch(it) },
-                onDismissSearchClicked = { onSearch("") },
-                focusRequester = focusRequester
-            )
+            ReluctContentTopBar(
+                minShrinkHeight = 36.dp,
+                scrollBehavior = scrollBehavior
+            ) {
+                MaterialSearchBar(
+                    modifier = Modifier
+                        .padding(vertical = Dimens.SmallPadding.size)
+                        .statusBarsPadding(),
+                    value = uiState.searchQuery,
+                    onSearch = { onSearch(it) },
+                    onDismissSearchClicked = { onSearch("") },
+                    focusRequester = focusRequester
+                )
+            }
         },
         snackbarHost = {
             SnackbarHost(hostState = it) { data ->
@@ -100,11 +112,6 @@ internal fun TasksSearchUI(
                         .spacedBy(Dimens.SmallPadding.size)
                 ) {
 
-                    // Top Space for spaceBy
-                    item {
-                        Spacer(modifier = Modifier)
-                    }
-
                     items(uiState.searchData.tasksData) { item ->
                         TaskEntry(
                             task = item,
@@ -128,7 +135,7 @@ internal fun TasksSearchUI(
                     // Bottom Space for spaceBy
                     // Needed so that the load more indicator is shown
                     item {
-                        Spacer(modifier = Modifier)
+                        Spacer(modifier = Modifier.navigationBarsPadding())
                     }
                 }
             }
