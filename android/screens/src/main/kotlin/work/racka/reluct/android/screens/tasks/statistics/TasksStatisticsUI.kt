@@ -197,7 +197,7 @@ internal fun TasksStatisticsUI(
                 }
 
 
-                // Bottom Space
+                // Bottom Space for spaceBy
                 item {
                     Spacer(modifier = Modifier)
                 }

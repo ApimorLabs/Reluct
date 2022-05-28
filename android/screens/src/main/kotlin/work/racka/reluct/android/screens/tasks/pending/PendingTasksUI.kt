@@ -177,7 +177,8 @@ internal fun PendingTasksUI(
                         }
                     }
 
-                    // Bottom Space
+                    // Bottom Space for spaceBy
+                    // Needed so that the load more indicator is shown
                     item {
                         Spacer(modifier = Modifier)
                     }
