@@ -1,5 +1,9 @@
 package work.racka.reluct.android.screens.tasks.search
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -8,20 +12,23 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.Snackbar
 import androidx.compose.material.SnackbarHost
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.ArrowUpward
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
-import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.launch
+import work.racka.reluct.android.compose.components.buttons.ReluctFloatingActionButton
 import work.racka.reluct.android.compose.components.cards.task_entry.EntryType
 import work.racka.reluct.android.compose.components.cards.task_entry.TaskEntry
 import work.racka.reluct.android.compose.components.images.LottieAnimationWithDescription
@@ -34,7 +41,10 @@ import work.racka.reluct.common.model.domain.tasks.Task
 import work.racka.reluct.common.model.states.tasks.SearchData
 import work.racka.reluct.common.model.states.tasks.SearchTasksState
 
-@OptIn(ExperimentalComposeUiApi::class, ExperimentalMaterial3Api::class)
+@OptIn(
+    ExperimentalComposeUiApi::class, ExperimentalMaterial3Api::class,
+    ExperimentalAnimationApi::class
+)
 @Composable
 internal fun TasksSearchUI(
     modifier: Modifier = Modifier,
@@ -52,7 +62,7 @@ internal fun TasksSearchUI(
         FocusRequester()
     }
 
-    val scrollBehavior = remember { TopAppBarDefaults.enterAlwaysScrollBehavior() }
+    val scope = rememberCoroutineScope()
 
     LaunchedEffect(scrollContext.isBottom) {
         if (scrollContext.isBottom && uiState.shouldUpdateData
@@ -63,14 +73,11 @@ internal fun TasksSearchUI(
     }
 
     Scaffold(
-        modifier = modifier
-            .nestedScroll(scrollBehavior.nestedScrollConnection)
-            .fillMaxSize(),
+        modifier = modifier.fillMaxSize(),
         scaffoldState = scaffoldState,
         topBar = {
             ReluctContentTopBar(
                 minShrinkHeight = 36.dp,
-                scrollBehavior = scrollBehavior
             ) {
                 MaterialSearchBar(
                     modifier = Modifier
@@ -149,9 +156,34 @@ internal fun TasksSearchUI(
                     // Bottom Space for spaceBy
                     // Needed so that the load more indicator is shown
                     item {
-                        Spacer(modifier = Modifier.navigationBarsPadding())
+                        Spacer(
+                            modifier = Modifier
+                                .padding(bottom = Dimens.ExtraLargePadding.size)
+                                .navigationBarsPadding()
+                        )
                     }
                 }
+            }
+
+            // Scroll To Top
+            AnimatedVisibility(
+                modifier = Modifier.align(Alignment.BottomCenter),
+                visible = !scrollContext.isTop,
+                enter = scaleIn(),
+                exit = scaleOut()
+            ) {
+                ReluctFloatingActionButton(
+                    modifier = Modifier
+                        .padding(bottom = Dimens.MediumPadding.size)
+                        .navigationBarsPadding(),
+                    buttonText = "",
+                    contentDescription = stringResource(R.string.scroll_to_top),
+                    icon = Icons.Rounded.ArrowUpward,
+                    onButtonClicked = {
+                        scope.launch { listState.animateScrollToItem(0) }
+                    },
+                    expanded = false
+                )
             }
         }
     }

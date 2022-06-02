@@ -16,6 +16,7 @@ import androidx.compose.material.Snackbar
 import androidx.compose.material.SnackbarHost
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
+import androidx.compose.material.icons.rounded.ArrowUpward
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LinearProgressIndicator
@@ -25,6 +26,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.launch
 import work.racka.reluct.android.compose.components.buttons.ReluctFloatingActionButton
 import work.racka.reluct.android.compose.components.cards.headers.TaskGroupHeadingHeader
 import work.racka.reluct.android.compose.components.cards.task_entry.EntryType
@@ -57,6 +59,8 @@ internal fun PendingTasksUI(
 ) {
     val listState = rememberLazyListState()
     val scrollContext = rememberScrollContext(listState = listState)
+
+    val scope = rememberCoroutineScope()
 
     LaunchedEffect(scrollContext.isBottom) {
         if (scrollContext.isBottom && uiState.shouldUpdateData
@@ -223,6 +227,27 @@ internal fun PendingTasksUI(
                         )
                     }
                 }
+            }
+
+            // Scroll To Top
+            AnimatedVisibility(
+                modifier = Modifier.align(Alignment.BottomCenter),
+                visible = !scrollContext.isTop,
+                enter = scaleIn(),
+                exit = scaleOut()
+            ) {
+                ReluctFloatingActionButton(
+                    modifier = Modifier
+                        .padding(bottom = Dimens.MediumPadding.size)
+                        .navigationBarsPadding(),
+                    buttonText = "",
+                    contentDescription = stringResource(R.string.scroll_to_top),
+                    icon = Icons.Rounded.ArrowUpward,
+                    onButtonClicked = {
+                        scope.launch { listState.animateScrollToItem(0) }
+                    },
+                    expanded = false
+                )
             }
         }
     }

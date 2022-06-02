@@ -5,6 +5,8 @@
     <string name="back_icon">Go Back</string>
     <string name="clear_icon">Clear Input</string>
     <string name="add_icon">Add Icon</string>
+    <string name="up_icon">Up Arrow Icon</string>
+    <string name="scroll_to_top">Scroll to the top</string>
     <string name="external_link">Open External Link</string>
     <string name="expand_icon">Show More / Show Less</string>
     <string name="settings_icon">Settings</string>

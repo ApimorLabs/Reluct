@@ -1,8 +1,6 @@
 package work.racka.reluct.android.screens.tasks.done
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
+import androidx.compose.animation.*
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -15,6 +13,7 @@ import androidx.compose.material.Snackbar
 import androidx.compose.material.SnackbarHost
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
+import androidx.compose.material.icons.rounded.ArrowUpward
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
@@ -23,6 +22,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.launch
 import work.racka.reluct.android.compose.components.buttons.ReluctFloatingActionButton
 import work.racka.reluct.android.compose.components.cards.headers.TaskGroupHeadingHeader
 import work.racka.reluct.android.compose.components.cards.task_entry.EntryType
@@ -37,7 +37,7 @@ import work.racka.reluct.android.screens.R
 import work.racka.reluct.common.model.domain.tasks.Task
 import work.racka.reluct.common.model.states.tasks.CompletedTasksState
 
-@OptIn(ExperimentalFoundationApi::class)
+@OptIn(ExperimentalFoundationApi::class, ExperimentalAnimationApi::class)
 @Composable
 internal fun CompletedTasksUI(
     modifier: Modifier = Modifier,
@@ -52,6 +52,7 @@ internal fun CompletedTasksUI(
 ) {
     val listState = rememberLazyListState()
     val scrollContext = rememberScrollContext(listState = listState)
+    val scope = rememberCoroutineScope()
 
     LaunchedEffect(scrollContext.isBottom) {
         if (scrollContext.isBottom && uiState.shouldUpdateData
@@ -198,6 +199,27 @@ internal fun CompletedTasksUI(
                         )
                     }
                 }
+            }
+
+            // Scroll To Top
+            AnimatedVisibility(
+                modifier = Modifier.align(Alignment.BottomCenter),
+                visible = !scrollContext.isTop,
+                enter = scaleIn(),
+                exit = scaleOut()
+            ) {
+                ReluctFloatingActionButton(
+                    modifier = Modifier
+                        .padding(bottom = Dimens.MediumPadding.size)
+                        .navigationBarsPadding(),
+                    buttonText = "",
+                    contentDescription = stringResource(R.string.scroll_to_top),
+                    icon = Icons.Rounded.ArrowUpward,
+                    onButtonClicked = {
+                        scope.launch { listState.animateScrollToItem(0) }
+                    },
+                    expanded = false
+                )
             }
         }
     }
