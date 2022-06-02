@@ -158,7 +158,10 @@ internal fun TasksStatisticsUI(
                         TaskGroupHeadingHeader(text = stringResource(R.string.not_done_tasks_header))
                     }
 
-                    items(uiState.dailyTasksState.dailyTasks.pendingTasks) { item ->
+                    items(
+                        items = uiState.dailyTasksState.dailyTasks.pendingTasks,
+                        key = { it.id }
+                    ) { item ->
                         TaskEntry(
                             playScaleAnimation = true,
                             task = item,
@@ -174,7 +177,10 @@ internal fun TasksStatisticsUI(
                         TaskGroupHeadingHeader(text = stringResource(R.string.done_tasks_header))
                     }
 
-                    items(uiState.dailyTasksState.dailyTasks.completedTasks) { item ->
+                    items(
+                        items = uiState.dailyTasksState.dailyTasks.completedTasks,
+                        key = { it.id }
+                    ) { item ->
                         TaskEntry(
                             playScaleAnimation = true,
                             task = item,

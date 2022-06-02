@@ -112,7 +112,10 @@ internal fun TasksSearchUI(
                         .spacedBy(Dimens.SmallPadding.size)
                 ) {
 
-                    items(uiState.searchData.tasksData) { item ->
+                    items(
+                        items = uiState.searchData.tasksData,
+                        key = { it.id }
+                    ) { item ->
                         TaskEntry(
                             task = item,
                             entryType = EntryType.CompletedTask,

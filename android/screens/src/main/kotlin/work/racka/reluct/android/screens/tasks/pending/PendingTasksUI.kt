@@ -145,7 +145,10 @@ internal fun PendingTasksUI(
                         stickyHeader {
                             TaskGroupHeadingHeader(text = stringResource(R.string.overdue_tasks_header))
                         }
-                        items(uiState.overdueTasksData) { item ->
+                        items(
+                            items = uiState.overdueTasksData,
+                            key = { it.id }
+                        ) { item ->
                             TaskEntry(
                                 task = item,
                                 entryType = EntryType.TasksWithOverdue,
@@ -159,7 +162,10 @@ internal fun PendingTasksUI(
                         stickyHeader {
                             TaskGroupHeadingHeader(text = taskGroup.key)
                         }
-                        items(taskGroup.value) { item ->
+                        items(
+                            items = taskGroup.value,
+                            key = { it.id }
+                        ) { item ->
                             TaskEntry(
                                 task = item,
                                 entryType = EntryType.PendingTask,

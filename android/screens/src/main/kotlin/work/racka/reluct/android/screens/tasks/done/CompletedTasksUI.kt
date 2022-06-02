@@ -139,7 +139,10 @@ internal fun CompletedTasksUI(
                         stickyHeader {
                             TaskGroupHeadingHeader(text = taskGroup.key)
                         }
-                        items(taskGroup.value) { item ->
+                        items(
+                            items = taskGroup.value,
+                            key = { it.id }
+                        ) { item ->
                             TaskEntry(
                                 task = item,
                                 entryType = EntryType.CompletedTask,
