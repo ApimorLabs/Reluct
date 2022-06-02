@@ -57,11 +57,6 @@ internal class ScreenTimeStatsImpl(
     private lateinit var dailyScreenTimeStatsJob: Job
     private lateinit var weeklyScreenTimeStatsJob: Job
 
-    private fun getData() {
-        getWeeklyData()
-        getDailyData()
-    }
-
     private fun getDailyData() {
         dailyScreenTimeStatsJob = scope.launch {
             val dailyData = getDailyUsageStats(
@@ -95,6 +90,11 @@ internal class ScreenTimeStatsImpl(
                 }
             }
         }
+    }
+
+    override fun getData() {
+        getWeeklyData()
+        getDailyData()
     }
 
     override fun selectDay(selectedDayIsoNumber: Int) {

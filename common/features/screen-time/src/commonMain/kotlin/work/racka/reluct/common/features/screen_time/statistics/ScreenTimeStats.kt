@@ -8,6 +8,7 @@ import work.racka.reluct.common.features.screen_time.states.ScreenTimeStatsState
 interface ScreenTimeStats {
     val uiState: StateFlow<ScreenTimeStatsState>
     val events: Flow<ScreenTimeStatsEvents>
+    fun getData()
     fun selectDay(selectedDayIsoNumber: Int)
     fun updateWeekOffset(weekOffsetValue: Int)
     fun navigateToAppInfo(packageName: String)
