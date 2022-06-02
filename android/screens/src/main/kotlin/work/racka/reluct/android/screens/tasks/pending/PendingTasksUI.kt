@@ -20,10 +20,7 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -61,10 +58,12 @@ internal fun PendingTasksUI(
     val listState = rememberLazyListState()
     val scrollContext = rememberScrollContext(listState = listState)
 
-    if (scrollContext.isBottom && uiState.shouldUpdateData
-        && uiState !is PendingTasksState.Loading
-    ) {
-        fetchMoreData()
+    LaunchedEffect(scrollContext.isBottom) {
+        if (scrollContext.isBottom && uiState.shouldUpdateData
+            && uiState !is PendingTasksState.Loading
+        ) {
+            fetchMoreData()
+        }
     }
 
     // Need to evaluate recomposition overhead when user it at the

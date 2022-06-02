@@ -42,6 +42,7 @@ fun TasksSearchScreen(
 
     TasksSearchUI(scaffoldState = scaffoldState,
         uiState = uiState,
+        fetchMoreData = { viewModel.host.fetchMoreData() },
         onSearch = { viewModel.host.search(it) },
         onTaskClicked = { viewModel.host.navigateToTaskDetails(it.id) },
         onToggleTaskDone = { isDone, task ->

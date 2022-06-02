@@ -13,6 +13,7 @@ import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -26,6 +27,7 @@ import work.racka.reluct.android.compose.components.cards.task_entry.TaskEntry
 import work.racka.reluct.android.compose.components.images.LottieAnimationWithDescription
 import work.racka.reluct.android.compose.components.textfields.search.MaterialSearchBar
 import work.racka.reluct.android.compose.components.topBar.ReluctContentTopBar
+import work.racka.reluct.android.compose.components.util.rememberScrollContext
 import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.android.screens.R
 import work.racka.reluct.common.model.domain.tasks.Task
@@ -38,17 +40,27 @@ internal fun TasksSearchUI(
     modifier: Modifier = Modifier,
     scaffoldState: ScaffoldState,
     uiState: SearchTasksState,
+    fetchMoreData: () -> Unit,
     onSearch: (query: String) -> Unit,
     onTaskClicked: (task: Task) -> Unit,
     onToggleTaskDone: (isDone: Boolean, task: Task) -> Unit,
 ) {
 
     val listState = rememberLazyListState()
+    val scrollContext = rememberScrollContext(listState = listState)
     val focusRequester = remember {
         FocusRequester()
     }
 
     val scrollBehavior = remember { TopAppBarDefaults.enterAlwaysScrollBehavior() }
+
+    LaunchedEffect(scrollContext.isBottom) {
+        if (scrollContext.isBottom && uiState.shouldUpdateData
+            && uiState.searchData !is SearchData.Loading
+        ) {
+            fetchMoreData()
+        }
+    }
 
     Scaffold(
         modifier = modifier
