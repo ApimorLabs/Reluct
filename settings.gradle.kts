@@ -13,6 +13,7 @@ include(
     ":common:di-integration",
     ":common:features:goals",
     ":common:features:settings",
+    ":common:features:screen-time",
     ":common:features:tasks",
     ":common:model",
     ":common:persistence:database",

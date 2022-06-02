@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
@@ -25,7 +23,6 @@ kotlin {
             dependencies {
                 implementation(Dependencies.Mockk.core)
                 implementation(Dependencies.Mockk.commonMultiplatform)
-                implementation(Dependencies.Kotlin.dateTime)
                 implementation(Dependencies.Koin.test)
                 implementation(Dependencies.Kotlin.Coroutines.test)
                 implementation(Dependencies.Squareup.Testing.turbine)
@@ -46,14 +43,10 @@ kotlin {
 
         val desktopMain by getting {
             dependencies {
-
+                implementation(Dependencies.Log.slf4j)
             }
         }
 
         val desktopTest by getting
     }
-}
-
-tasks.withType<KotlinCompile> {
-    kotlinOptions.freeCompilerArgs += "-opt-in=kotlin.RequiresOptIn"
 }
