@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Scaffold
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.Snackbar
@@ -29,6 +30,8 @@ import work.racka.reluct.android.compose.components.cards.statistics.tasks.Tasks
 import work.racka.reluct.android.compose.components.cards.task_entry.EntryType
 import work.racka.reluct.android.compose.components.cards.task_entry.TaskEntry
 import work.racka.reluct.android.compose.components.images.LottieAnimationWithDescription
+import work.racka.reluct.android.compose.components.util.BarsVisibility
+import work.racka.reluct.android.compose.components.util.rememberScrollContext
 import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.android.compose.theme.Shapes
 import work.racka.reluct.android.screens.R
@@ -42,6 +45,7 @@ import work.racka.reluct.common.model.states.tasks.WeeklyTasksState
 internal fun TasksStatisticsUI(
     modifier: Modifier = Modifier,
     mainScaffoldPadding: PaddingValues,
+    barsVisibility: BarsVisibility,
     scaffoldState: ScaffoldState,
     uiState: TasksStatisticsState,
     onSelectDay: (dayIsoNumber: Int) -> Unit,
@@ -50,6 +54,15 @@ internal fun TasksStatisticsUI(
     onToggleTaskDone: (isDone: Boolean, task: Task) -> Unit,
 ) {
     val listState = rememberLazyListState()
+    val scrollContext = rememberScrollContext(listState = listState)
+
+    // Need to evaluate recomposition overhead when user it at the
+    // top of the list
+    if (scrollContext.isTop) {
+        barsVisibility.bottomBar.show()
+    } else {
+        barsVisibility.bottomBar.hide()
+    }
 
     val barChartState = remember(uiState.weeklyTasksState) {
         derivedStateOf {
@@ -71,6 +84,10 @@ internal fun TasksStatisticsUI(
         }
     }
 
+    val snackbarModifier = if (scrollContext.isTop) {
+        Modifier.padding(bottom = mainScaffoldPadding.calculateBottomPadding())
+    } else Modifier.navigationBarsPadding()
+
     Scaffold(
         modifier = modifier
             .fillMaxSize(),
@@ -78,6 +95,8 @@ internal fun TasksStatisticsUI(
         snackbarHost = {
             SnackbarHost(hostState = it) { data ->
                 Snackbar(
+                    modifier = snackbarModifier,
+                    shape = RoundedCornerShape(10.dp),
                     snackbarData = data,
                     backgroundColor = MaterialTheme.colorScheme.inverseSurface,
                     contentColor = MaterialTheme.colorScheme.inverseOnSurface,
@@ -91,7 +110,6 @@ internal fun TasksStatisticsUI(
             modifier = Modifier
                 .animateContentSize()
                 .padding(padding)
-                .padding(bottom = mainScaffoldPadding.calculateBottomPadding())
                 .padding(horizontal = Dimens.MediumPadding.size)
                 .fillMaxSize(),
             contentAlignment = Alignment.Center
@@ -205,7 +223,11 @@ internal fun TasksStatisticsUI(
 
                 // Bottom Space for spaceBy
                 item {
-                    Spacer(modifier = Modifier)
+                    Spacer(
+                        modifier = Modifier
+                            .padding(bottom = Dimens.ExtraLargePadding.size)
+                            .navigationBarsPadding()
+                    )
                 }
             }
         }

@@ -3,6 +3,7 @@ package work.racka.reluct.android.compose.navigation.navhost.graphs.extras
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.navigation.*
 import com.google.accompanist.navigation.animation.composable
+import work.racka.reluct.android.compose.components.util.BarsVisibility
 import work.racka.reluct.android.compose.destinations.OtherDestinations
 import work.racka.reluct.android.compose.destinations.navbar.Graphs
 import work.racka.reluct.android.compose.navigation.transitions.scaleInEnterTransition
@@ -18,9 +19,8 @@ import work.racka.reluct.android.screens.tasks.search.TasksSearchScreen
 @ExperimentalAnimationApi
 fun NavGraphBuilder.otherScreenNavGraph(
     navController: NavHostController,
-    updateNavBar: (hideNavBar: Boolean) -> Unit,
+    barsVisibility: BarsVisibility
 ) {
-
     navigation(
         route = Graphs.OtherDestinations.route,
         startDestination = OtherDestinations.AddEditTask.route
@@ -44,7 +44,7 @@ fun NavGraphBuilder.otherScreenNavGraph(
                 scaleOutPopExitTransition()
             }
         ) { navBackStackEntry ->
-            updateNavBar(true)
+            barsVisibility.bottomBar.show()
             AddEditTaskScreen(
                 taskId = NavHelpers.getStringArgs(navBackStackEntry, NavArgKeys.ADD_EDIT_TASK_ID),
                 onBackClicked = { navController.popBackStack() }
@@ -70,7 +70,7 @@ fun NavGraphBuilder.otherScreenNavGraph(
                 scaleOutPopExitTransition()
             }
         ) { navBackStackEntry ->
-            updateNavBar(true)
+            barsVisibility.bottomBar.show()
             TaskDetailsScreen(
                 taskId = NavHelpers.getStringArgs(navBackStackEntry, NavArgKeys.TASK_DETAILS_ID),
                 onNavigateToEditTask = {
@@ -98,7 +98,7 @@ fun NavGraphBuilder.otherScreenNavGraph(
                 scaleOutPopExitTransition()
             }
         ) {
-            updateNavBar(true)
+            barsVisibility.bottomBar.show()
             TasksSearchScreen(
                 onNavigateToTaskDetails = {
                     navController.navigate(

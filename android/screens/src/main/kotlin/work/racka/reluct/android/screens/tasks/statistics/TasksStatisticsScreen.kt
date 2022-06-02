@@ -12,6 +12,7 @@ import androidx.compose.ui.res.stringResource
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.viewModel
+import work.racka.reluct.android.compose.components.util.BarsVisibility
 import work.racka.reluct.android.screens.R
 import work.racka.reluct.common.features.tasks.viewmodels.TasksStatisticsViewModel
 import work.racka.reluct.common.model.states.tasks.TasksEvents
@@ -19,6 +20,7 @@ import work.racka.reluct.common.model.states.tasks.TasksEvents
 @Composable
 fun TasksStatisticsScreen(
     mainScaffoldPadding: PaddingValues,
+    barsVisibility: BarsVisibility,
     onNavigateToTaskDetails: (taskId: String) -> Unit,
 ) {
     val scaffoldState = rememberScaffoldState()
@@ -45,6 +47,7 @@ fun TasksStatisticsScreen(
 
     TasksStatisticsUI(
         mainScaffoldPadding = mainScaffoldPadding,
+        barsVisibility = barsVisibility,
         scaffoldState = scaffoldState,
         uiState = uiState,
         onSelectDay = { dayIsoNumber -> viewModel.host.selectDay(dayIsoNumber) },

@@ -2,22 +2,18 @@ package work.racka.reluct.android.compose.navigation.navhost
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.animation.core.FastOutLinearInEasing
-import androidx.compose.animation.core.LinearOutSlowInEasing
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.slideInVertically
-import androidx.compose.animation.slideOutVertically
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import work.racka.reluct.android.compose.components.navbar.ReluctBottomNavBar
+import work.racka.reluct.android.compose.components.util.rememberBarVisibility
+import work.racka.reluct.android.compose.components.util.slideInVerticallyFadeReversed
+import work.racka.reluct.android.compose.components.util.slideOutVerticallyFadeReversed
 import work.racka.reluct.android.compose.destinations.navbar.Graphs
 import work.racka.reluct.android.compose.navigation.navhost.graphs.dashboard.dashboardNavGraph
 import work.racka.reluct.android.compose.navigation.navhost.graphs.extras.otherScreenNavGraph
@@ -31,21 +27,16 @@ fun AppNavHost(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberAnimatedNavController(),
 ) {
-    val hideNavBar = rememberSaveable { mutableStateOf(false) }
+
+    val barsVisibility = rememberBarVisibility()
 
     Scaffold(
         modifier = modifier,
         bottomBar = {
             AnimatedVisibility(
-                visible = !hideNavBar.value,
-                enter = slideInVertically(
-                    animationSpec = tween(durationMillis = 150, easing = LinearOutSlowInEasing),
-                    initialOffsetY = { fullHeight -> fullHeight }
-                ),
-                exit = slideOutVertically(
-                    animationSpec = tween(durationMillis = 150, easing = FastOutLinearInEasing),
-                    targetOffsetY = { fullHeight -> fullHeight }
-                )
+                visible = barsVisibility.bottomBar.isVisible,
+                enter = slideInVerticallyFadeReversed(),
+                exit = slideOutVerticallyFadeReversed()
             ) {
                 ReluctBottomNavBar(navController = navController)
             }
@@ -68,10 +59,10 @@ fun AppNavHost(
             composable(
                 route = Graphs.TasksDestinations.route
             ) {
-                hideNavBar.value = false
                 TasksNavHost(
                     mainNavController = navController,
-                    mainScaffoldPadding = innerPadding
+                    mainScaffoldPadding = innerPadding,
+                    barsVisibility = barsVisibility
                 )
             }
 
@@ -84,7 +75,7 @@ fun AppNavHost(
             //All Other screens that don't share Scaffolds
             otherScreenNavGraph(
                 navController = navController,
-                updateNavBar = { hideNavBar.value = it }
+                barsVisibility = barsVisibility
             )
         }
     }

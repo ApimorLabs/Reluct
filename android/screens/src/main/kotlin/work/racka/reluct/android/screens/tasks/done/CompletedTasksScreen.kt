@@ -12,6 +12,7 @@ import androidx.compose.ui.res.stringResource
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.viewModel
+import work.racka.reluct.android.compose.components.util.BarsVisibility
 import work.racka.reluct.android.screens.R
 import work.racka.reluct.common.features.tasks.viewmodels.CompletedTasksViewModel
 import work.racka.reluct.common.model.states.tasks.TasksEvents
@@ -19,6 +20,7 @@ import work.racka.reluct.common.model.states.tasks.TasksEvents
 @Composable
 fun CompletedTasksScreen(
     mainScaffoldPadding: PaddingValues,
+    barsVisibility: BarsVisibility,
     onNavigateToAddTask: (taskId: String?) -> Unit,
     onNavigateToTaskDetails: (taskId: String) -> Unit,
 ) {
@@ -45,6 +47,7 @@ fun CompletedTasksScreen(
 
     CompletedTasksUI(
         mainScaffoldPadding = mainScaffoldPadding,
+        barsVisibility = barsVisibility,
         uiState = uiState,
         scaffoldState = scaffoldState,
         onTaskClicked = {

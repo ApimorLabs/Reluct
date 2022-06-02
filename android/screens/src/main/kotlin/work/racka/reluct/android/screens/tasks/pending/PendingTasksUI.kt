@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Scaffold
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.Snackbar
@@ -32,7 +33,10 @@ import work.racka.reluct.android.compose.components.cards.headers.TaskGroupHeadi
 import work.racka.reluct.android.compose.components.cards.task_entry.EntryType
 import work.racka.reluct.android.compose.components.cards.task_entry.TaskEntry
 import work.racka.reluct.android.compose.components.images.LottieAnimationWithDescription
+import work.racka.reluct.android.compose.components.util.BarsVisibility
 import work.racka.reluct.android.compose.components.util.rememberScrollContext
+import work.racka.reluct.android.compose.components.util.slideInVerticallyFadeReversed
+import work.racka.reluct.android.compose.components.util.slideOutVerticallyFadeReversed
 import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.android.screens.R
 import work.racka.reluct.common.model.domain.tasks.Task
@@ -46,6 +50,7 @@ import work.racka.reluct.common.model.states.tasks.PendingTasksState
 internal fun PendingTasksUI(
     modifier: Modifier = Modifier,
     mainScaffoldPadding: PaddingValues,
+    barsVisibility: BarsVisibility,
     scaffoldState: ScaffoldState,
     uiState: PendingTasksState,
     onTaskClicked: (task: Task) -> Unit,
@@ -56,15 +61,28 @@ internal fun PendingTasksUI(
     val listState = rememberLazyListState()
     val scrollContext = rememberScrollContext(listState = listState)
 
-    val buttonExpanded by remember {
-        derivedStateOf { listState.firstVisibleItemIndex <= 0 }
-    }
-
     if (scrollContext.isBottom && uiState.shouldUpdateData
         && uiState !is PendingTasksState.Loading
     ) {
         fetchMoreData()
     }
+
+    // Need to evaluate recomposition overhead when user it at the
+    // top of the list
+    if (scrollContext.isTop) {
+        barsVisibility.bottomBar.show()
+    } else {
+        barsVisibility.bottomBar.hide()
+    }
+
+    val mainScaffoldBottomPadding by remember(mainScaffoldPadding) {
+        derivedStateOf {
+            mainScaffoldPadding.calculateBottomPadding()
+        }
+    }
+
+    val snackbarModifier = if (scrollContext.isTop) Modifier
+    else Modifier.navigationBarsPadding()
 
     Scaffold(
         modifier = modifier
@@ -73,6 +91,8 @@ internal fun PendingTasksUI(
         snackbarHost = {
             SnackbarHost(hostState = it) { data ->
                 Snackbar(
+                    modifier = snackbarModifier,
+                    shape = RoundedCornerShape(10.dp),
                     snackbarData = data,
                     backgroundColor = MaterialTheme.colorScheme.inverseSurface,
                     contentColor = MaterialTheme.colorScheme.inverseOnSurface,
@@ -82,25 +102,28 @@ internal fun PendingTasksUI(
         },
         backgroundColor = MaterialTheme.colorScheme.background,
         floatingActionButton = {
-            ReluctFloatingActionButton(
-                modifier = Modifier
-                    .padding(bottom = mainScaffoldPadding.calculateBottomPadding()),
-                buttonText = stringResource(R.string.new_task_button_text),
-                contentDescription = stringResource(R.string.add_icon),
-                icon = Icons.Rounded.Add,
-                onButtonClicked = {
-                    onAddTaskClicked(null)
-                },
-                expanded = buttonExpanded
-            )
+            AnimatedVisibility(
+                visible = scrollContext.isTop,
+                enter = slideInVerticallyFadeReversed(),
+                exit = slideOutVerticallyFadeReversed()
+            ) {
+                ReluctFloatingActionButton(
+                    modifier = Modifier
+                        .padding(bottom = mainScaffoldBottomPadding),
+                    buttonText = stringResource(R.string.new_task_button_text),
+                    contentDescription = stringResource(R.string.add_icon),
+                    icon = Icons.Rounded.Add,
+                    onButtonClicked = {
+                        onAddTaskClicked(null)
+                    }
+                )
+            }
         }
     ) { innerPadding ->
         Box(
             modifier = Modifier
                 .padding(innerPadding)
-                .padding(bottom = mainScaffoldPadding.calculateBottomPadding())
-                .padding(horizontal = Dimens.MediumPadding.size)
-                .fillMaxSize(),
+                .padding(horizontal = Dimens.MediumPadding.size),
             contentAlignment = Alignment.Center
         ) {
             AnimatedVisibility(
@@ -112,7 +135,9 @@ internal fun PendingTasksUI(
                 exit = scaleOut()
             ) {
                 Box(
-                    modifier = Modifier.fillMaxSize(),
+                    modifier = Modifier
+                        .padding(bottom = mainScaffoldBottomPadding)
+                        .fillMaxSize(),
                     contentAlignment = Alignment.Center
                 ) {
                     CircularProgressIndicator()
@@ -122,7 +147,9 @@ internal fun PendingTasksUI(
             // Show Empty Graphic
             if (uiState.overdueTasksData.isEmpty() && uiState.tasksData.isEmpty()) {
                 Box(
-                    modifier = Modifier.fillMaxSize(),
+                    modifier = Modifier
+                        .padding(bottom = mainScaffoldBottomPadding)
+                        .fillMaxSize(),
                     contentAlignment = Alignment.Center
                 ) {
                     LottieAnimationWithDescription(
@@ -180,18 +207,21 @@ internal fun PendingTasksUI(
                         if (uiState is PendingTasksState.Loading &&
                             uiState.tasksData.isNotEmpty() && uiState.overdueTasksData.isNotEmpty()
                         ) {
-                            Box(
-                                contentAlignment = Alignment.Center
-                            ) {
-                                LinearProgressIndicator()
-                            }
+                            LinearProgressIndicator(
+                                modifier = Modifier
+                                    .padding(Dimens.MediumPadding.size)
+                            )
                         }
                     }
 
                     // Bottom Space for spaceBy
                     // Needed so that the load more indicator is shown
                     item {
-                        Spacer(modifier = Modifier)
+                        Spacer(
+                            modifier = Modifier
+                                .padding(bottom = Dimens.ExtraLargePadding.size)
+                                .navigationBarsPadding()
+                        )
                     }
                 }
             }

@@ -24,6 +24,7 @@ import work.racka.reluct.android.compose.components.tab.tasks.TasksTabBar
 import work.racka.reluct.android.compose.components.textfields.search.PlaceholderMaterialSearchBar
 import work.racka.reluct.android.compose.components.topBar.ProfilePicture
 import work.racka.reluct.android.compose.components.topBar.ReluctContentTopBar
+import work.racka.reluct.android.compose.components.util.BarsVisibility
 import work.racka.reluct.android.compose.destinations.OtherDestinations
 import work.racka.reluct.android.compose.destinations.TasksDestinations
 import work.racka.reluct.android.compose.destinations.navbar.Graphs
@@ -40,6 +41,7 @@ import work.racka.reluct.android.screens.tasks.statistics.TasksStatisticsScreen
 @Composable
 internal fun TasksNavHost(
     mainNavController: NavHostController,
+    barsVisibility: BarsVisibility,
     navController: NavHostController = rememberAnimatedNavController(),
     mainScaffoldPadding: PaddingValues,
 ) {
@@ -96,6 +98,7 @@ internal fun TasksNavHost(
             ) {
                 PendingTasksScreen(
                     mainScaffoldPadding = mainScaffoldPadding,
+                    barsVisibility = barsVisibility,
                     onNavigateToAddTask = {
                         mainNavController.navigate(
                             "${OtherDestinations.AddEditTask.route}/$it"
@@ -127,6 +130,7 @@ internal fun TasksNavHost(
             ) {
                 CompletedTasksScreen(
                     mainScaffoldPadding = mainScaffoldPadding,
+                    barsVisibility = barsVisibility,
                     onNavigateToAddTask = {
                         mainNavController.navigate(
                             "${OtherDestinations.AddEditTask.route}/$it"
@@ -157,6 +161,7 @@ internal fun TasksNavHost(
             ) {
                 TasksStatisticsScreen(
                     mainScaffoldPadding = mainScaffoldPadding,
+                    barsVisibility = barsVisibility,
                     onNavigateToTaskDetails = {
                         mainNavController.navigate(
                             "${OtherDestinations.TaskDetails.route}/$it"

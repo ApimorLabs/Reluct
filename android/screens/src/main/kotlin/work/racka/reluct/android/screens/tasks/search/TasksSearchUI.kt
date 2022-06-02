@@ -127,11 +127,10 @@ internal fun TasksSearchUI(
                     // Loading when fetching more data
                     item {
                         if (uiState.searchData is SearchData.Loading) {
-                            Box(
-                                contentAlignment = Alignment.Center
-                            ) {
-                                LinearProgressIndicator()
-                            }
+                            LinearProgressIndicator(
+                                modifier = Modifier
+                                    .padding(Dimens.MediumPadding.size)
+                            )
                         }
                     }
 
