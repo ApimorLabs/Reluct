@@ -1,4 +1,4 @@
-package work.racka.reluct.common.data.di
+package work.racka.reluct.common.features.screen_time.di
 
 import org.koin.core.module.Module
 import org.koin.dsl.module

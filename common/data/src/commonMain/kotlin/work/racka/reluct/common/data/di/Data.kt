@@ -27,7 +27,7 @@ object Data {
         this.apply {
             modules(
                 commonModule(),
-                Platform.platformTasksModule()
+                Platform.installModule()
             )
         }
 
