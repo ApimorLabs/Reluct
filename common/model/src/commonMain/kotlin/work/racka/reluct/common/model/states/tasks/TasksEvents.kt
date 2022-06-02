@@ -2,7 +2,7 @@ package work.racka.reluct.common.model.states.tasks
 
 sealed class TasksEvents {
     object Nothing : TasksEvents()
-    data class ShowMessageDone(val isDone: Boolean) : TasksEvents()
+    data class ShowMessageDone(val isDone: Boolean, val msg: String) : TasksEvents()
     data class ShowMessage(val msg: String) : TasksEvents()
     data class DisplayErrorMsg(
         val msg: String,

@@ -20,8 +20,8 @@ import org.koin.dsl.module
 import org.koin.test.KoinTest
 import org.koin.test.inject
 import work.racka.reluct.common.data.mappers.tasks.asTask
-import work.racka.reluct.common.features.tasks.usecases.interfaces.GetTasksUseCase
-import work.racka.reluct.common.features.tasks.usecases.interfaces.ModifyTaskUseCase
+import work.racka.reluct.common.data.usecases.tasks.GetTasksUseCase
+import work.racka.reluct.common.data.usecases.tasks.ModifyTaskUseCase
 import work.racka.reluct.common.features.tasks.util.TestData
 import work.racka.reluct.common.model.states.tasks.CompletedTasksState
 import work.racka.reluct.common.model.states.tasks.TasksEvents
@@ -98,7 +98,7 @@ class CompletedTasksTest : KoinTest {
             val task = TestData.taskDbObjects.first()
                 .asTask()
                 .copy(id = taskId, done = isDone)
-            val expectedEvent = TasksEvents.ShowMessageDone(isDone)
+            val expectedEvent = TasksEvents.ShowMessageDone(isDone, task.title)
             coEvery { modifyTasksUsesCase.toggleTaskDone(task, isDone) } returns Unit
 
             val result = completedTasks.events

@@ -44,7 +44,7 @@ fun NavGraphBuilder.otherScreenNavGraph(
                 scaleOutPopExitTransition()
             }
         ) { navBackStackEntry ->
-            barsVisibility.bottomBar.show()
+            barsVisibility.bottomBar.hide()
             AddEditTaskScreen(
                 taskId = NavHelpers.getStringArgs(navBackStackEntry, NavArgKeys.ADD_EDIT_TASK_ID),
                 onBackClicked = { navController.popBackStack() }
@@ -70,7 +70,7 @@ fun NavGraphBuilder.otherScreenNavGraph(
                 scaleOutPopExitTransition()
             }
         ) { navBackStackEntry ->
-            barsVisibility.bottomBar.show()
+            barsVisibility.bottomBar.hide()
             TaskDetailsScreen(
                 taskId = NavHelpers.getStringArgs(navBackStackEntry, NavArgKeys.TASK_DETAILS_ID),
                 onNavigateToEditTask = {
@@ -98,7 +98,7 @@ fun NavGraphBuilder.otherScreenNavGraph(
                 scaleOutPopExitTransition()
             }
         ) {
-            barsVisibility.bottomBar.show()
+            barsVisibility.bottomBar.hide()
             TasksSearchScreen(
                 onNavigateToTaskDetails = {
                     navController.navigate(

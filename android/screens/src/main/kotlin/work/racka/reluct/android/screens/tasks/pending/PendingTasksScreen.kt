@@ -1,5 +1,6 @@
 package work.racka.reluct.android.screens.tasks.pending
 
+import android.content.Context
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.SnackbarDuration
@@ -8,7 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.platform.LocalContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.viewModel
@@ -31,14 +32,14 @@ fun PendingTasksScreen(
     val uiState by viewModel.host.uiState.collectAsState()
     val events by viewModel.host.events.collectAsState(initial = TasksEvents.Nothing)
 
-    val taskDone = stringResource(R.string.task_marked_as_done)
+    val context = LocalContext.current
 
     LaunchedEffect(events) {
         handleEvents(
+            context = context,
             events = events,
             scope = this,
             scaffoldState = scaffoldState,
-            taskDoneText = taskDone,
             navigateToTaskDetails = { taskId ->
                 onNavigateToTaskDetails(taskId)
             }
@@ -64,17 +65,17 @@ fun PendingTasksScreen(
 }
 
 private fun handleEvents(
+    context: Context,
     events: TasksEvents,
     scope: CoroutineScope,
     scaffoldState: ScaffoldState,
-    taskDoneText: String,
     navigateToTaskDetails: (taskId: String) -> Unit,
 ) {
     when (events) {
         is TasksEvents.ShowMessageDone -> {
             scope.launch {
                 val result = scaffoldState.snackbarHostState.showSnackbar(
-                    message = taskDoneText,
+                    message = context.getString(R.string.task_marked_as_done, events.msg),
                     duration = SnackbarDuration.Short
                 )
             }
