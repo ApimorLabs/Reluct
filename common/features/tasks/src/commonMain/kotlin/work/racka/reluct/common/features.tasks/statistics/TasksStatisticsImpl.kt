@@ -66,11 +66,6 @@ internal class TasksStatisticsImpl(
         getDailyData()
     }
 
-    private fun cancelCurrentJobs() {
-        collectDailyTasksJob.cancel()
-        collectWeeklyTasksJob.cancel()
-    }
-
     private fun getDailyData() {
         collectDailyTasksJob = scope.launch {
             getDailyTasksUseCase(weekOffset = weekOffset.value,
@@ -106,14 +101,15 @@ internal class TasksStatisticsImpl(
     override fun selectDay(selectedDayIsoNumber: Int) {
         dailyTasksState.update { DailyTasksState.Loading(dayTextValue = it.dayText) }
         selectedDay.update { selectedDayIsoNumber }
-        cancelCurrentJobs()
+        collectDailyTasksJob.cancel()
         getDailyData()
     }
 
     override fun updateWeekOffset(weekOffsetValue: Int) {
         weeklyTasksState.update { WeeklyTasksState.Loading(totalTaskCount = it.totalWeekTasksCount) }
         weekOffset.update { weekOffsetValue }
-        cancelCurrentJobs()
+        collectDailyTasksJob.cancel()
+        collectWeeklyTasksJob.cancel()
         getData()
     }
 

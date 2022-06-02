@@ -12,8 +12,8 @@ data class TasksStatisticsState(
 )
 
 sealed class WeeklyTasksState(
-    val weeklyTasks: Map<Week, DailyTasksStats> = mapOf(),
-    val totalWeekTasksCount: Int = 0,
+    val weeklyTasks: Map<Week, DailyTasksStats>,
+    val totalWeekTasksCount: Int,
 ) {
     data class Data(
         val tasks: Map<Week, DailyTasksStats>,

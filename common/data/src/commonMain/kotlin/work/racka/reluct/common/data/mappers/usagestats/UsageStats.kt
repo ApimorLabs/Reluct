@@ -25,7 +25,6 @@ fun DataUsageStats.asUsageStats(
             dateTime = selectedDayDateTimeString,
             showShortIntervalAsDay = showIntervalAsDay
         ),
-        dayIsoNumber = dayIsoNumber,
         totalScreenTime = this.totalScreenTime,
         unlockCount = this.unlockCount
     )
