@@ -5,14 +5,12 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
@@ -53,14 +51,10 @@ internal fun TasksNavHost(
         }
     }
 
-    val scrollBehavior = remember { TopAppBarDefaults.enterAlwaysScrollBehavior() }
-
     Scaffold(
-        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             TasksScreenTopBar(
                 tabPage = tabPage,
-                scrollBehavior = scrollBehavior,
                 profilePicUrl = "https://pbs.twimg.com/profile_images/1451052243067805698/LIEt076e_400x400.jpg",
                 navigateToSearch = { mainNavController.navigate(OtherDestinations.SearchTasks.route) },
                 updateTabPage = {
@@ -177,7 +171,7 @@ internal fun TasksNavHost(
 @Composable
 private fun TasksScreenTopBar(
     tabPage: TasksDestinations,
-    scrollBehavior: TopAppBarScrollBehavior?,
+    scrollBehavior: TopAppBarScrollBehavior? = null,
     profilePicUrl: String?,
     navigateToSearch: () -> Unit,
     updateTabPage: (TasksDestinations) -> Unit,
