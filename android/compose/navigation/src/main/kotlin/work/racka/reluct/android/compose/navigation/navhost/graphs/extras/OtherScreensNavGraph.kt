@@ -31,18 +31,10 @@ fun NavGraphBuilder.otherScreenNavGraph(
             arguments = listOf(
                 navArgument(name = NavArgKeys.ADD_EDIT_TASK_ID) { type = NavType.StringType }
             ),
-            enterTransition = {
-                scaleInEnterTransition()
-            },
-            exitTransition = {
-                scaleOutExitTransition()
-            },
-            popEnterTransition = {
-                scaleInPopEnterTransition()
-            },
-            popExitTransition = {
-                scaleOutPopExitTransition()
-            }
+            enterTransition = { scaleInEnterTransition() },
+            exitTransition = { scaleOutExitTransition() },
+            popEnterTransition = { scaleInPopEnterTransition() },
+            popExitTransition = { scaleOutPopExitTransition() }
         ) { navBackStackEntry ->
             barsVisibility.bottomBar.hide()
             AddEditTaskScreen(
@@ -57,18 +49,10 @@ fun NavGraphBuilder.otherScreenNavGraph(
             arguments = listOf(
                 navArgument(name = NavArgKeys.TASK_DETAILS_ID) { type = NavType.StringType }
             ),
-            enterTransition = {
-                scaleInEnterTransition()
-            },
-            exitTransition = {
-                scaleOutExitTransition()
-            },
-            popEnterTransition = {
-                scaleInPopEnterTransition()
-            },
-            popExitTransition = {
-                scaleOutPopExitTransition()
-            }
+            enterTransition = { scaleInEnterTransition() },
+            exitTransition = { scaleOutExitTransition() },
+            popEnterTransition = { scaleInPopEnterTransition() },
+            popExitTransition = { scaleOutPopExitTransition() }
         ) { navBackStackEntry ->
             barsVisibility.bottomBar.hide()
             TaskDetailsScreen(
@@ -85,18 +69,10 @@ fun NavGraphBuilder.otherScreenNavGraph(
         // Task Search
         composable(
             route = OtherDestinations.SearchTasks.route,
-            enterTransition = {
-                scaleInEnterTransition()
-            },
-            exitTransition = {
-                scaleOutExitTransition()
-            },
-            popEnterTransition = {
-                scaleInPopEnterTransition()
-            },
-            popExitTransition = {
-                scaleOutPopExitTransition()
-            }
+            enterTransition = { scaleInEnterTransition() },
+            exitTransition = { scaleOutExitTransition() },
+            popEnterTransition = { scaleInPopEnterTransition() },
+            popExitTransition = { scaleOutPopExitTransition() }
         ) {
             barsVisibility.bottomBar.hide()
             TasksSearchScreen(

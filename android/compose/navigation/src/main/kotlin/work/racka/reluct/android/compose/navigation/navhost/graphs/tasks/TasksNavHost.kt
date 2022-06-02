@@ -82,19 +82,10 @@ internal fun TasksNavHost(
             composable(
                 route = TasksDestinations.Tasks.route,
                 // Transition animations
-                enterTransition = {
-                    scaleInEnterTransition()
-                },
-                exitTransition = {
-                    scaleOutExitTransition()
-                },
-                // popEnter and popExit default to enterTransition & exitTransition respectively
-                popEnterTransition = {
-                    scaleInPopEnterTransition()
-                },
-                popExitTransition = {
-                    scaleOutPopExitTransition()
-                }
+                enterTransition = { scaleInEnterTransition() },
+                exitTransition = { scaleOutExitTransition() },
+                popEnterTransition = { scaleInPopEnterTransition() },
+                popExitTransition = { scaleOutPopExitTransition() }
             ) {
                 PendingTasksScreen(
                     mainScaffoldPadding = mainScaffoldPadding,
@@ -115,18 +106,10 @@ internal fun TasksNavHost(
             // Done - Completed Tasks
             composable(
                 route = TasksDestinations.Done.route,
-                enterTransition = {
-                    scaleInEnterTransition()
-                },
-                exitTransition = {
-                    scaleOutExitTransition()
-                },
-                popEnterTransition = {
-                    scaleInPopEnterTransition()
-                },
-                popExitTransition = {
-                    scaleOutPopExitTransition()
-                }
+                enterTransition = { scaleInEnterTransition() },
+                exitTransition = { scaleOutExitTransition() },
+                popEnterTransition = { scaleInPopEnterTransition() },
+                popExitTransition = { scaleOutPopExitTransition() }
             ) {
                 CompletedTasksScreen(
                     mainScaffoldPadding = mainScaffoldPadding,
@@ -146,18 +129,10 @@ internal fun TasksNavHost(
             // Statistics
             composable(
                 route = TasksDestinations.Statistics.route,
-                enterTransition = {
-                    scaleInEnterTransition()
-                },
-                exitTransition = {
-                    scaleOutExitTransition()
-                },
-                popEnterTransition = {
-                    scaleInPopEnterTransition()
-                },
-                popExitTransition = {
-                    scaleOutPopExitTransition()
-                }
+                enterTransition = { scaleInEnterTransition() },
+                exitTransition = { scaleOutExitTransition() },
+                popEnterTransition = { scaleInPopEnterTransition() },
+                popExitTransition = { scaleOutPopExitTransition() }
             ) {
                 TasksStatisticsScreen(
                     mainScaffoldPadding = mainScaffoldPadding,
