@@ -45,7 +45,7 @@ import java.util.*
 // screens modules.
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun AddEditTaskFields(
+fun LazyColumnAddEditTaskFields(
     modifier: Modifier = Modifier,
     listState: LazyListState = rememberLazyListState(),
     editTask: EditTask?,

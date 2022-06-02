@@ -19,7 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import work.racka.reluct.android.compose.components.bottom_sheet.add_edit_task.AddEditTaskFields
+import work.racka.reluct.android.compose.components.bottom_sheet.add_edit_task.LazyColumnAddEditTaskFields
 import work.racka.reluct.android.compose.components.buttons.OutlinedReluctButton
 import work.racka.reluct.android.compose.components.buttons.ReluctButton
 import work.racka.reluct.android.compose.components.images.LottieAnimationWithDescription
@@ -119,7 +119,7 @@ fun AddEditTaskUI(
                 exit = scaleOut()
             ) {
                 if (uiState is AddEditTasksState.Data) {
-                    AddEditTaskFields(
+                    LazyColumnAddEditTaskFields(
                         editTask = uiState.task,
                         saveButtonText = stringResource(R.string.save_button_text),
                         discardButtonText = stringResource(R.string.discard_button_text),
