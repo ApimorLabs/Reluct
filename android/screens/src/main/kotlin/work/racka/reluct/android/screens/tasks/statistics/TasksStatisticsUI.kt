@@ -181,7 +181,7 @@ internal fun TasksStatisticsUI(
                         key = { it.id }
                     ) { item ->
                         TaskEntry(
-                            playScaleAnimation = true,
+                            playAnimation = true,
                             task = item,
                             entryType = EntryType.TasksWithOverdue,
                             onEntryClick = { onTaskClicked(item) },
@@ -200,7 +200,7 @@ internal fun TasksStatisticsUI(
                         key = { it.id }
                     ) { item ->
                         TaskEntry(
-                            playScaleAnimation = true,
+                            playAnimation = true,
                             task = item,
                             entryType = EntryType.CompletedTask,
                             onEntryClick = { onTaskClicked(item) },

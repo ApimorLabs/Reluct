@@ -186,6 +186,7 @@ internal fun ScreenTimeStatisticsUI(
                         key = { it.packageName }
                     ) { item ->
                         AppUsageEntry(
+                            playAnimation = true,
                             appUsageInfo = item,
                             onEntryClick = { onAppUsageInfoClick(item) },
                             onTimeSettingsClick = { onAppTimeLimitSettingsClicked(item.packageName) }

@@ -26,7 +26,7 @@ import work.racka.reluct.common.model.domain.tasks.Task
 @Composable
 fun TaskEntry(
     modifier: Modifier = Modifier,
-    playScaleAnimation: Boolean = false,
+    playAnimation: Boolean = false,
     task: Task,
     entryType: EntryType,
     onEntryClick: () -> Unit,
@@ -35,7 +35,7 @@ fun TaskEntry(
 
     //Scale animation
     val animatedProgress = remember(task) {
-        Animatable(initialValue = 1.15f)
+        Animatable(initialValue = 0.8f)
     }
     LaunchedEffect(key1 = task) {
         animatedProgress.animateTo(
@@ -44,7 +44,7 @@ fun TaskEntry(
         )
     }
 
-    val animatedModifier = if (playScaleAnimation) modifier
+    val animatedModifier = if (playAnimation) modifier
         .graphicsLayer(
             scaleX = animatedProgress.value,
             scaleY = animatedProgress.value

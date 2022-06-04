@@ -180,6 +180,7 @@ internal fun PendingTasksUI(
                             key = { it.id }
                         ) { item ->
                             TaskEntry(
+                                playAnimation = true,
                                 task = item,
                                 entryType = EntryType.TasksWithOverdue,
                                 onEntryClick = { onTaskClicked(item) },
@@ -197,6 +198,7 @@ internal fun PendingTasksUI(
                             key = { it.id }
                         ) { item ->
                             TaskEntry(
+                                playAnimation = true,
                                 task = item,
                                 entryType = EntryType.PendingTask,
                                 onEntryClick = { onTaskClicked(item) },
@@ -210,10 +212,7 @@ internal fun PendingTasksUI(
                         if (uiState is PendingTasksState.Loading &&
                             uiState.tasksData.isNotEmpty() && uiState.overdueTasksData.isNotEmpty()
                         ) {
-                            LinearProgressIndicator(
-                                modifier = Modifier
-                                    .padding(Dimens.MediumPadding.size)
-                            )
+                            LinearProgressIndicator()
                         }
                     }
 
