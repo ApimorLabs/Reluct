@@ -26,6 +26,8 @@ fun DataUsageStats.asUsageStats(
             showShortIntervalAsDay = showIntervalAsDay
         ),
         totalScreenTime = this.totalScreenTime,
+        formattedTotalScreenTime = TimeUtils
+            .getFormattedTimeDurationString(this.totalScreenTime),
         unlockCount = this.unlockCount
     )
 }
