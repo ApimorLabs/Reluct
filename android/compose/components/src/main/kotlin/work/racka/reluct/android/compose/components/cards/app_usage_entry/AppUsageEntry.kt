@@ -10,6 +10,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import coil.compose.rememberImagePainter
 import work.racka.reluct.android.compose.components.R
 import work.racka.reluct.android.compose.theme.Dimens
@@ -38,13 +39,13 @@ fun AppUsageEntry(
         Row(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement
-                .spacedBy(Dimens.SmallPadding.size),
+                .spacedBy(Dimens.MediumPadding.size),
             modifier = Modifier
                 .padding(Dimens.MediumPadding.size)
                 .fillMaxWidth()
         ) {
             Image(
-                modifier = Modifier.size(Dimens.LargePadding.size),
+                modifier = Modifier.size(48.dp),
                 painter = rememberImagePainter(data = appUsageInfo.appIcon.icon),
                 contentDescription = appUsageInfo.appName
             )

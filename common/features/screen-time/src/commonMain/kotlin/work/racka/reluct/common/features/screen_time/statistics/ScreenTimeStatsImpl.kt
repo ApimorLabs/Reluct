@@ -27,9 +27,9 @@ internal class ScreenTimeStatsImpl(
     private val selectedDay: MutableStateFlow<Int> =
         MutableStateFlow(WeekUtils.currentDayOfWeek().isoDayNumber)
     private val weeklyUsageStatsState: MutableStateFlow<WeeklyUsageStatsState> =
-        MutableStateFlow(WeeklyUsageStatsState.Loading())
+        MutableStateFlow(WeeklyUsageStatsState.Empty)
     private val dailyUsageStatsState: MutableStateFlow<DailyUsageStatsState> =
-        MutableStateFlow(DailyUsageStatsState.Loading())
+        MutableStateFlow(DailyUsageStatsState.Empty)
 
     override val uiState: StateFlow<ScreenTimeStatsState> = combine(
         weekOffset, selectedWeekText, selectedDay, weeklyUsageStatsState, dailyUsageStatsState
@@ -54,7 +54,12 @@ internal class ScreenTimeStatsImpl(
     private lateinit var dailyScreenTimeStatsJob: Job
     private lateinit var weeklyScreenTimeStatsJob: Job
 
+    init {
+        getData()
+    }
+
     private fun getDailyData() {
+        dailyUsageStatsState.update { DailyUsageStatsState.Loading() }
         dailyScreenTimeStatsJob = scope.launch {
             val dailyData = getDailyUsageStats(
                 weekOffset = weekOffset.value,
@@ -73,9 +78,10 @@ internal class ScreenTimeStatsImpl(
     }
 
     private fun getWeeklyData() {
+        weeklyUsageStatsState.update { WeeklyUsageStatsState.Loading() }
         weeklyScreenTimeStatsJob = scope.launch {
-            val weeklyData = getWeeklyUsageStats(weekOffset = weekOffset.value)
             selectedWeekText.update { getWeekRangeFromOffset(weekOffset.value) }
+            val weeklyData = getWeeklyUsageStats(weekOffset = weekOffset.value)
             if (weeklyData.isEmpty()) {
                 weeklyUsageStatsState.update { WeeklyUsageStatsState.Empty }
             } else {

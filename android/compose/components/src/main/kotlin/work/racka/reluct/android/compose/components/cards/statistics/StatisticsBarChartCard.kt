@@ -8,12 +8,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import work.racka.reluct.android.compose.components.R
 import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.android.compose.theme.Shapes
 import work.racka.reluct.barChart.BarChartData
@@ -27,6 +25,7 @@ internal fun StatisticsBarChartCard(
     shape: Shape = Shapes.large,
     bars: List<BarChartData.Bar>,
     dataLoading: Boolean,
+    noDataText: String,
     chartHeight: Dp = 160.dp,
     selectedDayIsoNumber: Int,
     onBarClicked: (Int) -> Unit,
@@ -82,7 +81,7 @@ internal fun StatisticsBarChartCard(
                     LinearProgressIndicator()
                 } else if (sumOfBarsValue.equals(0.0) && !dataLoading) {
                     Text(
-                        text = stringResource(id = R.string.no_completed_tasks_text),
+                        text = noDataText,
                         style = MaterialTheme.typography.titleLarge
                             .copy(fontWeight = FontWeight.Medium),
                         maxLines = 1,

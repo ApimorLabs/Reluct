@@ -3,7 +3,10 @@ package work.racka.reluct.android.compose.navigation.navhost.graphs.screentime
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.material3.*
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -20,7 +23,6 @@ import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import work.racka.reluct.android.compose.components.tab.screentime.ScreenTimeTabBar
-import work.racka.reluct.android.compose.components.topBar.ReluctContentTopBar
 import work.racka.reluct.android.compose.components.util.BarsVisibility
 import work.racka.reluct.android.compose.destinations.ScreenTimeDestinations
 import work.racka.reluct.android.compose.destinations.navbar.Graphs
@@ -112,36 +114,29 @@ internal fun ScreenTimeNavHost(
 @Composable
 private fun ScreenTimeTopBar(
     tabPage: ScreenTimeDestinations,
-    scrollBehavior: TopAppBarScrollBehavior? = null,
     profilePicUrl: String?,
     updateTabPage: (ScreenTimeDestinations) -> Unit,
 ) {
-    ReluctContentTopBar(
+    Column(
         modifier = Modifier
             .padding(vertical = 8.dp)
-            .statusBarsPadding(),
-        minShrinkHeight = 40.dp,
-        scrollBehavior = scrollBehavior
+            .statusBarsPadding()
+            .fillMaxWidth(),
+        verticalArrangement = Arrangement
+            .spacedBy(16.dp)
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth(),
-            verticalArrangement = Arrangement
-                .spacedBy(16.dp)
-        ) {
-            // TODO: Put Prof Pic and Destination Name
+        // TODO: Put Prof Pic and Destination Name
 
-            LazyRow {
-                item {
-                    ScreenTimeTabBar(
-                        modifier = Modifier
-                            .padding(horizontal = 16.dp),
-                        tabPage = tabPage,
-                        onTabSelected = {
-                            updateTabPage(it)
-                        }
-                    )
-                }
+        LazyRow {
+            item {
+                ScreenTimeTabBar(
+                    modifier = Modifier
+                        .padding(horizontal = 16.dp),
+                    tabPage = tabPage,
+                    onTabSelected = {
+                        updateTabPage(it)
+                    }
+                )
             }
         }
     }

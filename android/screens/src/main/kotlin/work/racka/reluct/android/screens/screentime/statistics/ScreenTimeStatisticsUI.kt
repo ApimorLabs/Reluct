@@ -14,7 +14,7 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.Snackbar
 import androidx.compose.material.SnackbarHost
-import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
@@ -201,7 +201,11 @@ internal fun ScreenTimeStatisticsUI(
                         enter = fadeIn(),
                         exit = fadeOut()
                     ) {
-                        CircularProgressIndicator()
+                        Box(
+                            contentAlignment = Alignment.Center
+                        ) {
+                            LinearProgressIndicator()
+                        }
                     }
                 }
 

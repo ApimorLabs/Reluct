@@ -216,7 +216,11 @@ internal fun TasksStatisticsUI(
                         enter = fadeIn(),
                         exit = fadeOut()
                     ) {
-                        CircularProgressIndicator()
+                        Box(
+                            contentAlignment = Alignment.Center
+                        ) {
+                            CircularProgressIndicator()
+                        }
                     }
                 }
 

@@ -7,8 +7,8 @@ data class ScreenTimeStatsState(
     val weekOffset: Int = 0,
     val selectedWeekText: String = "...",
     val selectedDay: Int = 0,
-    val weeklyData: WeeklyUsageStatsState = WeeklyUsageStatsState.Loading(),
-    val dailyData: DailyUsageStatsState = DailyUsageStatsState.Loading()
+    val weeklyData: WeeklyUsageStatsState = WeeklyUsageStatsState.Empty,
+    val dailyData: DailyUsageStatsState = DailyUsageStatsState.Empty
 )
 
 sealed class WeeklyUsageStatsState(

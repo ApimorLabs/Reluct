@@ -74,6 +74,7 @@ fun TasksStatisticsCard(
         modifier = modifier,
         bars = bars.value,
         dataLoading = barChartState is StatisticsChartState.Loading,
+        noDataText = stringResource(id = R.string.no_completed_tasks_text),
         selectedDayIsoNumber = selectedDayIsoNumber,
         onBarClicked = { onBarClicked(it) },
         topLeftText = {
