@@ -50,10 +50,6 @@ internal class ScreenTimeStatsImpl(
     override val events: Flow<ScreenTimeStatsEvents>
         get() = _events.receiveAsFlow()
 
-    init {
-        getData()
-    }
-
     private lateinit var dailyScreenTimeStatsJob: Job
     private lateinit var weeklyScreenTimeStatsJob: Job
 
