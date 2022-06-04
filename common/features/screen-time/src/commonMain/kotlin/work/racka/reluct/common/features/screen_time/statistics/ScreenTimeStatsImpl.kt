@@ -12,6 +12,7 @@ import work.racka.reluct.common.features.screen_time.states.DailyUsageStatsState
 import work.racka.reluct.common.features.screen_time.states.ScreenTimeStatsEvents
 import work.racka.reluct.common.features.screen_time.states.ScreenTimeStatsState
 import work.racka.reluct.common.features.screen_time.states.WeeklyUsageStatsState
+import work.racka.reluct.common.model.util.time.TimeUtils
 import work.racka.reluct.common.model.util.time.WeekUtils
 
 internal class ScreenTimeStatsImpl(
@@ -78,10 +79,13 @@ internal class ScreenTimeStatsImpl(
             if (weeklyData.isEmpty()) {
                 weeklyUsageStatsState.update { WeeklyUsageStatsState.Empty }
             } else {
+                val totalWeeklyTimeInMillis = weeklyData.values.sumOf { it.totalScreenTime }
+                val formattedTime = TimeUtils
+                    .getFormattedTimeDurationString(totalWeeklyTimeInMillis)
                 weeklyUsageStatsState.update {
                     WeeklyUsageStatsState.Data(
                         weeklyUsageStats = weeklyData,
-                        weeklyFormattedTotalTime = "...."
+                        weeklyFormattedTotalTime = formattedTime
                     )
                 }
             }
