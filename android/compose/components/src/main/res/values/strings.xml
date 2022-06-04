@@ -6,6 +6,7 @@
     <string name="clear_icon">Clear Input</string>
     <string name="add_icon">Add Icon</string>
     <string name="up_icon">Up Arrow Icon</string>
+    <string name="time_limit_settings_icon">Time Limit Settings Icon</string>
     <string name="scroll_to_top">Scroll to the top</string>
     <string name="external_link">Open External Link</string>
     <string name="expand_icon">Show More / Show Less</string>
@@ -45,4 +46,8 @@
     <string name="weekly_task_count_arg">You have %1s tasks this week</string>
     <string name="tasks_tally_text_arg">%1s of %2s Tasks Done</string>
 
+    <string name="no_app_usage_data_text">No Usage Data Found</string>
+    <string name="weekly_screen_time_tally">%1s this week</string>
+
+    <string name="allow_permission">Allow</string>
 </resources>

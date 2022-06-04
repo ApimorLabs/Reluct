@@ -18,7 +18,7 @@ import work.racka.reluct.android.compose.destinations.navbar.Graphs
 import work.racka.reluct.android.compose.navigation.navhost.graphs.dashboard.dashboardNavGraph
 import work.racka.reluct.android.compose.navigation.navhost.graphs.extras.otherScreenNavGraph
 import work.racka.reluct.android.compose.navigation.navhost.graphs.goals.goalsNavGraph
-import work.racka.reluct.android.compose.navigation.navhost.graphs.screentime.screenTimeNavGraph
+import work.racka.reluct.android.compose.navigation.navhost.graphs.screentime.ScreenTimeNavHost
 import work.racka.reluct.android.compose.navigation.navhost.graphs.tasks.TasksNavHost
 
 @OptIn(ExperimentalAnimationApi::class, ExperimentalMaterial3Api::class)
@@ -67,7 +67,15 @@ fun AppNavHost(
             }
 
             // Screen Time
-            screenTimeNavGraph(navController)
+            composable(
+                route = Graphs.ScreenTimeDestinations.route
+            ) {
+                ScreenTimeNavHost(
+                    mainNavController = navController,
+                    barsVisibility = barsVisibility,
+                    mainScaffoldPadding = innerPadding
+                )
+            }
 
             // Goals
             goalsNavGraph(navController)

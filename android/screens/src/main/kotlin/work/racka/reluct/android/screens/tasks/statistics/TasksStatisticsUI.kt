@@ -24,7 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import work.racka.reluct.android.compose.components.buttons.ValueOffsetButton
-import work.racka.reluct.android.compose.components.cards.headers.TaskGroupHeadingHeader
+import work.racka.reluct.android.compose.components.cards.headers.ListGroupHeadingHeader
 import work.racka.reluct.android.compose.components.cards.statistics.StatisticsChartState
 import work.racka.reluct.android.compose.components.cards.statistics.tasks.TasksStatisticsCard
 import work.racka.reluct.android.compose.components.cards.task_entry.EntryType
@@ -173,7 +173,7 @@ internal fun TasksStatisticsUI(
 
                 if (uiState.dailyTasksState.dailyTasks.pendingTasks.isNotEmpty()) {
                     stickyHeader {
-                        TaskGroupHeadingHeader(text = stringResource(R.string.not_done_tasks_header))
+                        ListGroupHeadingHeader(text = stringResource(R.string.not_done_tasks_header))
                     }
 
                     items(
@@ -181,7 +181,7 @@ internal fun TasksStatisticsUI(
                         key = { it.id }
                     ) { item ->
                         TaskEntry(
-                            playScaleAnimation = true,
+                            playAnimation = true,
                             task = item,
                             entryType = EntryType.TasksWithOverdue,
                             onEntryClick = { onTaskClicked(item) },
@@ -192,7 +192,7 @@ internal fun TasksStatisticsUI(
 
                 if (uiState.dailyTasksState.dailyTasks.completedTasks.isNotEmpty()) {
                     stickyHeader {
-                        TaskGroupHeadingHeader(text = stringResource(R.string.done_tasks_header))
+                        ListGroupHeadingHeader(text = stringResource(R.string.done_tasks_header))
                     }
 
                     items(
@@ -200,7 +200,7 @@ internal fun TasksStatisticsUI(
                         key = { it.id }
                     ) { item ->
                         TaskEntry(
-                            playScaleAnimation = true,
+                            playAnimation = true,
                             task = item,
                             entryType = EntryType.CompletedTask,
                             onEntryClick = { onTaskClicked(item) },
@@ -216,7 +216,11 @@ internal fun TasksStatisticsUI(
                         enter = fadeIn(),
                         exit = fadeOut()
                     ) {
-                        CircularProgressIndicator()
+                        Box(
+                            contentAlignment = Alignment.Center
+                        ) {
+                            CircularProgressIndicator()
+                        }
                     }
                 }
 

@@ -13,6 +13,7 @@ kotlin {
                 implementation(project(":common:app-usage-stats"))
                 implementation(project(":common:data"))
                 implementation(project(":common:features:goals"))
+                implementation(project(":common:features:screen-time"))
                 implementation(project(":common:features:settings"))
                 implementation(project(":common:features:tasks"))
                 implementation(project(":common:model"))

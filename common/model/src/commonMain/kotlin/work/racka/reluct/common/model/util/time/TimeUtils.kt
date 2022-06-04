@@ -96,6 +96,29 @@ object TimeUtils {
     }
 
     /**
+     * Get the formatted time duration from time in millis
+     */
+    fun getFormattedTimeDurationString(timeMillis: Long): String {
+        val hours = (timeMillis / 3.6e6).toInt()
+        val minutes = ((timeMillis / 60000) % 60).toInt()
+        return when {
+            hours > 0 -> {
+                String.format(
+                    "%02d hrs %02d min",
+                    hours,
+                    minutes
+                )
+            }
+            minutes <= 1 -> {
+                "Less than 1 minute"
+            }
+            else -> {
+                "$minutes min"
+            }
+        }
+    }
+
+    /**
      * This accounts for changes in Timezone. So you need the TimeZoneId
      * The TimeZoneId needed is the one from the database. This will convert
      * the LocalDateTime stored to the correct system TimeZone if it's different

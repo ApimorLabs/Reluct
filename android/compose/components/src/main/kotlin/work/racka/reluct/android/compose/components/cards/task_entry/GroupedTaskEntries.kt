@@ -46,7 +46,7 @@ fun GroupedTaskEntries(
 
         taskList.forEach { task ->
             TaskEntry(
-                playScaleAnimation = playScaleAnimation,
+                playAnimation = playScaleAnimation,
                 task = task,
                 entryType = entryType,
                 onEntryClick = { onEntryClicked(task) },
