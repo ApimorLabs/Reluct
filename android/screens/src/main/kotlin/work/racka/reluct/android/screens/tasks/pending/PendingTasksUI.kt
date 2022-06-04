@@ -28,7 +28,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import work.racka.reluct.android.compose.components.buttons.ReluctFloatingActionButton
-import work.racka.reluct.android.compose.components.cards.headers.TaskGroupHeadingHeader
+import work.racka.reluct.android.compose.components.cards.headers.ListGroupHeadingHeader
 import work.racka.reluct.android.compose.components.cards.task_entry.EntryType
 import work.racka.reluct.android.compose.components.cards.task_entry.TaskEntry
 import work.racka.reluct.android.compose.components.images.LottieAnimationWithDescription
@@ -173,7 +173,7 @@ internal fun PendingTasksUI(
 
                     if (uiState.overdueTasksData.isNotEmpty()) {
                         stickyHeader {
-                            TaskGroupHeadingHeader(text = stringResource(R.string.overdue_tasks_header))
+                            ListGroupHeadingHeader(text = stringResource(R.string.overdue_tasks_header))
                         }
                         items(
                             items = uiState.overdueTasksData,
@@ -190,7 +190,7 @@ internal fun PendingTasksUI(
 
                     uiState.tasksData.forEach { taskGroup ->
                         stickyHeader {
-                            TaskGroupHeadingHeader(text = taskGroup.key)
+                            ListGroupHeadingHeader(text = taskGroup.key)
                         }
                         items(
                             items = taskGroup.value,

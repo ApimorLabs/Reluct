@@ -1,4 +1,4 @@
-package work.racka.reluct.android.screens.tasks.statistics
+package work.racka.reluct.android.screens.screentime.statistics
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
@@ -23,35 +23,36 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import timber.log.Timber
 import work.racka.reluct.android.compose.components.buttons.ValueOffsetButton
+import work.racka.reluct.android.compose.components.cards.app_usage_entry.AppUsageEntry
 import work.racka.reluct.android.compose.components.cards.headers.ListGroupHeadingHeader
 import work.racka.reluct.android.compose.components.cards.statistics.StatisticsChartState
-import work.racka.reluct.android.compose.components.cards.statistics.tasks.TasksStatisticsCard
-import work.racka.reluct.android.compose.components.cards.task_entry.EntryType
-import work.racka.reluct.android.compose.components.cards.task_entry.TaskEntry
+import work.racka.reluct.android.compose.components.cards.statistics.screen_time.ScreenTimeStatisticsCard
 import work.racka.reluct.android.compose.components.images.LottieAnimationWithDescription
 import work.racka.reluct.android.compose.components.util.BarsVisibility
 import work.racka.reluct.android.compose.components.util.rememberScrollContext
 import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.android.compose.theme.Shapes
 import work.racka.reluct.android.screens.R
-import work.racka.reluct.common.model.domain.tasks.Task
-import work.racka.reluct.common.model.states.tasks.DailyTasksState
-import work.racka.reluct.common.model.states.tasks.TasksStatisticsState
-import work.racka.reluct.common.model.states.tasks.WeeklyTasksState
+import work.racka.reluct.android.screens.util.PermissionCheckHandler
+import work.racka.reluct.common.features.screen_time.states.DailyUsageStatsState
+import work.racka.reluct.common.features.screen_time.states.ScreenTimeStatsState
+import work.racka.reluct.common.features.screen_time.states.WeeklyUsageStatsState
+import work.racka.reluct.common.model.domain.usagestats.AppUsageInfo
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-internal fun TasksStatisticsUI(
+internal fun ScreenTimeStatisticsUI(
     modifier: Modifier = Modifier,
     mainScaffoldPadding: PaddingValues,
     barsVisibility: BarsVisibility,
     scaffoldState: ScaffoldState,
-    uiState: TasksStatisticsState,
+    uiState: ScreenTimeStatsState,
     onSelectDay: (dayIsoNumber: Int) -> Unit,
     onUpdateWeekOffset: (weekOffsetValue: Int) -> Unit,
-    onTaskClicked: (task: Task) -> Unit,
-    onToggleTaskDone: (isDone: Boolean, task: Task) -> Unit,
+    onAppUsageInfoClick: (app: AppUsageInfo) -> Unit,
+    onAppTimeLimitSettingsClicked: (packageName: String) -> Unit
 ) {
     val listState = rememberLazyListState()
     val scrollContext = rememberScrollContext(listState = listState)
@@ -64,24 +65,28 @@ internal fun TasksStatisticsUI(
         barsVisibility.bottomBar.hide()
     }
 
-    val barChartState = remember(uiState.weeklyTasksState) {
+    val barChartState = remember(uiState.weeklyData) {
         derivedStateOf {
-            val result = when (val weeklyState = uiState.weeklyTasksState) {
-                is WeeklyTasksState.Data -> {
-                    StatisticsChartState.Success(data = weeklyState.weeklyTasks)
+            val result = when (val weeklyState = uiState.weeklyData) {
+                is WeeklyUsageStatsState.Data -> {
+                    StatisticsChartState.Success(data = weeklyState.usageStats)
                 }
-                is WeeklyTasksState.Loading -> {
-                    StatisticsChartState.Loading(data = weeklyState.weeklyTasks)
+                is WeeklyUsageStatsState.Loading -> {
+                    StatisticsChartState.Loading(data = weeklyState.usageStats)
                 }
-                is WeeklyTasksState.Empty -> {
-                    StatisticsChartState.Empty(data = weeklyState.weeklyTasks)
+                is WeeklyUsageStatsState.Empty -> {
+                    StatisticsChartState.Empty(data = weeklyState.usageStats)
                 }
                 else -> {
-                    StatisticsChartState.Empty(data = weeklyState.weeklyTasks)
+                    StatisticsChartState.Empty(data = weeklyState.usageStats)
                 }
             }
             result
         }
+    }
+
+    PermissionCheckHandler {
+        Timber.d("Permission checking")
     }
 
     val snackbarModifier = if (scrollContext.isTop) {
@@ -106,6 +111,7 @@ internal fun TasksStatisticsUI(
         },
         backgroundColor = MaterialTheme.colorScheme.background,
     ) { padding ->
+
         Box(
             modifier = Modifier
                 .animateContentSize()
@@ -128,12 +134,11 @@ internal fun TasksStatisticsUI(
 
                 // Chart
                 item {
-                    TasksStatisticsCard(
+                    ScreenTimeStatisticsCard(
                         barChartState = barChartState.value,
-                        selectedDayText = uiState.dailyTasksState.dayText,
-                        selectedDayTasksDone = uiState.dailyTasksState.dailyTasks.completedTasksCount,
-                        selectedDayTasksPending = uiState.dailyTasksState.dailyTasks.pendingTasksCount,
-                        totalWeekTaskCount = uiState.weeklyTasksState.totalWeekTasksCount,
+                        selectedDayText = uiState.dailyData.dayText,
+                        selectedDayScreenTime = uiState.dailyData.usageStat.formattedTotalScreenTime,
+                        weeklyTotalScreenTime = uiState.weeklyData.formattedTotalTime,
                         selectedDayIsoNumber = uiState.selectedDay,
                         onBarClicked = { onSelectDay(it) }
                     ) {
@@ -149,11 +154,11 @@ internal fun TasksStatisticsUI(
                     }
                 }
 
-                // No Tasks Animation
-                if (uiState.dailyTasksState is DailyTasksState.Empty) {
+                // No App Data Animation
+                if (uiState.dailyData is DailyUsageStatsState.Empty) {
                     item {
                         AnimatedVisibility(
-                            visible = uiState.dailyTasksState is DailyTasksState.Empty,
+                            visible = uiState.dailyData is DailyUsageStatsState.Empty,
                             enter = fadeIn(),
                             exit = fadeOut()
                         ) {
@@ -171,55 +176,34 @@ internal fun TasksStatisticsUI(
                     }
                 }
 
-                if (uiState.dailyTasksState.dailyTasks.pendingTasks.isNotEmpty()) {
+                if (uiState.dailyData.usageStat.appsUsageList.isNotEmpty()) {
                     stickyHeader {
-                        ListGroupHeadingHeader(text = stringResource(R.string.not_done_tasks_header))
+                        ListGroupHeadingHeader(text = stringResource(R.string.app_list_header))
                     }
 
                     items(
-                        items = uiState.dailyTasksState.dailyTasks.pendingTasks,
-                        key = { it.id }
+                        items = uiState.dailyData.usageStat.appsUsageList,
+                        key = { it.packageName }
                     ) { item ->
-                        TaskEntry(
-                            playScaleAnimation = true,
-                            task = item,
-                            entryType = EntryType.TasksWithOverdue,
-                            onEntryClick = { onTaskClicked(item) },
-                            onCheckedChange = { onToggleTaskDone(it, item) }
+                        AppUsageEntry(
+                            appUsageInfo = item,
+                            onEntryClick = { onAppUsageInfoClick(item) },
+                            onTimeSettingsClick = { onAppTimeLimitSettingsClicked(item.packageName) }
                         )
                     }
                 }
 
-                if (uiState.dailyTasksState.dailyTasks.completedTasks.isNotEmpty()) {
-                    stickyHeader {
-                        ListGroupHeadingHeader(text = stringResource(R.string.done_tasks_header))
-                    }
-
-                    items(
-                        items = uiState.dailyTasksState.dailyTasks.completedTasks,
-                        key = { it.id }
-                    ) { item ->
-                        TaskEntry(
-                            playScaleAnimation = true,
-                            task = item,
-                            entryType = EntryType.CompletedTask,
-                            onEntryClick = { onTaskClicked(item) },
-                            onCheckedChange = { onToggleTaskDone(it, item) }
-                        )
-                    }
-                }
-
+                // Daily Data Loading
                 item {
                     AnimatedVisibility(
                         modifier = Modifier.fillMaxWidth(),
-                        visible = uiState.dailyTasksState is DailyTasksState.Loading,
+                        visible = uiState.dailyData is DailyUsageStatsState.Loading,
                         enter = fadeIn(),
                         exit = fadeOut()
                     ) {
                         CircularProgressIndicator()
                     }
                 }
-
 
                 // Bottom Space for spaceBy
                 item {

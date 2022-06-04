@@ -17,6 +17,7 @@ dependencies {
     implementation(project(":common:model"))
     implementation(project(":android:compose:theme"))
     implementation(project(":android:compose:components"))
+    implementation(project(":common:features:screen-time"))
     implementation(project(":common:features:tasks"))
 
     // Core Functionality

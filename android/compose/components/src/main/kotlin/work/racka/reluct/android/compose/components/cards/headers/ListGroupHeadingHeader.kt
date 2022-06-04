@@ -17,7 +17,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import work.racka.reluct.android.compose.theme.Dimens
 
 @Composable
-fun TaskGroupHeadingHeader(
+fun ListGroupHeadingHeader(
     modifier: Modifier = Modifier,
     text: String,
     textStyle: TextStyle = MaterialTheme.typography.headlineSmall,
