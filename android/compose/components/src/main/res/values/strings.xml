@@ -45,4 +45,5 @@
     <string name="weekly_task_count_arg">You have %1s tasks this week</string>
     <string name="tasks_tally_text_arg">%1s of %2s Tasks Done</string>
 
+    <string name="weekly_screen_time_tally">%1s this week</string>
 </resources>
