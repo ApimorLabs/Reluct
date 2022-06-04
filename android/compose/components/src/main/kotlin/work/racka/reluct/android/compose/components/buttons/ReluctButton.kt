@@ -23,7 +23,7 @@ fun ReluctButton(
     buttonTextStyle: TextStyle = MaterialTheme.typography.bodyLarge,
     icon: ImageVector?,
     buttonColor: Color = MaterialTheme.colorScheme.primary,
-    contentColor: Color = LocalContentColor.current,
+    contentColor: Color = MaterialTheme.colorScheme.onPrimary,
     shape: Shape = CircleShape,
     onButtonClicked: () -> Unit,
     enabled: Boolean = true,

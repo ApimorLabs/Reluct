@@ -2,8 +2,10 @@ package work.racka.reluct.android.screens.util
 
 import android.app.AppOpsManager
 import android.content.Context
+import android.content.Intent
 import android.os.Build
 import android.os.Process
+import android.provider.Settings
 
 fun checkUsageAccessPermissions(
     context: Context
@@ -24,4 +26,9 @@ fun checkUsageAccessPermissions(
         )
     }
     return mode == AppOpsManager.MODE_ALLOWED
+}
+
+fun requestUsageAccessPermission(context: Context) {
+    val intent = Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS)
+    context.startActivity(intent)
 }

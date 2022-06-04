@@ -48,4 +48,6 @@
 
     <string name="no_app_usage_data_text">No Usage Data Found</string>
     <string name="weekly_screen_time_tally">%1s this week</string>
+
+    <string name="allow_permission">Allow</string>
 </resources>

@@ -14,19 +14,21 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.Snackbar
 import androidx.compose.material.SnackbarHost
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.material3.Text
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import timber.log.Timber
+import work.racka.reluct.android.compose.components.buttons.ReluctButton
 import work.racka.reluct.android.compose.components.buttons.ValueOffsetButton
 import work.racka.reluct.android.compose.components.cards.app_usage_entry.AppUsageEntry
 import work.racka.reluct.android.compose.components.cards.headers.ListGroupHeadingHeader
+import work.racka.reluct.android.compose.components.cards.permissions.PermissionsCard
 import work.racka.reluct.android.compose.components.cards.statistics.StatisticsChartState
 import work.racka.reluct.android.compose.components.cards.statistics.screen_time.ScreenTimeStatisticsCard
 import work.racka.reluct.android.compose.components.images.LottieAnimationWithDescription
@@ -36,6 +38,8 @@ import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.android.compose.theme.Shapes
 import work.racka.reluct.android.screens.R
 import work.racka.reluct.android.screens.util.PermissionCheckHandler
+import work.racka.reluct.android.screens.util.checkUsageAccessPermissions
+import work.racka.reluct.android.screens.util.requestUsageAccessPermission
 import work.racka.reluct.common.features.screen_time.states.DailyUsageStatsState
 import work.racka.reluct.common.features.screen_time.states.ScreenTimeStatsState
 import work.racka.reluct.common.features.screen_time.states.WeeklyUsageStatsState
@@ -49,6 +53,7 @@ internal fun ScreenTimeStatisticsUI(
     barsVisibility: BarsVisibility,
     scaffoldState: ScaffoldState,
     uiState: ScreenTimeStatsState,
+    getUsageData: () -> Unit,
     onSelectDay: (dayIsoNumber: Int) -> Unit,
     onUpdateWeekOffset: (weekOffsetValue: Int) -> Unit,
     onAppUsageInfoClick: (app: AppUsageInfo) -> Unit,
@@ -85,9 +90,16 @@ internal fun ScreenTimeStatisticsUI(
         }
     }
 
+    val usagePermissionGranted = remember { mutableStateOf(false) }
+    val openDialog = remember { mutableStateOf(false) }
+
+    val context = LocalContext.current
+
     PermissionCheckHandler {
-        Timber.d("Permission checking")
+        usagePermissionGranted.value = checkUsageAccessPermissions(context)
     }
+
+    LaunchedEffect(usagePermissionGranted.value) { getUsageData() }
 
     val snackbarModifier = if (scrollContext.isTop) {
         Modifier.padding(bottom = mainScaffoldPadding.calculateBottomPadding())
@@ -132,6 +144,24 @@ internal fun ScreenTimeStatisticsUI(
                     Spacer(modifier = Modifier)
                 }
 
+                // Permission Card
+                if (!usagePermissionGranted.value) {
+                    item {
+                        PermissionsCard(
+                            imageSlot = {
+                                LottieAnimationWithDescription(
+                                    iterations = Int.MAX_VALUE,
+                                    lottieResId = R.raw.no_permission,
+                                    imageSize = 200.dp,
+                                    description = null
+                                )
+                            },
+                            permissionDetails = stringResource(R.string.usage_permissions_details),
+                            onPermissionRequest = { openDialog.value = true }
+                        )
+                    }
+                }
+
                 // Chart
                 item {
                     ScreenTimeStatisticsCard(
@@ -167,9 +197,10 @@ internal fun ScreenTimeStatisticsUI(
                                 contentAlignment = Alignment.Center
                             ) {
                                 LottieAnimationWithDescription(
-                                    lottieResId = R.raw.no_task_animation,
+                                    iterations = 10,
+                                    lottieResId = R.raw.no_data,
                                     imageSize = 200.dp,
-                                    description = stringResource(R.string.no_tasks_text)
+                                    description = stringResource(R.string.no_usage_data_text)
                                 )
                             }
                         }
@@ -219,6 +250,43 @@ internal fun ScreenTimeStatisticsUI(
                     )
                 }
             }
+        }
+
+
+        // Go To Usage Access Dialog
+        if (openDialog.value) {
+            AlertDialog(
+                onDismissRequest = { openDialog.value = false },
+                title = {
+                    Text(text = stringResource(R.string.open_settings_dialog_title))
+                },
+                text = {
+                    Text(text = stringResource(R.string.usage_permissions_rationale_dialog_text))
+                },
+                confirmButton = {
+                    ReluctButton(
+                        buttonText = stringResource(R.string.ok),
+                        icon = null,
+                        shape = Shapes.large,
+                        buttonColor = MaterialTheme.colorScheme.primary,
+                        contentColor = MaterialTheme.colorScheme.onPrimary,
+                        onButtonClicked = {
+                            openDialog.value = false
+                            requestUsageAccessPermission(context)
+                        }
+                    )
+                },
+                dismissButton = {
+                    ReluctButton(
+                        buttonText = stringResource(R.string.cancel),
+                        icon = null,
+                        shape = Shapes.large,
+                        buttonColor = MaterialTheme.colorScheme.surfaceVariant,
+                        contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                        onButtonClicked = { openDialog.value = false }
+                    )
+                }
+            )
         }
     }
 }

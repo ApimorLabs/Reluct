@@ -77,7 +77,7 @@ fun ScreenTimeStatisticsCard(
         belowChartText = {
             Spacer(modifier = Modifier)
             Text(
-                text = if (barChartState !is StatisticsChartState.Loading) {
+                text = if (barChartState is StatisticsChartState.Success) {
                     stringResource(R.string.weekly_screen_time_tally, weeklyTotalScreenTime)
                 } else "• • • • •",
                 style = MaterialTheme.typography.titleLarge
