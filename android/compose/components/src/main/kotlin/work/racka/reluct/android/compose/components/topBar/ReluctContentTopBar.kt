@@ -27,8 +27,8 @@ fun ReluctContentTopBar(
     shape: Shape = RectangleShape,
     colors: TopAppBarColors = TopAppBarDefaults
         .mediumTopAppBarColors(
-            containerColor = MaterialTheme.colorScheme.surface,
-            scrolledContainerColor = MaterialTheme.colorScheme.background,
+            containerColor = MaterialTheme.colorScheme.background,
+            scrolledContainerColor = MaterialTheme.colorScheme.surface,
             navigationIconContentColor = LocalContentColor.current,
             titleContentColor = LocalContentColor.current,
             actionIconContentColor = LocalContentColor.current
