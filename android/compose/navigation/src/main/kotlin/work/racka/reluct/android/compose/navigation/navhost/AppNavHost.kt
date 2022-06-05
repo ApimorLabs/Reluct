@@ -6,7 +6,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavHostController
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
@@ -23,11 +22,9 @@ import work.racka.reluct.android.compose.navigation.navhost.graphs.tasks.TasksNa
 
 @OptIn(ExperimentalAnimationApi::class, ExperimentalMaterial3Api::class)
 @Composable
-fun AppNavHost(
-    modifier: Modifier = Modifier,
-    navController: NavHostController = rememberAnimatedNavController(),
-) {
+fun AppNavHost(modifier: Modifier = Modifier) {
 
+    val navController = rememberAnimatedNavController()
     val barsVisibility = rememberBarVisibility()
 
     Scaffold(

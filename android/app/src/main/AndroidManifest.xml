@@ -23,7 +23,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppSplash">
         <activity
-            android:name="work.racka.reluct.ui.main.MainActivity"
+            android:name="work.racka.reluct.ui.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

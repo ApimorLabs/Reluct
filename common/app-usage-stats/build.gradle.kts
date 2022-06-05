@@ -30,6 +30,7 @@ kotlin {
 
         val androidMain by getting {
             dependencies {
+                implementation(Dependencies.Android.Extras.palette)
                 implementation(Dependencies.Log.timber)
                 implementation(Dependencies.Koin.android)
             }

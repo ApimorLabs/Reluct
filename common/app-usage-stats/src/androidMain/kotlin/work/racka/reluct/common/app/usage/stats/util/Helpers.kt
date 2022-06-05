@@ -49,3 +49,14 @@ internal fun isSystemApp(context: Context, packageName: String): Boolean {
     val appInfo = packageManager.getApplicationInfo(packageName, PackageManager.GET_META_DATA)
     return appInfo.flags == ApplicationInfo.FLAG_SYSTEM
 }
+
+/*
+internal fun getDominantAppIconColor(appIcon: Drawable?): Int {
+    val defaultColor = Color.GRAY
+    val palette = appIcon?.let {
+        Palette
+            .from(it.toBitmap())
+            .generate()
+    }
+    return palette?.getVibrantColor(defaultColor) ?: defaultColor
+}*/

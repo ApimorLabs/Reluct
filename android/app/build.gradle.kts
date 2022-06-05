@@ -3,9 +3,6 @@ import org.jetbrains.kotlin.konan.properties.Properties
 plugins {
     id("com.android.application")
     kotlin("android")
-    id("kotlin-parcelize")
-    id("kotlin-kapt")
-    id("dagger.hilt.android.plugin")
 }
 
 android {
@@ -73,13 +70,10 @@ android {
 
 dependencies {
     // Dependency Modules
-    implementation(project(":common:model"))
-    implementation(project(":common:di-integration"))
-    implementation(project(":common:persistence:settings"))
-    implementation(project(":android:compose:components"))
-    implementation(project(":android:compose:charts"))
     implementation(project(":android:compose:navigation"))
     implementation(project(":android:compose:theme"))
+    implementation(project(":common:di-integration"))
+    implementation(project(":common:persistence:settings"))
 
     // Core Functionality
     with(Dependencies.Android.Essential) {
@@ -103,72 +97,23 @@ dependencies {
         androidTestImplementation(testKtx)
     }
 
-    testImplementation(Dependencies.Squareup.Testing.turbine)
-    testImplementation(Dependencies.Kotlin.Coroutines.test)
-
-    androidTestImplementation(Dependencies.Android.Espresso.core)
-    androidTestImplementation(Dependencies.Squareup.Testing.turbine)
-
     // Compose
     with(Dependencies.Android.Compose) {
         implementation(ui)
-        implementation(animation)
-        implementation(material)
-        implementation(preview)
         implementation(activity)
-        implementation(viewModel)
-        implementation(navigation)
-        implementation(materialIconsCore)
-        implementation(materialIconsExtended)
         implementation(foundation)
-        implementation(foundationLayout)
-        implementation(constraintLayout)
-        implementation(material3)
 
         // Testing Compose
         androidTestImplementation(junit)
         debugImplementation(tooling)
     }
 
-    // Dependency Injection
-    with(Dependencies.Android.Hilt) {
-        implementation(core)
-        implementation(navigationCompose)
-        kapt(compiler)
-
-        // Local Unit Tests
-        testImplementation(test)
-        kaptTest(compiler)
-        // Instrumentation Test
-        androidTestImplementation(test)
-        kaptAndroidTest(compiler)
-    }
-
-    with(Dependencies.Koin) {
-        api(android)
-        api(compose)
-    }
-
-    // Coil Image loader
-    implementation(Dependencies.Android.Coil.image)
-
+    // Koin DI
+    implementation(Dependencies.Koin.android)
     // Accompanist
-    with(Dependencies.Android.Accompanist) {
-        implementation(swipeRefresh)
-        implementation(systemUiController)
-        implementation(navigationAnimations)
-    }
-
-    with(Dependencies.Android.Extras) {
-        // Preferences DataStore
-        implementation(prefDataStore)
-
-        // Splash Screen
-        implementation(splashScreenCore)
-
-        // Palette
-        implementation(palette)
-    }
+    implementation(Dependencies.Android.Accompanist.systemUiController)
+    // Splash Screen
+    implementation(Dependencies.Android.Extras.splashScreenCore)
     // Timber - Logging
     implementation(Dependencies.Log.timber)
 }

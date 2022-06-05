@@ -1,4 +1,4 @@
-package work.racka.reluct.ui.components.summary
+package work.racka.reluct.android.compose.components.cards.statistics.piechart
 
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme
@@ -8,12 +8,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import work.racka.reluct.model.UsageStats
+import work.racka.reluct.common.model.domain.usagestats.UsageStats
 import work.racka.reluct.pieChart.PieChart
 import work.racka.reluct.pieChart.PieChartData
 import work.racka.reluct.pieChart.renderer.slice.SimpleSliceDrawer
 import work.racka.reluct.pieChart.renderer.text.SimpleTextDrawer
-import work.racka.reluct.utils.Utils
 import java.util.concurrent.TimeUnit
 
 @Composable
@@ -33,7 +32,7 @@ fun SummaryPieChart(
             slices.value.add(
                 PieChartData.Slice(
                     value = appUsageInfo.timeInForeground.toFloat(),
-                    color = Color(appUsageInfo.dominantColor)
+                    color = Color.Blue // Adapt colors
                 )
             )
         } else {
@@ -52,8 +51,6 @@ fun SummaryPieChart(
         centerTextDrawer = SimpleTextDrawer(
             labelTextColor = MaterialTheme.colorScheme.onBackground
         ),
-        centerText = Utils.getFormattedTime(
-            dayStats.totalScreenTime
-        )
+        centerText = ""
     )
 }

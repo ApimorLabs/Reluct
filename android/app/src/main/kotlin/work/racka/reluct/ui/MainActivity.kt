@@ -1,6 +1,5 @@
-package work.racka.reluct.ui.main
+package work.racka.reluct.ui
 
-import android.app.usage.UsageStatsManager
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -11,16 +10,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import dagger.hilt.android.AndroidEntryPoint
 import work.racka.reluct.android.compose.theme.Theme
-import work.racka.reluct.ui.navigation.ReluctApp
-import javax.inject.Inject
 
-@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-
-    @Inject
-    lateinit var usageStatsManager: UsageStatsManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,7 +41,7 @@ class MainActivity : ComponentActivity() {
                     color = Color.Transparent
                 )
             }
-            ReluctApp(themeValue = themeValue)
+            ReluctMainCompose(themeValue = themeValue)
         }
     }
 }
