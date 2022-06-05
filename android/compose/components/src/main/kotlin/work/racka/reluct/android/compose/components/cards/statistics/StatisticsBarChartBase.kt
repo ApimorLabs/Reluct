@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import work.racka.reluct.barChart.BarChart
 import work.racka.reluct.barChart.BarChartData
 import work.racka.reluct.barChart.BarChartOptions
@@ -15,6 +16,7 @@ import work.racka.reluct.barChart.renderer.yaxis.SimpleYAxisDrawer
 internal fun StatisticsBarChartBase(
     modifier: Modifier = Modifier,
     bars: List<BarChartData.Bar>,
+    selectedBarColor: Color = MaterialTheme.colorScheme.primary,
     selectedDayIsoNumber: Int,
     onBarClicked: (Int) -> Unit,
 ) {
@@ -23,7 +25,7 @@ internal fun StatisticsBarChartBase(
         barChartData = BarChartData(bars = bars),
         modifier = modifier.fillMaxWidth(),
         selectedUniqueId = selectedDayIsoNumber,
-        selectedBarColor = MaterialTheme.colorScheme.primary,
+        selectedBarColor = selectedBarColor,
         onBarClicked = {
             onBarClicked(it)
         },

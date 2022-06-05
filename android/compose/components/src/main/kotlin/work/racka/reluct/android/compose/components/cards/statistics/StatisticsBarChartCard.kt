@@ -21,9 +21,10 @@ import work.racka.reluct.barChart.BarChartData
 internal fun StatisticsBarChartCard(
     modifier: Modifier = Modifier,
     containerColor: Color = MaterialTheme.colorScheme.surfaceVariant,
-    contentColor: Color = MaterialTheme.colorScheme.primary,
+    contentColor: Color = MaterialTheme.colorScheme.secondary,
     shape: Shape = Shapes.large,
     bars: List<BarChartData.Bar>,
+    selectedBarColor: Color = contentColor,
     dataLoading: Boolean,
     noDataText: String,
     chartHeight: Dp = 160.dp,
@@ -74,6 +75,7 @@ internal fun StatisticsBarChartCard(
                 StatisticsBarChartBase(
                     modifier = Modifier.height(chartHeight),
                     bars = bars,
+                    selectedBarColor = selectedBarColor,
                     selectedDayIsoNumber = selectedDayIsoNumber,
                     onBarClicked = { onBarClicked(it) }
                 )
@@ -86,7 +88,7 @@ internal fun StatisticsBarChartCard(
                             .copy(fontWeight = FontWeight.Medium),
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
-                        color = LocalContentColor.current
+                        color = contentColor
                     )
                 }
             }

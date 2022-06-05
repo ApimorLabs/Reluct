@@ -23,7 +23,8 @@ import work.racka.reluct.common.model.util.time.Week
 fun ScreenTimeStatisticsCard(
     modifier: Modifier = Modifier,
     barChartState: StatisticsChartState<Map<Week, UsageStats>>,
-    barColor: Color = MaterialTheme.colorScheme.secondary,
+    barColor: Color = MaterialTheme.colorScheme.secondary
+        .copy(alpha = .7f),
     selectedDayText: String,
     selectedDayScreenTime: String,
     weeklyTotalScreenTime: String,
@@ -54,6 +55,7 @@ fun ScreenTimeStatisticsCard(
         bars = bars.value,
         dataLoading = barChartState is StatisticsChartState.Loading,
         noDataText = stringResource(id = R.string.no_app_usage_data_text),
+        selectedBarColor = MaterialTheme.colorScheme.primary,
         selectedDayIsoNumber = selectedDayIsoNumber,
         onBarClicked = { onBarClicked(it) },
         topLeftText = {

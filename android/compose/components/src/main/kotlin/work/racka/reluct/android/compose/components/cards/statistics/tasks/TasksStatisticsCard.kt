@@ -23,7 +23,8 @@ import work.racka.reluct.common.model.util.time.Week
 fun TasksStatisticsCard(
     modifier: Modifier = Modifier,
     barChartState: StatisticsChartState<Map<Week, DailyTasksStats>>,
-    barColor: Color = MaterialTheme.colorScheme.secondary,
+    barColor: Color = MaterialTheme.colorScheme.secondary
+        .copy(alpha = .7f),
     selectedDayText: String,
     selectedDayTasksDone: Int,
     selectedDayTasksPending: Int,
@@ -53,6 +54,7 @@ fun TasksStatisticsCard(
     StatisticsBarChartCard(
         modifier = modifier,
         bars = bars.value,
+        selectedBarColor = MaterialTheme.colorScheme.primary,
         dataLoading = barChartState is StatisticsChartState.Loading,
         noDataText = stringResource(id = R.string.no_completed_tasks_text),
         selectedDayIsoNumber = selectedDayIsoNumber,

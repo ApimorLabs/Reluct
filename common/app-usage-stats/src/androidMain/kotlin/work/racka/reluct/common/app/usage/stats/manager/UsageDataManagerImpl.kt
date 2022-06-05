@@ -58,7 +58,7 @@ internal class UsageDataManagerImpl(
             }
         }
 
-        for (i in 0 until allEvents.size - 1) {
+        for (i in 0 until allEvents.lastIndex) {
             val e0 = allEvents[i]
             val e1 = allEvents[i + 1]
 

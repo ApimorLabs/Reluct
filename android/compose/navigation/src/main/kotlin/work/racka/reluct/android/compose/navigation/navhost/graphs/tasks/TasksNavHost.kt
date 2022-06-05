@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -23,7 +22,6 @@ import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import work.racka.reluct.android.compose.components.tab.tasks.TasksTabBar
 import work.racka.reluct.android.compose.components.textfields.search.PlaceholderMaterialSearchBar
 import work.racka.reluct.android.compose.components.topBar.ProfilePicture
-import work.racka.reluct.android.compose.components.topBar.ReluctContentTopBar
 import work.racka.reluct.android.compose.components.util.BarsVisibility
 import work.racka.reluct.android.compose.destinations.OtherDestinations
 import work.racka.reluct.android.compose.destinations.TasksDestinations
@@ -151,45 +149,38 @@ internal fun TasksNavHost(
 @Composable
 private fun TasksScreenTopBar(
     tabPage: TasksDestinations,
-    scrollBehavior: TopAppBarScrollBehavior? = null,
     profilePicUrl: String?,
     navigateToSearch: () -> Unit,
     updateTabPage: (TasksDestinations) -> Unit,
 ) {
-    ReluctContentTopBar(
+    Column(
         modifier = Modifier
             .padding(vertical = 8.dp)
-            .statusBarsPadding(),
-        minShrinkHeight = 40.dp,
-        scrollBehavior = scrollBehavior
+            .statusBarsPadding()
+            .fillMaxWidth(),
+        verticalArrangement = Arrangement
+            .spacedBy(16.dp)
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth(),
-            verticalArrangement = Arrangement
-                .spacedBy(16.dp)
-        ) {
-            PlaceholderMaterialSearchBar(
-                modifier = Modifier.padding(horizontal = 16.dp),
-                onClick = navigateToSearch,
-                extraButton = {
-                    ProfilePicture(
-                        modifier = Modifier,//.padding(4.dp),
-                        pictureUrl = profilePicUrl
-                    )
-                }
-            )
-            LazyRow {
-                item {
-                    TasksTabBar(
-                        modifier = Modifier
-                            .padding(horizontal = 16.dp),
-                        tabPage = tabPage,
-                        onTabSelected = {
-                            updateTabPage(it)
-                        }
-                    )
-                }
+        PlaceholderMaterialSearchBar(
+            modifier = Modifier.padding(horizontal = 16.dp),
+            onClick = navigateToSearch,
+            extraButton = {
+                ProfilePicture(
+                    modifier = Modifier,//.padding(4.dp),
+                    pictureUrl = profilePicUrl
+                )
+            }
+        )
+        LazyRow {
+            item {
+                TasksTabBar(
+                    modifier = Modifier
+                        .padding(horizontal = 16.dp),
+                    tabPage = tabPage,
+                    onTabSelected = {
+                        updateTabPage(it)
+                    }
+                )
             }
         }
     }

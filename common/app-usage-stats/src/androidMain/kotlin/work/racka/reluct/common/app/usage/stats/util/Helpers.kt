@@ -1,6 +1,7 @@
 package work.racka.reluct.common.app.usage.stats.util
 
 import android.content.Context
+import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import android.graphics.drawable.Drawable
 import timber.log.Timber
@@ -38,4 +39,13 @@ internal fun getAppName(context: Context, packageName: String): String {
         Timber.d("Error: ${e.message}")
     }
     return appName
+}
+
+// Check if it is not a system app
+internal fun isSystemApp(context: Context, packageName: String): Boolean {
+    val newContext =
+        context.createPackageContext(packageName, Context.CONTEXT_IGNORE_SECURITY)
+    val packageManager = newContext.packageManager
+    val appInfo = packageManager.getApplicationInfo(packageName, PackageManager.GET_META_DATA)
+    return appInfo.flags == ApplicationInfo.FLAG_SYSTEM
 }
