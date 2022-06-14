@@ -184,6 +184,27 @@ internal fun ScreenTimeStatisticsUI(
                     }
                 }
 
+                // Apps Header
+                stickyHeader {
+                    ListGroupHeadingHeader(text = stringResource(R.string.app_list_header))
+                }
+
+                // Daily Data Loading
+                item {
+                    AnimatedVisibility(
+                        modifier = Modifier.fillMaxWidth(),
+                        visible = uiState.dailyData is DailyUsageStatsState.Loading,
+                        enter = fadeIn(),
+                        exit = fadeOut()
+                    ) {
+                        Box(
+                            contentAlignment = Alignment.Center
+                        ) {
+                            LinearProgressIndicator()
+                        }
+                    }
+                }
+
                 // No App Data Animation
                 if (uiState.dailyData is DailyUsageStatsState.Empty) {
                     item {
@@ -208,10 +229,6 @@ internal fun ScreenTimeStatisticsUI(
                 }
 
                 if (uiState.dailyData.usageStat.appsUsageList.isNotEmpty()) {
-                    stickyHeader {
-                        ListGroupHeadingHeader(text = stringResource(R.string.app_list_header))
-                    }
-
                     items(
                         items = uiState.dailyData.usageStat.appsUsageList,
                         key = { it.packageName }
@@ -222,22 +239,6 @@ internal fun ScreenTimeStatisticsUI(
                             onEntryClick = { onAppUsageInfoClick(item) },
                             onTimeSettingsClick = { onAppTimeLimitSettingsClicked(item.packageName) }
                         )
-                    }
-                }
-
-                // Daily Data Loading
-                item {
-                    AnimatedVisibility(
-                        modifier = Modifier.fillMaxWidth(),
-                        visible = uiState.dailyData is DailyUsageStatsState.Loading,
-                        enter = fadeIn(),
-                        exit = fadeOut()
-                    ) {
-                        Box(
-                            contentAlignment = Alignment.Center
-                        ) {
-                            LinearProgressIndicator()
-                        }
                     }
                 }
 

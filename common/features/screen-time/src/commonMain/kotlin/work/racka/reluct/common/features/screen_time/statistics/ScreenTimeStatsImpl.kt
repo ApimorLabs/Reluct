@@ -47,7 +47,7 @@ internal class ScreenTimeStatsImpl(
         initialValue = ScreenTimeStatsState()
     )
 
-    private val _events = Channel<ScreenTimeStatsEvents>()
+    private val _events = Channel<ScreenTimeStatsEvents>(capacity = Channel.UNLIMITED)
     override val events: Flow<ScreenTimeStatsEvents>
         get() = _events.receiveAsFlow()
 
