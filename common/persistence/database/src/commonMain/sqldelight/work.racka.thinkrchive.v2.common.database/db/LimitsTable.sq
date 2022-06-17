@@ -1,0 +1,58 @@
+CREATE TABLE LimitsTable (
+packageName TEXT NOT NULL PRIMARY KEY,
+timeLimit INTEGER NOT NULL,
+isADistractingApp INTEGER AS Boolean DEFAULT 0 NOT NULL,
+isPaused INTEGER AS Boolean DEFAULT 0 NOT NULL
+);
+
+insertApp:
+INSERT OR IGNORE INTO LimitsTable(
+packageName, timeLimit, isADistractingApp, isPaused
+) VALUES ?;
+
+removeApp:
+DELETE FROM LimitsTable
+WHERE packageName = :packageName;
+
+setTimeLimit {
+    UPDATE LimitsTable
+    SET timeLimit = :timeLimit
+    WHERE packageName = :packageName;
+
+    INSERT OR IGNORE INTO LimitsTable(
+    packageName, timeLimit, isADistractingApp, isPaused)
+    VALUES (:packageName, :timeLimit, 0, 0);
+}
+
+togglePausedApp {
+    UPDATE LimitsTable
+    SET isPaused = :isPaused
+    WHERE packageName = :packageName;
+
+    INSERT OR IGNORE INTO LimitsTable(
+    packageName, timeLimit, isADistractingApp, isPaused)
+    VALUES (:packageName, 0, 0, :isPaused);
+}
+
+toggleDistractingApp {
+    UPDATE LimitsTable
+    SET isADistractingApp = :isDistracting
+    WHERE packageName = :packageName;
+
+    INSERT OR IGNORE INTO LimitsTable(
+    packageName, timeLimit, isADistractingApp, isPaused)
+    VALUES (:packageName, 0, :isDistracting, 0);
+}
+
+getPausedApps:
+SELECT * FROM LimitsTable
+WHERE isPaused = 1;
+
+isAppPaused:
+SELECT isPaused FROM LimitsTable
+WHERE packageName = :packageName;
+
+resumeAllApps:
+UPDATE LimitsTable
+SET isPaused = 0
+WHERE isPaused = 1;

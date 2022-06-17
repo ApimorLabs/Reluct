@@ -17,6 +17,7 @@ class ReluctApplication : Application() {
             androidLogger(if (BuildConfig.DEBUG) Level.ERROR else Level.NONE)
             androidContext(this@ReluctApplication)
         }
+        //ServiceStarter.startService(applicationContext)
 
         Timber.plant(Timber.DebugTree())
     }
