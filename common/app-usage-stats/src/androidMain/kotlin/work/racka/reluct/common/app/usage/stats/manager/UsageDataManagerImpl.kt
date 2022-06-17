@@ -3,6 +3,8 @@ package work.racka.reluct.common.app.usage.stats.manager
 import android.app.usage.UsageEvents
 import android.app.usage.UsageStatsManager
 import android.content.Context
+import android.os.Build
+import android.os.UserManager
 import work.racka.reluct.common.app.usage.stats.model.DataAppUsageInfo
 import work.racka.reluct.common.app.usage.stats.model.DataUsageStats
 import work.racka.reluct.common.app.usage.stats.util.getAppIcon
@@ -29,9 +31,13 @@ internal class UsageDataManagerImpl(
         val appUsageInfoMap = hashMapOf<String, DataAppUsageInfo>()
         var unlockCount = 0L
 
-        val usageEvents = usageStats.queryEvents(startTimeMillis, endTimeMillis)
+        val usageEvents = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            val userManager = context.getSystemService(Context.USER_SERVICE) as UserManager
+            if (userManager.isUserUnlocked) usageStats.queryEvents(startTimeMillis, endTimeMillis)
+            else null
+        } else usageStats.queryEvents(startTimeMillis, endTimeMillis)
 
-        while (usageEvents.hasNextEvent()) {
+        while (usageEvents?.hasNextEvent() == true) {
             val currentEvent = UsageEvents.Event()
             usageEvents.getNextEvent(currentEvent)
 
