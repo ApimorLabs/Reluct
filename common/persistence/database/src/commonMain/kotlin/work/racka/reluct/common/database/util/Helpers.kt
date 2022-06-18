@@ -1,3 +1,3 @@
-package work.racka.thinkrchive.v2.common.database.util
+package work.racka.reluct.common.database.util
 
 internal object Helpers

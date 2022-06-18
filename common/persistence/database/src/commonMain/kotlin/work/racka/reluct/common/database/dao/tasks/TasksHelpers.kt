@@ -1,8 +1,8 @@
 package work.racka.reluct.common.database.dao.tasks
 
+import work.racka.reluct.common.database.tables.TasksTable
+import work.racka.reluct.common.database.tables.TasksTableQueries
 import work.racka.reluct.common.model.data.local.task.TaskDbObject
-import workrackathinkrchivev2commondatabase.db.TasksTable
-import workrackathinkrchivev2commondatabase.db.TasksTableQueries
 
 internal object TasksHelpers {
 

@@ -8,7 +8,7 @@ plugins {
 
 sqldelight {
     database("ReluctDatabase") {
-        packageName = "work.racka.reluct.common.database.db"
+        packageName = "work.racka.reluct.common.database"
         sourceFolders = listOf("sqldelight")
     }
 }

@@ -19,6 +19,12 @@ interface LimitsDao {
     suspend fun removeApp(packageName: String)
 
     /**
+     * It will remove all the apps from the Limits table
+     * Useful from clearing apps
+     */
+    suspend fun removeAllApps()
+
+    /**
      * Sets the [timeLimit] for the specified [packageName]
      * If the [packageName] does not exist in the database it will be created
      */
@@ -53,5 +59,9 @@ interface LimitsDao {
      * Check if an app of the specified [packageName] is in Paused state
      */
     suspend fun isAppPaused(packageName: String): Boolean
+
+    /**
+     * Resume all app that were in paused state
+     */
     suspend fun resumeAllApp()
 }

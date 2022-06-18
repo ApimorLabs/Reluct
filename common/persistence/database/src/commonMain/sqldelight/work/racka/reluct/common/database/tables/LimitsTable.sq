@@ -14,6 +14,9 @@ removeApp:
 DELETE FROM LimitsTable
 WHERE packageName = :packageName;
 
+removeAllApps:
+DELETE FROM LimitsTable;
+
 setTimeLimit {
     UPDATE LimitsTable
     SET timeLimit = :timeLimit

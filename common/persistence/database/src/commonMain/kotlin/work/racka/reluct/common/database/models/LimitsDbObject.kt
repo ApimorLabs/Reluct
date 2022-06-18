@@ -1,8 +1,8 @@
 package work.racka.reluct.common.database.models
 
 data class LimitsDbObject(
-    private val packageName: String,
-    private val timeLimit: Long,
-    private val isADistractingAp: Boolean,
-    private val isPaused: Boolean
+    val packageName: String,
+    val timeLimit: Long,
+    val isADistractingAp: Boolean,
+    val isPaused: Boolean
 )

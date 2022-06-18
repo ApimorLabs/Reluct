@@ -1,5 +1,5 @@
 package work.racka.reluct.common.database.dao
 
-import work.racka.reluct.common.database.db.ReluctDatabase
+import work.racka.reluct.common.database.ReluctDatabase
 
 internal class DatabaseWrapper(val instance: ReluctDatabase?)

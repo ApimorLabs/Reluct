@@ -2,8 +2,8 @@ package work.racka.reluct.common.database.di
 
 import com.squareup.sqldelight.android.AndroidSqliteDriver
 import org.koin.dsl.module
+import work.racka.reluct.common.database.ReluctDatabase
 import work.racka.reluct.common.database.dao.DatabaseWrapper
-import work.racka.reluct.common.database.db.ReluctDatabase
 import work.racka.reluct.common.database.util.Constants
 
 internal actual object Platform {
