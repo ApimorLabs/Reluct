@@ -3,7 +3,7 @@ package work.racka.reluct.common.database.dao.tasks
 import com.squareup.sqldelight.runtime.coroutines.asFlow
 import com.squareup.sqldelight.runtime.coroutines.mapToList
 import com.squareup.sqldelight.runtime.coroutines.mapToOneOrNull
-import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import work.racka.reluct.common.database.dao.DatabaseWrapper
@@ -17,7 +17,7 @@ import work.racka.reluct.common.database.dao.tasks.TasksHelpers.searchTasksFromD
 import work.racka.reluct.common.model.data.local.task.TaskDbObject
 
 internal class TasksDaoImpl(
-    private val coroutineScope: CoroutineScope,
+    private val dispatcher: CoroutineDispatcher,
     databaseWrapper: DatabaseWrapper,
 ) : TasksDao {
 
@@ -30,32 +30,32 @@ internal class TasksDaoImpl(
     override fun getAllTasks(): Flow<List<TaskDbObject>> =
         tasksQueries?.getAllTasksFromDb()
             ?.asFlow()
-            ?.mapToList(coroutineScope.coroutineContext)
+            ?.mapToList(dispatcher)
             ?: flowOf(emptyList())
 
 
     override fun getTask(id: String): Flow<TaskDbObject?> =
         tasksQueries?.getTaskFromDb(id)
             ?.asFlow()
-            ?.mapToOneOrNull(coroutineScope.coroutineContext)
+            ?.mapToOneOrNull(dispatcher)
             ?: flowOf(null)
 
     override fun searchTasks(query: String, factor: Long, limitBy: Long): Flow<List<TaskDbObject>> =
         tasksQueries?.searchTasksFromDb("%$query%", factor, limitBy)
             ?.asFlow()
-            ?.mapToList(coroutineScope.coroutineContext)
+            ?.mapToList(dispatcher)
             ?: flowOf(emptyList())
 
     override fun getPendingTasks(factor: Long, limitBy: Long): Flow<List<TaskDbObject>> =
         tasksQueries?.getPendingTasksFromDb(factor, limitBy)
             ?.asFlow()
-            ?.mapToList(coroutineScope.coroutineContext)
+            ?.mapToList(dispatcher)
             ?: flowOf(emptyList())
 
     override fun getCompletedTasks(factor: Long, limitBy: Long): Flow<List<TaskDbObject>> =
         tasksQueries?.getCompletedTasksFromDb(factor, limitBy)
             ?.asFlow()
-            ?.mapToList(coroutineScope.coroutineContext)
+            ?.mapToList(dispatcher)
             ?: flowOf(emptyList())
 
     override fun getTasksBetweenDateTime(
@@ -64,7 +64,7 @@ internal class TasksDaoImpl(
     ): Flow<List<TaskDbObject>> =
         tasksQueries?.getTasksBetweenDateTimeStringsFromDb(startLocalDateTime, endLocalDateTime)
             ?.asFlow()
-            ?.mapToList(coroutineScope.coroutineContext)
+            ?.mapToList(dispatcher)
             ?: flowOf(emptyList())
 
     override fun toggleTaskDone(
