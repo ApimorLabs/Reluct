@@ -12,28 +12,35 @@ object LimitsHelpers {
                     packageName = limit.packageName,
                     timeLimit = limit.timeLimit,
                     isADistractingApp = limit.isADistractingAp,
-                    isPaused = limit.isPaused
+                    isPaused = limit.isPaused,
+                    overridden = limit.overridden
                 )
             )
         }
     }
 
     fun LimitsTableQueries.getPausedAppsFromDb() =
-        this.getPausedApps { packageName, timeLimit, isADistractingApp, isPaused ->
+        this.getPausedApps { packageName, timeLimit, isADistractingApp, isPaused, overridden ->
             limitsDbObjectMapper(
                 packageName = packageName,
                 timeLimit = timeLimit,
                 isADistractingApp = isADistractingApp,
-                isPaused = isPaused
+                isPaused = isPaused,
+                overridden = overridden
             )
         }
 
     private fun limitsDbObjectMapper(
-        packageName: String, timeLimit: Long, isADistractingApp: Boolean, isPaused: Boolean
+        packageName: String,
+        timeLimit: Long,
+        isADistractingApp: Boolean,
+        isPaused: Boolean,
+        overridden: Boolean
     ): LimitsDbObject = LimitsDbObject(
         packageName = packageName,
         timeLimit = timeLimit,
         isADistractingAp = isADistractingApp,
-        isPaused = isPaused
+        isPaused = isPaused,
+        overridden = overridden
     )
 }

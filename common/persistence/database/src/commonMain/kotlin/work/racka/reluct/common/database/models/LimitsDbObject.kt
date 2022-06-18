@@ -4,5 +4,6 @@ data class LimitsDbObject(
     val packageName: String,
     val timeLimit: Long,
     val isADistractingAp: Boolean,
-    val isPaused: Boolean
+    val isPaused: Boolean,
+    val overridden: Boolean
 )

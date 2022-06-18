@@ -2,12 +2,13 @@ CREATE TABLE LimitsTable (
 packageName TEXT NOT NULL PRIMARY KEY,
 timeLimit INTEGER NOT NULL,
 isADistractingApp INTEGER AS Boolean DEFAULT 0 NOT NULL,
-isPaused INTEGER AS Boolean DEFAULT 0 NOT NULL
+isPaused INTEGER AS Boolean DEFAULT 0 NOT NULL,
+overridden INTEGER AS Boolean DEFAULT 0 NOT NULL
 );
 
 insertApp:
 INSERT OR IGNORE INTO LimitsTable(
-packageName, timeLimit, isADistractingApp, isPaused
+packageName, timeLimit, isADistractingApp, isPaused, overridden
 ) VALUES ?;
 
 removeApp:
@@ -23,8 +24,8 @@ setTimeLimit {
     WHERE packageName = :packageName;
 
     INSERT OR IGNORE INTO LimitsTable(
-    packageName, timeLimit, isADistractingApp, isPaused)
-    VALUES (:packageName, :timeLimit, 0, 0);
+    packageName, timeLimit, isADistractingApp, isPaused, overridden)
+    VALUES (:packageName, :timeLimit, 0, 0, 0);
 }
 
 togglePausedApp {
@@ -33,8 +34,8 @@ togglePausedApp {
     WHERE packageName = :packageName;
 
     INSERT OR IGNORE INTO LimitsTable(
-    packageName, timeLimit, isADistractingApp, isPaused)
-    VALUES (:packageName, 0, 0, :isPaused);
+    packageName, timeLimit, isADistractingApp, isPaused, overridden)
+    VALUES (:packageName, 0, 0, :isPaused, 0);
 }
 
 toggleDistractingApp {
@@ -43,9 +44,14 @@ toggleDistractingApp {
     WHERE packageName = :packageName;
 
     INSERT OR IGNORE INTO LimitsTable(
-    packageName, timeLimit, isADistractingApp, isPaused)
-    VALUES (:packageName, 0, :isDistracting, 0);
+    packageName, timeLimit, isADistractingApp, isPaused, overridden)
+    VALUES (:packageName, 0, :isDistracting, 0, 0);
 }
+
+toggleLimitOverride:
+UPDATE LimitsTable
+SET overridden = :overridden
+WHERE packageName = :packageName;
 
 getPausedApps:
 SELECT * FROM LimitsTable
