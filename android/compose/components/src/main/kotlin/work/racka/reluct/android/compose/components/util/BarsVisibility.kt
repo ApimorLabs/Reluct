@@ -46,12 +46,16 @@ private class DefaultBarVisibilityState(
 interface BarsVisibility {
     val topBar: BarVisibilityState
     val bottomBar: BarVisibilityState
+    val statusBar: BarVisibilityState
+    val navigationBar: BarVisibilityState
 }
 
 @Composable
 fun rememberBarVisibility(): BarsVisibility {
     val topBarState = rememberSaveable { DefaultBarVisibilityState() }
     val bottomBarState = rememberSaveable { DefaultBarVisibilityState() }
+    val statusBarState = rememberSaveable { DefaultBarVisibilityState() }
+    val navigationBarState = rememberSaveable { DefaultBarVisibilityState() }
 
     val barsVisibility: BarsVisibility by remember {
         derivedStateOf {
@@ -60,6 +64,10 @@ fun rememberBarVisibility(): BarsVisibility {
                     get() = topBarState
                 override val bottomBar: BarVisibilityState
                     get() = bottomBarState
+                override val statusBar: BarVisibilityState
+                    get() = statusBarState
+                override val navigationBar: BarVisibilityState
+                    get() = navigationBarState
             }
         }
     }
