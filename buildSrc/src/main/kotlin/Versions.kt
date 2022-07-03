@@ -1,7 +1,7 @@
 object Versions {
     // Kotlin
     const val kotlin = "1.7.0"
-    const val kotlinxDateTime = "0.3.2"
+    const val kotlinxDateTime = "0.4.0"
     const val coroutines = "1.6.0"
 
     // Networking & JSON
