@@ -12,12 +12,12 @@ buildscript {
     dependencies {
         // Leaving this plugin here so it can be automatically
         // updated by Android Studio
-        classpath("com.android.tools.build:gradle:7.1.3")
+        classpath("com.android.tools.build:gradle:7.2.1")
 
         classpath(BuildPlugins.kotlin)
         classpath(BuildPlugins.sqlDelight)
         //classpath(BuildPlugins.composeDesktop)
-        classpath(BuildPlugins.daggerHilt)
+        //classpath(BuildPlugins.daggerHilt)
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files

@@ -8,11 +8,7 @@ import work.racka.reluct.common.features.screen_time.viewmodels.ScreenTimeStatsV
 internal actual object Platform {
     actual fun installModule(): Module = module {
         viewModel {
-            ScreenTimeStatsViewModel(
-                getWeeklyUsageStats = get(),
-                getDailyUsageStats = get(),
-                getWeekRangeFromOffset = get()
-            )
+            ScreenTimeStatsViewModel()
         }
     }
 }

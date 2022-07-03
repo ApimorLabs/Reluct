@@ -4,6 +4,8 @@ plugins {
 }
 
 android.apply {
+    namespace = "work.racka.reluct.android.compose.charts"
+
     buildFeatures {
         compose = true
     }

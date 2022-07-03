@@ -6,6 +6,8 @@ plugins {
 }
 
 android {
+    namespace = "work.racka.reluct"
+
     compileSdk = AppConfig.compileSdkVersion
 
     defaultConfig {

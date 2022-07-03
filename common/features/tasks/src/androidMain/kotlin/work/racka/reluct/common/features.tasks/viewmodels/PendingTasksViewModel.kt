@@ -2,20 +2,13 @@ package work.racka.reluct.common.features.tasks.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import work.racka.reluct.common.data.usecases.tasks.GetTasksUseCase
-import work.racka.reluct.common.data.usecases.tasks.ModifyTaskUseCase
+import org.koin.core.parameter.parametersOf
+import org.koin.java.KoinJavaComponent.inject
 import work.racka.reluct.common.features.tasks.pending_tasks.PendingTasks
-import work.racka.reluct.common.features.tasks.pending_tasks.PendingTasksImpl
 
-actual class PendingTasksViewModel internal constructor(
-    getTasksUseCase: GetTasksUseCase,
-    modifyTasksUsesCase: ModifyTaskUseCase,
-) : ViewModel() {
-    actual val host: PendingTasks by lazy {
-        PendingTasksImpl(
-            getTasksUseCase = getTasksUseCase,
-            modifyTasksUsesCase = modifyTasksUsesCase,
-            scope = viewModelScope
-        )
+actual class PendingTasksViewModel : ViewModel() {
+
+    actual val host: PendingTasks by inject(PendingTasks::class.java) {
+        parametersOf(viewModelScope)
     }
 }

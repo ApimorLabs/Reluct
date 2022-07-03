@@ -3,6 +3,10 @@ plugins {
     id("com.android.library")
 }
 
+android {
+    namespace = "work.racka.reluct.common.features.screen_time"
+}
+
 kotlin {
     android()
     jvm("desktop")

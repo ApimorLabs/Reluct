@@ -10,12 +10,7 @@ internal actual object Platform {
     actual fun installModule(): Module = module {
         factory {
             val viewModelScope = CoroutineScope(Dispatchers.Main.immediate)
-            ScreenTimeStatsViewModel(
-                getWeeklyUsageStats = get(),
-                getDailyUsageStats = get(),
-                getWeekRangeFromOffset = get(),
-                scope = viewModelScope
-            )
+            ScreenTimeStatsViewModel(scope = viewModelScope)
         }
     }
 }

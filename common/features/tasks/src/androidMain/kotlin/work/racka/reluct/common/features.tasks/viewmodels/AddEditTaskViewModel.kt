@@ -2,19 +2,13 @@ package work.racka.reluct.common.features.tasks.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import work.racka.reluct.common.data.usecases.tasks.ModifyTaskUseCase
+import org.koin.core.parameter.parametersOf
+import org.koin.java.KoinJavaComponent.inject
 import work.racka.reluct.common.features.tasks.add_edit_task.AddEditTask
-import work.racka.reluct.common.features.tasks.add_edit_task.AddEditTaskImpl
 
-actual class AddEditTaskViewModel(
-    modifyTasksUseCase: ModifyTaskUseCase,
-    taskId: String?,
-) : ViewModel() {
-    actual val host: AddEditTask by lazy {
-        AddEditTaskImpl(
-            modifyTaskUseCase = modifyTasksUseCase,
-            taskId = taskId,
-            scope = viewModelScope
-        )
+actual class AddEditTaskViewModel(taskId: String?) : ViewModel() {
+
+    actual val host: AddEditTask by inject(AddEditTask::class.java) {
+        parametersOf(taskId, viewModelScope)
     }
 }

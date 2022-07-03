@@ -5,6 +5,10 @@ plugins {
     id("com.android.library")
 }
 
+android {
+    namespace = "work.racka.reluct.common.features.tasks"
+}
+
 kotlin {
     android()
     jvm("desktop")

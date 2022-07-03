@@ -2,10 +2,16 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     kotlin("multiplatform")
+    id("com.android.library")
+}
+
+android {
+    namespace = "work.racka.reluct.common.settings"
 }
 
 kotlin {
     jvm("desktop")
+    android()
 
     sourceSets {
         val commonMain by getting {

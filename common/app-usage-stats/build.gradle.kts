@@ -3,6 +3,10 @@ plugins {
     id("com.android.library")
 }
 
+android {
+    namespace = "work.racka.reluct.common.app.usage.stats"
+}
+
 kotlin {
     android()
     jvm("desktop")

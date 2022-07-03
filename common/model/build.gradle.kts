@@ -4,6 +4,10 @@ plugins {
     kotlin("plugin.serialization") version Versions.kotlin
 }
 
+android {
+    namespace = "work.racka.reluct.common.model"
+}
+
 kotlin {
     android()
     jvm("desktop")

@@ -6,12 +6,12 @@ import android.content.Intent
 import android.os.Build
 import android.os.IBinder
 import androidx.annotation.RequiresApi
-import com.example.reluct.R
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.flowOn
 import timber.log.Timber
+import work.racka.reluct.R
 
 class TestService : Service() {
     private val flowN = callbackFlow<String> {

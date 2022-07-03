@@ -4,6 +4,8 @@ plugins {
 }
 
 android.apply {
+    namespace = "work.racka.reluct.android.compose.destinations"
+
     buildFeatures {
         compose = true
     }
