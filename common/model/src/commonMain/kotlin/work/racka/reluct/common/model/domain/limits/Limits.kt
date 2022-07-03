@@ -1,6 +1,6 @@
-package work.racka.reluct.common.database.models
+package work.racka.reluct.common.model.domain.limits
 
-data class LimitsDbObject(
+data class Limits(
     val packageName: String,
     val timeLimit: Long,
     val isADistractingAp: Boolean,
