@@ -20,6 +20,11 @@ kotlin {
                 implementation(project(":common:di-integration"))
 
                 implementation(compose.desktop.currentOs)
+                implementation(compose.ui)
+                @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
+                implementation(compose.desktop.components.splitPane)
+                implementation(compose.materialIconsExtended)
+
                 implementation(Dependencies.Kotlin.dateTime)
                 implementation(Dependencies.Koin.core)
             }
