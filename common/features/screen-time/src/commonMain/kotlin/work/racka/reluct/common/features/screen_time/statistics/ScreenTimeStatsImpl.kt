@@ -31,6 +31,8 @@ internal class ScreenTimeStatsImpl(
     private val dailyUsageStatsState: MutableStateFlow<DailyUsageStatsState> =
         MutableStateFlow(DailyUsageStatsState.Empty)
 
+    private val isGranted = MutableStateFlow(false)
+
     override val uiState: StateFlow<ScreenTimeStatsState> = combine(
         weekOffset, selectedWeekText, selectedDay, weeklyUsageStatsState, dailyUsageStatsState
     ) { weekOffset, selectedWeekText, selectedDay, weeklyUsageStatsState, dailyUsageStatsState ->
@@ -56,6 +58,17 @@ internal class ScreenTimeStatsImpl(
 
     init {
         getData()
+    }
+
+    private fun getData() {
+        scope.launch {
+            isGranted.collectLatest { granted ->
+                if (granted) {
+                    getWeeklyData()
+                    getDailyData()
+                }
+            }
+        }
     }
 
     private fun getDailyData() {
@@ -98,9 +111,8 @@ internal class ScreenTimeStatsImpl(
         }
     }
 
-    override fun getData() {
-        getWeeklyData()
-        getDailyData()
+    override fun permissionCheck(isGranted: Boolean) {
+        this.isGranted.update { isGranted }
     }
 
     override fun selectDay(selectedDayIsoNumber: Int) {
@@ -117,7 +129,7 @@ internal class ScreenTimeStatsImpl(
         weekOffset.update { weekOffsetValue }
         dailyScreenTimeStatsJob.cancel()
         weeklyScreenTimeStatsJob.cancel()
-        getData()
+        permissionCheck()
     }
 
     override fun navigateToAppInfo(packageName: String) {

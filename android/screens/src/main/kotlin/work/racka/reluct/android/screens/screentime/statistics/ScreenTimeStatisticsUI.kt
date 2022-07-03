@@ -53,7 +53,7 @@ internal fun ScreenTimeStatisticsUI(
     barsVisibility: BarsVisibility,
     scaffoldState: ScaffoldState,
     uiState: ScreenTimeStatsState,
-    getUsageData: () -> Unit,
+    getUsageData: (isGranted: Boolean) -> Unit,
     onSelectDay: (dayIsoNumber: Int) -> Unit,
     onUpdateWeekOffset: (weekOffsetValue: Int) -> Unit,
     onAppUsageInfoClick: (app: AppUsageInfo) -> Unit,
@@ -90,16 +90,19 @@ internal fun ScreenTimeStatisticsUI(
         }
     }
 
-    val usagePermissionGranted = remember { mutableStateOf(false) }
+    var usagePermissionGranted by remember { mutableStateOf(false) }
     val openDialog = remember { mutableStateOf(false) }
 
     val context = LocalContext.current
 
     PermissionCheckHandler {
-        usagePermissionGranted.value = checkUsageAccessPermissions(context)
+        if (!usagePermissionGranted) {
+            usagePermissionGranted = checkUsageAccessPermissions(context)
+            getUsageData(usagePermissionGranted)
+        }
     }
 
-    LaunchedEffect(usagePermissionGranted.value) { getUsageData() }
+    //LaunchedEffect(usagePermissionGranted) { getUsageData() }
 
     val snackbarModifier = if (scrollContext.isTop) {
         Modifier.padding(bottom = mainScaffoldPadding.calculateBottomPadding())
@@ -145,7 +148,7 @@ internal fun ScreenTimeStatisticsUI(
                 }
 
                 // Permission Card
-                if (!usagePermissionGranted.value) {
+                if (!usagePermissionGranted) {
                     item {
                         PermissionsCard(
                             imageSlot = {

@@ -44,7 +44,7 @@ fun ScreenTimeStatisticsScreen(
         barsVisibility = barsVisibility,
         scaffoldState = scaffoldState,
         uiState = uiState,
-        getUsageData = { viewModel.host.getData() },
+        getUsageData = { viewModel.host.permissionCheck(it) },
         onSelectDay = { dayIsoNumber -> viewModel.host.selectDay(dayIsoNumber) },
         onUpdateWeekOffset = { offsetValue -> viewModel.host.updateWeekOffset(offsetValue) },
         onAppUsageInfoClick = { appInfo -> viewModel.host.navigateToAppInfo(appInfo.packageName) },
