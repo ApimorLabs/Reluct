@@ -59,7 +59,7 @@ object TimeUtils {
         originalTimeZoneId: String = TimeZone.currentSystemDefault().id,
         showShortIntervalAsDay: Boolean = true,
     ): String {
-        val today = Clock.System.todayAt(TimeZone.currentSystemDefault())
+        val today = Clock.System.todayIn(TimeZone.currentSystemDefault())
         val localDT = getLocalDateTimeWithCorrectTimeZone(dateTime, originalTimeZoneId)
 
         // If we don't want to show Day of week itself when intervals are near

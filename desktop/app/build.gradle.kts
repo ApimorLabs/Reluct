@@ -3,7 +3,7 @@ import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 
 plugins {
     kotlin("multiplatform")
-    id("org.jetbrains.compose")
+    id("org.jetbrains.compose") version Versions.composeDesktop
 }
 
 kotlin {
@@ -20,6 +20,11 @@ kotlin {
                 implementation(project(":common:di-integration"))
 
                 implementation(compose.desktop.currentOs)
+                implementation(compose.ui)
+                @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
+                implementation(compose.desktop.components.splitPane)
+                implementation(compose.materialIconsExtended)
+
                 implementation(Dependencies.Kotlin.dateTime)
                 implementation(Dependencies.Koin.core)
             }

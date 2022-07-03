@@ -50,7 +50,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = Versions.compose
+        kotlinCompilerExtensionVersion = Versions.composeCompiler
     }
     packagingOptions {
         resources {
@@ -80,7 +80,7 @@ dependencies {
         implementation(coreKtx)
         implementation(appCompat)
         implementation(material)
-        implementation(lifecycleRuntimeKtx)
+        implementation(coreViewModel)
     }
 
     // Testing

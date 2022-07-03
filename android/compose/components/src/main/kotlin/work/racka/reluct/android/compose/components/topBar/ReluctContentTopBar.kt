@@ -42,8 +42,8 @@ fun ReluctContentTopBar(
     // Set a scroll offset limit to hide the entire app bar area when scrolling.
     val offsetLimit = with(LocalDensity.current) { -minShrinkHeight.toPx() }
     SideEffect {
-        if (scrollBehavior?.offsetLimit != offsetLimit) {
-            scrollBehavior?.offsetLimit = offsetLimit
+        if (scrollBehavior?.state?.offsetLimit != offsetLimit) {
+            scrollBehavior?.state?.offsetLimit = offsetLimit
         }
     }
 
@@ -60,7 +60,7 @@ fun ReluctContentTopBar(
 
 
     val height = LocalDensity.current.run {
-        minShrinkHeight.toPx() + (scrollBehavior?.offset ?: 0f)
+        minShrinkHeight.toPx() + (scrollBehavior?.state?.offset ?: 0f)
     }
 
     Surface(

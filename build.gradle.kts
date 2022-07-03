@@ -16,7 +16,7 @@ buildscript {
 
         classpath(BuildPlugins.kotlin)
         classpath(BuildPlugins.sqlDelight)
-        classpath(BuildPlugins.composeDesktop)
+        //classpath(BuildPlugins.composeDesktop)
         classpath(BuildPlugins.daggerHilt)
 
         // NOTE: Do not place your application dependencies here; they belong
