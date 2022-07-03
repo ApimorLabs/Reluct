@@ -10,10 +10,7 @@ internal actual object Platform {
     actual fun module(): Module = module {
         factory {
             val viewModelScope = CoroutineScope(Dispatchers.Main.immediate)
-            AppSettingsViewModel(
-                settings = get(),
-                scope = viewModelScope
-            )
+            AppSettingsViewModel(scope = viewModelScope)
         }
     }
 }

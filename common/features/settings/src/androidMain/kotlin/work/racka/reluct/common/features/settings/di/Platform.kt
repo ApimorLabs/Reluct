@@ -7,7 +7,7 @@ import work.racka.reluct.common.features.settings.viewmodels.AppSettingsViewMode
 internal actual object Platform {
     actual fun module() = module {
         viewModel {
-            AppSettingsViewModel(settings = get())
+            AppSettingsViewModel()
         }
     }
 }
