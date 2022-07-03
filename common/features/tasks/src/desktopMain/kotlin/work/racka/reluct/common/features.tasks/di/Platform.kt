@@ -9,27 +9,17 @@ internal actual object Platform {
     actual fun platformTasksModule() = module {
         factory {
             val viewModelScope = CoroutineScope(Dispatchers.Main.immediate)
-            CompletedTasksViewModel(
-                getTasksUseCase = get(),
-                modifyTasksUsesCase = get(),
-                scope = viewModelScope
-            )
+            CompletedTasksViewModel(scope = viewModelScope)
         }
 
         factory {
             val viewModelScope = CoroutineScope(Dispatchers.Main.immediate)
-            PendingTasksViewModel(
-                getTasksUseCase = get(),
-                modifyTasksUsesCase = get(),
-                scope = viewModelScope
-            )
+            PendingTasksViewModel(scope = viewModelScope)
         }
 
         factory { (taskId: String?) ->
             val viewModelScope = CoroutineScope(Dispatchers.Main.immediate)
             TaskDetailsViewModel(
-                getTasksUseCase = get(),
-                modifyTasksUsesCase = get(),
                 taskId = taskId,
                 scope = viewModelScope
             )
@@ -38,7 +28,6 @@ internal actual object Platform {
         factory { (taskId: String?) ->
             val viewModelScope = CoroutineScope(Dispatchers.Main.immediate)
             AddEditTaskViewModel(
-                modifyTasksUseCase = get(),
                 taskId = taskId,
                 scope = viewModelScope
             )
@@ -46,22 +35,12 @@ internal actual object Platform {
 
         factory {
             val viewModelScope = CoroutineScope(Dispatchers.Main.immediate)
-            TasksStatisticsViewModel(
-                modifyTasksUsesCase = get(),
-                getWeeklyTasksUseCase = get(),
-                getDailyTasksUseCase = get(),
-                getWeekRangeFromOffset = get(),
-                scope = viewModelScope
-            )
+            TasksStatisticsViewModel(scope = viewModelScope)
         }
 
         factory {
             val viewModelScope = CoroutineScope(Dispatchers.Main.immediate)
-            SearchTasksViewModel(
-                getTasksUseCase = get(),
-                modifyTasksUsesCase = get(),
-                scope = viewModelScope
-            )
+            SearchTasksViewModel(scope = viewModelScope)
         }
     }
 }

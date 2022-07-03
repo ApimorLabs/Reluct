@@ -1,23 +1,15 @@
 package work.racka.reluct.common.features.tasks.viewmodels
 
 import kotlinx.coroutines.CoroutineScope
-import work.racka.reluct.common.data.usecases.tasks.GetTasksUseCase
-import work.racka.reluct.common.data.usecases.tasks.ModifyTaskUseCase
+import org.koin.core.parameter.parametersOf
+import org.koin.java.KoinJavaComponent
 import work.racka.reluct.common.features.tasks.task_details.TaskDetails
-import work.racka.reluct.common.features.tasks.task_details.TaskDetailsImpl
 
-actual class TaskDetailsViewModel internal constructor(
-    getTasksUseCase: GetTasksUseCase,
-    modifyTasksUsesCase: ModifyTaskUseCase,
+actual class TaskDetailsViewModel(
     taskId: String?,
     scope: CoroutineScope,
 ) {
-    actual val host: TaskDetails by lazy {
-        TaskDetailsImpl(
-            getTasksUseCase = getTasksUseCase,
-            modifyTasksUsesCase = modifyTasksUsesCase,
-            taskId = taskId,
-            scope = scope
-        )
+    actual val host: TaskDetails by KoinJavaComponent.inject(TaskDetails::class.java) {
+        parametersOf(taskId, scope)
     }
 }
