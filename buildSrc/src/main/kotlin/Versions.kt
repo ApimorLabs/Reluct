@@ -14,9 +14,6 @@ object Versions {
     // Squareup
     const val sqlDelight = "1.5.3"
 
-    // Architecture
-    const val orbitMVI = "4.3.2"
-
     // Essentials
     const val material = "1.6.0-alpha02"
     const val splashScreen = "1.0.0-rc01"

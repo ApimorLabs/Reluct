@@ -14,10 +14,9 @@ object Dependencies {
         val dateTime by lazy { "org.jetbrains.kotlinx:kotlinx-datetime:${Versions.kotlinxDateTime}" }
 
         object Coroutines {
-            private const val VERSION = "1.6.0"
-            val core by lazy { "org.jetbrains.kotlinx:kotlinx-coroutines-core:$VERSION" }
-            val android by lazy { "org.jetbrains.kotlinx:kotlinx-coroutines-android:$VERSION" }
-            val test by lazy { "org.jetbrains.kotlinx:kotlinx-coroutines-test:$VERSION" }
+            val core by lazy { "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.coroutines}" }
+            val android by lazy { "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.coroutines}" }
+            val test by lazy { "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.coroutines}" }
         }
     }
 
@@ -40,12 +39,6 @@ object Dependencies {
         val clientJson by lazy { "io.ktor:ktor-client-json:${Versions.ktor}" }
         val json by lazy { "io.ktor:ktor-serialization-kotlinx-json:${Versions.ktor}" }
         val contentNegotiation by lazy { "io.ktor:ktor-client-content-negotiation:${Versions.ktor}" }
-    }
-
-    object OrbitMVI {
-        val core by lazy { "org.orbit-mvi:orbit-core:${Versions.orbitMVI}" }
-        val androidViewModel by lazy { "org.orbit-mvi:orbit-viewmodel:${Versions.orbitMVI}" }
-        val test by lazy { "org.orbit-mvi:orbit-test:${Versions.orbitMVI}" }
     }
 
     object ArkIvanov {
