@@ -22,7 +22,7 @@ object Versions {
     const val coreKtx = "1.8.0"
 
     // Compose Base
-    const val composeCompiler = ""
+    const val composeCompiler = "1.2.0"
     const val compose = "1.2.0-rc03"
     const val composeConstraintLayout = "1.0.0"
     const val composeMaterial3 = "1.0.0-alpha14"
@@ -32,6 +32,7 @@ object Versions {
     const val composeNavigation = "2.5.0"
 
     // Lifecycle components
+    const val lifecycle = "2.5.0"
     const val lifecycleViewModelCompose = "2.5.0"
     const val lifecycleRuntimeKtx = "2.5.0"
 

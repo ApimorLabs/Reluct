@@ -80,7 +80,7 @@ dependencies {
         implementation(coreKtx)
         implementation(appCompat)
         implementation(material)
-        implementation(lifecycleRuntimeKtx)
+        implementation(coreViewModel)
     }
 
     // Testing

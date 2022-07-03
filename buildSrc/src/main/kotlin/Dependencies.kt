@@ -106,9 +106,10 @@ object Dependencies {
             val material by lazy { "com.google.android.material:material:${Versions.material}" }
 
             // Lifecycle components
-            val lifecycleRuntimeKtx by lazy {
-                "androidx.lifecycle:lifecycle-runtime-ktx:${Versions.lifecycleRuntimeKtx}"
+            val coreViewModel by lazy {
+                "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.lifecycle}"
             }
+
         }
 
         // Testing
@@ -135,7 +136,7 @@ object Dependencies {
             val animation by lazy { "androidx.compose.animation:animation:${Versions.compose}" }
             val preview by lazy { "androidx.compose.ui:ui-tooling-preview:${Versions.compose}" }
             val activity by lazy { "androidx.activity:activity-compose:${Versions.activityCompose}" }
-            val viewModel by lazy { "androidx.lifecycle:lifecycle-viewmodel-compose:${Versions.lifecycleViewModelCompose}" }
+            val viewModel by lazy { "androidx.lifecycle:lifecycle-viewmodel-compose:${Versions.lifecycle}" }
             val navigation by lazy { "androidx.navigation:navigation-compose:${Versions.composeNavigation}" }
             val materialIconsCore by lazy { "androidx.compose.material:material-icons-core:${Versions.compose}" }
             val materialIconsExtended by lazy { "androidx.compose.material:material-icons-extended:${Versions.compose}" }
