@@ -5,6 +5,8 @@ plugins {
 }
 
 android.apply {
+    namespace = "work.racka.reluct.android.compose.components"
+
     buildFeatures {
         compose = true
     }

@@ -13,6 +13,10 @@ sqldelight {
     }
 }
 
+android {
+    namespace = "work.racka.reluct.common.database"
+}
+
 kotlin {
     android()
     jvm("desktop")

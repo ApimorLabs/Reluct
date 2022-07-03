@@ -4,6 +4,8 @@ plugins {
 }
 
 android.apply {
+    namespace = "work.racka.reluct.android.compose.navigation"
+
     buildFeatures {
         compose = true
     }
