@@ -60,6 +60,15 @@ internal class LimitsDaoImpl(
         }
     }
 
+    override suspend fun toggleLimitOverride(packageName: String, overridden: Boolean) {
+        limitsQueries?.transaction {
+            limitsQueries.toggleLimitOverride(
+                overridden = overridden,
+                packageName = packageName
+            )
+        }
+    }
+
     override suspend fun getPausedApps(): Flow<List<LimitsDbObject>> =
         limitsQueries?.getPausedAppsFromDb()
             ?.asFlow()
@@ -74,9 +83,9 @@ internal class LimitsDaoImpl(
             ?.executeAsOne()
             ?: false
 
-    override suspend fun resumeAllApp() {
+    override suspend fun resumeAllApps() {
         limitsQueries?.transaction {
-            limitsQueries.removeAllApps()
+            limitsQueries.resumeAllApps()
         }
     }
 }

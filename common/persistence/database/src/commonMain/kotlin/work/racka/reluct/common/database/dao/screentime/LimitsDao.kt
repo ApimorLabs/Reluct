@@ -45,6 +45,13 @@ interface LimitsDao {
     suspend fun toggleDistractingApp(packageName: String, isDistracting: Boolean)
 
     /**
+     * Overrides app paused state by the provided [overridden] value for the
+     * specified [packageName]. Used by user to override paused state activated when a
+     * limit is reached
+     */
+    suspend fun toggleLimitOverride(packageName: String, overridden: Boolean)
+
+    /**
      * Get a list of the paused apps asynchronously using [Flow]
      */
     suspend fun getPausedApps(): Flow<List<LimitsDbObject>>
@@ -63,5 +70,5 @@ interface LimitsDao {
     /**
      * Resume all app that were in paused state
      */
-    suspend fun resumeAllApp()
+    suspend fun resumeAllApps()
 }
