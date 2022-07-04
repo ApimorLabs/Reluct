@@ -2,7 +2,7 @@ object Versions {
     // Kotlin
     const val kotlin = "1.7.0"
     const val kotlinxDateTime = "0.4.0"
-    const val coroutines = "1.6.0"
+    const val coroutines = "1.6.1"
 
     // Networking & JSON
     const val ktor = "1.6.7"
@@ -64,7 +64,7 @@ object Versions {
     const val composeMaterialDialogs = "0.7.0"
 
     // DataStore & Preferences
-    const val multiplatformSettings = "0.8.1"
+    const val multiplatformSettings = "0.9"
     const val dataStore = "1.0.0"
 
     // Billing

@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 
 internal class MultiplatformSettingsImpl(
-    private val settings: Settings,
+    private val settings: Settings
 ) : MultiplatformSettings {
 
     private val _themeFlow = MutableSharedFlow<Int>(replay = 1)
