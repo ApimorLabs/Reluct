@@ -55,13 +55,14 @@ internal class ScreenTimeStatsImpl(
 
     private lateinit var dailyScreenTimeStatsJob: Job
     private lateinit var weeklyScreenTimeStatsJob: Job
+    private lateinit var getDataJob: Job
 
     init {
         getData()
     }
 
     private fun getData() {
-        scope.launch {
+        getDataJob = scope.launch {
             isGranted.collectLatest { granted ->
                 if (granted) {
                     getWeeklyData()
@@ -129,7 +130,8 @@ internal class ScreenTimeStatsImpl(
         weekOffset.update { weekOffsetValue }
         dailyScreenTimeStatsJob.cancel()
         weeklyScreenTimeStatsJob.cancel()
-        permissionCheck()
+        getDataJob.cancel()
+        getData()
     }
 
     override fun navigateToAppInfo(packageName: String) {
