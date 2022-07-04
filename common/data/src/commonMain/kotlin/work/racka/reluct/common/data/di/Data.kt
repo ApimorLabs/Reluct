@@ -70,7 +70,8 @@ object Data {
         factory<GetDailyAppUsageInfo> {
             GetDailyAppUsageInfoImpl(
                 usageManager = get(),
-                backgroundDispatcher = CoroutineDispatchers.backgroundDispatcher
+                backgroundDispatcher = CoroutineDispatchers.backgroundDispatcher,
+                getAppInfo = get()
             )
         }
 
@@ -84,6 +85,7 @@ object Data {
         factory<GetDailyUsageStats> {
             GetDailyUsageStatsImpl(
                 usageManager = get(),
+                getAppInfo = get(),
                 backgroundDispatcher = CoroutineDispatchers.backgroundDispatcher
             )
         }

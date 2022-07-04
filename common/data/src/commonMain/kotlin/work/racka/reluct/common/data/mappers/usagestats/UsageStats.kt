@@ -1,6 +1,7 @@
 package work.racka.reluct.common.data.mappers.usagestats
 
 import work.racka.reluct.common.app.usage.stats.model.DataUsageStats
+import work.racka.reluct.common.data.usecases.app_info.GetAppInfo
 import work.racka.reluct.common.model.domain.usagestats.UsageStats
 import work.racka.reluct.common.model.util.time.StatisticsTimeUtils
 import work.racka.reluct.common.model.util.time.TimeUtils
@@ -13,14 +14,15 @@ import work.racka.reluct.common.model.util.time.TimeUtils
 fun DataUsageStats.asUsageStats(
     weekOffset: Int,
     dayIsoNumber: Int,
-    showIntervalAsDay: Boolean = true
+    showIntervalAsDay: Boolean = true,
+    getAppInfo: GetAppInfo
 ): UsageStats {
     val selectedDayDateTimeString = StatisticsTimeUtils.selectedDayDateTimeString(
         weekOffset = weekOffset,
         selectedDayIsoNumber = dayIsoNumber
     )
     return UsageStats(
-        appsUsageList = this.appsUsageList.map { it.asAppUsageInfo() },
+        appsUsageList = this.appsUsageList.map { it.asAppUsageInfo(getAppInfo) },
         dateFormatted = TimeUtils.getFormattedDateString(
             dateTime = selectedDayDateTimeString,
             showShortIntervalAsDay = showIntervalAsDay
