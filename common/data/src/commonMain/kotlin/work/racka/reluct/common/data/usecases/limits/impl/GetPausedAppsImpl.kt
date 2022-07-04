@@ -25,5 +25,11 @@ class GetPausedAppsImpl(
         }
     }
 
-    override suspend fun isPaused(packageName: String): Boolean = limitsDao.isAppPaused(packageName)
+    override suspend fun isPaused(packageName: String, currentUsage: Long): Boolean {
+        val app = limitsDao.getAppSync(packageName)
+        val screenTimeExceeded = if (app.timeLimit == 0L) false else currentUsage > app.timeLimit
+        if (screenTimeExceeded) limitsDao.togglePausedApp(packageName, true)
+        return if (app.overridden) false
+        else limitsDao.isAppPaused(packageName)
+    }
 }

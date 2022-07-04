@@ -8,5 +8,5 @@ interface GetPausedApps {
 
     suspend fun getSync(): List<AppLimits>
 
-    suspend fun isPaused(packageName: String): Boolean
+    suspend fun isPaused(packageName: String, currentUsage: Long = 0L): Boolean
 }
