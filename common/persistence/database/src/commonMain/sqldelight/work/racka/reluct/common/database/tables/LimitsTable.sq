@@ -63,5 +63,5 @@ WHERE packageName = :packageName;
 
 resumeAllApps:
 UPDATE LimitsTable
-SET isPaused = 0
-WHERE isPaused = 1;
+SET isPaused = 0, overridden = 0
+WHERE isPaused = 1 OR overridden = 1;
