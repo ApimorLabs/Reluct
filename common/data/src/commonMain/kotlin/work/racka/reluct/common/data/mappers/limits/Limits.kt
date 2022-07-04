@@ -1,9 +1,9 @@
 package work.racka.reluct.common.data.mappers.limits
 
 import work.racka.reluct.common.database.models.LimitsDbObject
-import work.racka.reluct.common.model.domain.limits.Limits
+import work.racka.reluct.common.model.domain.limits.AppLimits
 
-fun LimitsDbObject.asLimits() = Limits(
+fun LimitsDbObject.asAppLimits() = AppLimits(
     packageName = this.packageName,
     timeLimit = this.timeLimit,
     isADistractingAp = this.isADistractingAp,
@@ -11,7 +11,7 @@ fun LimitsDbObject.asLimits() = Limits(
     overridden = this.overridden
 )
 
-fun Limits.asLimitsDbObject() = LimitsDbObject(
+fun AppLimits.asLimitsDbObject() = LimitsDbObject(
     packageName = this.packageName,
     timeLimit = this.timeLimit,
     isADistractingAp = this.isADistractingAp,
