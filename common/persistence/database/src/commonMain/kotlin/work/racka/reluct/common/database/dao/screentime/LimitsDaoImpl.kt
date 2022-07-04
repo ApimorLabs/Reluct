@@ -6,6 +6,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import work.racka.reluct.common.database.dao.DatabaseWrapper
+import work.racka.reluct.common.database.dao.screentime.LimitsHelpers.getAppFromDb
 import work.racka.reluct.common.database.dao.screentime.LimitsHelpers.getPausedAppsFromDb
 import work.racka.reluct.common.database.dao.screentime.LimitsHelpers.insertAppToDb
 import work.racka.reluct.common.database.models.LimitsDbObject
@@ -20,6 +21,16 @@ internal class LimitsDaoImpl(
     override suspend fun insertApp(appLimit: LimitsDbObject) {
         limitsQueries?.insertAppToDb(limit = appLimit)
     }
+
+    override suspend fun getAppSync(packageName: String): LimitsDbObject =
+        limitsQueries?.getAppFromDb(packageName = packageName)?.executeAsOne()
+            ?: LimitsDbObject(
+                packageName = packageName,
+                timeLimit = 0,
+                isADistractingAp = false,
+                isPaused = false,
+                overridden = false
+            )
 
     override suspend fun removeApp(packageName: String) {
         limitsQueries?.transaction {

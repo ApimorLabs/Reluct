@@ -11,6 +11,10 @@ INSERT OR IGNORE INTO LimitsTable(
 packageName, timeLimit, isADistractingApp, isPaused, overridden
 ) VALUES ?;
 
+getApp:
+SELECT * FROM LimitsTable
+WHERE packageName = :packageName;
+
 removeApp:
 DELETE FROM LimitsTable
 WHERE packageName = :packageName;

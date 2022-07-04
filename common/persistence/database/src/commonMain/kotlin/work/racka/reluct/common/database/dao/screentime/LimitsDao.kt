@@ -13,6 +13,11 @@ interface LimitsDao {
     suspend fun insertApp(appLimit: LimitsDbObject)
 
     /**
+     * Gets A saved App Limit from the database synchronously
+     */
+    suspend fun getAppSync(packageName: String): LimitsDbObject
+
+    /**
      * It will remove the specified [packageName] from the Limits table
      * Useful from clearing apps that are no longer present in the device
      */
