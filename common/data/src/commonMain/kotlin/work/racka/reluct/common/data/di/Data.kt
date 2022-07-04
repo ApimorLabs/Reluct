@@ -11,7 +11,9 @@ import work.racka.reluct.common.data.usecases.app_usage.impl.GetDailyUsageStatsI
 import work.racka.reluct.common.data.usecases.app_usage.impl.GetWeeklyAppUsageInfoImpl
 import work.racka.reluct.common.data.usecases.app_usage.impl.GetWeeklyUsageStatsImpl
 import work.racka.reluct.common.data.usecases.limits.GetPausedApps
+import work.racka.reluct.common.data.usecases.limits.ModifyAppLimits
 import work.racka.reluct.common.data.usecases.limits.impl.GetPausedAppsImpl
+import work.racka.reluct.common.data.usecases.limits.impl.ModifyAppLimitsImpl
 import work.racka.reluct.common.data.usecases.tasks.GetDailyTasksUseCase
 import work.racka.reluct.common.data.usecases.tasks.GetTasksUseCase
 import work.racka.reluct.common.data.usecases.tasks.GetWeeklyTasksUseCase
@@ -103,8 +105,13 @@ object Data {
         factory<GetPausedApps> {
             GetPausedAppsImpl(
                 limitsDao = get(),
+                getAppInfo = get(),
                 backgroundDispatcher = CoroutineDispatchers.backgroundDispatcher
             )
+        }
+
+        factory<ModifyAppLimits> {
+            ModifyAppLimitsImpl(limitsDao = get())
         }
     }
 }
