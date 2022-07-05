@@ -7,7 +7,7 @@ import work.racka.reluct.common.data.util.hasMainActivity
 import work.racka.reluct.common.data.util.hasSystemFlag
 import work.racka.reluct.common.model.domain.app_info.AppInfo
 
-class AndroidGetInstalledApps(
+internal class AndroidGetInstalledApps(
     private val context: Context, private val getAppInfo: GetAppInfo
 ) : GetInstalledApps {
     private val packageManager = context.packageManager

@@ -12,7 +12,7 @@ import work.racka.reluct.common.data.usecases.limits.GetPausedApps
 import work.racka.reluct.common.database.dao.screentime.LimitsDao
 import work.racka.reluct.common.model.domain.limits.AppLimits
 
-class GetPausedAppsImpl(
+internal class GetPausedAppsImpl(
     private val limitsDao: LimitsDao,
     private val getAppInfo: GetAppInfo,
     private val backgroundDispatcher: CoroutineDispatcher

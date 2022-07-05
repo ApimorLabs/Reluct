@@ -11,7 +11,7 @@ import work.racka.reluct.common.data.usecases.limits.ManageDistractingApps
 import work.racka.reluct.common.data.usecases.limits.ModifyAppLimits
 import work.racka.reluct.common.model.domain.app_info.AppInfo
 
-class ManageDistractingAppsImpl(
+internal class ManageDistractingAppsImpl(
     private val getDistractingApps: GetDistractingApps,
     private val getInstalledApps: GetInstalledApps,
     private val modifyAppLimits: ModifyAppLimits,

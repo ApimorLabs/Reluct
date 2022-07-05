@@ -5,7 +5,7 @@ import work.racka.reluct.common.data.usecases.limits.ModifyAppLimits
 import work.racka.reluct.common.database.dao.screentime.LimitsDao
 import work.racka.reluct.common.model.domain.limits.AppLimits
 
-class ModifyAppLimitsImpl(
+internal class ModifyAppLimitsImpl(
     private val limitsDao: LimitsDao
 ) : ModifyAppLimits {
 
