@@ -8,36 +8,30 @@ import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.withContext
 import work.racka.reluct.common.data.mappers.limits.asAppLimits
 import work.racka.reluct.common.data.usecases.app_info.GetAppInfo
-import work.racka.reluct.common.data.usecases.limits.GetPausedApps
+import work.racka.reluct.common.data.usecases.limits.GetDistractingApps
 import work.racka.reluct.common.database.dao.screentime.LimitsDao
 import work.racka.reluct.common.model.domain.limits.AppLimits
 
-class GetPausedAppsImpl(
+class GetDistractingAppsImpl(
     private val limitsDao: LimitsDao,
     private val getAppInfo: GetAppInfo,
     private val backgroundDispatcher: CoroutineDispatcher
-) : GetPausedApps {
+) : GetDistractingApps {
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    override suspend fun invoke(): Flow<List<AppLimits>> = limitsDao.getPausedApps()
+    override suspend fun invoke(): Flow<List<AppLimits>> = limitsDao.getDistractingApps()
         .mapLatest { list ->
             list.map { dbAppLimits -> dbAppLimits.asAppLimits(getAppInfo) }
                 .sortedBy { appLimits -> appLimits.appInfo.appName }
         }.flowOn(backgroundDispatcher)
 
     override suspend fun getSync(): List<AppLimits> = withContext(backgroundDispatcher) {
-        limitsDao.getPausedAppsSync().map {
-            it.asAppLimits(getAppInfo)
-        }.sortedBy { it.appInfo.appName }
+        limitsDao.getDistractingAppsSync().map { list -> list.asAppLimits(getAppInfo) }
+            .sortedBy { appLimits -> appLimits.appInfo.appName }
     }
 
-    override suspend fun isPaused(packageName: String, currentUsage: Long): Boolean =
+    override suspend fun isDistractingApp(packageName: String): Boolean =
         withContext(backgroundDispatcher) {
-            val app = limitsDao.getAppSync(packageName)
-            val screenTimeExceeded =
-                if (app.timeLimit == 0L) false else currentUsage > app.timeLimit
-            if (screenTimeExceeded) limitsDao.togglePausedApp(packageName, true)
-            if (app.overridden) false
-            else limitsDao.isAppPaused(packageName)
+            limitsDao.isDistractingApp(packageName)
         }
 }
