@@ -18,13 +18,15 @@ class GetPausedAppsImpl(
 ) : GetPausedApps {
 
     override suspend fun invoke(): Flow<List<AppLimits>> = limitsDao.getPausedApps()
-        .map { list -> list.map { it.asAppLimits(getAppInfo) } }
-        .flowOn(backgroundDispatcher)
+        .map { list ->
+            list.map { it.asAppLimits(getAppInfo) }
+                .sortedBy { it.appInfo.appName }
+        }.flowOn(backgroundDispatcher)
 
     override suspend fun getSync(): List<AppLimits> = withContext(backgroundDispatcher) {
         limitsDao.getPausedAppsSync().map {
             it.asAppLimits(getAppInfo)
-        }
+        }.sortedBy { it.appInfo.appName }
     }
 
     override suspend fun isPaused(packageName: String, currentUsage: Long): Boolean {

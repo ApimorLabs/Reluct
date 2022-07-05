@@ -23,6 +23,6 @@ class AndroidGetInstalledApps(
                 appName = getAppInfo.getAppName(it.packageName),
                 appIcon = getAppInfo.getAppIcon(it.packageName)
             )
-        }
+        }.sortedBy { it.appName }
     }
 }
