@@ -19,6 +19,10 @@ getDistractingApps:
 SELECT * FROM LimitsTable
 WHERE isADistractingApp = 1;
 
+isDistractingApp:
+SELECT isADistractingApp FROM LimitsTable
+WHERE packageName = :packageName AND isADistractingApp = 1;
+
 removeApp:
 DELETE FROM LimitsTable
 WHERE packageName = :packageName;

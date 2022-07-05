@@ -1,9 +1,10 @@
 package work.racka.reluct.common.data.usecases.limits.impl
 
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.withContext
 import work.racka.reluct.common.data.mappers.limits.asAppLimits
 import work.racka.reluct.common.data.usecases.app_info.GetAppInfo
@@ -17,11 +18,13 @@ class GetPausedAppsImpl(
     private val backgroundDispatcher: CoroutineDispatcher
 ) : GetPausedApps {
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     override suspend fun invoke(): Flow<List<AppLimits>> = limitsDao.getPausedApps()
-        .map { list ->
-            list.map { it.asAppLimits(getAppInfo) }
-                .sortedBy { it.appInfo.appName }
-        }.flowOn(backgroundDispatcher)
+        .mapLatest { list ->
+            list.map { dbAppLimits -> dbAppLimits.asAppLimits(getAppInfo) }
+                .sortedBy { appLimits -> appLimits.appInfo.appName }
+        }
+        .flowOn(backgroundDispatcher)
 
     override suspend fun getSync(): List<AppLimits> = withContext(backgroundDispatcher) {
         limitsDao.getPausedAppsSync().map {

@@ -41,6 +41,9 @@ internal class LimitsDaoImpl(
     override suspend fun getDistractingAppsSync(): List<LimitsDbObject> =
         limitsQueries?.getDistractingAppsFromDb()?.executeAsList() ?: emptyList()
 
+    override suspend fun isDistractingApp(packageName: String): Boolean =
+        limitsQueries?.isDistractingApp(packageName)?.executeAsOne() ?: false
+
     override suspend fun removeApp(packageName: String) {
         limitsQueries?.transaction {
             limitsQueries.removeApp(packageName = packageName)
@@ -99,9 +102,7 @@ internal class LimitsDaoImpl(
         limitsQueries?.getPausedAppsFromDb()?.executeAsList() ?: emptyList()
 
     override suspend fun isAppPaused(packageName: String): Boolean =
-        limitsQueries?.isAppPaused(packageName = packageName)
-            ?.executeAsOne()
-            ?: false
+        limitsQueries?.isAppPaused(packageName = packageName)?.executeAsOne() ?: false
 
     override suspend fun resumeAllApps() {
         limitsQueries?.transaction {

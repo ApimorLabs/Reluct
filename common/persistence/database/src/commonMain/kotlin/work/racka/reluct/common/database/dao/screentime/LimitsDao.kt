@@ -25,6 +25,11 @@ interface LimitsDao {
     suspend fun getDistractingAppsSync(): List<LimitsDbObject>
 
     /**
+     * Check if the given app's [packageName] is marked as a Distracting app
+     */
+    suspend fun isDistractingApp(packageName: String): Boolean
+
+    /**
      * It will remove the specified [packageName] from the Limits table
      * Useful from clearing apps that are no longer present in the device
      */
