@@ -21,15 +21,16 @@ fun DataUsageStats.asUsageStats(
         weekOffset = weekOffset,
         selectedDayIsoNumber = dayIsoNumber
     )
+    val totalScreenTime = appsUsageList.sumOf { it.timeInForeground }
     return UsageStats(
         appsUsageList = this.appsUsageList.map { it.asAppUsageInfo(getAppInfo) },
         dateFormatted = TimeUtils.getFormattedDateString(
             dateTime = selectedDayDateTimeString,
             showShortIntervalAsDay = showIntervalAsDay
         ),
-        totalScreenTime = this.totalScreenTime,
+        totalScreenTime = totalScreenTime,
         formattedTotalScreenTime = TimeUtils
-            .getFormattedTimeDurationString(this.totalScreenTime),
+            .getFormattedTimeDurationString(totalScreenTime),
         unlockCount = this.unlockCount
     )
 }

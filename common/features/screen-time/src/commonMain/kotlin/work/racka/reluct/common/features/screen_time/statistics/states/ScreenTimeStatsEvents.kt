@@ -1,4 +1,4 @@
-package work.racka.reluct.common.features.screen_time.states
+package work.racka.reluct.common.features.screen_time.statistics.states
 
 sealed class ScreenTimeStatsEvents {
     object Nothing : ScreenTimeStatsEvents()

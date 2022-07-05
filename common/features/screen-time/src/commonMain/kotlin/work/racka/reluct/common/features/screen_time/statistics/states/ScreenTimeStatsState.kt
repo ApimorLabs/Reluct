@@ -1,4 +1,4 @@
-package work.racka.reluct.common.features.screen_time.states
+package work.racka.reluct.common.features.screen_time.statistics.states
 
 import work.racka.reluct.common.model.domain.usagestats.UsageStats
 import work.racka.reluct.common.model.util.time.Week

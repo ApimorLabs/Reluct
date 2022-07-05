@@ -80,7 +80,6 @@ internal class UsageDataManagerImpl(
         val appUsageInfoList = appUsageInfoMap.values.sortByHighestForegroundTime()
         return DataUsageStats(
             appsUsageList = appUsageInfoList,
-            totalScreenTime = appUsageInfoList.sumOf { it.timeInForeground },
             unlockCount = unlockCount
         )
     }
