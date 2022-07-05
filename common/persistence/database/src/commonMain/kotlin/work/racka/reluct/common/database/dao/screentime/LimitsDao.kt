@@ -18,6 +18,13 @@ interface LimitsDao {
     suspend fun getAppSync(packageName: String): LimitsDbObject
 
     /**
+     * Get all Distracting Apps. Return an empty flow list when nothing is found
+     */
+    suspend fun getDistractingApps(): Flow<List<LimitsDbObject>>
+
+    suspend fun getDistractingAppsSync(): List<LimitsDbObject>
+
+    /**
      * It will remove the specified [packageName] from the Limits table
      * Useful from clearing apps that are no longer present in the device
      */

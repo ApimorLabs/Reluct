@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import work.racka.reluct.common.database.dao.DatabaseWrapper
 import work.racka.reluct.common.database.dao.screentime.LimitsHelpers.getAppFromDb
+import work.racka.reluct.common.database.dao.screentime.LimitsHelpers.getDistractingAppsFromDb
 import work.racka.reluct.common.database.dao.screentime.LimitsHelpers.getPausedAppsFromDb
 import work.racka.reluct.common.database.dao.screentime.LimitsHelpers.insertAppToDb
 import work.racka.reluct.common.database.models.LimitsDbObject
@@ -31,6 +32,14 @@ internal class LimitsDaoImpl(
                 isPaused = false,
                 overridden = false
             )
+
+    override suspend fun getDistractingApps(): Flow<List<LimitsDbObject>> =
+        limitsQueries?.getDistractingAppsFromDb()
+            ?.asFlow()
+            ?.mapToList(context = dispatcher) ?: flowOf(emptyList())
+
+    override suspend fun getDistractingAppsSync(): List<LimitsDbObject> =
+        limitsQueries?.getDistractingAppsFromDb()?.executeAsList() ?: emptyList()
 
     override suspend fun removeApp(packageName: String) {
         limitsQueries?.transaction {
