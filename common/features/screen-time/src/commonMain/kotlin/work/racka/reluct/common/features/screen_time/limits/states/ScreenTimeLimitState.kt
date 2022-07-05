@@ -34,9 +34,16 @@ sealed class PausedAppsState(
 }
 
 sealed class DistractingAppsState(
-    val apps: List<AppInfo>
+    val distractingApps: List<AppInfo>,
+    val otherApps: List<AppInfo>
 ) {
-    class Data(apps: List<AppInfo>) : DistractingAppsState(apps)
-    class Loading(apps: List<AppInfo> = emptyList()) : DistractingAppsState(apps)
-    object Nothing : DistractingAppsState(emptyList())
+    class Data(distractingApps: List<AppInfo>, otherApps: List<AppInfo>) :
+        DistractingAppsState(distractingApps = distractingApps, otherApps = otherApps)
+
+    class Loading(
+        distractingApps: List<AppInfo> = emptyList(),
+        otherApps: List<AppInfo> = emptyList()
+    ) : DistractingAppsState(distractingApps = distractingApps, otherApps = otherApps)
+
+    object Nothing : DistractingAppsState(emptyList(), emptyList())
 }
