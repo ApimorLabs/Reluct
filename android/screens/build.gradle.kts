@@ -17,6 +17,7 @@ android.apply {
 dependencies {
     // Dependency Modules
     implementation(project(":common:model"))
+    implementation(project(":common:mvvm-core"))
     implementation(project(":android:compose:theme"))
     implementation(project(":android:compose:components"))
     implementation(project(":common:features:screen-time"))

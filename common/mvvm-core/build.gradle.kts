@@ -6,6 +6,13 @@ plugins {
 
 android {
     namespace = "work.racka.reluct.common.mvvm"
+
+    buildFeatures {
+        compose = true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = Versions.composeCompiler
+    }
 }
 
 kotlin {
@@ -42,7 +49,7 @@ kotlin {
 
         val desktopMain by getting {
             dependencies {
-                implementation(compose.desktop.currentOs)
+                implementation(compose.desktop.common)
             }
         }
 
