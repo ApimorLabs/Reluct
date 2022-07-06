@@ -7,8 +7,6 @@ import android.os.Build
 import android.os.UserManager
 import work.racka.reluct.common.app.usage.stats.model.DataAppUsageInfo
 import work.racka.reluct.common.app.usage.stats.model.DataUsageStats
-import work.racka.reluct.common.app.usage.stats.util.getAppIcon
-import work.racka.reluct.common.app.usage.stats.util.getAppName
 import work.racka.reluct.common.app.usage.stats.util.sortByHighestForegroundTime
 
 internal class UsageDataManagerImpl(
@@ -49,13 +47,7 @@ internal class UsageDataManagerImpl(
                 val key = currentEvent.packageName
                 // taking it into a collection to access by package name
                 if (appUsageInfoMap[key] == null) {
-                    val appIcon = getAppIcon(context = context, packageName = key)
-                    val appName = getAppName(context = context, packageName = key)
-                    appUsageInfoMap[key] = DataAppUsageInfo(
-                        packageName = key,
-                        appName = appName,
-                        appIcon = appIcon
-                    )
+                    appUsageInfoMap[key] = DataAppUsageInfo(packageName = key)
                 }
             }
 
@@ -88,7 +80,6 @@ internal class UsageDataManagerImpl(
         val appUsageInfoList = appUsageInfoMap.values.sortByHighestForegroundTime()
         return DataUsageStats(
             appsUsageList = appUsageInfoList,
-            totalScreenTime = appUsageInfoList.sumOf { it.timeInForeground },
             unlockCount = unlockCount
         )
     }

@@ -8,10 +8,10 @@ import kotlinx.coroutines.launch
 import work.racka.reluct.common.data.usecases.app_usage.GetDailyUsageStats
 import work.racka.reluct.common.data.usecases.app_usage.GetWeeklyUsageStats
 import work.racka.reluct.common.data.usecases.time.GetWeekRangeFromOffset
-import work.racka.reluct.common.features.screen_time.states.DailyUsageStatsState
-import work.racka.reluct.common.features.screen_time.states.ScreenTimeStatsEvents
-import work.racka.reluct.common.features.screen_time.states.ScreenTimeStatsState
-import work.racka.reluct.common.features.screen_time.states.WeeklyUsageStatsState
+import work.racka.reluct.common.features.screen_time.statistics.states.DailyUsageStatsState
+import work.racka.reluct.common.features.screen_time.statistics.states.ScreenTimeStatsEvents
+import work.racka.reluct.common.features.screen_time.statistics.states.ScreenTimeStatsState
+import work.racka.reluct.common.features.screen_time.statistics.states.WeeklyUsageStatsState
 import work.racka.reluct.common.model.util.time.TimeUtils
 import work.racka.reluct.common.model.util.time.WeekUtils
 
@@ -55,13 +55,14 @@ internal class ScreenTimeStatsImpl(
 
     private lateinit var dailyScreenTimeStatsJob: Job
     private lateinit var weeklyScreenTimeStatsJob: Job
+    private lateinit var getDataJob: Job
 
     init {
         getData()
     }
 
     private fun getData() {
-        scope.launch {
+        getDataJob = scope.launch {
             isGranted.collectLatest { granted ->
                 if (granted) {
                     getWeeklyData()
@@ -129,7 +130,8 @@ internal class ScreenTimeStatsImpl(
         weekOffset.update { weekOffsetValue }
         dailyScreenTimeStatsJob.cancel()
         weeklyScreenTimeStatsJob.cancel()
-        permissionCheck()
+        getDataJob.cancel()
+        getData()
     }
 
     override fun navigateToAppInfo(packageName: String) {

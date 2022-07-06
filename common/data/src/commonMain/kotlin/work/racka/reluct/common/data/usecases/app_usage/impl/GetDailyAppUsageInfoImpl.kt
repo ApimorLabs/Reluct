@@ -4,13 +4,15 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import work.racka.reluct.common.app.usage.stats.manager.UsageDataManager
 import work.racka.reluct.common.data.mappers.usagestats.asAppUsageStats
+import work.racka.reluct.common.data.usecases.app_info.GetAppInfo
 import work.racka.reluct.common.data.usecases.app_usage.GetDailyAppUsageInfo
 import work.racka.reluct.common.model.domain.usagestats.AppUsageStats
 import work.racka.reluct.common.model.util.time.StatisticsTimeUtils
 
 internal class GetDailyAppUsageInfoImpl(
     private val usageManager: UsageDataManager,
-    private val backgroundDispatcher: CoroutineDispatcher
+    private val backgroundDispatcher: CoroutineDispatcher,
+    private val getAppInfo: GetAppInfo
 ) : GetDailyAppUsageInfo {
     override suspend fun invoke(
         weekOffset: Int,
@@ -29,7 +31,8 @@ internal class GetDailyAppUsageInfoImpl(
             )
             appStats.asAppUsageStats(
                 weekOffset = weekOffset,
-                dayIsoNumber = dayIsoNumber
+                dayIsoNumber = dayIsoNumber,
+                getAppInfo = getAppInfo
             )
         }
 }

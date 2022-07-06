@@ -13,6 +13,23 @@ interface LimitsDao {
     suspend fun insertApp(appLimit: LimitsDbObject)
 
     /**
+     * Gets A saved App Limit from the database synchronously
+     */
+    suspend fun getAppSync(packageName: String): LimitsDbObject
+
+    /**
+     * Get all Distracting Apps. Return an empty flow list when nothing is found
+     */
+    suspend fun getDistractingApps(): Flow<List<LimitsDbObject>>
+
+    suspend fun getDistractingAppsSync(): List<LimitsDbObject>
+
+    /**
+     * Check if the given app's [packageName] is marked as a Distracting app
+     */
+    suspend fun isDistractingApp(packageName: String): Boolean
+
+    /**
      * It will remove the specified [packageName] from the Limits table
      * Useful from clearing apps that are no longer present in the device
      */
@@ -45,6 +62,13 @@ interface LimitsDao {
     suspend fun toggleDistractingApp(packageName: String, isDistracting: Boolean)
 
     /**
+     * Overrides app paused state by the provided [overridden] value for the
+     * specified [packageName]. Used by user to override paused state activated when a
+     * limit is reached
+     */
+    suspend fun toggleLimitOverride(packageName: String, overridden: Boolean)
+
+    /**
      * Get a list of the paused apps asynchronously using [Flow]
      */
     suspend fun getPausedApps(): Flow<List<LimitsDbObject>>
@@ -63,5 +87,5 @@ interface LimitsDao {
     /**
      * Resume all app that were in paused state
      */
-    suspend fun resumeAllApp()
+    suspend fun resumeAllApps()
 }

@@ -17,7 +17,7 @@ kotlin {
             dependencies {
                 with(Dependencies.Kotlin) {
                     implementation(serializationCore)
-                    implementation(dateTime)
+                    api(dateTime)
                 }
             }
         }

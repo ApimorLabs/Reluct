@@ -12,7 +12,7 @@ import androidx.compose.ui.platform.LocalContext
 import kotlinx.coroutines.CoroutineScope
 import org.koin.androidx.compose.viewModel
 import work.racka.reluct.android.compose.components.util.BarsVisibility
-import work.racka.reluct.common.features.screen_time.states.ScreenTimeStatsEvents
+import work.racka.reluct.common.features.screen_time.statistics.states.ScreenTimeStatsEvents
 import work.racka.reluct.common.features.screen_time.viewmodels.ScreenTimeStatsViewModel
 
 @Composable

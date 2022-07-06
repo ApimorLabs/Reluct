@@ -10,6 +10,8 @@ import work.racka.reluct.common.data.usecases.app_usage.impl.GetDailyAppUsageInf
 import work.racka.reluct.common.data.usecases.app_usage.impl.GetDailyUsageStatsImpl
 import work.racka.reluct.common.data.usecases.app_usage.impl.GetWeeklyAppUsageInfoImpl
 import work.racka.reluct.common.data.usecases.app_usage.impl.GetWeeklyUsageStatsImpl
+import work.racka.reluct.common.data.usecases.limits.*
+import work.racka.reluct.common.data.usecases.limits.impl.*
 import work.racka.reluct.common.data.usecases.tasks.GetDailyTasksUseCase
 import work.racka.reluct.common.data.usecases.tasks.GetTasksUseCase
 import work.racka.reluct.common.data.usecases.tasks.GetWeeklyTasksUseCase
@@ -70,7 +72,8 @@ object Data {
         factory<GetDailyAppUsageInfo> {
             GetDailyAppUsageInfoImpl(
                 usageManager = get(),
-                backgroundDispatcher = CoroutineDispatchers.backgroundDispatcher
+                backgroundDispatcher = CoroutineDispatchers.backgroundDispatcher,
+                getAppInfo = get()
             )
         }
 
@@ -84,6 +87,7 @@ object Data {
         factory<GetDailyUsageStats> {
             GetDailyUsageStatsImpl(
                 usageManager = get(),
+                getAppInfo = get(),
                 backgroundDispatcher = CoroutineDispatchers.backgroundDispatcher
             )
         }
@@ -91,6 +95,45 @@ object Data {
         factory<GetWeeklyUsageStats> {
             GetWeeklyUsageStatsImpl(
                 dailyUsageStats = get(),
+                backgroundDispatcher = CoroutineDispatchers.backgroundDispatcher
+            )
+        }
+
+        // Limits
+        factory<GetPausedApps> {
+            GetPausedAppsImpl(
+                limitsDao = get(),
+                getAppInfo = get(),
+                backgroundDispatcher = CoroutineDispatchers.backgroundDispatcher
+            )
+        }
+
+        factory<ModifyAppLimits> {
+            ModifyAppLimitsImpl(limitsDao = get())
+        }
+
+        factory<GetDistractingApps> {
+            GetDistractingAppsImpl(
+                limitsDao = get(),
+                getAppInfo = get(),
+                backgroundDispatcher = CoroutineDispatchers.backgroundDispatcher
+            )
+        }
+
+        factory<ManageDistractingApps> {
+            ManageDistractingAppsImpl(
+                getDistractingApps = get(),
+                getInstalledApps = get(),
+                modifyAppLimits = get(),
+                backgroundDispatcher = CoroutineDispatchers.backgroundDispatcher
+            )
+        }
+
+        factory<ManagePausedApps> {
+            ManagePausedAppsImpl(
+                getPausedApps = get(),
+                getInstalledApps = get(),
+                modifyAppLimits = get(),
                 backgroundDispatcher = CoroutineDispatchers.backgroundDispatcher
             )
         }
