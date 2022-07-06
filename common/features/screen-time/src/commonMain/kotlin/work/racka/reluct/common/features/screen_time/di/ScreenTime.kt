@@ -5,6 +5,8 @@ import org.koin.core.KoinApplication
 import org.koin.dsl.module
 import work.racka.reluct.common.features.screen_time.statistics.ScreenTimeStats
 import work.racka.reluct.common.features.screen_time.statistics.ScreenTimeStatsImpl
+import work.racka.reluct.common.features.screen_time.statistics.ScreenTimeStatsNewVM
+import work.racka.reluct.common.mvvm.koin.vm.commonViewModel
 
 object ScreenTime {
     fun KoinApplication.screenTimeModules() = this.apply {
@@ -18,6 +20,14 @@ object ScreenTime {
                 getDailyUsageStats = get(),
                 getWeekRangeFromOffset = get(),
                 scope = scope
+            )
+        }
+
+        commonViewModel {
+            ScreenTimeStatsNewVM(
+                getWeeklyUsageStats = get(),
+                getDailyUsageStats = get(),
+                getWeekRangeFromOffset = get()
             )
         }
     }

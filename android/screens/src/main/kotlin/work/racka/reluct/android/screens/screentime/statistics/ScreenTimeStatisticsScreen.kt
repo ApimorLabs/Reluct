@@ -10,8 +10,10 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalContext
 import kotlinx.coroutines.CoroutineScope
+import org.koin.androidx.compose.inject
 import org.koin.androidx.compose.viewModel
 import work.racka.reluct.android.compose.components.util.BarsVisibility
+import work.racka.reluct.common.features.screen_time.statistics.ScreenTimeStats
 import work.racka.reluct.common.features.screen_time.statistics.states.ScreenTimeStatsEvents
 import work.racka.reluct.common.features.screen_time.viewmodels.ScreenTimeStatsViewModel
 
@@ -26,6 +28,8 @@ fun ScreenTimeStatisticsScreen(
     val viewModel: ScreenTimeStatsViewModel by viewModel()
     val uiState by viewModel.host.uiState.collectAsState()
     val events by viewModel.host.events.collectAsState(initial = ScreenTimeStatsEvents.Nothing)
+
+    val other: ScreenTimeStats by inject()
 
     val context = LocalContext.current
 

@@ -1,10 +1,11 @@
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
+    id("org.jetbrains.compose") version Versions.composeDesktop
 }
 
 android {
-    namespace = "work.racka.reluct.common.features.screen_time"
+    namespace = "work.racka.reluct.common.mvvm"
 }
 
 kotlin {
@@ -14,20 +15,13 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation(project(":common:data"))
-                implementation(project(":common:model"))
-                implementation(project(":common:mvvm-core"))
-
                 implementation(Dependencies.Kotlin.Coroutines.core)
                 implementation(Dependencies.Koin.core)
-                implementation(Dependencies.Log.kermit)
             }
         }
 
         val commonTest by getting {
             dependencies {
-                implementation(Dependencies.Mockk.core)
-                implementation(Dependencies.Mockk.commonMultiplatform)
                 implementation(Dependencies.Koin.test)
                 implementation(Dependencies.Kotlin.Coroutines.test)
                 implementation(Dependencies.Squareup.Testing.turbine)
@@ -48,7 +42,7 @@ kotlin {
 
         val desktopMain by getting {
             dependencies {
-                implementation(Dependencies.Log.slf4j)
+                implementation(compose.desktop.currentOs)
             }
         }
 

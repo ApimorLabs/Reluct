@@ -16,6 +16,7 @@ include(
     ":common:features:settings",
     ":common:features:tasks",
     ":common:model",
+    ":common:mvvm-core",
     ":common:persistence:database",
     ":common:persistence:settings",
 )
