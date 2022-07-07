@@ -46,7 +46,7 @@ object Dependencies {
         object Decompose {
             private const val VERSION = "0.3.1"
             val decompose by lazy { "com.arkivanov.decompose:decompose:$VERSION" }
-            val extensionsCompose by lazy {
+            val jetbrainsCompose by lazy {
                 "com.arkivanov.decompose:extensions-compose-jetbrains:$VERSION"
             }
         }

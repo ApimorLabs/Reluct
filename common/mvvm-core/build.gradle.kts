@@ -23,6 +23,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation(Dependencies.Koin.core)
+                implementation(Dependencies.ArkIvanov.Decompose.decompose)
             }
         }
 
@@ -49,7 +50,6 @@ kotlin {
         val desktopMain by getting {
             dependencies {
                 implementation(compose.desktop.common)
-                api(Dependencies.ArkIvanov.Decompose.decompose)
             }
         }
 
