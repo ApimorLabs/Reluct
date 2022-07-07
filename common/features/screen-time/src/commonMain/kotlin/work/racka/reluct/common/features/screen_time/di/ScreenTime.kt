@@ -14,6 +14,7 @@ object ScreenTime {
     }
 
     private fun commonModule() = module {
+        // TODO: Remove this and its ViewModel
         factory<ScreenTimeStats> { (scope: CoroutineScope) ->
             ScreenTimeStatsImpl(
                 getWeeklyUsageStats = get(),

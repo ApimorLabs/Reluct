@@ -16,7 +16,7 @@ import org.koin.core.scope.Scope
 import work.racka.reluct.common.mvvm.viewmodel.CommonViewModel
 
 /**
- * Resolve ViewModel instance
+ * Resolve CommonViewModel instance
  *
  * @param qualifier
  * @param parameters
