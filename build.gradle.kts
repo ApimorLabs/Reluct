@@ -1,5 +1,5 @@
-import org.jetbrains.kotlin.gradle.dsl.KotlinJvmCompile
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
+import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
 
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
@@ -12,7 +12,7 @@ buildscript {
     dependencies {
         // Leaving this plugin here so it can be automatically
         // updated by Android Studio
-        classpath("com.android.tools.build:gradle:7.2.1")
+        classpath("com.android.tools.build:gradle:7.2.0")
 
         classpath(BuildPlugins.kotlin)
         classpath(BuildPlugins.sqlDelight)

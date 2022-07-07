@@ -22,7 +22,6 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation(Dependencies.Kotlin.Coroutines.core)
                 implementation(Dependencies.Koin.core)
             }
         }
@@ -40,8 +39,8 @@ kotlin {
         val androidMain by getting {
             dependencies {
                 implementation(Dependencies.Koin.android)
-                implementation(Dependencies.Android.Essential.coreViewModel)
-                implementation(Dependencies.Android.Compose.viewModel)
+                api(Dependencies.Android.Essential.coreViewModel)
+                api(Dependencies.Android.Compose.viewModel)
             }
         }
 
@@ -50,7 +49,7 @@ kotlin {
         val desktopMain by getting {
             dependencies {
                 implementation(compose.desktop.common)
-                implementation(Dependencies.ArkIvanov.Decompose.decompose)
+                api(Dependencies.ArkIvanov.Decompose.decompose)
             }
         }
 
