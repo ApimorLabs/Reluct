@@ -9,10 +9,10 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import org.koin.androidx.compose.viewModel
 import org.koin.core.parameter.parametersOf
 import timber.log.Timber
-import work.racka.reluct.common.features.tasks.viewmodels.AddEditTaskViewModel
+import work.racka.common.mvvm.koin.compose.commonViewModel
+import work.racka.reluct.common.features.tasks.add_edit_task.AddEditTaskViewModel
 import work.racka.reluct.common.model.states.tasks.TasksEvents
 
 @Composable
@@ -22,9 +22,9 @@ fun AddEditTaskScreen(
 ) {
 
     val scaffoldState = rememberScaffoldState()
-    val viewModel: AddEditTaskViewModel by viewModel { parametersOf(taskId) }
-    val uiState by viewModel.host.uiState.collectAsState()
-    val events by viewModel.host.events.collectAsState(TasksEvents.Nothing)
+    val viewModel: AddEditTaskViewModel by commonViewModel { parametersOf(taskId) }
+    val uiState by viewModel.uiState.collectAsState()
+    val events by viewModel.events.collectAsState(TasksEvents.Nothing)
 
     LaunchedEffect(events) {
         Timber.d("Event is : $events")
@@ -39,9 +39,9 @@ fun AddEditTaskScreen(
     AddEditTaskUI(
         scaffoldState = scaffoldState,
         uiState = uiState,
-        onSaveTask = { viewModel.host.saveTask(it) },
-        onAddTaskClicked = { viewModel.host.getTask(null) },
-        onBackClicked = { viewModel.host.goBack() }
+        onSaveTask = { viewModel.saveTask(it) },
+        onAddTaskClicked = { viewModel.getTask(null) },
+        onBackClicked = { viewModel.goBack() }
     )
 }
 

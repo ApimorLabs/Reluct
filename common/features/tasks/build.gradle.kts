@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
@@ -41,9 +39,6 @@ kotlin {
 
         val androidMain by getting {
             dependencies {
-                implementation(Dependencies.Koin.android)
-                implementation(Dependencies.Android.Essential.coreViewModel)
-                implementation(Dependencies.Android.Compose.viewModel)
             }
         }
 
@@ -57,8 +52,4 @@ kotlin {
 
         val desktopTest by getting
     }
-}
-
-tasks.withType<KotlinCompile> {
-    kotlinOptions.freeCompilerArgs += "-opt-in=kotlin.RequiresOptIn"
 }

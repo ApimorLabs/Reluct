@@ -1,10 +1,10 @@
 package work.racka.reluct.common.features.tasks.statistics
 
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import work.racka.common.mvvm.viewmodel.CommonViewModel
 import work.racka.reluct.common.data.usecases.tasks.GetDailyTasksUseCase
 import work.racka.reluct.common.data.usecases.tasks.GetWeeklyTasksUseCase
 import work.racka.reluct.common.data.usecases.tasks.ModifyTaskUseCase
@@ -16,13 +16,12 @@ import work.racka.reluct.common.model.states.tasks.TasksStatisticsState
 import work.racka.reluct.common.model.states.tasks.WeeklyTasksState
 import work.racka.reluct.common.model.util.time.WeekUtils
 
-internal class TasksStatisticsImpl(
+class TasksStatisticsViewModel(
     private val modifyTasksUsesCase: ModifyTaskUseCase,
     private val getWeeklyTasksUseCase: GetWeeklyTasksUseCase,
     private val getDailyTasksUseCase: GetDailyTasksUseCase,
     private val getWeekRangeFromOffset: GetWeekRangeFromOffset,
-    private val scope: CoroutineScope,
-) : TasksStatistics {
+) : CommonViewModel() {
 
     private val weekOffset: MutableStateFlow<Int> = MutableStateFlow(0)
     private val selectedWeekText: MutableStateFlow<String> = MutableStateFlow("...")
@@ -37,7 +36,7 @@ internal class TasksStatisticsImpl(
     private lateinit var collectWeeklyTasksJob: Job
 
 
-    override val uiState: StateFlow<TasksStatisticsState> = combine(
+    val uiState: StateFlow<TasksStatisticsState> = combine(
         weekOffset, selectedWeekText, selectedDay, weeklyTasksState, dailyTasksState
     ) { weekOffset, selectedWeekText, selectedDay, weeklyTasksState, dailyTasksState ->
         TasksStatisticsState(
@@ -48,13 +47,13 @@ internal class TasksStatisticsImpl(
             dailyTasksState = dailyTasksState
         )
     }.stateIn(
-        scope = scope,
+        scope = vmScope,
         started = SharingStarted.WhileSubscribed(5000),
         initialValue = TasksStatisticsState()
     )
 
     private val _events: Channel<TasksEvents> = Channel()
-    override val events: Flow<TasksEvents>
+    val events: Flow<TasksEvents>
         get() = _events.receiveAsFlow()
 
     init {
@@ -67,9 +66,11 @@ internal class TasksStatisticsImpl(
     }
 
     private fun getDailyData() {
-        collectDailyTasksJob = scope.launch {
-            getDailyTasksUseCase(weekOffset = weekOffset.value,
-                dayIsoNumber = selectedDay.value).collectLatest { tasks ->
+        collectDailyTasksJob = vmScope.launch {
+            getDailyTasksUseCase(
+                weekOffset = weekOffset.value,
+                dayIsoNumber = selectedDay.value
+            ).collectLatest { tasks ->
                 if (tasks.completedTasks.isNotEmpty() || tasks.pendingTasks.isNotEmpty()) {
                     dailyTasksState.update {
                         DailyTasksState.Data(tasks = tasks, dayTextValue = tasks.dateFormatted)
@@ -82,7 +83,7 @@ internal class TasksStatisticsImpl(
     }
 
     private fun getWeeklyData() {
-        collectWeeklyTasksJob = scope.launch {
+        collectWeeklyTasksJob = vmScope.launch {
             selectedWeekText.update { getWeekRangeFromOffset(weekOffset.value) }
             getWeeklyTasksUseCase(weekOffset = weekOffset.value).collectLatest { weeklyTasks ->
                 if (weeklyTasks.isNotEmpty()) {
@@ -98,14 +99,14 @@ internal class TasksStatisticsImpl(
         }
     }
 
-    override fun selectDay(selectedDayIsoNumber: Int) {
+    fun selectDay(selectedDayIsoNumber: Int) {
         dailyTasksState.update { DailyTasksState.Loading(dayTextValue = it.dayText) }
         selectedDay.update { selectedDayIsoNumber }
         collectDailyTasksJob.cancel()
         getDailyData()
     }
 
-    override fun updateWeekOffset(weekOffsetValue: Int) {
+    fun updateWeekOffset(weekOffsetValue: Int) {
         weeklyTasksState.update { WeeklyTasksState.Loading(totalTaskCount = it.totalWeekTasksCount) }
         weekOffset.update { weekOffsetValue }
         collectDailyTasksJob.cancel()
@@ -113,12 +114,12 @@ internal class TasksStatisticsImpl(
         getData()
     }
 
-    override fun toggleDone(task: Task, isDone: Boolean) {
+    fun toggleDone(task: Task, isDone: Boolean) {
         modifyTasksUsesCase.toggleTaskDone(task, isDone)
         _events.trySend(TasksEvents.ShowMessageDone(isDone, task.title))
     }
 
-    override fun navigateToTaskDetails(taskId: String) {
+    fun navigateToTaskDetails(taskId: String) {
         _events.trySend(TasksEvents.Navigation.NavigateToTaskDetails(taskId))
     }
 }

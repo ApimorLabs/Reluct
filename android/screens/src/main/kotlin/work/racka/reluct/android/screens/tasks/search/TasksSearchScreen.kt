@@ -11,9 +11,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import org.koin.androidx.compose.viewModel
+import work.racka.common.mvvm.koin.compose.commonViewModel
 import work.racka.reluct.android.screens.R
-import work.racka.reluct.common.features.tasks.viewmodels.SearchTasksViewModel
+import work.racka.reluct.common.features.tasks.search_tasks.SearchTasksViewModel
 import work.racka.reluct.common.model.states.tasks.TasksEvents
 
 @Composable
@@ -23,9 +23,9 @@ fun TasksSearchScreen(
 ) {
     val scaffoldState = rememberScaffoldState()
 
-    val viewModel: SearchTasksViewModel by viewModel()
-    val uiState by viewModel.host.uiState.collectAsState()
-    val events by viewModel.host.events.collectAsState(initial = TasksEvents.Nothing)
+    val viewModel: SearchTasksViewModel by commonViewModel()
+    val uiState by viewModel.uiState.collectAsState()
+    val events by viewModel.events.collectAsState(initial = TasksEvents.Nothing)
 
     val context = LocalContext.current
 
@@ -42,11 +42,11 @@ fun TasksSearchScreen(
 
     TasksSearchUI(scaffoldState = scaffoldState,
         uiState = uiState,
-        fetchMoreData = { viewModel.host.fetchMoreData() },
-        onSearch = { viewModel.host.search(it) },
-        onTaskClicked = { viewModel.host.navigateToTaskDetails(it.id) },
+        fetchMoreData = { viewModel.fetchMoreData() },
+        onSearch = { viewModel.search(it) },
+        onTaskClicked = { viewModel.navigateToTaskDetails(it.id) },
         onToggleTaskDone = { isDone, task ->
-            viewModel.host.toggleDone(task, isDone)
+            viewModel.toggleDone(task, isDone)
         }
     )
 }

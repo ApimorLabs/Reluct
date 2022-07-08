@@ -1,10 +1,10 @@
 package work.racka.reluct.common.features.tasks.task_details
 
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.onSuccess
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import work.racka.common.mvvm.viewmodel.CommonViewModel
 import work.racka.reluct.common.data.usecases.tasks.GetTasksUseCase
 import work.racka.reluct.common.data.usecases.tasks.ModifyTaskUseCase
 import work.racka.reluct.common.features.tasks.util.Constants
@@ -12,21 +12,20 @@ import work.racka.reluct.common.model.domain.tasks.Task
 import work.racka.reluct.common.model.states.tasks.TaskDetailsState
 import work.racka.reluct.common.model.states.tasks.TasksEvents
 
-internal class TaskDetailsImpl(
+class TaskDetailsViewModel(
     private val getTasksUseCase: GetTasksUseCase,
     private val modifyTasksUsesCase: ModifyTaskUseCase,
     private val taskId: String?,
-    private val scope: CoroutineScope,
-) : TaskDetails {
+) : CommonViewModel() {
 
     private val _uiState: MutableStateFlow<TaskDetailsState> =
         MutableStateFlow(TaskDetailsState.Loading)
     private val _events: Channel<TasksEvents> = Channel()
 
-    override val uiState: StateFlow<TaskDetailsState>
+    val uiState: StateFlow<TaskDetailsState>
         get() = _uiState
 
-    override val events: Flow<TasksEvents>
+    val events: Flow<TasksEvents>
         get() = _events.receiveAsFlow()
 
     init {
@@ -34,7 +33,7 @@ internal class TaskDetailsImpl(
     }
 
     private fun getTask() {
-        scope.launch {
+        vmScope.launch {
             when (taskId) {
                 null -> {
                     _uiState.update { TaskDetailsState.Data() }
@@ -49,17 +48,17 @@ internal class TaskDetailsImpl(
         }
     }
 
-    override fun toggleDone(task: Task, isDone: Boolean) {
+    fun toggleDone(task: Task, isDone: Boolean) {
         modifyTasksUsesCase.toggleTaskDone(task, isDone)
         _events.trySend(TasksEvents.ShowMessageDone(isDone, task.title))
     }
 
-    override fun editTask(taskId: String) {
+    fun editTask(taskId: String) {
         _events.trySend(TasksEvents.Navigation.NavigateToEdit(taskId))
     }
 
-    override fun deleteTask(taskId: String) {
-        scope.launch {
+    fun deleteTask(taskId: String) {
+        vmScope.launch {
             modifyTasksUsesCase.deleteTask(taskId)
             val result = _events.trySend(
                 TasksEvents.ShowMessage(Constants.DELETED_SUCCESSFULLY)
@@ -68,7 +67,7 @@ internal class TaskDetailsImpl(
         }
     }
 
-    override fun goBack() {
+    fun goBack() {
         _events.trySend(TasksEvents.Navigation.GoBack)
     }
 }

@@ -1,10 +1,10 @@
 package work.racka.reluct.common.features.tasks.search_tasks
 
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import work.racka.common.mvvm.viewmodel.CommonViewModel
 import work.racka.reluct.common.data.usecases.tasks.GetTasksUseCase
 import work.racka.reluct.common.data.usecases.tasks.ModifyTaskUseCase
 import work.racka.reluct.common.model.domain.tasks.Task
@@ -12,17 +12,16 @@ import work.racka.reluct.common.model.states.tasks.SearchData
 import work.racka.reluct.common.model.states.tasks.SearchTasksState
 import work.racka.reluct.common.model.states.tasks.TasksEvents
 
-internal class SearchTasksImpl(
+class SearchTasksViewModel(
     private val getTasksUseCase: GetTasksUseCase,
-    private val modifyTasksUsesCase: ModifyTaskUseCase,
-    private val scope: CoroutineScope,
-) : SearchTasks {
+    private val modifyTasksUsesCase: ModifyTaskUseCase
+) : CommonViewModel() {
 
     private val searchData: MutableStateFlow<SearchData> = MutableStateFlow(SearchData.Loading())
     private val searchQuery: MutableStateFlow<String> = MutableStateFlow("")
     private val shouldUpdateData: MutableStateFlow<Boolean> = MutableStateFlow(true)
 
-    override val uiState: StateFlow<SearchTasksState> = combine(
+    val uiState: StateFlow<SearchTasksState> = combine(
         searchData, searchQuery, shouldUpdateData
     ) { searchData, searchQuery, shouldUpdateData ->
         SearchTasksState(
@@ -31,13 +30,13 @@ internal class SearchTasksImpl(
             shouldUpdateData = shouldUpdateData
         )
     }.stateIn(
-        scope = scope,
+        scope = vmScope,
         started = SharingStarted.WhileSubscribed(5000),
         initialValue = SearchTasksState()
     )
 
     private val _events: Channel<TasksEvents> = Channel()
-    override val events: Flow<TasksEvents>
+    val events: Flow<TasksEvents>
         get() = _events.receiveAsFlow()
 
     private var limitFactor = 1L
@@ -49,7 +48,7 @@ internal class SearchTasksImpl(
     }
 
     private fun getTasks() {
-        searchTasksJob = scope.launch {
+        searchTasksJob = vmScope.launch {
             getTasksUseCase.getSearchedTasks(searchQuery.value, limitFactor)
                 .collectLatest { tasks ->
                     if (tasks.isEmpty() || searchQuery.value.isBlank()) {
@@ -64,14 +63,14 @@ internal class SearchTasksImpl(
         }
     }
 
-    override fun search(query: String) {
+    fun search(query: String) {
         searchTasksJob.cancel() // Cancel the current collection job
         searchData.update { SearchData.Loading(tasks = it.tasksData) }
         searchQuery.update { query }
         getTasks()
     }
 
-    override fun fetchMoreData() {
+    fun fetchMoreData() {
         if (shouldUpdateData.value) {
             limitFactor++
             searchTasksJob.cancel() // Cancel the current collection job
@@ -80,16 +79,16 @@ internal class SearchTasksImpl(
         }
     }
 
-    override fun toggleDone(task: Task, isDone: Boolean) {
+    fun toggleDone(task: Task, isDone: Boolean) {
         modifyTasksUsesCase.toggleTaskDone(task, isDone)
         _events.trySend(TasksEvents.ShowMessageDone(isDone, task.title))
     }
 
-    override fun navigateToTaskDetails(taskId: String) {
+    fun navigateToTaskDetails(taskId: String) {
         _events.trySend(TasksEvents.Navigation.NavigateToTaskDetails(taskId))
     }
 
-    override fun goBack() {
+    fun goBack() {
         _events.trySend(TasksEvents.Navigation.GoBack)
     }
 }

@@ -1,30 +1,29 @@
 package work.racka.reluct.common.features.tasks.pending_tasks
 
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import work.racka.common.mvvm.viewmodel.CommonViewModel
 import work.racka.reluct.common.data.usecases.tasks.GetTasksUseCase
 import work.racka.reluct.common.data.usecases.tasks.ModifyTaskUseCase
 import work.racka.reluct.common.model.domain.tasks.Task
 import work.racka.reluct.common.model.states.tasks.PendingTasksState
 import work.racka.reluct.common.model.states.tasks.TasksEvents
 
-internal class PendingTasksImpl(
+class PendingTasksViewModel(
     private val getTasksUseCase: GetTasksUseCase,
-    private val modifyTasksUsesCase: ModifyTaskUseCase,
-    private val scope: CoroutineScope,
-) : PendingTasks {
+    private val modifyTasksUsesCase: ModifyTaskUseCase
+) : CommonViewModel() {
 
     private val _uiState: MutableStateFlow<PendingTasksState> =
         MutableStateFlow(PendingTasksState.Loading())
     private val _events: Channel<TasksEvents> = Channel()
 
-    override val uiState: StateFlow<PendingTasksState>
+    val uiState: StateFlow<PendingTasksState>
         get() = _uiState
 
-    override val events: Flow<TasksEvents>
+    val events: Flow<TasksEvents>
         get() = _events.receiveAsFlow()
 
     private var limitFactor = 1L
@@ -37,7 +36,7 @@ internal class PendingTasksImpl(
     }
 
     private fun getPendingTasks(limitFactor: Long) {
-        pendingTasksJob = scope.launch {
+        pendingTasksJob = vmScope.launch {
             getTasksUseCase.getPendingTasks(factor = limitFactor).collectLatest { taskList ->
                 val overdueList = taskList.filter { it.overdue }
                 val grouped = taskList
@@ -55,7 +54,7 @@ internal class PendingTasksImpl(
         }
     }
 
-    override fun fetchMoreData() {
+    fun fetchMoreData() {
         if (newDataPresent) {
             limitFactor++
             pendingTasksJob.cancel()
@@ -70,12 +69,12 @@ internal class PendingTasksImpl(
         }
     }
 
-    override fun toggleDone(task: Task, isDone: Boolean) {
+    fun toggleDone(task: Task, isDone: Boolean) {
         modifyTasksUsesCase.toggleTaskDone(task, isDone)
         _events.trySend(TasksEvents.ShowMessageDone(isDone, task.title))
     }
 
-    override fun navigateToTaskDetails(taskId: String) {
+    fun navigateToTaskDetails(taskId: String) {
         _events.trySend(TasksEvents.Navigation.NavigateToTaskDetails(taskId))
     }
 }

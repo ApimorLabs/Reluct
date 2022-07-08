@@ -1,37 +1,36 @@
 package work.racka.reluct.common.features.tasks.add_edit_task
 
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.onSuccess
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import work.racka.common.mvvm.viewmodel.CommonViewModel
 import work.racka.reluct.common.data.usecases.tasks.ModifyTaskUseCase
 import work.racka.reluct.common.features.tasks.util.Constants
 import work.racka.reluct.common.model.domain.tasks.EditTask
 import work.racka.reluct.common.model.states.tasks.AddEditTasksState
 import work.racka.reluct.common.model.states.tasks.TasksEvents
 
-internal class AddEditTaskImpl(
+class AddEditTaskViewModel(
     private val modifyTaskUseCase: ModifyTaskUseCase,
-    private val taskId: String?,
-    private val scope: CoroutineScope,
-) : AddEditTask {
+    private val taskId: String?
+) : CommonViewModel() {
     private val _uiState: MutableStateFlow<AddEditTasksState> =
         MutableStateFlow(AddEditTasksState.Loading)
     private val _events: Channel<TasksEvents> = Channel()
 
-    override val uiState: StateFlow<AddEditTasksState>
+    val uiState: StateFlow<AddEditTasksState>
         get() = _uiState
-    override val events: Flow<TasksEvents>
+    val events: Flow<TasksEvents>
         get() = _events.receiveAsFlow()
 
     init {
         getTask(taskId)
     }
 
-    override fun getTask(id: String?) {
+    fun getTask(id: String?) {
         resetEvents()
-        scope.launch {
+        vmScope.launch {
             when (id) {
                 null -> {
                     _uiState.update { AddEditTasksState.Data() }
@@ -46,8 +45,8 @@ internal class AddEditTaskImpl(
         }
     }
 
-    override fun saveTask(task: EditTask) {
-        scope.launch {
+    fun saveTask(task: EditTask) {
+        vmScope.launch {
             modifyTaskUseCase.saveTask(task)
             val result = _events.trySend(TasksEvents.ShowMessage(Constants.TASK_SAVED))
             result.onSuccess {
@@ -65,7 +64,7 @@ internal class AddEditTaskImpl(
         }
     }
 
-    override fun goBack() {
+    fun goBack() {
         _events.trySend(TasksEvents.Navigation.GoBack)
     }
 

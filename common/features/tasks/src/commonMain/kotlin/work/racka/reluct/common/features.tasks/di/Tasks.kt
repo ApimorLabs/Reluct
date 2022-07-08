@@ -1,20 +1,14 @@
 package work.racka.reluct.common.features.tasks.di
 
-import kotlinx.coroutines.CoroutineScope
 import org.koin.core.KoinApplication
 import org.koin.dsl.module
-import work.racka.reluct.common.features.tasks.add_edit_task.AddEditTask
-import work.racka.reluct.common.features.tasks.add_edit_task.AddEditTaskImpl
-import work.racka.reluct.common.features.tasks.completed_tasks.CompletedTasks
-import work.racka.reluct.common.features.tasks.completed_tasks.CompletedTasksImpl
-import work.racka.reluct.common.features.tasks.pending_tasks.PendingTasks
-import work.racka.reluct.common.features.tasks.pending_tasks.PendingTasksImpl
-import work.racka.reluct.common.features.tasks.search_tasks.SearchTasks
-import work.racka.reluct.common.features.tasks.search_tasks.SearchTasksImpl
-import work.racka.reluct.common.features.tasks.statistics.TasksStatistics
-import work.racka.reluct.common.features.tasks.statistics.TasksStatisticsImpl
-import work.racka.reluct.common.features.tasks.task_details.TaskDetails
-import work.racka.reluct.common.features.tasks.task_details.TaskDetailsImpl
+import work.racka.common.mvvm.koin.vm.commonViewModel
+import work.racka.reluct.common.features.tasks.add_edit_task.AddEditTaskViewModel
+import work.racka.reluct.common.features.tasks.completed_tasks.CompletedTasksViewModel
+import work.racka.reluct.common.features.tasks.pending_tasks.PendingTasksViewModel
+import work.racka.reluct.common.features.tasks.search_tasks.SearchTasksViewModel
+import work.racka.reluct.common.features.tasks.statistics.TasksStatisticsViewModel
+import work.racka.reluct.common.features.tasks.task_details.TaskDetailsViewModel
 
 object Tasks {
 
@@ -23,54 +17,48 @@ object Tasks {
     }
 
     private fun commonModule() = module {
-        factory<AddEditTask> { (taskId: String?, scope: CoroutineScope) ->
-            AddEditTaskImpl(
+        commonViewModel { (taskId: String?) ->
+            AddEditTaskViewModel(
                 modifyTaskUseCase = get(),
-                taskId = taskId,
-                scope = scope
+                taskId = taskId
             )
         }
 
-        factory<CompletedTasks> { (scope: CoroutineScope) ->
-            CompletedTasksImpl(
+        commonViewModel {
+            CompletedTasksViewModel(
                 getTasksUseCase = get(),
-                modifyTasksUsesCase = get(),
-                scope = scope
+                modifyTasksUsesCase = get()
             )
         }
 
-        factory<PendingTasks> { (scope: CoroutineScope) ->
-            PendingTasksImpl(
+        commonViewModel {
+            PendingTasksViewModel(
                 getTasksUseCase = get(),
-                modifyTasksUsesCase = get(),
-                scope = scope
+                modifyTasksUsesCase = get()
             )
         }
 
-        factory<SearchTasks> { (scope: CoroutineScope) ->
-            SearchTasksImpl(
+        commonViewModel {
+            SearchTasksViewModel(
                 getTasksUseCase = get(),
-                modifyTasksUsesCase = get(),
-                scope = scope
+                modifyTasksUsesCase = get()
             )
         }
 
-        factory<TasksStatistics> { (scope: CoroutineScope) ->
-            TasksStatisticsImpl(
+        commonViewModel {
+            TasksStatisticsViewModel(
                 modifyTasksUsesCase = get(),
                 getWeeklyTasksUseCase = get(),
                 getDailyTasksUseCase = get(),
-                getWeekRangeFromOffset = get(),
-                scope = scope
+                getWeekRangeFromOffset = get()
             )
         }
 
-        factory<TaskDetails> { (taskId: String?, scope: CoroutineScope) ->
-            TaskDetailsImpl(
+        commonViewModel { (taskId: String?) ->
+            TaskDetailsViewModel(
                 getTasksUseCase = get(),
                 modifyTasksUsesCase = get(),
-                taskId = taskId,
-                scope = scope
+                taskId = taskId
             )
         }
     }

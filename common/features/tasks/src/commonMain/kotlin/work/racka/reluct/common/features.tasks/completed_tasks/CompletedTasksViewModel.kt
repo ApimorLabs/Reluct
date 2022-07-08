@@ -1,29 +1,28 @@
 package work.racka.reluct.common.features.tasks.completed_tasks
 
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import work.racka.common.mvvm.viewmodel.CommonViewModel
 import work.racka.reluct.common.data.usecases.tasks.GetTasksUseCase
 import work.racka.reluct.common.data.usecases.tasks.ModifyTaskUseCase
 import work.racka.reluct.common.model.domain.tasks.Task
 import work.racka.reluct.common.model.states.tasks.CompletedTasksState
 import work.racka.reluct.common.model.states.tasks.TasksEvents
 
-internal class CompletedTasksImpl(
+class CompletedTasksViewModel(
     private val getTasksUseCase: GetTasksUseCase,
-    private val modifyTasksUsesCase: ModifyTaskUseCase,
-    private val scope: CoroutineScope,
-) : CompletedTasks {
+    private val modifyTasksUsesCase: ModifyTaskUseCase
+) : CommonViewModel() {
 
     private val _uiState: MutableStateFlow<CompletedTasksState> =
         MutableStateFlow(CompletedTasksState.Loading())
     private val _events: Channel<TasksEvents> = Channel()
 
-    override val uiState: StateFlow<CompletedTasksState>
+    val uiState: StateFlow<CompletedTasksState>
         get() = _uiState
-    override val events: Flow<TasksEvents>
+    val events: Flow<TasksEvents>
         get() = _events.receiveAsFlow()
 
     private var limitFactor = 1L
@@ -36,7 +35,7 @@ internal class CompletedTasksImpl(
     }
 
     private fun getCompletedTasks(limitFactor: Long) {
-        completedTasksJob = scope.launch {
+        completedTasksJob = vmScope.launch {
             getTasksUseCase.getCompletedTasks(factor = limitFactor).collectLatest { taskList ->
                 val grouped = taskList.groupBy { it.dueDate }
                 _uiState.update {
@@ -50,7 +49,7 @@ internal class CompletedTasksImpl(
         }
     }
 
-    override fun fetchMoreData() {
+    fun fetchMoreData() {
         if (newDataPresent) {
             limitFactor++
             completedTasksJob.cancel()
@@ -64,12 +63,12 @@ internal class CompletedTasksImpl(
         }
     }
 
-    override fun toggleDone(task: Task, isDone: Boolean) {
+    fun toggleDone(task: Task, isDone: Boolean) {
         modifyTasksUsesCase.toggleTaskDone(task, isDone)
         _events.trySend(TasksEvents.ShowMessageDone(isDone, task.title))
     }
 
-    override fun navigateToTaskDetails(taskId: String) {
+    fun navigateToTaskDetails(taskId: String) {
         _events.trySend(TasksEvents.Navigation.NavigateToTaskDetails(taskId))
     }
 }
