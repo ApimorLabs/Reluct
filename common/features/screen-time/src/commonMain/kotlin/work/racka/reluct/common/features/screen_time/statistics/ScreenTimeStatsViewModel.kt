@@ -1,10 +1,10 @@
 package work.racka.reluct.common.features.screen_time.statistics
 
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import work.racka.common.mvvm.viewmodel.CommonViewModel
 import work.racka.reluct.common.data.usecases.app_usage.GetDailyUsageStats
 import work.racka.reluct.common.data.usecases.app_usage.GetWeeklyUsageStats
 import work.racka.reluct.common.data.usecases.time.GetWeekRangeFromOffset
@@ -15,12 +15,11 @@ import work.racka.reluct.common.features.screen_time.statistics.states.WeeklyUsa
 import work.racka.reluct.common.model.util.time.TimeUtils
 import work.racka.reluct.common.model.util.time.WeekUtils
 
-internal class ScreenTimeStatsImpl(
+class ScreenTimeStatsViewModel(
     private val getWeeklyUsageStats: GetWeeklyUsageStats,
     private val getDailyUsageStats: GetDailyUsageStats,
     private val getWeekRangeFromOffset: GetWeekRangeFromOffset,
-    private val scope: CoroutineScope
-) : ScreenTimeStats {
+) : CommonViewModel() {
 
     private val weekOffset: MutableStateFlow<Int> = MutableStateFlow(0)
     private val selectedWeekText: MutableStateFlow<String> = MutableStateFlow("...")
@@ -33,7 +32,7 @@ internal class ScreenTimeStatsImpl(
 
     private val isGranted = MutableStateFlow(false)
 
-    override val uiState: StateFlow<ScreenTimeStatsState> = combine(
+    val uiState: StateFlow<ScreenTimeStatsState> = combine(
         weekOffset, selectedWeekText, selectedDay, weeklyUsageStatsState, dailyUsageStatsState
     ) { weekOffset, selectedWeekText, selectedDay, weeklyUsageStatsState, dailyUsageStatsState ->
         ScreenTimeStatsState(
@@ -44,13 +43,13 @@ internal class ScreenTimeStatsImpl(
             dailyData = dailyUsageStatsState
         )
     }.stateIn(
-        scope = scope,
+        scope = vmScope,
         started = SharingStarted.WhileSubscribed(5000),
         initialValue = ScreenTimeStatsState()
     )
 
     private val _events = Channel<ScreenTimeStatsEvents>(capacity = Channel.UNLIMITED)
-    override val events: Flow<ScreenTimeStatsEvents>
+    val events: Flow<ScreenTimeStatsEvents>
         get() = _events.receiveAsFlow()
 
     private lateinit var dailyScreenTimeStatsJob: Job
@@ -62,7 +61,7 @@ internal class ScreenTimeStatsImpl(
     }
 
     private fun getData() {
-        getDataJob = scope.launch {
+        getDataJob = vmScope.launch {
             isGranted.collectLatest { granted ->
                 if (granted) {
                     getWeeklyData()
@@ -74,7 +73,7 @@ internal class ScreenTimeStatsImpl(
 
     private fun getDailyData() {
         dailyUsageStatsState.update { DailyUsageStatsState.Loading() }
-        dailyScreenTimeStatsJob = scope.launch {
+        dailyScreenTimeStatsJob = vmScope.launch {
             val dailyData = getDailyUsageStats(
                 weekOffset = weekOffset.value,
                 dayIsoNumber = selectedDay.value
@@ -93,7 +92,7 @@ internal class ScreenTimeStatsImpl(
 
     private fun getWeeklyData() {
         weeklyUsageStatsState.update { WeeklyUsageStatsState.Loading() }
-        weeklyScreenTimeStatsJob = scope.launch {
+        weeklyScreenTimeStatsJob = vmScope.launch {
             selectedWeekText.update { getWeekRangeFromOffset(weekOffset.value) }
             val weeklyData = getWeeklyUsageStats(weekOffset = weekOffset.value)
             if (weeklyData.isEmpty()) {
@@ -112,18 +111,18 @@ internal class ScreenTimeStatsImpl(
         }
     }
 
-    override fun permissionCheck(isGranted: Boolean) {
+    fun permissionCheck(isGranted: Boolean) {
         this.isGranted.update { isGranted }
     }
 
-    override fun selectDay(selectedDayIsoNumber: Int) {
+    fun selectDay(selectedDayIsoNumber: Int) {
         dailyUsageStatsState.update { DailyUsageStatsState.Loading(it.usageStat) }
         selectedDay.update { selectedDayIsoNumber }
         dailyScreenTimeStatsJob.cancel()
         getDailyData()
     }
 
-    override fun updateWeekOffset(weekOffsetValue: Int) {
+    fun updateWeekOffset(weekOffsetValue: Int) {
         weeklyUsageStatsState.update {
             WeeklyUsageStatsState.Loading(weeklyUsageStats = it.usageStats)
         }
@@ -134,15 +133,22 @@ internal class ScreenTimeStatsImpl(
         getData()
     }
 
-    override fun navigateToAppInfo(packageName: String) {
+    fun navigateToAppInfo(packageName: String) {
         _events.trySend(
             ScreenTimeStatsEvents.Navigation.NavigateToAppInfo(packageName)
         )
     }
 
-    override fun openAppTimerSettings(packageName: String) {
+    fun openAppTimerSettings(packageName: String) {
         _events.trySend(
             ScreenTimeStatsEvents.Navigation.OpenAppTimerSettings(packageName)
         )
+    }
+
+    override fun destroy() {
+        dailyScreenTimeStatsJob.cancel()
+        weeklyScreenTimeStatsJob.cancel()
+        getDataJob.cancel()
+        super.destroy()
     }
 }
