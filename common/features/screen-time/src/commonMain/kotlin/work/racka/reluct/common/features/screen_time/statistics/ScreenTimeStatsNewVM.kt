@@ -4,6 +4,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import work.racka.common.mvvm.viewmodel.CommonViewModel
 import work.racka.reluct.common.data.usecases.app_usage.GetDailyUsageStats
 import work.racka.reluct.common.data.usecases.app_usage.GetWeeklyUsageStats
 import work.racka.reluct.common.data.usecases.time.GetWeekRangeFromOffset
@@ -13,7 +14,6 @@ import work.racka.reluct.common.features.screen_time.statistics.states.ScreenTim
 import work.racka.reluct.common.features.screen_time.statistics.states.WeeklyUsageStatsState
 import work.racka.reluct.common.model.util.time.TimeUtils
 import work.racka.reluct.common.model.util.time.WeekUtils
-import work.racka.reluct.common.mvvm.viewmodel.CommonViewModel
 
 class ScreenTimeStatsNewVM(
     private val getWeeklyUsageStats: GetWeeklyUsageStats,

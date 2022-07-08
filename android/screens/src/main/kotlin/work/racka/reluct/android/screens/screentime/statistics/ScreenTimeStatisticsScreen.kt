@@ -10,10 +10,10 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalContext
 import kotlinx.coroutines.CoroutineScope
+import work.racka.common.mvvm.koin.compose.commonViewModel
 import work.racka.reluct.android.compose.components.util.BarsVisibility
 import work.racka.reluct.common.features.screen_time.statistics.ScreenTimeStatsNewVM
 import work.racka.reluct.common.features.screen_time.statistics.states.ScreenTimeStatsEvents
-import work.racka.reluct.common.mvvm.koin.compose.commonViewModel
 
 @Composable
 fun ScreenTimeStatisticsScreen(
