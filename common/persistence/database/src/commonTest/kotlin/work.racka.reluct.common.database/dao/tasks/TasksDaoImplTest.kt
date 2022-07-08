@@ -1,7 +1,6 @@
 package work.racka.reluct.common.database.dao.tasks
 
 import app.cash.turbine.test
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
@@ -31,7 +30,7 @@ class TasksDaoImplTest : KoinTest {
                 module {
                     single<TasksDao> {
                         TasksDaoImpl(
-                            coroutineScope = CoroutineScope(StandardTestDispatcher()),
+                            dispatcher = StandardTestDispatcher(),
                             databaseWrapper = get()
                         )
                     }

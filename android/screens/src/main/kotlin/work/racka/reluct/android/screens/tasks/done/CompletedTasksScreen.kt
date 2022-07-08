@@ -12,10 +12,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import org.koin.androidx.compose.viewModel
+import work.racka.common.mvvm.koin.compose.commonViewModel
 import work.racka.reluct.android.compose.components.util.BarsVisibility
 import work.racka.reluct.android.screens.R
-import work.racka.reluct.common.features.tasks.viewmodels.CompletedTasksViewModel
+import work.racka.reluct.common.features.tasks.completed_tasks.CompletedTasksViewModel
 import work.racka.reluct.common.model.states.tasks.TasksEvents
 
 @Composable
@@ -28,9 +28,9 @@ fun CompletedTasksScreen(
 
     val scaffoldState = rememberScaffoldState()
 
-    val viewModel: CompletedTasksViewModel by viewModel()
-    val uiState by viewModel.host.uiState.collectAsState()
-    val events by viewModel.host.events.collectAsState(initial = TasksEvents.Nothing)
+    val viewModel: CompletedTasksViewModel by commonViewModel()
+    val uiState by viewModel.uiState.collectAsState()
+    val events by viewModel.events.collectAsState(initial = TasksEvents.Nothing)
 
     val context = LocalContext.current
 
@@ -52,15 +52,15 @@ fun CompletedTasksScreen(
         uiState = uiState,
         scaffoldState = scaffoldState,
         onTaskClicked = {
-            viewModel.host.navigateToTaskDetails(it.id)
+            viewModel.navigateToTaskDetails(it.id)
         },
         onAddTaskClicked = {
             onNavigateToAddTask(it?.id)
         },
         onToggleTaskDone = { isDone, task ->
-            viewModel.host.toggleDone(task, isDone)
+            viewModel.toggleDone(task, isDone)
         },
-        fetchMoreData = { viewModel.host.fetchMoreData() }
+        fetchMoreData = { viewModel.fetchMoreData() }
     )
 }
 

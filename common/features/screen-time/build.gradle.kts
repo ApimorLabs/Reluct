@@ -38,9 +38,6 @@ kotlin {
 
         val androidMain by getting {
             dependencies {
-                implementation(Dependencies.Koin.android)
-                implementation(Dependencies.Android.Essential.coreViewModel)
-                implementation(Dependencies.Android.Compose.viewModel)
             }
         }
 

@@ -1,10 +1,9 @@
 package work.racka.reluct.common.features.settings.di
 
-import kotlinx.coroutines.CoroutineScope
 import org.koin.core.KoinApplication
 import org.koin.dsl.module
-import work.racka.reluct.common.features.settings.AppSettings
-import work.racka.reluct.common.features.settings.AppSettingsImpl
+import work.racka.common.mvvm.koin.vm.commonViewModel
+import work.racka.reluct.common.features.settings.AppSettingsViewModel
 
 object AppSettings {
     fun KoinApplication.appSettingsModules() {
@@ -12,8 +11,8 @@ object AppSettings {
     }
 
     private fun commonModule() = module {
-        factory<AppSettings> { (scope: CoroutineScope) ->
-            AppSettingsImpl(settings = get(), scope = scope)
+        commonViewModel {
+            AppSettingsViewModel(settings = get())
         }
     }
 }

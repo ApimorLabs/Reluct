@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "work.racka.reluct.common.mvvm"
+    namespace = "work.racka.common.mvvm"
 
     buildFeatures {
         compose = true
@@ -18,11 +18,16 @@ android {
 kotlin {
     android()
     jvm("desktop")
+    js(BOTH) {
+        useCommonJs()
+        browser()
+    }
 
     sourceSets {
         val commonMain by getting {
             dependencies {
                 implementation(Dependencies.Koin.core)
+                implementation(Dependencies.Kotlin.Coroutines.core)
                 implementation(Dependencies.ArkIvanov.Decompose.decompose)
             }
         }
@@ -31,7 +36,6 @@ kotlin {
             dependencies {
                 implementation(Dependencies.Koin.test)
                 implementation(Dependencies.Kotlin.Coroutines.test)
-                implementation(Dependencies.Squareup.Testing.turbine)
                 implementation(kotlin("test-common"))
                 implementation(kotlin("test-annotations-common"))
             }
@@ -54,5 +58,11 @@ kotlin {
         }
 
         val desktopTest by getting
+
+        val jsMain by getting {
+            dependencies {
+
+            }
+        }
     }
 }
