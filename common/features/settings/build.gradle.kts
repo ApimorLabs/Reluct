@@ -15,6 +15,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation(project(":common:model"))
+                implementation(project(":common:mvvm-core"))
                 implementation(project(":common:persistence:settings"))
 
                 implementation(Dependencies.Kotlin.Coroutines.core)
@@ -36,9 +37,7 @@ kotlin {
 
         val androidMain by getting {
             dependencies {
-                implementation(Dependencies.Koin.android)
-                implementation(Dependencies.Android.Essential.coreViewModel)
-                implementation(Dependencies.Android.Compose.viewModel)
+
             }
         }
 
