@@ -4,7 +4,14 @@ plugins {
 }
 
 android {
-    namespace = "work.racka.reluct.common.features.goals"
+    namespace = "work.racka.reluct.common.core_navigation"
+
+    buildFeatures {
+        compose = true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = Versions.composeCompiler
+    }
 }
 
 kotlin {
@@ -14,7 +21,7 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation(project(":common:core-navigation"))
+
             }
         }
 
@@ -22,7 +29,12 @@ kotlin {
 
         val androidMain by getting {
             dependencies {
-
+                // Compose
+                with(Dependencies.Android.Compose) {
+                    implementation(materialIconsCore)
+                    implementation(materialIconsExtended)
+                }
+                implementation(Dependencies.Android.Compose.navigation)
             }
         }
 
@@ -30,10 +42,10 @@ kotlin {
 
         val desktopMain by getting {
             dependencies {
-                implementation(Dependencies.Log.slf4j)
             }
         }
 
         val desktopTest by getting
+
     }
 }

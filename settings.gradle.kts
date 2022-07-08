@@ -9,6 +9,7 @@ include(
     ":android:compose:theme",
     ":android:screens",
     ":common:app-usage-stats",
+    ":common:core-navigation",
     ":common:data",
     ":common:di-integration",
     ":common:features:goals",
