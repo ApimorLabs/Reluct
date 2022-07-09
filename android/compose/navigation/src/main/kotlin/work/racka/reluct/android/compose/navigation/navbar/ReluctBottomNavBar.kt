@@ -11,7 +11,6 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import timber.log.Timber
 import work.racka.reluct.android.compose.theme.Typography
 
 @Composable
@@ -36,8 +35,7 @@ fun ReluctBottomNavBar(
         ) {
             items.forEach { item ->
                 val selected = currentDestination?.hierarchy?.any {
-                    Timber.d("Selected: ${item.name} -> ${it.route == item.name}")
-                    it.route == item.name
+                    it.route == item.route
                 } ?: false
 
                 NavigationBarItem(
@@ -53,7 +51,6 @@ fun ReluctBottomNavBar(
                         )
                     },
                     onClick = {
-                        Timber.d("NavBar item clicked")
                         navController.navigate(item.route) {
                             popUpTo(navController.graph.findStartDestination().id) {
                                 saveState = true

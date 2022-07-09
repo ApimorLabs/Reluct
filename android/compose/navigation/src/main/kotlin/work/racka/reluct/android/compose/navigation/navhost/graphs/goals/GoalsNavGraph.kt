@@ -19,9 +19,11 @@ import androidx.navigation.NavHostController
 import androidx.navigation.navigation
 import com.google.accompanist.navigation.animation.composable
 import timber.log.Timber
-import work.racka.reluct.android.compose.destinations.GoalsDestinations
+import work.racka.reluct.android.compose.navigation.destinations.goals.CompletedGoalsDestination
+import work.racka.reluct.android.compose.navigation.destinations.goals.OngoingGoalsDestination
 import work.racka.reluct.android.compose.navigation.navbar.NavbarDestinations
 import work.racka.reluct.android.compose.navigation.top_tabs.goals.GoalsTabBar
+import work.racka.reluct.android.compose.navigation.top_tabs.goals.GoalsTabDestination
 
 @OptIn(ExperimentalMaterial3Api::class)
 @ExperimentalAnimationApi
@@ -30,15 +32,15 @@ internal fun NavGraphBuilder.goalsNavGraph(
 ) {
     navigation(
         route = NavbarDestinations.Goals.route,
-        startDestination = GoalsDestinations.Ongoing.route
+        startDestination = OngoingGoalsDestination.route
     ) {
         Timber.d("Goals screen called")
         // Ongoing
         composable(
-            route = GoalsDestinations.Ongoing.route
+            route = OngoingGoalsDestination.route
         ) {
             val tabPage = remember {
-                mutableStateOf(GoalsDestinations.Ongoing)
+                mutableStateOf(GoalsTabDestination.Ongoing)
             }
             Scaffold(
                 topBar = {
@@ -70,7 +72,7 @@ internal fun NavGraphBuilder.goalsNavGraph(
 
         // Completed
         composable(
-            route = GoalsDestinations.Completed.route
+            route = CompletedGoalsDestination.route
         ) {
             Box(
                 modifier = Modifier.fillMaxSize(),

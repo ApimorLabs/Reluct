@@ -14,7 +14,6 @@ object AddEditTaskDestination : NavDestination {
         get() = listOf(
             navArgument(AddEditTaskArgs.TaskId.name) {
                 type = NavType.StringType
-                defaultValue = null
             }
         )
 

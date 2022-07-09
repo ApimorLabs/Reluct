@@ -18,7 +18,6 @@ android.apply {
 dependencies {
     // Dependency Modules
     implementation(project(":android:compose:charts"))
-    implementation(project(":android:compose:destinations"))
     implementation(project(":android:compose:theme"))
     implementation(project(":common:model"))
 
@@ -52,7 +51,6 @@ dependencies {
         implementation(preview)
         implementation(materialIconsCore)
         implementation(materialIconsExtended)
-        implementation(navigation)
         implementation(foundation)
         implementation(foundationLayout)
         implementation(constraintLayout)
