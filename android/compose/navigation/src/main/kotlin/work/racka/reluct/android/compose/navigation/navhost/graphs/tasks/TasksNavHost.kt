@@ -22,10 +22,9 @@ import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import work.racka.reluct.android.compose.components.textfields.search.PlaceholderMaterialSearchBar
 import work.racka.reluct.android.compose.components.topBar.ProfilePicture
 import work.racka.reluct.android.compose.components.util.BarsVisibility
-import work.racka.reluct.android.compose.destinations.OtherDestinations
-import work.racka.reluct.android.compose.destinations.TasksDestinations
-import work.racka.reluct.android.compose.destinations.navbar.Graphs
+import work.racka.reluct.android.compose.navigation.destinations.tasks.*
 import work.racka.reluct.android.compose.navigation.top_tabs.tasks.TasksTabBar
+import work.racka.reluct.android.compose.navigation.top_tabs.tasks.TasksTabDestination
 import work.racka.reluct.android.compose.navigation.transitions.scaleInEnterTransition
 import work.racka.reluct.android.compose.navigation.transitions.scaleInPopEnterTransition
 import work.racka.reluct.android.compose.navigation.transitions.scaleOutExitTransition
@@ -56,7 +55,7 @@ internal fun TasksNavHost(
             TasksScreenTopBar(
                 tabPage = tabPage,
                 profilePicUrl = "https://pbs.twimg.com/profile_images/1451052243067805698/LIEt076e_400x400.jpg",
-                navigateToSearch = { mainNavController.navigate(OtherDestinations.SearchTasks.route) },
+                navigateToSearch = { mainNavController.navigate(SearchTasksDestination.route) },
                 updateTabPage = {
                     navController.navigate(it.route) {
                         popUpTo(navController.graph.findStartDestination().id) {
@@ -72,13 +71,13 @@ internal fun TasksNavHost(
         AnimatedNavHost(
             modifier = Modifier.padding(innerPapping),
             navController = navController,
-            route = Graphs.RootDestinations.route + Graphs.TasksDestinations.route,
-            startDestination = TasksDestinations.Tasks.route
+            route = PendingTasksDestination.destination,
+            startDestination = PendingTasksDestination.route
         ) {
 
             // Tasks
             composable(
-                route = TasksDestinations.Tasks.route,
+                route = PendingTasksDestination.route,
                 // Transition animations
                 enterTransition = { scaleInEnterTransition() },
                 exitTransition = { scaleOutExitTransition() },
@@ -90,12 +89,12 @@ internal fun TasksNavHost(
                     barsVisibility = barsVisibility,
                     onNavigateToAddTask = {
                         mainNavController.navigate(
-                            "${OtherDestinations.AddEditTask.route}/$it"
+                            AddEditTaskDestination.argsRoute(it)
                         )
                     },
                     onNavigateToTaskDetails = {
                         mainNavController.navigate(
-                            "${OtherDestinations.TaskDetails.route}/$it"
+                            TaskDetailsDestination.argsRoute(it)
                         )
                     }
                 )
@@ -103,7 +102,7 @@ internal fun TasksNavHost(
 
             // Done - Completed Tasks
             composable(
-                route = TasksDestinations.Done.route,
+                route = CompletedTasksDestination.route,
                 enterTransition = { scaleInEnterTransition() },
                 exitTransition = { scaleOutExitTransition() },
                 popEnterTransition = { scaleInPopEnterTransition() },
@@ -114,19 +113,19 @@ internal fun TasksNavHost(
                     barsVisibility = barsVisibility,
                     onNavigateToAddTask = {
                         mainNavController.navigate(
-                            "${OtherDestinations.AddEditTask.route}/$it"
+                            AddEditTaskDestination.argsRoute(it)
                         )
                     },
                     onNavigateToTaskDetails = {
                         mainNavController.navigate(
-                            "${OtherDestinations.TaskDetails.route}/$it"
+                            TaskDetailsDestination.argsRoute(it)
                         )
                     }
                 )
             }
             // Statistics
             composable(
-                route = TasksDestinations.Statistics.route,
+                route = TasksStatisticsDestination.route,
                 enterTransition = { scaleInEnterTransition() },
                 exitTransition = { scaleOutExitTransition() },
                 popEnterTransition = { scaleInPopEnterTransition() },
@@ -137,7 +136,7 @@ internal fun TasksNavHost(
                     barsVisibility = barsVisibility,
                     onNavigateToTaskDetails = {
                         mainNavController.navigate(
-                            "${OtherDestinations.TaskDetails.route}/$it"
+                            TaskDetailsDestination.argsRoute(it)
                         )
                     }
                 )
@@ -148,10 +147,10 @@ internal fun TasksNavHost(
 
 @Composable
 private fun TasksScreenTopBar(
-    tabPage: TasksDestinations,
+    tabPage: TasksTabDestination,
     profilePicUrl: String?,
     navigateToSearch: () -> Unit,
-    updateTabPage: (TasksDestinations) -> Unit,
+    updateTabPage: (TasksTabDestination) -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -186,8 +185,8 @@ private fun TasksScreenTopBar(
     }
 }
 
-private fun getCurrentTab(currentDestination: NavDestination?): TasksDestinations {
-    val destinations = TasksDestinations.values()
+private fun getCurrentTab(currentDestination: NavDestination?): TasksTabDestination {
+    val destinations = TasksTabDestination.values()
     destinations.forEach { item ->
         val isSelected = currentDestination?.hierarchy?.any {
             it.route == item.route
