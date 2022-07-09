@@ -29,11 +29,11 @@ import timber.log.Timber
 import work.racka.reluct.android.compose.components.textfields.search.ReluctSearchBar
 import work.racka.reluct.android.compose.components.topBar.CollapsingToolbarBase
 import work.racka.reluct.android.compose.components.topBar.ProfilePicture
-import work.racka.reluct.android.compose.destinations.DashboardDestinations
 import work.racka.reluct.android.compose.navigation.destinations.dashboard.DashboardOverviewDestination
 import work.racka.reluct.android.compose.navigation.destinations.dashboard.DashboardStatsDestination
 import work.racka.reluct.android.compose.navigation.navbar.NavbarDestinations
 import work.racka.reluct.android.compose.navigation.top_tabs.dashboard.DashboardTabBar
+import work.racka.reluct.android.compose.navigation.top_tabs.dashboard.DashboardTabDestination
 
 @OptIn(ExperimentalMaterial3Api::class)
 @ExperimentalAnimationApi
@@ -50,7 +50,7 @@ internal fun NavGraphBuilder.dashboardNavGraph(
             route = DashboardOverviewDestination.route
         ) {
             val tabPage = remember {
-                mutableStateOf(DashboardDestinations.Overview)
+                mutableStateOf(DashboardTabDestination.Overview)
             }
             val listState = rememberLazyListState()
             val buttonExpanded = remember {
@@ -148,13 +148,13 @@ internal fun NavGraphBuilder.dashboardNavGraph(
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 private fun DashboardScreenTopBar(
-    tabPage: DashboardDestinations,
+    tabPage: DashboardTabDestination,
     profilePicUrl: String?,
     toolbarHeight: Dp,
     toolbarOffset: Float,
     toolbarCollapsed: Boolean,
     onCollapsed: (Boolean) -> Unit,
-    updateTabPage: (DashboardDestinations) -> Unit,
+    updateTabPage: (DashboardTabDestination) -> Unit,
 ) {
     CollapsingToolbarBase(
         modifier = Modifier
