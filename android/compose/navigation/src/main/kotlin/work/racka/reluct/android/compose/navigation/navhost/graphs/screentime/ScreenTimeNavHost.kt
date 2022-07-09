@@ -23,9 +23,10 @@ import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import work.racka.reluct.android.compose.components.util.BarsVisibility
-import work.racka.reluct.android.compose.destinations.ScreenTimeDestinations
-import work.racka.reluct.android.compose.destinations.navbar.Graphs
+import work.racka.reluct.android.compose.navigation.destinations.screentime.ScreenTimeLimitsDestination
+import work.racka.reluct.android.compose.navigation.destinations.screentime.ScreenTimeStatsDestination
 import work.racka.reluct.android.compose.navigation.top_tabs.screentime.ScreenTimeTabBar
+import work.racka.reluct.android.compose.navigation.top_tabs.screentime.ScreenTimeTabDestination
 import work.racka.reluct.android.compose.navigation.transitions.scaleInEnterTransition
 import work.racka.reluct.android.compose.navigation.transitions.scaleInPopEnterTransition
 import work.racka.reluct.android.compose.navigation.transitions.scaleOutExitTransition
@@ -69,12 +70,12 @@ internal fun ScreenTimeNavHost(
         AnimatedNavHost(
             modifier = Modifier.padding(innerPapping),
             navController = navController,
-            route = Graphs.RootDestinations.route + Graphs.ScreenTimeDestinations.route,
-            startDestination = ScreenTimeDestinations.Statistics.route
+            route = ScreenTimeStatsDestination.destination,
+            startDestination = ScreenTimeStatsDestination.route
         ) {
             // Statistics
             composable(
-                route = ScreenTimeDestinations.Statistics.route,
+                route = ScreenTimeStatsDestination.route,
                 // Transition animations
                 enterTransition = { scaleInEnterTransition() },
                 exitTransition = { scaleOutExitTransition() },
@@ -90,7 +91,7 @@ internal fun ScreenTimeNavHost(
 
             // Limits
             composable(
-                route = ScreenTimeDestinations.Limits.route,
+                route = ScreenTimeLimitsDestination.route,
                 // Transition animations
                 enterTransition = { scaleInEnterTransition() },
                 exitTransition = { scaleOutExitTransition() },
@@ -113,9 +114,9 @@ internal fun ScreenTimeNavHost(
 
 @Composable
 private fun ScreenTimeTopBar(
-    tabPage: ScreenTimeDestinations,
+    tabPage: ScreenTimeTabDestination,
     profilePicUrl: String?,
-    updateTabPage: (ScreenTimeDestinations) -> Unit,
+    updateTabPage: (ScreenTimeTabDestination) -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -142,8 +143,8 @@ private fun ScreenTimeTopBar(
     }
 }
 
-private fun getCurrentTab(currentDestination: NavDestination?): ScreenTimeDestinations {
-    val destinations = ScreenTimeDestinations.values()
+private fun getCurrentTab(currentDestination: NavDestination?): ScreenTimeTabDestination {
+    val destinations = ScreenTimeTabDestination.values()
     destinations.forEach { item ->
         val isSelected = currentDestination?.hierarchy?.any {
             it.route == item.route
