@@ -17,6 +17,7 @@ kotlin {
                 implementation(project(":common:app-usage-stats"))
                 implementation(project(":common:model"))
                 implementation(project(":common:persistence:database"))
+                implementation(project(":common:persistence:settings"))
 
                 implementation(Dependencies.Kotlin.Coroutines.core)
                 implementation(Dependencies.Koin.core)

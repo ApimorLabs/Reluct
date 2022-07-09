@@ -137,5 +137,12 @@ object Data {
                 backgroundDispatcher = CoroutineDispatchers.backgroundDispatcher
             )
         }
+
+        factory<ManageFocusMode> {
+            ManageFocusModeImpl(
+                settings = get(),
+                backgroundDispatcher = CoroutineDispatchers.backgroundDispatcher
+            )
+        }
     }
 }
