@@ -26,12 +26,14 @@ import androidx.navigation.NavHostController
 import androidx.navigation.navigation
 import com.google.accompanist.navigation.animation.composable
 import timber.log.Timber
-import work.racka.reluct.android.compose.components.tab.dashboard.DashboardTabBar
 import work.racka.reluct.android.compose.components.textfields.search.ReluctSearchBar
 import work.racka.reluct.android.compose.components.topBar.CollapsingToolbarBase
 import work.racka.reluct.android.compose.components.topBar.ProfilePicture
-import work.racka.reluct.android.compose.destinations.DashboardDestinations
-import work.racka.reluct.android.compose.destinations.navbar.Graphs
+import work.racka.reluct.android.compose.navigation.destinations.dashboard.DashboardOverviewDestination
+import work.racka.reluct.android.compose.navigation.destinations.dashboard.DashboardStatsDestination
+import work.racka.reluct.android.compose.navigation.navbar.NavbarDestinations
+import work.racka.reluct.android.compose.navigation.top_tabs.dashboard.DashboardTabBar
+import work.racka.reluct.android.compose.navigation.top_tabs.dashboard.DashboardTabDestination
 
 @OptIn(ExperimentalMaterial3Api::class)
 @ExperimentalAnimationApi
@@ -39,16 +41,16 @@ internal fun NavGraphBuilder.dashboardNavGraph(
     navController: NavHostController,
 ) {
     navigation(
-        route = Graphs.DashboardDestinations.route,
-        startDestination = DashboardDestinations.Overview.route
+        route = NavbarDestinations.Dashboard.route,
+        startDestination = DashboardOverviewDestination.route
     ) {
         Timber.d("Dashboard screen called")
         // Overview
         composable(
-            route = DashboardDestinations.Overview.route
+            route = DashboardOverviewDestination.route
         ) {
             val tabPage = remember {
-                mutableStateOf(DashboardDestinations.Overview)
+                mutableStateOf(DashboardTabDestination.Overview)
             }
             val listState = rememberLazyListState()
             val buttonExpanded = remember {
@@ -128,7 +130,7 @@ internal fun NavGraphBuilder.dashboardNavGraph(
 
         // Statistics
         composable(
-            route = DashboardDestinations.Statistics.route
+            route = DashboardStatsDestination.route
         ) {
             Box(
                 modifier = Modifier.fillMaxSize(),
@@ -146,13 +148,13 @@ internal fun NavGraphBuilder.dashboardNavGraph(
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 private fun DashboardScreenTopBar(
-    tabPage: DashboardDestinations,
+    tabPage: DashboardTabDestination,
     profilePicUrl: String?,
     toolbarHeight: Dp,
     toolbarOffset: Float,
     toolbarCollapsed: Boolean,
     onCollapsed: (Boolean) -> Unit,
-    updateTabPage: (DashboardDestinations) -> Unit,
+    updateTabPage: (DashboardTabDestination) -> Unit,
 ) {
     CollapsingToolbarBase(
         modifier = Modifier

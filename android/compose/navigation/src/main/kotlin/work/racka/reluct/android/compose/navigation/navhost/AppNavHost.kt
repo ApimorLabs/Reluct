@@ -9,11 +9,11 @@ import androidx.compose.ui.Modifier
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
-import work.racka.reluct.android.compose.components.navbar.ReluctBottomNavBar
 import work.racka.reluct.android.compose.components.util.rememberBarVisibility
 import work.racka.reluct.android.compose.components.util.slideInVerticallyFadeReversed
 import work.racka.reluct.android.compose.components.util.slideOutVerticallyFadeReversed
-import work.racka.reluct.android.compose.destinations.navbar.Graphs
+import work.racka.reluct.android.compose.navigation.navbar.NavbarDestinations
+import work.racka.reluct.android.compose.navigation.navbar.ReluctBottomNavBar
 import work.racka.reluct.android.compose.navigation.navhost.graphs.dashboard.dashboardNavGraph
 import work.racka.reluct.android.compose.navigation.navhost.graphs.extras.otherScreenNavGraph
 import work.racka.reluct.android.compose.navigation.navhost.graphs.goals.goalsNavGraph
@@ -43,8 +43,8 @@ fun AppNavHost(modifier: Modifier = Modifier) {
         AnimatedNavHost(
             modifier = Modifier,
             navController = navController,
-            startDestination = Graphs.DashboardDestinations.route,
-            route = Graphs.RootDestinations.route
+            startDestination = NavbarDestinations.Dashboard.route,
+            route = "root"
         ) {
 
             // Dashboard
@@ -54,7 +54,7 @@ fun AppNavHost(modifier: Modifier = Modifier) {
 
             // Tasks
             composable(
-                route = Graphs.TasksDestinations.route
+                route = NavbarDestinations.Tasks.route
             ) {
                 TasksNavHost(
                     mainNavController = navController,
@@ -65,7 +65,7 @@ fun AppNavHost(modifier: Modifier = Modifier) {
 
             // Screen Time
             composable(
-                route = Graphs.ScreenTimeDestinations.route
+                route = NavbarDestinations.ScreenTime.route
             ) {
                 ScreenTimeNavHost(
                     mainNavController = navController,

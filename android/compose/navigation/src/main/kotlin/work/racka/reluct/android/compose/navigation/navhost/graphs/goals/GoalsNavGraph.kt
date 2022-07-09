@@ -3,6 +3,7 @@ package work.racka.reluct.android.compose.navigation.navhost.graphs.goals
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -18,9 +19,11 @@ import androidx.navigation.NavHostController
 import androidx.navigation.navigation
 import com.google.accompanist.navigation.animation.composable
 import timber.log.Timber
-import work.racka.reluct.android.compose.components.tab.goals.GoalsTabBar
-import work.racka.reluct.android.compose.destinations.GoalsDestinations
-import work.racka.reluct.android.compose.destinations.navbar.Graphs
+import work.racka.reluct.android.compose.navigation.destinations.goals.CompletedGoalsDestination
+import work.racka.reluct.android.compose.navigation.destinations.goals.OngoingGoalsDestination
+import work.racka.reluct.android.compose.navigation.navbar.NavbarDestinations
+import work.racka.reluct.android.compose.navigation.top_tabs.goals.GoalsTabBar
+import work.racka.reluct.android.compose.navigation.top_tabs.goals.GoalsTabDestination
 
 @OptIn(ExperimentalMaterial3Api::class)
 @ExperimentalAnimationApi
@@ -28,16 +31,16 @@ internal fun NavGraphBuilder.goalsNavGraph(
     navController: NavHostController,
 ) {
     navigation(
-        route = Graphs.GoalsDestinations.route,
-        startDestination = GoalsDestinations.Ongoing.route
+        route = NavbarDestinations.Goals.route,
+        startDestination = OngoingGoalsDestination.route
     ) {
         Timber.d("Goals screen called")
         // Ongoing
         composable(
-            route = GoalsDestinations.Ongoing.route
+            route = OngoingGoalsDestination.route
         ) {
             val tabPage = remember {
-                mutableStateOf(GoalsDestinations.Ongoing)
+                mutableStateOf(GoalsTabDestination.Ongoing)
             }
             Scaffold(
                 topBar = {
@@ -52,9 +55,11 @@ internal fun NavGraphBuilder.goalsNavGraph(
                         }
                     }
                 }
-            ) {
+            ) { padding ->
                 Box(
-                    modifier = Modifier.fillMaxSize(),
+                    modifier = Modifier
+                        .padding(padding)
+                        .fillMaxSize(),
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
@@ -67,7 +72,7 @@ internal fun NavGraphBuilder.goalsNavGraph(
 
         // Completed
         composable(
-            route = GoalsDestinations.Completed.route
+            route = CompletedGoalsDestination.route
         ) {
             Box(
                 modifier = Modifier.fillMaxSize(),
