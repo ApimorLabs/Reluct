@@ -20,7 +20,7 @@ import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.android.compose.theme.ReluctAppTheme
 
 @Composable
-internal fun TabEntry(
+fun TabEntry(
     modifier: Modifier = Modifier,
     title: String,
     textColor: Color,

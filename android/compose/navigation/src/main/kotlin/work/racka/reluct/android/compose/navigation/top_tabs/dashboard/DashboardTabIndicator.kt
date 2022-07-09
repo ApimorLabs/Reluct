@@ -1,4 +1,4 @@
-package work.racka.reluct.android.compose.components.tab.dashboard
+package work.racka.reluct.android.compose.navigation.top_tabs.dashboard
 
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
@@ -13,13 +13,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
-import work.racka.reluct.android.compose.destinations.DashboardDestinations
 
 @Composable
 internal fun DashboardTabIndicator(
     modifier: Modifier = Modifier,
     tabPositions: List<TabPosition>,
-    tabPage: DashboardDestinations,
+    tabPage: DashboardTabDestination,
 ) {
     val transition = updateTransition(
         targetState = tabPage,
@@ -27,8 +26,8 @@ internal fun DashboardTabIndicator(
     )
     val indicatorLeft by transition.animateDp(
         transitionSpec = {
-            if (DashboardDestinations.Overview
-                isTransitioningTo DashboardDestinations.Statistics
+            if (DashboardTabDestination.Overview
+                isTransitioningTo DashboardTabDestination.Statistics
             ) {
                 // Indicator moves to the right.
                 // Low stiffness spring for the left edge so it moves slower than the right edge.
@@ -46,8 +45,8 @@ internal fun DashboardTabIndicator(
 
     val indicatorRight by transition.animateDp(
         transitionSpec = {
-            if (DashboardDestinations.Statistics
-                isTransitioningTo DashboardDestinations.Overview
+            if (DashboardTabDestination.Statistics
+                isTransitioningTo DashboardTabDestination.Overview
             ) {
                 // Indicator moves to the right
                 // Medium stiffness spring for the right edge so it moves faster than the left edge.

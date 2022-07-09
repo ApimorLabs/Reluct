@@ -1,4 +1,4 @@
-package work.racka.reluct.android.compose.components.tab.goals
+package work.racka.reluct.android.compose.navigation.top_tabs.goals
 
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
@@ -6,15 +6,16 @@ import androidx.compose.material3.TabRow
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import work.racka.reluct.android.compose.components.tab.TabEntry
-import work.racka.reluct.android.compose.destinations.GoalsDestinations
+import work.racka.reluct.android.compose.navigation.R
 
 @Composable
 fun GoalsTabBar(
     modifier: Modifier = Modifier,
-    tabPage: GoalsDestinations,
-    onTabSelected: (tabPage: GoalsDestinations) -> Unit,
+    tabPage: GoalsTabDestination,
+    onTabSelected: (tabPage: GoalsTabDestination) -> Unit,
 ) {
     TabRow(
         modifier = modifier.width(250.dp),
@@ -29,23 +30,23 @@ fun GoalsTabBar(
         divider = { }
     ) {
         TabEntry(
-            title = GoalsDestinations.Ongoing.label,
+            title = stringResource(id = R.string.goals_ongoing),
             textColor = getGoalsTabTextColor(
-                tabPage = GoalsDestinations.Ongoing,
+                tabPage = GoalsTabDestination.Ongoing,
                 selectedTabPage = tabPage
             ),
             onClick = {
-                onTabSelected(GoalsDestinations.Ongoing)
+                onTabSelected(GoalsTabDestination.Ongoing)
             }
         )
         TabEntry(
-            title = GoalsDestinations.Completed.label,
+            title = stringResource(id = R.string.goals_completed),
             textColor = getGoalsTabTextColor(
-                tabPage = GoalsDestinations.Completed,
+                tabPage = GoalsTabDestination.Completed,
                 selectedTabPage = tabPage
             ),
             onClick = {
-                onTabSelected(GoalsDestinations.Completed)
+                onTabSelected(GoalsTabDestination.Completed)
             }
         )
     }
@@ -53,8 +54,8 @@ fun GoalsTabBar(
 
 @Composable
 private fun getGoalsTabTextColor(
-    tabPage: GoalsDestinations,
-    selectedTabPage: GoalsDestinations,
+    tabPage: GoalsTabDestination,
+    selectedTabPage: GoalsTabDestination,
 ): Color =
     if (tabPage == selectedTabPage) MaterialTheme.colorScheme.onPrimary
     else MaterialTheme.colorScheme.onBackground

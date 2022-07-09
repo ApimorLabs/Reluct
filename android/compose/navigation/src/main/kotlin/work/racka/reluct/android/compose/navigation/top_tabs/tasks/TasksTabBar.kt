@@ -1,4 +1,4 @@
-package work.racka.reluct.android.compose.components.tab.tasks
+package work.racka.reluct.android.compose.navigation.top_tabs.tasks
 
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
@@ -6,15 +6,16 @@ import androidx.compose.material3.TabRow
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import work.racka.reluct.android.compose.components.tab.TabEntry
-import work.racka.reluct.android.compose.destinations.TasksDestinations
+import work.racka.reluct.android.compose.navigation.R
 
 @Composable
 fun TasksTabBar(
     modifier: Modifier = Modifier,
-    tabPage: TasksDestinations,
-    onTabSelected: (tabPage: TasksDestinations) -> Unit,
+    tabPage: TasksTabDestination,
+    onTabSelected: (tabPage: TasksTabDestination) -> Unit,
 ) {
     TabRow(
         modifier = modifier.width(300.dp),
@@ -29,33 +30,33 @@ fun TasksTabBar(
         divider = { }
     ) {
         TabEntry(
-            title = TasksDestinations.Tasks.label,
+            title = stringResource(id = R.string.tasks_pending),
             textColor = getTasksTabTextColor(
-                tabPage = TasksDestinations.Tasks,
+                tabPage = TasksTabDestination.Tasks,
                 selectedTabPage = tabPage
             ),
             onClick = {
-                onTabSelected(TasksDestinations.Tasks)
+                onTabSelected(TasksTabDestination.Tasks)
             }
         )
         TabEntry(
-            title = TasksDestinations.Done.label,
+            title = stringResource(id = R.string.tasks_done),
             textColor = getTasksTabTextColor(
-                tabPage = TasksDestinations.Done,
+                tabPage = TasksTabDestination.Done,
                 selectedTabPage = tabPage
             ),
             onClick = {
-                onTabSelected(TasksDestinations.Done)
+                onTabSelected(TasksTabDestination.Done)
             }
         )
         TabEntry(
-            title = TasksDestinations.Statistics.label,
+            title = stringResource(id = R.string.tasks_stats),
             textColor = getTasksTabTextColor(
-                tabPage = TasksDestinations.Statistics,
+                tabPage = TasksTabDestination.Statistics,
                 selectedTabPage = tabPage
             ),
             onClick = {
-                onTabSelected(TasksDestinations.Statistics)
+                onTabSelected(TasksTabDestination.Statistics)
             }
         )
     }
@@ -63,8 +64,8 @@ fun TasksTabBar(
 
 @Composable
 private fun getTasksTabTextColor(
-    tabPage: TasksDestinations,
-    selectedTabPage: TasksDestinations,
+    tabPage: TasksTabDestination,
+    selectedTabPage: TasksTabDestination,
 ): Color =
     if (tabPage == selectedTabPage) MaterialTheme.colorScheme.onPrimary
     else MaterialTheme.colorScheme.onBackground

@@ -12,7 +12,6 @@ import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import work.racka.reluct.android.compose.components.util.rememberBarVisibility
 import work.racka.reluct.android.compose.components.util.slideInVerticallyFadeReversed
 import work.racka.reluct.android.compose.components.util.slideOutVerticallyFadeReversed
-import work.racka.reluct.android.compose.destinations.navbar.Graphs
 import work.racka.reluct.android.compose.navigation.navbar.NavbarDestinations
 import work.racka.reluct.android.compose.navigation.navbar.ReluctBottomNavBar
 import work.racka.reluct.android.compose.navigation.navhost.graphs.dashboard.dashboardNavGraph
@@ -45,7 +44,7 @@ fun AppNavHost(modifier: Modifier = Modifier) {
             modifier = Modifier,
             navController = navController,
             startDestination = NavbarDestinations.Dashboard.route,
-            route = Graphs.RootDestinations.route
+            route = "root"
         ) {
 
             // Dashboard

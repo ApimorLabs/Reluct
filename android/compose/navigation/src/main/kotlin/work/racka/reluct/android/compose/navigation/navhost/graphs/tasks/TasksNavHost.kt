@@ -19,13 +19,13 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
-import work.racka.reluct.android.compose.components.tab.tasks.TasksTabBar
 import work.racka.reluct.android.compose.components.textfields.search.PlaceholderMaterialSearchBar
 import work.racka.reluct.android.compose.components.topBar.ProfilePicture
 import work.racka.reluct.android.compose.components.util.BarsVisibility
 import work.racka.reluct.android.compose.destinations.OtherDestinations
 import work.racka.reluct.android.compose.destinations.TasksDestinations
 import work.racka.reluct.android.compose.destinations.navbar.Graphs
+import work.racka.reluct.android.compose.navigation.top_tabs.tasks.TasksTabBar
 import work.racka.reluct.android.compose.navigation.transitions.scaleInEnterTransition
 import work.racka.reluct.android.compose.navigation.transitions.scaleInPopEnterTransition
 import work.racka.reluct.android.compose.navigation.transitions.scaleOutExitTransition

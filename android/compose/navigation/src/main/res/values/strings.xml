@@ -1,3 +1,14 @@
 <resources>
+    <string name="tasks_done">Done</string>
+    <string name="tasks_pending">Tasks</string>
+    <string name="tasks_stats">Statistics</string>
 
+    <string name="screen_time_stats">Statistics</string>
+    <string name="screen_time_limit">Limits</string>
+
+    <string name="goals_ongoing">Ongoing</string>
+    <string name="goals_completed">Completed</string>
+
+    <string name="dashboard_overview">Overview</string>
+    <string name="dashboard_statistics">Statistics</string>
 </resources>

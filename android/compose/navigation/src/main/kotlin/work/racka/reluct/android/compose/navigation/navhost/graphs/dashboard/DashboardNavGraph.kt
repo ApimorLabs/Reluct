@@ -26,12 +26,14 @@ import androidx.navigation.NavHostController
 import androidx.navigation.navigation
 import com.google.accompanist.navigation.animation.composable
 import timber.log.Timber
-import work.racka.reluct.android.compose.components.tab.dashboard.DashboardTabBar
 import work.racka.reluct.android.compose.components.textfields.search.ReluctSearchBar
 import work.racka.reluct.android.compose.components.topBar.CollapsingToolbarBase
 import work.racka.reluct.android.compose.components.topBar.ProfilePicture
 import work.racka.reluct.android.compose.destinations.DashboardDestinations
+import work.racka.reluct.android.compose.navigation.destinations.dashboard.DashboardOverviewDestination
+import work.racka.reluct.android.compose.navigation.destinations.dashboard.DashboardStatsDestination
 import work.racka.reluct.android.compose.navigation.navbar.NavbarDestinations
+import work.racka.reluct.android.compose.navigation.top_tabs.dashboard.DashboardTabBar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @ExperimentalAnimationApi
@@ -40,12 +42,12 @@ internal fun NavGraphBuilder.dashboardNavGraph(
 ) {
     navigation(
         route = NavbarDestinations.Dashboard.route,
-        startDestination = DashboardDestinations.Overview.route
+        startDestination = DashboardOverviewDestination.route
     ) {
         Timber.d("Dashboard screen called")
         // Overview
         composable(
-            route = DashboardDestinations.Overview.route
+            route = DashboardOverviewDestination.route
         ) {
             val tabPage = remember {
                 mutableStateOf(DashboardDestinations.Overview)
@@ -128,7 +130,7 @@ internal fun NavGraphBuilder.dashboardNavGraph(
 
         // Statistics
         composable(
-            route = DashboardDestinations.Statistics.route
+            route = DashboardStatsDestination.route
         ) {
             Box(
                 modifier = Modifier.fillMaxSize(),

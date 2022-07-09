@@ -1,4 +1,4 @@
-package work.racka.reluct.android.compose.components.tab.screentime
+package work.racka.reluct.android.compose.navigation.top_tabs.screentime
 
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
@@ -6,15 +6,16 @@ import androidx.compose.material3.TabRow
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import work.racka.reluct.android.compose.components.tab.TabEntry
-import work.racka.reluct.android.compose.destinations.ScreenTimeDestinations
+import work.racka.reluct.android.compose.navigation.R
 
 @Composable
 fun ScreenTimeTabBar(
     modifier: Modifier = Modifier,
-    tabPage: ScreenTimeDestinations,
-    onTabSelected: (tabPage: ScreenTimeDestinations) -> Unit,
+    tabPage: ScreenTimeTabDestination,
+    onTabSelected: (tabPage: ScreenTimeTabDestination) -> Unit,
 ) {
     TabRow(
         modifier = modifier.width(250.dp),
@@ -29,23 +30,23 @@ fun ScreenTimeTabBar(
         divider = { }
     ) {
         TabEntry(
-            title = ScreenTimeDestinations.Statistics.label,
+            title = stringResource(id = R.string.screen_time_stats),
             textColor = getScreenTimeTabTextColor(
-                tabPage = ScreenTimeDestinations.Statistics,
+                tabPage = ScreenTimeTabDestination.Statistics,
                 selectedTabPage = tabPage
             ),
             onClick = {
-                onTabSelected(ScreenTimeDestinations.Statistics)
+                onTabSelected(ScreenTimeTabDestination.Statistics)
             }
         )
         TabEntry(
-            title = ScreenTimeDestinations.Limits.label,
+            title = stringResource(id = R.string.screen_time_limit),
             textColor = getScreenTimeTabTextColor(
-                tabPage = ScreenTimeDestinations.Limits,
+                tabPage = ScreenTimeTabDestination.Limits,
                 selectedTabPage = tabPage
             ),
             onClick = {
-                onTabSelected(ScreenTimeDestinations.Limits)
+                onTabSelected(ScreenTimeTabDestination.Limits)
             }
         )
     }
@@ -53,8 +54,8 @@ fun ScreenTimeTabBar(
 
 @Composable
 private fun getScreenTimeTabTextColor(
-    tabPage: ScreenTimeDestinations,
-    selectedTabPage: ScreenTimeDestinations,
+    tabPage: ScreenTimeTabDestination,
+    selectedTabPage: ScreenTimeTabDestination,
 ): Color =
     if (tabPage == selectedTabPage) MaterialTheme.colorScheme.onPrimary
     else MaterialTheme.colorScheme.onBackground
