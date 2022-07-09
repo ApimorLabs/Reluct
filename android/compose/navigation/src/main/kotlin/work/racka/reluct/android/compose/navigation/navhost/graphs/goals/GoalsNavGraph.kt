@@ -20,7 +20,7 @@ import com.google.accompanist.navigation.animation.composable
 import timber.log.Timber
 import work.racka.reluct.android.compose.components.tab.goals.GoalsTabBar
 import work.racka.reluct.android.compose.destinations.GoalsDestinations
-import work.racka.reluct.android.compose.destinations.navbar.Graphs
+import work.racka.reluct.android.compose.navigation.navbar.NavbarDestinations
 
 @OptIn(ExperimentalMaterial3Api::class)
 @ExperimentalAnimationApi
@@ -28,7 +28,7 @@ internal fun NavGraphBuilder.goalsNavGraph(
     navController: NavHostController,
 ) {
     navigation(
-        route = Graphs.GoalsDestinations.route,
+        route = NavbarDestinations.Goals.route,
         startDestination = GoalsDestinations.Ongoing.route
     ) {
         Timber.d("Goals screen called")

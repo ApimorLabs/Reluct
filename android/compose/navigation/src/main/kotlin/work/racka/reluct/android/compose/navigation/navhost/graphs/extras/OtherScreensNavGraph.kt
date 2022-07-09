@@ -5,7 +5,7 @@ import androidx.navigation.*
 import com.google.accompanist.navigation.animation.composable
 import work.racka.reluct.android.compose.components.util.BarsVisibility
 import work.racka.reluct.android.compose.destinations.OtherDestinations
-import work.racka.reluct.android.compose.destinations.navbar.Graphs
+import work.racka.reluct.android.compose.navigation.destinations.OtherDestination
 import work.racka.reluct.android.compose.navigation.transitions.scaleInEnterTransition
 import work.racka.reluct.android.compose.navigation.transitions.scaleInPopEnterTransition
 import work.racka.reluct.android.compose.navigation.transitions.scaleOutExitTransition
@@ -22,7 +22,7 @@ fun NavGraphBuilder.otherScreenNavGraph(
     barsVisibility: BarsVisibility
 ) {
     navigation(
-        route = Graphs.OtherDestinations.route,
+        route = OtherDestination.route,
         startDestination = OtherDestinations.AddEditTask.route
     ) {
         // Add Task

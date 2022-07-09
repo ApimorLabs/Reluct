@@ -31,7 +31,7 @@ import work.racka.reluct.android.compose.components.textfields.search.ReluctSear
 import work.racka.reluct.android.compose.components.topBar.CollapsingToolbarBase
 import work.racka.reluct.android.compose.components.topBar.ProfilePicture
 import work.racka.reluct.android.compose.destinations.DashboardDestinations
-import work.racka.reluct.android.compose.destinations.navbar.Graphs
+import work.racka.reluct.android.compose.navigation.navbar.NavbarDestinations
 
 @OptIn(ExperimentalMaterial3Api::class)
 @ExperimentalAnimationApi
@@ -39,7 +39,7 @@ internal fun NavGraphBuilder.dashboardNavGraph(
     navController: NavHostController,
 ) {
     navigation(
-        route = Graphs.DashboardDestinations.route,
+        route = NavbarDestinations.Dashboard.route,
         startDestination = DashboardDestinations.Overview.route
     ) {
         Timber.d("Dashboard screen called")
