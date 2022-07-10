@@ -17,11 +17,9 @@ android.apply {
 dependencies {
     // Dependency Modules
     implementation(project(":common:model"))
-    implementation(project(":common:mvvm-core"))
     implementation(project(":android:compose:theme"))
     implementation(project(":android:compose:components"))
-    implementation(project(":common:features:screen-time"))
-    implementation(project(":common:features:tasks"))
+    implementation(project(":common:data"))
 
     // Core Functionality
     with(Dependencies.Android.Essential) {
@@ -31,6 +29,9 @@ dependencies {
 
     // Glance
     implementation(Dependencies.Android.Extras.glanceAppWidget)
+
+    // Koin
+    implementation(Dependencies.Koin.core)
 
     // Testing
     with(Dependencies.Android.JUnit) {
