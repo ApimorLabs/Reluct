@@ -74,6 +74,7 @@ dependencies {
     // Dependency Modules
     implementation(project(":android:compose:navigation"))
     implementation(project(":android:compose:theme"))
+    implementation(project(":android:widgets"))
     implementation(project(":common:di-integration"))
     implementation(project(":common:persistence:settings"))
 

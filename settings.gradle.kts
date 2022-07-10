@@ -7,6 +7,7 @@ include(
     ":android:compose:navigation",
     ":android:compose:theme",
     ":android:screens",
+    ":android:widgets",
     ":common:app-usage-stats",
     ":common:core-navigation",
     ":common:data",
