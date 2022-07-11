@@ -50,15 +50,18 @@ fun PendingTasksList(pendingTasks: Map<String, List<Task>>?) {
             pendingTasks.forEach { tasks ->
                 item {
                     Text(
-                        modifier = GlanceModifier.padding(
-                            vertical = 4.dp,
-                            horizontal = 8.dp
-                        ),
+                        modifier = GlanceModifier
+                            .fillMaxWidth()
+                            .padding(
+                                vertical = 4.dp,
+                                horizontal = 8.dp
+                            ),
                         text = tasks.key,
                         style = TextStyle(
                             color = WidgetTheme.Colors.onBackground,
                             fontSize = 16.sp,
-                            fontWeight = FontWeight.Bold
+                            fontWeight = FontWeight.Bold,
+                            textAlign = TextAlign.Start
                         )
                     )
                 }
@@ -74,7 +77,11 @@ fun PendingTasksList(pendingTasks: Map<String, List<Task>>?) {
                                     PendingTasksWidgetParamKeys.TASK_KEY to item.asWidgetTaskParcel()
                                 )
                             ),
-                            onEntryClick = actionRunCallback<OpenTaskDetailsAction>()
+                            onEntryClick = actionRunCallback<OpenTaskDetailsAction>(
+                                parameters = actionParametersOf(
+                                    PendingTasksWidgetParamKeys.TASK_ID_KEY to item.id
+                                )
+                            )
                         )
                         Spacer(modifier = GlanceModifier.height(Dimens.SmallPadding.size))
                     }

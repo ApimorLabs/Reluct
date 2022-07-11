@@ -46,6 +46,7 @@ fun NavGraphBuilder.otherScreenNavGraph(
         composable(
             route = TaskDetailsDestination.route,
             arguments = TaskDetailsDestination.args,
+            deepLinks = TaskDetailsDestination.deepLinks,
             enterTransition = { scaleInEnterTransition() },
             exitTransition = { scaleOutExitTransition() },
             popEnterTransition = { scaleInPopEnterTransition() },

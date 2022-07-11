@@ -10,10 +10,11 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import work.racka.reluct.common.data.usecases.tasks.ModifyTaskUseCase
 import work.racka.reluct.common.model.domain.tasks.Task
+import work.racka.reluct.widgets.core.openDeepLinkPendingIntent
 import work.racka.reluct.widgets.tasks.PendingTasksWidget
 
 internal object PendingTasksWidgetParamKeys {
-    val TASK_DONE_KEY = ActionParameters.Key<Boolean>("TASK_DONE_KEY")
+    val TASK_ID_KEY = ActionParameters.Key<String>("TASK_ID_KEY")
     val TASK_KEY = ActionParameters.Key<WidgetTaskParcel>("TASK_KEY")
 }
 
@@ -22,8 +23,8 @@ internal class ToggleTaskDoneAction : ActionCallback, KoinComponent {
 
     override suspend fun onRun(context: Context, glanceId: GlanceId, parameters: ActionParameters) {
         val task = parameters[PendingTasksWidgetParamKeys.TASK_KEY]?.asTask()
-        task?.run {
-            modifyTasks.toggleTaskDone(this, !this.done)
+        task?.let {
+            modifyTasks.toggleTaskDone(it, !it.done)
         }
 
         // Update the widget
@@ -36,7 +37,12 @@ internal class ToggleTaskDoneAction : ActionCallback, KoinComponent {
 
 class OpenTaskDetailsAction : ActionCallback {
     override suspend fun onRun(context: Context, glanceId: GlanceId, parameters: ActionParameters) {
-
+        val taskId = parameters[PendingTasksWidgetParamKeys.TASK_ID_KEY]
+        taskId?.let {
+            val pendingIntent = openDeepLinkPendingIntent(context, it)
+            println("Pending Intent is present: $pendingIntent")
+            pendingIntent?.send()
+        }
     }
 }
 

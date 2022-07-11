@@ -20,6 +20,7 @@ dependencies {
     implementation(project(":common:model"))
     implementation(project(":android:compose:theme"))
     implementation(project(":android:compose:components"))
+    implementation(project(":android:compose:navigation"))
     implementation(project(":common:data"))
 
     // Core Functionality
