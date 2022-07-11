@@ -1,6 +1,7 @@
 plugins {
     id("com.android.library")
     kotlin("android")
+    id("kotlin-parcelize")
 }
 
 android.apply {
@@ -29,6 +30,9 @@ dependencies {
 
     // Glance
     implementation(Dependencies.Android.Extras.glanceAppWidget)
+
+    implementation(Dependencies.Android.Compose.materialIconsCore)
+    implementation(Dependencies.Android.Compose.materialIconsExtended)
 
     // Koin
     implementation(Dependencies.Koin.core)
