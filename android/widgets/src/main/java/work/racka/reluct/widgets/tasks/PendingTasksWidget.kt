@@ -3,18 +3,20 @@ package work.racka.reluct.widgets.tasks
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.glance.GlanceModifier
+import androidx.glance.*
 import androidx.glance.action.clickable
 import androidx.glance.appwidget.*
 import androidx.glance.appwidget.action.actionRunCallback
-import androidx.glance.background
-import androidx.glance.currentState
 import androidx.glance.layout.*
 import androidx.glance.state.GlanceStateDefinition
 import androidx.glance.text.FontWeight
 import androidx.glance.text.Text
 import androidx.glance.text.TextAlign
 import androidx.glance.text.TextStyle
+import work.racka.reluct.android.compose.theme.Dimens
+import work.racka.reluct.android.widgets.R
+import work.racka.reluct.widgets.components.common.WidgetIconButton
+import work.racka.reluct.widgets.components.common.WidgetTopBar
 import work.racka.reluct.widgets.core.GlanceTheme
 import work.racka.reluct.widgets.tasks.actions.ReloadTasksAction
 import work.racka.reluct.widgets.tasks.state.PendingTasksInfo
@@ -45,29 +47,26 @@ class PendingTasksWidget : GlanceAppWidget() {
                     verticalAlignment = Alignment.Vertical.Top,
                     horizontalAlignment = Alignment.Horizontal.CenterHorizontally
                 ) {
-                    Box(
-                        modifier = GlanceModifier.height(48.dp)
-                            .fillMaxWidth()
-                            .background(GlanceTheme.colors.primary),
-                        contentAlignment = Alignment.CenterStart
-                    ) {
-                        Text(
-                            modifier = GlanceModifier
-                                .padding(horizontal = 16.dp),
-                            text = "Tasks",
-                            style = TextStyle(
-                                color = GlanceTheme.colors.onPrimary,
-                                fontSize = 16.sp,
-                                fontWeight = FontWeight.Bold
-                            )
-                        )
-                    }
+                    WidgetTopBar(
+                        title = "Tasks",
+                        actionButton = {
+                            WidgetIconButton(onClick = actionRunCallback<ReloadTasksAction>()) {
+                                Image(
+                                    provider = ImageProvider(R.drawable.ic_round_refresh_24),
+                                    contentDescription = "Refresh"
+                                )
+                            }
+                        }
+                    )
+
                     when (tasksInfo) {
                         is PendingTasksInfo.Loading -> {
                             CircularProgressIndicator(
-                                GlanceModifier.clickable(
-                                    actionRunCallback<ReloadTasksAction>()
-                                )
+                                GlanceModifier
+                                    .padding(Dimens.MediumPadding.size)
+                                    .clickable(
+                                        actionRunCallback<ReloadTasksAction>()
+                                    )
                             )
                         }
                         is PendingTasksInfo.Data -> {
