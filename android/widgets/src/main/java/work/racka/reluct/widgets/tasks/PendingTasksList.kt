@@ -18,15 +18,15 @@ import androidx.glance.text.TextAlign
 import androidx.glance.text.TextStyle
 import work.racka.reluct.android.compose.navigation.destinations.tasks.TaskDetailsDestination
 import work.racka.reluct.android.compose.theme.Dimens
-import work.racka.reluct.common.model.domain.tasks.Task
 import work.racka.reluct.widgets.components.tasks.WidgetTaskEntry
 import work.racka.reluct.widgets.core.WidgetTheme
 import work.racka.reluct.widgets.tasks.actions.PendingTasksWidgetParamKeys
 import work.racka.reluct.widgets.tasks.actions.ToggleTaskDoneAction
-import work.racka.reluct.widgets.tasks.actions.asWidgetTaskParcel
+import work.racka.reluct.widgets.tasks.state.WidgetTaskParcel
+import work.racka.reluct.widgets.tasks.state.asTask
 
 @Composable
-fun PendingTasksList(pendingTasks: Map<String, List<Task>>) {
+internal fun PendingTasksList(pendingTasks: Map<String, List<WidgetTaskParcel>>) {
     LazyColumn(
         modifier = GlanceModifier
             .fillMaxSize(),
@@ -74,10 +74,10 @@ fun PendingTasksList(pendingTasks: Map<String, List<Task>>) {
                         modifier = GlanceModifier.padding(horizontal = 8.dp)
                     ) {
                         WidgetTaskEntry(
-                            task = item,
+                            task = item.asTask(),
                             onCheckedChange = actionRunCallback<ToggleTaskDoneAction>(
                                 parameters = actionParametersOf(
-                                    PendingTasksWidgetParamKeys.TASK_KEY to item.asWidgetTaskParcel()
+                                    PendingTasksWidgetParamKeys.TASK_KEY to item
                                 )
                             ),
                             onEntryClick = actionStartActivity(

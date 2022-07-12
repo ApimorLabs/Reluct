@@ -2,6 +2,7 @@ plugins {
     id("com.android.library")
     kotlin("android")
     id("kotlin-parcelize")
+    kotlin("plugin.serialization") version Versions.kotlin
 }
 
 android.apply {
@@ -29,11 +30,10 @@ dependencies {
         implementation(material)
     }
 
+    implementation(Dependencies.Kotlin.kotlinJsonSerialization)
+
     // Glance
     implementation(Dependencies.Android.Extras.glanceAppWidget)
-
-    implementation(Dependencies.Android.Compose.materialIconsCore)
-    implementation(Dependencies.Android.Compose.materialIconsExtended)
 
     // Koin
     implementation(Dependencies.Koin.core)
