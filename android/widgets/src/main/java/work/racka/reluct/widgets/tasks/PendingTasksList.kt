@@ -19,7 +19,7 @@ import androidx.glance.text.TextStyle
 import work.racka.reluct.android.compose.navigation.destinations.tasks.TaskDetailsDestination
 import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.widgets.components.tasks.WidgetTaskEntry
-import work.racka.reluct.widgets.core.WidgetTheme
+import work.racka.reluct.widgets.core.GlanceTheme
 import work.racka.reluct.widgets.tasks.actions.PendingTasksWidgetParamKeys
 import work.racka.reluct.widgets.tasks.actions.ToggleTaskDoneAction
 import work.racka.reluct.widgets.tasks.state.WidgetTaskParcel
@@ -42,7 +42,7 @@ internal fun PendingTasksList(pendingTasks: Map<String, List<WidgetTaskParcel>>)
                         .padding(16.dp),
                     text = "No Tasks",
                     style = TextStyle(
-                        color = WidgetTheme.Colors.onBackground,
+                        color = GlanceTheme.colors.onBackground,
                         fontSize = 20.sp,
                         fontWeight = FontWeight.Bold,
                         textAlign = TextAlign.Center
@@ -61,7 +61,7 @@ internal fun PendingTasksList(pendingTasks: Map<String, List<WidgetTaskParcel>>)
                             ),
                         text = tasks.key,
                         style = TextStyle(
-                            color = WidgetTheme.Colors.onBackground,
+                            color = GlanceTheme.colors.onBackground,
                             fontSize = 16.sp,
                             fontWeight = FontWeight.Bold,
                             textAlign = TextAlign.Start

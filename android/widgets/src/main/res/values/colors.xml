@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="brandPrimaryColor">#ff6167FF</color>
+    <color name="brandPrimaryLightColor">#ffBEC1FF</color>
+    <color name="brandPrimaryDarkColor">#ffb64fc8</color>
+
+    <color name="brandSecondaryColor">#ff6167FF</color>
+    <color name="brandSecondaryLightColor">#ffBEC1FF</color>
+
+    <color name="brandPrimaryTextColor">#ffffffff</color>
+    <color name="brandSecondaryTextColor">#ff000000</color>
+
+    <color name="brandSurfaceDarkColor">#FF3A3A3A</color>
+    <color name="brandSurfaceLightColor">#FFFFFFFF</color>
+
+    <color name="brandBackgroundLightColor">#ffF1F0F5</color>
+    <color name="brandBackgroundDarkColor">#ff121212</color>
+</resources>

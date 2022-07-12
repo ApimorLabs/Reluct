@@ -17,6 +17,15 @@ class PendingTasksWidgetReceiver : GlanceAppWidgetReceiver() {
         PendingTasksSource.initialize()
     }
 
+    override fun onUpdate(
+        context: Context,
+        appWidgetManager: AppWidgetManager,
+        appWidgetIds: IntArray
+    ) {
+        super.onUpdate(context, appWidgetManager, appWidgetIds)
+        PendingTasksSource.initialize()
+    }
+
     override fun onAppWidgetOptionsChanged(
         context: Context,
         appWidgetManager: AppWidgetManager,
