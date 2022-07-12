@@ -9,14 +9,15 @@ import androidx.compose.ui.unit.dp
 import androidx.glance.GlanceId
 import androidx.glance.GlanceModifier
 import androidx.glance.LocalGlanceId
-import androidx.glance.appwidget.GlanceAppWidget
-import androidx.glance.appwidget.SizeMode
-import androidx.glance.appwidget.cornerRadius
+import androidx.glance.action.clickable
+import androidx.glance.appwidget.*
+import androidx.glance.appwidget.action.actionRunCallback
 import androidx.glance.background
+import androidx.glance.layout.Alignment
 import androidx.glance.layout.Box
 import androidx.glance.layout.fillMaxSize
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
@@ -24,6 +25,7 @@ import org.koin.core.component.inject
 import work.racka.reluct.common.data.usecases.tasks.GetTasksUseCase
 import work.racka.reluct.common.model.domain.tasks.Task
 import work.racka.reluct.widgets.core.WidgetTheme
+import work.racka.reluct.widgets.tasks.actions.ReloadTasksAction
 
 class PendingTasksWidget : GlanceAppWidget(), KoinComponent {
 
@@ -36,7 +38,6 @@ class PendingTasksWidget : GlanceAppWidget(), KoinComponent {
     private var data by mutableStateOf<Data?>(null)
 
     private val coroutineScope = MainScope()
-    private var loadJob: Job? = null
 
     private val getTasks: GetTasksUseCase by inject()
 
@@ -50,13 +51,12 @@ class PendingTasksWidget : GlanceAppWidget(), KoinComponent {
     }
 
     fun initiateLoad() {
-        loadJob?.cancel()
-        loadJob = coroutineScope.launch {
+        coroutineScope.launch {
             data = loadData()
             glanceId?.run {
                 update(context, this)
             }
-        }
+        }.invokeOnCompletion { coroutineScope.cancel() }
     }
 
     @Composable
@@ -64,11 +64,20 @@ class PendingTasksWidget : GlanceAppWidget(), KoinComponent {
         glanceId = LocalGlanceId.current
 
         Box(
-            modifier = GlanceModifier.background(WidgetTheme.Colors.background)
-                .cornerRadius(20.dp)
+            modifier = GlanceModifier
                 .fillMaxSize()
+                .appWidgetBackground()
+                .background(WidgetTheme.Colors.background)
+                .cornerRadius(20.dp),
+            contentAlignment = Alignment.Center
         ) {
-            PendingTasksList(pendingTasks = data?.pending)
+            if (data == null) {
+                CircularProgressIndicator(
+                    GlanceModifier.clickable(
+                        actionRunCallback<ReloadTasksAction>()
+                    )
+                )
+            } else PendingTasksList(pendingTasks = data!!.pending)
         }
     }
 }

@@ -43,8 +43,8 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:host="reluct.com"
-                    android:scheme="https" />
+                    android:host="destinations"
+                    android:scheme="reluct" />
             </intent-filter>
         </activity>
 
