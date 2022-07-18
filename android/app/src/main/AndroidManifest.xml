@@ -26,11 +26,25 @@
         android:theme="@style/Theme.AppSplash">
         <activity
             android:name=".ui.MainActivity"
-            android:exported="true">
+            android:exported="true"
+            android:launchMode="standard">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+            <!--   This is triggered by widgets in :android:widgets module
+                Accompanying URIs can be found in :android:compose:navigation:destinations  -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="destinations"
+                    android:scheme="reluct" />
             </intent-filter>
         </activity>
 

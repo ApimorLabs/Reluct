@@ -15,7 +15,7 @@ object Versions {
     const val sqlDelight = "1.5.3"
 
     // Essentials
-    const val material = "1.6.0-alpha02"
+    const val material = "1.7.0-alpha02"
     const val splashScreen = "1.0.0-rc01"
     const val appCompat = "1.4.2"
     const val gradlePlugin = "7.1.1"
