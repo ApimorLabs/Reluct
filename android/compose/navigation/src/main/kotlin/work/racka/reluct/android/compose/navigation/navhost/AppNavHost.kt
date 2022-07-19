@@ -12,6 +12,7 @@ import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import work.racka.reluct.android.compose.components.util.rememberBarVisibility
 import work.racka.reluct.android.compose.components.util.slideInVerticallyFadeReversed
 import work.racka.reluct.android.compose.components.util.slideOutVerticallyFadeReversed
+import work.racka.reluct.android.compose.navigation.destinations.tasks.PendingTasksDestination
 import work.racka.reluct.android.compose.navigation.navbar.NavbarDestinations
 import work.racka.reluct.android.compose.navigation.navbar.ReluctBottomNavBar
 import work.racka.reluct.android.compose.navigation.navhost.graphs.dashboard.dashboardNavGraph
@@ -54,7 +55,8 @@ fun AppNavHost(modifier: Modifier = Modifier) {
 
             // Tasks
             composable(
-                route = NavbarDestinations.Tasks.route
+                route = NavbarDestinations.Tasks.route,
+                deepLinks = PendingTasksDestination.deepLinks
             ) {
                 TasksNavHost(
                     mainNavController = navController,
