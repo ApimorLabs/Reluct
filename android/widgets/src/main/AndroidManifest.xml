@@ -23,7 +23,7 @@
 
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/widget_hello_info" />
+                android:resource="@xml/pending_tasks_widget_info" />
         </receiver>
     </application>
 </manifest>
