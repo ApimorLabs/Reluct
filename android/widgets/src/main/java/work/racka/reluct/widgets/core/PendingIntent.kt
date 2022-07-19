@@ -13,7 +13,6 @@ internal fun openDeepLinkPendingIntent(context: Context, uriString: String): Pen
     )
     return TaskStackBuilder.create(context).run {
         addNextIntentWithParentStack(intent)
-        androidx.glance.appwidget.action.actionStartActivity(intent)
         getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
     }
 }

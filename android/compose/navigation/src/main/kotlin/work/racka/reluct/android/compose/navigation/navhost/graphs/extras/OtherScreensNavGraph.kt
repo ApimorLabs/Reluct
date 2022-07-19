@@ -1,6 +1,8 @@
 package work.racka.reluct.android.compose.navigation.navhost.graphs.extras
 
+import android.app.Activity
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.navigation
@@ -13,6 +15,7 @@ import work.racka.reluct.android.compose.navigation.transitions.scaleInPopEnterT
 import work.racka.reluct.android.compose.navigation.transitions.scaleOutExitTransition
 import work.racka.reluct.android.compose.navigation.transitions.scaleOutPopExitTransition
 import work.racka.reluct.android.compose.navigation.util.NavHelpers
+import work.racka.reluct.android.compose.navigation.util.NavHelpers.popBackStackOrExitActivity
 import work.racka.reluct.android.screens.tasks.add_edit.AddEditTaskScreen
 import work.racka.reluct.android.screens.tasks.details.TaskDetailsScreen
 import work.racka.reluct.android.screens.tasks.search.TasksSearchScreen
@@ -36,9 +39,13 @@ fun NavGraphBuilder.otherScreenNavGraph(
             popExitTransition = { scaleOutPopExitTransition() }
         ) { navBackStackEntry ->
             barsVisibility.bottomBar.hide()
+
+            // Is safe to cast since this composable will always be inside an activity
+            val activity = LocalContext.current as Activity
+
             AddEditTaskScreen(
                 taskId = NavHelpers.getStringArgs(navBackStackEntry, AddEditTaskArgs.TaskId.name),
-                onBackClicked = { navController.popBackStack() }
+                onBackClicked = { navController.popBackStackOrExitActivity(activity) }
             )
         }
 
@@ -53,6 +60,10 @@ fun NavGraphBuilder.otherScreenNavGraph(
             popExitTransition = { scaleOutPopExitTransition() }
         ) { navBackStackEntry ->
             barsVisibility.bottomBar.hide()
+
+            // Is safe to cast since this composable will always be inside an activity
+            val activity = LocalContext.current as Activity
+
             TaskDetailsScreen(
                 taskId = NavHelpers.getStringArgs(navBackStackEntry, TaskDetailsArgs.TaskId.name),
                 onNavigateToEditTask = {
@@ -60,7 +71,7 @@ fun NavGraphBuilder.otherScreenNavGraph(
                         AddEditTaskDestination.argsRoute(it)
                     )
                 },
-                onBackClicked = { navController.popBackStack() }
+                onBackClicked = { navController.popBackStackOrExitActivity(activity) }
             )
         }
 
