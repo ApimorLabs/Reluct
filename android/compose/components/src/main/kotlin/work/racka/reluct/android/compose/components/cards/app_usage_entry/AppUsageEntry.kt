@@ -17,7 +17,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import coil.compose.rememberAsyncImagePainter
+import coil.compose.rememberImagePainter
 import work.racka.reluct.android.compose.components.R
 import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.android.compose.theme.Shapes
@@ -70,7 +70,11 @@ fun AppUsageEntry(
         ) {
             Image(
                 modifier = Modifier.size(48.dp),
-                painter = rememberAsyncImagePainter(model = appUsageInfo.appIcon.icon),
+                /*painter = rememberAsyncImagePainter(
+                    model = ImageRequest.Builder(LocalContext.current)
+                        .data(appUsageInfo.appIcon.icon).build()
+                ),*/
+                painter = rememberImagePainter(data = appUsageInfo.appIcon.icon),
                 contentDescription = appUsageInfo.appName
             )
 

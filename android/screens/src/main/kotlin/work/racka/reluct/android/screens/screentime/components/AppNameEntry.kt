@@ -14,7 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import coil.compose.rememberAsyncImagePainter
+import coil.compose.rememberImagePainter
 import work.racka.reluct.android.compose.theme.Dimens
 
 @Composable
@@ -31,7 +31,11 @@ internal fun AppNameEntry(
     ) {
         Image(
             modifier = Modifier.size(iconSize),
-            painter = rememberAsyncImagePainter(model = icon),
+            /*painter = rememberAsyncImagePainter(
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data(icon).build()
+            ),*/
+            painter = rememberImagePainter(data = icon),
             contentDescription = appName
         )
 
