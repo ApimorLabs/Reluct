@@ -52,7 +52,7 @@ fun LimitsDetailsCard(
     title: String,
     description: String,
     onClick: () -> Unit = {},
-    bottomContent: @Composable ColumnScope.() -> Unit
+    bottomContent: @Composable ColumnScope.() -> Unit = {}
 ) {
     ReluctDescriptionCard(
         modifier = modifier,
