@@ -23,10 +23,10 @@ object Versions {
 
     // Compose Base
     const val composeCompiler = "1.2.0"
-    const val compose = "1.2.0-rc03"
+    const val compose = "1.2.0"
     const val composeConstraintLayout = "1.0.0"
     const val composeMaterial3 = "1.0.0-alpha14"
-    const val activityCompose = "1.5.0"
+    const val activityCompose = "1.5.1"
 
     // Navigation
     const val composeNavigation = "2.5.0"
