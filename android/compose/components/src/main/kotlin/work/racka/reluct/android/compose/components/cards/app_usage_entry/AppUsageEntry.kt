@@ -70,10 +70,6 @@ fun AppUsageEntry(
         ) {
             Image(
                 modifier = Modifier.size(48.dp),
-                /*painter = rememberAsyncImagePainter(
-                    model = ImageRequest.Builder(LocalContext.current)
-                        .data(appUsageInfo.appIcon.icon).build()
-                ),*/
                 painter = rememberAsyncImagePainter(model = appUsageInfo.appIcon.icon),
                 contentDescription = appUsageInfo.appName
             )
