@@ -31,11 +31,11 @@ internal fun AppNameEntry(
     ) {
         Image(
             modifier = Modifier.size(iconSize),
-            painter = rememberAsyncImagePainter(model = icon),
             /*painter = rememberAsyncImagePainter(
                 model = ImageRequest.Builder(LocalContext.current)
                     .data(icon).build()
             ),*/
+            painter = rememberAsyncImagePainter(model = icon),
             contentDescription = appName
         )
 
