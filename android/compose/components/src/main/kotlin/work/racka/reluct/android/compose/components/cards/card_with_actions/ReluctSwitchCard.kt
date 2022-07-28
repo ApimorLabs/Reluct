@@ -7,6 +7,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.vector.ImageVector
 import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.android.compose.theme.Shapes
 
@@ -22,6 +23,7 @@ fun ReluctSwitchCard(
     enabled: Boolean = true,
     title: @Composable () -> Unit,
     description: @Composable () -> Unit,
+    icon: ImageVector? = null,
     onClick: () -> Unit,
     bottomContent: @Composable ColumnScope.() -> Unit = {}
 ) {
@@ -45,6 +47,10 @@ fun ReluctSwitchCard(
                 .padding(Dimens.MediumPadding.size)
                 .fillMaxWidth()
         ) {
+            icon?.let {
+                Icon(imageVector = icon, contentDescription = null)
+            }
+
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
