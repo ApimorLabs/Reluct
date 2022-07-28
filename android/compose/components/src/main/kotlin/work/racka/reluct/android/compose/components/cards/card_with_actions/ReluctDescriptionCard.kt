@@ -1,4 +1,4 @@
-package work.racka.reluct.android.compose.components.cards.details
+package work.racka.reluct.android.compose.components.cards.card_with_actions
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Card
