@@ -20,7 +20,7 @@ import coil.request.ImageRequest
 import work.racka.reluct.android.compose.theme.Dimens
 
 @Composable
-fun AppNameEntry(
+internal fun AppNameEntry(
     modifier: Modifier = Modifier,
     appName: String,
     icon: Drawable,

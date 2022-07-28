@@ -14,7 +14,7 @@ import work.racka.reluct.android.compose.components.cards.card_with_actions.Relu
 import work.racka.reluct.android.compose.components.cards.card_with_actions.ReluctSwitchCard
 
 @Composable
-fun LimitsSwitchCard(
+internal fun LimitsSwitchCard(
     modifier: Modifier = Modifier,
     title: String,
     description: String,
