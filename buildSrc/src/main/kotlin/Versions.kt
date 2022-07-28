@@ -59,7 +59,7 @@ object Versions {
     const val kermit = "1.0.0"
 
     // Helpers
-    const val accompanist = "0.24.13-rc"
+    const val accompanist = "0.25.0"
     const val coilImage = "1.4.0" // TODO: Update Coil breaking changes
     const val composeMaterialDialogs = "0.7.0"
 
