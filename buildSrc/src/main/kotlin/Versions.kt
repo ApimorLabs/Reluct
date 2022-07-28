@@ -9,7 +9,7 @@ object Versions {
     const val kotlinSerialization = "1.3.2"
 
     // Jetbrains
-    const val composeDesktop = "1.2.0-alpha01-dev741"
+    const val composeDesktop = "1.2.0-alpha01-dev750"
 
     // Squareup
     const val sqlDelight = "1.5.3"
@@ -23,10 +23,10 @@ object Versions {
 
     // Compose Base
     const val composeCompiler = "1.2.0"
-    const val compose = "1.2.0-rc03"
+    const val compose = "1.2.0"
     const val composeConstraintLayout = "1.0.0"
     const val composeMaterial3 = "1.0.0-alpha14"
-    const val activityCompose = "1.5.0"
+    const val activityCompose = "1.5.1"
 
     // Navigation
     const val composeNavigation = "2.5.0"
@@ -59,8 +59,8 @@ object Versions {
     const val kermit = "1.0.0"
 
     // Helpers
-    const val accompanist = "0.24.13-rc"
-    const val coilImage = "1.4.0" // TODO: Update Coil breaking changes
+    const val accompanist = "0.25.0"
+    const val coilImage = "2.1.0"
     const val composeMaterialDialogs = "0.7.0"
 
     // DataStore & Preferences
