@@ -60,7 +60,7 @@ object Versions {
 
     // Helpers
     const val accompanist = "0.25.0"
-    const val coilImage = "1.4.0" // TODO: Update Coil breaking changes
+    const val coilImage = "2.1.0"
     const val composeMaterialDialogs = "0.7.0"
 
     // DataStore & Preferences

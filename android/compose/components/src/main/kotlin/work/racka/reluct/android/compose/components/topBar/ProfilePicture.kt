@@ -10,10 +10,12 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import coil.compose.rememberImagePainter
+import coil.compose.rememberAsyncImagePainter
+import coil.request.ImageRequest
 import work.racka.reluct.android.compose.components.R
 import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.android.compose.theme.ReluctAppTheme
@@ -31,11 +33,11 @@ fun ProfilePicture(
     }
 
     val painter = pictureUrl?.let {
-        rememberImagePainter(
-            data = pictureUrl,
-            builder = {
-                crossfade(true)
-                listener(
+        rememberAsyncImagePainter(
+            model = ImageRequest.Builder(LocalContext.current)
+                .data(pictureUrl)
+                .crossfade(true)
+                .listener(
                     onStart = {
                         imageLoading = true
                     },
@@ -43,7 +45,7 @@ fun ProfilePicture(
                         imageLoading = false
                     }
                 )
-            }
+                .build()
         )
     }
 
