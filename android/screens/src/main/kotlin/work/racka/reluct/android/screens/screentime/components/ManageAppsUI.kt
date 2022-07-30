@@ -58,7 +58,7 @@ fun ManageAppsDialog(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 ManageAppsUI(
-                    modifier = Modifier.height(300.dp),
+                    modifier = Modifier.height(480.dp),
                     isLoading = isLoading,
                     topItemsHeading = topItemsHeading,
                     bottomItemsHeading = bottomItemsHeading,
