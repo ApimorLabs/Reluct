@@ -52,9 +52,9 @@ class ScreenTimeStatsViewModel(
     val events: Flow<ScreenTimeStatsEvents>
         get() = _events.receiveAsFlow()
 
-    private lateinit var dailyScreenTimeStatsJob: Job
-    private lateinit var weeklyScreenTimeStatsJob: Job
-    private lateinit var getDataJob: Job
+    private var dailyScreenTimeStatsJob: Job? = null
+    private var weeklyScreenTimeStatsJob: Job? = null
+    private var getDataJob: Job? = null
 
     init {
         getData()
@@ -118,7 +118,7 @@ class ScreenTimeStatsViewModel(
     fun selectDay(selectedDayIsoNumber: Int) {
         dailyUsageStatsState.update { DailyUsageStatsState.Loading(it.usageStat) }
         selectedDay.update { selectedDayIsoNumber }
-        dailyScreenTimeStatsJob.cancel()
+        dailyScreenTimeStatsJob?.cancel()
         getDailyData()
     }
 
@@ -127,9 +127,9 @@ class ScreenTimeStatsViewModel(
             WeeklyUsageStatsState.Loading(weeklyUsageStats = it.usageStats)
         }
         weekOffset.update { weekOffsetValue }
-        dailyScreenTimeStatsJob.cancel()
-        weeklyScreenTimeStatsJob.cancel()
-        getDataJob.cancel()
+        dailyScreenTimeStatsJob?.cancel()
+        weeklyScreenTimeStatsJob?.cancel()
+        getDataJob?.cancel()
         getData()
     }
 
@@ -146,9 +146,9 @@ class ScreenTimeStatsViewModel(
     }
 
     override fun destroy() {
-        dailyScreenTimeStatsJob.cancel()
-        weeklyScreenTimeStatsJob.cancel()
-        getDataJob.cancel()
+        dailyScreenTimeStatsJob?.cancel()
+        weeklyScreenTimeStatsJob?.cancel()
+        getDataJob?.cancel()
         super.destroy()
     }
 }
