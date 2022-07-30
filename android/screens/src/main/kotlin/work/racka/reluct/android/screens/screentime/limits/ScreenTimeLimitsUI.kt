@@ -13,6 +13,8 @@ import androidx.compose.material.icons.rounded.DoNotDisturbOnTotalSilence
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -26,6 +28,8 @@ import work.racka.reluct.android.screens.R
 import work.racka.reluct.android.screens.screentime.components.AppNameEntry
 import work.racka.reluct.android.screens.screentime.components.LimitsDetailsCard
 import work.racka.reluct.android.screens.screentime.components.LimitsSwitchCard
+import work.racka.reluct.android.screens.screentime.components.ManageAppsDialog
+import work.racka.reluct.common.features.screen_time.limits.states.DistractingAppsState
 import work.racka.reluct.common.features.screen_time.limits.states.ScreenTimeLimitState
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -54,6 +58,9 @@ internal fun ScreenTimeLimitsUI(
     } else {
         barsVisibility.bottomBar.hide()
     }
+
+    // Dialogs Open State
+    val showDistractingAppsDialog = remember { mutableStateOf(false) }
 
     val snackbarModifier = if (scrollContext.isTop) {
         Modifier.padding(bottom = mainScaffoldPadding.calculateBottomPadding())
@@ -128,7 +135,10 @@ internal fun ScreenTimeLimitsUI(
                     LimitsDetailsCard(
                         title = stringResource(R.string.manage_distracting_apps),
                         description = stringResource(R.string.manage_distracting_apps_desc),
-                        onClick = {}
+                        onClick = {
+                            getDistractingApps()
+                            showDistractingAppsDialog.value = true
+                        }
                     )
                 }
 
@@ -166,5 +176,19 @@ internal fun ScreenTimeLimitsUI(
                 }
             }
         }
+    }
+
+    // All Dialogs
+    if (showDistractingAppsDialog.value) {
+        ManageAppsDialog(
+            onDismiss = { showDistractingAppsDialog.value = false },
+            isLoading = uiState.distractingAppsState is DistractingAppsState.Loading,
+            topItemsHeading = stringResource(id = R.string.distracting_apps_text),
+            bottomItemsHeading = stringResource(id = R.string.non_distracting_apps_text),
+            topItems = uiState.distractingAppsState.distractingApps,
+            bottomItems = uiState.distractingAppsState.otherApps,
+            onTopItemClicked = { makeDistractingApp(it.packageName) },
+            onBottomItemClicked = { removeDistractingApp(it.packageName) }
+        )
     }
 }

@@ -2,10 +2,7 @@ package work.racka.reluct.android.screens.screentime.components
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
@@ -23,6 +20,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import work.racka.reluct.android.compose.components.buttons.ReluctButton
 import work.racka.reluct.android.compose.components.cards.headers.ListGroupHeadingHeader
@@ -31,30 +30,47 @@ import work.racka.reluct.android.compose.theme.Shapes
 import work.racka.reluct.android.screens.R
 import work.racka.reluct.common.model.domain.app_info.AppInfo
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ManageAppsDialog(
     modifier: Modifier = Modifier,
     onDismiss: () -> Unit,
+    isLoading: Boolean,
     topItemsHeading: String,
     bottomItemsHeading: String,
     topItems: List<AppInfo>,
     bottomItems: List<AppInfo>,
     onTopItemClicked: (app: AppInfo) -> Unit,
-    onBottomItemClicked: (app: AppInfo) -> Unit,
+    onBottomItemClicked: (app: AppInfo) -> Unit
 ) {
     Dialog(
         onDismissRequest = onDismiss
     ) {
-        Scaffold(
+        Surface(
             modifier = modifier,
-            containerColor = MaterialTheme.colorScheme.surface,
+            shape = Shapes.large,
+            color = MaterialTheme.colorScheme.surface,
             contentColor = MaterialTheme.colorScheme.onSurface,
-            bottomBar = {
+            tonalElevation = 6.dp
+        ) {
+            Column(
+                modifier = Modifier.padding(Dimens.MediumPadding.size),
+                verticalArrangement = Arrangement.spacedBy(Dimens.SmallPadding.size),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                ManageAppsUI(
+                    modifier = Modifier.height(300.dp),
+                    isLoading = isLoading,
+                    topItemsHeading = topItemsHeading,
+                    bottomItemsHeading = bottomItemsHeading,
+                    topItems = topItems,
+                    bottomItems = bottomItems,
+                    onTopItemClicked = onTopItemClicked,
+                    onBottomItemClicked = onBottomItemClicked,
+                    contentColor = MaterialTheme.colorScheme.onSurface
+                )
+
                 Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = Dimens.MediumPadding.size),
+                    modifier = Modifier.fillMaxWidth(),
                     contentAlignment = Alignment.CenterEnd
                 ) {
                     ReluctButton(
@@ -64,18 +80,6 @@ fun ManageAppsDialog(
                     )
                 }
             }
-        ) { paddingValues ->
-            ManageAppsUI(
-                modifier = Modifier
-                    .padding(paddingValues)
-                    .padding(Dimens.MediumPadding.size),
-                topItemsHeading = topItemsHeading,
-                bottomItemsHeading = bottomItemsHeading,
-                topItems = topItems,
-                bottomItems = bottomItems,
-                onTopItemClicked = onTopItemClicked,
-                onBottomItemClicked = onBottomItemClicked
-            )
         }
     }
 }
@@ -86,13 +90,15 @@ fun ManageAppsDialog(
 fun ManageAppsUI(
     modifier: Modifier = Modifier,
     listState: LazyListState = rememberLazyListState(),
+    isLoading: Boolean,
     topItemsHeading: String,
     bottomItemsHeading: String,
     topItems: List<AppInfo>,
     bottomItems: List<AppInfo>,
     onTopItemClicked: (app: AppInfo) -> Unit,
     onBottomItemClicked: (app: AppInfo) -> Unit,
-    contentColor: Color = LocalContentColor.current
+    contentColor: Color = LocalContentColor.current,
+    headerTonalElevation: Dp = 0.dp
 ) {
     LazyColumn(
         modifier = modifier,
@@ -101,10 +107,19 @@ fun ManageAppsUI(
         verticalArrangement = Arrangement.spacedBy(Dimens.SmallPadding.size)
     ) {
         stickyHeader {
-            ListGroupHeadingHeader(text = topItemsHeading)
+            ListGroupHeadingHeader(
+                text = topItemsHeading,
+                contentColor = contentColor,
+                containerColor = MaterialTheme.colorScheme.surface,
+                tonalElevation = headerTonalElevation
+            )
         }
 
-        if (topItems.isEmpty()) {
+        if (isLoading) {
+            item {
+                LinearProgressIndicator(Modifier.padding(Dimens.LargePadding.size))
+            }
+        } else if (topItems.isEmpty()) {
             item {
                 Text(
                     modifier = Modifier
@@ -136,10 +151,19 @@ fun ManageAppsUI(
         }
 
         stickyHeader {
-            ListGroupHeadingHeader(text = bottomItemsHeading)
+            ListGroupHeadingHeader(
+                text = bottomItemsHeading,
+                contentColor = contentColor,
+                containerColor = MaterialTheme.colorScheme.surface,
+                tonalElevation = headerTonalElevation
+            )
         }
 
-        if (topItems.isEmpty()) {
+        if (isLoading) {
+            item {
+                LinearProgressIndicator(Modifier.padding(Dimens.LargePadding.size))
+            }
+        } else if (bottomItems.isEmpty()) {
             item {
                 Text(
                     modifier = Modifier

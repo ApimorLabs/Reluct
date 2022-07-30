@@ -19,33 +19,38 @@ import work.racka.reluct.android.compose.theme.Dimens
 internal fun AppNameEntry(
     modifier: Modifier = Modifier,
     contentColor: Color = LocalContentColor.current,
+    contentPadding: Dp = Dimens.SmallPadding.size,
     appName: String,
     icon: Drawable,
     iconSize: Dp = 32.dp,
     actions: @Composable RowScope.() -> Unit = {}
 ) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(Dimens.MediumPadding.size),
-        modifier = modifier.fillMaxWidth()
-    ) {
-        Image(
-            modifier = Modifier.size(iconSize),
-            /*painter = rememberAsyncImagePainter(
+    Box(modifier = modifier, contentAlignment = Alignment.Center) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(Dimens.MediumPadding.size),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(contentPadding)
+        ) {
+            Image(
+                modifier = Modifier.size(iconSize),
+                /*painter = rememberAsyncImagePainter(
                 model = ImageRequest.Builder(LocalContext.current)
                     .data(icon).build()
             ),*/
-            painter = rememberImagePainter(data = icon),
-            contentDescription = appName
-        )
+                painter = rememberImagePainter(data = icon),
+                contentDescription = appName
+            )
 
-        Text(
-            modifier = Modifier.weight(1f),
-            text = appName,
-            style = MaterialTheme.typography.bodyLarge,
-            color = contentColor
-        )
+            Text(
+                modifier = Modifier.weight(1f),
+                text = appName,
+                style = MaterialTheme.typography.bodyLarge,
+                color = contentColor
+            )
 
-        actions()
+            actions()
+        }
     }
 }
