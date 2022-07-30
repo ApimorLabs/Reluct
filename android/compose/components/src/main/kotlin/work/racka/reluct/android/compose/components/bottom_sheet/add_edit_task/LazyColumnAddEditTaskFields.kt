@@ -9,7 +9,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.DeleteSweep
 import androidx.compose.material.icons.rounded.Save
@@ -43,7 +42,6 @@ import java.util.*
 
 // This provided here so that it doesn't leak DateTime dependencies to the
 // screens modules.
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun LazyColumnAddEditTaskFields(
     modifier: Modifier = Modifier,
@@ -225,6 +223,7 @@ fun LazyColumnAddEditTaskFields(
                     icon = Icons.Rounded.DeleteSweep,
                     onButtonClicked = onDiscard,
                     shape = Shapes.large,
+                    contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
                     buttonColor = MaterialTheme.colorScheme.surfaceVariant
                 )
                 Spacer(modifier = Modifier.width(Dimens.MediumPadding.size))

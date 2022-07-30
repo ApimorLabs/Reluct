@@ -90,6 +90,7 @@ fun DateTimePills(
             icon = Icons.Rounded.DateRange,
             onButtonClicked = { dateDialogState.show() },
             shape = Shapes.large,
+            contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
             buttonColor = MaterialTheme.colorScheme.surfaceVariant
         )
 
@@ -101,6 +102,7 @@ fun DateTimePills(
             icon = Icons.Rounded.Schedule,
             onButtonClicked = { timeDialogState.show() },
             shape = Shapes.large,
+            contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
             buttonColor = MaterialTheme.colorScheme.surfaceVariant
         )
     }
