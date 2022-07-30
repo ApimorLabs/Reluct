@@ -157,13 +157,9 @@ internal fun ScreenTimeLimitsUI(
                             modifier = Modifier.padding(horizontal = Dimens.MediumPadding.size),
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
-                        uiState.pausedAppsState.pausedApps.take(4).forEachIndexed { index, app ->
+                        uiState.pausedAppsState.pausedApps.take(4).forEach { app ->
                             AppNameEntry(
-                                modifier = Modifier
-                                    .padding(horizontal = Dimens.MediumPadding.size)
-                                    .padding(
-                                        bottom = if (index == 3) Dimens.SmallPadding.size else 0.dp
-                                    ),
+                                modifier = Modifier.padding(horizontal = Dimens.MediumPadding.size),
                                 appName = app.appName,
                                 icon = app.appIcon.icon
                             )
@@ -185,6 +181,9 @@ internal fun ScreenTimeLimitsUI(
                                 textAlign = TextAlign.Center
                             )
                         }
+
+                        // Add Padding At the Bottom
+                        Spacer(modifier = Modifier.height(Dimens.MediumPadding.size))
                     }
                 }
 
