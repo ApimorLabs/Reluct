@@ -9,11 +9,14 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.AppBlocking
+import androidx.compose.material.icons.rounded.DoNotDisturbOnTotalSilence
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import work.racka.reluct.android.compose.components.cards.headers.ListGroupHeadingHeader
 import work.racka.reluct.android.compose.components.util.BarsVisibility
@@ -110,7 +113,8 @@ internal fun ScreenTimeLimitsUI(
                         title = stringResource(R.string.turn_on_dnd),
                         description = stringResource(R.string.turn_on_dnd_desc),
                         checked = uiState.focusModeState.doNotDisturbOn,
-                        onCheckedChange = { toggleDnd(it) }
+                        onCheckedChange = { toggleDnd(it) },
+                        icon = Icons.Rounded.DoNotDisturbOnTotalSilence
                     )
                 }
 
@@ -137,16 +141,25 @@ internal fun ScreenTimeLimitsUI(
                     ) {
                         // Bottom Content
                         Divider(
-                            modifier = Modifier.padding(
-                                vertical = Dimens.SmallPadding.size,
-                                horizontal = Dimens.MediumPadding.size
-                            )
+                            modifier = Modifier.padding(horizontal = Dimens.MediumPadding.size),
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                         uiState.pausedAppsState.pausedApps.take(3).forEach { app ->
                             AppNameEntry(
                                 modifier = Modifier.padding(horizontal = Dimens.MediumPadding.size),
                                 appName = app.appName,
                                 icon = app.appIcon.icon
+                            )
+                        }
+                        if (uiState.pausedAppsState.pausedApps.isEmpty()) {
+                            Text(
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .padding(Dimens.LargePadding.size),
+                                text = stringResource(R.string.no_paused_apps_text),
+                                style = MaterialTheme.typography.titleLarge,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                textAlign = TextAlign.Center
                             )
                         }
                     }

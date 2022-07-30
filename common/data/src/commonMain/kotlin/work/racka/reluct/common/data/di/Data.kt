@@ -109,7 +109,10 @@ object Data {
         }
 
         factory<ModifyAppLimits> {
-            ModifyAppLimitsImpl(limitsDao = get())
+            ModifyAppLimitsImpl(
+                limitsDao = get(),
+                dispatcher = CoroutineDispatchers.backgroundDispatcher
+            )
         }
 
         factory<GetDistractingApps> {
