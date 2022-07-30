@@ -4,14 +4,11 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination
@@ -31,6 +28,7 @@ import work.racka.reluct.android.compose.navigation.transitions.scaleInEnterTran
 import work.racka.reluct.android.compose.navigation.transitions.scaleInPopEnterTransition
 import work.racka.reluct.android.compose.navigation.transitions.scaleOutExitTransition
 import work.racka.reluct.android.compose.navigation.transitions.scaleOutPopExitTransition
+import work.racka.reluct.android.screens.screentime.limits.ScreenTimeLimitsScreen
 import work.racka.reluct.android.screens.screentime.statistics.ScreenTimeStatisticsScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -98,15 +96,11 @@ internal fun ScreenTimeNavHost(
                 popEnterTransition = { scaleInPopEnterTransition() },
                 popExitTransition = { scaleOutPopExitTransition() }
             ) {
-                Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text(
-                        text = "Screen Time: $route",
-                        color = MaterialTheme.colorScheme.onBackground
-                    )
-                }
+                ScreenTimeLimitsScreen(
+                    mainScaffoldPadding = mainScaffoldPadding,
+                    barsVisibility = barsVisibility,
+                    onNavigateToAppUsageInfo = { /* TODO: Setup App Info Screen */ }
+                )
             }
         }
     }
