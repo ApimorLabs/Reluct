@@ -10,6 +10,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.AppBlocking
 import androidx.compose.material.icons.rounded.DoNotDisturbOnTotalSilence
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -156,14 +157,24 @@ internal fun ScreenTimeLimitsUI(
                             modifier = Modifier.padding(horizontal = Dimens.MediumPadding.size),
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
-                        uiState.pausedAppsState.pausedApps.take(3).forEach { app ->
+                        uiState.pausedAppsState.pausedApps.take(4).forEachIndexed { index, app ->
                             AppNameEntry(
-                                modifier = Modifier.padding(horizontal = Dimens.MediumPadding.size),
+                                modifier = Modifier
+                                    .padding(horizontal = Dimens.MediumPadding.size)
+                                    .padding(
+                                        bottom = if (index == 3) Dimens.SmallPadding.size else 0.dp
+                                    ),
                                 appName = app.appName,
                                 icon = app.appIcon.icon
                             )
                         }
-                        if (uiState.pausedAppsState.pausedApps.isEmpty()) {
+                        if (uiState.pausedAppsState is PausedAppsState.Loading) {
+                            LinearProgressIndicator(
+                                Modifier
+                                    .fillMaxSize()
+                                    .padding(Dimens.LargePadding.size)
+                            )
+                        } else if (uiState.pausedAppsState.pausedApps.isEmpty()) {
                             Text(
                                 modifier = Modifier
                                     .fillMaxSize()
