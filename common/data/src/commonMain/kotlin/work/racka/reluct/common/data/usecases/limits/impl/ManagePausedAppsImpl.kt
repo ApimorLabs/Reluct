@@ -23,7 +23,9 @@ internal class ManagePausedAppsImpl(
         val installedApps = getInstalledApps.invoke()
         return getPausedApps().mapLatest { pausedApps ->
             val pausedAppsInfo = pausedApps.map { it.appInfo }
-            val nonPausedApps = installedApps - pausedAppsInfo.toSet()
+            val nonPausedApps = installedApps.filterNot { installed ->
+                pausedAppsInfo.any { it.packageName == installed.packageName }
+            }
             Pair(first = pausedAppsInfo, second = nonPausedApps)
         }.flowOn(backgroundDispatcher)
     }
