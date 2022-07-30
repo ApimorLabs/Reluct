@@ -10,9 +10,12 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.AppBlocking
 import androidx.compose.material.icons.rounded.DoNotDisturbOnTotalSilence
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -26,6 +29,9 @@ import work.racka.reluct.android.screens.R
 import work.racka.reluct.android.screens.screentime.components.AppNameEntry
 import work.racka.reluct.android.screens.screentime.components.LimitsDetailsCard
 import work.racka.reluct.android.screens.screentime.components.LimitsSwitchCard
+import work.racka.reluct.android.screens.screentime.components.ManageAppsDialog
+import work.racka.reluct.common.features.screen_time.limits.states.DistractingAppsState
+import work.racka.reluct.common.features.screen_time.limits.states.PausedAppsState
 import work.racka.reluct.common.features.screen_time.limits.states.ScreenTimeLimitState
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -54,6 +60,10 @@ internal fun ScreenTimeLimitsUI(
     } else {
         barsVisibility.bottomBar.hide()
     }
+
+    // Dialogs Open State
+    val showDistractingAppsDialog = remember { mutableStateOf(false) }
+    val showPausedAppsDialog = remember { mutableStateOf(false) }
 
     val snackbarModifier = if (scrollContext.isTop) {
         Modifier.padding(bottom = mainScaffoldPadding.calculateBottomPadding())
@@ -128,7 +138,10 @@ internal fun ScreenTimeLimitsUI(
                     LimitsDetailsCard(
                         title = stringResource(R.string.manage_distracting_apps),
                         description = stringResource(R.string.manage_distracting_apps_desc),
-                        onClick = {}
+                        onClick = {
+                            getDistractingApps()
+                            showDistractingAppsDialog.value = true
+                        }
                     )
                 }
 
@@ -137,21 +150,27 @@ internal fun ScreenTimeLimitsUI(
                     LimitsDetailsCard(
                         title = stringResource(R.string.manually_pause_apps),
                         description = stringResource(R.string.manage_distracting_apps_desc),
-                        onClick = {}
+                        onClick = { showPausedAppsDialog.value = true }
                     ) {
                         // Bottom Content
                         Divider(
                             modifier = Modifier.padding(horizontal = Dimens.MediumPadding.size),
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
-                        uiState.pausedAppsState.pausedApps.take(3).forEach { app ->
+                        uiState.pausedAppsState.pausedApps.take(4).forEach { app ->
                             AppNameEntry(
                                 modifier = Modifier.padding(horizontal = Dimens.MediumPadding.size),
                                 appName = app.appName,
                                 icon = app.appIcon.icon
                             )
                         }
-                        if (uiState.pausedAppsState.pausedApps.isEmpty()) {
+                        if (uiState.pausedAppsState is PausedAppsState.Loading) {
+                            LinearProgressIndicator(
+                                Modifier
+                                    .fillMaxSize()
+                                    .padding(Dimens.LargePadding.size)
+                            )
+                        } else if (uiState.pausedAppsState.pausedApps.isEmpty()) {
                             Text(
                                 modifier = Modifier
                                     .fillMaxSize()
@@ -162,9 +181,49 @@ internal fun ScreenTimeLimitsUI(
                                 textAlign = TextAlign.Center
                             )
                         }
+
+                        // Add Padding At the Bottom
+                        Spacer(modifier = Modifier.height(Dimens.MediumPadding.size))
                     }
+                }
+
+                // Bottom Space for spaceBy
+                item {
+                    Spacer(
+                        modifier = Modifier
+                            .padding(bottom = Dimens.ExtraLargePadding.size)
+                            .padding(bottom = Dimens.ExtraLargePadding.size)
+                            .navigationBarsPadding()
+                    )
                 }
             }
         }
+    }
+
+    // All Dialogs
+    if (showDistractingAppsDialog.value) {
+        ManageAppsDialog(
+            onDismiss = { showDistractingAppsDialog.value = false },
+            isLoading = uiState.distractingAppsState is DistractingAppsState.Loading,
+            topItemsHeading = stringResource(id = R.string.distracting_apps_text),
+            bottomItemsHeading = stringResource(id = R.string.non_distracting_apps_text),
+            topItems = uiState.distractingAppsState.distractingApps,
+            bottomItems = uiState.distractingAppsState.otherApps,
+            onTopItemClicked = { removeDistractingApp(it.packageName) },
+            onBottomItemClicked = { makeDistractingApp(it.packageName) }
+        )
+    }
+
+    if (showPausedAppsDialog.value) {
+        ManageAppsDialog(
+            onDismiss = { showPausedAppsDialog.value = false },
+            isLoading = uiState.pausedAppsState is PausedAppsState.Loading,
+            topItemsHeading = stringResource(id = R.string.paused_apps_text),
+            bottomItemsHeading = stringResource(id = R.string.apps_text),
+            topItems = uiState.pausedAppsState.pausedApps,
+            bottomItems = uiState.pausedAppsState.unPausedApps,
+            onTopItemClicked = { resumeApp(it.packageName) },
+            onBottomItemClicked = { pauseApp(it.packageName) }
+        )
     }
 }

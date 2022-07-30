@@ -23,7 +23,9 @@ internal class ManageDistractingAppsImpl(
         val installedApps = getInstalledApps.invoke()
         return getDistractingApps().mapLatest { distractingApps ->
             val distractingAppsInfo = distractingApps.map { it.appInfo }
-            val nonDistractingApps = installedApps - distractingAppsInfo.toSet()
+            val nonDistractingApps = installedApps.filterNot { installed ->
+                distractingAppsInfo.any { it.packageName == installed.packageName }
+            }
             Pair(first = distractingAppsInfo, second = nonDistractingApps)
         }.flowOn(backgroundDispatcher)
     }
