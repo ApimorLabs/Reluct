@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:description="@string/pending_tasks_widget_desc"
+    android:maxResizeWidth="560dp"
+    android:maxResizeHeight="560dp"
+    android:minWidth="80dp"
+    android:minHeight="80dp"
+    android:minResizeWidth="80dp"
+    android:minResizeHeight="80dp"
+    android:previewImage="@drawable/pending_tasks_preview"
+    android:resizeMode="horizontal|vertical"
+    android:targetCellWidth="3"
+    android:targetCellHeight="2"
+    android:updatePeriodMillis="1800001"
+    android:widgetCategory="home_screen"
+    android:widgetFeatures="reconfigurable|configuration_optional" />
