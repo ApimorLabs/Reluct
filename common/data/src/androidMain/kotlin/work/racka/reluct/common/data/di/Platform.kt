@@ -1,5 +1,6 @@
 package work.racka.reluct.common.data.di
 
+import kotlinx.coroutines.Dispatchers
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.module.Module
 import org.koin.dsl.module
@@ -15,7 +16,11 @@ internal actual object Platform {
         }
 
         factory<GetInstalledApps> {
-            AndroidGetInstalledApps(context = androidContext(), getAppInfo = get())
+            AndroidGetInstalledApps(
+                context = androidContext(),
+                getAppInfo = get(),
+                dispatcher = Dispatchers.IO
+            )
         }
     }
 }

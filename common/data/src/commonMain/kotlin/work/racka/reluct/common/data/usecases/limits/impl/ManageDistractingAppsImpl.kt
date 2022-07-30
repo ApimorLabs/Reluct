@@ -20,7 +20,7 @@ internal class ManageDistractingAppsImpl(
 
     @OptIn(ExperimentalCoroutinesApi::class)
     override suspend fun invoke(): Flow<Pair<List<AppInfo>, List<AppInfo>>> {
-        val installedApps = getInstalledApps()
+        val installedApps = getInstalledApps.invoke()
         return getDistractingApps().mapLatest { distractingApps ->
             val distractingAppsInfo = distractingApps.map { it.appInfo }
             val nonDistractingApps = installedApps - distractingAppsInfo.toSet()

@@ -182,7 +182,7 @@ class ScreenTimeLimitsViewModel(
         pausedAppsJob?.cancel()
         pausedAppsState.update { PausedAppsState.Loading() }
         pausedAppsJob = vmScope.launch {
-            managePausedApps().collectLatest { apps ->
+            managePausedApps.invoke().collectLatest { apps ->
                 // First is paused apps, Second is un paused apps
                 pausedAppsState.update {
                     PausedAppsState.Data(
