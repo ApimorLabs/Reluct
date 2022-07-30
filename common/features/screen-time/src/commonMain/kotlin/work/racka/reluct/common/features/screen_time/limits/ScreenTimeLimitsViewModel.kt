@@ -72,8 +72,8 @@ class ScreenTimeLimitsViewModel(
 
     fun toggleFocusMode(value: Boolean) {
         vmScope.launch {
-            manageFocusMode.toggleFocusMode(!value)
-            if (!value) {
+            manageFocusMode.toggleFocusMode(value)
+            if (value) {
                 _events.send(
                     ScreenTimeLimitsEvents.ShowMessageDone(
                         true,
@@ -93,8 +93,8 @@ class ScreenTimeLimitsViewModel(
 
     fun toggleDnd(value: Boolean) {
         vmScope.launch {
-            manageFocusMode.toggleDoNoDisturb(!value)
-            if (!value) {
+            manageFocusMode.toggleDoNoDisturb(value)
+            if (value) {
                 _events.send(
                     ScreenTimeLimitsEvents.ShowMessageDone(
                         true,
@@ -182,7 +182,7 @@ class ScreenTimeLimitsViewModel(
         pausedAppsJob?.cancel()
         pausedAppsState.update { PausedAppsState.Loading() }
         pausedAppsJob = vmScope.launch {
-            managePausedApps().collectLatest { apps ->
+            managePausedApps.invoke().collectLatest { apps ->
                 // First is paused apps, Second is un paused apps
                 pausedAppsState.update {
                     PausedAppsState.Data(

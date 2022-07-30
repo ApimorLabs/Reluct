@@ -26,7 +26,7 @@ internal fun LimitsSwitchCard(
     ReluctSwitchCard(
         modifier = modifier,
         checked = checked,
-        onCheckedChange = onCheckedChange,
+        onCheckedChange = { onCheckedChange(it) },
         icon = icon,
         title = {
             Text(

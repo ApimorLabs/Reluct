@@ -41,6 +41,7 @@
     <string name="manually_pause_apps_desc">Select Apps to pause for the whole day</string>
 
     <string name="no_usage_data_text">No Usage Data Found</string>
+    <string name="no_paused_apps_text">No Paused Apps</string>
 
     <string name="open_settings_dialog_title">Open Device Settings</string>
     <string name="usage_permissions_details">This app needs access to your device\'s Usage Statistics to show Screen Time Usage Data.

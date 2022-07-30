@@ -20,7 +20,7 @@ internal class ManagePausedAppsImpl(
 
     @OptIn(ExperimentalCoroutinesApi::class)
     override suspend fun invoke(): Flow<Pair<List<AppInfo>, List<AppInfo>>> {
-        val installedApps = getInstalledApps()
+        val installedApps = getInstalledApps.invoke()
         return getPausedApps().mapLatest { pausedApps ->
             val pausedAppsInfo = pausedApps.map { it.appInfo }
             val nonPausedApps = installedApps - pausedAppsInfo.toSet()
