@@ -72,8 +72,8 @@ class ScreenTimeLimitsViewModel(
 
     fun toggleFocusMode(value: Boolean) {
         vmScope.launch {
-            manageFocusMode.toggleFocusMode(!value)
-            if (!value) {
+            manageFocusMode.toggleFocusMode(value)
+            if (value) {
                 _events.send(
                     ScreenTimeLimitsEvents.ShowMessageDone(
                         true,
@@ -93,8 +93,8 @@ class ScreenTimeLimitsViewModel(
 
     fun toggleDnd(value: Boolean) {
         vmScope.launch {
-            manageFocusMode.toggleDoNoDisturb(!value)
-            if (!value) {
+            manageFocusMode.toggleDoNoDisturb(value)
+            if (value) {
                 _events.send(
                     ScreenTimeLimitsEvents.ShowMessageDone(
                         true,

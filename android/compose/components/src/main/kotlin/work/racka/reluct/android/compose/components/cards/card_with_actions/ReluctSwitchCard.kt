@@ -64,7 +64,7 @@ fun ReluctSwitchCard(
 
             Switch(
                 checked = checked,
-                onCheckedChange = onCheckedChange,
+                onCheckedChange = { onCheckedChange(it) },
                 enabled = enabled
             )
         }

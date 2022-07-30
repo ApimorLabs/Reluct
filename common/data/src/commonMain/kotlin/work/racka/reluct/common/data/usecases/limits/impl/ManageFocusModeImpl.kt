@@ -2,6 +2,7 @@ package work.racka.reluct.common.data.usecases.limits.impl
 
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.withContext
 import work.racka.reluct.common.data.usecases.limits.ManageFocusMode
 import work.racka.reluct.common.settings.MultiplatformSettings
@@ -11,10 +12,10 @@ internal class ManageFocusModeImpl(
     private val backgroundDispatcher: CoroutineDispatcher
 ) : ManageFocusMode {
     override val isFocusModeOn: Flow<Boolean>
-        get() = settings.focusMode
+        get() = settings.focusMode.flowOn(backgroundDispatcher)
 
     override val isDoNotDisturbOn: Flow<Boolean>
-        get() = settings.focusMode
+        get() = settings.doNoDisturb.flowOn(backgroundDispatcher)
 
     override suspend fun toggleFocusMode(isFocusMode: Boolean) {
         withContext(backgroundDispatcher) {

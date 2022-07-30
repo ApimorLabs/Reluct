@@ -99,7 +99,7 @@ internal fun ScreenTimeLimitsUI(
                         title = stringResource(R.string.turn_on_focus),
                         description = stringResource(R.string.turn_on_focus_desc),
                         checked = uiState.focusModeState.focusModeOn,
-                        onCheckedChange = toggleFocusMode,
+                        onCheckedChange = { toggleFocusMode(it) },
                         icon = Icons.Rounded.AppBlocking
                     )
                 }
@@ -110,7 +110,7 @@ internal fun ScreenTimeLimitsUI(
                         title = stringResource(R.string.turn_on_dnd),
                         description = stringResource(R.string.turn_on_dnd_desc),
                         checked = uiState.focusModeState.doNotDisturbOn,
-                        onCheckedChange = toggleDnd
+                        onCheckedChange = { toggleDnd(it) }
                     )
                 }
 
