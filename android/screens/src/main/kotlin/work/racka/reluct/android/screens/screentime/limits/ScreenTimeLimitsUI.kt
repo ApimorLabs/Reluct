@@ -187,8 +187,8 @@ internal fun ScreenTimeLimitsUI(
             bottomItemsHeading = stringResource(id = R.string.non_distracting_apps_text),
             topItems = uiState.distractingAppsState.distractingApps,
             bottomItems = uiState.distractingAppsState.otherApps,
-            onTopItemClicked = { makeDistractingApp(it.packageName) },
-            onBottomItemClicked = { removeDistractingApp(it.packageName) }
+            onTopItemClicked = { removeDistractingApp(it.packageName) },
+            onBottomItemClicked = { makeDistractingApp(it.packageName) }
         )
     }
 }

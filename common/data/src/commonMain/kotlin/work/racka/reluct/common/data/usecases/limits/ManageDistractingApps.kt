@@ -9,7 +9,7 @@ interface ManageDistractingApps {
      * The first value of the pair is a list of Distracting apps
      * The second value of the pair is a list of Non Distracting Apps present in the user device
      */
-    suspend operator fun invoke(): Flow<Pair<List<AppInfo>, List<AppInfo>>>
+    suspend fun invoke(): Flow<Pair<List<AppInfo>, List<AppInfo>>>
 
     suspend fun markAsDistracting(packageName: String)
 
