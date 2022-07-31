@@ -5,7 +5,7 @@ import work.racka.reluct.common.database.models.LimitsDbObject
 import work.racka.reluct.common.model.domain.app_info.AppInfo
 import work.racka.reluct.common.model.domain.limits.AppLimits
 
-fun LimitsDbObject.asAppLimits(getAppInfo: GetAppInfo) = AppLimits(
+suspend fun LimitsDbObject.asAppLimits(getAppInfo: GetAppInfo) = AppLimits(
     appInfo = AppInfo(
         packageName = packageName,
         appName = getAppInfo.getAppName(packageName),

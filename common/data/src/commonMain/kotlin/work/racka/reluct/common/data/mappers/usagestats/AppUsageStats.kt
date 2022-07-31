@@ -6,7 +6,7 @@ import work.racka.reluct.common.model.domain.usagestats.AppUsageStats
 import work.racka.reluct.common.model.util.time.StatisticsTimeUtils
 import work.racka.reluct.common.model.util.time.TimeUtils
 
-fun DataAppUsageInfo.asAppUsageStats(
+suspend fun DataAppUsageInfo.asAppUsageStats(
     weekOffset: Int,
     dayIsoNumber: Int,
     showIntervalAsDay: Boolean = true,

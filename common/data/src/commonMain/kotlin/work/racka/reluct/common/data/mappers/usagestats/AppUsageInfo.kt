@@ -5,7 +5,7 @@ import work.racka.reluct.common.data.usecases.app_info.GetAppInfo
 import work.racka.reluct.common.model.domain.usagestats.AppUsageInfo
 import work.racka.reluct.common.model.util.time.TimeUtils
 
-fun DataAppUsageInfo.asAppUsageInfo(getAppInfo: GetAppInfo): AppUsageInfo = AppUsageInfo(
+suspend fun DataAppUsageInfo.asAppUsageInfo(getAppInfo: GetAppInfo): AppUsageInfo = AppUsageInfo(
     packageName = this.packageName,
     appName = getAppInfo.getAppName(packageName),
     appIcon = getAppInfo.getAppIcon(packageName),
