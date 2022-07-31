@@ -86,17 +86,21 @@ class TasksStatisticsViewModel(
         collectWeeklyTasksJob = vmScope.launch {
             val weekOffsetText = getWeekRangeFromOffset.invoke(weekOffset.value)
             selectedWeekText.update { weekOffsetText }
-            getWeeklyTasksUseCase(weekOffset = weekOffset.value).collectLatest { weeklyTasks ->
-                if (weeklyTasks.isNotEmpty()) {
-                    var totalTasksCount = 0
-                    weeklyTasks.entries.forEach {
-                        totalTasksCount += (it.value.completedTasksCount + it.value.pendingTasksCount)
-                    }
-                    weeklyTasksState.update {
-                        WeeklyTasksState.Data(tasks = weeklyTasks, totalTaskCount = totalTasksCount)
-                    }
-                } else weeklyTasksState.update { WeeklyTasksState.Empty }
-            }
+            getWeeklyTasksUseCase.invoke(weekOffset = weekOffset.value)
+                .collectLatest { weeklyTasks ->
+                    if (weeklyTasks.isNotEmpty()) {
+                        var totalTasksCount = 0
+                        weeklyTasks.entries.forEach {
+                            totalTasksCount += (it.value.completedTasksCount + it.value.pendingTasksCount)
+                        }
+                        weeklyTasksState.update {
+                            WeeklyTasksState.Data(
+                                tasks = weeklyTasks,
+                                totalTaskCount = totalTasksCount
+                            )
+                        }
+                    } else weeklyTasksState.update { WeeklyTasksState.Empty }
+                }
         }
     }
 
