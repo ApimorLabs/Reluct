@@ -67,7 +67,7 @@ class TasksStatisticsViewModel(
 
     private fun getDailyData() {
         collectDailyTasksJob = vmScope.launch {
-            getDailyTasksUseCase(
+            getDailyTasksUseCase.invoke(
                 weekOffset = weekOffset.value,
                 dayIsoNumber = selectedDay.value
             ).collectLatest { tasks ->
