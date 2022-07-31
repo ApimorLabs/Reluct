@@ -95,7 +95,7 @@ class ScreenTimeStatsViewModel(
         weeklyScreenTimeStatsJob = vmScope.launch {
             val weekOffsetText = getWeekRangeFromOffset.invoke(weekOffset.value)
             selectedWeekText.update { weekOffsetText }
-            val weeklyData = getWeeklyUsageStats(weekOffset = weekOffset.value)
+            val weeklyData = getWeeklyUsageStats.invoke(weekOffset = weekOffset.value)
             if (weeklyData.isEmpty()) {
                 weeklyUsageStatsState.update { WeeklyUsageStatsState.Empty }
             } else {
