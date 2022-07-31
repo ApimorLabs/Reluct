@@ -18,7 +18,7 @@ internal class GetWeeklyAppUsageInfoImpl(
         withContext(backgroundDispatcher) {
             val appUsageList = mutableListOf<AppUsageStats>()
             daysOfWeek.forEach { dayOfWeek ->
-                val appStats = dailyAppUsageInfo(
+                val appStats = dailyAppUsageInfo.invoke(
                     weekOffset = weekOffset,
                     dayIsoNumber = dayOfWeek.isoDayNumber,
                     packageName = packageName
