@@ -16,9 +16,9 @@ internal class GetWeeklyUsageStatsImpl(
 
     override suspend fun invoke(weekOffset: Int): Map<Week, UsageStats> =
         withContext(backgroundDispatcher) {
-            daysOfWeek.associate { dayOfWeek ->
-                val usageStats = dailyUsageStats(weekOffset, dayOfWeek.isoDayNumber)
-                dayOfWeek to usageStats
+            daysOfWeek.associateWith { dayOfWeek ->
+                val usageStats = dailyUsageStats.invoke(weekOffset, dayOfWeek.isoDayNumber)
+                usageStats
             }
         }
 }

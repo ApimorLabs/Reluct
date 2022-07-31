@@ -4,7 +4,7 @@ import kotlinx.coroutines.flow.Flow
 import work.racka.reluct.common.model.domain.limits.AppLimits
 
 interface GetPausedApps {
-    suspend operator fun invoke(): Flow<List<AppLimits>>
+    suspend fun invoke(): Flow<List<AppLimits>>
 
     suspend fun getSync(): List<AppLimits>
 

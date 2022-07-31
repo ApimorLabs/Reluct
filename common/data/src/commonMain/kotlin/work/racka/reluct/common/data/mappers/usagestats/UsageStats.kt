@@ -11,7 +11,7 @@ import work.racka.reluct.common.model.util.time.TimeUtils
  * or a day instead of the full date when the interval is within a 3 days difference.
  * If false it will show the full date even if the interval is within a 3 days difference
  */
-fun DataUsageStats.asUsageStats(
+suspend fun DataUsageStats.asUsageStats(
     weekOffset: Int,
     dayIsoNumber: Int,
     showIntervalAsDay: Boolean = true,

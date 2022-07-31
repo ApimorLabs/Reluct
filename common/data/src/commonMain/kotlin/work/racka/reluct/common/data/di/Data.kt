@@ -66,7 +66,9 @@ object Data {
         }
 
         // Time
-        factory<GetWeekRangeFromOffset> { GetWeekRangeFromOffsetImpl() }
+        factory<GetWeekRangeFromOffset> {
+            GetWeekRangeFromOffsetImpl(dispatcher = CoroutineDispatchers.backgroundDispatcher)
+        }
 
         // App Usage Stats
         factory<GetDailyAppUsageInfo> {

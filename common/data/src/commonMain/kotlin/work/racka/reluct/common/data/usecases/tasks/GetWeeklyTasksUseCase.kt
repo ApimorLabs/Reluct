@@ -12,5 +12,5 @@ interface GetWeeklyTasksUseCase {
      * current week. Positive values get data for the coming weeks and Negative values get data for
      * previous weeks.
      */
-    operator fun invoke(weekOffset: Int = 0): Flow<Map<Week, DailyTasksStats>>
+    suspend fun invoke(weekOffset: Int = 0): Flow<Map<Week, DailyTasksStats>>
 }
