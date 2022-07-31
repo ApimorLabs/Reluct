@@ -84,7 +84,8 @@ class TasksStatisticsViewModel(
 
     private fun getWeeklyData() {
         collectWeeklyTasksJob = vmScope.launch {
-            selectedWeekText.update { getWeekRangeFromOffset(weekOffset.value) }
+            val weekOffsetText = getWeekRangeFromOffset.invoke(weekOffset.value)
+            selectedWeekText.update { weekOffsetText }
             getWeeklyTasksUseCase(weekOffset = weekOffset.value).collectLatest { weeklyTasks ->
                 if (weeklyTasks.isNotEmpty()) {
                     var totalTasksCount = 0
