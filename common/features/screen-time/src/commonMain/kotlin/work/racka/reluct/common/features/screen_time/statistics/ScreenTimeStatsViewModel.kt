@@ -74,7 +74,7 @@ class ScreenTimeStatsViewModel(
     private fun getDailyData() {
         dailyUsageStatsState.update { DailyUsageStatsState.Loading() }
         dailyScreenTimeStatsJob = vmScope.launch {
-            val dailyData = getDailyUsageStats(
+            val dailyData = getDailyUsageStats.invoke(
                 weekOffset = weekOffset.value,
                 dayIsoNumber = selectedDay.value
             )
