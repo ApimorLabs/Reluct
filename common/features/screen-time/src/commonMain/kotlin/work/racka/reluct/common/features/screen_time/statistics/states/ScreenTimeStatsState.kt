@@ -11,12 +11,6 @@ data class ScreenTimeStatsState(
     val appTimeLimit: AppTimeLimitState = AppTimeLimitState.Nothing
 )
 
-data class ScreenTimeStatsSelectedInfo(
-    val weekOffset: Int = 0,
-    val selectedWeekText: String = "...",
-    val selectedDay: Int = 0
-)
-
 sealed class WeeklyUsageStatsState(
     val usageStats: Map<Week, UsageStats>,
     val formattedTotalTime: String
