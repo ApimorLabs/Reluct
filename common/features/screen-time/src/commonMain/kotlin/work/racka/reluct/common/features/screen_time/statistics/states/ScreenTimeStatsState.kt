@@ -4,11 +4,15 @@ import work.racka.reluct.common.model.domain.usagestats.UsageStats
 import work.racka.reluct.common.model.util.time.Week
 
 data class ScreenTimeStatsState(
-    val weekOffset: Int = 0,
-    val selectedWeekText: String = "...",
-    val selectedDay: Int = 0,
+    val selectedInfo: ScreenTimeStatsSelectedInfo = ScreenTimeStatsSelectedInfo(),
     val weeklyData: WeeklyUsageStatsState = WeeklyUsageStatsState.Empty,
     val dailyData: DailyUsageStatsState = DailyUsageStatsState.Empty
+)
+
+data class ScreenTimeStatsSelectedInfo(
+    val weekOffset: Int = 0,
+    val selectedWeekText: String = "...",
+    val selectedDay: Int = 0
 )
 
 sealed class WeeklyUsageStatsState(

@@ -172,17 +172,17 @@ internal fun ScreenTimeStatisticsUI(
                         selectedDayText = uiState.dailyData.dayText,
                         selectedDayScreenTime = uiState.dailyData.usageStat.formattedTotalScreenTime,
                         weeklyTotalScreenTime = uiState.weeklyData.formattedTotalTime,
-                        selectedDayIsoNumber = uiState.selectedDay,
+                        selectedDayIsoNumber = uiState.selectedInfo.selectedDay,
                         onBarClicked = { onSelectDay(it) }
                     ) {
                         ValueOffsetButton(
-                            text = uiState.selectedWeekText,
-                            offsetValue = uiState.weekOffset,
+                            text = uiState.selectedInfo.selectedWeekText,
+                            offsetValue = uiState.selectedInfo.weekOffset,
                             onOffsetValueChange = { onUpdateWeekOffset(it) },
                             containerColor = MaterialTheme.colorScheme.primary,
                             contentColor = MaterialTheme.colorScheme.onPrimary,
                             shape = Shapes.large,
-                            incrementEnabled = uiState.weekOffset < 0
+                            incrementEnabled = uiState.selectedInfo.weekOffset < 0
                         )
                     }
                 }
