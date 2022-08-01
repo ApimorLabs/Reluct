@@ -47,7 +47,7 @@ internal class LimitsDaoImpl(
             )
 
     override suspend fun getAppSync(packageName: String): LimitsDbObject =
-        limitsQueries?.getAppFromDb(packageName = packageName)?.executeAsOne()
+        limitsQueries?.getAppFromDb(packageName = packageName)?.executeAsOneOrNull()
             ?: LimitsDbObject(
                 packageName = packageName,
                 timeLimit = 0,

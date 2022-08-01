@@ -48,7 +48,8 @@ fun ScreenTimeStatisticsScreen(
         onSelectDay = { dayIsoNumber -> viewModel.selectDay(dayIsoNumber) },
         onUpdateWeekOffset = { offsetValue -> viewModel.updateWeekOffset(offsetValue) },
         onAppUsageInfoClick = { appInfo -> viewModel.navigateToAppInfo(appInfo.packageName) },
-        onAppTimeLimitSettingsClicked = { }
+        onAppTimeLimitSettingsClicked = { viewModel.selectAppTimeLimit(it) },
+        onSaveAppTimeLimitSettings = { hours, minutes -> viewModel.saveTimeLimit(hours, minutes) }
     )
 }
 
