@@ -1,5 +1,6 @@
-package work.racka.reluct.common.features.screen_time.statistics.states
+package work.racka.reluct.common.features.screen_time.statistics.states.app_stats
 
+import work.racka.reluct.common.features.screen_time.statistics.states.ScreenTimeStatsSelectedInfo
 import work.racka.reluct.common.model.domain.limits.AppTimeLimit
 import work.racka.reluct.common.model.domain.usagestats.AppUsageStats
 

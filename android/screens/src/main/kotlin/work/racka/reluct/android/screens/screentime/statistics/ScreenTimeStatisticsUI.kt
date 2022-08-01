@@ -41,9 +41,9 @@ import work.racka.reluct.android.screens.screentime.components.AppTimeLimitDialo
 import work.racka.reluct.android.screens.util.PermissionCheckHandler
 import work.racka.reluct.android.screens.util.checkUsageAccessPermissions
 import work.racka.reluct.android.screens.util.requestUsageAccessPermission
-import work.racka.reluct.common.features.screen_time.statistics.states.DailyUsageStatsState
-import work.racka.reluct.common.features.screen_time.statistics.states.ScreenTimeStatsState
-import work.racka.reluct.common.features.screen_time.statistics.states.WeeklyUsageStatsState
+import work.racka.reluct.common.features.screen_time.statistics.states.all_stats.DailyUsageStatsState
+import work.racka.reluct.common.features.screen_time.statistics.states.all_stats.ScreenTimeStatsState
+import work.racka.reluct.common.features.screen_time.statistics.states.all_stats.WeeklyUsageStatsState
 import work.racka.reluct.common.model.domain.usagestats.AppUsageInfo
 
 @OptIn(ExperimentalFoundationApi::class)
