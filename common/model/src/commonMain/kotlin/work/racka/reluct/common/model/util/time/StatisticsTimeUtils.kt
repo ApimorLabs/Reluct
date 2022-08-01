@@ -101,14 +101,20 @@ object StatisticsTimeUtils {
         val start =
             LocalDateTime(selectedDay.year, selectedDay.month, selectedDay.dayOfMonth, 0, 0, 0, 0)
                 .toString()
-        val end = LocalDateTime(selectedDay.year,
+        val end = LocalDateTime(
+            selectedDay.year,
             selectedDay.month,
             selectedDay.dayOfMonth,
             23,
             59,
             59,
-            999_999_999)
+            999_999_999
+        )
             .toString()
         return start..end
     }
+
+    fun todayIsoNumber(): Int = Clock.System.now()
+        .toLocalDateTime(TimeZone.currentSystemDefault())
+        .dayOfWeek.isoDayNumber
 }

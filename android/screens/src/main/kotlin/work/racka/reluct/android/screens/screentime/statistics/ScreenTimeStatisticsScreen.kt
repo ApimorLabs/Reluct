@@ -3,6 +3,7 @@ package work.racka.reluct.android.screens.screentime.statistics
 import android.content.Context
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.material.ScaffoldState
+import androidx.compose.material.SnackbarDuration
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -10,8 +11,10 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalContext
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 import work.racka.common.mvvm.koin.compose.commonViewModel
 import work.racka.reluct.android.compose.components.util.BarsVisibility
+import work.racka.reluct.android.screens.R
 import work.racka.reluct.common.features.screen_time.statistics.ScreenTimeStatsViewModel
 import work.racka.reluct.common.features.screen_time.statistics.states.ScreenTimeStatsEvents
 
@@ -48,7 +51,8 @@ fun ScreenTimeStatisticsScreen(
         onSelectDay = { dayIsoNumber -> viewModel.selectDay(dayIsoNumber) },
         onUpdateWeekOffset = { offsetValue -> viewModel.updateWeekOffset(offsetValue) },
         onAppUsageInfoClick = { appInfo -> viewModel.navigateToAppInfo(appInfo.packageName) },
-        onAppTimeLimitSettingsClicked = { }
+        onAppTimeLimitSettingsClicked = { viewModel.selectAppTimeLimit(it) },
+        onSaveAppTimeLimitSettings = { hours, minutes -> viewModel.saveTimeLimit(hours, minutes) }
     )
 }
 
@@ -60,13 +64,22 @@ private fun handleEvents(
     navigateToAppUsageInfo: (packageName: String) -> Unit,
 ) {
     when (events) {
+        is ScreenTimeStatsEvents.TimeLimitChange -> {
+            val message =
+                context.getString(R.string.time_limit_change_arg, events.app.appInfo.appName)
+            scope.launch {
+                scaffoldState.snackbarHostState.showSnackbar(
+                    message = message,
+                    duration = SnackbarDuration.Short
+                )
+            }
+        }
         is ScreenTimeStatsEvents.Navigation.NavigateToAppInfo -> {
             navigateToAppUsageInfo(events.packageName)
         }
         is ScreenTimeStatsEvents.Navigation.OpenAppTimerSettings -> {
 
         }
-
         else -> {}
     }
 }

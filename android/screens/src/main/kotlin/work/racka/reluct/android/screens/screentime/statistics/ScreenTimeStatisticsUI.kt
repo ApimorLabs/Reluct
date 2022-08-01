@@ -37,6 +37,7 @@ import work.racka.reluct.android.compose.components.util.rememberScrollContext
 import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.android.compose.theme.Shapes
 import work.racka.reluct.android.screens.R
+import work.racka.reluct.android.screens.screentime.components.AppTimeLimitDialog
 import work.racka.reluct.android.screens.util.PermissionCheckHandler
 import work.racka.reluct.android.screens.util.checkUsageAccessPermissions
 import work.racka.reluct.android.screens.util.requestUsageAccessPermission
@@ -57,7 +58,8 @@ internal fun ScreenTimeStatisticsUI(
     onSelectDay: (dayIsoNumber: Int) -> Unit,
     onUpdateWeekOffset: (weekOffsetValue: Int) -> Unit,
     onAppUsageInfoClick: (app: AppUsageInfo) -> Unit,
-    onAppTimeLimitSettingsClicked: (packageName: String) -> Unit
+    onAppTimeLimitSettingsClicked: (packageName: String) -> Unit,
+    onSaveAppTimeLimitSettings: (hours: Int, minutes: Int) -> Unit
 ) {
     val listState = rememberLazyListState()
     val scrollContext = rememberScrollContext(listState = listState)
@@ -92,6 +94,7 @@ internal fun ScreenTimeStatisticsUI(
 
     var usagePermissionGranted by remember { mutableStateOf(false) }
     val openDialog = remember { mutableStateOf(false) }
+    var showAppTimeLimitDialog by remember { mutableStateOf(false) }
 
     val context = LocalContext.current
 
@@ -172,17 +175,17 @@ internal fun ScreenTimeStatisticsUI(
                         selectedDayText = uiState.dailyData.dayText,
                         selectedDayScreenTime = uiState.dailyData.usageStat.formattedTotalScreenTime,
                         weeklyTotalScreenTime = uiState.weeklyData.formattedTotalTime,
-                        selectedDayIsoNumber = uiState.selectedDay,
+                        selectedDayIsoNumber = uiState.selectedInfo.selectedDay,
                         onBarClicked = { onSelectDay(it) }
                     ) {
                         ValueOffsetButton(
-                            text = uiState.selectedWeekText,
-                            offsetValue = uiState.weekOffset,
+                            text = uiState.selectedInfo.selectedWeekText,
+                            offsetValue = uiState.selectedInfo.weekOffset,
                             onOffsetValueChange = { onUpdateWeekOffset(it) },
                             containerColor = MaterialTheme.colorScheme.primary,
                             contentColor = MaterialTheme.colorScheme.onPrimary,
                             shape = Shapes.large,
-                            incrementEnabled = uiState.weekOffset < 0
+                            incrementEnabled = uiState.selectedInfo.weekOffset < 0
                         )
                     }
                 }
@@ -240,7 +243,10 @@ internal fun ScreenTimeStatisticsUI(
                             playAnimation = true,
                             appUsageInfo = item,
                             onEntryClick = { onAppUsageInfoClick(item) },
-                            onTimeSettingsClick = { onAppTimeLimitSettingsClicked(item.packageName) }
+                            onTimeSettingsClick = {
+                                onAppTimeLimitSettingsClicked(item.packageName)
+                                showAppTimeLimitDialog = true
+                            }
                         )
                     }
                 }
@@ -290,6 +296,15 @@ internal fun ScreenTimeStatisticsUI(
                         onButtonClicked = { openDialog.value = false }
                     )
                 }
+            )
+        }
+
+        // App Time Limit Dialog
+        if (showAppTimeLimitDialog) {
+            AppTimeLimitDialog(
+                onDismiss = { showAppTimeLimitDialog = false },
+                appTimeLimitState = uiState.appTimeLimit,
+                onSaveTimeLimit = onSaveAppTimeLimitSettings
             )
         }
     }

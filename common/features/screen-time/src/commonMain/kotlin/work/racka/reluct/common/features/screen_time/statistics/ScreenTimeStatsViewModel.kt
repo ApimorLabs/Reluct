@@ -7,40 +7,39 @@ import kotlinx.coroutines.launch
 import work.racka.common.mvvm.viewmodel.CommonViewModel
 import work.racka.reluct.common.data.usecases.app_usage.GetDailyUsageStats
 import work.racka.reluct.common.data.usecases.app_usage.GetWeeklyUsageStats
+import work.racka.reluct.common.data.usecases.limits.ManageAppTimeLimit
 import work.racka.reluct.common.data.usecases.time.GetWeekRangeFromOffset
-import work.racka.reluct.common.features.screen_time.statistics.states.DailyUsageStatsState
-import work.racka.reluct.common.features.screen_time.statistics.states.ScreenTimeStatsEvents
-import work.racka.reluct.common.features.screen_time.statistics.states.ScreenTimeStatsState
-import work.racka.reluct.common.features.screen_time.statistics.states.WeeklyUsageStatsState
+import work.racka.reluct.common.features.screen_time.limits.states.AppTimeLimitState
+import work.racka.reluct.common.features.screen_time.statistics.states.*
+import work.racka.reluct.common.model.util.time.StatisticsTimeUtils
 import work.racka.reluct.common.model.util.time.TimeUtils
-import work.racka.reluct.common.model.util.time.WeekUtils
 
 class ScreenTimeStatsViewModel(
     private val getWeeklyUsageStats: GetWeeklyUsageStats,
     private val getDailyUsageStats: GetDailyUsageStats,
     private val getWeekRangeFromOffset: GetWeekRangeFromOffset,
+    private val manageAppTimeLimit: ManageAppTimeLimit
 ) : CommonViewModel() {
 
-    private val weekOffset: MutableStateFlow<Int> = MutableStateFlow(0)
-    private val selectedWeekText: MutableStateFlow<String> = MutableStateFlow("...")
-    private val selectedDay: MutableStateFlow<Int> =
-        MutableStateFlow(WeekUtils.currentDayOfWeek().isoDayNumber)
+    private val selectedInfo: MutableStateFlow<ScreenTimeStatsSelectedInfo> =
+        MutableStateFlow(ScreenTimeStatsSelectedInfo())
     private val weeklyUsageStatsState: MutableStateFlow<WeeklyUsageStatsState> =
         MutableStateFlow(WeeklyUsageStatsState.Empty)
     private val dailyUsageStatsState: MutableStateFlow<DailyUsageStatsState> =
         MutableStateFlow(DailyUsageStatsState.Empty)
+    private val appTimeLimitState: MutableStateFlow<AppTimeLimitState> =
+        MutableStateFlow(AppTimeLimitState.Nothing)
 
     private val isGranted = MutableStateFlow(false)
 
     val uiState: StateFlow<ScreenTimeStatsState> = combine(
-        weekOffset, selectedWeekText, selectedDay, weeklyUsageStatsState, dailyUsageStatsState
-    ) { weekOffset, selectedWeekText, selectedDay, weeklyUsageStatsState, dailyUsageStatsState ->
+        selectedInfo, weeklyUsageStatsState, dailyUsageStatsState, appTimeLimitState
+    ) { selectedInfo, weeklyUsageStatsState, dailyUsageStatsState, appTimeLimitState ->
         ScreenTimeStatsState(
-            weekOffset = weekOffset,
-            selectedWeekText = selectedWeekText,
-            selectedDay = selectedDay,
+            selectedInfo = selectedInfo,
             weeklyData = weeklyUsageStatsState,
-            dailyData = dailyUsageStatsState
+            dailyData = dailyUsageStatsState,
+            appTimeLimit = appTimeLimitState
         )
     }.stateIn(
         scope = vmScope,
@@ -55,8 +54,11 @@ class ScreenTimeStatsViewModel(
     private var dailyScreenTimeStatsJob: Job? = null
     private var weeklyScreenTimeStatsJob: Job? = null
     private var getDataJob: Job? = null
+    private var appTimeLimitJob: Job? = null
 
     init {
+        val todayIsoNumber = StatisticsTimeUtils.todayIsoNumber()
+        selectedInfo.update { it.copy(selectedDay = todayIsoNumber) }
         getData()
     }
 
@@ -74,9 +76,10 @@ class ScreenTimeStatsViewModel(
     private fun getDailyData() {
         dailyUsageStatsState.update { DailyUsageStatsState.Loading() }
         dailyScreenTimeStatsJob = vmScope.launch {
+            val selected = selectedInfo.value
             val dailyData = getDailyUsageStats.invoke(
-                weekOffset = weekOffset.value,
-                dayIsoNumber = selectedDay.value
+                weekOffset = selected.weekOffset,
+                dayIsoNumber = selected.selectedDay
             )
             if (dailyData.appsUsageList.isEmpty()) {
                 dailyUsageStatsState.update { DailyUsageStatsState.Empty }
@@ -93,9 +96,10 @@ class ScreenTimeStatsViewModel(
     private fun getWeeklyData() {
         weeklyUsageStatsState.update { WeeklyUsageStatsState.Loading() }
         weeklyScreenTimeStatsJob = vmScope.launch {
-            val weekOffsetText = getWeekRangeFromOffset.invoke(weekOffset.value)
-            selectedWeekText.update { weekOffsetText }
-            val weeklyData = getWeeklyUsageStats.invoke(weekOffset = weekOffset.value)
+            val weekOffset = selectedInfo.value.weekOffset
+            val weekOffsetText = getWeekRangeFromOffset.invoke(weekOffset)
+            selectedInfo.update { it.copy(selectedWeekText = weekOffsetText) }
+            val weeklyData = getWeeklyUsageStats.invoke(weekOffset = weekOffset)
             if (weeklyData.isEmpty()) {
                 weeklyUsageStatsState.update { WeeklyUsageStatsState.Empty }
             } else {
@@ -116,9 +120,30 @@ class ScreenTimeStatsViewModel(
         this.isGranted.update { isGranted }
     }
 
+    fun selectAppTimeLimit(packageName: String) {
+        appTimeLimitJob?.cancel()
+        appTimeLimitJob = vmScope.launch {
+            appTimeLimitState.update { AppTimeLimitState.Loading }
+            val appTimeLimit = manageAppTimeLimit.getSync(packageName)
+            appTimeLimitState.update { AppTimeLimitState.Data(timeLimit = appTimeLimit) }
+        }
+    }
+
+    fun saveTimeLimit(hours: Int, minutes: Int) {
+        vmScope.launch {
+            val limitState = appTimeLimitState.value
+            appTimeLimitJob?.cancel()
+            if (limitState is AppTimeLimitState.Data) {
+                val newLimit = limitState.timeLimit.copy(hours = hours, minutes = minutes)
+                manageAppTimeLimit.setTimeLimit(newLimit)
+                _events.send(ScreenTimeStatsEvents.TimeLimitChange(newLimit))
+            }
+        }
+    }
+
     fun selectDay(selectedDayIsoNumber: Int) {
         dailyUsageStatsState.update { DailyUsageStatsState.Loading(it.usageStat) }
-        selectedDay.update { selectedDayIsoNumber }
+        selectedInfo.update { it.copy(selectedDay = selectedDayIsoNumber) }
         dailyScreenTimeStatsJob?.cancel()
         getDailyData()
     }
@@ -127,7 +152,7 @@ class ScreenTimeStatsViewModel(
         weeklyUsageStatsState.update {
             WeeklyUsageStatsState.Loading(weeklyUsageStats = it.usageStats)
         }
-        weekOffset.update { weekOffsetValue }
+        selectedInfo.update { it.copy(weekOffset = weekOffsetValue) }
         dailyScreenTimeStatsJob?.cancel()
         weeklyScreenTimeStatsJob?.cancel()
         getDataJob?.cancel()

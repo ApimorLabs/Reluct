@@ -1,7 +1,11 @@
 package work.racka.reluct.common.features.screen_time.statistics.states
 
+import work.racka.reluct.common.model.domain.limits.AppTimeLimit
+
 sealed class ScreenTimeStatsEvents {
     object Nothing : ScreenTimeStatsEvents()
+
+    class TimeLimitChange(val app: AppTimeLimit) : ScreenTimeStatsEvents()
 
     sealed class Navigation : ScreenTimeStatsEvents() {
         data class NavigateToAppInfo(
