@@ -8,6 +8,7 @@ import androidx.compose.material.icons.rounded.Done
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -75,9 +76,23 @@ fun AppTimeLimitDialog(
                                 value = pickerValue,
                                 onValueChange = { pickerValue = it },
                                 dividersColor = contentColor,
-                                textStyle = MaterialTheme.typography.bodyLarge.copy(
+                                textStyle = MaterialTheme.typography.titleLarge.copy(
                                     color = contentColor
-                                )
+                                ),
+                                hoursDivider = {
+                                    Text(
+                                        text = "hr",
+                                        style = MaterialTheme.typography.bodyLarge
+                                            .copy(color = contentColor)
+                                    )
+                                },
+                                minutesDivider = {
+                                    Text(
+                                        text = "m",
+                                        style = MaterialTheme.typography.bodyLarge
+                                            .copy(color = contentColor)
+                                    )
+                                }
                             )
 
                             Box(
