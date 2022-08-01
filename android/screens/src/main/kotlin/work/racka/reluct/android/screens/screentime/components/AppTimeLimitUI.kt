@@ -1,7 +1,8 @@
 package work.racka.reluct.android.screens.screentime.components
 
-import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Done
 import androidx.compose.material3.LinearProgressIndicator
@@ -36,63 +37,73 @@ fun AppTimeLimitDialog(
         onDismissRequest = onDismiss
     ) {
         Surface(
-            modifier = modifier.animateContentSize(),
+            modifier = modifier.size(300.dp),
             shape = Shapes.large,
             color = containerColor,
             contentColor = contentColor,
             tonalElevation = 6.dp
         ) {
-            when (appTimeLimitState) {
-                is AppTimeLimitState.Data -> {
-                    val initialAppTimeLimit = appTimeLimitState.timeLimit
-                    var pickerValue by remember {
-                        mutableStateOf<Hours>(
-                            FullHours(
-                                hours = initialAppTimeLimit.hours,
-                                minutes = initialAppTimeLimit.minutes
-                            )
-                        )
-                    }
-
-                    Column(
-                        modifier = Modifier.padding(Dimens.MediumPadding.size),
-                        verticalArrangement = Arrangement.spacedBy(Dimens.SmallPadding.size),
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        AppNameEntry(
-                            appName = initialAppTimeLimit.appInfo.appName,
-                            icon = initialAppTimeLimit.appInfo.appIcon.icon
-                        )
-
-                        HoursNumberPicker(
-                            value = pickerValue,
-                            onValueChange = { pickerValue = it },
-                            dividersColor = contentColor,
-                            textStyle = MaterialTheme.typography.bodyLarge.copy(
-                                color = contentColor
-                            )
-                        )
-
-                        Box(
-                            modifier = Modifier.fillMaxWidth(),
-                            contentAlignment = Alignment.CenterEnd
-                        ) {
-                            ReluctButton(
-                                buttonText = stringResource(id = R.string.save_button_text),
-                                icon = Icons.Rounded.Done,
-                                onButtonClicked = {
-                                    onSaveTimeLimit(pickerValue.hours, pickerValue.minutes)
-                                    onDismiss()
-                                }
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                when (appTimeLimitState) {
+                    is AppTimeLimitState.Data -> {
+                        val initialAppTimeLimit = appTimeLimitState.timeLimit
+                        var pickerValue by remember {
+                            mutableStateOf<Hours>(
+                                FullHours(
+                                    hours = initialAppTimeLimit.hours,
+                                    minutes = initialAppTimeLimit.minutes
+                                )
                             )
                         }
+
+                        Column(
+                            modifier = Modifier
+                                .padding(Dimens.MediumPadding.size)
+                                .verticalScroll(rememberScrollState()),
+                            verticalArrangement = Arrangement.spacedBy(Dimens.SmallPadding.size),
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            AppNameEntry(
+                                appName = initialAppTimeLimit.appInfo.appName,
+                                icon = initialAppTimeLimit.appInfo.appIcon.icon
+                            )
+
+                            HoursNumberPicker(
+                                value = pickerValue,
+                                onValueChange = { pickerValue = it },
+                                dividersColor = contentColor,
+                                textStyle = MaterialTheme.typography.bodyLarge.copy(
+                                    color = contentColor
+                                )
+                            )
+
+                            Box(
+                                modifier = Modifier.fillMaxWidth(),
+                                contentAlignment = Alignment.CenterEnd
+                            ) {
+                                ReluctButton(
+                                    buttonText = stringResource(id = R.string.save_button_text),
+                                    icon = Icons.Rounded.Done,
+                                    onButtonClicked = {
+                                        onSaveTimeLimit(pickerValue.hours, pickerValue.minutes)
+                                        onDismiss()
+                                    }
+                                )
+                            }
+                        }
                     }
-                }
-                else -> {
-                    Box(contentAlignment = Alignment.Center) {
-                        LinearProgressIndicator(
-                            Modifier.padding(Dimens.ExtraLargePadding.size)
-                        )
+                    else -> {
+                        Box(
+                            modifier = Modifier.fillMaxSize(),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            LinearProgressIndicator(
+                                Modifier.padding(Dimens.ExtraLargePadding.size)
+                            )
+                        }
                     }
                 }
             }
