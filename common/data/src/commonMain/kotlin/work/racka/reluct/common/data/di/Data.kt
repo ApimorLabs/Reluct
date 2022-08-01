@@ -149,5 +149,13 @@ object Data {
                 backgroundDispatcher = CoroutineDispatchers.backgroundDispatcher
             )
         }
+
+        factory<ManageAppTimeLimit> {
+            ManageAppTimeLimitImpl(
+                limitsDao = get(),
+                getAppInfo = get(),
+                dispatcher = CoroutineDispatchers.backgroundDispatcher
+            )
+        }
     }
 }
