@@ -2,6 +2,7 @@ package work.racka.reluct.common.database.dao.screentime
 
 import com.squareup.sqldelight.runtime.coroutines.asFlow
 import com.squareup.sqldelight.runtime.coroutines.mapToList
+import com.squareup.sqldelight.runtime.coroutines.mapToOneOrDefault
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
@@ -22,6 +23,28 @@ internal class LimitsDaoImpl(
     override suspend fun insertApp(appLimit: LimitsDbObject) {
         limitsQueries?.insertAppToDb(limit = appLimit)
     }
+
+    override suspend fun getApp(packageName: String): Flow<LimitsDbObject> =
+        limitsQueries?.getAppFromDb(packageName = packageName)?.asFlow()
+            ?.mapToOneOrDefault(
+                LimitsDbObject(
+                    packageName = packageName,
+                    timeLimit = 0,
+                    isADistractingAp = false,
+                    isPaused = false,
+                    overridden = false
+                ),
+                context = dispatcher
+            )
+            ?: flowOf(
+                LimitsDbObject(
+                    packageName = packageName,
+                    timeLimit = 0,
+                    isADistractingAp = false,
+                    isPaused = false,
+                    overridden = false
+                )
+            )
 
     override suspend fun getAppSync(packageName: String): LimitsDbObject =
         limitsQueries?.getAppFromDb(packageName = packageName)?.executeAsOne()

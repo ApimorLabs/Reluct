@@ -13,6 +13,12 @@ interface LimitsDao {
     suspend fun insertApp(appLimit: LimitsDbObject)
 
     /**
+     * Gets A Flow of saved App Limit from the database.
+     * If not present it returns a default value.
+     */
+    suspend fun getApp(packageName: String): Flow<LimitsDbObject>
+
+    /**
      * Gets A saved App Limit from the database synchronously
      */
     suspend fun getAppSync(packageName: String): LimitsDbObject
