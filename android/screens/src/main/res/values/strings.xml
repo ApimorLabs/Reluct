@@ -31,6 +31,8 @@
     <string name="discard_task">Discard Task</string>
     <string name="discard_task_message">This action will discard all the current changes</string>
 
+    <string name="time_limit_change_arg">Screen Time Limit for %1$s changed</string>
+
     <string name="turn_on_focus">Turn On Focus Mode</string>
     <string name="turn_on_focus_desc">Block Distracting Apps from opening</string>
     <string name="turn_on_dnd">Turn On Do Not Disturb</string>

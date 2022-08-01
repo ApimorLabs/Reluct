@@ -136,6 +136,7 @@ class ScreenTimeStatsViewModel(
             if (limitState is AppTimeLimitState.Data) {
                 val newLimit = limitState.timeLimit.copy(hours = hours, minutes = minutes)
                 manageAppTimeLimit.setTimeLimit(newLimit)
+                _events.send(ScreenTimeStatsEvents.TimeLimitChange(newLimit))
             }
         }
     }
