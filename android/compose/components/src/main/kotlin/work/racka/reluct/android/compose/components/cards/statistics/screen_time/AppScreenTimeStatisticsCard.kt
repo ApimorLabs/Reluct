@@ -22,7 +22,7 @@ import work.racka.reluct.common.model.util.time.Week
 @Composable
 fun AppScreenTimeStatisticsCard(
     modifier: Modifier = Modifier,
-    barChartState: StatisticsChartState<List<AppUsageStats>>,
+    barChartState: StatisticsChartState<Map<Week, AppUsageStats>>,
     barColor: Color = MaterialTheme.colorScheme.secondary
         .copy(alpha = .7f),
     selectedDayText: String,
@@ -39,10 +39,10 @@ fun AppScreenTimeStatisticsCard(
             barChartState.data.forEach { entry ->
                 tempList.add(
                     BarChartData.Bar(
-                        value = entry.appUsageInfo.timeInForeground.toFloat(),
+                        value = entry.value.appUsageInfo.timeInForeground.toFloat(),
                         color = barColor,
-                        label = getWeek(entry.dayIsoNumber).dayAcronym,
-                        uniqueId = entry.dayIsoNumber
+                        label = entry.key.dayAcronym,
+                        uniqueId = entry.key.isoDayNumber
                     )
                 )
             }

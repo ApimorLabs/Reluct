@@ -17,8 +17,9 @@ import work.racka.reluct.common.features.screen_time.statistics.states.app_stats
 import work.racka.reluct.common.features.screen_time.statistics.states.app_stats.WeeklyAppUsageStatsState
 import work.racka.reluct.common.features.screen_time.util.Constants
 import work.racka.reluct.common.model.domain.usagestats.AppUsageStats
-import work.racka.reluct.common.model.util.time.StatisticsTimeUtils
 import work.racka.reluct.common.model.util.time.TimeUtils
+import work.racka.reluct.common.model.util.time.Week
+import work.racka.reluct.common.model.util.time.WeekUtils
 
 /**
  * Remember to pass the packageName in Koin `parametersOf` when getting an instance
@@ -64,7 +65,7 @@ class AppScreenTimeStatsViewModel(
     private var appSettingsJob: Job? = null
 
     init {
-        val todayIsoNumber = StatisticsTimeUtils.todayIsoNumber()
+        val todayIsoNumber = WeekUtils.currentDayOfWeek().isoDayNumber
         selectedInfo.update { it.copy(selectedDay = todayIsoNumber) }
         getData()
     }
@@ -155,7 +156,7 @@ class AppScreenTimeStatsViewModel(
             if (weekData.isEmpty()) {
                 weeklyData.update { WeeklyAppUsageStatsState.Empty }
             } else {
-                val totalTimeMillis = weekData.sumOf { it.appUsageInfo.timeInForeground }
+                val totalTimeMillis = weekData.values.sumOf { it.appUsageInfo.timeInForeground }
                 val formattedTime = TimeUtils.getFormattedTimeDurationString(totalTimeMillis)
                 weeklyData.update {
                     WeeklyAppUsageStatsState.Data(
@@ -169,16 +170,16 @@ class AppScreenTimeStatsViewModel(
         }
     }
 
-    private fun getDailyData(selectedDayIso: Int, weekData: List<AppUsageStats>) {
-        val dayData = weekData.firstOrNull { it.dayIsoNumber == selectedDayIso }
-        if (dayData == null) {
-            dailyData.update { DailyAppUsageStatsState.Empty }
-        } else {
-            dailyData.update {
-                DailyAppUsageStatsState.Data(
-                    usageStat = dayData
-                )
-            }
+    private fun getDailyData(selectedDayIso: Int, weekData: Map<Week, AppUsageStats>) {
+        println("Selected Day: $selectedDayIso")
+        val dayData = weekData.getValue(getWeek(selectedDayIso))
+        dailyData.update {
+            DailyAppUsageStatsState.Data(
+                usageStat = dayData
+            )
         }
     }
+
+    private fun getWeek(dayIsoNumber: Int) = if (dayIsoNumber <= 0) Week.MONDAY
+    else Week.values()[dayIsoNumber - 1]
 }

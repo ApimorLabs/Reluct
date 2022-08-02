@@ -139,7 +139,7 @@ internal fun AppScreenTimeStatsUI(
                         selectedDayText = if (dailyData is DailyAppUsageStatsState.Data)
                             dailyData.dayText else "...",
                         selectedDayScreenTime = if (dailyData is DailyAppUsageStatsState.Data)
-                            dailyData.usageStat.dateFormatted else "...",
+                            dailyData.usageStat.appUsageInfo.formattedTimeInForeground else "...",
                         weeklyTotalScreenTime = uiState.weeklyData.formattedTotalTime,
                         selectedDayIsoNumber = uiState.selectedInfo.selectedDay,
                         onBarClicked = { onSelectDay(it) }
@@ -239,7 +239,7 @@ private fun TopAppInfoItem(
         else -> {
             Text(
                 modifier = modifier,
-                text = "...",
+                text = "• • • • •",
                 style = MaterialTheme.typography.titleLarge,
                 color = MaterialTheme.colorScheme.onBackground
             )

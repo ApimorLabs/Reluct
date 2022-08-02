@@ -3,6 +3,7 @@ package work.racka.reluct.common.features.screen_time.statistics.states.app_stat
 import work.racka.reluct.common.features.screen_time.statistics.states.ScreenTimeStatsSelectedInfo
 import work.racka.reluct.common.model.domain.limits.AppTimeLimit
 import work.racka.reluct.common.model.domain.usagestats.AppUsageStats
+import work.racka.reluct.common.model.util.time.Week
 
 data class AppScreenTimeStatsState(
     val selectedInfo: ScreenTimeStatsSelectedInfo = ScreenTimeStatsSelectedInfo(),
@@ -12,20 +13,20 @@ data class AppScreenTimeStatsState(
 )
 
 sealed class WeeklyAppUsageStatsState(
-    val usageStats: List<AppUsageStats>,
+    val usageStats: Map<Week, AppUsageStats>,
     val formattedTotalTime: String
 ) {
     data class Data(
-        private val weeklyUsageStats: List<AppUsageStats>,
+        private val weeklyUsageStats: Map<Week, AppUsageStats>,
         private val weeklyFormattedTotalTime: String
     ) : WeeklyAppUsageStatsState(weeklyUsageStats, weeklyFormattedTotalTime)
 
     class Loading(
-        weeklyUsageStats: List<AppUsageStats> = listOf(),
+        weeklyUsageStats: Map<Week, AppUsageStats> = mapOf(),
         weeklyFormattedTotalTime: String = "..."
     ) : WeeklyAppUsageStatsState(weeklyUsageStats, weeklyFormattedTotalTime)
 
-    object Empty : WeeklyAppUsageStatsState(listOf(), "...")
+    object Empty : WeeklyAppUsageStatsState(mapOf(), "...")
 }
 
 sealed class DailyAppUsageStatsState {
