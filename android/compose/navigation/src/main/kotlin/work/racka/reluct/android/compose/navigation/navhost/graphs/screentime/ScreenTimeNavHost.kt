@@ -20,6 +20,7 @@ import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import work.racka.reluct.android.compose.components.util.BarsVisibility
+import work.racka.reluct.android.compose.navigation.destinations.screentime.AppScreenTimeStatsDestination
 import work.racka.reluct.android.compose.navigation.destinations.screentime.ScreenTimeLimitsDestination
 import work.racka.reluct.android.compose.navigation.destinations.screentime.ScreenTimeStatsDestination
 import work.racka.reluct.android.compose.navigation.top_tabs.screentime.ScreenTimeTabBar
@@ -83,7 +84,11 @@ internal fun ScreenTimeNavHost(
                 ScreenTimeStatisticsScreen(
                     mainScaffoldPadding = mainScaffoldPadding,
                     barsVisibility = barsVisibility,
-                    onNavigateToAppUsageInfo = { /* TODO: Setup App Info Screen */ }
+                    onNavigateToAppUsageInfo = { packageName ->
+                        mainNavController.navigate(
+                            AppScreenTimeStatsDestination.argsRoute(packageName)
+                        )
+                    }
                 )
             }
 
@@ -99,7 +104,11 @@ internal fun ScreenTimeNavHost(
                 ScreenTimeLimitsScreen(
                     mainScaffoldPadding = mainScaffoldPadding,
                     barsVisibility = barsVisibility,
-                    onNavigateToAppUsageInfo = { /* TODO: Setup App Info Screen */ }
+                    onNavigateToAppUsageInfo = { packageName ->
+                        mainNavController.navigate(
+                            AppScreenTimeStatsDestination.argsRoute(packageName)
+                        )
+                    }
                 )
             }
         }
