@@ -14,4 +14,6 @@ interface ManageDistractingApps {
     suspend fun markAsDistracting(packageName: String)
 
     suspend fun markAsNotDistracting(packageName: String)
+
+    suspend fun isDistractingApp(packageName: String): Boolean
 }

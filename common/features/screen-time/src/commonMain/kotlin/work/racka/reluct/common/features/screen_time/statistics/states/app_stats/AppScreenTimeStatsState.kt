@@ -31,7 +31,7 @@ sealed class WeeklyAppUsageStatsState(
 sealed class DailyAppUsageStatsState {
     data class Data(
         val usageStat: AppUsageStats,
-        val dayText: String
+        val dayText: String = usageStat.dateFormatted
     ) : DailyAppUsageStatsState()
 
     object Loading : DailyAppUsageStatsState()
