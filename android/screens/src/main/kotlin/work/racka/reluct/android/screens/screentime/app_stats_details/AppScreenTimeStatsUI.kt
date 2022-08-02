@@ -227,22 +227,34 @@ private fun TopAppInfoItem(
     modifier: Modifier = Modifier,
     dailyData: DailyAppUsageStatsState
 ) {
-    when (dailyData) {
-        is DailyAppUsageStatsState.Data -> {
-            AppNameEntry(
-                modifier = modifier,
-                appName = dailyData.usageStat.appUsageInfo.appName,
-                icon = dailyData.usageStat.appUsageInfo.appIcon.icon,
-                textStyle = MaterialTheme.typography.headlineSmall
-            )
+    val appInfo by remember(dailyData) {
+        derivedStateOf {
+            if (dailyData is DailyAppUsageStatsState.Data) dailyData.usageStat.appUsageInfo
+            else null
         }
-        else -> {
-            Text(
-                modifier = modifier,
-                text = "• • • • •",
-                style = MaterialTheme.typography.titleLarge,
-                color = MaterialTheme.colorScheme.onBackground
-            )
-        }
+    }
+
+    /**
+     * This all done to prevent flicker when new data is selected
+     * Obtaining these directly from [dailyData] will cause multiple recomposition with
+     * evaluation that will flicker the component.
+     */
+    val appIcon by remember(appInfo?.appName) { derivedStateOf { appInfo?.appIcon?.icon } }
+    val appName by remember(appInfo?.appIcon) { derivedStateOf { appInfo?.appName } }
+
+    if (appName != null && appIcon != null) {
+        AppNameEntry(
+            modifier = modifier,
+            appName = appName!!,
+            icon = appIcon!!,
+            textStyle = MaterialTheme.typography.headlineSmall
+        )
+    } else {
+        Text(
+            modifier = modifier,
+            text = "• • • • •",
+            style = MaterialTheme.typography.titleLarge,
+            color = MaterialTheme.colorScheme.onBackground
+        )
     }
 }
