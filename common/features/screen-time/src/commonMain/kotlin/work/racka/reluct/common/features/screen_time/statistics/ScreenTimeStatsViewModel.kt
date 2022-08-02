@@ -10,9 +10,13 @@ import work.racka.reluct.common.data.usecases.app_usage.GetWeeklyUsageStats
 import work.racka.reluct.common.data.usecases.limits.ManageAppTimeLimit
 import work.racka.reluct.common.data.usecases.time.GetWeekRangeFromOffset
 import work.racka.reluct.common.features.screen_time.limits.states.AppTimeLimitState
-import work.racka.reluct.common.features.screen_time.statistics.states.*
-import work.racka.reluct.common.model.util.time.StatisticsTimeUtils
+import work.racka.reluct.common.features.screen_time.statistics.states.ScreenTimeStatsEvents
+import work.racka.reluct.common.features.screen_time.statistics.states.ScreenTimeStatsSelectedInfo
+import work.racka.reluct.common.features.screen_time.statistics.states.all_stats.DailyUsageStatsState
+import work.racka.reluct.common.features.screen_time.statistics.states.all_stats.ScreenTimeStatsState
+import work.racka.reluct.common.features.screen_time.statistics.states.all_stats.WeeklyUsageStatsState
 import work.racka.reluct.common.model.util.time.TimeUtils
+import work.racka.reluct.common.model.util.time.WeekUtils
 
 class ScreenTimeStatsViewModel(
     private val getWeeklyUsageStats: GetWeeklyUsageStats,
@@ -57,7 +61,7 @@ class ScreenTimeStatsViewModel(
     private var appTimeLimitJob: Job? = null
 
     init {
-        val todayIsoNumber = StatisticsTimeUtils.todayIsoNumber()
+        val todayIsoNumber = WeekUtils.currentDayOfWeek().isoDayNumber
         selectedInfo.update { it.copy(selectedDay = todayIsoNumber) }
         getData()
     }

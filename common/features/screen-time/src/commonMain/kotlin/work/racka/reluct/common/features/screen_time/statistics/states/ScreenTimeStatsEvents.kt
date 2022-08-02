@@ -4,7 +4,7 @@ import work.racka.reluct.common.model.domain.limits.AppTimeLimit
 
 sealed class ScreenTimeStatsEvents {
     object Nothing : ScreenTimeStatsEvents()
-
+    data class ShowMessageDone(val isDone: Boolean, val msg: String) : ScreenTimeStatsEvents()
     class TimeLimitChange(val app: AppTimeLimit) : ScreenTimeStatsEvents()
 
     sealed class Navigation : ScreenTimeStatsEvents() {

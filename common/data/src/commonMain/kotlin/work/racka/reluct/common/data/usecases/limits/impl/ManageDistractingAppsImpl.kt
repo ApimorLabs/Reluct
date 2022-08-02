@@ -37,4 +37,7 @@ internal class ManageDistractingAppsImpl(
     override suspend fun markAsNotDistracting(packageName: String) {
         modifyAppLimits.makeDistractingApp(packageName = packageName, isDistracting = false)
     }
+
+    override suspend fun isDistractingApp(packageName: String): Boolean =
+        getDistractingApps.isDistractingApp(packageName)
 }

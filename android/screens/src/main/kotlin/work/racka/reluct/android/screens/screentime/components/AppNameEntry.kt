@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberImagePainter
@@ -23,6 +24,7 @@ internal fun AppNameEntry(
     appName: String,
     icon: Drawable,
     iconSize: Dp = 32.dp,
+    textStyle: TextStyle = MaterialTheme.typography.bodyLarge,
     actions: @Composable RowScope.() -> Unit = {}
 ) {
     Box(modifier = modifier, contentAlignment = Alignment.Center) {
@@ -46,7 +48,7 @@ internal fun AppNameEntry(
             Text(
                 modifier = Modifier.weight(1f),
                 text = appName,
-                style = MaterialTheme.typography.bodyLarge,
+                style = textStyle,
                 color = contentColor
             )
 

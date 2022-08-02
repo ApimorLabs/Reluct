@@ -14,17 +14,14 @@ internal class GetWeeklyAppUsageInfoImpl(
 
     private val daysOfWeek = Week.values()
 
-    override suspend fun invoke(weekOffset: Int, packageName: String): List<AppUsageStats> =
+    override suspend fun invoke(weekOffset: Int, packageName: String): Map<Week, AppUsageStats> =
         withContext(backgroundDispatcher) {
-            val appUsageList = mutableListOf<AppUsageStats>()
-            daysOfWeek.forEach { dayOfWeek ->
-                val appStats = dailyAppUsageInfo.invoke(
+            daysOfWeek.associateWith { dayOfWeek ->
+                dailyAppUsageInfo.invoke(
                     weekOffset = weekOffset,
                     dayIsoNumber = dayOfWeek.isoDayNumber,
                     packageName = packageName
                 )
-                appUsageList.add(appStats)
             }
-            appUsageList
         }
 }

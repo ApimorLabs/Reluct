@@ -4,6 +4,7 @@ import org.koin.core.KoinApplication
 import org.koin.dsl.module
 import work.racka.common.mvvm.koin.vm.commonViewModel
 import work.racka.reluct.common.features.screen_time.limits.ScreenTimeLimitsViewModel
+import work.racka.reluct.common.features.screen_time.statistics.AppScreenTimeStatsViewModel
 import work.racka.reluct.common.features.screen_time.statistics.ScreenTimeStatsViewModel
 
 object ScreenTime {
@@ -26,6 +27,16 @@ object ScreenTime {
                 manageFocusMode = get(),
                 managePausedApps = get(),
                 manageDistractingApps = get()
+            )
+        }
+
+        commonViewModel { (packageName: String) ->
+            AppScreenTimeStatsViewModel(
+                packageName = packageName,
+                getWeeklyAppUsage = get(),
+                manageAppTimeLimit = get(),
+                manageDistractingApps = get(),
+                getWeekRangeFromOffset = get()
             )
         }
     }
