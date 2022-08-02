@@ -20,6 +20,10 @@ import work.racka.reluct.common.model.domain.usagestats.AppUsageStats
 import work.racka.reluct.common.model.util.time.StatisticsTimeUtils
 import work.racka.reluct.common.model.util.time.TimeUtils
 
+/**
+ * Remember to pass the packageName in Koin `parametersOf` when getting an instance
+ * of this class using Koin injection.
+ */
 class AppScreenTimeStatsViewModel(
     private val packageName: String,
     private val getWeeklyAppUsage: GetWeeklyAppUsageInfo,
