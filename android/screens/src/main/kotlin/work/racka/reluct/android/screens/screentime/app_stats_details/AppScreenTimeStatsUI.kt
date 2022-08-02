@@ -6,14 +6,13 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Scaffold
-import androidx.compose.material.ScaffoldState
-import androidx.compose.material.Snackbar
-import androidx.compose.material.SnackbarHost
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.AppBlocking
+import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -27,6 +26,7 @@ import work.racka.reluct.android.compose.components.dialogs.CircularProgressDial
 import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.android.compose.theme.Shapes
 import work.racka.reluct.android.screens.R
+import work.racka.reluct.android.screens.screentime.components.AppNameEntry
 import work.racka.reluct.android.screens.screentime.components.AppTimeLimitDialog
 import work.racka.reluct.android.screens.screentime.components.LimitsDetailsCard
 import work.racka.reluct.android.screens.screentime.components.LimitsSwitchCard
@@ -44,7 +44,8 @@ internal fun AppScreenTimeStatsUI(
     toggleDistractingState: (value: Boolean) -> Unit,
     saveTimeLimit: (hours: Int, minutes: Int) -> Unit,
     onSelectDay: (dayIsoNumber: Int) -> Unit,
-    onUpdateWeekOffset: (offset: Int) -> Unit
+    onUpdateWeekOffset: (offset: Int) -> Unit,
+    goBack: () -> Unit
 ) {
 
     val barChartState = remember(uiState.weeklyData) {
@@ -74,7 +75,9 @@ internal fun AppScreenTimeStatsUI(
         modifier = modifier
             .fillMaxSize(),
         scaffoldState = scaffoldState,
-        topBar = {},
+        topBar = {
+            AppInfoTopBar(onBack = goBack, dailyData = uiState.dailyData)
+        },
         snackbarHost = {
             SnackbarHost(hostState = it) { data ->
                 Snackbar(
@@ -167,6 +170,14 @@ internal fun AppScreenTimeStatsUI(
                         }
                     }
                 }
+
+                // Bottom Space
+                item {
+                    Spacer(
+                        modifier = Modifier
+                            .height(padding.calculateBottomPadding())
+                    )
+                }
             }
         }
     }
@@ -186,6 +197,50 @@ internal fun AppScreenTimeStatsUI(
                     onDismiss = { showAppTimeLimitDialog = false },
                     loadingText = stringResource(id = R.string.loading_text)
                 )
+            }
+        }
+    }
+}
+
+@Composable
+private fun AppInfoTopBar(
+    modifier: Modifier = Modifier,
+    onBack: () -> Unit,
+    dailyData: DailyAppUsageStatsState
+) {
+    Box(
+        modifier = modifier.fillMaxWidth(),
+        contentAlignment = Alignment.Center
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = Dimens.MediumPadding.size),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(Dimens.MediumPadding.size)
+        ) {
+            IconButton(onClick = onBack) {
+                Icon(
+                    imageVector = Icons.Rounded.ArrowBack,
+                    contentDescription = stringResource(id = R.string.back_icon)
+                )
+            }
+
+            when (dailyData) {
+                is DailyAppUsageStatsState.Data -> {
+                    AppNameEntry(
+                        appName = dailyData.usageStat.appUsageInfo.appName,
+                        icon = dailyData.usageStat.appUsageInfo.appIcon.icon,
+                        textStyle = MaterialTheme.typography.titleMedium
+                    )
+                }
+                else -> {
+                    Text(
+                        text = "...",
+                        style = MaterialTheme.typography.titleLarge,
+                        color = MaterialTheme.colorScheme.onBackground
+                    )
+                }
             }
         }
     }
