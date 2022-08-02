@@ -15,8 +15,8 @@ import work.racka.reluct.common.features.screen_time.statistics.states.ScreenTim
 import work.racka.reluct.common.features.screen_time.statistics.states.all_stats.DailyUsageStatsState
 import work.racka.reluct.common.features.screen_time.statistics.states.all_stats.ScreenTimeStatsState
 import work.racka.reluct.common.features.screen_time.statistics.states.all_stats.WeeklyUsageStatsState
-import work.racka.reluct.common.model.util.time.StatisticsTimeUtils
 import work.racka.reluct.common.model.util.time.TimeUtils
+import work.racka.reluct.common.model.util.time.WeekUtils
 
 class ScreenTimeStatsViewModel(
     private val getWeeklyUsageStats: GetWeeklyUsageStats,
@@ -61,7 +61,7 @@ class ScreenTimeStatsViewModel(
     private var appTimeLimitJob: Job? = null
 
     init {
-        val todayIsoNumber = StatisticsTimeUtils.todayIsoNumber()
+        val todayIsoNumber = WeekUtils.currentDayOfWeek().isoDayNumber
         selectedInfo.update { it.copy(selectedDay = todayIsoNumber) }
         getData()
     }

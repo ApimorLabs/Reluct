@@ -50,8 +50,10 @@ object StatisticsTimeUtils {
     ): LocalDateTime {
         val localDateTime = Clock.System.now().toLocalDateTime(TimeZone.of(timeZoneId))
         return localDateTime.plus(days = weekOffset * 7, timeZoneId = timeZoneId)
-            .plus(days = selectedDayIsoNumber - localDateTime.dayOfWeek.isoDayNumber,
-                timeZoneId = timeZoneId)
+            .plus(
+                days = selectedDayIsoNumber - localDateTime.dayOfWeek.isoDayNumber,
+                timeZoneId = timeZoneId
+            )
     }
 
     fun weekLocalDateTimeStringRange(
@@ -113,8 +115,4 @@ object StatisticsTimeUtils {
             .toString()
         return start..end
     }
-
-    fun todayIsoNumber(): Int = Clock.System.now()
-        .toLocalDateTime(TimeZone.currentSystemDefault())
-        .dayOfWeek.isoDayNumber
 }
