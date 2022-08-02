@@ -65,9 +65,14 @@ class AppScreenTimeStatsViewModel(
     private var appSettingsJob: Job? = null
 
     init {
+        initialize()
+    }
+
+    private fun initialize() {
         val todayIsoNumber = WeekUtils.currentDayOfWeek().isoDayNumber
         selectedInfo.update { it.copy(selectedDay = todayIsoNumber) }
         getData()
+        loadAppSettings()
     }
 
     fun toggleDistractingState(value: Boolean) {
@@ -122,7 +127,6 @@ class AppScreenTimeStatsViewModel(
 
     private fun getData() {
         getWeeklyData()
-        loadAppSettings()
     }
 
     private fun loadAppSettings() {
