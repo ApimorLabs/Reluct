@@ -5,6 +5,7 @@ import work.racka.reluct.common.database.models.LimitsDbObject
 import work.racka.reluct.common.model.domain.app_info.AppInfo
 import work.racka.reluct.common.model.domain.limits.AppLimits
 import work.racka.reluct.common.model.domain.limits.AppTimeLimit
+import work.racka.reluct.common.model.util.time.TimeUtils
 import kotlin.math.roundToInt
 import kotlin.math.roundToLong
 
@@ -13,16 +14,19 @@ typealias Minute = Int
 
 fun AppLimits.asTimeLimit(): AppTimeLimit {
     val time = convertMillisToTime(timeLimit)
+    val formatted = TimeUtils.getFormattedTimeDurationString(timeLimit)
     return AppTimeLimit(
         appInfo = appInfo,
         timeInMillis = timeLimit,
         hours = time.first,
-        minutes = time.second
+        minutes = time.second,
+        formattedTime = formatted
     )
 }
 
 suspend fun LimitsDbObject.asTimeLimit(getAppInfo: GetAppInfo): AppTimeLimit {
     val time = convertMillisToTime(timeLimit)
+    val formatted = TimeUtils.getFormattedTimeDurationString(timeLimit)
     return AppTimeLimit(
         appInfo = AppInfo(
             packageName = packageName,
@@ -31,7 +35,8 @@ suspend fun LimitsDbObject.asTimeLimit(getAppInfo: GetAppInfo): AppTimeLimit {
         ),
         timeInMillis = timeLimit,
         hours = time.first,
-        minutes = time.second
+        minutes = time.second,
+        formatted
     )
 }
 
