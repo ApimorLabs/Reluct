@@ -195,6 +195,7 @@ internal fun AppScreenTimeStatsUI(
                 item {
                     Spacer(
                         modifier = Modifier
+                            .navigationBarsPadding()
                             .height(padding.calculateBottomPadding())
                     )
                 }
