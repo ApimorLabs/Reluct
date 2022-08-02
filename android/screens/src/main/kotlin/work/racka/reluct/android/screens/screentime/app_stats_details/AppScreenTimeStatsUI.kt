@@ -10,6 +10,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.AppBlocking
 import androidx.compose.material.icons.rounded.ArrowBack
+import androidx.compose.material.icons.rounded.HourglassBottom
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -76,7 +77,11 @@ internal fun AppScreenTimeStatsUI(
             .fillMaxSize(),
         scaffoldState = scaffoldState,
         topBar = {
-            AppInfoTopBar(onBack = goBack, dailyData = uiState.dailyData)
+            AppInfoTopBar(
+                modifier = Modifier.statusBarsPadding(),
+                onBack = goBack,
+                dailyData = uiState.dailyData
+            )
         },
         snackbarHost = {
             SnackbarHost(hostState = it) { data ->
@@ -149,7 +154,8 @@ internal fun AppScreenTimeStatsUI(
                             LimitsDetailsCard(
                                 title = stringResource(R.string.app_time_limit),
                                 description = appSettings.appTimeLimit.formattedTime,
-                                onClick = { showAppTimeLimitDialog = true }
+                                onClick = { showAppTimeLimitDialog = true },
+                                icon = Icons.Rounded.HourglassBottom
                             )
                         }
 
@@ -208,6 +214,7 @@ private fun AppInfoTopBar(
     onBack: () -> Unit,
     dailyData: DailyAppUsageStatsState
 ) {
+    val contentColor = MaterialTheme.colorScheme.onBackground
     Box(
         modifier = modifier.fillMaxWidth(),
         contentAlignment = Alignment.Center
@@ -217,12 +224,13 @@ private fun AppInfoTopBar(
                 .fillMaxWidth()
                 .padding(horizontal = Dimens.MediumPadding.size),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(Dimens.MediumPadding.size)
+            horizontalArrangement = Arrangement.spacedBy(Dimens.SmallPadding.size)
         ) {
             IconButton(onClick = onBack) {
                 Icon(
                     imageVector = Icons.Rounded.ArrowBack,
-                    contentDescription = stringResource(id = R.string.back_icon)
+                    contentDescription = stringResource(id = R.string.back_icon),
+                    tint = contentColor
                 )
             }
 
@@ -231,14 +239,14 @@ private fun AppInfoTopBar(
                     AppNameEntry(
                         appName = dailyData.usageStat.appUsageInfo.appName,
                         icon = dailyData.usageStat.appUsageInfo.appIcon.icon,
-                        textStyle = MaterialTheme.typography.titleMedium
+                        textStyle = MaterialTheme.typography.titleLarge
                     )
                 }
                 else -> {
                     Text(
                         text = "...",
                         style = MaterialTheme.typography.titleLarge,
-                        color = MaterialTheme.colorScheme.onBackground
+                        color = contentColor
                     )
                 }
             }

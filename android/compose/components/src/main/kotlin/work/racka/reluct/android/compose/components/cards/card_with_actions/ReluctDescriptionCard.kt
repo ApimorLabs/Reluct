@@ -1,15 +1,13 @@
 package work.racka.reluct.android.compose.components.cards.card_with_actions
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.vector.ImageVector
 import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.android.compose.theme.Shapes
 
@@ -22,6 +20,7 @@ fun ReluctDescriptionCard(
     shape: Shape = Shapes.large,
     title: @Composable () -> Unit,
     description: @Composable () -> Unit,
+    icon: ImageVector? = null,
     rightActions: @Composable RowScope.() -> Unit = {},
     onClick: () -> Unit,
     bottomContent: @Composable ColumnScope.() -> Unit = {}
@@ -44,6 +43,10 @@ fun ReluctDescriptionCard(
                 .padding(Dimens.MediumPadding.size)
                 .fillMaxWidth()
         ) {
+            icon?.let {
+                Icon(imageVector = icon, contentDescription = null)
+            }
+
             Column(
                 modifier = Modifier
                     .fillMaxWidth()

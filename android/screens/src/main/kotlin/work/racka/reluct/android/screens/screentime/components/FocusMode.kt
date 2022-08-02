@@ -51,6 +51,7 @@ fun LimitsDetailsCard(
     modifier: Modifier = Modifier,
     title: String,
     description: String,
+    icon: ImageVector? = null,
     onClick: () -> Unit = {},
     bottomContent: @Composable ColumnScope.() -> Unit = {}
 ) {
@@ -70,6 +71,7 @@ fun LimitsDetailsCard(
                 color = LocalContentColor.current.copy(alpha = .8f)
             )
         },
+        icon = icon,
         onClick = onClick,
         rightActions = {
             Icon(imageVector = Icons.Rounded.ChevronRight, contentDescription = "Open")
