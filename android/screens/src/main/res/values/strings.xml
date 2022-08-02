@@ -1,4 +1,5 @@
 <resources>
+    <string name="loading_text">Loading…</string>
     <string name="new_task_button_text">New Task</string>
     <string name="add_task_button_text">Add Task</string>
     <string name="edit_button_text">Edit</string>

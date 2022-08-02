@@ -31,6 +31,7 @@ import work.racka.reluct.android.compose.components.cards.headers.ListGroupHeadi
 import work.racka.reluct.android.compose.components.cards.permissions.PermissionsCard
 import work.racka.reluct.android.compose.components.cards.statistics.StatisticsChartState
 import work.racka.reluct.android.compose.components.cards.statistics.screen_time.ScreenTimeStatisticsCard
+import work.racka.reluct.android.compose.components.dialogs.CircularProgressDialog
 import work.racka.reluct.android.compose.components.images.LottieAnimationWithDescription
 import work.racka.reluct.android.compose.components.util.BarsVisibility
 import work.racka.reluct.android.compose.components.util.rememberScrollContext
@@ -41,6 +42,7 @@ import work.racka.reluct.android.screens.screentime.components.AppTimeLimitDialo
 import work.racka.reluct.android.screens.util.PermissionCheckHandler
 import work.racka.reluct.android.screens.util.checkUsageAccessPermissions
 import work.racka.reluct.android.screens.util.requestUsageAccessPermission
+import work.racka.reluct.common.features.screen_time.limits.states.AppTimeLimitState
 import work.racka.reluct.common.features.screen_time.statistics.states.all_stats.DailyUsageStatsState
 import work.racka.reluct.common.features.screen_time.statistics.states.all_stats.ScreenTimeStatsState
 import work.racka.reluct.common.features.screen_time.statistics.states.all_stats.WeeklyUsageStatsState
@@ -301,11 +303,22 @@ internal fun ScreenTimeStatisticsUI(
 
         // App Time Limit Dialog
         if (showAppTimeLimitDialog) {
-            AppTimeLimitDialog(
-                onDismiss = { showAppTimeLimitDialog = false },
-                appTimeLimitState = uiState.appTimeLimit,
-                onSaveTimeLimit = onSaveAppTimeLimitSettings
-            )
+            when (val limitState = uiState.appTimeLimit) {
+                is AppTimeLimitState.Data -> {
+                    AppTimeLimitDialog(
+                        onDismiss = { showAppTimeLimitDialog = false },
+                        initialAppTimeLimit = limitState.timeLimit,
+                        onSaveTimeLimit = onSaveAppTimeLimitSettings
+                    )
+                }
+                else -> {
+                    CircularProgressDialog(
+                        onDismiss = { showAppTimeLimitDialog = false },
+                        loadingText = stringResource(id = R.string.loading_text)
+                    )
+                }
+            }
+
         }
     }
 }
