@@ -23,9 +23,11 @@ import work.racka.reluct.android.compose.components.buttons.ValueOffsetButton
 import work.racka.reluct.android.compose.components.cards.headers.ListGroupHeadingHeader
 import work.racka.reluct.android.compose.components.cards.statistics.StatisticsChartState
 import work.racka.reluct.android.compose.components.cards.statistics.screen_time.AppScreenTimeStatisticsCard
+import work.racka.reluct.android.compose.components.dialogs.CircularProgressDialog
 import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.android.compose.theme.Shapes
 import work.racka.reluct.android.screens.R
+import work.racka.reluct.android.screens.screentime.components.AppTimeLimitDialog
 import work.racka.reluct.android.screens.screentime.components.LimitsDetailsCard
 import work.racka.reluct.android.screens.screentime.components.LimitsSwitchCard
 import work.racka.reluct.common.features.screen_time.statistics.states.app_stats.AppScreenTimeStatsState
@@ -171,10 +173,20 @@ internal fun AppScreenTimeStatsUI(
 
     // App Time Limit Dialog
     if (showAppTimeLimitDialog) {
-        /*AppTimeLimitDialog(
-            onDismiss = { showAppTimeLimitDialog = false },
-            appTimeLimitState = uiState.appTimeLimit,
-            onSaveTimeLimit = onSaveAppTimeLimitSettings
-        )*/
+        when (val appSettings = uiState.appSettingsState) {
+            is AppSettingsState.Data -> {
+                AppTimeLimitDialog(
+                    onDismiss = { showAppTimeLimitDialog = false },
+                    initialAppTimeLimit = appSettings.appTimeLimit,
+                    onSaveTimeLimit = saveTimeLimit
+                )
+            }
+            else -> {
+                CircularProgressDialog(
+                    onDismiss = { showAppTimeLimitDialog = false },
+                    loadingText = stringResource(id = R.string.loading_text)
+                )
+            }
+        }
     }
 }

@@ -318,7 +318,6 @@ internal fun ScreenTimeStatisticsUI(
                     )
                 }
             }
-
         }
     }
 }
