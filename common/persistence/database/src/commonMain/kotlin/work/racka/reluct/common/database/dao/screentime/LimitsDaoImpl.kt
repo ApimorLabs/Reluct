@@ -65,7 +65,7 @@ internal class LimitsDaoImpl(
         limitsQueries?.getDistractingAppsFromDb()?.executeAsList() ?: emptyList()
 
     override suspend fun isDistractingApp(packageName: String): Boolean =
-        limitsQueries?.isDistractingApp(packageName)?.executeAsOne() ?: false
+        limitsQueries?.isDistractingApp(packageName)?.executeAsOneOrNull() ?: false
 
     override suspend fun removeApp(packageName: String) {
         limitsQueries?.transaction {

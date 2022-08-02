@@ -90,6 +90,7 @@ internal class UsageDataManagerImpl(
         packageName: String
     ): DataAppUsageInfo {
         val allAppsData = getUsageStats(startTimeMillis, endTimeMillis)
-        return allAppsData.appsUsageList.first { it.packageName == packageName }
+        return allAppsData.appsUsageList.firstOrNull { it.packageName == packageName }
+            ?: DataAppUsageInfo(packageName = packageName)
     }
 }
