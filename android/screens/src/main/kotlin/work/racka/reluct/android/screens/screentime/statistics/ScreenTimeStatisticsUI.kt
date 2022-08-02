@@ -242,6 +242,7 @@ internal fun ScreenTimeStatisticsUI(
                         key = { it.packageName }
                     ) { item ->
                         AppUsageEntry(
+                            modifier = Modifier.animateItemPlacement(),
                             playAnimation = true,
                             appUsageInfo = item,
                             onEntryClick = { onAppUsageInfoClick(item) },
