@@ -48,7 +48,7 @@ internal fun AppNameEntry(
             Text(
                 modifier = Modifier.weight(1f),
                 text = appName,
-                style = MaterialTheme.typography.bodyLarge,
+                style = textStyle,
                 color = contentColor
             )
 

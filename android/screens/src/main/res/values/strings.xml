@@ -35,6 +35,7 @@
 
     <string name="time_limit_change_arg">Screen Time Limit for %1$s changed</string>
 
+    <string name="screen_time_text">Screen Time</string>
     <string name="app_time_limit">Screen Time Limit</string>
     <string name="distracting_app">Distracting App</string>
     <string name="distracting_app_desc">Set as Distracting App for Focus Mode</string>

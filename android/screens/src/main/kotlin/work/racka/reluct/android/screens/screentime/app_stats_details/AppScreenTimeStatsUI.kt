@@ -6,11 +6,15 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.material.Scaffold
+import androidx.compose.material.ScaffoldState
+import androidx.compose.material.Snackbar
+import androidx.compose.material.SnackbarHost
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.AppBlocking
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.HourglassBottom
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -24,6 +28,7 @@ import work.racka.reluct.android.compose.components.cards.headers.ListGroupHeadi
 import work.racka.reluct.android.compose.components.cards.statistics.StatisticsChartState
 import work.racka.reluct.android.compose.components.cards.statistics.screen_time.AppScreenTimeStatisticsCard
 import work.racka.reluct.android.compose.components.dialogs.CircularProgressDialog
+import work.racka.reluct.android.compose.components.topBar.ReluctSmallTopAppBar
 import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.android.compose.theme.Shapes
 import work.racka.reluct.android.screens.R
@@ -77,10 +82,17 @@ internal fun AppScreenTimeStatsUI(
             .fillMaxSize(),
         scaffoldState = scaffoldState,
         topBar = {
-            AppInfoTopBar(
+            ReluctSmallTopAppBar(
                 modifier = Modifier.statusBarsPadding(),
-                onBack = goBack,
-                dailyData = uiState.dailyData
+                title = stringResource(R.string.screen_time_text),
+                navigationIcon = {
+                    IconButton(onClick = goBack) {
+                        androidx.compose.material3.Icon(
+                            imageVector = Icons.Rounded.ArrowBack,
+                            contentDescription = null
+                        )
+                    }
+                }
             )
         },
         snackbarHost = {
@@ -112,9 +124,11 @@ internal fun AppScreenTimeStatsUI(
                 verticalArrangement = Arrangement.spacedBy(Dimens.SmallPadding.size),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                // Top Space
                 item {
-                    Spacer(modifier = Modifier)
+                    TopAppInfoItem(
+                        modifier = Modifier.padding(bottom = Dimens.SmallPadding.size),
+                        dailyData = uiState.dailyData
+                    )
                 }
 
                 // Chart
@@ -209,47 +223,26 @@ internal fun AppScreenTimeStatsUI(
 }
 
 @Composable
-private fun AppInfoTopBar(
+private fun TopAppInfoItem(
     modifier: Modifier = Modifier,
-    onBack: () -> Unit,
     dailyData: DailyAppUsageStatsState
 ) {
-    val contentColor = MaterialTheme.colorScheme.onBackground
-    Box(
-        modifier = modifier.fillMaxWidth(),
-        contentAlignment = Alignment.Center
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = Dimens.MediumPadding.size),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(Dimens.SmallPadding.size)
-        ) {
-            IconButton(onClick = onBack) {
-                Icon(
-                    imageVector = Icons.Rounded.ArrowBack,
-                    contentDescription = stringResource(id = R.string.back_icon),
-                    tint = contentColor
-                )
-            }
-
-            when (dailyData) {
-                is DailyAppUsageStatsState.Data -> {
-                    AppNameEntry(
-                        appName = dailyData.usageStat.appUsageInfo.appName,
-                        icon = dailyData.usageStat.appUsageInfo.appIcon.icon,
-                        textStyle = MaterialTheme.typography.titleLarge
-                    )
-                }
-                else -> {
-                    Text(
-                        text = "...",
-                        style = MaterialTheme.typography.titleLarge,
-                        color = contentColor
-                    )
-                }
-            }
+    when (dailyData) {
+        is DailyAppUsageStatsState.Data -> {
+            AppNameEntry(
+                modifier = modifier,
+                appName = dailyData.usageStat.appUsageInfo.appName,
+                icon = dailyData.usageStat.appUsageInfo.appIcon.icon,
+                textStyle = MaterialTheme.typography.headlineSmall
+            )
+        }
+        else -> {
+            Text(
+                modifier = modifier,
+                text = "...",
+                style = MaterialTheme.typography.titleLarge,
+                color = MaterialTheme.colorScheme.onBackground
+            )
         }
     }
 }
