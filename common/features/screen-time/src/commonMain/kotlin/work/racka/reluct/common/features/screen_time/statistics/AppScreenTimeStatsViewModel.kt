@@ -57,7 +57,7 @@ class AppScreenTimeStatsViewModel(
     )
 
     private val _events = Channel<ScreenTimeStatsEvents>(capacity = Channel.UNLIMITED)
-    private val events: Flow<ScreenTimeStatsEvents> = _events.receiveAsFlow()
+    val events: Flow<ScreenTimeStatsEvents> = _events.receiveAsFlow()
 
     private var weeklyDataJob: Job? = null
     private var appTimeLimitJob: Job? = null
