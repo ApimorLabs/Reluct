@@ -120,8 +120,10 @@ class TasksStatisticsViewModel(
     }
 
     fun toggleDone(task: Task, isDone: Boolean) {
-        modifyTasksUsesCase.toggleTaskDone(task, isDone)
-        _events.trySend(TasksEvents.ShowMessageDone(isDone, task.title))
+        vmScope.launch {
+            modifyTasksUsesCase.toggleTaskDone(task, isDone)
+            _events.send(TasksEvents.ShowMessageDone(isDone, task.title))
+        }
     }
 
     fun navigateToTaskDetails(taskId: String) {
