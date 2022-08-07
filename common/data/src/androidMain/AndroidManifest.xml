@@ -6,7 +6,7 @@
         <receiver
             android:name="work.racka.reluct.common.data.alarms.TasksAlarmReceiver"
             android:enabled="true"
-            android:exported="true" />
+            android:exported="false" />
     </application>
 
 </manifest>
