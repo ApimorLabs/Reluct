@@ -64,9 +64,7 @@ internal class AndroidHapticFeedback(private val context: Context) : HapticFeedb
     }
 
     override fun customDuration(durationMillis: Long) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            vibrate(durationMillis)
-        } else vibrate(durationMillis)
+        vibrate(durationMillis)
     }
 
     /**
