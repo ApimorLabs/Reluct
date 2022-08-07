@@ -20,12 +20,7 @@ internal class AndroidManageTasksAlarms(private val context: Context) : ManageTa
                 action = AlarmsKeys.TASK_REMINDER.action
                 putExtra(AlarmsKeys.TASK_REMINDER.key, taskId)
             }
-            val pendingIntent = PendingIntent.getBroadcast(
-                context,
-                0,
-                intent,
-                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-            )
+            val pendingIntent = context.alarmPendingIntent(intent)
             alarmManager.cancel(pendingIntent)
             val timeInMillis =
                 dateTime.toInstant(TimeZone.currentSystemDefault()).toEpochMilliseconds()
@@ -44,15 +39,18 @@ internal class AndroidManageTasksAlarms(private val context: Context) : ManageTa
             action = AlarmsKeys.TASK_REMINDER.action
             putExtra(AlarmsKeys.TASK_REMINDER.key, taskId)
         }
-        val pendingIntent = PendingIntent.getBroadcast(
-            context,
+        val pendingIntent = context.alarmPendingIntent(intent)
+        val alarmManager = getAlarmManager(context)
+        alarmManager.cancel(pendingIntent)
+    }
+
+    private fun Context.alarmPendingIntent(intent: Intent) = PendingIntent
+        .getBroadcast(
+            this,
             0,
             intent,
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
-        val alarmManager = getAlarmManager(context)
-        alarmManager.cancel(pendingIntent)
-    }
 
     private fun getAlarmManager(context: Context): AlarmManager =
         context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
