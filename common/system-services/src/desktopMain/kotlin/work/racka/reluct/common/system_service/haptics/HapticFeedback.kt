@@ -1,13 +1,13 @@
 package work.racka.reluct.common.system_service.haptics
 
-actual class HapticFeedback {
-    actual fun tick() {}
+internal class DesktopHapticFeedback : HapticFeedback {
+    override fun tick() {}
 
-    actual fun click() {}
+    override fun click() {}
 
-    actual fun doubleClick() {}
+    override fun doubleClick() {}
 
-    actual fun heavyClick() {}
+    override fun heavyClick() {}
 
-    actual fun customDuration(durationMillis: Long) {}
+    override fun customDuration(durationMillis: Long) {}
 }

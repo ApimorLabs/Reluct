@@ -3,36 +3,36 @@ package work.racka.reluct.common.system_service.haptics
 import android.content.Context
 import android.os.*
 
-actual class HapticFeedback(private val context: Context) {
-    actual fun tick() {
+internal class AndroidHapticFeedback(private val context: Context) : HapticFeedback {
+    override fun tick() {
         val durationMillis = 40L
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             vibrateOneShot(durationMillis, VibrationEffect.EFFECT_TICK)
         } else vibrateOneShot(durationMillis)
     }
 
-    actual fun click() {
+    override fun click() {
         val durationMillis = 60L
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             vibrateOneShot(durationMillis, VibrationEffect.EFFECT_CLICK)
         } else vibrateOneShot(durationMillis)
     }
 
-    actual fun doubleClick() {
+    override fun doubleClick() {
         val durationMillis = 100L
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             vibrateOneShot(durationMillis, VibrationEffect.EFFECT_DOUBLE_CLICK)
         } else vibrateOneShot(durationMillis)
     }
 
-    actual fun heavyClick() {
+    override fun heavyClick() {
         val durationMillis = 120L
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             vibrateOneShot(durationMillis, VibrationEffect.EFFECT_HEAVY_CLICK)
         } else vibrateOneShot(durationMillis)
     }
 
-    actual fun customDuration(durationMillis: Long) {
+    override fun customDuration(durationMillis: Long) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             vibrateOneShot(durationMillis, VibrationEffect.DEFAULT_AMPLITUDE)
         } else vibrateOneShot(durationMillis)
