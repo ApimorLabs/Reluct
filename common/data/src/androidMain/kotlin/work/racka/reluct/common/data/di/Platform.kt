@@ -8,6 +8,8 @@ import work.racka.reluct.common.data.usecases.app_info.AndroidGetAppInfo
 import work.racka.reluct.common.data.usecases.app_info.AndroidGetInstalledApps
 import work.racka.reluct.common.data.usecases.app_info.GetAppInfo
 import work.racka.reluct.common.data.usecases.app_info.GetInstalledApps
+import work.racka.reluct.common.data.usecases.tasks.AndroidManageTasksAlarms
+import work.racka.reluct.common.data.usecases.tasks.ManageTasksAlarms
 
 internal actual object Platform {
     actual fun installModule(): Module = module {
@@ -22,5 +24,7 @@ internal actual object Platform {
                 dispatcher = Dispatchers.IO
             )
         }
+
+        factory<ManageTasksAlarms> { AndroidManageTasksAlarms(context = androidContext()) }
     }
 }
