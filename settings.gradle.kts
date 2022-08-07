@@ -20,4 +20,5 @@ include(
     ":common:mvvm-core",
     ":common:persistence:database",
     ":common:persistence:settings",
+    ":common:system-services",
 )
