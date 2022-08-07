@@ -4,7 +4,7 @@
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
     <application>
         <receiver
-            android:name="work.racka.reluct.common.data.alarms.TasksAlarmReceiver"
+            android:name="work.racka.reluct.common.data.alarms.AlarmsReceiver"
             android:enabled="true"
             android:exported="false" />
     </application>

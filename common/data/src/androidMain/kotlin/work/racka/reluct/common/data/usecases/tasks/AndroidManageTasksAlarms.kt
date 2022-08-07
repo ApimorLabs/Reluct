@@ -9,14 +9,14 @@ import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toInstant
 import work.racka.reluct.common.data.alarms.AlarmsKeys
-import work.racka.reluct.common.data.alarms.TasksAlarmReceiver
+import work.racka.reluct.common.data.alarms.AlarmsReceiver
 
 internal class AndroidManageTasksAlarms(private val context: Context) : ManageTasksAlarms {
 
     override suspend fun setAlarm(taskId: String, dateTime: LocalDateTime) {
         val alarmManager = getAlarmManager(context)
         if (canScheduleAlarms(alarmManager)) {
-            val intent = Intent(context, TasksAlarmReceiver::class.java).apply {
+            val intent = Intent(context, AlarmsReceiver::class.java).apply {
                 action = AlarmsKeys.TASK_REMINDER.action
                 putExtra(AlarmsKeys.TASK_REMINDER.key, taskId)
             }
@@ -40,7 +40,7 @@ internal class AndroidManageTasksAlarms(private val context: Context) : ManageTa
     }
 
     override suspend fun removeAlarm(taskId: String) {
-        val intent = Intent(context, TasksAlarmReceiver::class.java).apply {
+        val intent = Intent(context, AlarmsReceiver::class.java).apply {
             action = AlarmsKeys.TASK_REMINDER.action
             putExtra(AlarmsKeys.TASK_REMINDER.key, taskId)
         }
