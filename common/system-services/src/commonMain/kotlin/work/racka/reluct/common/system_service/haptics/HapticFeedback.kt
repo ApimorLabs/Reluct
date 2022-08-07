@@ -5,5 +5,7 @@ interface HapticFeedback {
     fun click()
     fun doubleClick()
     fun heavyClick()
+    fun cascadeFall()
+    fun spinAndFall()
     fun customDuration(durationMillis: Long)
 }

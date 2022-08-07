@@ -47,6 +47,7 @@ object Data {
         factory<ModifyTaskUseCase> {
             ModifyTaskUseCaseImpl(
                 dao = get(),
+                haptics = get(),
                 backgroundDispatcher = CoroutineDispatchers.backgroundDispatcher
             )
         }
@@ -130,6 +131,7 @@ object Data {
                 getDistractingApps = get(),
                 getInstalledApps = get(),
                 modifyAppLimits = get(),
+                haptics = get(),
                 backgroundDispatcher = CoroutineDispatchers.backgroundDispatcher
             )
         }
@@ -139,6 +141,7 @@ object Data {
                 getPausedApps = get(),
                 getInstalledApps = get(),
                 modifyAppLimits = get(),
+                haptics = get(),
                 backgroundDispatcher = CoroutineDispatchers.backgroundDispatcher
             )
         }
@@ -146,6 +149,7 @@ object Data {
         factory<ManageFocusMode> {
             ManageFocusModeImpl(
                 settings = get(),
+                haptics = get(),
                 backgroundDispatcher = CoroutineDispatchers.backgroundDispatcher
             )
         }
@@ -154,6 +158,7 @@ object Data {
             ManageAppTimeLimitImpl(
                 limitsDao = get(),
                 getAppInfo = get(),
+                haptics = get(),
                 dispatcher = CoroutineDispatchers.backgroundDispatcher
             )
         }

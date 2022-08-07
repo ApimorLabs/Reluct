@@ -6,9 +6,11 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.withContext
 import work.racka.reluct.common.data.usecases.limits.ManageFocusMode
 import work.racka.reluct.common.settings.MultiplatformSettings
+import work.racka.reluct.common.system_service.haptics.HapticFeedback
 
 internal class ManageFocusModeImpl(
     private val settings: MultiplatformSettings,
+    private val haptics: HapticFeedback,
     private val backgroundDispatcher: CoroutineDispatcher
 ) : ManageFocusMode {
     override val isFocusModeOn: Flow<Boolean>
@@ -20,12 +22,14 @@ internal class ManageFocusModeImpl(
     override suspend fun toggleFocusMode(isFocusMode: Boolean) {
         withContext(backgroundDispatcher) {
             settings.saveFocusMode(isFocusMode)
+            haptics.tick()
         }
     }
 
     override suspend fun toggleDoNoDisturb(isDnd: Boolean) {
         withContext(backgroundDispatcher) {
             settings.saveDoNotDisturb(isDnd)
+            haptics.tick()
         }
     }
 }

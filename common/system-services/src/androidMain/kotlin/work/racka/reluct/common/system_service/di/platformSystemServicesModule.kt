@@ -7,7 +7,7 @@ import work.racka.reluct.common.system_service.haptics.AndroidHapticFeedback
 import work.racka.reluct.common.system_service.haptics.HapticFeedback
 
 internal actual fun platformSystemServicesModule(): Module = module {
-    factory<HapticFeedback> {
+    single<HapticFeedback> {
         AndroidHapticFeedback(context = androidContext())
     }
 }

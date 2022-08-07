@@ -9,5 +9,9 @@ internal class DesktopHapticFeedback : HapticFeedback {
 
     override fun heavyClick() {}
 
+    override fun cascadeFall() {}
+
+    override fun spinAndFall() {}
+
     override fun customDuration(durationMillis: Long) {}
 }

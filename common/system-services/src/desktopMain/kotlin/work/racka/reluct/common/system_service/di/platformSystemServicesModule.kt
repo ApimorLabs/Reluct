@@ -6,7 +6,7 @@ import work.racka.reluct.common.system_service.haptics.DesktopHapticFeedback
 import work.racka.reluct.common.system_service.haptics.HapticFeedback
 
 internal actual fun platformSystemServicesModule(): Module = module {
-    factory<HapticFeedback> {
+    single<HapticFeedback> {
         DesktopHapticFeedback()
     }
 }

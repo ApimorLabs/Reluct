@@ -10,11 +10,13 @@ import work.racka.reluct.common.data.usecases.limits.GetPausedApps
 import work.racka.reluct.common.data.usecases.limits.ManagePausedApps
 import work.racka.reluct.common.data.usecases.limits.ModifyAppLimits
 import work.racka.reluct.common.model.domain.app_info.AppInfo
+import work.racka.reluct.common.system_service.haptics.HapticFeedback
 
 internal class ManagePausedAppsImpl(
     private val getPausedApps: GetPausedApps,
     private val getInstalledApps: GetInstalledApps,
     private val modifyAppLimits: ModifyAppLimits,
+    private val haptics: HapticFeedback,
     private val backgroundDispatcher: CoroutineDispatcher
 ) : ManagePausedApps {
 
@@ -32,9 +34,11 @@ internal class ManagePausedAppsImpl(
 
     override suspend fun pauseApp(packageName: String) {
         modifyAppLimits.pauseApp(packageName = packageName, isPaused = true)
+        haptics.tick()
     }
 
     override suspend fun unPauseApp(packageName: String) {
         modifyAppLimits.pauseApp(packageName = packageName, isPaused = false)
+        haptics.tick()
     }
 }

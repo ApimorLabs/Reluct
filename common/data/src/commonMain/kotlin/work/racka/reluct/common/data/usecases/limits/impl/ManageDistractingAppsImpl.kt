@@ -10,11 +10,13 @@ import work.racka.reluct.common.data.usecases.limits.GetDistractingApps
 import work.racka.reluct.common.data.usecases.limits.ManageDistractingApps
 import work.racka.reluct.common.data.usecases.limits.ModifyAppLimits
 import work.racka.reluct.common.model.domain.app_info.AppInfo
+import work.racka.reluct.common.system_service.haptics.HapticFeedback
 
 internal class ManageDistractingAppsImpl(
     private val getDistractingApps: GetDistractingApps,
     private val getInstalledApps: GetInstalledApps,
     private val modifyAppLimits: ModifyAppLimits,
+    private val haptics: HapticFeedback,
     private val backgroundDispatcher: CoroutineDispatcher
 ) : ManageDistractingApps {
 
@@ -31,10 +33,12 @@ internal class ManageDistractingAppsImpl(
     }
 
     override suspend fun markAsDistracting(packageName: String) {
+        haptics.tick()
         modifyAppLimits.makeDistractingApp(packageName = packageName, isDistracting = true)
     }
 
     override suspend fun markAsNotDistracting(packageName: String) {
+        haptics.tick()
         modifyAppLimits.makeDistractingApp(packageName = packageName, isDistracting = false)
     }
 
