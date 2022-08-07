@@ -4,5 +4,6 @@ expect class HapticFeedback {
     fun tick()
     fun click()
     fun doubleClick()
-    fun customDuration()
+    fun heavyClick()
+    fun customDuration(durationMillis: Long)
 }

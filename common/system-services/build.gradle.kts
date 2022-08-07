@@ -29,7 +29,7 @@ kotlin {
 
         val androidMain by getting {
             dependencies {
-
+                implementation(Dependencies.Koin.android)
             }
         }
 
