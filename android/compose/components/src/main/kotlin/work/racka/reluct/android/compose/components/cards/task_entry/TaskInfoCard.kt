@@ -54,7 +54,7 @@ fun TaskInfoCard(
             )
 
             TaskInfoEntry(
-                text = stringResource(R.string.task_info_reminder_text, task.reminder),
+                text = stringResource(R.string.task_info_reminder_text, task.reminderFormatted),
                 icon = Icons.Rounded.NotificationsActive,
                 contentDescription = null
             )

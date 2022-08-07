@@ -9,6 +9,7 @@ data class Task(
     val dueDate: String,
     val dueTime: String,
     val timeLeftLabel: String,
-    val reminder: String,
+    val reminderFormatted: String,
+    val reminderDateAndTime: String? = null,
     val completedDateAndTime: String,
 )
