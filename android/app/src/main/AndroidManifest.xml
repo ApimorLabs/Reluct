@@ -34,7 +34,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
-            <!--   This is triggered by widgets in :android:widgets module
+            <!--   This is for deep links throughout the app.
                 Accompanying URIs can be found in :android:compose:navigation:destinations  -->
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />

@@ -51,11 +51,14 @@ internal class AlarmsReceiver : BroadcastReceiver(), KoinComponent {
                             category = NotificationCompat.CATEGORY_REMINDER
                         )
                         val channelInfo = context.getTaskReminderNotificationInfo()
+                        val uriString = "reluct://destinations"
+                        val pendingIntent = AlarmReminderNotifications
+                            .openNotificationPendingIntent(context, uriString)
                         val notification = SimpleAndroidNotification(
                             context = context,
                             notificationData = notificationData,
                             channelInfo = channelInfo,
-                            onNotificationClick = { null }
+                            onNotificationClick = { pendingIntent }
                         )
                         notification.show()
                     }
