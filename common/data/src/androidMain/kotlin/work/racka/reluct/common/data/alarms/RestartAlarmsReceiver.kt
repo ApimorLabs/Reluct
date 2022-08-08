@@ -14,7 +14,7 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import work.racka.reluct.common.data.usecases.tasks.ManageTasksAlarms
 
-class RestartAlarmsReceiver : BroadcastReceiver(), KoinComponent {
+internal class RestartAlarmsReceiver : BroadcastReceiver(), KoinComponent {
 
     private val scope = CoroutineScope(SupervisorJob())
     private val manageTasksAlarms: ManageTasksAlarms by inject()
