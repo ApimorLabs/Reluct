@@ -3,7 +3,6 @@ package work.racka.reluct.common.data.alarms
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -34,13 +33,12 @@ internal class AlarmsReceiver : BroadcastReceiver(), KoinComponent {
         if (intent.action == AlarmsKeys.TASK_REMINDER.action) {
             val pendingResult = goAsync()
             val taskId = intent.getStringExtra(AlarmsKeys.TASK_REMINDER.key) ?: ""
-            Toast.makeText(context, taskId, Toast.LENGTH_LONG).show()
             scope.launch(Dispatchers.Default) {
                 try {
                     val task = getTasks.getTask(taskId).first()
                     task?.let { data ->
-                        val icon =
-                            Icon(context.resources.getDrawable(R.drawable.ic_baseline_fact_check_24))
+                        val drawable = context.getDrawable(R.drawable.ic_baseline_fact_check_24)
+                        val icon = drawable?.let { Icon(it) }
                         val notificationData = NotificationData(
                             iconProvider = icon,
                             title = context.getString(R.string.task_reminder_title, data.title),

@@ -5,7 +5,9 @@ import android.app.Notification
 import android.app.NotificationChannel
 import android.app.PendingIntent
 import android.content.Context
-import android.graphics.drawable.BitmapDrawable
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.drawable.Drawable
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
@@ -40,11 +42,11 @@ class SimpleAndroidNotification(
         notificationManager: NotificationManagerCompat
     ): Notification {
         createNotificationChannel(notificationManager)
-        val bitmap = (notificationData.iconProvider.icon as BitmapDrawable).bitmap
-        val iconCompat = IconCompat.createWithAdaptiveBitmap(bitmap)
+        val bitmap = notificationData.iconProvider?.let { getBitmap(it.icon) }
+        val iconCompat = bitmap?.let { IconCompat.createWithBitmap(bitmap) }
         val builder = NotificationCompat.Builder(context, channelInfo.channelId)
             .apply {
-                setSmallIcon(iconCompat)
+                iconCompat?.let { setSmallIcon(it) }
                 setContentTitle(notificationData.title)
                 if (notificationData.content.isNotBlank()) {
                     setContentText(notificationData.content)
@@ -76,4 +78,20 @@ class SimpleAndroidNotification(
             notificationManager.createNotificationChannel(channel)
         }
     }
+
+    private fun getBitmap(drawable: Drawable): Bitmap? =
+        try {
+            val bitmap: Bitmap = Bitmap.createBitmap(
+                drawable.intrinsicWidth,
+                drawable.intrinsicHeight,
+                Bitmap.Config.ARGB_8888
+            )
+            val canvas = Canvas(bitmap)
+            drawable.setBounds(0, 0, canvas.width, canvas.height)
+            drawable.draw(canvas)
+            bitmap
+        } catch (e: OutOfMemoryError) {
+            // Handle the error
+            null
+        }
 }
