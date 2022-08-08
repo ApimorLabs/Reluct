@@ -30,28 +30,8 @@ fun NavGraphBuilder.otherScreenNavGraph(
 ) {
     navigation(
         route = OtherDestination.route,
-        startDestination = AddEditTaskDestination.route
+        startDestination = TaskDetailsDestination.route
     ) {
-        // Add Task
-        composable(
-            route = AddEditTaskDestination.route,
-            arguments = AddEditTaskDestination.args,
-            enterTransition = { scaleInEnterTransition() },
-            exitTransition = { scaleOutExitTransition() },
-            popEnterTransition = { scaleInPopEnterTransition() },
-            popExitTransition = { scaleOutPopExitTransition() }
-        ) { navBackStackEntry ->
-            barsVisibility.bottomBar.hide()
-
-            // Is safe to cast since this composable will always be inside an activity
-            val activity = LocalContext.current as Activity
-
-            AddEditTaskScreen(
-                taskId = NavHelpers.getStringArgs(navBackStackEntry, AddEditTaskArgs.TaskId.name),
-                onBackClicked = { navController.popBackStackOrExitActivity(activity) }
-            )
-        }
-
         // Task Details
         composable(
             route = TaskDetailsDestination.route,
@@ -74,6 +54,26 @@ fun NavGraphBuilder.otherScreenNavGraph(
                         AddEditTaskDestination.argsRoute(it)
                     )
                 },
+                onBackClicked = { navController.popBackStackOrExitActivity(activity) }
+            )
+        }
+
+        // Add Task
+        composable(
+            route = AddEditTaskDestination.route,
+            arguments = AddEditTaskDestination.args,
+            enterTransition = { scaleInEnterTransition() },
+            exitTransition = { scaleOutExitTransition() },
+            popEnterTransition = { scaleInPopEnterTransition() },
+            popExitTransition = { scaleOutPopExitTransition() }
+        ) { navBackStackEntry ->
+            barsVisibility.bottomBar.hide()
+
+            // Is safe to cast since this composable will always be inside an activity
+            val activity = LocalContext.current as Activity
+
+            AddEditTaskScreen(
+                taskId = NavHelpers.getStringArgs(navBackStackEntry, AddEditTaskArgs.TaskId.name),
                 onBackClicked = { navController.popBackStackOrExitActivity(activity) }
             )
         }
