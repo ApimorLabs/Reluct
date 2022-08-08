@@ -17,6 +17,7 @@ internal class AndroidManageTasksAlarms(private val context: Context) : ManageTa
     override suspend fun setAlarm(taskId: String, dateTime: LocalDateTime) {
         val alarmManager = getAlarmManager(context)
         if (canScheduleAlarms(alarmManager)) {
+            println("Setting Alarm")
             val intent = Intent(context, AlarmsReceiver::class.java).apply {
                 action = AlarmsKeys.TASK_REMINDER.action
                 putExtra(AlarmsKeys.TASK_REMINDER.key, taskId)
