@@ -25,6 +25,12 @@ internal actual object Platform {
             )
         }
 
-        factory<ManageTasksAlarms> { AndroidManageTasksAlarms(context = androidContext()) }
+        factory<ManageTasksAlarms> {
+            AndroidManageTasksAlarms(
+                context = androidContext(),
+                getTasks = get(),
+                dispatcher = Dispatchers.IO
+            )
+        }
     }
 }
