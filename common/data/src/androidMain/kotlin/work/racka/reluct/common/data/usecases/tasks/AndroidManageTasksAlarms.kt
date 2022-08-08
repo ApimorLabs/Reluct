@@ -5,6 +5,7 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Build
+import kotlinx.datetime.Clock
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toInstant
@@ -21,14 +22,21 @@ internal class AndroidManageTasksAlarms(private val context: Context) : ManageTa
                 putExtra(AlarmsKeys.TASK_REMINDER.key, taskId)
             }
             val pendingIntent = context.alarmPendingIntent(intent)
-            alarmManager.cancel(pendingIntent)
             val timeInMillis =
                 dateTime.toInstant(TimeZone.currentSystemDefault()).toEpochMilliseconds()
-            alarmManager.setExactAndAllowWhileIdle(
-                AlarmManager.RTC_WAKEUP,
-                timeInMillis,
-                pendingIntent
-            )
+            val currentTimeMillis = Clock.System.now().toEpochMilliseconds()
+            // Terminate execution because the time being set has already passed
+            if (currentTimeMillis >= timeInMillis) return
+
+            // Continue setting the Alarm
+            alarmManager.run {
+                cancel(pendingIntent)
+                setExactAndAllowWhileIdle(
+                    AlarmManager.RTC_WAKEUP,
+                    timeInMillis,
+                    pendingIntent
+                )
+            }
         } else {
             println("Reluct: Can't schedule Alarm. Permission missing!")
         }
