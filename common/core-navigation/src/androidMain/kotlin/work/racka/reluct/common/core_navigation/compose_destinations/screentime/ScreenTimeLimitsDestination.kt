@@ -1,9 +1,9 @@
-package work.racka.reluct.android.compose.navigation.destinations.goals
+package work.racka.reluct.common.core_navigation.compose_destinations.screentime
 
 import work.racka.reluct.common.core_navigation.destination.NavDestination
 
-object OngoingGoalsDestination : NavDestination {
-    private const val BASE_URI = "ongoing_goals"
+object ScreenTimeLimitsDestination : NavDestination {
+    private const val BASE_URI = "screen_time_limits"
     override val route: String = "$BASE_URI-route"
     override val destination: String = "$BASE_URI-destination"
 }

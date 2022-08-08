@@ -1,4 +1,4 @@
-package work.racka.reluct.android.compose.navigation.destinations.screentime
+package work.racka.reluct.common.core_navigation.compose_destinations.screentime
 
 import work.racka.reluct.common.core_navigation.destination.NavDestination
 

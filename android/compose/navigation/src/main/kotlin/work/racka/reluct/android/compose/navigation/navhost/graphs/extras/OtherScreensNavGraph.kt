@@ -8,10 +8,6 @@ import androidx.navigation.NavHostController
 import androidx.navigation.navigation
 import com.google.accompanist.navigation.animation.composable
 import work.racka.reluct.android.compose.components.util.BarsVisibility
-import work.racka.reluct.android.compose.navigation.destinations.OtherDestination
-import work.racka.reluct.android.compose.navigation.destinations.screentime.AppScreenTimeStatsArgs
-import work.racka.reluct.android.compose.navigation.destinations.screentime.AppScreenTimeStatsDestination
-import work.racka.reluct.android.compose.navigation.destinations.tasks.*
 import work.racka.reluct.android.compose.navigation.transitions.scaleInEnterTransition
 import work.racka.reluct.android.compose.navigation.transitions.scaleInPopEnterTransition
 import work.racka.reluct.android.compose.navigation.transitions.scaleOutExitTransition
@@ -22,6 +18,10 @@ import work.racka.reluct.android.screens.screentime.app_stats_details.AppScreenT
 import work.racka.reluct.android.screens.tasks.add_edit.AddEditTaskScreen
 import work.racka.reluct.android.screens.tasks.details.TaskDetailsScreen
 import work.racka.reluct.android.screens.tasks.search.TasksSearchScreen
+import work.racka.reluct.common.core_navigation.compose_destinations.OtherDestination
+import work.racka.reluct.common.core_navigation.compose_destinations.screentime.AppScreenTimeStatsArgs
+import work.racka.reluct.common.core_navigation.compose_destinations.screentime.AppScreenTimeStatsDestination
+import work.racka.reluct.common.core_navigation.compose_destinations.tasks.*
 
 @ExperimentalAnimationApi
 fun NavGraphBuilder.otherScreenNavGraph(

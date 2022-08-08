@@ -19,11 +19,11 @@ import androidx.navigation.NavHostController
 import androidx.navigation.navigation
 import com.google.accompanist.navigation.animation.composable
 import timber.log.Timber
-import work.racka.reluct.android.compose.navigation.destinations.goals.CompletedGoalsDestination
-import work.racka.reluct.android.compose.navigation.destinations.goals.OngoingGoalsDestination
 import work.racka.reluct.android.compose.navigation.navbar.NavbarDestinations
 import work.racka.reluct.android.compose.navigation.top_tabs.goals.GoalsTabBar
 import work.racka.reluct.android.compose.navigation.top_tabs.goals.GoalsTabDestination
+import work.racka.reluct.common.core_navigation.compose_destinations.goals.CompletedGoalsDestination
+import work.racka.reluct.common.core_navigation.compose_destinations.goals.OngoingGoalsDestination
 
 @OptIn(ExperimentalMaterial3Api::class)
 @ExperimentalAnimationApi

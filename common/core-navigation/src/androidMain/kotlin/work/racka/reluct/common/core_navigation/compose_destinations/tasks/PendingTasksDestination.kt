@@ -1,4 +1,4 @@
-package work.racka.reluct.android.compose.navigation.destinations.tasks
+package work.racka.reluct.common.core_navigation.compose_destinations.tasks
 
 import androidx.navigation.NavDeepLink
 import androidx.navigation.navDeepLink

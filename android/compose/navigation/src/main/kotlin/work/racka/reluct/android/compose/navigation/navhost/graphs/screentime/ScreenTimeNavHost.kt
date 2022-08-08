@@ -20,9 +20,6 @@ import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import work.racka.reluct.android.compose.components.util.BarsVisibility
-import work.racka.reluct.android.compose.navigation.destinations.screentime.AppScreenTimeStatsDestination
-import work.racka.reluct.android.compose.navigation.destinations.screentime.ScreenTimeLimitsDestination
-import work.racka.reluct.android.compose.navigation.destinations.screentime.ScreenTimeStatsDestination
 import work.racka.reluct.android.compose.navigation.top_tabs.screentime.ScreenTimeTabBar
 import work.racka.reluct.android.compose.navigation.top_tabs.screentime.ScreenTimeTabDestination
 import work.racka.reluct.android.compose.navigation.transitions.scaleInEnterTransition
@@ -31,6 +28,9 @@ import work.racka.reluct.android.compose.navigation.transitions.scaleOutExitTran
 import work.racka.reluct.android.compose.navigation.transitions.scaleOutPopExitTransition
 import work.racka.reluct.android.screens.screentime.limits.ScreenTimeLimitsScreen
 import work.racka.reluct.android.screens.screentime.statistics.ScreenTimeStatisticsScreen
+import work.racka.reluct.common.core_navigation.compose_destinations.screentime.AppScreenTimeStatsDestination
+import work.racka.reluct.common.core_navigation.compose_destinations.screentime.ScreenTimeLimitsDestination
+import work.racka.reluct.common.core_navigation.compose_destinations.screentime.ScreenTimeStatsDestination
 
 @OptIn(ExperimentalMaterial3Api::class)
 @ExperimentalAnimationApi
