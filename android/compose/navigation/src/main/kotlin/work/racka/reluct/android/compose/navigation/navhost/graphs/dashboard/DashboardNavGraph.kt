@@ -29,11 +29,11 @@ import timber.log.Timber
 import work.racka.reluct.android.compose.components.textfields.search.ReluctSearchBar
 import work.racka.reluct.android.compose.components.topBar.CollapsingToolbarBase
 import work.racka.reluct.android.compose.components.topBar.ProfilePicture
-import work.racka.reluct.android.compose.navigation.destinations.dashboard.DashboardOverviewDestination
-import work.racka.reluct.android.compose.navigation.destinations.dashboard.DashboardStatsDestination
 import work.racka.reluct.android.compose.navigation.navbar.NavbarDestinations
 import work.racka.reluct.android.compose.navigation.top_tabs.dashboard.DashboardTabBar
 import work.racka.reluct.android.compose.navigation.top_tabs.dashboard.DashboardTabDestination
+import work.racka.reluct.common.core_navigation.compose_destinations.dashboard.DashboardOverviewDestination
+import work.racka.reluct.common.core_navigation.compose_destinations.dashboard.DashboardStatsDestination
 
 @OptIn(ExperimentalMaterial3Api::class)
 @ExperimentalAnimationApi

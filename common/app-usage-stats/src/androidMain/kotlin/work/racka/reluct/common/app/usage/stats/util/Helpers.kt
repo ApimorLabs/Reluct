@@ -6,7 +6,7 @@ import android.content.pm.PackageManager
 import android.graphics.drawable.Drawable
 import timber.log.Timber
 import work.racka.reluct.common.app.usage.stats.R
-import work.racka.reluct.common.model.domain.usagestats.Icon
+import work.racka.reluct.common.model.domain.core.Icon
 
 internal fun getAppIcon(context: Context, packageName: String): Icon {
     var appIcon: Drawable = context.resources.getDrawable(R.drawable.default_app_icon, null)

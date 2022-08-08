@@ -12,7 +12,7 @@ object PreviewData {
         dueDate = "Thu, 2 Feb",
         dueTime = "15:30",
         timeLeftLabel = "In 3 hours",
-        reminder = "",
+        reminderFormatted = "",
         completedDateAndTime = "Time Here"
     )
 
@@ -25,7 +25,7 @@ object PreviewData {
         dueDate = "Thu, 2 Feb",
         dueTime = "15:30",
         timeLeftLabel = "In 3 hours",
-        reminder = "",
+        reminderFormatted = "",
         completedDateAndTime = "Time Here"
     )
 
@@ -38,7 +38,7 @@ object PreviewData {
         dueDate = "Thu, 2 Feb",
         dueTime = "15:30",
         timeLeftLabel = "In 3 hours",
-        reminder = "",
+        reminderFormatted = "",
         completedDateAndTime = "Time Here"
     )
 
@@ -51,7 +51,7 @@ object PreviewData {
         dueDate = "Thu, 2 Feb",
         dueTime = "15:30",
         timeLeftLabel = "3 hours ago",
-        reminder = "",
+        reminderFormatted = "",
         completedDateAndTime = "Time Here"
     )
 
@@ -64,7 +64,7 @@ object PreviewData {
         dueDate = "Thu, 2 Feb",
         dueTime = "15:30",
         timeLeftLabel = "In 3 hours",
-        reminder = "",
+        reminderFormatted = "",
         completedDateAndTime = "Time Here"
     )
 }

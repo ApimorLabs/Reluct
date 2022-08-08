@@ -15,6 +15,7 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
+                implementation(project(":common:model"))
                 implementation(Dependencies.Koin.core)
                 implementation(Dependencies.Log.kermit)
                 with(Dependencies.Kotlin) {

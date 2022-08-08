@@ -43,7 +43,7 @@ internal fun WidgetTaskParcel.asTask() = Task(
     dueDate = dueDate,
     dueTime = dueTime,
     timeLeftLabel = timeLeftLabel,
-    reminder = reminder,
+    reminderFormatted = reminder,
     completedDateAndTime = completedDateAndTime
 )
 
@@ -56,6 +56,6 @@ internal fun Task.asWidgetTaskParcel() = WidgetTaskParcel(
     dueDate = dueDate,
     dueTime = dueTime,
     timeLeftLabel = timeLeftLabel,
-    reminder = reminder,
+    reminder = reminderFormatted,
     completedDateAndTime = completedDateAndTime
 )

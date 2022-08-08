@@ -48,6 +48,7 @@ object Data {
             ModifyTaskUseCaseImpl(
                 dao = get(),
                 haptics = get(),
+                manageTasksAlarms = get(),
                 backgroundDispatcher = CoroutineDispatchers.backgroundDispatcher
             )
         }

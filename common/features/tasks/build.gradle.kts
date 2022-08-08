@@ -40,6 +40,7 @@ kotlin {
 
         val androidMain by getting {
             dependencies {
+                implementation(Dependencies.Android.Essential.coreKtx)
             }
         }
 

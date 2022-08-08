@@ -12,7 +12,6 @@ import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import work.racka.reluct.android.compose.components.util.rememberBarVisibility
 import work.racka.reluct.android.compose.components.util.slideInVerticallyFadeReversed
 import work.racka.reluct.android.compose.components.util.slideOutVerticallyFadeReversed
-import work.racka.reluct.android.compose.navigation.destinations.tasks.PendingTasksDestination
 import work.racka.reluct.android.compose.navigation.navbar.NavbarDestinations
 import work.racka.reluct.android.compose.navigation.navbar.ReluctBottomNavBar
 import work.racka.reluct.android.compose.navigation.navhost.graphs.dashboard.dashboardNavGraph
@@ -20,6 +19,7 @@ import work.racka.reluct.android.compose.navigation.navhost.graphs.extras.otherS
 import work.racka.reluct.android.compose.navigation.navhost.graphs.goals.goalsNavGraph
 import work.racka.reluct.android.compose.navigation.navhost.graphs.screentime.ScreenTimeNavHost
 import work.racka.reluct.android.compose.navigation.navhost.graphs.tasks.TasksNavHost
+import work.racka.reluct.common.core_navigation.compose_destinations.tasks.PendingTasksDestination
 
 @OptIn(ExperimentalAnimationApi::class, ExperimentalMaterial3Api::class)
 @Composable

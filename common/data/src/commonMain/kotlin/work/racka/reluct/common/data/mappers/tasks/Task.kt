@@ -42,10 +42,11 @@ fun TaskDbObject.asTask(showShortIntervalAsDay: Boolean = true): Task {
             dateTime = this.dueDateLocalDateTime,
             originalTimeZoneId = this.timeZoneId
         ),
-        reminder = getReminderDateTime(
+        reminderFormatted = getReminderDateTime(
             this.reminderLocalDateTime,
             this.timeZoneId
         ),
+        reminderDateAndTime = this.reminderLocalDateTime,
         completedDateAndTime = completedDateAndTime
     )
 }

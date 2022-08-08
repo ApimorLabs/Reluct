@@ -22,7 +22,6 @@ import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import work.racka.reluct.android.compose.components.textfields.search.PlaceholderMaterialSearchBar
 import work.racka.reluct.android.compose.components.topBar.ProfilePicture
 import work.racka.reluct.android.compose.components.util.BarsVisibility
-import work.racka.reluct.android.compose.navigation.destinations.tasks.*
 import work.racka.reluct.android.compose.navigation.top_tabs.tasks.TasksTabBar
 import work.racka.reluct.android.compose.navigation.top_tabs.tasks.TasksTabDestination
 import work.racka.reluct.android.compose.navigation.transitions.scaleInEnterTransition
@@ -32,6 +31,7 @@ import work.racka.reluct.android.compose.navigation.transitions.scaleOutPopExitT
 import work.racka.reluct.android.screens.tasks.done.CompletedTasksScreen
 import work.racka.reluct.android.screens.tasks.pending.PendingTasksScreen
 import work.racka.reluct.android.screens.tasks.statistics.TasksStatisticsScreen
+import work.racka.reluct.common.core_navigation.compose_destinations.tasks.*
 
 @OptIn(ExperimentalMaterial3Api::class)
 @ExperimentalAnimationApi

@@ -6,7 +6,7 @@ import androidx.glance.action.ActionParameters
 import androidx.glance.appwidget.action.ActionCallback
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
-import work.racka.reluct.android.compose.navigation.destinations.tasks.TaskDetailsDestination
+import work.racka.reluct.common.core_navigation.compose_destinations.tasks.TaskDetailsDestination
 import work.racka.reluct.common.data.usecases.tasks.ModifyTaskUseCase
 import work.racka.reluct.widgets.core.openDeepLinkPendingIntent
 import work.racka.reluct.widgets.tasks.state.WidgetTaskParcel

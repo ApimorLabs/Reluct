@@ -7,7 +7,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import work.racka.reluct.common.app.usage.stats.R
-import work.racka.reluct.common.model.domain.usagestats.Icon
+import work.racka.reluct.common.model.domain.core.Icon
 
 internal class AndroidGetAppInfo(
     private val context: Context,

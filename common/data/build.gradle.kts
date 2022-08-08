@@ -15,6 +15,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation(project(":common:app-usage-stats"))
+                implementation(project(":common:core-navigation"))
                 implementation(project(":common:model"))
                 implementation(project(":common:persistence:database"))
                 implementation(project(":common:persistence:settings"))
@@ -41,6 +42,7 @@ kotlin {
 
         val androidMain by getting {
             dependencies {
+                implementation(Dependencies.Android.Essential.coreKtx)
                 implementation(Dependencies.Koin.android)
             }
         }

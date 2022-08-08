@@ -8,5 +8,5 @@ interface ModifyTaskUseCase {
     fun getTaskToEdit(taskId: String): Flow<EditTask?>
     suspend fun saveTask(task: EditTask)
     suspend fun deleteTask(taskId: String)
-    fun toggleTaskDone(task: Task, isDone: Boolean)
+    suspend fun toggleTaskDone(task: Task, isDone: Boolean)
 }
