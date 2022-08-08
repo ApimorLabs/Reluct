@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="task_reminder_notif_name">Tasks Reminders</string>
+    <string name="task_reminder_notif_description">All Tasks Reminders set from the app</string>
+    <string name="task_reminder_title">Upcoming Task: %1$s</string>
+    <string name="task_reminder_desc">Description: %1$s</string>
+</resources>

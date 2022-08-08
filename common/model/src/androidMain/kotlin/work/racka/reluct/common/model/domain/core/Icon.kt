@@ -1,4 +1,4 @@
-package work.racka.reluct.common.model.domain.usagestats
+package work.racka.reluct.common.model.domain.core
 
 import android.graphics.drawable.Drawable
 

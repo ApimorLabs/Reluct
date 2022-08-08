@@ -1,6 +1,6 @@
 package work.racka.reluct.common.data.usecases.app_info
 
-import work.racka.reluct.common.model.domain.usagestats.Icon
+import work.racka.reluct.common.model.domain.core.Icon
 
 internal class DesktopGetAppInfo : GetAppInfo {
     override suspend fun getAppIcon(packageName: String): Icon {

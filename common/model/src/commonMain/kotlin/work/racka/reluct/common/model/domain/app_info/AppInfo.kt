@@ -1,6 +1,6 @@
 package work.racka.reluct.common.model.domain.app_info
 
-import work.racka.reluct.common.model.domain.usagestats.Icon
+import work.racka.reluct.common.model.domain.core.Icon
 
 data class AppInfo(
     val packageName: String,
