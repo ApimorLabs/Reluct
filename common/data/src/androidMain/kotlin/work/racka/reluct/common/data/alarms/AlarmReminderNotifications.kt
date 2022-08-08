@@ -3,9 +3,8 @@ package work.racka.reluct.common.data.alarms
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import androidx.core.app.NotificationManagerCompat
-//import androidx.core.net.toUri
+import androidx.core.net.toUri
 import work.racka.reluct.common.data.R
 import work.racka.reluct.common.system_service.notifications.NotificationChannelInfo
 
@@ -21,7 +20,7 @@ internal object AlarmReminderNotifications {
     fun openNotificationPendingIntent(context: Context, uriString: String): PendingIntent {
         val intent = Intent(
             Intent.ACTION_VIEW,
-            Uri.EMPTY
+            uriString.toUri()
         )
         return PendingIntent.getActivity(
             context,

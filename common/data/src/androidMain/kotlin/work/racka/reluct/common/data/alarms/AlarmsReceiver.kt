@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
+import work.racka.reluct.common.core_navigation.compose_destinations.tasks.TaskDetailsDestination
 import work.racka.reluct.common.data.R
 import work.racka.reluct.common.data.alarms.AlarmReminderNotifications.getTaskReminderNotificationInfo
 import work.racka.reluct.common.data.usecases.tasks.GetTasksUseCase
@@ -51,7 +52,7 @@ internal class AlarmsReceiver : BroadcastReceiver(), KoinComponent {
                             category = NotificationCompat.CATEGORY_REMINDER
                         )
                         val channelInfo = context.getTaskReminderNotificationInfo()
-                        val uriString = "reluct://destinations"
+                        val uriString = TaskDetailsDestination.taskDetailsDeepLink(data.id)
                         val pendingIntent = AlarmReminderNotifications
                             .openNotificationPendingIntent(context, uriString)
                         val notification = SimpleAndroidNotification(
