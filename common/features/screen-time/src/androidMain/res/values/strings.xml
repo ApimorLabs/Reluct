@@ -2,4 +2,7 @@
 <resources>
     <string name="screen_time_service_channel_name">Screen Time Limit Service</string>
     <string name="screen_time_service_channel_desc">Screen Time Service Channel for a persistent service that tracks open apps and blocks them according to your set screen time limits.</string>
+    <string name="no_usage_access_notif_title">Usage Access Permission</string>
+    <string name="no_usage_access_notif_content">You do not have Device Usage access enabled! This app needs
+     usage access to show App Screen Time Usage. Click the Notification to Open Settings</string>
 </resources>

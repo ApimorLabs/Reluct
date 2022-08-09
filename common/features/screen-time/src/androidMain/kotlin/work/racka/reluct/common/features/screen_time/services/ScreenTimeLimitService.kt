@@ -3,6 +3,7 @@ package work.racka.reluct.common.features.screen_time.services
 import android.app.Service
 import android.content.Intent
 import android.os.IBinder
+import android.widget.Toast
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -16,6 +17,11 @@ internal class ScreenTimeLimitService : Service() {
         scope?.cancel()
         scope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
         //super.onCreate()
+    }
+
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        Toast.makeText(this, "service starting", Toast.LENGTH_SHORT).show()
+        return START_STICKY
     }
 
     override fun onDestroy() {
