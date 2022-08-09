@@ -14,13 +14,10 @@ import work.racka.reluct.android.compose.navigation.transitions.scaleOutExitTran
 import work.racka.reluct.android.compose.navigation.transitions.scaleOutPopExitTransition
 import work.racka.reluct.android.compose.navigation.util.NavHelpers
 import work.racka.reluct.android.compose.navigation.util.NavHelpers.popBackStackOrExitActivity
-import work.racka.reluct.android.screens.screentime.app_stats_details.AppScreenTimeStatsScreen
 import work.racka.reluct.android.screens.tasks.add_edit.AddEditTaskScreen
 import work.racka.reluct.android.screens.tasks.details.TaskDetailsScreen
 import work.racka.reluct.android.screens.tasks.search.TasksSearchScreen
 import work.racka.reluct.common.core_navigation.compose_destinations.OtherDestination
-import work.racka.reluct.common.core_navigation.compose_destinations.screentime.AppScreenTimeStatsArgs
-import work.racka.reluct.common.core_navigation.compose_destinations.screentime.AppScreenTimeStatsDestination
 import work.racka.reluct.common.core_navigation.compose_destinations.tasks.*
 
 @ExperimentalAnimationApi
@@ -94,28 +91,6 @@ fun NavGraphBuilder.otherScreenNavGraph(
                     )
                 },
                 onBackClicked = { navController.popBackStack() }
-            )
-        }
-
-        // App Screen Time Stats
-        composable(
-            route = AppScreenTimeStatsDestination.route,
-            arguments = AppScreenTimeStatsDestination.args,
-            deepLinks = AppScreenTimeStatsDestination.deepLinks,
-            enterTransition = { scaleInEnterTransition() },
-            exitTransition = { scaleOutExitTransition() },
-            popEnterTransition = { scaleInPopEnterTransition() },
-            popExitTransition = { scaleOutPopExitTransition() }
-        ) { backStackEntry ->
-            barsVisibility.bottomBar.hide()
-
-            // Is safe to cast since this composable will always be inside an activity
-            val activity = LocalContext.current as Activity
-
-            AppScreenTimeStatsScreen(
-                packageName = NavHelpers
-                    .getStringArgs(backStackEntry, AppScreenTimeStatsArgs.PackageName.name) ?: "",
-                onBackClicked = { navController.popBackStackOrExitActivity(activity) }
             )
         }
     }

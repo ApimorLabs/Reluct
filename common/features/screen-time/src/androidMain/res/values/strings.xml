@@ -7,6 +7,6 @@
      usage access to show App Screen Time Usage. Click the Notification to Open Settings</string>
     <string name="screen_time_service_default_title">Device Screen Time</string>
     <string name="screen_time_service_default_content">Screen Time Limit Service Running</string>
-    <string name="current_app_arg">App: %1$s</string>
+    <string name="current_app_arg">Current App: %1$s</string>
     <string name="current_app_time_arg">Screen Time: %1$s</string>
 </resources>

@@ -18,6 +18,7 @@ import work.racka.reluct.android.compose.navigation.navhost.graphs.dashboard.das
 import work.racka.reluct.android.compose.navigation.navhost.graphs.extras.otherScreenNavGraph
 import work.racka.reluct.android.compose.navigation.navhost.graphs.goals.goalsNavGraph
 import work.racka.reluct.android.compose.navigation.navhost.graphs.screentime.ScreenTimeNavHost
+import work.racka.reluct.android.compose.navigation.navhost.graphs.screentime.appScreenTimeStatsNavGraph
 import work.racka.reluct.android.compose.navigation.navhost.graphs.tasks.TasksNavHost
 import work.racka.reluct.common.core_navigation.compose_destinations.tasks.PendingTasksDestination
 
@@ -78,6 +79,12 @@ fun AppNavHost(modifier: Modifier = Modifier) {
 
             // Goals
             goalsNavGraph(navController)
+
+            // Independent App Screen Time Stats and Limits Graph
+            appScreenTimeStatsNavGraph(
+                navController = navController,
+                barsVisibility = barsVisibility
+            )
 
             //All Other screens that don't share Scaffolds
             otherScreenNavGraph(
