@@ -18,6 +18,7 @@ kotlin {
                 implementation(project(":common:data"))
                 implementation(project(":common:model"))
                 implementation(project(":common:mvvm-core"))
+                implementation(project(":common:system-services"))
 
                 implementation(Dependencies.Kotlin.Coroutines.core)
                 implementation(Dependencies.Koin.core)

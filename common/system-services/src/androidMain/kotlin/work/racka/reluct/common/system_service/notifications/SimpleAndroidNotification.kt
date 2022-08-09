@@ -1,14 +1,11 @@
 package work.racka.reluct.common.system_service.notifications
 
-import android.annotation.SuppressLint
 import android.app.Notification
-import android.app.NotificationChannel
 import android.app.PendingIntent
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.drawable.Drawable
-import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.graphics.drawable.IconCompat
@@ -41,13 +38,14 @@ class SimpleAndroidNotification(
         context: Context,
         notificationManager: NotificationManagerCompat
     ): Notification {
-        createNotificationChannel(notificationManager)
+        channelInfo.createNotificationChannel(notificationManager)
         val bitmap = notificationData.iconProvider?.let { getBitmap(it.icon) }
         val iconCompat = bitmap?.let { IconCompat.createWithBitmap(bitmap) }
         val builder = NotificationCompat.Builder(context, channelInfo.channelId)
             .apply {
                 iconCompat?.let { setSmallIcon(it) }
                 setContentTitle(notificationData.title)
+                setTicker(notificationData.title)
                 if (notificationData.content.isNotBlank()) {
                     setContentText(notificationData.content)
                     setStyle(
@@ -64,19 +62,6 @@ class SimpleAndroidNotification(
                 setCategory(notificationData.category)
             }
         return builder.build()
-    }
-
-    @SuppressLint("WrongConstant")
-    private fun createNotificationChannel(notificationManager: NotificationManagerCompat) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channel = NotificationChannel(
-                channelInfo.channelId,
-                channelInfo.name,
-                channelInfo.importance
-            ).apply { description = channelInfo.description }
-            // Register the channel with the system
-            notificationManager.createNotificationChannel(channel)
-        }
     }
 
     private fun getBitmap(drawable: Drawable): Bitmap? =

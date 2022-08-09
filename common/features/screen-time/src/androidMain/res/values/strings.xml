@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="screen_time_service_channel_name">Screen Time Limit Service</string>
+    <string name="screen_time_service_channel_desc">Screen Time Service Channel for a persistent service that tracks open apps and blocks them according to your set screen time limits.</string>
+</resources>
