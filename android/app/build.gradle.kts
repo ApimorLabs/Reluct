@@ -76,6 +76,7 @@ dependencies {
     implementation(project(":android:compose:theme"))
     implementation(project(":android:widgets"))
     implementation(project(":common:di-integration"))
+    implementation(project(":common:features:screen-time"))
     implementation(project(":common:persistence:settings"))
 
     // Core Functionality

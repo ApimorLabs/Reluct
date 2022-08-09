@@ -6,7 +6,6 @@ import android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.os.IBinder
-import android.widget.Toast
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.net.toUri
 import kotlinx.coroutines.*
@@ -36,12 +35,6 @@ internal class ScreenTimeLimitService : Service(), KoinComponent {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        val context = this.applicationContext
-        Toast.makeText(
-            context,
-            "service starting. Scope active: ${scope.hashCode()}",
-            Toast.LENGTH_SHORT
-        ).show()
         startServiceJob?.cancel()
         startServiceJob = scope?.launch {
             manageLimits()
@@ -52,7 +45,6 @@ internal class ScreenTimeLimitService : Service(), KoinComponent {
     override fun onDestroy() {
         scope?.cancel()
         screenTimeServices.startLimitsService()
-        super.onDestroy()
     }
 
     private fun initializeService() {
