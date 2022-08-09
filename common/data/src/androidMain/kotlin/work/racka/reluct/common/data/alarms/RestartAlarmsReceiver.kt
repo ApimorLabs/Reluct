@@ -5,7 +5,6 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.util.Log
-import android.widget.Toast
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -20,7 +19,6 @@ internal class RestartAlarmsReceiver : BroadcastReceiver(), KoinComponent {
     private val manageTasksAlarms: ManageTasksAlarms by inject()
 
     override fun onReceive(context: Context, intent: Intent) {
-        Toast.makeText(context, "Permission Change", Toast.LENGTH_LONG).show()
         if (
             intent.action == AlarmManager.ACTION_SCHEDULE_EXACT_ALARM_PERMISSION_STATE_CHANGED
             || intent.action == Intent.ACTION_BOOT_COMPLETED
