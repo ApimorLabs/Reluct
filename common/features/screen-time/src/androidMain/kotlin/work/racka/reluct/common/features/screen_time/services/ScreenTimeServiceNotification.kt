@@ -18,7 +18,7 @@ object ScreenTimeServiceNotification {
     ): Notification {
         val notificationManager = NotificationManagerCompat.from(context)
         val channelInfo = context.screenTimeChannelInfo
-        channelInfo.createNotificationChannel(notificationManager)
+        channelInfo.createNotificationChannel(notificationManager, showBadge = false)
         val builder = NotificationCompat.Builder(context, channelInfo.channelId).apply {
             setSmallIcon(R.drawable.ic_twotone_aod_24)
             setContentTitle(title)
@@ -30,6 +30,7 @@ object ScreenTimeServiceNotification {
             setAutoCancel(false)
             setCategory(NotificationCompat.CATEGORY_STATUS)
             setTicker(title)
+            setShowWhen(false)
         }
         return builder.build()
     }

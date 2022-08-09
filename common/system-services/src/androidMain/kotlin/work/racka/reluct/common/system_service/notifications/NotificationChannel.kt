@@ -14,14 +14,18 @@ data class NotificationChannelInfo(
 
 @SuppressLint("WrongConstant")
 fun NotificationChannelInfo.createNotificationChannel(
-    notificationManager: NotificationManagerCompat
+    notificationManager: NotificationManagerCompat,
+    showBadge: Boolean = true
 ) {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
         val channel = NotificationChannel(
             this.channelId,
             this.name,
             this.importance
-        ).apply { description = this.description }
+        ).apply {
+            description = this.description
+            setShowBadge(showBadge)
+        }
         // Register the channel with the system
         notificationManager.createNotificationChannel(channel)
     }

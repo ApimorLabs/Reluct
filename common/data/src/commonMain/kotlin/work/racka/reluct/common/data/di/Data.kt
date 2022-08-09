@@ -104,6 +104,13 @@ object Data {
         }
 
         // Limits
+        factory<GetAppLimits> {
+            GetAppLimitsImpl(
+                limitsDao = get(),
+                getAppInfo = get(),
+                dispatcher = CoroutineDispatchers.backgroundDispatcher
+            )
+        }
         factory<GetPausedApps> {
             GetPausedAppsImpl(
                 limitsDao = get(),
