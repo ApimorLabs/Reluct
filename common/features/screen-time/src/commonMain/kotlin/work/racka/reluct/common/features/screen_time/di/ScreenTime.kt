@@ -18,7 +18,8 @@ object ScreenTime {
                 getWeeklyUsageStats = get(),
                 getDailyUsageStats = get(),
                 getWeekRangeFromOffset = get(),
-                manageAppTimeLimit = get()
+                manageAppTimeLimit = get(),
+                screenTimeServices = get()
             )
         }
 
