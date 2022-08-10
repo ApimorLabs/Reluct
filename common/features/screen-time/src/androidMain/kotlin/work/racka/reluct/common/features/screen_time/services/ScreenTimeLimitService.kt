@@ -5,8 +5,12 @@ import android.app.PendingIntent
 import android.app.Service
 import android.content.Context
 import android.content.Intent
+import android.content.res.Configuration
 import android.os.IBinder
+import android.provider.Settings
 import android.util.Log
+import android.view.WindowManager
+import androidx.compose.ui.platform.ComposeView
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.net.toUri
 import kotlinx.coroutines.*
@@ -20,9 +24,14 @@ import work.racka.reluct.common.data.usecases.limits.GetAppLimits
 import work.racka.reluct.common.data.usecases.limits.ManageFocusMode
 import work.racka.reluct.common.data.usecases.limits.ModifyAppLimits
 import work.racka.reluct.common.features.screen_time.R
+import work.racka.reluct.common.features.screen_time.ui.overlay.AppLimitedOverlayView
+import work.racka.reluct.common.features.screen_time.ui.overlay.LimitsOverlayParams
+import work.racka.reluct.common.features.screen_time.ui.overlay.OverlayLifecycleOwner
 import work.racka.reluct.common.model.domain.usagestats.AppUsageStats
 
 internal class ScreenTimeLimitService : Service(), KoinComponent {
+
+    private val overlayLifecycleOwner = OverlayLifecycleOwner()
 
     private var scope: CoroutineScope? = null
     private var startServiceJob: Job? = null
@@ -33,24 +42,31 @@ internal class ScreenTimeLimitService : Service(), KoinComponent {
     private val manageFocusMode: ManageFocusMode by inject()
     private val modifyAppLimits: ModifyAppLimits by inject()
 
+    private var windowManager: WindowManager? = null
+
+    private var overlayView: ComposeView? = null
+    private var overlaidAppPackageName = ""
+
     override fun onCreate() {
         scope?.cancel()
         scope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
         initializeService()
-        //super.onCreate()
-    }
-
-    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        startServiceJob?.cancel()
-        startServiceJob = scope?.launch {
-            manageLimits()
-        }
-        return START_STICKY
+        super.onCreate()
     }
 
     override fun onDestroy() {
         scope?.cancel()
         screenTimeServices.startLimitsService()
+        overlayLifecycleOwner.onDestroy()
+    }
+
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        overlayLifecycleOwner.onResume()
+        startServiceJob?.cancel()
+        startServiceJob = scope?.launch {
+            manageLimits()
+        }
+        return START_STICKY
     }
 
     private fun initializeService() {
@@ -62,6 +78,45 @@ internal class ScreenTimeLimitService : Service(), KoinComponent {
                 onNotificationClick = { null }
             )
         startForeground(ScreenTimeServiceNotification.NOTIFICATION_ID, notification)
+        overlayLifecycleOwner.onCreate()
+        removeOverlayView()
+        windowManager = applicationContext.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+    }
+
+    private fun removeOverlayView() {
+        Log.d(TAG, "Removing View")
+        overlayView?.let { view ->
+            view.disposeComposition() // Remove Composition
+            windowManager?.removeView(view)
+            overlaidAppPackageName = ""
+            overlayView = null
+        }
+    }
+
+    private suspend fun overlayWindow(packageName: String) {
+        withContext(Dispatchers.Main) {
+            val canDrawOverlays = Settings.canDrawOverlays(applicationContext)
+            if (canDrawOverlays && overlayView == null) {
+                overlaidAppPackageName = packageName
+                val layoutParams = LimitsOverlayParams.getParams()
+                overlayView = AppLimitedOverlayView(
+                    applicationContext,
+                    packageName = packageName,
+                    close = {
+                        Log.d(TAG, "Close Overlay")
+                        removeOverlayView()
+                    }
+                ).getView()
+                overlayLifecycleOwner.attachToView(overlayView)
+                overlayView?.let { windowManager?.addView(it, layoutParams) }
+            } else if (overlaidAppPackageName != packageName) {
+                // Remove the Overlay
+                removeOverlayView()
+            } else if (!canDrawOverlays) {
+                // TODO: Show Overlay Permission Notification
+            }
+            Unit // VOID Return value for withContext block!
+        }
     }
 
     private suspend fun manageLimits() {
@@ -78,15 +133,20 @@ internal class ScreenTimeLimitService : Service(), KoinComponent {
             val isFocusModeOn = manageFocusMode.isFocusModeOn.first()
             val appLimits = getAppLimits.getAppSync(stats.appUsageInfo.packageName)
             val appPastLimit = (currentDuration >= appLimits.timeLimit && appLimits.timeLimit != 0L)
-            Log.d(TAG, "Checking Things.... App: ${appLimits.appInfo.appName}")
+            // Remove Overlay if packages don't match
+            if (overlaidAppPackageName != appLimits.appInfo.packageName
+                && overlaidAppPackageName.isNotBlank()
+            ) {
+                withContext(Dispatchers.Main) { removeOverlayView() }
+            }
             if (!appLimits.overridden) {
                 if (isFocusModeOn && appLimits.isADistractingAp) {
-                    Log.d(TAG, "App: ${stats.appUsageInfo.appName} Paused due to Focus Mode")
+                    overlayWindow(appLimits.appInfo.packageName)
                 } else if (appLimits.isPaused) {
-                    Log.d(TAG, "App: ${stats.appUsageInfo.appName} Paused Till Tomorrow")
+                    overlayWindow(appLimits.appInfo.packageName)
                 } else if (appPastLimit) {
-                    Log.d(TAG, "App: ${stats.appUsageInfo.appName} Exceeded Limit")
                     modifyAppLimits.pauseApp(stats.appUsageInfo.packageName, isPaused = true)
+                    overlayWindow(appLimits.appInfo.packageName)
                 }
             } else {
                 Log.d(TAG, "App Has Been Overridden it's limits!")
@@ -122,6 +182,11 @@ internal class ScreenTimeLimitService : Service(), KoinComponent {
     // Do Not Bind this service
     override fun onBind(intent: Intent?): IBinder? {
         return null
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        overlayLifecycleOwner.onResume()
     }
 
     companion object {
