@@ -3,11 +3,18 @@ package work.racka.reluct.common.features.screen_time.services
 import android.app.Notification
 import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
+import android.provider.Settings
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import work.racka.reluct.common.features.screen_time.R
+import work.racka.reluct.common.model.domain.core.Icon
 import work.racka.reluct.common.system_service.notifications.NotificationChannelInfo
+import work.racka.reluct.common.system_service.notifications.NotificationData
+import work.racka.reluct.common.system_service.notifications.SimpleAndroidNotification
 import work.racka.reluct.common.system_service.notifications.createNotificationChannel
+import work.racka.reluct.common.system_service.notifications.default_channels.getAppAlertsChannel
 
 object ScreenTimeServiceNotification {
     fun createNotification(
@@ -34,6 +41,35 @@ object ScreenTimeServiceNotification {
         }
         return builder.build()
     }
+
+    fun overlayPermissionNotification(context: Context): SimpleAndroidNotification {
+        val drawable = context.getDrawable(R.drawable.ic_twotone_report_24)
+        val icon = drawable?.let { Icon(it) }
+        val notificationData = NotificationData(
+            iconProvider = icon,
+            title = context.getString(R.string.overlay_perm_notif_title),
+            content = context.getString(R.string.overlay_perm_notif_content),
+            notificationId = NOTIFICATION_ID * 2,
+            notificationTag = "overlay_permission",
+            category = NotificationCompat.CATEGORY_REMINDER
+        )
+        return SimpleAndroidNotification(
+            context = context,
+            notificationData = notificationData,
+            channelInfo = getAppAlertsChannel(context),
+            onNotificationClick = { context.openOverlaySettings() }
+        )
+    }
+
+    private fun Context.openOverlaySettings(): PendingIntent = PendingIntent.getActivity(
+        this,
+        0,
+        Intent(
+            Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+            Uri.parse("package: ${this.packageName}")
+        ),
+        PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+    )
 
     private val Context.screenTimeChannelInfo
         get() = NotificationChannelInfo(

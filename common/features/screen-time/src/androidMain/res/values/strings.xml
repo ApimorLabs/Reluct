@@ -9,4 +9,8 @@
     <string name="screen_time_service_default_content">Screen Time Limit Service Running</string>
     <string name="current_app_arg">Current App: %1$s</string>
     <string name="current_app_time_arg">Screen Time: %1$s</string>
+    <string name="overlay_perm_notif_title">Draw Over other Apps Permission</string>
+    <string name="overlay_perm_notif_content">You need to allow Reluct to draw over other apps.
+     This permission is used to show alerts when you exceed the screen time limits or in Focus Mode.
+     Click the Notification to Open Settings</string>
 </resources>

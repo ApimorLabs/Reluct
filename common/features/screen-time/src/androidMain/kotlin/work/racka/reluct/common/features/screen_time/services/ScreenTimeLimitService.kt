@@ -109,11 +109,13 @@ internal class ScreenTimeLimitService : Service(), KoinComponent {
                 ).getView()
                 overlayLifecycleOwner.attachToView(overlayView)
                 overlayView?.let { windowManager?.addView(it, layoutParams) }
+            } else if (!canDrawOverlays) {
+                // Show Overlay Permission Notification
+                ScreenTimeServiceNotification.overlayPermissionNotification(applicationContext)
+                    .show()
             } else if (overlaidAppPackageName != packageName) {
                 // Remove the Overlay
                 removeOverlayView()
-            } else if (!canDrawOverlays) {
-                // TODO: Show Overlay Permission Notification
             }
             Unit // VOID Return value for withContext block!
         }
@@ -128,17 +130,19 @@ internal class ScreenTimeLimitService : Service(), KoinComponent {
             val notification = appStatsNotification(applicationContext, stats)
             notificationManager.notify(ScreenTimeServiceNotification.NOTIFICATION_ID, notification)
 
-            // Check if the app doesn't violate limits
             val currentDuration = stats.appUsageInfo.timeInForeground
             val isFocusModeOn = manageFocusMode.isFocusModeOn.first()
             val appLimits = getAppLimits.getAppSync(stats.appUsageInfo.packageName)
             val appPastLimit = (currentDuration >= appLimits.timeLimit && appLimits.timeLimit != 0L)
+
             // Remove Overlay if packages don't match
             if (overlaidAppPackageName != appLimits.appInfo.packageName
                 && overlaidAppPackageName.isNotBlank()
             ) {
                 withContext(Dispatchers.Main) { removeOverlayView() }
             }
+
+            // Check if the app doesn't violate limits
             if (!appLimits.overridden) {
                 if (isFocusModeOn && appLimits.isADistractingAp) {
                     overlayWindow(appLimits.appInfo.packageName)

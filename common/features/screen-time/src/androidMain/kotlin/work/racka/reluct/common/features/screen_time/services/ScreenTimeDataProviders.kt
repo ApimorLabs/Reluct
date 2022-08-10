@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.datetime.Clock
 import work.racka.reluct.common.data.usecases.app_usage.GetDailyAppUsageInfo
-import work.racka.reluct.common.features.screen_time.permissions.checkUsageAccessPermissions
+import work.racka.reluct.common.features.screen_time.permissions.UsageAccessPermission
 import work.racka.reluct.common.model.domain.usagestats.AppUsageStats
 import work.racka.reluct.common.model.util.time.WeekUtils
 
@@ -22,7 +22,7 @@ internal object ScreenTimeDataProviders {
     ): Flow<AppUsageStats> = flow {
         while (true) {
             delay(500)
-            if (checkUsageAccessPermissions(applicationContext)) {
+            if (UsageAccessPermission.isAllowed(applicationContext)) {
                 val currentTime = Clock.System.now().toEpochMilliseconds()
                 val startTimeMillis = currentTime - (1000 * 1800)
                 var latestEvent: UsageEvents.Event? = null
@@ -47,8 +47,6 @@ internal object ScreenTimeDataProviders {
                         packageName = event.packageName
                     )
                 }?.let { app -> emit(app) } // Emitting the stats for the app.
-            } else {
-                // TODO: Show Missing Permission Notification
             }
         }
     }.flowOn(Dispatchers.IO)
