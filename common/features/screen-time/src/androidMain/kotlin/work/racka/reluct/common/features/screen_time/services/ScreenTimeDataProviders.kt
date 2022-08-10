@@ -1,10 +1,9 @@
 package work.racka.reluct.common.features.screen_time.services
 
+import android.app.KeyguardManager
 import android.app.usage.UsageEvents
 import android.app.usage.UsageStatsManager
 import android.content.Context
-import android.os.Build
-import android.os.UserManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
@@ -23,20 +22,17 @@ internal object ScreenTimeDataProviders {
     ): Flow<AppUsageStats> = flow {
         while (true) {
             delay(500)
-            val currentTime = Clock.System.now().toEpochMilliseconds()
-            val startTimeMillis = currentTime - (1000 * 1800)
             if (checkUsageAccessPermissions(applicationContext)) {
+                val currentTime = Clock.System.now().toEpochMilliseconds()
+                val startTimeMillis = currentTime - (1000 * 1800)
                 var latestEvent: UsageEvents.Event? = null
 
+                val keyguardManager = applicationContext
+                    .getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
                 val usageStats = applicationContext
                     .getSystemService(Context.USAGE_STATS_SERVICE) as UsageStatsManager
-                val usageEvents = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    val userManager = applicationContext
-                        .getSystemService(Context.USER_SERVICE) as UserManager
-                    if (userManager.isUserUnlocked) usageStats
-                        .queryEvents(startTimeMillis, currentTime)
-                    else null
-                } else usageStats.queryEvents(startTimeMillis, currentTime)
+                val usageEvents = if (!keyguardManager.isKeyguardLocked) usageStats
+                    .queryEvents(startTimeMillis, currentTime) else null
 
                 while (usageEvents?.hasNextEvent() == true) {
                     val currentEvent = UsageEvents.Event()

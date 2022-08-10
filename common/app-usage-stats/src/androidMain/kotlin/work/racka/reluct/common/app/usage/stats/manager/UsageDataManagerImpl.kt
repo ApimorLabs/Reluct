@@ -1,10 +1,9 @@
 package work.racka.reluct.common.app.usage.stats.manager
 
+import android.app.KeyguardManager
 import android.app.usage.UsageEvents
 import android.app.usage.UsageStatsManager
 import android.content.Context
-import android.os.Build
-import android.os.UserManager
 import work.racka.reluct.common.app.usage.stats.model.DataAppUsageInfo
 import work.racka.reluct.common.app.usage.stats.model.DataUsageStats
 import work.racka.reluct.common.app.usage.stats.util.sortByHighestForegroundTime
@@ -29,11 +28,9 @@ internal class UsageDataManagerImpl(
         val appUsageInfoMap = hashMapOf<String, DataAppUsageInfo>()
         var unlockCount = 0L
 
-        val usageEvents = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            val userManager = context.getSystemService(Context.USER_SERVICE) as UserManager
-            if (userManager.isUserUnlocked) usageStats.queryEvents(startTimeMillis, endTimeMillis)
-            else null
-        } else usageStats.queryEvents(startTimeMillis, endTimeMillis)
+        val keyguardManager = context.getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
+        val usageEvents = if (!keyguardManager.isKeyguardLocked) usageStats
+            .queryEvents(startTimeMillis, endTimeMillis) else null
 
         while (usageEvents?.hasNextEvent() == true) {
             val currentEvent = UsageEvents.Event()
