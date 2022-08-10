@@ -34,7 +34,7 @@ internal class ScreenTimeLimitService : Service(), KoinComponent {
     private val overlayLifecycleOwner = OverlayLifecycleOwner()
 
     private var scope: CoroutineScope? = null
-    private var startServiceJob: Job? = null
+    private var observeLimitsJob: Job? = null
 
     private val screenTimeServices: ScreenTimeServices by inject()
     private val getDailyAppUsageInfo: GetDailyAppUsageInfo by inject()
@@ -62,8 +62,8 @@ internal class ScreenTimeLimitService : Service(), KoinComponent {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         overlayLifecycleOwner.onResume()
-        startServiceJob?.cancel()
-        startServiceJob = scope?.launch {
+        observeLimitsJob?.cancel()
+        observeLimitsJob = scope?.launch {
             manageLimits()
         }
         return START_STICKY
