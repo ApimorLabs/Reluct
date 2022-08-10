@@ -1,12 +1,11 @@
 package work.racka.reluct.common.features.screen_time.ui.overlay
 
 import androidx.compose.animation.animateContentSize
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Scaffold
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Close
@@ -16,19 +15,15 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import org.koin.core.parameter.parametersOf
-import work.racka.common.mvvm.koin.compose.commonViewModel
 import work.racka.reluct.android.compose.components.cards.statistics.StatisticsChartState
 import work.racka.reluct.android.compose.components.cards.statistics.screen_time.AppScreenTimeStatisticsCard
-import work.racka.reluct.android.compose.components.topBar.ReluctSmallTopAppBar
 import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.common.features.screen_time.statistics.AppScreenTimeStatsViewModel
 import work.racka.reluct.common.features.screen_time.statistics.states.app_stats.DailyAppUsageStatsState
 import work.racka.reluct.common.features.screen_time.statistics.states.app_stats.WeeklyAppUsageStatsState
 
 @Composable
-internal fun AppLimitedOverlayUI(packageName: String, remove: () -> Unit) {
-    val viewModel: AppScreenTimeStatsViewModel by commonViewModel { parametersOf(packageName) }
+internal fun AppLimitedOverlayUI(viewModel: AppScreenTimeStatsViewModel, exit: () -> Unit) {
 
     val uiState by viewModel.uiState.collectAsState()
 
@@ -54,22 +49,28 @@ internal fun AppLimitedOverlayUI(packageName: String, remove: () -> Unit) {
 
     Scaffold(
         modifier = Modifier
-            .fillMaxSize(.8f),
+            .fillMaxSize(),
         topBar = {
-            ReluctSmallTopAppBar(
-                title = "",
-                actions = {
-                    IconButton(onClick = remove) {
-                        Icon(
-                            imageVector = Icons.Rounded.Close,
-                            contentDescription = null
-                        )
-                    }
-                },
-                navigationIcon = {}
-            )
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .statusBarsPadding()
+                    .padding(Dimens.MediumPadding.size),
+                contentAlignment = Alignment.CenterEnd
+            ) {
+                IconButton(
+                    modifier = Modifier.background(MaterialTheme.colorScheme.primary, CircleShape),
+                    onClick = exit,
+                ) {
+                    Icon(
+                        tint = MaterialTheme.colorScheme.onPrimary,
+                        imageVector = Icons.Rounded.Close,
+                        contentDescription = null
+                    )
+                }
+            }
         },
-        backgroundColor = MaterialTheme.colorScheme.background,
+        backgroundColor = MaterialTheme.colorScheme.background.copy(alpha = .9f),
     ) { padding ->
         Box(
             modifier = Modifier
@@ -80,7 +81,6 @@ internal fun AppLimitedOverlayUI(packageName: String, remove: () -> Unit) {
             contentAlignment = Alignment.Center
         ) {
             LazyColumn(
-                modifier = Modifier.fillMaxSize(),
                 state = rememberLazyListState(),
                 verticalArrangement = Arrangement.spacedBy(Dimens.SmallPadding.size),
                 horizontalAlignment = Alignment.CenterHorizontally

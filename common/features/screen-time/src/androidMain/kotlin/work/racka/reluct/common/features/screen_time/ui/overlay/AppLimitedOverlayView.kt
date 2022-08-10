@@ -8,15 +8,17 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import work.racka.reluct.android.compose.theme.ReluctAppTheme
 import work.racka.reluct.android.compose.theme.Theme
+import work.racka.reluct.common.features.screen_time.statistics.AppScreenTimeStatsViewModel
 import work.racka.reluct.common.settings.MultiplatformSettings
 
 internal class AppLimitedOverlayView(
     private val context: Context,
-    private val packageName: String,
-    private val close: (View) -> Unit
+    private val viewModel: AppScreenTimeStatsViewModel,
+    private val exit: (View) -> Unit
 ) : KoinComponent {
 
     private val preferences: MultiplatformSettings by inject()
+
 
     fun getView() = ComposeView(context).apply {
         setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnDetachedFromWindow)
@@ -25,8 +27,8 @@ internal class AppLimitedOverlayView(
             ReluctAppTheme(theme = themeValue) {
                 // Put You Stuff Here
                 AppLimitedOverlayUI(
-                    packageName = packageName,
-                    remove = { close(this) }
+                    viewModel = viewModel,
+                    exit = { exit(this) }
                 )
             }
         }

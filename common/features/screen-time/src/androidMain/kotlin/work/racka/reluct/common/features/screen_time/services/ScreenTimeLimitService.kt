@@ -17,13 +17,15 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.first
 import org.koin.core.component.KoinComponent
+import org.koin.core.component.get
 import org.koin.core.component.inject
+import org.koin.core.parameter.parametersOf
 import work.racka.reluct.common.core_navigation.compose_destinations.screentime.AppScreenTimeStatsDestination
 import work.racka.reluct.common.data.usecases.app_usage.GetDailyAppUsageInfo
 import work.racka.reluct.common.data.usecases.limits.GetAppLimits
 import work.racka.reluct.common.data.usecases.limits.ManageFocusMode
-import work.racka.reluct.common.data.usecases.limits.ModifyAppLimits
 import work.racka.reluct.common.features.screen_time.R
+import work.racka.reluct.common.features.screen_time.statistics.AppScreenTimeStatsViewModel
 import work.racka.reluct.common.features.screen_time.ui.overlay.AppLimitedOverlayView
 import work.racka.reluct.common.features.screen_time.ui.overlay.LimitsOverlayParams
 import work.racka.reluct.common.features.screen_time.ui.overlay.OverlayLifecycleOwner
@@ -36,16 +38,21 @@ internal class ScreenTimeLimitService : Service(), KoinComponent {
     private var scope: CoroutineScope? = null
     private var observeLimitsJob: Job? = null
 
+    /**
+     * ViewModel gets populated when [overlayWindow] is called
+     */
+    private var viewModel: AppScreenTimeStatsViewModel? = null
+
     private val screenTimeServices: ScreenTimeServices by inject()
     private val getDailyAppUsageInfo: GetDailyAppUsageInfo by inject()
     private val getAppLimits: GetAppLimits by inject()
     private val manageFocusMode: ManageFocusMode by inject()
-    private val modifyAppLimits: ModifyAppLimits by inject()
 
     private var windowManager: WindowManager? = null
 
     private var overlayView: ComposeView? = null
     private var overlaidAppPackageName = ""
+    private var goneHome = false
 
     override fun onCreate() {
         scope?.cancel()
@@ -55,6 +62,7 @@ internal class ScreenTimeLimitService : Service(), KoinComponent {
     }
 
     override fun onDestroy() {
+        android.view.KeyEvent.KEYCODE_HOME
         scope?.cancel()
         screenTimeServices.startLimitsService()
         overlayLifecycleOwner.onDestroy()
@@ -83,30 +91,24 @@ internal class ScreenTimeLimitService : Service(), KoinComponent {
         windowManager = applicationContext.getSystemService(Context.WINDOW_SERVICE) as WindowManager
     }
 
-    private fun removeOverlayView() {
-        Log.d(TAG, "Removing View")
-        overlayView?.let { view ->
-            view.disposeComposition() // Remove Composition
-            windowManager?.removeView(view)
-            overlaidAppPackageName = ""
-            overlayView = null
-        }
-    }
-
     private suspend fun overlayWindow(packageName: String) {
         withContext(Dispatchers.Main) {
             val canDrawOverlays = Settings.canDrawOverlays(applicationContext)
             if (canDrawOverlays && overlayView == null) {
+                println("Setting Window: $packageName")
+                viewModel = get { parametersOf(packageName) }
                 overlaidAppPackageName = packageName
                 val layoutParams = LimitsOverlayParams.getParams()
-                overlayView = AppLimitedOverlayView(
-                    applicationContext,
-                    packageName = packageName,
-                    close = {
-                        Log.d(TAG, "Close Overlay")
-                        removeOverlayView()
-                    }
-                ).getView()
+                overlayView = viewModel?.let { vm ->
+                    AppLimitedOverlayView(
+                        applicationContext,
+                        viewModel = vm,
+                        exit = {
+                            goHome()
+                            removeOverlayView()
+                        }
+                    ).getView()
+                }
                 overlayLifecycleOwner.attachToView(overlayView)
                 overlayView?.let { windowManager?.addView(it, layoutParams) }
             } else if (!canDrawOverlays) {
@@ -118,6 +120,17 @@ internal class ScreenTimeLimitService : Service(), KoinComponent {
                 removeOverlayView()
             }
             Unit // VOID Return value for withContext block!
+        }
+    }
+
+    private fun removeOverlayView() {
+        overlayView?.let { view ->
+            viewModel?.destroy() // Destroy ViewModel
+            viewModel = null
+            view.disposeComposition() // Remove Composition
+            windowManager?.removeView(view)
+            overlaidAppPackageName = ""
+            overlayView = null
         }
     }
 
@@ -135,6 +148,9 @@ internal class ScreenTimeLimitService : Service(), KoinComponent {
             val appLimits = getAppLimits.getAppSync(stats.appUsageInfo.packageName)
             val appPastLimit = (currentDuration >= appLimits.timeLimit && appLimits.timeLimit != 0L)
 
+            // Delay Checking Limits if a home action was initiated
+            delayAfterHome()
+
             // Remove Overlay if packages don't match
             if (overlaidAppPackageName != appLimits.appInfo.packageName
                 && overlaidAppPackageName.isNotBlank()
@@ -149,7 +165,7 @@ internal class ScreenTimeLimitService : Service(), KoinComponent {
                 } else if (appLimits.isPaused) {
                     overlayWindow(appLimits.appInfo.packageName)
                 } else if (appPastLimit) {
-                    modifyAppLimits.pauseApp(stats.appUsageInfo.packageName, isPaused = true)
+                    //modifyAppLimits.pauseApp(stats.appUsageInfo.packageName, isPaused = true)
                     overlayWindow(appLimits.appInfo.packageName)
                 }
             } else {
@@ -181,6 +197,34 @@ internal class ScreenTimeLimitService : Service(), KoinComponent {
                 ),
                 onNotificationClick = { pendingIntent }
             )
+    }
+
+    private fun goHome() {
+        try {
+            Intent(Intent.ACTION_MAIN).apply {
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                addFlags(Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED)
+                addCategory(Intent.CATEGORY_HOME)
+            }.also { intent ->
+                startActivity(intent)
+                goneHome = true
+            }
+        } catch (e: Exception) {
+            // Failed To Send Home
+            Log.d(TAG, "Failed To Go Home: ${e.message}")
+        }
+    }
+
+    /**
+     * We need to delay execution after [goHome] was called
+     * This will help prevent the [overlayView] from being created again when the
+     * home action delays.
+     */
+    private suspend fun delayAfterHome() {
+        if (goneHome) {
+            goneHome = false
+            delay(1000)
+        }
     }
 
     // Do Not Bind this service
