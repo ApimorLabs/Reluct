@@ -159,7 +159,7 @@ internal class ScreenTimeLimitService : Service(), KoinComponent {
             }
 
             // Check if the app doesn't violate limits
-            if (!appLimits.overridden) {
+            if (!appLimits.overridden && !goneHome) {
                 if (isFocusModeOn && appLimits.isADistractingAp) {
                     overlayWindow(appLimits.appInfo.packageName)
                 } else if (appLimits.isPaused) {
@@ -200,6 +200,7 @@ internal class ScreenTimeLimitService : Service(), KoinComponent {
     }
 
     private fun goHome() {
+        goneHome = true
         try {
             Intent(Intent.ACTION_MAIN).apply {
                 addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -207,7 +208,6 @@ internal class ScreenTimeLimitService : Service(), KoinComponent {
                 addCategory(Intent.CATEGORY_HOME)
             }.also { intent ->
                 startActivity(intent)
-                goneHome = true
             }
         } catch (e: Exception) {
             // Failed To Send Home
