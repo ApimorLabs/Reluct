@@ -2,7 +2,11 @@ package work.racka.reluct.common.features.screen_time.ui.overlay
 
 import android.content.Context
 import android.view.View
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
@@ -25,10 +29,16 @@ internal class AppLimitedOverlayView(
         setContent {
             val themeValue = Theme.MATERIAL_YOU.themeValue
             ReluctAppTheme(theme = themeValue) {
-                // Put You Stuff Here
+                // Put Your Stuff Here
+                val composeHaptics = LocalHapticFeedback.current
+                val focusModeOn by preferences.focusMode.collectAsState(initial = false)
                 AppLimitedOverlayUI(
                     viewModel = viewModel,
-                    exit = { exit(this) }
+                    focusModeOn = focusModeOn,
+                    exit = {
+                        composeHaptics.performHapticFeedback(HapticFeedbackType.LongPress)
+                        exit(this)
+                    }
                 )
             }
         }

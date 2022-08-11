@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="save_button_text">Save</string>
+    <string name="ok">OK</string>
+    <string name="no_apps_text">No Apps</string>
     <string name="screen_time_service_channel_name">Screen Time Limit Service</string>
     <string name="screen_time_service_channel_desc">Screen Time Service Channel for a persistent service that tracks open apps and blocks them according to your set screen time limits.</string>
     <string name="no_usage_access_notif_title">Usage Access Permission</string>
@@ -13,4 +16,5 @@
     <string name="overlay_perm_notif_content">You need to allow Reluct to draw over other apps.
      This permission is used to show alerts when you exceed the screen time limits or in Focus Mode.
      Click the Notification to Open Settings</string>
+    <string name="exit_text">Exit</string>
 </resources>

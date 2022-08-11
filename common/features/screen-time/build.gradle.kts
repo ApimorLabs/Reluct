@@ -66,6 +66,7 @@ kotlin {
                     implementation(material3)
                     implementation(tooling)
                 }
+                implementation(Dependencies.Android.Coil.image)
             }
         }
 
