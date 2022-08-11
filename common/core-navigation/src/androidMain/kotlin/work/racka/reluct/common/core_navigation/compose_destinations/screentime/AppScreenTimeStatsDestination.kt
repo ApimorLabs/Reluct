@@ -19,7 +19,8 @@ object AppScreenTimeStatsDestination : NavDestination {
     override val deepLinks: List<NavDeepLink>
         get() = listOf(
             navDeepLink {
-                uriPattern = "$APP_URI/tasks/{${AppScreenTimeStatsArgs.PackageName.name}}"
+                uriPattern =
+                    "$APP_URI/screen_time_stats/{${AppScreenTimeStatsArgs.PackageName.name}}"
             }
         )
 

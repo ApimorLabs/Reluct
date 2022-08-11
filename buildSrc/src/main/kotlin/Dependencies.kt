@@ -106,6 +106,7 @@ object Dependencies {
             val material by lazy { "com.google.android.material:material:${Versions.material}" }
 
             // Lifecycle components
+            val saveState by lazy { "androidx.savedstate:savedstate-ktx:${Versions.saveState}" }
             val coreViewModel by lazy {
                 "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.lifecycle}"
             }
@@ -130,6 +131,7 @@ object Dependencies {
 
         // Compose
         object Compose {
+            val runtime by lazy { "androidx.compose.runtime:runtime:${Versions.compose}" }
             val ui by lazy { "androidx.compose.ui:ui:${Versions.compose}" }
             val material by lazy { "androidx.compose.material:material:${Versions.compose}" }
             val material3 by lazy { "androidx.compose.material3:material3:${Versions.composeMaterial3}" }

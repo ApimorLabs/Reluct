@@ -20,6 +20,7 @@ object Versions {
     const val appCompat = "1.4.2"
     const val gradlePlugin = "7.1.1"
     const val coreKtx = "1.8.0"
+    const val saveState = "1.2.0"
 
     // Compose Base
     const val composeCompiler = "1.2.0"

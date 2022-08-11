@@ -1,10 +1,13 @@
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
+    id("org.jetbrains.compose") version Versions.composeDesktop
 }
 
 android {
     namespace = "work.racka.reluct.common.features.screen_time"
+    buildFeatures { compose = true }
+    composeOptions { kotlinCompilerExtensionVersion = Versions.composeCompiler }
 }
 
 kotlin {
@@ -18,6 +21,8 @@ kotlin {
                 implementation(project(":common:data"))
                 implementation(project(":common:model"))
                 implementation(project(":common:mvvm-core"))
+                implementation(project(":common:persistence:settings"))
+                implementation(project(":common:system-services"))
 
                 implementation(Dependencies.Kotlin.Coroutines.core)
                 implementation(Dependencies.Koin.core)
@@ -39,6 +44,29 @@ kotlin {
 
         val androidMain by getting {
             dependencies {
+                implementation(Dependencies.Android.Essential.coreKtx)
+                implementation(Dependencies.Android.Essential.saveState)
+                implementation(Dependencies.Koin.android)
+                implementation(Dependencies.Koin.compose)
+
+                // Compose
+                implementation(project(":android:compose:theme"))
+                implementation(project(":android:compose:components"))
+                with(Dependencies.Android.Compose) {
+                    implementation(ui)
+                    implementation(animation)
+                    implementation(material)
+                    implementation(preview)
+                    implementation(activity)
+                    implementation(viewModel)
+                    implementation(materialIconsCore)
+                    implementation(materialIconsExtended)
+                    implementation(foundation)
+                    implementation(foundationLayout)
+                    implementation(material3)
+                    implementation(tooling)
+                }
+                implementation(Dependencies.Android.Coil.image)
             }
         }
 

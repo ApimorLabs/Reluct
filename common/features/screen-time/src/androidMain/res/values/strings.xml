@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="save_button_text">Save</string>
+    <string name="ok">OK</string>
+    <string name="no_apps_text">No Apps</string>
+    <string name="screen_time_service_channel_name">Screen Time Limit Service</string>
+    <string name="screen_time_service_channel_desc">Screen Time Service Channel for a persistent service that tracks open apps and blocks them according to your set screen time limits.</string>
+    <string name="no_usage_access_notif_title">Usage Access Permission</string>
+    <string name="no_usage_access_notif_content">You do not have Device Usage access enabled! This app needs
+     usage access to show App Screen Time Usage. Click the Notification to Open Settings</string>
+    <string name="screen_time_service_default_title">Device Screen Time</string>
+    <string name="screen_time_service_default_content">Screen Time Limit Service Running</string>
+    <string name="current_app_arg">Current App: %1$s</string>
+    <string name="current_app_time_arg">Screen Time: %1$s</string>
+    <string name="overlay_perm_notif_title">Display Over Other Apps Permission</string>
+    <string name="overlay_perm_notif_content">You need to allow Reluct to draw over other apps.
+     This permission is used to show alerts when you exceed the screen time limits or in Focus Mode.
+     Click the Notification to Open Settings</string>
+    <string name="exit_text">Exit</string>
+</resources>
