@@ -9,6 +9,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import work.racka.reluct.android.compose.components.cards.card_with_actions.ReluctDescriptionCard
 import work.racka.reluct.android.compose.components.cards.card_with_actions.ReluctSwitchCard
@@ -22,11 +23,15 @@ internal fun LimitsSwitchCard(
     checked: Boolean,
     onCheckedChange: (Boolean) -> Unit,
     onClick: () -> Unit = {},
+    containerColor: Color = MaterialTheme.colorScheme.surfaceVariant,
+    contentColor: Color = MaterialTheme.colorScheme.onSurfaceVariant,
 ) {
     ReluctSwitchCard(
         modifier = modifier,
         checked = checked,
         onCheckedChange = { onCheckedChange(it) },
+        contentColor = contentColor,
+        containerColor = containerColor,
         icon = icon,
         title = {
             Text(

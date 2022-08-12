@@ -1,5 +1,6 @@
 package work.racka.reluct.android.screens.screentime.limits
 
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
@@ -14,10 +15,12 @@ import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -60,6 +63,16 @@ internal fun ScreenTimeLimitsUI(
     } else {
         barsVisibility.bottomBar.hide()
     }
+
+    val focusModeContainerColor by animateColorAsState(
+        targetValue = if (uiState.focusModeState.focusModeOn) Color.Green.copy(alpha = .7f)
+        else MaterialTheme.colorScheme.error.copy(alpha = .8f)
+    )
+
+    val focusModeContentColor by animateColorAsState(
+        targetValue = if (uiState.focusModeState.focusModeOn) Color.Black
+        else MaterialTheme.colorScheme.onError
+    )
 
     // Dialogs Open State
     val showDistractingAppsDialog = remember { mutableStateOf(false) }
@@ -113,7 +126,9 @@ internal fun ScreenTimeLimitsUI(
                         description = stringResource(R.string.turn_on_focus_desc),
                         checked = uiState.focusModeState.focusModeOn,
                         onCheckedChange = { toggleFocusMode(it) },
-                        icon = Icons.Rounded.AppBlocking
+                        icon = Icons.Rounded.AppBlocking,
+                        containerColor = focusModeContainerColor,
+                        contentColor = focusModeContentColor
                     )
                 }
 
