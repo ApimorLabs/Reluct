@@ -46,6 +46,8 @@
     <string name="manage_distracting_apps">Manage Distracting Apps</string>
     <string name="manage_distracting_apps_desc">Configure your Distracting Apps</string>
     <string name="manually_pause_apps">Manually Pause Apps</string>
+    <string name="manually_pause_app">Manually Pause App</string>
+    <string name="manually_pause_app_desc">App will be paused for the whole day</string>
     <string name="manually_pause_apps_desc">Select Apps to pause for the whole day</string>
 
     <string name="no_usage_data_text">No Usage Data Found</string>

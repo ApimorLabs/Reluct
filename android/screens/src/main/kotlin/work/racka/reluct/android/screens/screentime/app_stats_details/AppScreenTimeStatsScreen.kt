@@ -42,6 +42,7 @@ fun AppScreenTimeStatsScreen(
         scaffoldState = scaffoldState,
         uiState = uiState,
         toggleDistractingState = { viewModel.toggleDistractingState(it) },
+        togglePausedState = { viewModel.togglePausedState(it) },
         saveTimeLimit = { hours, minutes -> viewModel.saveTimeLimit(hours, minutes) },
         onSelectDay = { viewModel.selectDay(it) },
         onUpdateWeekOffset = { viewModel.updateWeekOffset(it) },

@@ -41,4 +41,7 @@ internal class ManagePausedAppsImpl(
         modifyAppLimits.pauseApp(packageName = packageName, isPaused = false)
         haptics.tick()
     }
+
+    override suspend fun isPaused(packageName: String): Boolean =
+        getPausedApps.isPaused(packageName)
 }

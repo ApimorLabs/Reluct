@@ -8,6 +8,7 @@ import work.racka.common.mvvm.viewmodel.CommonViewModel
 import work.racka.reluct.common.data.usecases.app_usage.GetWeeklyAppUsageInfo
 import work.racka.reluct.common.data.usecases.limits.ManageAppTimeLimit
 import work.racka.reluct.common.data.usecases.limits.ManageDistractingApps
+import work.racka.reluct.common.data.usecases.limits.ManagePausedApps
 import work.racka.reluct.common.data.usecases.time.GetWeekRangeFromOffset
 import work.racka.reluct.common.features.screen_time.statistics.states.ScreenTimeStatsEvents
 import work.racka.reluct.common.features.screen_time.statistics.states.ScreenTimeStatsSelectedInfo
@@ -30,6 +31,7 @@ class AppScreenTimeStatsViewModel(
     private val getWeeklyAppUsage: GetWeeklyAppUsageInfo,
     private val manageAppTimeLimit: ManageAppTimeLimit,
     private val manageDistractingApps: ManageDistractingApps,
+    private val managePausedApps: ManagePausedApps,
     private val getWeekRangeFromOffset: GetWeekRangeFromOffset
 ) : CommonViewModel() {
 
@@ -97,6 +99,28 @@ class AppScreenTimeStatsViewModel(
         }
     }
 
+    fun togglePausedState(value: Boolean) {
+        vmScope.launch {
+            if (value) {
+                managePausedApps.pauseApp(packageName)
+                _events.send(
+                    ScreenTimeStatsEvents.ShowMessageDone(
+                        true,
+                        Constants.MARK_PAUSED
+                    )
+                )
+            } else {
+                managePausedApps.unPauseApp(packageName)
+                _events.send(
+                    ScreenTimeStatsEvents.ShowMessageDone(
+                        false,
+                        Constants.UN_MARK_PAUSED
+                    )
+                )
+            }
+        }
+    }
+
     fun saveTimeLimit(hours: Int, minutes: Int) {
         vmScope.launch {
             val appSettingsState = appSettings.value
@@ -110,7 +134,6 @@ class AppScreenTimeStatsViewModel(
     }
 
     fun selectDay(selectedDayIsoNumber: Int) {
-        dailyData.update { DailyAppUsageStatsState.Loading }
         selectedInfo.update { it.copy(selectedDay = selectedDayIsoNumber) }
         val currentWeekData = weeklyData.value
         getDailyData(selectedDayIsoNumber, currentWeekData.usageStats)
@@ -135,10 +158,12 @@ class AppScreenTimeStatsViewModel(
         appSettingsJob = vmScope.launch {
             manageAppTimeLimit.invoke(packageName).collectLatest { app ->
                 val isDistracting = manageDistractingApps.isDistractingApp(app.appInfo.packageName)
+                val isPaused = managePausedApps.isPaused(app.appInfo.packageName)
                 appSettings.update {
                     AppSettingsState.Data(
                         appTimeLimit = app,
-                        isDistractingApp = isDistracting
+                        isDistractingApp = isDistracting,
+                        isPaused = isPaused
                     )
                 }
             }

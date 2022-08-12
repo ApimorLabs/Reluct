@@ -35,8 +35,6 @@ sealed class DailyAppUsageStatsState {
         val dayText: String = usageStat.dateFormatted
     ) : DailyAppUsageStatsState()
 
-    object Loading : DailyAppUsageStatsState()
-
     object Empty : DailyAppUsageStatsState()
 }
 
@@ -45,6 +43,7 @@ sealed class AppSettingsState {
     object Loading : AppSettingsState()
     data class Data(
         val appTimeLimit: AppTimeLimit,
-        val isDistractingApp: Boolean
+        val isDistractingApp: Boolean,
+        val isPaused: Boolean
     ) : AppSettingsState()
 }

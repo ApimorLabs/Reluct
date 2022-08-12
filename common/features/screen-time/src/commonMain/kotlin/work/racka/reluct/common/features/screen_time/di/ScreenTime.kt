@@ -37,6 +37,7 @@ object ScreenTime {
                 getWeeklyAppUsage = get(),
                 manageAppTimeLimit = get(),
                 manageDistractingApps = get(),
+                managePausedApps = get(),
                 getWeekRangeFromOffset = get()
             )
         }
