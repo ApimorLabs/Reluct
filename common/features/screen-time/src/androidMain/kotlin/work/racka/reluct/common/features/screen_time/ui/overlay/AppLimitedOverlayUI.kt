@@ -264,7 +264,7 @@ private fun ReasonCard(
                             color = LocalContentColor.current.copy(alpha = .8f)
                         )
                     },
-                    icon = Icons.Rounded.Pause,
+                    icon = Icons.Rounded.PauseCircle,
                     onClick = { }
                 )
             }
