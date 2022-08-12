@@ -13,4 +13,5 @@ interface ManagePausedApps {
 
     suspend fun pauseApp(packageName: String)
     suspend fun unPauseApp(packageName: String)
+    suspend fun isPaused(packageName: String): Boolean
 }
