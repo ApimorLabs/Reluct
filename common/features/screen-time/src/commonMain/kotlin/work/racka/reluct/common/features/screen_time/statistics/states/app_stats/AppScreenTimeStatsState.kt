@@ -35,8 +35,6 @@ sealed class DailyAppUsageStatsState {
         val dayText: String = usageStat.dateFormatted
     ) : DailyAppUsageStatsState()
 
-    object Loading : DailyAppUsageStatsState()
-
     object Empty : DailyAppUsageStatsState()
 }
 

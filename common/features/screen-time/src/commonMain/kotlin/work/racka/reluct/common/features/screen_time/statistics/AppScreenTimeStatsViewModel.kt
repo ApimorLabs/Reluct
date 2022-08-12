@@ -134,7 +134,6 @@ class AppScreenTimeStatsViewModel(
     }
 
     fun selectDay(selectedDayIsoNumber: Int) {
-        dailyData.update { DailyAppUsageStatsState.Loading }
         selectedInfo.update { it.copy(selectedDay = selectedDayIsoNumber) }
         val currentWeekData = weeklyData.value
         getDailyData(selectedDayIsoNumber, currentWeekData.usageStats)
