@@ -16,9 +16,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.IntOffset
@@ -69,6 +71,17 @@ fun <T> ListItemPicker(
 
     val indexOfElement =
         getItemIndexForOffset(list, value, animatedOffset.value, halfNumbersColumnHeightPx)
+
+    // Here to prevent vibration on first Composition of this picker
+    var firstComposition by remember { mutableStateOf(true) }
+
+    val haptics = LocalHapticFeedback.current
+    LaunchedEffect(indexOfElement) {
+        if (!firstComposition) {
+            haptics.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+        }
+        firstComposition = false
+    }
 
     var dividersWidth by remember { mutableStateOf(0.dp) }
 
