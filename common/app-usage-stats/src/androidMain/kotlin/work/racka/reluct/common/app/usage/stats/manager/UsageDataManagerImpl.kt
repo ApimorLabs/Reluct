@@ -1,9 +1,11 @@
 package work.racka.reluct.common.app.usage.stats.manager
 
+import android.annotation.SuppressLint
 import android.app.KeyguardManager
 import android.app.usage.UsageEvents
 import android.app.usage.UsageStatsManager
 import android.content.Context
+import kotlinx.datetime.Clock
 import work.racka.reluct.common.app.usage.stats.model.DataAppUsageInfo
 import work.racka.reluct.common.app.usage.stats.model.DataUsageStats
 import work.racka.reluct.common.app.usage.stats.util.sortByHighestForegroundTime
@@ -22,6 +24,7 @@ internal class UsageDataManagerImpl(
      * You can use UsageStatsManager.queryUsageStats to get more data but that is not very
      * accurate and can deviate a lot from the actual usage statistics
      */
+    @SuppressLint("InlinedApi")
     override suspend fun getUsageStats(startTimeMillis: Long, endTimeMillis: Long): DataUsageStats {
         val allEvents = mutableListOf<UsageEvents.Event>()
         // The key is the package name for the app
@@ -57,13 +60,21 @@ internal class UsageDataManagerImpl(
             val e0 = allEvents[i]
             val e1 = allEvents[i + 1]
 
-            // For UsageTime of apps in time range
-            if (e0.eventType == UsageEvents.Event.ACTIVITY_RESUMED &&
-                e1.eventType == UsageEvents.Event.ACTIVITY_PAUSED &&
-                e0.className == e1.className
-            ) {
-                val diff = e1.timeStamp - e0.timeStamp
-                appUsageInfoMap[e0.packageName]!!.timeInForeground += diff
+            // Generating Checks
+            val currentTime = Clock.System.now().toEpochMilliseconds()
+            val eventsFromSameApp = e0.eventType == UsageEvents.Event.ACTIVITY_RESUMED &&
+                    e1.eventType == UsageEvents.Event.ACTIVITY_PAUSED &&
+                    e0.className == e1.className
+            val appActive = (i + 1 == allEvents.lastIndex)
+                    && (e1.eventType == UsageEvents.Event.ACTIVITY_RESUMED) &&
+                    (startTimeMillis..endTimeMillis).contains(currentTime)
+
+            // Foreground UsageTime of apps in time range
+            if (eventsFromSameApp || appActive) {
+                UsageEvents.Event.USER_INTERACTION
+                val diff = if (appActive) currentTime - e1.timeStamp
+                else e1.timeStamp - e0.timeStamp
+                appUsageInfoMap[e1.packageName]!!.timeInForeground += diff
             }
 
             // For App launch count
