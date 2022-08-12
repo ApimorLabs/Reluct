@@ -7,10 +7,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.AppBlocking
-import androidx.compose.material.icons.rounded.Close
-import androidx.compose.material.icons.rounded.ExitToApp
-import androidx.compose.material.icons.rounded.HourglassBottom
+import androidx.compose.material.icons.rounded.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -267,7 +264,7 @@ private fun ReasonCard(
                             color = LocalContentColor.current.copy(alpha = .8f)
                         )
                     },
-                    icon = Icons.Rounded.AppBlocking,
+                    icon = Icons.Rounded.Pause,
                     onClick = { }
                 )
             }

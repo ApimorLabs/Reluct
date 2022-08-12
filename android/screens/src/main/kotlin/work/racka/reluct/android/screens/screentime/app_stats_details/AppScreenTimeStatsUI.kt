@@ -14,6 +14,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.AppBlocking
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.HourglassBottom
+import androidx.compose.material.icons.rounded.PauseCircle
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
@@ -48,6 +49,7 @@ internal fun AppScreenTimeStatsUI(
     scaffoldState: ScaffoldState,
     uiState: AppScreenTimeStatsState,
     toggleDistractingState: (value: Boolean) -> Unit,
+    togglePausedState: (value: Boolean) -> Unit,
     saveTimeLimit: (hours: Int, minutes: Int) -> Unit,
     onSelectDay: (dayIsoNumber: Int) -> Unit,
     onUpdateWeekOffset: (offset: Int) -> Unit,
@@ -181,6 +183,17 @@ internal fun AppScreenTimeStatsUI(
                                 checked = appSettings.isDistractingApp,
                                 onCheckedChange = { toggleDistractingState(it) },
                                 icon = Icons.Rounded.AppBlocking
+                            )
+                        }
+
+                        // Pause App
+                        item {
+                            LimitsSwitchCard(
+                                title = stringResource(R.string.manually_pause_app),
+                                description = stringResource(R.string.manually_pause_app_desc),
+                                checked = appSettings.isPaused,
+                                onCheckedChange = { togglePausedState(it) },
+                                icon = Icons.Rounded.PauseCircle
                             )
                         }
                     }
