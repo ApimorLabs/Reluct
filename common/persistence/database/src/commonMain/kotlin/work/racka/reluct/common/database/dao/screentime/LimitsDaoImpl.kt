@@ -125,7 +125,7 @@ internal class LimitsDaoImpl(
         limitsQueries?.getPausedAppsFromDb()?.executeAsList() ?: emptyList()
 
     override suspend fun isAppPaused(packageName: String): Boolean =
-        limitsQueries?.isAppPaused(packageName = packageName)?.executeAsOne() ?: false
+        limitsQueries?.isAppPaused(packageName = packageName)?.executeAsOneOrNull() ?: false
 
     override suspend fun resumeAllApps() {
         limitsQueries?.transaction {
