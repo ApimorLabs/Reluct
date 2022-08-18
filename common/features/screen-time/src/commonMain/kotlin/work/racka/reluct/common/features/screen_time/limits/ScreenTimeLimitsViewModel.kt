@@ -55,16 +55,17 @@ class ScreenTimeLimitsViewModel(
     }
 
     fun getDistractingApps() {
-        distractingAppsJob?.cancel()
-        distractingAppsState.update { DistractingAppsState.Loading() }
-        distractingAppsJob = vmScope.launch {
-            manageDistractingApps.invoke().collectLatest { apps ->
-                // First is distracting apps, Second is Non Distracting apps
-                distractingAppsState.update {
-                    DistractingAppsState.Data(
-                        distractingApps = apps.first,
-                        otherApps = apps.second
-                    )
+        if (distractingAppsJob == null) {
+            distractingAppsState.update { DistractingAppsState.Loading() }
+            distractingAppsJob = vmScope.launch {
+                manageDistractingApps.invoke().collectLatest { apps ->
+                    // First is distracting apps, Second is Non Distracting apps
+                    distractingAppsState.update {
+                        DistractingAppsState.Data(
+                            distractingApps = apps.first,
+                            otherApps = apps.second
+                        )
+                    }
                 }
             }
         }
