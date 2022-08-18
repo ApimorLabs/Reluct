@@ -7,7 +7,6 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import work.racka.reluct.common.data.util.hasMainActivity
-import work.racka.reluct.common.data.util.hasSystemFlag
 import work.racka.reluct.common.model.domain.app_info.AppInfo
 
 internal class AndroidGetInstalledApps(
@@ -19,8 +18,7 @@ internal class AndroidGetInstalledApps(
     @SuppressLint("QueryPermissionsNeeded")
     override suspend fun invoke(): List<AppInfo> = withContext(dispatcher) {
         packageManager.getInstalledApplications(PackageManager.GET_META_DATA).filter {
-            hasMainActivity(context = context, packageName = it.packageName) ||
-                    !hasSystemFlag(context = context, appInfo = it, packageName = it.packageName)
+            hasMainActivity(context = context, packageName = it.packageName)
         }.map {
             AppInfo(
                 packageName = it.packageName,

@@ -11,6 +11,9 @@ internal fun hasMainActivity(context: Context, packageName: String): Boolean {
     return packageManager.getLaunchIntentForPackage(packageName) != null
 }
 
+/**
+ * This is not reliable. Just check for the mainActivity like shown above!
+ */
 internal fun hasSystemFlag(
     context: Context,
     appInfo: ApplicationInfo? = null,
@@ -18,6 +21,7 @@ internal fun hasSystemFlag(
 ): Boolean = if (appInfo != null) {
     appInfo.flags == ApplicationInfo.FLAG_SYSTEM
 } else {
-    context.packageManager.getApplicationInfo(packageName, PackageManager.GET_META_DATA)
-        .flags == ApplicationInfo.FLAG_SYSTEM
+    val applicationInfo = context.packageManager
+        .getApplicationInfo(packageName, PackageManager.GET_META_DATA)
+    applicationInfo.flags == ApplicationInfo.FLAG_SYSTEM
 }

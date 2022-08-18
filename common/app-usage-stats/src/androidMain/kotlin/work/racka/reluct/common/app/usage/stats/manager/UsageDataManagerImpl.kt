@@ -85,7 +85,11 @@ internal class UsageDataManagerImpl(
                 appUsageInfoMap[e1.packageName]!!.appLaunchCount++
             }
         }
-        val appUsageInfoList = appUsageInfoMap.values.sortByHighestForegroundTime()
+        // Check if the app has a launch intent to determine if it's user app or system only app
+        val appUsageInfoList = appUsageInfoMap.values.filter { app ->
+            context.packageManager.getLaunchIntentForPackage(app.packageName) != null
+        }.sortByHighestForegroundTime()
+
         return DataUsageStats(
             appsUsageList = appUsageInfoList,
             unlockCount = unlockCount

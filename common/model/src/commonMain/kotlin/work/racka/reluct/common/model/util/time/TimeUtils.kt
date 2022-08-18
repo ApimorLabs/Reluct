@@ -101,6 +101,7 @@ object TimeUtils {
     fun getFormattedTimeDurationString(timeMillis: Long): String {
         val hours = (timeMillis / 3.6e6).toInt()
         val minutes = ((timeMillis / 60000) % 60).toInt()
+        val seconds = ((timeMillis / 1000) % 60).toInt()
         return when {
             hours > 0 -> {
                 String.format(
@@ -109,12 +110,9 @@ object TimeUtils {
                     minutes
                 )
             }
-            minutes <= 1 -> {
-                "Less than 1 minute"
-            }
-            else -> {
-                "$minutes min"
-            }
+            minutes >= 1 -> "$minutes min"
+            seconds == 0 -> "None"
+            else -> "$seconds sec"
         }
     }
 
