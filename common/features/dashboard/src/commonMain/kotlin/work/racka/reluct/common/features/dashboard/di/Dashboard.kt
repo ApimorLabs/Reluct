@@ -4,6 +4,7 @@ import org.koin.core.KoinApplication
 import org.koin.dsl.module
 import work.racka.common.mvvm.koin.vm.commonViewModel
 import work.racka.reluct.common.features.dashboard.overview.DashboardOverviewViewModel
+import work.racka.reluct.common.features.dashboard.statistics.DashboardStatisticsViewModel
 
 object Dashboard {
     fun KoinApplication.install() = apply {
@@ -16,6 +17,13 @@ object Dashboard {
                 getTasksUseCase = get(),
                 modifyTasksUsesCase = get(),
                 getDailyUsageStats = get()
+            )
+        }
+
+        commonViewModel {
+            DashboardStatisticsViewModel(
+                screenTimeStatsViewModel = get(),
+                tasksStatsViewModel = get()
             )
         }
     }
