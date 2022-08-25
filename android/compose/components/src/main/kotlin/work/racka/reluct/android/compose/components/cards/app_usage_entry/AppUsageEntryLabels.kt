@@ -5,12 +5,14 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
 
 @Composable
 internal fun AppNameHeading(
     modifier: Modifier = Modifier,
     text: String,
+    color: Color = LocalContentColor.current
 ) {
     Text(
         modifier = modifier,
@@ -18,7 +20,7 @@ internal fun AppNameHeading(
         style = MaterialTheme.typography.titleLarge,
         maxLines = 1,
         overflow = TextOverflow.Ellipsis,
-        color = LocalContentColor.current
+        color = color
     )
 }
 
@@ -26,6 +28,7 @@ internal fun AppNameHeading(
 fun TimeInfoText(
     modifier: Modifier = Modifier,
     text: String,
+    color: Color = LocalContentColor.current
 ) {
     Text(
         modifier = modifier,
@@ -33,6 +36,6 @@ fun TimeInfoText(
         style = MaterialTheme.typography.bodyMedium,
         maxLines = 1,
         overflow = TextOverflow.Ellipsis,
-        color = LocalContentColor.current.copy(alpha = .8f)
+        color = color.copy(alpha = .8f)
     )
 }

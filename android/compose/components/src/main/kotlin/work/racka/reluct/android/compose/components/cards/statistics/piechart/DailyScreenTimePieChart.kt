@@ -100,7 +100,8 @@ private fun StatsDetails(
     ) {
         Text(
             text = stringResource(id = R.string.screen_time_text),
-            style = MaterialTheme.typography.bodyMedium,
+            style = MaterialTheme.typography.bodyMedium
+                .copy(fontWeight = FontWeight.Medium),
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
             color = contentColor
@@ -111,14 +112,15 @@ private fun StatsDetails(
                 .copy(fontWeight = FontWeight.Medium),
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
-            color = LocalContentColor.current
+            color = MaterialTheme.colorScheme.onSurfaceVariant
         )
 
         Spacer(modifier = Modifier)
 
         Text(
             text = stringResource(id = R.string.unlocks_text),
-            style = MaterialTheme.typography.bodyMedium,
+            style = MaterialTheme.typography.bodyMedium
+                .copy(fontWeight = FontWeight.Medium),
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
             color = contentColor
@@ -129,7 +131,7 @@ private fun StatsDetails(
                 .copy(fontWeight = FontWeight.Medium),
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
-            color = LocalContentColor.current
+            color = MaterialTheme.colorScheme.onSurfaceVariant
         )
     }
 }

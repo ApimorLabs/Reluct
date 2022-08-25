@@ -68,7 +68,8 @@ fun AppUsageEntry(
                 .padding(Dimens.MediumPadding.size)
                 .fillMaxWidth(),
             appUsageInfo = appUsageInfo,
-            onTimeSettingsClick = onTimeSettingsClick
+            onTimeSettingsClick = onTimeSettingsClick,
+            contentColor = contentColor
         )
     }
 }
@@ -77,7 +78,8 @@ fun AppUsageEntry(
 fun AppUsageEntryBase(
     modifier: Modifier = Modifier,
     appUsageInfo: AppUsageInfo,
-    onTimeSettingsClick: () -> Unit
+    onTimeSettingsClick: () -> Unit,
+    contentColor: Color = MaterialTheme.colorScheme.onSurfaceVariant,
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -98,13 +100,15 @@ fun AppUsageEntryBase(
         AppNameAndTimeText(
             modifier = Modifier.weight(1f),
             appName = appUsageInfo.appName,
-            timeText = appUsageInfo.formattedTimeInForeground
+            timeText = appUsageInfo.formattedTimeInForeground,
+            color = contentColor
         )
 
         IconButton(onClick = onTimeSettingsClick) {
             Icon(
                 imageVector = Icons.Rounded.HourglassBottom,
-                contentDescription = stringResource(R.string.time_limit_settings_icon)
+                contentDescription = stringResource(R.string.time_limit_settings_icon),
+                tint = contentColor
             )
         }
     }
@@ -130,13 +134,14 @@ private fun AppUsageTextAndTimerButton(
 private fun AppNameAndTimeText(
     modifier: Modifier = Modifier,
     appName: String,
-    timeText: String
+    timeText: String,
+    color: Color = LocalContentColor.current
 ) {
     Column(
         modifier = modifier
     ) {
-        AppNameHeading(text = appName)
+        AppNameHeading(text = appName, color = color)
         Spacer(modifier = Modifier.width(Dimens.SmallPadding.size))
-        TimeInfoText(text = timeText)
+        TimeInfoText(text = timeText, color = color)
     }
 }

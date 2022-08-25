@@ -181,7 +181,8 @@ internal fun DashboardStatsUI(
                                         onTimeSettingsClick = {
                                             onSelectAppTimeLimit(item.packageName)
                                             showAppTimeLimitDialog = true
-                                        }
+                                        },
+                                        contentColor = MaterialTheme.colorScheme.onSurfaceVariant
                                     )
                                 }
                         }
