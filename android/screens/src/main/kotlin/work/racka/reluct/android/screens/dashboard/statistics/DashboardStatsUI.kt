@@ -34,7 +34,7 @@ import work.racka.reluct.common.model.states.tasks.TasksStatisticsState
 import work.racka.reluct.common.model.states.tasks.WeeklyTasksState
 
 @Composable
-fun DashboardStatsUI(
+internal fun DashboardStatsUI(
     modifier: Modifier = Modifier,
     mainScaffoldPadding: PaddingValues,
     barsVisibility: BarsVisibility,

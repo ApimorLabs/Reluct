@@ -16,6 +16,10 @@ class DashboardStatisticsViewModel(
     private val tasksStatsViewModel: TasksStatisticsViewModel
 ) : CommonViewModel() {
 
+    init {
+        screenTimeStatsViewModel.permissionCheck(true)
+    }
+
     val screenTimeUiState: StateFlow<ScreenTimeStatsState> = screenTimeStatsViewModel.uiState
     val tasksStatsUiState: StateFlow<TasksStatisticsState> = tasksStatsViewModel.uiState
 

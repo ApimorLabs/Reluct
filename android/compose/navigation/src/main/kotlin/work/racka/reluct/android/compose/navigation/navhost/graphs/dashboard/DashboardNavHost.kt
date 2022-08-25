@@ -28,8 +28,10 @@ import work.racka.reluct.android.compose.navigation.transitions.scaleInPopEnterT
 import work.racka.reluct.android.compose.navigation.transitions.scaleOutExitTransition
 import work.racka.reluct.android.compose.navigation.transitions.scaleOutPopExitTransition
 import work.racka.reluct.android.screens.dashboard.overview.DashboardOverviewScreen
+import work.racka.reluct.android.screens.dashboard.statistics.DashboardStatsScreen
 import work.racka.reluct.common.core_navigation.compose_destinations.dashboard.DashboardOverviewDestination
 import work.racka.reluct.common.core_navigation.compose_destinations.dashboard.DashboardStatsDestination
+import work.racka.reluct.common.core_navigation.compose_destinations.screentime.AppScreenTimeStatsDestination
 import work.racka.reluct.common.core_navigation.compose_destinations.tasks.TaskDetailsDestination
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -103,7 +105,15 @@ internal fun DashboardNavHost(
                 popEnterTransition = { scaleInPopEnterTransition() },
                 popExitTransition = { scaleOutPopExitTransition() }
             ) {
-                Box(modifier = Modifier.fillMaxSize())
+                DashboardStatsScreen(
+                    mainScaffoldPadding = mainScaffoldPadding,
+                    barsVisibility = barsVisibility,
+                    onNavigateToAppUsageInfo = { packageName ->
+                        mainNavController.navigate(
+                            AppScreenTimeStatsDestination.argsRoute(packageName)
+                        )
+                    }
+                )
             }
         }
     }
