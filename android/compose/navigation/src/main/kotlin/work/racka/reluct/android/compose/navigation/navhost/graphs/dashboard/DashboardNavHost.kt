@@ -103,7 +103,7 @@ internal fun DashboardNavHost(
                 popEnterTransition = { scaleInPopEnterTransition() },
                 popExitTransition = { scaleOutPopExitTransition() }
             ) {
-
+                Box(modifier = Modifier.fillMaxSize())
             }
         }
     }
