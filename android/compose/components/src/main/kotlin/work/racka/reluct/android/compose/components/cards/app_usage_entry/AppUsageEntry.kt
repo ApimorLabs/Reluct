@@ -14,6 +14,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -27,6 +28,8 @@ import work.racka.reluct.common.model.domain.usagestats.AppUsageInfo
 @Composable
 fun AppUsageEntry(
     modifier: Modifier = Modifier,
+    containerColor: Color = MaterialTheme.colorScheme.surfaceVariant,
+    contentColor: Color = MaterialTheme.colorScheme.onSurfaceVariant,
     playAnimation: Boolean = false,
     appUsageInfo: AppUsageInfo,
     onEntryClick: () -> Unit,
@@ -52,8 +55,8 @@ fun AppUsageEntry(
 
     Card(
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceVariant,
-            contentColor = MaterialTheme.colorScheme.onSurfaceVariant
+            containerColor = containerColor,
+            contentColor = contentColor
         ),
         onClick = { onEntryClick() },
         modifier = animatedModifier
