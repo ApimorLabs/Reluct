@@ -9,7 +9,7 @@ import work.racka.reluct.common.data.usecases.app_usage.GetDailyUsageStats
 import work.racka.reluct.common.data.usecases.tasks.GetTasksUseCase
 import work.racka.reluct.common.data.usecases.tasks.ModifyTaskUseCase
 import work.racka.reluct.common.features.dashboard.overview.states.DashboardEvents
-import work.racka.reluct.common.features.dashboard.overview.states.DashboardState
+import work.racka.reluct.common.features.dashboard.overview.states.DashboardOverviewState
 import work.racka.reluct.common.features.dashboard.overview.states.TodayScreenTimeState
 import work.racka.reluct.common.features.dashboard.overview.states.TodayTasksState
 import work.racka.reluct.common.model.domain.tasks.Task
@@ -26,17 +26,17 @@ class DashboardOverviewViewModel(
     private val todayTasksState: MutableStateFlow<TodayTasksState> =
         MutableStateFlow(TodayTasksState.Nothing)
 
-    val uiState: StateFlow<DashboardState> = combine(
+    val uiState: StateFlow<DashboardOverviewState> = combine(
         todayScreenTimeState, todayTasksState
     ) { todayScreenTimeState, todayTasksState ->
-        DashboardState(
+        DashboardOverviewState(
             todayScreenTimeState = todayScreenTimeState,
             todayTasksState = todayTasksState
         )
     }.stateIn(
         scope = vmScope,
         started = SharingStarted.WhileSubscribed(5_000L),
-        initialValue = DashboardState()
+        initialValue = DashboardOverviewState()
     )
 
     private val _events = Channel<DashboardEvents>(Channel.UNLIMITED)

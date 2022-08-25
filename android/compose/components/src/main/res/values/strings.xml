@@ -116,4 +116,5 @@
     screen. Please select the Reluct app and allow Usage Access to see your Screen Time</string>
     <string name="allow_permission">Allow</string>
     <string name="unlocks_text">Unlocks</string>
+    <string name="today_tasks_text">Today\'s Tasks</string>
 </resources>
