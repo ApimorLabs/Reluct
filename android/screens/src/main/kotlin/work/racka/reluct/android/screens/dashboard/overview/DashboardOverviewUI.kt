@@ -44,7 +44,7 @@ import work.racka.reluct.common.model.domain.tasks.Task
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun DashboardOverviewUI(
+internal fun DashboardOverviewUI(
     modifier: Modifier = Modifier,
     mainScaffoldPadding: PaddingValues,
     barsVisibility: BarsVisibility,

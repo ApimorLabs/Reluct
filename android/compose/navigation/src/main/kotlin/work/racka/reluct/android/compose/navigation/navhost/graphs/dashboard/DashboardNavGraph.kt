@@ -81,7 +81,7 @@ internal fun NavGraphBuilder.dashboardNavGraph(
 
             Scaffold(
                 topBar = {
-                    DashboardScreenTopBar(
+                    DashboardScreenTopBar1(
                         tabPage = tabPage.value,
                         profilePicUrl = null,
                         toolbarHeight = toolbarHeight,
@@ -147,7 +147,7 @@ internal fun NavGraphBuilder.dashboardNavGraph(
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-private fun DashboardScreenTopBar(
+private fun DashboardScreenTopBar1(
     tabPage: DashboardTabDestination,
     profilePicUrl: String?,
     toolbarHeight: Dp,
