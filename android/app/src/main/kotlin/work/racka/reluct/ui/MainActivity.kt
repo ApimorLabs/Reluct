@@ -29,7 +29,7 @@ class MainActivity : ComponentActivity() {
         AppOpsManager.OnOpChangedListener { op, packageName -> Timber.d("AppOp: $packageName") }
 
         setContent {
-            val themeValue = Theme.FOLLOW_SYSTEM.themeValue
+            val themeValue = Theme.MATERIAL_YOU.themeValue
             val systemUiController = rememberSystemUiController()
             val isDarkMode = isSystemInDarkTheme()
             val useDarkIcons = derivedStateOf {
