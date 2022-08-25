@@ -1,6 +1,9 @@
 package work.racka.reluct.android.screens.screentime.app_stats_details
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -15,10 +18,7 @@ import androidx.compose.material.icons.rounded.AppBlocking
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.HourglassBottom
 import androidx.compose.material.icons.rounded.PauseCircle
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.LinearProgressIndicator
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -29,7 +29,6 @@ import work.racka.reluct.android.compose.components.cards.headers.ListGroupHeadi
 import work.racka.reluct.android.compose.components.cards.statistics.StatisticsChartState
 import work.racka.reluct.android.compose.components.cards.statistics.screen_time.AppScreenTimeStatisticsCard
 import work.racka.reluct.android.compose.components.dialogs.CircularProgressDialog
-import work.racka.reluct.android.compose.components.topBar.ReluctSmallTopAppBar
 import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.android.compose.theme.Shapes
 import work.racka.reluct.android.screens.R
@@ -84,9 +83,15 @@ internal fun AppScreenTimeStatsUI(
             .fillMaxSize(),
         scaffoldState = scaffoldState,
         topBar = {
-            ReluctSmallTopAppBar(
+            SmallTopAppBar(
                 modifier = Modifier.statusBarsPadding(),
-                title = stringResource(R.string.screen_time_text),
+                colors = appBarColors,
+                title = {
+                    TopAppInfoItem(
+                        modifier = Modifier.padding(bottom = Dimens.SmallPadding.size),
+                        dailyData = uiState.dailyData
+                    )
+                },
                 navigationIcon = {
                     IconButton(onClick = goBack) {
                         androidx.compose.material3.Icon(
@@ -126,11 +131,9 @@ internal fun AppScreenTimeStatsUI(
                 verticalArrangement = Arrangement.spacedBy(Dimens.SmallPadding.size),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
+                // Top Space
                 item {
-                    TopAppInfoItem(
-                        modifier = Modifier.padding(bottom = Dimens.SmallPadding.size),
-                        dailyData = uiState.dailyData
-                    )
+                    Spacer(modifier = Modifier)
                 }
 
                 // Chart
@@ -256,19 +259,32 @@ private fun TopAppInfoItem(
     val appIcon by remember(appInfo?.appName) { derivedStateOf { appInfo?.appIcon?.icon } }
     val appName by remember(appInfo?.appIcon) { derivedStateOf { appInfo?.appName } }
 
-    if (appName != null && appIcon != null) {
-        AppNameEntry(
-            modifier = modifier,
-            appName = appName!!,
-            icon = appIcon!!,
-            textStyle = MaterialTheme.typography.headlineSmall
-        )
-    } else {
-        Text(
-            modifier = modifier,
-            text = "• • • • •",
-            style = MaterialTheme.typography.titleLarge,
-            color = MaterialTheme.colorScheme.onBackground
-        )
+    Box(
+        modifier = Modifier.height(Dimens.ExtraLargePadding.size),
+        contentAlignment = Alignment.Center
+    ) {
+        AnimatedVisibility(
+            visible = appName != null && appIcon != null,
+            enter = fadeIn(),
+            exit = fadeOut()
+        ) {
+            AppNameEntry(
+                modifier = modifier,
+                appName = appName!!,
+                icon = appIcon!!,
+                textStyle = MaterialTheme.typography.headlineSmall
+            )
+        }
     }
 }
+
+private val appBarColors: TopAppBarColors
+    @Composable
+    get() = TopAppBarDefaults
+        .smallTopAppBarColors(
+            containerColor = MaterialTheme.colorScheme.background,
+            scrolledContainerColor = MaterialTheme.colorScheme.background,
+            navigationIconContentColor = LocalContentColor.current,
+            titleContentColor = LocalContentColor.current,
+            actionIconContentColor = LocalContentColor.current
+        )

@@ -49,5 +49,75 @@
     <string name="no_app_usage_data_text">No Usage Data Found</string>
     <string name="weekly_screen_time_tally">%1s this week</string>
 
+    <string name="loading_text">Loading…</string>
+    <string name="new_task_button_text">New Task</string>
+    <string name="add_task_button_text">Add Task</string>
+    <string name="edit_button_text">Edit</string>
+    <string name="delete_button_text">Delete</string>
+    <string name="go_back_button_text">Go Back</string>
+    <string name="save_button_text">Save</string>
+    <string name="discard_button_text">Discard</string>
+    <string name="edit_task_text">Edit Task</string>
+    <string name="task_details_text">Task Details</string>
+    <string name="tasks_stats_text">Tasks Statistics</string>
+    <string name="tasks_text">Tasks</string>
+    <string name="add_task_text">Add Task</string>
+    <string name="no_tasks_text">No Tasks</string>
+    <string name="search_not_found_text">Nothing to see here…</string>
+    <string name="task_not_found_text">Task Not Found</string>
+    <string name="task_saved_text">Task Saved</string>
+    <string name="task_saved_success_text">Task Saved Successfully</string>
+
+    <string name="overdue_tasks_header">Overdue</string>
+    <string name="not_done_tasks_header">Not Done</string>
+    <string name="done_tasks_header">Done</string>
+    <string name="app_list_header">Apps</string>
+    <string name="focus_mode_header">Focus Mode</string>
+    <string name="distractions_header">Distractions</string>
+    <string name="app_settings_header">App Settings</string>
+
+    <string name="task_marked_as_done">%1$s Marked As Done</string>
+    <string name="task_marked_as_not_done">%1$s Marked As Pending</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="delete_task_message">This action will permanently delete the current Task</string>
+    <string name="delete_task">Delete Task</string>
+    <string name="discard_task">Discard Task</string>
+    <string name="discard_task_message">This action will discard all the current changes</string>
+
+    <string name="time_limit_change_arg">Screen Time Limit for %1$s changed</string>
+
+    <string name="screen_time_text">Screen Time</string>
+    <string name="app_time_limit">Screen Time Limit</string>
+    <string name="distracting_app">Distracting App</string>
+    <string name="distracting_app_desc">Set as Distracting App for Focus Mode</string>
+    <string name="turn_on_focus">Turn On Focus Mode</string>
+    <string name="turn_on_focus_desc">Block Distracting Apps from opening</string>
+    <string name="turn_on_dnd">Turn On Do Not Disturb</string>
+    <string name="turn_on_dnd_desc">Enable Do Not Disturb when Focus Mode is ON</string>
+    <string name="manage_distracting_apps">Manage Distracting Apps</string>
+    <string name="manage_distracting_apps_desc">Configure your Distracting Apps</string>
+    <string name="manually_pause_apps">Manually Pause Apps</string>
+    <string name="manually_pause_app">Manually Pause App</string>
+    <string name="manually_pause_app_desc">App will be paused for the whole day</string>
+    <string name="manually_pause_apps_desc">Select Apps to pause for the whole day</string>
+
+    <string name="no_usage_data_text">No Usage Data Found</string>
+    <string name="no_paused_apps_text">No Paused Apps</string>
+    <string name="no_apps_text">No Apps</string>
+
+    <string name="distracting_apps_text">Distracting Apps</string>
+    <string name="non_distracting_apps_text">Non Distracting Apps</string>
+    <string name="paused_apps_text">Paused Apps</string>
+    <string name="apps_text">Apps</string>
+
+    <string name="open_settings_dialog_title">Open Device Settings</string>
+    <string name="usage_permissions_details">This app needs access to your device\'s Usage Statistics to show Screen Time Usage Data.
+        This data is not shared to anyone else! Please review our Privacy Policy regarding this. </string>
+    <string name="usage_permissions_rationale_dialog_text">You are about to be sent to the Usage Access permissions
+    screen. Please select the Reluct app and allow Usage Access to see your Screen Time</string>
     <string name="allow_permission">Allow</string>
+    <string name="unlocks_text">Unlocks</string>
+    <string name="today_tasks_text">Today\'s Tasks</string>
+    <string name="view_all_text">View All</string>
 </resources>

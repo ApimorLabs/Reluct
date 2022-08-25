@@ -14,7 +14,7 @@ import work.racka.reluct.android.compose.components.util.slideInVerticallyFadeRe
 import work.racka.reluct.android.compose.components.util.slideOutVerticallyFadeReversed
 import work.racka.reluct.android.compose.navigation.navbar.NavbarDestinations
 import work.racka.reluct.android.compose.navigation.navbar.ReluctBottomNavBar
-import work.racka.reluct.android.compose.navigation.navhost.graphs.dashboard.dashboardNavGraph
+import work.racka.reluct.android.compose.navigation.navhost.graphs.dashboard.DashboardNavHost
 import work.racka.reluct.android.compose.navigation.navhost.graphs.extras.otherScreenNavGraph
 import work.racka.reluct.android.compose.navigation.navhost.graphs.goals.goalsNavGraph
 import work.racka.reluct.android.compose.navigation.navhost.graphs.screentime.ScreenTimeNavHost
@@ -50,9 +50,15 @@ fun AppNavHost(modifier: Modifier = Modifier) {
         ) {
 
             // Dashboard
-            dashboardNavGraph(
-                navController = navController
-            )
+            composable(
+                route = NavbarDestinations.Dashboard.route
+            ) {
+                DashboardNavHost(
+                    mainNavController = navController,
+                    barsVisibility = barsVisibility,
+                    mainScaffoldPadding = innerPadding
+                )
+            }
 
             // Tasks
             composable(

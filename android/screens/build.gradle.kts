@@ -20,6 +20,7 @@ dependencies {
     implementation(project(":common:mvvm-core"))
     implementation(project(":android:compose:theme"))
     implementation(project(":android:compose:components"))
+    implementation(project(":common:features:dashboard"))
     implementation(project(":common:features:screen-time"))
     implementation(project(":common:features:tasks"))
 
