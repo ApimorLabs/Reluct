@@ -53,27 +53,29 @@ fun DailyScreenTimePieChart(
         ),
         modifier = modifier
             .fillMaxWidth()
-            .clip(shape)
+            .clip(shape),
+        onClick = onClick
     ) {
         Row(
             modifier = Modifier
                 .padding(Dimens.MediumPadding.size)
                 .fillMaxWidth(),
-            horizontalArrangement = Arrangement
-                .spacedBy(Dimens.MediumPadding.size)
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically
         ) {
             // Pie Chart
             StatisticsPieChartBase(
+                modifier = Modifier,
                 slices = slices,
                 contentColor = contentColor,
                 dataLoading = pieChartState is StatisticsChartState.Loading,
                 middleText = "",
                 onClick = onClick
             )
-
+            Spacer(modifier = Modifier.width(Dimens.MediumPadding.size))
             // Left Text
             StatsDetails(
-                modifier = Modifier.weight(1f),
+                modifier = Modifier,
                 contentColor = contentColor,
                 screenTimeText = pieChartState.data.formattedTotalScreenTime,
                 unlockCount = if (pieChartState is StatisticsChartState.Loading) "..."

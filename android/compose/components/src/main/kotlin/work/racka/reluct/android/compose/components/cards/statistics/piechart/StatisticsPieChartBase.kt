@@ -22,11 +22,11 @@ fun StatisticsPieChartBase(
     slices: List<PieChartData.Slice>,
     dataLoading: Boolean,
     middleText: String,
-    chartSize: Dp = 100.dp,
+    chartSize: Dp = 160.dp,
     onClick: () -> Unit
 ) {
     Box(
-        modifier = Modifier.size(chartSize) then modifier,
+        modifier = modifier then Modifier.size(chartSize),
         contentAlignment = Alignment.Center
     ) {
         if (dataLoading) {
@@ -35,7 +35,7 @@ fun StatisticsPieChartBase(
             PieChart(
                 modifier = Modifier.size(chartSize),
                 pieChartData = PieChartData(slices = slices, spacingBy = .05f),
-                sliceDrawer = SimpleSliceDrawer(sliceThickness = 10f),
+                sliceDrawer = SimpleSliceDrawer(sliceThickness = 15f),
                 centerTextDrawer = SimpleTextDrawer(labelTextColor = contentColor),
                 centerText = middleText,
                 onCenterClick = onClick
