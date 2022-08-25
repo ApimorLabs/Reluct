@@ -13,7 +13,8 @@ import work.racka.reluct.common.features.dashboard.statistics.DashboardStatistic
 fun DashboardStatsScreen(
     mainScaffoldPadding: PaddingValues,
     barsVisibility: BarsVisibility,
-    onNavigateToAppUsageInfo: (packageName: String) -> Unit
+    onNavigateToAppUsageInfo: (packageName: String) -> Unit,
+    onNavigateToScreenTimeStats: () -> Unit
 ) {
     val scaffoldState = rememberScaffoldState()
 
@@ -31,6 +32,7 @@ fun DashboardStatsScreen(
         onScreenTimeSelectDay = { viewModel.screenTimeSelectDay(it) },
         onSelectAppTimeLimit = { viewModel.selectAppTimeLimit(it) },
         onSaveTimeLimit = { hours, minutes -> viewModel.saveAppTimeLimit(hours, minutes) },
-        onAppUsageInfoClick = { onNavigateToAppUsageInfo(it.packageName) }
+        onAppUsageInfoClick = { onNavigateToAppUsageInfo(it.packageName) },
+        onViewAllScreenTimeStats = onNavigateToScreenTimeStats
     )
 }

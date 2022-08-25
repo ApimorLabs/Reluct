@@ -32,6 +32,7 @@ import work.racka.reluct.android.screens.dashboard.statistics.DashboardStatsScre
 import work.racka.reluct.common.core_navigation.compose_destinations.dashboard.DashboardOverviewDestination
 import work.racka.reluct.common.core_navigation.compose_destinations.dashboard.DashboardStatsDestination
 import work.racka.reluct.common.core_navigation.compose_destinations.screentime.AppScreenTimeStatsDestination
+import work.racka.reluct.common.core_navigation.compose_destinations.screentime.ScreenTimeStatsDestination
 import work.racka.reluct.common.core_navigation.compose_destinations.tasks.TaskDetailsDestination
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -111,6 +112,11 @@ internal fun DashboardNavHost(
                     onNavigateToAppUsageInfo = { packageName ->
                         mainNavController.navigate(
                             AppScreenTimeStatsDestination.argsRoute(packageName)
+                        )
+                    },
+                    onNavigateToScreenTimeStats = {
+                        mainNavController.navigate(
+                            ScreenTimeStatsDestination.destination
                         )
                     }
                 )

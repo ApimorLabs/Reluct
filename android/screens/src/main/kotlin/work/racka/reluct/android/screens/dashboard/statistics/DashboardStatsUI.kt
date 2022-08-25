@@ -19,6 +19,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import work.racka.reluct.android.compose.components.R
+import work.racka.reluct.android.compose.components.buttons.OutlinedReluctButton
 import work.racka.reluct.android.compose.components.cards.app_usage_entry.AppUsageEntryBase
 import work.racka.reluct.android.compose.components.cards.headers.ListGroupHeadingHeader
 import work.racka.reluct.android.compose.components.cards.statistics.StatisticsChartState
@@ -50,7 +51,8 @@ internal fun DashboardStatsUI(
     onScreenTimeSelectDay: (day: Int) -> Unit,
     onSelectAppTimeLimit: (packageName: String) -> Unit,
     onSaveTimeLimit: (hours: Int, minutes: Int) -> Unit,
-    onAppUsageInfoClick: (appInfo: AppUsageInfo) -> Unit
+    onAppUsageInfoClick: (appInfo: AppUsageInfo) -> Unit,
+    onViewAllScreenTimeStats: () -> Unit
 ) {
     val listState = rememberLazyListState()
     val scrollContext = rememberScrollContext(listState = listState)
@@ -185,6 +187,16 @@ internal fun DashboardStatsUI(
                                         contentColor = MaterialTheme.colorScheme.onSurfaceVariant
                                     )
                                 }
+
+                            OutlinedReluctButton(
+                                modifier = Modifier.padding(vertical = Dimens.SmallPadding.size),
+                                buttonText = stringResource(id = R.string.view_all_text),
+                                icon = null,
+                                onButtonClicked = onViewAllScreenTimeStats,
+                                borderColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                                contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                                buttonTextStyle = MaterialTheme.typography.bodyMedium
+                            )
                         }
                     }
                 }

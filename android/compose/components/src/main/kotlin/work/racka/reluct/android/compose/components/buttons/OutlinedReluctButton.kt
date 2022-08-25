@@ -24,6 +24,7 @@ fun OutlinedReluctButton(
     buttonTextStyle: TextStyle = MaterialTheme.typography.bodyLarge,
     icon: ImageVector?,
     borderColor: Color = MaterialTheme.colorScheme.primary,
+    contentColor: Color = LocalContentColor.current,
     shape: Shape = CircleShape,
     onButtonClicked: () -> Unit,
     enabled: Boolean = true,
@@ -43,7 +44,7 @@ fun OutlinedReluctButton(
             Icon(
                 imageVector = icon,
                 contentDescription = null,
-                tint = LocalContentColor.current
+                tint = contentColor
             )
             Spacer(
                 modifier = Modifier
@@ -56,7 +57,7 @@ fun OutlinedReluctButton(
                 .padding(
                     vertical = Dimens.SmallPadding.size
                 ),
-            color = LocalContentColor.current,
+            color = contentColor,
             style = buttonTextStyle,
             textAlign = TextAlign.Center,
             maxLines = 1,
