@@ -1,6 +1,8 @@
 package work.racka.reluct.android.screens.dashboard.statistics
 
 import androidx.compose.animation.animateContentSize
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -13,10 +15,12 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import work.racka.reluct.android.compose.components.cards.app_usage_entry.AppUsageEntry
+import work.racka.reluct.android.compose.components.R
+import work.racka.reluct.android.compose.components.cards.app_usage_entry.AppUsageEntryBase
+import work.racka.reluct.android.compose.components.cards.headers.ListGroupHeadingHeader
 import work.racka.reluct.android.compose.components.cards.statistics.StatisticsChartState
 import work.racka.reluct.android.compose.components.cards.statistics.screen_time.ScreenTimeStatisticsCard
 import work.racka.reluct.android.compose.components.cards.statistics.tasks.TasksStatisticsCard
@@ -24,7 +28,7 @@ import work.racka.reluct.android.compose.components.dialogs.CircularProgressDial
 import work.racka.reluct.android.compose.components.util.BarsVisibility
 import work.racka.reluct.android.compose.components.util.rememberScrollContext
 import work.racka.reluct.android.compose.theme.Dimens
-import work.racka.reluct.android.screens.R
+import work.racka.reluct.android.compose.theme.Shapes
 import work.racka.reluct.android.screens.screentime.components.AppTimeLimitDialog
 import work.racka.reluct.common.features.screen_time.limits.states.AppTimeLimitState
 import work.racka.reluct.common.features.screen_time.statistics.states.all_stats.ScreenTimeStatsState
@@ -33,6 +37,7 @@ import work.racka.reluct.common.model.domain.usagestats.AppUsageInfo
 import work.racka.reluct.common.model.states.tasks.TasksStatisticsState
 import work.racka.reluct.common.model.states.tasks.WeeklyTasksState
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 internal fun DashboardStatsUI(
     modifier: Modifier = Modifier,
@@ -141,9 +146,10 @@ internal fun DashboardStatsUI(
                 verticalArrangement = Arrangement
                     .spacedBy(Dimens.SmallPadding.size)
             ) {
-                // Top Space
-                item {
-                    Spacer(modifier = Modifier)
+
+                // Screen Time
+                stickyHeader {
+                    ListGroupHeadingHeader(text = stringResource(R.string.screen_time_text))
                 }
 
                 // Screen Time Chart
@@ -165,12 +171,13 @@ internal fun DashboardStatsUI(
                         ) {
                             screenTimeUiState.dailyData.usageStat.appsUsageList.take(3)
                                 .forEach { item ->
-                                    AppUsageEntry(
-                                        playAnimation = false,
-                                        containerColor = Color.Transparent,
-                                        contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                                    AppUsageEntryBase(
+                                        modifier = Modifier
+                                            .padding(vertical = Dimens.SmallPadding.size)
+                                            .fillMaxWidth()
+                                            .clip(Shapes.large)
+                                            .clickable { onAppUsageInfoClick(item) },
                                         appUsageInfo = item,
-                                        onEntryClick = { onAppUsageInfoClick(item) },
                                         onTimeSettingsClick = {
                                             onSelectAppTimeLimit(item.packageName)
                                             showAppTimeLimitDialog = true
@@ -182,6 +189,11 @@ internal fun DashboardStatsUI(
                 }
 
                 // Tasks Stats
+                stickyHeader {
+                    ListGroupHeadingHeader(text = stringResource(R.string.tasks_text))
+                }
+
+                // Tasks Chart
                 item {
                     TasksStatisticsCard(
                         barChartState = tasksChartState.value,

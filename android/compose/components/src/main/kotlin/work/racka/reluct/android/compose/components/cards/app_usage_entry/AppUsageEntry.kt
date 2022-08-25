@@ -63,36 +63,49 @@ fun AppUsageEntry(
             .fillMaxWidth()
             .clip(Shapes.large)
     ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement
-                .spacedBy(Dimens.MediumPadding.size),
+        AppUsageEntryBase(
             modifier = Modifier
                 .padding(Dimens.MediumPadding.size)
-                .fillMaxWidth()
-        ) {
-            Image(
-                modifier = Modifier.size(48.dp),
-                /*painter = rememberAsyncImagePainter(
-                    model = ImageRequest.Builder(LocalContext.current)
-                        .data(appUsageInfo.appIcon.icon).build()
-                ),*/
-                painter = rememberImagePainter(data = appUsageInfo.appIcon.icon),
-                contentDescription = appUsageInfo.appName
-            )
+                .fillMaxWidth(),
+            appUsageInfo = appUsageInfo,
+            onTimeSettingsClick = onTimeSettingsClick
+        )
+    }
+}
 
-            AppNameAndTimeText(
-                modifier = Modifier.weight(1f),
-                appName = appUsageInfo.appName,
-                timeText = appUsageInfo.formattedTimeInForeground
-            )
+@Composable
+fun AppUsageEntryBase(
+    modifier: Modifier = Modifier,
+    appUsageInfo: AppUsageInfo,
+    onTimeSettingsClick: () -> Unit
+) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement
+            .spacedBy(Dimens.MediumPadding.size),
+        modifier = modifier
+    ) {
+        Image(
+            modifier = Modifier.size(48.dp),
+            /*painter = rememberAsyncImagePainter(
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data(appUsageInfo.appIcon.icon).build()
+            ),*/
+            painter = rememberImagePainter(data = appUsageInfo.appIcon.icon),
+            contentDescription = appUsageInfo.appName
+        )
 
-            IconButton(onClick = onTimeSettingsClick) {
-                Icon(
-                    imageVector = Icons.Rounded.HourglassBottom,
-                    contentDescription = stringResource(R.string.time_limit_settings_icon)
-                )
-            }
+        AppNameAndTimeText(
+            modifier = Modifier.weight(1f),
+            appName = appUsageInfo.appName,
+            timeText = appUsageInfo.formattedTimeInForeground
+        )
+
+        IconButton(onClick = onTimeSettingsClick) {
+            Icon(
+                imageVector = Icons.Rounded.HourglassBottom,
+                contentDescription = stringResource(R.string.time_limit_settings_icon)
+            )
         }
     }
 }

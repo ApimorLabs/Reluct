@@ -59,6 +59,8 @@
     <string name="discard_button_text">Discard</string>
     <string name="edit_task_text">Edit Task</string>
     <string name="task_details_text">Task Details</string>
+    <string name="tasks_stats_text">Tasks Statistics</string>
+    <string name="tasks_text">Tasks</string>
     <string name="add_task_text">Add Task</string>
     <string name="no_tasks_text">No Tasks</string>
     <string name="search_not_found_text">Nothing to see here…</string>
