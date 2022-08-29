@@ -35,7 +35,14 @@ fun DailyScreenTimePieChart(
     val slices by remember(pieChartState) {
         derivedStateOf {
             val tempList = mutableListOf<PieChartData.Slice>()
-            pieChartState.data.appsUsageList.forEach { data ->
+            val list = pieChartState.data.appsUsageList
+            val firstItems = list.take(4)
+            val otherItems = list - firstItems.toSet()
+            val otherSlice = PieChartData.Slice(
+                value = otherItems.sumOf { it.timeInForeground }.toFloat(),
+                color = Color.Gray
+            )
+            firstItems.forEach { data ->
                 val colorInt = data.appIcon.icon.extractColor()
                 val slice = PieChartData.Slice(
                     value = data.timeInForeground.toFloat(),
@@ -43,6 +50,7 @@ fun DailyScreenTimePieChart(
                 )
                 tempList.add(slice)
             }
+            tempList.add(otherSlice)
             tempList.toList()
         }
     }
