@@ -9,6 +9,7 @@ import androidx.compose.ui.Modifier
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
+import timber.log.Timber
 import work.racka.reluct.android.compose.components.util.rememberBarVisibility
 import work.racka.reluct.android.compose.components.util.slideInVerticallyFadeReversed
 import work.racka.reluct.android.compose.components.util.slideOutVerticallyFadeReversed
@@ -53,6 +54,7 @@ fun AppNavHost(modifier: Modifier = Modifier) {
             composable(
                 route = NavbarDestinations.Dashboard.route
             ) {
+                Timber.d("Dashboard screen called")
                 DashboardNavHost(
                     mainNavController = navController,
                     barsVisibility = barsVisibility,
@@ -65,6 +67,7 @@ fun AppNavHost(modifier: Modifier = Modifier) {
                 route = NavbarDestinations.Tasks.route,
                 deepLinks = PendingTasksDestination.deepLinks
             ) {
+                Timber.d("Tasks screen called")
                 TasksNavHost(
                     mainNavController = navController,
                     mainScaffoldPadding = innerPadding,
@@ -76,6 +79,7 @@ fun AppNavHost(modifier: Modifier = Modifier) {
             composable(
                 route = NavbarDestinations.ScreenTime.route
             ) {
+                Timber.d("Screen time screen called")
                 ScreenTimeNavHost(
                     mainNavController = navController,
                     barsVisibility = barsVisibility,

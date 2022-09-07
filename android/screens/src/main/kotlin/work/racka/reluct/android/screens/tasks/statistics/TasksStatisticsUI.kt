@@ -60,8 +60,10 @@ internal fun TasksStatisticsUI(
     // top of the list
     if (scrollContext.isTop) {
         barsVisibility.bottomBar.show()
+        barsVisibility.topBar.show()
     } else {
         barsVisibility.bottomBar.hide()
+        barsVisibility.topBar.hide()
     }
 
     val barChartState = remember(uiState.weeklyTasksState) {

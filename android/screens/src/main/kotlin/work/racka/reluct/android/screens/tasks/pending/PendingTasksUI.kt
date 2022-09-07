@@ -74,8 +74,10 @@ internal fun PendingTasksUI(
     // top of the list
     if (scrollContext.isTop) {
         barsVisibility.bottomBar.show()
+        barsVisibility.topBar.show()
     } else {
         barsVisibility.bottomBar.hide()
+        barsVisibility.topBar.hide()
     }
 
     val mainScaffoldBottomPadding by remember(mainScaffoldPadding) {

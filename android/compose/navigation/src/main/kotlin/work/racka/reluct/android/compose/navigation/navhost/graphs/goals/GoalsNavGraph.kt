@@ -34,11 +34,11 @@ internal fun NavGraphBuilder.goalsNavGraph(
         route = NavbarDestinations.Goals.route,
         startDestination = OngoingGoalsDestination.route
     ) {
-        Timber.d("Goals screen called")
         // Ongoing
         composable(
             route = OngoingGoalsDestination.route
         ) {
+            Timber.d("Goals screen called")
             val tabPage = remember {
                 mutableStateOf(GoalsTabDestination.Ongoing)
             }

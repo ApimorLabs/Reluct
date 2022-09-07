@@ -1,11 +1,9 @@
 package work.racka.reluct.android.compose.components.util
 
-import android.os.Parcel
-import android.os.Parcelable
+import android.os.Bundle
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.Saver
 import androidx.compose.runtime.saveable.rememberSaveable
-import kotlinx.parcelize.Parceler
-import kotlinx.parcelize.Parcelize
 
 /**
  * The base properties and methods that each item will need.
@@ -28,10 +26,9 @@ interface BarVisibilityState {
  * You could also use kotlinx-serialize (@Serializable) for using in Compose Multiplatform or
  * just make your own Saver.
  */
-@Parcelize
 private class DefaultBarVisibilityState(
     private val defaultVisibility: Boolean = true
-) : BarVisibilityState, Parcelable {
+) : BarVisibilityState {
     private val _isVisible = mutableStateOf(defaultVisibility)
     override val isVisible: Boolean by _isVisible
 
@@ -43,17 +40,26 @@ private class DefaultBarVisibilityState(
         _isVisible.value = true
     }
 
-    private companion object : Parceler<DefaultBarVisibilityState> {
-        override fun create(parcel: Parcel): DefaultBarVisibilityState {
-            val isVisibleBool = BooleanArray(1)
-            parcel.readBooleanArray(isVisibleBool)
-            return DefaultBarVisibilityState(defaultVisibility = isVisibleBool[0])
-        }
+    fun saveState(): Bundle {
+        val bundle = Bundle()
+        bundle.putBoolean(key, _isVisible.value)
+        return bundle
+    }
 
-        override fun DefaultBarVisibilityState.write(parcel: Parcel, flags: Int) {
-            parcel.writeBooleanArray(booleanArrayOf(_isVisible.value))
+    companion object {
+        private const val key = "DefaultBarVisibilityStateKey"
+        fun restore(bundle: Bundle): DefaultBarVisibilityState {
+            val isVisibleBool = bundle.getBoolean(key)
+            return DefaultBarVisibilityState(defaultVisibility = isVisibleBool)
         }
     }
+}
+
+private fun defaultBarVisibilityStateSaver(): Saver<DefaultBarVisibilityState, Bundle> {
+    return Saver(
+        save = { it.saveState() },
+        restore = { bundle -> DefaultBarVisibilityState.restore(bundle) }
+    )
 }
 
 /**
@@ -70,6 +76,23 @@ interface BarsVisibility {
     val navigationBar: BarVisibilityState
 }
 
+@Stable
+private class BarsStates(
+    private val topBarState: BarVisibilityState,
+    private val bottomBarState: BarVisibilityState,
+    private val statusBarState: BarVisibilityState,
+    private val navigationBarState: BarVisibilityState,
+) : BarsVisibility {
+    override val topBar: BarVisibilityState
+        get() = topBarState
+    override val bottomBar: BarVisibilityState
+        get() = bottomBarState
+    override val statusBar: BarVisibilityState
+        get() = statusBarState
+    override val navigationBar: BarVisibilityState
+        get() = navigationBarState
+}
+
 /**
  * A remember function for [BarsVisibility]. It survives configuration changes
  * It should be used at the top level Composable or where the root NavHost is located
@@ -77,24 +100,25 @@ interface BarsVisibility {
  */
 @Composable
 fun rememberBarVisibility(): BarsVisibility {
-    val topBarState = rememberSaveable { DefaultBarVisibilityState() }
-    val bottomBarState = rememberSaveable { DefaultBarVisibilityState() }
-    val statusBarState = rememberSaveable { DefaultBarVisibilityState() }
-    val navigationBarState = rememberSaveable { DefaultBarVisibilityState() }
+    val topBarState = rememberSaveable(
+        saver = defaultBarVisibilityStateSaver()
+    ) { DefaultBarVisibilityState() }
+    val bottomBarState = rememberSaveable(
+        saver = defaultBarVisibilityStateSaver()
+    ) { DefaultBarVisibilityState() }
+    val statusBarState = rememberSaveable(
+        saver = defaultBarVisibilityStateSaver()
+    ) { DefaultBarVisibilityState() }
+    val navigationBarState = rememberSaveable(
+        saver = defaultBarVisibilityStateSaver()
+    ) { DefaultBarVisibilityState() }
 
-    val barsVisibility: BarsVisibility by remember {
-        derivedStateOf {
-            object : BarsVisibility {
-                override val topBar: BarVisibilityState
-                    get() = topBarState
-                override val bottomBar: BarVisibilityState
-                    get() = bottomBarState
-                override val statusBar: BarVisibilityState
-                    get() = statusBarState
-                override val navigationBar: BarVisibilityState
-                    get() = navigationBarState
-            }
-        }
+    return remember {
+        BarsStates(
+            topBarState = topBarState,
+            bottomBarState = bottomBarState,
+            statusBarState = statusBarState,
+            navigationBarState = navigationBarState
+        )
     }
-    return barsVisibility
 }
