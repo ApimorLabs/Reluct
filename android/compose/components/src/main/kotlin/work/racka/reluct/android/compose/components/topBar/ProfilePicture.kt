@@ -1,6 +1,7 @@
 package work.racka.reluct.android.compose.components.topBar
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
@@ -13,11 +14,11 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import work.racka.reluct.android.compose.components.R
-import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.android.compose.theme.ReluctAppTheme
 import work.racka.reluct.android.compose.theme.Shapes
 
@@ -25,6 +26,7 @@ import work.racka.reluct.android.compose.theme.Shapes
 fun ProfilePicture(
     modifier: Modifier = Modifier,
     pictureUrl: String?,
+    size: Dp = 48.dp,
     onPictureClicked: () -> Unit = { }
 ) {
 
@@ -51,7 +53,7 @@ fun ProfilePicture(
 
 
     IconButton(
-        modifier = modifier,
+        modifier = modifier.size(size),
         onClick = onPictureClicked
     ) {
         if (painter == null) {
@@ -59,14 +61,13 @@ fun ProfilePicture(
                 imageVector = Icons.Filled.AccountCircle,
                 contentDescription = stringResource(id = R.string.profile_picture),
                 tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                modifier = Modifier
-                    .size(Dimens.LargePadding.size)
+                modifier = Modifier.size(36.dp)
             )
         } else {
             Image(
                 modifier = Modifier
                     .clip(Shapes.large)
-                    .size(48.dp),
+                    .fillMaxSize(),
                 painter = painter,
                 contentDescription = stringResource(id = R.string.profile_picture)
             )

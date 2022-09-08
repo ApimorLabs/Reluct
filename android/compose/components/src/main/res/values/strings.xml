@@ -64,6 +64,7 @@
     <string name="add_task_text">Add Task</string>
     <string name="no_tasks_text">No Tasks</string>
     <string name="search_not_found_text">Nothing to see here…</string>
+    <string name="search_tasks_hint_text">Search Tasks…</string>
     <string name="task_not_found_text">Task Not Found</string>
     <string name="task_saved_text">Task Saved</string>
     <string name="task_saved_success_text">Task Saved Successfully</string>

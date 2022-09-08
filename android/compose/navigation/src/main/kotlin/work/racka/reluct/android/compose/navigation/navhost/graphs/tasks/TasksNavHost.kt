@@ -10,6 +10,7 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
@@ -19,6 +20,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
+import work.racka.reluct.android.compose.components.R
 import work.racka.reluct.android.compose.components.textfields.search.PlaceholderMaterialSearchBar
 import work.racka.reluct.android.compose.components.topBar.ProfilePicture
 import work.racka.reluct.android.compose.components.util.BarsVisibility
@@ -162,6 +164,7 @@ private fun TasksScreenTopBar(
     ) {
         PlaceholderMaterialSearchBar(
             modifier = Modifier.padding(horizontal = 16.dp),
+            hint = stringResource(id = R.string.search_tasks_hint_text),
             onClick = navigateToSearch,
             extraButton = {
                 ProfilePicture(

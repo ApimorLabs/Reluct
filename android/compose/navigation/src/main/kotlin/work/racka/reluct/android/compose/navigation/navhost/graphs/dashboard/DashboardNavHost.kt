@@ -19,6 +19,8 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
+import work.racka.reluct.android.compose.components.topBar.ProfilePicture
+import work.racka.reluct.android.compose.components.topBar.ReluctPageHeading
 import work.racka.reluct.android.compose.components.util.BarsVisibility
 import work.racka.reluct.android.compose.navigation.navbar.NavbarDestinations
 import work.racka.reluct.android.compose.navigation.top_tabs.dashboard.DashboardTabBar
@@ -56,7 +58,7 @@ internal fun DashboardNavHost(
         topBar = {
             DashboardScreenTopBar(
                 tabPage = tabPage,
-                profilePicUrl = null,
+                profilePicUrl = "https://pbs.twimg.com/profile_images/1451052243067805698/LIEt076e_400x400.jpg",
                 updateTabPage = {
                     navController.navigate(it.route) {
                         popUpTo(navController.graph.findStartDestination().id) {
@@ -140,6 +142,16 @@ private fun DashboardScreenTopBar(
             .spacedBy(16.dp)
     ) {
         // TODO: Put Prof Pic and Destination Name
+        ReluctPageHeading(
+            modifier = Modifier.padding(horizontal = 16.dp),
+            title = "Dashboard",
+            extraItems = {
+                ProfilePicture(
+                    modifier = Modifier,//.padding(4.dp),
+                    pictureUrl = profilePicUrl
+                )
+            }
+        )
 
         LazyRow {
             item {
