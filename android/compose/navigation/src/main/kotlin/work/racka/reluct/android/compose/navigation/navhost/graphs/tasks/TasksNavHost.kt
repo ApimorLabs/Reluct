@@ -22,7 +22,6 @@ import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import work.racka.reluct.android.compose.components.R
 import work.racka.reluct.android.compose.components.textfields.search.PlaceholderMaterialSearchBar
-import work.racka.reluct.android.compose.components.topBar.ProfilePicture
 import work.racka.reluct.android.compose.components.util.BarsVisibility
 import work.racka.reluct.android.compose.navigation.top_tabs.tasks.TasksTabBar
 import work.racka.reluct.android.compose.navigation.top_tabs.tasks.TasksTabDestination
@@ -165,13 +164,7 @@ private fun TasksScreenTopBar(
         PlaceholderMaterialSearchBar(
             modifier = Modifier.padding(horizontal = 16.dp),
             hint = stringResource(id = R.string.search_tasks_hint_text),
-            onClick = navigateToSearch,
-            extraButton = {
-                ProfilePicture(
-                    modifier = Modifier,//.padding(4.dp),
-                    pictureUrl = profilePicUrl
-                )
-            }
+            onClick = navigateToSearch
         )
         LazyRow {
             item {

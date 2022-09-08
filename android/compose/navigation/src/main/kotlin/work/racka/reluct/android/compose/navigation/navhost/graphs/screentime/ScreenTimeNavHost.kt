@@ -10,6 +10,7 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
@@ -19,6 +20,8 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
+import work.racka.reluct.android.compose.components.R
+import work.racka.reluct.android.compose.components.topBar.ReluctPageHeading
 import work.racka.reluct.android.compose.components.util.BarsVisibility
 import work.racka.reluct.android.compose.navigation.top_tabs.screentime.ScreenTimeTabBar
 import work.racka.reluct.android.compose.navigation.top_tabs.screentime.ScreenTimeTabDestination
@@ -53,7 +56,6 @@ internal fun ScreenTimeNavHost(
         topBar = {
             ScreenTimeTopBar(
                 tabPage = tabPage,
-                profilePicUrl = "https://pbs.twimg.com/profile_images/1451052243067805698/LIEt076e_400x400.jpg",
                 updateTabPage = {
                     navController.navigate(it.route) {
                         popUpTo(navController.graph.findStartDestination().id) {
@@ -118,7 +120,6 @@ internal fun ScreenTimeNavHost(
 @Composable
 private fun ScreenTimeTopBar(
     tabPage: ScreenTimeTabDestination,
-    profilePicUrl: String?,
     updateTabPage: (ScreenTimeTabDestination) -> Unit,
 ) {
     Column(
@@ -129,7 +130,11 @@ private fun ScreenTimeTopBar(
         verticalArrangement = Arrangement
             .spacedBy(16.dp)
     ) {
-        // TODO: Put Prof Pic and Destination Name
+        ReluctPageHeading(
+            modifier = Modifier.padding(horizontal = 16.dp),
+            title = stringResource(id = R.string.screen_time_destination_text),
+            extraItems = {}
+        )
 
         LazyRow {
             item {
