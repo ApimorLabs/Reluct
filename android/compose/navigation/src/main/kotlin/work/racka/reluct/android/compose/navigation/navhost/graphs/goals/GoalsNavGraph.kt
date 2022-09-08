@@ -22,6 +22,8 @@ import androidx.navigation.navigation
 import com.google.accompanist.navigation.animation.composable
 import timber.log.Timber
 import work.racka.reluct.android.compose.components.R
+import work.racka.reluct.android.compose.components.animations.slideInVerticallyFadeReversed
+import work.racka.reluct.android.compose.components.animations.slideOutVerticallyFadeReversed
 import work.racka.reluct.android.compose.components.topBar.ReluctPageHeading
 import work.racka.reluct.android.compose.navigation.navbar.NavbarDestinations
 import work.racka.reluct.android.compose.navigation.top_tabs.goals.GoalsTabBar
@@ -34,13 +36,19 @@ import work.racka.reluct.common.core_navigation.compose_destinations.goals.Ongoi
 internal fun NavGraphBuilder.goalsNavGraph(
     navController: NavHostController,
 ) {
+    val transScale = .05f
+
     navigation(
         route = NavbarDestinations.Goals.route,
         startDestination = OngoingGoalsDestination.route
     ) {
         // Ongoing
         composable(
-            route = OngoingGoalsDestination.route
+            route = OngoingGoalsDestination.route,
+            enterTransition = { slideInVerticallyFadeReversed(initialScale = transScale) },
+            exitTransition = { slideOutVerticallyFadeReversed(targetScale = transScale) },
+            popEnterTransition = { slideInVerticallyFadeReversed(initialScale = transScale) },
+            popExitTransition = { slideOutVerticallyFadeReversed(targetScale = transScale) }
         ) {
             Timber.d("Goals screen called")
             val tabPage = remember {
@@ -70,7 +78,11 @@ internal fun NavGraphBuilder.goalsNavGraph(
 
         // Completed
         composable(
-            route = CompletedGoalsDestination.route
+            route = CompletedGoalsDestination.route,
+            enterTransition = { slideInVerticallyFadeReversed(initialScale = transScale) },
+            exitTransition = { slideOutVerticallyFadeReversed(targetScale = transScale) },
+            popEnterTransition = { slideInVerticallyFadeReversed(initialScale = transScale) },
+            popExitTransition = { slideOutVerticallyFadeReversed(targetScale = transScale) }
         ) {
             Box(
                 modifier = Modifier.fillMaxSize(),

@@ -10,9 +10,9 @@ import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import timber.log.Timber
+import work.racka.reluct.android.compose.components.animations.slideInVerticallyFadeReversed
+import work.racka.reluct.android.compose.components.animations.slideOutVerticallyFadeReversed
 import work.racka.reluct.android.compose.components.util.rememberBarVisibility
-import work.racka.reluct.android.compose.components.util.slideInVerticallyFadeReversed
-import work.racka.reluct.android.compose.components.util.slideOutVerticallyFadeReversed
 import work.racka.reluct.android.compose.navigation.navbar.NavbarDestinations
 import work.racka.reluct.android.compose.navigation.navbar.ReluctBottomNavBar
 import work.racka.reluct.android.compose.navigation.navhost.graphs.dashboard.DashboardNavHost
@@ -29,6 +29,8 @@ fun AppNavHost(modifier: Modifier = Modifier) {
 
     val navController = rememberAnimatedNavController()
     val barsVisibility = rememberBarVisibility()
+
+    val transScale = .05f
 
     Scaffold(
         modifier = modifier,
@@ -52,7 +54,11 @@ fun AppNavHost(modifier: Modifier = Modifier) {
 
             // Dashboard
             composable(
-                route = NavbarDestinations.Dashboard.route
+                route = NavbarDestinations.Dashboard.route,
+                enterTransition = { slideInVerticallyFadeReversed(initialScale = transScale) },
+                exitTransition = { slideOutVerticallyFadeReversed(targetScale = transScale) },
+                popEnterTransition = { slideInVerticallyFadeReversed(initialScale = transScale) },
+                popExitTransition = { slideOutVerticallyFadeReversed(targetScale = transScale) }
             ) {
                 Timber.d("Dashboard screen called")
                 DashboardNavHost(
@@ -65,7 +71,11 @@ fun AppNavHost(modifier: Modifier = Modifier) {
             // Tasks
             composable(
                 route = NavbarDestinations.Tasks.route,
-                deepLinks = PendingTasksDestination.deepLinks
+                deepLinks = PendingTasksDestination.deepLinks,
+                enterTransition = { slideInVerticallyFadeReversed(initialScale = transScale) },
+                exitTransition = { slideOutVerticallyFadeReversed(targetScale = transScale) },
+                popEnterTransition = { slideInVerticallyFadeReversed(initialScale = transScale) },
+                popExitTransition = { slideOutVerticallyFadeReversed(targetScale = transScale) }
             ) {
                 Timber.d("Tasks screen called")
                 TasksNavHost(
@@ -77,7 +87,11 @@ fun AppNavHost(modifier: Modifier = Modifier) {
 
             // Screen Time
             composable(
-                route = NavbarDestinations.ScreenTime.route
+                route = NavbarDestinations.ScreenTime.route,
+                enterTransition = { slideInVerticallyFadeReversed(initialScale = transScale) },
+                exitTransition = { slideOutVerticallyFadeReversed(targetScale = transScale) },
+                popEnterTransition = { slideInVerticallyFadeReversed(initialScale = transScale) },
+                popExitTransition = { slideOutVerticallyFadeReversed(targetScale = transScale) }
             ) {
                 Timber.d("Screen time screen called")
                 ScreenTimeNavHost(

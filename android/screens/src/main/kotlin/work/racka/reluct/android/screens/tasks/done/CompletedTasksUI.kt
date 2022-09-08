@@ -23,6 +23,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
+import work.racka.reluct.android.compose.components.animations.slideInVerticallyFadeReversed
+import work.racka.reluct.android.compose.components.animations.slideOutVerticallyFadeReversed
 import work.racka.reluct.android.compose.components.buttons.ReluctFloatingActionButton
 import work.racka.reluct.android.compose.components.cards.headers.ListGroupHeadingHeader
 import work.racka.reluct.android.compose.components.cards.task_entry.EntryType
@@ -30,8 +32,6 @@ import work.racka.reluct.android.compose.components.cards.task_entry.TaskEntry
 import work.racka.reluct.android.compose.components.images.LottieAnimationWithDescription
 import work.racka.reluct.android.compose.components.util.BarsVisibility
 import work.racka.reluct.android.compose.components.util.rememberScrollContext
-import work.racka.reluct.android.compose.components.util.slideInVerticallyFadeReversed
-import work.racka.reluct.android.compose.components.util.slideOutVerticallyFadeReversed
 import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.android.screens.R
 import work.racka.reluct.common.model.domain.tasks.Task
