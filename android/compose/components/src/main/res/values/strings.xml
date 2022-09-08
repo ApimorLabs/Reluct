@@ -126,5 +126,6 @@
     <string name="allow_permission">Allow</string>
     <string name="unlocks_text">Unlocks</string>
     <string name="today_tasks_text">Today\'s Tasks</string>
+    <string name="upcoming_tasks_text">Upcoming Tasks</string>
     <string name="view_all_text">View All</string>
 </resources>

@@ -47,10 +47,6 @@
                     android:scheme="reluct" />
             </intent-filter>
         </activity>
-
-        <service
-            android:name=".ui.TestService"
-            android:exported="false" />
     </application>
 
 </manifest>

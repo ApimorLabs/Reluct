@@ -167,7 +167,7 @@ internal fun DashboardOverviewUI(
 
                 // Tasks
                 stickyHeader {
-                    ListGroupHeadingHeader(text = stringResource(R.string.today_tasks_text))
+                    ListGroupHeadingHeader(text = stringResource(R.string.upcoming_tasks_text))
                 }
 
                 if (uiState.todayTasksState is TodayTasksState.Loading) {
@@ -190,7 +190,7 @@ internal fun DashboardOverviewUI(
                     }
                 }
 
-                // Today's Tasks
+                // Upcoming Tasks
                 items(items = uiState.todayTasksState.pending, key = { it.id }) { item ->
                     TaskEntry(
                         modifier = Modifier.animateItemPlacement(),
