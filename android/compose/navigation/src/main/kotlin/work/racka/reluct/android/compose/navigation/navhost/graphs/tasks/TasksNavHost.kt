@@ -55,7 +55,6 @@ internal fun TasksNavHost(
         topBar = {
             TasksScreenTopBar(
                 tabPage = tabPage,
-                profilePicUrl = "https://pbs.twimg.com/profile_images/1451052243067805698/LIEt076e_400x400.jpg",
                 navigateToSearch = { mainNavController.navigate(SearchTasksDestination.route) },
                 updateTabPage = {
                     navController.navigate(it.route) {
@@ -149,7 +148,6 @@ internal fun TasksNavHost(
 @Composable
 private fun TasksScreenTopBar(
     tabPage: TasksTabDestination,
-    profilePicUrl: String?,
     navigateToSearch: () -> Unit,
     updateTabPage: (TasksTabDestination) -> Unit,
 ) {
