@@ -7,10 +7,12 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.TextStyle
 
 @Composable
 fun ReluctSmallTopAppBar(
     title: String,
+    titleTextStyle: TextStyle = MaterialTheme.typography.headlineSmall,
     modifier: Modifier = Modifier,
     navigationIcon: @Composable () -> Unit,
     actions: @Composable RowScope.() -> Unit = {},
@@ -36,7 +38,7 @@ fun ReluctSmallTopAppBar(
         SmallTopAppBar(
             modifier = modifier,
             title = {
-                Text(text = title)
+                Text(text = title, style = titleTextStyle)
             },
             navigationIcon = navigationIcon,
             actions = actions,

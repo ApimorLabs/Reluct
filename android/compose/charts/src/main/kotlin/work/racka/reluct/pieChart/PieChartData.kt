@@ -1,7 +1,6 @@
 package work.racka.reluct.pieChart
 
 import androidx.compose.ui.graphics.Color
-import timber.log.Timber
 
 data class PieChartData(
     val slices: List<Slice>,
@@ -10,13 +9,12 @@ data class PieChartData(
     init {
         require(spacingBy in 0f..1f)
     }
+
     internal val totalSize: Float
         get() {
             var total = 0f
             slices.forEach { total += it.value }
             val emptySliceLength = (total / slices.size) * spacingBy
-            Timber.d("Slice Total Length Before: $total")
-            Timber.d("Slice Total length after: ${total + (emptySliceLength * slices.size)}")
             return total + (emptySliceLength * slices.size)
         }
 
@@ -30,8 +28,6 @@ data class PieChartData(
                     Slice(emptySliceLength, Color.Transparent)
                 )
             }
-            Timber.d("Slice w/ Spaces: ${mutableSlices.size}")
-            Timber.d("Slice Empty length: $emptySliceLength")
             return mutableSlices
         }
 

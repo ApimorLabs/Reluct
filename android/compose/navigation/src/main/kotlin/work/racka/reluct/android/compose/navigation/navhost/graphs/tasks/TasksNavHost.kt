@@ -10,6 +10,7 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
@@ -19,8 +20,8 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
+import work.racka.reluct.android.compose.components.R
 import work.racka.reluct.android.compose.components.textfields.search.PlaceholderMaterialSearchBar
-import work.racka.reluct.android.compose.components.topBar.ProfilePicture
 import work.racka.reluct.android.compose.components.util.BarsVisibility
 import work.racka.reluct.android.compose.navigation.top_tabs.tasks.TasksTabBar
 import work.racka.reluct.android.compose.navigation.top_tabs.tasks.TasksTabDestination
@@ -54,7 +55,6 @@ internal fun TasksNavHost(
         topBar = {
             TasksScreenTopBar(
                 tabPage = tabPage,
-                profilePicUrl = "https://pbs.twimg.com/profile_images/1451052243067805698/LIEt076e_400x400.jpg",
                 navigateToSearch = { mainNavController.navigate(SearchTasksDestination.route) },
                 updateTabPage = {
                     navController.navigate(it.route) {
@@ -148,7 +148,6 @@ internal fun TasksNavHost(
 @Composable
 private fun TasksScreenTopBar(
     tabPage: TasksTabDestination,
-    profilePicUrl: String?,
     navigateToSearch: () -> Unit,
     updateTabPage: (TasksTabDestination) -> Unit,
 ) {
@@ -162,13 +161,8 @@ private fun TasksScreenTopBar(
     ) {
         PlaceholderMaterialSearchBar(
             modifier = Modifier.padding(horizontal = 16.dp),
-            onClick = navigateToSearch,
-            extraButton = {
-                ProfilePicture(
-                    modifier = Modifier,//.padding(4.dp),
-                    pictureUrl = profilePicUrl
-                )
-            }
+            hint = stringResource(id = R.string.search_tasks_hint_text),
+            onClick = navigateToSearch
         )
         LazyRow {
             item {

@@ -1,6 +1,5 @@
 package work.racka.reluct.ui
 
-import android.app.AppOpsManager
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -11,7 +10,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import timber.log.Timber
 import work.racka.reluct.android.compose.theme.Theme
 
 class MainActivity : ComponentActivity() {
@@ -24,9 +22,6 @@ class MainActivity : ComponentActivity() {
 
         // Enable edge-to-edge experience and ProvideWindowInsets to the composable
         WindowCompat.setDecorFitsSystemWindows(window, false)
-
-
-        AppOpsManager.OnOpChangedListener { op, packageName -> Timber.d("AppOp: $packageName") }
 
         setContent {
             val themeValue = Theme.MATERIAL_YOU.themeValue

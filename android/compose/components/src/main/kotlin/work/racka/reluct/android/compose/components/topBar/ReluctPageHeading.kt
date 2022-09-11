@@ -1,8 +1,6 @@
-package work.racka.reluct.android.compose.components.cards.headers
+package work.racka.reluct.android.compose.components.topBar
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -13,20 +11,22 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import work.racka.reluct.android.compose.theme.Dimens
 
 @Composable
-fun ListGroupHeadingHeader(
+fun ReluctPageHeading(
     modifier: Modifier = Modifier,
-    text: String,
-    textStyle: TextStyle = MaterialTheme.typography.headlineSmall,
-    containerColor: Color = MaterialTheme.colorScheme.background,
+    title: String,
+    titleTextStyle: TextStyle = MaterialTheme.typography.headlineMedium,
+    containerColor: Color = Color.Transparent,
     contentColor: Color = MaterialTheme.colorScheme.onBackground,
     shape: Shape = RectangleShape,
-    tonalElevation: Dp = 0.dp
+    tonalElevation: Dp = 0.dp,
+    extraItems: @Composable RowScope.() -> Unit = {}
 ) {
     Surface(
         shape = shape,
@@ -34,18 +34,26 @@ fun ListGroupHeadingHeader(
         contentColor = contentColor,
         tonalElevation = tonalElevation
     ) {
-        Box(
-            modifier = Modifier.fillMaxWidth(),
-            contentAlignment = Alignment.CenterStart
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(Dimens.MediumPadding.size),
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = modifier
+                .height(48.dp) // TODO: Move to design system
+                .fillMaxWidth()
         ) {
             Text(
-                modifier = modifier.padding(Dimens.SmallPadding.size),
-                text = text,
-                style = textStyle,
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(vertical = Dimens.SmallPadding.size),
+                text = title,
+                style = titleTextStyle,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
-                color = contentColor
+                color = contentColor,
+                textAlign = TextAlign.Start
             )
+
+            extraItems()
         }
     }
 }

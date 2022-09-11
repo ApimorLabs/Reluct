@@ -1,4 +1,4 @@
-package work.racka.reluct.android.compose.components.util
+package work.racka.reluct.android.compose.components.animations
 
 import androidx.compose.animation.*
 import androidx.compose.animation.core.FiniteAnimationSpec
@@ -35,10 +35,11 @@ fun slideInVerticallyFadeReversed(
     animationSpec: FiniteAnimationSpec<IntOffset> = spring(
         stiffness = Spring.StiffnessMediumLow,
         visibilityThreshold = IntOffset.VisibilityThreshold
-    )
+    ),
+    initialScale: Float = 1f
 ): EnterTransition = slideInVertically(
     animationSpec = animationSpec,
-    initialOffsetY = { fullHeight -> fullHeight }
+    initialOffsetY = { fullHeight -> (initialScale * fullHeight).toInt() }
 ) + fadeIn()
 
 @Stable
@@ -46,8 +47,9 @@ fun slideOutVerticallyFadeReversed(
     animationSpec: FiniteAnimationSpec<IntOffset> = spring(
         stiffness = Spring.StiffnessMediumLow,
         visibilityThreshold = IntOffset.VisibilityThreshold
-    )
+    ),
+    targetScale: Float = 1f
 ): ExitTransition = slideOutVertically(
     animationSpec = animationSpec,
-    targetOffsetY = { fullHeight -> fullHeight }
+    targetOffsetY = { fullHeight -> (targetScale * fullHeight).toInt() }
 ) + fadeOut()

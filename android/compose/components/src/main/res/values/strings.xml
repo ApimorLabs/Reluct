@@ -16,6 +16,12 @@
     <string name="profile_picture">Profile Picture</string>
     <string name="made_with_text">Made with ❤️ from Tanzania 🇹🇿</string>
 
+    <!-- Navigation Destination Names    -->
+    <string name="dashboard_destination_text">Dashboard</string>
+    <string name="tasks_destination_text">Tasks</string>
+    <string name="screen_time_destination_text">Screen Time</string>
+    <string name="goals_destination_text">Goals</string>
+
     <string name="overdue_text">Overdue</string>
     <string name="in_time_text">In Time</string>
 
@@ -64,6 +70,7 @@
     <string name="add_task_text">Add Task</string>
     <string name="no_tasks_text">No Tasks</string>
     <string name="search_not_found_text">Nothing to see here…</string>
+    <string name="search_tasks_hint_text">Search Tasks…</string>
     <string name="task_not_found_text">Task Not Found</string>
     <string name="task_saved_text">Task Saved</string>
     <string name="task_saved_success_text">Task Saved Successfully</string>
@@ -119,5 +126,6 @@
     <string name="allow_permission">Allow</string>
     <string name="unlocks_text">Unlocks</string>
     <string name="today_tasks_text">Today\'s Tasks</string>
+    <string name="upcoming_tasks_text">Upcoming Tasks</string>
     <string name="view_all_text">View All</string>
 </resources>
