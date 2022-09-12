@@ -181,7 +181,6 @@ internal fun PendingTasksUI(
                             key = { it.id }
                         ) { item ->
                             TaskEntry(
-                                playAnimation = true,
                                 task = item,
                                 entryType = EntryType.TasksWithOverdue,
                                 onEntryClick = { onTaskClicked(item) },
@@ -199,7 +198,6 @@ internal fun PendingTasksUI(
                             key = { it.id }
                         ) { item ->
                             TaskEntry(
-                                playAnimation = true,
                                 task = item,
                                 entryType = EntryType.PendingTask,
                                 onEntryClick = { onTaskClicked(item) },

@@ -37,11 +37,13 @@ fun TaskEntry(
     val animatedProgress = remember(task) {
         Animatable(initialValue = 0.8f)
     }
-    LaunchedEffect(key1 = task) {
-        animatedProgress.animateTo(
-            targetValue = 1f,
-            animationSpec = tween(300, easing = FastOutSlowInEasing)
-        )
+    if (playAnimation) {
+        LaunchedEffect(key1 = task) {
+            animatedProgress.animateTo(
+                targetValue = 1f,
+                animationSpec = tween(300, easing = FastOutSlowInEasing)
+            )
+        }
     }
 
     val animatedModifier = if (playAnimation) modifier
