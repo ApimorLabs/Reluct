@@ -21,20 +21,20 @@ val Typography = Typography(
     headlineLarge = TextStyle(
         fontFamily = myFonts,
         fontWeight = FontWeight.Normal,
-        fontSize = 32.sp,
-        lineHeight = 40.sp
+        fontSize = 30.sp,
+        lineHeight = 38.sp
     ),
     headlineMedium = TextStyle(
         fontFamily = myFonts,
         fontWeight = FontWeight.Normal,
-        fontSize = 28.sp,
-        lineHeight = 36.sp
+        fontSize = 24.sp,
+        lineHeight = 32.sp
     ),
     headlineSmall = TextStyle(
         fontFamily = myFonts,
         fontWeight = FontWeight.Normal,
-        fontSize = 24.sp,
-        lineHeight = 32.sp
+        fontSize = 22.sp,
+        lineHeight = 30.sp
     ),
     bodyLarge = TextStyle(
         fontFamily = myFonts,

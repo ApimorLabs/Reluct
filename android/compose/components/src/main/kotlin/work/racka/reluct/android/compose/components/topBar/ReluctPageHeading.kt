@@ -38,7 +38,6 @@ fun ReluctPageHeading(
             horizontalArrangement = Arrangement.spacedBy(Dimens.MediumPadding.size),
             verticalAlignment = Alignment.CenterVertically,
             modifier = modifier
-                .height(48.dp) // TODO: Move to design system
                 .fillMaxWidth()
         ) {
             Text(
