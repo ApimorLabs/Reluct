@@ -149,7 +149,8 @@ private fun DashboardScreenTopBar(
             extraItems = {
                 ProfilePicture(
                     modifier = Modifier,//.padding(4.dp),
-                    pictureUrl = profilePicUrl
+                    pictureUrl = profilePicUrl,
+                    size = 36.dp
                 )
             }
         )

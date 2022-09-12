@@ -26,7 +26,7 @@ import work.racka.reluct.android.compose.theme.Shapes
 fun ProfilePicture(
     modifier: Modifier = Modifier,
     pictureUrl: String?,
-    size: Dp = 48.dp,
+    size: Dp = 36.dp,
     onPictureClicked: () -> Unit = { }
 ) {
 
@@ -61,7 +61,7 @@ fun ProfilePicture(
                 imageVector = Icons.Filled.AccountCircle,
                 contentDescription = stringResource(id = R.string.profile_picture),
                 tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                modifier = Modifier.size(36.dp)
+                modifier = Modifier.size(size)
             )
         } else {
             Image(
