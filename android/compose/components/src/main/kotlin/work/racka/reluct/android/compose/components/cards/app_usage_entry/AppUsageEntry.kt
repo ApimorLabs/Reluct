@@ -40,11 +40,13 @@ fun AppUsageEntry(
     val animatedProgress = remember(appUsageInfo) {
         Animatable(initialValue = 0.8f)
     }
-    LaunchedEffect(key1 = appUsageInfo) {
-        animatedProgress.animateTo(
-            targetValue = 1f,
-            animationSpec = tween(300, easing = FastOutSlowInEasing)
-        )
+    if (playAnimation) {
+        LaunchedEffect(key1 = appUsageInfo) {
+            animatedProgress.animateTo(
+                targetValue = 1f,
+                animationSpec = tween(300, easing = FastOutSlowInEasing)
+            )
+        }
     }
 
     val animatedModifier = if (playAnimation) modifier
