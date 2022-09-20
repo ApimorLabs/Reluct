@@ -35,7 +35,9 @@ kotlin {
 
         val androidMain by getting {
             dependencies {
+                implementation(Dependencies.Koin.android)
                 implementation(Dependencies.Android.Essential.coreKtx)
+                implementation(Dependencies.Kotlin.Coroutines.playServices)
                 with(Dependencies.Android.Firebase) {
                     implementation(project.dependencies.platform(bom))
                     implementation(auth)
