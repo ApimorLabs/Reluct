@@ -6,4 +6,8 @@ object BuildPlugins {
     val daggerHilt by lazy { "com.google.dagger:hilt-android-gradle-plugin:${Versions.hilt}" }
     val sqlDelight by lazy { "com.squareup.sqldelight:gradle-plugin:${Versions.sqlDelight}" }
     val kotlinxSerialization by lazy { "org.jetbrains.kotlin:kotlin-serialization:${Versions.kotlin}" }
+
+    // Google Services
+    val googleServicesClasspath by lazy { "com.google.gms:google-services:${Versions.googleServices}" }
+    val googleServicesApply by lazy { "com.google.gms.google-services" }
 }

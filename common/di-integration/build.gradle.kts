@@ -15,6 +15,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation(project(":common:app-usage-stats"))
+                implementation(project(":common:authentication"))
                 implementation(project(":common:data"))
                 implementation(project(":common:features:dashboard"))
                 implementation(project(":common:features:goals"))

@@ -9,6 +9,7 @@ include(
     ":android:screens",
     ":android:widgets",
     ":common:app-usage-stats",
+    ":common:authentication",
     ":common:core-navigation",
     ":common:data",
     ":common:di-integration",

@@ -79,4 +79,11 @@ object Versions {
 
     // Lottie Animations
     const val lottie = "5.0.3"
+
+    // Firebase
+    const val firebaseBom = "30.4.1"
+
+    // Google services
+    const val googleServices = "4.3.13"
+    const val playServicesAuth = "20.3.0"
 }

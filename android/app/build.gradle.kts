@@ -1,8 +1,8 @@
 import org.jetbrains.kotlin.konan.properties.Properties
 
 plugins {
-    id("com.android.application")
     kotlin("android")
+    id("com.android.application")
 }
 
 android {
@@ -120,4 +120,11 @@ dependencies {
     implementation(Dependencies.Android.Extras.splashScreenCore)
     // Timber - Logging
     implementation(Dependencies.Log.timber)
+
+    // Firebase
+    with(Dependencies.Android.Firebase) {
+        implementation(platform(bom))
+        implementation(auth)
+        implementation(analytics)
+    }
 }
