@@ -12,4 +12,5 @@ interface UserAuthentication {
     suspend fun loginWithEmail(user: AuthLoginUser): Resource<AuthUser>
     suspend fun sendVerificationEmail(user: AuthUser)
     suspend fun checkEmailVerification(): Resource<IsVerified>
+    suspend fun forgotPasswordEmail(email: String): Resource<String>
 }

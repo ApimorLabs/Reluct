@@ -7,6 +7,6 @@ fun FirebaseUser.asAuthUser(): AuthUser = AuthUser(
     id = uid,
     displayName = displayName ?: "User",
     profilePicUrl = photoUrl?.toString(),
-    email = email,
+    email = email ?: "NO_EMAIL",
     isEmailVerified = isEmailVerified,
 )

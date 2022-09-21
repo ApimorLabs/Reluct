@@ -75,6 +75,16 @@ internal class AndroidFirebaseUserAuthentication(
         }
     }
 
+    override suspend fun forgotPasswordEmail(email: String): Resource<String> =
+        withContext(dispatcher) {
+            try {
+                auth.sendPasswordResetEmail(email).await()
+                Resource.Success(email)
+            } catch (e: Exception) {
+                Resource.Error(message = Messages.EMAIL_SEND_FAILED)
+            }
+        }
+
     companion object {
         private const val TAG = "FirebaseUserAuthentication"
     }
