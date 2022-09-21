@@ -17,6 +17,7 @@ object Dependencies {
             val core by lazy { "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.coroutines}" }
             val android by lazy { "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.coroutines}" }
             val test by lazy { "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.coroutines}" }
+            val playServices by lazy { "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:${Versions.coroutines}" }
         }
     }
 
@@ -178,6 +179,18 @@ object Dependencies {
             val pager by lazy { "com.google.accompanist:accompanist-pager:${Versions.accompanist}" }
             val swipeRefresh by lazy { "com.google.accompanist:accompanist-swiperefresh:${Versions.accompanist}" }
             val systemUiController by lazy { "com.google.accompanist:accompanist-systemuicontroller:${Versions.accompanist}" }
+        }
+
+        // Firebase
+        object Firebase {
+            val bom by lazy { "com.google.firebase:firebase-bom:${Versions.firebaseBom}" }
+            val analytics by lazy { "com.google.firebase:firebase-analytics-ktx" }
+            val auth by lazy { "com.google.firebase:firebase-auth-ktx" }
+        }
+
+        // Play Services
+        object PlayServices {
+            val auth by lazy { "com.google.android.gms:play-services-auth:${Versions.playServicesAuth}" }
         }
 
         object Extras {

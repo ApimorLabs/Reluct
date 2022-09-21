@@ -2,10 +2,12 @@ package work.racka.reluct.common.di.intergration
 
 import org.koin.core.context.startKoin
 import org.koin.dsl.KoinAppDeclaration
+import racka.reluct.common.authentication.di.Authentication
 import work.racka.reluct.common.app.usage.stats.di.AppUsageStats
 import work.racka.reluct.common.data.di.Data
 import work.racka.reluct.common.database.di.Database
 import work.racka.reluct.common.features.dashboard.di.Dashboard
+import work.racka.reluct.common.features.onboarding.di.Onboarding
 import work.racka.reluct.common.features.screen_time.di.ScreenTime
 import work.racka.reluct.common.features.settings.di.AppSettings
 import work.racka.reluct.common.features.tasks.di.Tasks
@@ -22,6 +24,7 @@ object KoinMain {
 
         /** Modules in common directory **/
         // Data Sources
+        Authentication.run { installModules() }
         Database.run { databaseModules() }
         MultiplatformSettings.run { settingsModules() }
         AppUsageStats.run { appUsageModules() }
@@ -34,6 +37,7 @@ object KoinMain {
         Tasks.run { tasksModules() }
         ScreenTime.run { screenTimeModules() }
         AppSettings.run { appSettingsModules() }
+        Onboarding.run { install() }
 
         // Other Services
         SystemServices.run { install() }
