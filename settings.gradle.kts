@@ -15,6 +15,7 @@ include(
     ":common:di-integration",
     ":common:features:dashboard",
     ":common:features:goals",
+    ":common:features:onboarding",
     ":common:features:screen-time",
     ":common:features:settings",
     ":common:features:tasks",
