@@ -9,9 +9,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.android.screens.onboarding.components.OnBoardingBottomBar
-import work.racka.reluct.android.screens.onboarding.pages.NotificationsPage
-import work.racka.reluct.android.screens.onboarding.pages.PermissionsPage
-import work.racka.reluct.android.screens.onboarding.pages.WelcomePage
+import work.racka.reluct.android.screens.onboarding.pages.*
 import work.racka.reluct.common.features.onboarding.states.OnBoardingPages
 import work.racka.reluct.common.features.onboarding.states.OnBoardingState
 import work.racka.reluct.common.features.onboarding.states.PermissionType
@@ -61,6 +59,28 @@ fun OnBoardingUI(
                         updatePermissionCheck = { isGranted ->
                             updatePermission(
                                 PermissionType.NOTIFICATION,
+                                isGranted
+                            )
+                        }
+                    )
+                }
+                is OnBoardingPages.Reminders -> {
+                    AlarmsAndRemindersPage(
+                        isGranted = uiState.permissionsState.alarmsAndRemindersGranted,
+                        updatePermissionCheck = { isGranted ->
+                            updatePermission(
+                                PermissionType.REMINDERS,
+                                isGranted
+                            )
+                        }
+                    )
+                }
+                is OnBoardingPages.UsageAccess -> {
+                    UsageAccessPage(
+                        isGranted = uiState.permissionsState.usageAccessGranted,
+                        updatePermissionCheck = { isGranted ->
+                            updatePermission(
+                                PermissionType.USAGE_ACCESS,
                                 isGranted
                             )
                         }

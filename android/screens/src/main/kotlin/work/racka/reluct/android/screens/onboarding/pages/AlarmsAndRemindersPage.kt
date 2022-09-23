@@ -28,7 +28,7 @@ internal fun AlarmsAndRemindersPage(
     updatePermissionCheck: (isGranted: Boolean) -> Unit
 ) {
 
-    val drawableSize = 400.dp
+    val drawableSize = 300.dp
 
     PermissionCheckHandler {
         if (!isGranted) {
@@ -71,7 +71,10 @@ internal fun AlarmsAndRemindersPage(
         }
 
         item {
-            PermissionStatusCard(isGranted = isGranted) {
+            PermissionStatusCard(
+                modifier = Modifier.padding(vertical = Dimens.MediumPadding.size),
+                isGranted = isGranted
+            ) {
                 if (!isGranted) {
                     // TODO: Request Permission
                 }

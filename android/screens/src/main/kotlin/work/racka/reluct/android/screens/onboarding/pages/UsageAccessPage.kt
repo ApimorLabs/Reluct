@@ -39,7 +39,7 @@ internal fun UsageAccessPage(
     updatePermissionCheck: (isGranted: Boolean) -> Unit
 ) {
 
-    val drawableSize = 400.dp
+    val drawableSize = 300.dp
     val context = LocalContext.current
 
     val openDialog = remember { mutableStateOf(false) }
@@ -92,7 +92,10 @@ internal fun UsageAccessPage(
         }
 
         item {
-            PermissionStatusCard(isGranted = isGranted) {
+            PermissionStatusCard(
+                modifier = Modifier.padding(vertical = Dimens.MediumPadding.size),
+                isGranted = isGranted
+            ) {
                 if (!isGranted) {
                     openDialog.value = true
                 }
