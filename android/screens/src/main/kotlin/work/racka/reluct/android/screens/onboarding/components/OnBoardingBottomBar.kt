@@ -17,7 +17,6 @@ import work.racka.reluct.common.features.onboarding.states.OnBoardingState
 @Composable
 internal fun OnBoardingBottomBar(
     modifier: Modifier = Modifier,
-    selectedPage: OnBoardingPages,
     uiState: OnBoardingState,
     onUpdatePage: (OnBoardingPages) -> Unit,
     onCompleted: () -> Unit
@@ -25,7 +24,7 @@ internal fun OnBoardingBottomBar(
     val context = LocalContext.current
     val bottomButtons by remember {
         derivedStateOf {
-            when (selectedPage) {
+            when (uiState.currentPage) {
                 is OnBoardingPages.Welcome -> {
                     BottomButtonsProperties(
                         positiveText = context.getString(R.string.next_text),
@@ -117,7 +116,7 @@ internal fun OnBoardingBottomBar(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         // Put Text
-        if (selectedPage is OnBoardingPages.Welcome) {
+        if (uiState.currentPage is OnBoardingPages.Welcome) {
             Text(text = "Privacy Policy and Terms of Service", textAlign = TextAlign.Center)
         }
 
@@ -126,7 +125,7 @@ internal fun OnBoardingBottomBar(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            if (selectedPage !is OnBoardingPages.AllSet) {
+            if (uiState.currentPage !is OnBoardingPages.AllSet) {
                 OutlinedReluctButton(
                     buttonText = bottomButtons.negativeText,
                     icon = null,
