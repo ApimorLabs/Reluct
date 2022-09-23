@@ -127,6 +127,9 @@
     <string name="usage_permissions_rationale_dialog_text">You are about to be sent to the Usage Access permissions
     screen. Please select the Reluct app and allow Usage Access to see your Screen Time</string>
     <string name="allow_permission">Allow</string>
+    <string name="click_to_grant_text">Click to Grant Permission</string>
+    <string name="permission_granted_text">Permission Granted</string>
+
     <string name="unlocks_text">Unlocks</string>
     <string name="today_tasks_text">Today\'s Tasks</string>
     <string name="upcoming_tasks_text">Upcoming Tasks</string>
