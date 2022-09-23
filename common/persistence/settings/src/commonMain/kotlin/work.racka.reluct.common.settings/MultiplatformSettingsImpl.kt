@@ -59,7 +59,7 @@ internal class MultiplatformSettingsImpl(
 
     // Private Read methods
     private fun readThemeSettings(): Int =
-        settings.getInt(key = Keys.THEME_OPTION, defaultValue = -1)
+        settings.getInt(key = Keys.THEME_OPTION, defaultValue = Keys.Defaults.THEME)
 
     private fun readFocusMode(): Boolean =
         settings.getBoolean(key = Keys.FOCUS_MODE, defaultValue = false)
