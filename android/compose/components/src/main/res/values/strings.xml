@@ -137,4 +137,27 @@
 
     <!--  On Boarding Text  -->
     <string name="welcome_text">Manage your Tasks and Goals while keeping an eye on your phone usage habits</string>
+    <string name="permissions_text">Permissions</string>
+    <string name="permissions_desc_text">We need some permissions on this device for the App to function properly.
+Press Next to continue</string>
+    <string name="notifications_text">Notifications</string>
+    <string name="notifications_desc_text">This App needs Notification Permission to be able to send Task reminders, Service notifications and Important Updates.
+
+Allow Notification Permission when prompted</string>
+    <string name="alarms_and_reminders_text">Alarms &amp; Reminders</string>
+    <string name="alarms_and_reminders_desc_text">This App needs the Alarms &amp; Reminders Permission to be able to Schedule Tasks and Goals Reminders
+
+Allow Alarms &amp; Reminders Permission</string>
+    <string name="usage_access_text">Usage Access</string>
+    <string name="usage_access_desc_text">This App needs Usage Access permission to show Device Screen Time usage and it’s statistics
+
+Allow Usage Access Permission in Settings</string>
+    <string name="display_over_apps_text">Display Over Other Apps</string>
+    <string name="display_over_apps_desc_text">Overlay (Display over other Apps) permission needed to block Distracting and Paused Apps so you can focus on your Tasks
+
+Allow Display Over other App Permission</string>
+    <string name="themes_text">Themes</string>
+    <string name="themes_desc_text">Select Your Preferred Theme Configuration</string>
+    <string name="all_set_text">All Set!</string>
+    <string name="all_set_desc_text">Everything has been set up. You can continue!</string>
 </resources>
