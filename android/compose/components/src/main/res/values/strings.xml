@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">Reluct</string>
+    <string name="next_text">Next</string>
+    <string name="back_text">Back</string>
+    <string name="continue_text">Continue</string>
     <string name="search_icon">Search Icon</string>
     <string name="option_icon">Options</string>
     <string name="back_icon">Go Back</string>
