@@ -21,6 +21,8 @@ import work.racka.reluct.android.compose.navigation.navhost.graphs.goals.goalsNa
 import work.racka.reluct.android.compose.navigation.navhost.graphs.screentime.ScreenTimeNavHost
 import work.racka.reluct.android.compose.navigation.navhost.graphs.screentime.appScreenTimeStatsNavGraph
 import work.racka.reluct.android.compose.navigation.navhost.graphs.tasks.TasksNavHost
+import work.racka.reluct.android.screens.onboarding.OnBoardingScreen
+import work.racka.reluct.common.core_navigation.compose_destinations.onboarding.OnBoardingDestination
 import work.racka.reluct.common.core_navigation.compose_destinations.tasks.PendingTasksDestination
 
 @OptIn(ExperimentalAnimationApi::class, ExperimentalMaterial3Api::class)
@@ -48,9 +50,29 @@ fun AppNavHost(modifier: Modifier = Modifier) {
         AnimatedNavHost(
             modifier = Modifier,
             navController = navController,
-            startDestination = NavbarDestinations.Dashboard.route,
+            startDestination = OnBoardingDestination.route,
             route = "root"
         ) {
+
+            // OnBoarding
+            composable(
+                route = OnBoardingDestination.route,
+                enterTransition = { slideInVerticallyFadeReversed(initialScale = transScale) },
+                exitTransition = { slideOutVerticallyFadeReversed(targetScale = transScale) },
+                popEnterTransition = { slideInVerticallyFadeReversed(initialScale = transScale) },
+                popExitTransition = { slideOutVerticallyFadeReversed(targetScale = transScale) }
+            ) {
+                Timber.d("On Boarding screen called")
+                barsVisibility.bottomBar.hide()
+                OnBoardingScreen(
+                    navigateHome = {
+                        navController.navigate(NavbarDestinations.Dashboard.route) {
+                            popUpTo(NavbarDestinations.Dashboard.route) { inclusive = false }
+                            launchSingleTop = true
+                        }
+                    }
+                )
+            }
 
             // Dashboard
             composable(
