@@ -1,9 +1,6 @@
 package work.racka.reluct.android.screens.onboarding.components
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -113,7 +110,9 @@ internal fun OnBoardingBottomBar(
         }
     }
     Column(
-        modifier = Modifier.fillMaxWidth() then modifier,
+        modifier = Modifier
+            .padding(vertical = Dimens.SmallPadding.size)
+            .fillMaxWidth() then modifier,
         verticalArrangement = Arrangement.spacedBy(Dimens.MediumPadding.size),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {

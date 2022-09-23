@@ -134,4 +134,7 @@
     <string name="today_tasks_text">Today\'s Tasks</string>
     <string name="upcoming_tasks_text">Upcoming Tasks</string>
     <string name="view_all_text">View All</string>
+
+    <!--  On Boarding Text  -->
+    <string name="welcome_text">Manage your Tasks and Goals while keeping an eye on your phone usage habits</string>
 </resources>
