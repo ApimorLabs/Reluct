@@ -1,5 +1,6 @@
 package work.racka.reluct.android.screens.onboarding.components
 
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
@@ -22,7 +23,7 @@ internal fun OnBoardingBottomBar(
     onCompleted: () -> Unit
 ) {
     val context = LocalContext.current
-    val bottomButtons by remember {
+    val bottomButtons by remember(uiState.currentPage, uiState.permissionsState) {
         derivedStateOf {
             when (uiState.currentPage) {
                 is OnBoardingPages.Welcome -> {
@@ -121,15 +122,15 @@ internal fun OnBoardingBottomBar(
         }
 
         Row(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = (if (bottomButtons.isNegativeEnabled) Modifier.fillMaxWidth() else Modifier)
+                .animateContentSize(),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            if (uiState.currentPage !is OnBoardingPages.AllSet) {
+            if (bottomButtons.isNegativeEnabled) {
                 OutlinedReluctButton(
                     buttonText = bottomButtons.negativeText,
                     icon = null,
-                    enabled = bottomButtons.isNegativeEnabled,
                     onButtonClicked = bottomButtons.negativeAction
                 )
             }

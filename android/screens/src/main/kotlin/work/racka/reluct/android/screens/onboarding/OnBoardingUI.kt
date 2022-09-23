@@ -1,8 +1,6 @@
 package work.racka.reluct.android.screens.onboarding
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -32,6 +30,9 @@ fun OnBoardingUI(
         modifier = modifier.fillMaxSize(),
         bottomBar = {
             OnBoardingBottomBar(
+                modifier = Modifier
+                    .navigationBarsPadding()
+                    .padding(horizontal = Dimens.MediumPadding.size),
                 uiState = uiState,
                 onUpdatePage = updateCurrentPage,
                 onCompleted = onBoardingComplete
@@ -40,6 +41,7 @@ fun OnBoardingUI(
     ) { innerPadding ->
         Box(
             modifier = Modifier
+                .statusBarsPadding()
                 .padding(innerPadding)
                 .padding(horizontal = Dimens.MediumPadding.size)
                 .fillMaxSize(),
