@@ -9,6 +9,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.android.screens.onboarding.components.OnBoardingBottomBar
+import work.racka.reluct.android.screens.onboarding.pages.NotificationsPage
 import work.racka.reluct.android.screens.onboarding.pages.PermissionsPage
 import work.racka.reluct.android.screens.onboarding.pages.WelcomePage
 import work.racka.reluct.common.features.onboarding.states.OnBoardingPages
@@ -53,6 +54,17 @@ fun OnBoardingUI(
                 }
                 is OnBoardingPages.Permissions -> {
                     PermissionsPage()
+                }
+                is OnBoardingPages.Notifications -> {
+                    NotificationsPage(
+                        isGranted = uiState.permissionsState.notificationGranted,
+                        updatePermissionCheck = { isGranted ->
+                            updatePermission(
+                                PermissionType.NOTIFICATION,
+                                isGranted
+                            )
+                        }
+                    )
                 }
                 else -> {
                     Text(text = "Others")
