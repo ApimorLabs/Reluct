@@ -4,6 +4,7 @@ import android.content.Intent
 import android.provider.Settings
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
@@ -25,6 +26,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import work.racka.reluct.android.compose.components.buttons.ReluctButton
+import work.racka.reluct.android.compose.components.cards.headers.ListGroupHeadingHeader
 import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.android.compose.theme.Shapes
 import work.racka.reluct.android.screens.R
@@ -32,6 +34,7 @@ import work.racka.reluct.android.screens.onboarding.components.PermissionStatusC
 import work.racka.reluct.android.screens.util.PermissionCheckHandler
 import work.racka.reluct.android.screens.util.checkUsageAccessPermissions
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 internal fun UsageAccessPage(
     modifier: Modifier = Modifier,
@@ -64,11 +67,11 @@ internal fun UsageAccessPage(
         verticalArrangement = Arrangement.spacedBy(Dimens.MediumPadding.size),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        item {
-            Text(
+        stickyHeader {
+            ListGroupHeadingHeader(
                 text = stringResource(id = R.string.usage_access_text),
                 textAlign = TextAlign.Center,
-                style = MaterialTheme.typography.headlineLarge
+                textStyle = MaterialTheme.typography.headlineLarge
                     .copy(fontSize = 40.sp)
             )
         }
@@ -76,8 +79,7 @@ internal fun UsageAccessPage(
         item {
             Image(
                 modifier = Modifier
-                    .size(drawableSize)
-                    .padding(Dimens.MediumPadding.size),
+                    .size(drawableSize),
                 painter = painterResource(id = R.drawable.stats_pie_chart),
                 contentDescription = null
             )

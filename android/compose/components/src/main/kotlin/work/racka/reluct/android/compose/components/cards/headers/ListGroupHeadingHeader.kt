@@ -44,7 +44,6 @@ fun ListGroupHeadingHeader(
                 text = text,
                 style = textStyle,
                 textAlign = textAlign,
-                maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
                 color = contentColor
             )

@@ -1,5 +1,6 @@
 package work.racka.reluct.android.screens.onboarding.pages
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
@@ -16,9 +17,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import work.racka.reluct.android.compose.components.cards.headers.ListGroupHeadingHeader
 import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.android.screens.R
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 internal fun PermissionsPage(
     modifier: Modifier = Modifier
@@ -33,11 +36,11 @@ internal fun PermissionsPage(
         verticalArrangement = Arrangement.spacedBy(Dimens.MediumPadding.size),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        item {
-            Text(
+        stickyHeader {
+            ListGroupHeadingHeader(
                 text = stringResource(id = R.string.permissions_text),
                 textAlign = TextAlign.Center,
-                style = MaterialTheme.typography.headlineLarge
+                textStyle = MaterialTheme.typography.headlineLarge
                     .copy(fontSize = 40.sp)
             )
         }
@@ -45,8 +48,7 @@ internal fun PermissionsPage(
         item {
             Image(
                 modifier = Modifier
-                    .size(drawableSize)
-                    .padding(Dimens.MediumPadding.size),
+                    .size(drawableSize),
                 painter = painterResource(id = R.drawable.permissions_unlock),
                 contentDescription = null
             )

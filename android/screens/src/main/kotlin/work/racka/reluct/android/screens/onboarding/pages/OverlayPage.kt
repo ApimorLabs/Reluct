@@ -5,6 +5,7 @@ import android.net.Uri
 import android.provider.Settings
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
@@ -26,12 +27,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import work.racka.reluct.android.compose.components.buttons.ReluctButton
+import work.racka.reluct.android.compose.components.cards.headers.ListGroupHeadingHeader
 import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.android.compose.theme.Shapes
 import work.racka.reluct.android.screens.R
 import work.racka.reluct.android.screens.onboarding.components.PermissionStatusCard
 import work.racka.reluct.android.screens.util.PermissionCheckHandler
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 internal fun OverlayPage(
     modifier: Modifier = Modifier,
@@ -64,11 +67,11 @@ internal fun OverlayPage(
         verticalArrangement = Arrangement.spacedBy(Dimens.MediumPadding.size),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        item {
-            Text(
+        stickyHeader {
+            ListGroupHeadingHeader(
                 text = stringResource(id = R.string.display_over_apps_text),
                 textAlign = TextAlign.Center,
-                style = MaterialTheme.typography.headlineLarge
+                textStyle = MaterialTheme.typography.headlineLarge
                     .copy(fontSize = 40.sp)
             )
         }
@@ -76,8 +79,7 @@ internal fun OverlayPage(
         item {
             Image(
                 modifier = Modifier
-                    .size(drawableSize)
-                    .padding(Dimens.MediumPadding.size),
+                    .size(drawableSize),
                 painter = painterResource(id = R.drawable.screens_present),
                 contentDescription = null
             )

@@ -42,7 +42,10 @@ fun AppNavHost(modifier: Modifier = Modifier) {
                 enter = slideInVerticallyFadeReversed(),
                 exit = slideOutVerticallyFadeReversed()
             ) {
-                ReluctBottomNavBar(navController = navController)
+                ReluctBottomNavBar(
+                    navController = navController,
+                    graphStartDestination = NavbarDestinations.Dashboard.route
+                )
             }
         }
     ) { innerPadding ->

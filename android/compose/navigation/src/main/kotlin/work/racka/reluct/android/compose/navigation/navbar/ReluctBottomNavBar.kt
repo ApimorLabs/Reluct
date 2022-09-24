@@ -5,18 +5,16 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavDestination.Companion.hierarchy
-import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.compose.rememberNavController
 import work.racka.reluct.android.compose.theme.Typography
 
 @Composable
 fun ReluctBottomNavBar(
     modifier: Modifier = Modifier,
     navController: NavHostController,
+    graphStartDestination: String,
 ) {
 
     val items = NavbarDestinations.values()
@@ -52,7 +50,7 @@ fun ReluctBottomNavBar(
                     },
                     onClick = {
                         navController.navigate(item.route) {
-                            popUpTo(navController.graph.findStartDestination().id) {
+                            popUpTo(graphStartDestination) {
                                 saveState = true
                             }
                             launchSingleTop = true
@@ -62,13 +60,5 @@ fun ReluctBottomNavBar(
                 )
             }
         }
-    }
-}
-
-@Preview
-@Composable
-internal fun ReluctBottomNavBarPrev() {
-    MaterialTheme {
-        ReluctBottomNavBar(navController = rememberNavController())
     }
 }
