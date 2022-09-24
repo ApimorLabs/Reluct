@@ -20,7 +20,7 @@ fun OnBoardingScreen(
         updatePermission = viewModel::updatePermission,
         saveTheme = viewModel::saveTheme,
         onBoardingComplete = {
-            //viewModel.onBoardingComplete()
+            viewModel.onBoardingComplete()
             navigateHome()
         }
     )

@@ -2,9 +2,17 @@ package work.racka.reluct.android.compose.navigation.navhost
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
@@ -21,18 +29,22 @@ import work.racka.reluct.android.compose.navigation.navhost.graphs.goals.goalsNa
 import work.racka.reluct.android.compose.navigation.navhost.graphs.screentime.ScreenTimeNavHost
 import work.racka.reluct.android.compose.navigation.navhost.graphs.screentime.appScreenTimeStatsNavGraph
 import work.racka.reluct.android.compose.navigation.navhost.graphs.tasks.TasksNavHost
+import work.racka.reluct.android.compose.navigation.util.SettingsCheck
 import work.racka.reluct.android.screens.onboarding.OnBoardingScreen
 import work.racka.reluct.common.core_navigation.compose_destinations.onboarding.OnBoardingDestination
 import work.racka.reluct.common.core_navigation.compose_destinations.tasks.PendingTasksDestination
 
 @OptIn(ExperimentalAnimationApi::class, ExperimentalMaterial3Api::class)
 @Composable
-fun AppNavHost(modifier: Modifier = Modifier) {
+fun AppNavHost(modifier: Modifier = Modifier, settingsCheck: SettingsCheck?) {
 
     val navController = rememberAnimatedNavController()
-    val barsVisibility = rememberBarVisibility()
+    val barsVisibility = rememberBarVisibility(defaultBottomBar = false)
 
     val transScale = .05f
+
+    // Route used specifically for checking if the On Boarding flow was shown and Signed In
+    val checkingRoute = "dummy_route"
 
     Scaffold(
         modifier = modifier,
@@ -53,9 +65,43 @@ fun AppNavHost(modifier: Modifier = Modifier) {
         AnimatedNavHost(
             modifier = Modifier,
             navController = navController,
-            startDestination = OnBoardingDestination.route,
+            startDestination = checkingRoute,
             route = "root"
         ) {
+
+            // Checking Route
+            composable(
+                route = checkingRoute,
+                enterTransition = { fadeIn() },
+                exitTransition = { fadeOut() },
+                popEnterTransition = { fadeIn() },
+                popExitTransition = { fadeOut() }
+            ) {
+                barsVisibility.bottomBar.hide()
+
+                LaunchedEffect(Unit, settingsCheck) {
+                    settingsCheck?.let { check ->
+                        if (check.isOnBoardingDone) {
+                            navController.navigate(NavbarDestinations.Dashboard.route) {
+                                popUpTo(checkingRoute) { inclusive = true }
+                            }
+                        } else {
+                            navController.navigate(OnBoardingDestination.route) {
+                                popUpTo(checkingRoute) { inclusive = true }
+                            }
+                        }
+                    }
+                }
+
+                Box(
+                    modifier = Modifier
+                        .statusBarsPadding()
+                        .fillMaxSize(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    CircularProgressIndicator()
+                }
+            }
 
             // OnBoarding
             composable(
