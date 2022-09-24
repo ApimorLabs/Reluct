@@ -87,7 +87,7 @@ fun OnBoardingUI(
                     )
                 }
                 is OnBoardingPages.Overlay -> {
-                    UsageAccessPage(
+                    OverlayPage(
                         isGranted = uiState.permissionsState.overlayGranted,
                         updatePermissionCheck = { isGranted ->
                             updatePermission(

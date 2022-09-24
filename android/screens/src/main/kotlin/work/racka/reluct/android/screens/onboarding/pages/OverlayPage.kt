@@ -78,7 +78,7 @@ internal fun OverlayPage(
                 modifier = Modifier
                     .size(drawableSize)
                     .padding(Dimens.MediumPadding.size),
-                painter = painterResource(id = R.drawable.stats_pie_chart),
+                painter = painterResource(id = R.drawable.screens_present),
                 contentDescription = null
             )
         }
