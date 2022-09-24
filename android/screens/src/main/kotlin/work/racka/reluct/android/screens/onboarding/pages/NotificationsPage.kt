@@ -21,6 +21,7 @@ import work.racka.reluct.android.compose.components.cards.headers.ListGroupHeadi
 import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.android.screens.R
 import work.racka.reluct.android.screens.onboarding.components.PermissionStatusCard
+import work.racka.reluct.android.screens.util.BackPressHandler
 import work.racka.reluct.android.screens.util.PermissionCheckHandler
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -28,8 +29,10 @@ import work.racka.reluct.android.screens.util.PermissionCheckHandler
 internal fun NotificationsPage(
     modifier: Modifier = Modifier,
     isGranted: Boolean,
-    updatePermissionCheck: (isGranted: Boolean) -> Unit
+    updatePermissionCheck: (isGranted: Boolean) -> Unit,
+    goBack: () -> Unit
 ) {
+    BackPressHandler { goBack() } // Handle Back Presses
 
     val drawableSize = 300.dp
 

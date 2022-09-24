@@ -20,12 +20,15 @@ import androidx.compose.ui.unit.sp
 import work.racka.reluct.android.compose.components.cards.headers.ListGroupHeadingHeader
 import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.android.screens.R
+import work.racka.reluct.android.screens.util.BackPressHandler
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 internal fun AllSetPage(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    goBack: () -> Unit
 ) {
+    BackPressHandler { goBack() } // Handle Back Presses
 
     val drawableSize = 400.dp
 

@@ -21,14 +21,17 @@ import work.racka.reluct.android.compose.theme.Theme
 import work.racka.reluct.android.screens.R
 import work.racka.reluct.android.screens.onboarding.components.ThemeHolder
 import work.racka.reluct.android.screens.onboarding.components.ThemeSelectCard
+import work.racka.reluct.android.screens.util.BackPressHandler
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 internal fun ThemesPage(
     modifier: Modifier = Modifier,
     selectedTheme: Int,
-    onSelectTheme: (themeValue: Int) -> Unit
+    onSelectTheme: (themeValue: Int) -> Unit,
+    goBack: () -> Unit
 ) {
+    BackPressHandler { goBack() } // Handle Back Presses
 
     val drawableSize = 250.dp
 

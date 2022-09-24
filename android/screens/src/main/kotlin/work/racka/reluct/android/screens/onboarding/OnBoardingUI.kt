@@ -50,10 +50,11 @@ fun OnBoardingUI(
                     WelcomePage()
                 }
                 is OnBoardingPages.Permissions -> {
-                    PermissionsPage()
+                    PermissionsPage(goBack = { updateCurrentPage(OnBoardingPages.Welcome) })
                 }
                 is OnBoardingPages.Notifications -> {
                     NotificationsPage(
+                        goBack = { updateCurrentPage(OnBoardingPages.Permissions) },
                         isGranted = uiState.permissionsState.notificationGranted,
                         updatePermissionCheck = { isGranted ->
                             updatePermission(
@@ -65,6 +66,7 @@ fun OnBoardingUI(
                 }
                 is OnBoardingPages.Reminders -> {
                     AlarmsAndRemindersPage(
+                        goBack = { updateCurrentPage(OnBoardingPages.Notifications) },
                         isGranted = uiState.permissionsState.alarmsAndRemindersGranted,
                         updatePermissionCheck = { isGranted ->
                             updatePermission(
@@ -76,6 +78,7 @@ fun OnBoardingUI(
                 }
                 is OnBoardingPages.UsageAccess -> {
                     UsageAccessPage(
+                        goBack = { updateCurrentPage(OnBoardingPages.Reminders) },
                         isGranted = uiState.permissionsState.usageAccessGranted,
                         updatePermissionCheck = { isGranted ->
                             updatePermission(
@@ -87,6 +90,7 @@ fun OnBoardingUI(
                 }
                 is OnBoardingPages.Overlay -> {
                     OverlayPage(
+                        goBack = { updateCurrentPage(OnBoardingPages.UsageAccess) },
                         isGranted = uiState.permissionsState.overlayGranted,
                         updatePermissionCheck = { isGranted ->
                             updatePermission(
@@ -97,10 +101,14 @@ fun OnBoardingUI(
                     )
                 }
                 is OnBoardingPages.Themes -> {
-                    ThemesPage(selectedTheme = uiState.currentThemeValue, onSelectTheme = saveTheme)
+                    ThemesPage(
+                        selectedTheme = uiState.currentThemeValue,
+                        onSelectTheme = saveTheme,
+                        goBack = { updateCurrentPage(OnBoardingPages.Overlay) }
+                    )
                 }
                 is OnBoardingPages.AllSet -> {
-                    AllSetPage()
+                    AllSetPage(goBack = { updateCurrentPage(OnBoardingPages.Themes) })
                 }
             }
         }

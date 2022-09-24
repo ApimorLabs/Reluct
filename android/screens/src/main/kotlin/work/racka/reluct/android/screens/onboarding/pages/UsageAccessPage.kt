@@ -31,6 +31,7 @@ import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.android.compose.theme.Shapes
 import work.racka.reluct.android.screens.R
 import work.racka.reluct.android.screens.onboarding.components.PermissionStatusCard
+import work.racka.reluct.android.screens.util.BackPressHandler
 import work.racka.reluct.android.screens.util.PermissionCheckHandler
 import work.racka.reluct.android.screens.util.checkUsageAccessPermissions
 
@@ -39,8 +40,10 @@ import work.racka.reluct.android.screens.util.checkUsageAccessPermissions
 internal fun UsageAccessPage(
     modifier: Modifier = Modifier,
     isGranted: Boolean,
-    updatePermissionCheck: (isGranted: Boolean) -> Unit
+    updatePermissionCheck: (isGranted: Boolean) -> Unit,
+    goBack: () -> Unit
 ) {
+    BackPressHandler { goBack() } // Handle Back Presses
 
     val drawableSize = 300.dp
     val context = LocalContext.current
