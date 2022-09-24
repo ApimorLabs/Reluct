@@ -1,5 +1,6 @@
 package work.racka.reluct.android.screens.util
 
+import android.app.AlarmManager
 import android.app.AppOpsManager
 import android.content.Context
 import android.content.Intent
@@ -26,6 +27,12 @@ fun checkUsageAccessPermissions(
         )
     }
     return mode == AppOpsManager.MODE_ALLOWED
+}
+
+fun Context.canScheduleAlarms(): Boolean {
+    val alarm = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
+        alarm.canScheduleExactAlarms() else true
 }
 
 fun requestUsageAccessPermission(context: Context) {
