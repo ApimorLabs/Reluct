@@ -1,6 +1,11 @@
 package work.racka.reluct.android.screens.onboarding
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -13,7 +18,7 @@ import work.racka.reluct.common.features.onboarding.states.OnBoardingPages
 import work.racka.reluct.common.features.onboarding.states.OnBoardingState
 import work.racka.reluct.common.features.onboarding.states.PermissionType
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
 @Composable
 fun OnBoardingUI(
     modifier: Modifier = Modifier,
@@ -37,15 +42,16 @@ fun OnBoardingUI(
             )
         }
     ) { innerPadding ->
-        Box(
+        AnimatedContent(
+            targetState = uiState.currentPage,
             modifier = Modifier
                 .statusBarsPadding()
                 .padding(innerPadding)
                 .padding(horizontal = Dimens.MediumPadding.size)
                 .fillMaxSize(),
             contentAlignment = Alignment.Center
-        ) {
-            when (uiState.currentPage) {
+        ) { targetState ->
+            when (targetState) {
                 is OnBoardingPages.Welcome -> {
                     WelcomePage()
                 }
