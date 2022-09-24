@@ -46,10 +46,16 @@ class MainActivity : ComponentActivity() {
                 }
             }
             SideEffect {
-                systemUiController.setStatusBarColor(
-                    darkIcons = useDarkIcons.value,
-                    color = Color.Transparent
-                )
+                systemUiController.apply {
+                    setStatusBarColor(
+                        darkIcons = useDarkIcons.value,
+                        color = Color.Transparent
+                    )
+                    setNavigationBarColor(
+                        darkIcons = useDarkIcons.value,
+                        color = Color.Transparent
+                    )
+                }
             }
             ReluctMainCompose(themeValue = themeValue)
         }
