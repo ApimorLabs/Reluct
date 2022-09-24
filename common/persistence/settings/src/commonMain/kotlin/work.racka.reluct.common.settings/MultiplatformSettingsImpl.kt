@@ -30,6 +30,8 @@ internal class MultiplatformSettingsImpl(
         _themeFlow.tryEmit(readThemeSettings())
         _focusMode.tryEmit(readFocusMode())
         _doNotDisturb.tryEmit(readDoNotDisturb())
+        _onBoardingShown.tryEmit(readOnBoardingShown())
+        _savedVersionCode.tryEmit(readSavedVersionCode())
     }
 
     override fun saveThemeSettings(value: Int): Boolean {
