@@ -1,5 +1,10 @@
 package work.racka.reluct.android.screens.onboarding.pages
 
+import android.Manifest
+import android.os.Build
+import android.widget.Toast
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -9,9 +14,10 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -23,6 +29,8 @@ import work.racka.reluct.android.screens.R
 import work.racka.reluct.android.screens.onboarding.components.PermissionStatusCard
 import work.racka.reluct.android.screens.util.BackPressHandler
 import work.racka.reluct.android.screens.util.PermissionCheckHandler
+import work.racka.reluct.android.screens.util.areNotificationsEnabled
+import work.racka.reluct.android.screens.util.openAppNotificationSettings
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -35,12 +43,26 @@ internal fun NotificationsPage(
     BackPressHandler { goBack() } // Handle Back Presses
 
     val drawableSize = 300.dp
+    val context = LocalContext.current
+    var permissionTries by remember { mutableStateOf(1) }
 
     PermissionCheckHandler {
         if (!isGranted) {
-            updatePermissionCheck(true) // TODO: DO Actual Check Here
+            updatePermissionCheck(context.areNotificationsEnabled())
         }
     }
+
+    val launcher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.RequestPermission(),
+        onResult = { granted ->
+            updatePermissionCheck(granted)
+            if (granted.not()) {
+                permissionTries++
+                Toast.makeText(context, "Retry requesting the Permission", Toast.LENGTH_SHORT)
+                    .show()
+            }
+        }
+    )
 
     LazyColumn(
         modifier = Modifier
@@ -81,7 +103,17 @@ internal fun NotificationsPage(
                 isGranted = isGranted
             ) {
                 if (!isGranted) {
-                    // TODO: Request Permission
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                        if (permissionTries <= 2) {
+                            launcher.launch(Manifest.permission.POST_NOTIFICATIONS)
+                        } else {
+                            // Open settings when user tries more than twice
+                            context.openAppNotificationSettings()
+                        }
+                    } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        // Open Notification Settings directly for older versions
+                        context.openAppNotificationSettings()
+                    }
                 }
             }
         }
