@@ -42,9 +42,9 @@ object LimitsHelpers {
         }
 
     fun LimitsTableQueries.getAppFromDb(packageName: String) =
-        this.getApp(packageName) { packageName, timeLimit, isADistractingApp, isPaused, overridden ->
+        this.getApp(packageName) { name, timeLimit, isADistractingApp, isPaused, overridden ->
             limitsDbObjectMapper(
-                packageName = packageName,
+                packageName = name,
                 timeLimit = timeLimit,
                 isADistractingApp = isADistractingApp,
                 isPaused = isPaused,

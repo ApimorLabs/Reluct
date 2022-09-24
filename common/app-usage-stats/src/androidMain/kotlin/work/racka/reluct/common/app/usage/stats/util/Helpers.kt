@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import android.graphics.drawable.Drawable
+import android.os.Build
 import timber.log.Timber
 import work.racka.reluct.common.app.usage.stats.R
 import work.racka.reluct.common.model.domain.core.Icon
@@ -31,7 +32,17 @@ internal fun getAppName(context: Context, packageName: String): String {
         val newContext =
             context.createPackageContext(packageName, Context.CONTEXT_IGNORE_SECURITY)
         val packageManager = newContext.packageManager
-        val appInfo = packageManager.getApplicationInfo(packageName, PackageManager.GET_META_DATA)
+        val appInfo = packageManager.run {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                getApplicationInfo(
+                    packageName,
+                    PackageManager.ApplicationInfoFlags.of(PackageManager.GET_META_DATA.toLong())
+                )
+            } else {
+                @Suppress("DEPRECATION")
+                packageManager.getApplicationInfo(packageName, PackageManager.GET_META_DATA)
+            }
+        }
         appName = packageManager.getApplicationLabel(appInfo).toString()
     } catch (e: PackageManager.NameNotFoundException) {
         Timber.d("Package Name not found")
@@ -46,7 +57,15 @@ internal fun isSystemApp(context: Context, packageName: String): Boolean {
     val newContext =
         context.createPackageContext(packageName, Context.CONTEXT_IGNORE_SECURITY)
     val packageManager = newContext.packageManager
-    val appInfo = packageManager.getApplicationInfo(packageName, PackageManager.GET_META_DATA)
+    val appInfo = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        packageManager.getApplicationInfo(
+            packageName,
+            PackageManager.ApplicationInfoFlags.of(PackageManager.GET_META_DATA.toLong())
+        )
+    } else {
+        @Suppress("DEPRECATION")
+        packageManager.getApplicationInfo(packageName, PackageManager.GET_META_DATA)
+    }
     return appInfo.flags == ApplicationInfo.FLAG_SYSTEM
 }
 
