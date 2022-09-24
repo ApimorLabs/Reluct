@@ -30,7 +30,7 @@ internal fun ThemesPage(
     onSelectTheme: (themeValue: Int) -> Unit
 ) {
 
-    val drawableSize = 300.dp
+    val drawableSize = 250.dp
 
     LazyColumn(
         modifier = Modifier
@@ -52,8 +52,7 @@ internal fun ThemesPage(
         item {
             Image(
                 modifier = Modifier
-                    .size(drawableSize)
-                    .padding(Dimens.MediumPadding.size),
+                    .size(drawableSize),
                 painter = painterResource(id = R.drawable.theme_change),
                 contentDescription = null
             )
