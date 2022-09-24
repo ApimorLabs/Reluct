@@ -13,6 +13,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -23,6 +24,7 @@ fun ListGroupHeadingHeader(
     modifier: Modifier = Modifier,
     text: String,
     textStyle: TextStyle = MaterialTheme.typography.headlineSmall,
+    textAlign: TextAlign = TextAlign.Start,
     containerColor: Color = MaterialTheme.colorScheme.background,
     contentColor: Color = MaterialTheme.colorScheme.onBackground,
     shape: Shape = RectangleShape,
@@ -34,14 +36,14 @@ fun ListGroupHeadingHeader(
         contentColor = contentColor,
         tonalElevation = tonalElevation
     ) {
-        Box(
-            modifier = Modifier.fillMaxWidth(),
-            contentAlignment = Alignment.CenterStart
-        ) {
+        Box(contentAlignment = Alignment.Center) {
             Text(
-                modifier = modifier.padding(Dimens.SmallPadding.size),
+                modifier = modifier
+                    .fillMaxWidth()
+                    .padding(Dimens.SmallPadding.size),
                 text = text,
                 style = textStyle,
+                textAlign = textAlign,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
                 color = contentColor

@@ -158,4 +158,14 @@
     <string name="themes_desc_text">Select Your Preferred Theme Configuration</string>
     <string name="all_set_text">All Set!</string>
     <string name="all_set_desc_text">Everything has been set up. You can continue!</string>
+
+    <!--  Theme Names and Description  -->
+    <string name="default_theme_system">Default - Follow System</string>
+    <string name="default_theme_system_desc">Follow Device Settings</string>
+    <string name="material_you_theme_text">Material You</string>
+    <string name="material_you_theme_text_desc">Android 12+ Dynamic Theme</string>
+    <string name="light_theme_text">Light Theme</string>
+    <string name="light_theme_text_desc">See the Light within!</string>
+    <string name="dark_theme_text">Dark Theme</string>
+    <string name="dark_theme_text_desc">Join the Dark side!</string>
 </resources>

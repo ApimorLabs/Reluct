@@ -97,8 +97,11 @@ fun OnBoardingUI(
                         }
                     )
                 }
+                is OnBoardingPages.Themes -> {
+                    ThemesPage(selectedTheme = uiState.currentThemeValue, onSelectTheme = saveTheme)
+                }
                 else -> {
-                    Text(text = "Others")
+                    Text(text = "Done")
                 }
             }
         }
