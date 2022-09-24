@@ -125,7 +125,9 @@
     <string name="usage_permissions_details">This app needs access to your device\'s Usage Statistics to show Screen Time Usage Data.
         This data is not shared to anyone else! Please review our Privacy Policy regarding this. </string>
     <string name="usage_permissions_rationale_dialog_text">You are about to be sent to the Usage Access permissions
-    screen. Please select the Reluct app and allow Usage Access to see your Screen Time</string>
+    screen. Please select the Reluct app and Allow Usage Access to see your Screen Time</string>
+    <string name="overlay_permissions_rationale_dialog_text">You are about to be sent to the Display Over Other Apps settings
+    screen. Please select the Reluct app and Allow it to Display Over Other Apps to block distracting and paused apps</string>
     <string name="allow_permission">Allow</string>
     <string name="click_to_grant_text">Click to Grant Permission</string>
     <string name="permission_granted_text">Permission Granted</string>
