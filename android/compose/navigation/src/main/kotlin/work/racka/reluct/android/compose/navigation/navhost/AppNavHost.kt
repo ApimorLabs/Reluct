@@ -67,8 +67,7 @@ fun AppNavHost(modifier: Modifier = Modifier) {
                 OnBoardingScreen(
                     navigateHome = {
                         navController.navigate(NavbarDestinations.Dashboard.route) {
-                            popUpTo(NavbarDestinations.Dashboard.route) { inclusive = false }
-                            launchSingleTop = true
+                            popUpTo(OnBoardingDestination.route) { inclusive = true }
                         }
                     }
                 )
