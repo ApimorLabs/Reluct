@@ -9,4 +9,8 @@ interface MultiplatformSettings {
     fun saveFocusMode(value: Boolean): Boolean
     val doNoDisturb: Flow<Boolean>
     fun saveDoNotDisturb(value: Boolean): Boolean
+    val savedVersionCode: Flow<Int>
+    fun saveVersionCode(value: Int): Boolean
+    val onBoardingShown: Flow<Boolean>
+    fun saveOnBoardingShown(value: Boolean): Boolean
 }

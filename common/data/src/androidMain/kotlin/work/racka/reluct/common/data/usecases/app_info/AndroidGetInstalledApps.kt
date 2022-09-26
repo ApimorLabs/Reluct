@@ -3,6 +3,7 @@ package work.racka.reluct.common.data.usecases.app_info
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.PackageManager
+import android.os.Build
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -17,7 +18,17 @@ internal class AndroidGetInstalledApps(
 
     @SuppressLint("QueryPermissionsNeeded")
     override suspend fun invoke(): List<AppInfo> = withContext(dispatcher) {
-        packageManager.getInstalledApplications(PackageManager.GET_META_DATA).filter {
+        val installedApps = packageManager.run {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                getInstalledApplications(
+                    PackageManager.ApplicationInfoFlags.of(PackageManager.GET_META_DATA.toLong())
+                )
+            } else {
+                @Suppress("DEPRECATION")
+                getInstalledApplications(PackageManager.GET_META_DATA)
+            }
+        }
+        installedApps.filter {
             hasMainActivity(context = context, packageName = it.packageName)
         }.map {
             AppInfo(

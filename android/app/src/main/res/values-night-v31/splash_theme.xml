@@ -2,14 +2,14 @@
 <resources>
 
     <style name="Theme.AppSplash" parent="Theme.SplashScreen">
-        <item name="windowSplashScreenBackground">@color/backgroundDarkColor</item>
-        <item name="windowSplashScreenAnimationDuration">800</item>
+        <item name="windowSplashScreenBackground">@color/ic_launcher_background</item>
+        <item name="windowSplashScreenAnimationDuration">900</item>
         <item name="postSplashScreenTheme">@style/Theme.ReluctTheme</item>
 
         <item name="android:windowLightStatusBar">false</item>
 
         <!-- API 31+ specific attributes -->
-        <item name="windowSplashScreenAnimatedIcon">@drawable/animated_icon</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/splash_icon_anim</item>
         <item name="android:windowSplashScreenBrandingImage">@drawable/branding_image_layer_list
         </item>
     </style>

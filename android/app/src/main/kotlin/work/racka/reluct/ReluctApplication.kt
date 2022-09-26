@@ -1,13 +1,18 @@
 package work.racka.reluct
 
 import android.app.Application
-import org.koin.android.ext.android.inject
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.launch
+import org.koin.android.ext.android.get
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.logger.Level
 import timber.log.Timber
 import work.racka.reluct.common.di.intergration.KoinMain
 import work.racka.reluct.common.features.screen_time.services.ScreenTimeServices
+import work.racka.reluct.common.settings.MultiplatformSettings
 
 class ReluctApplication : Application() {
     override fun onCreate() {
@@ -18,9 +23,17 @@ class ReluctApplication : Application() {
             androidLogger(if (BuildConfig.DEBUG) Level.ERROR else Level.NONE)
             androidContext(this@ReluctApplication)
         }
-        //ServiceStarter.startService(applicationContext)
-        val screenTimeServices: ScreenTimeServices by inject()
-        screenTimeServices.startLimitsService()
+
+        val scope = MainScope()
+        val settings: MultiplatformSettings = get()
+        scope.launch {
+            val canContinue = settings.onBoardingShown.firstOrNull()
+            if (canContinue == true) {
+                val screenTimeServices: ScreenTimeServices = get()
+                screenTimeServices.startLimitsService()
+            }
+            scope.cancel()
+        }
 
         Timber.plant(Timber.DebugTree())
     }

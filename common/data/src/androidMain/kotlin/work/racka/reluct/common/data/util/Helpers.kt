@@ -3,6 +3,7 @@ package work.racka.reluct.common.data.util
 import android.content.Context
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
+import android.os.Build
 
 // Used to filter out apps. If an app has a main activity then it is probably not an that we
 // need when taking screen time usage.
@@ -21,7 +22,16 @@ internal fun hasSystemFlag(
 ): Boolean = if (appInfo != null) {
     appInfo.flags == ApplicationInfo.FLAG_SYSTEM
 } else {
-    val applicationInfo = context.packageManager
-        .getApplicationInfo(packageName, PackageManager.GET_META_DATA)
+    val applicationInfo = context.packageManager.run {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            getApplicationInfo(
+                packageName,
+                PackageManager.ApplicationInfoFlags.of(PackageManager.GET_META_DATA.toLong())
+            )
+        } else {
+            @Suppress("DEPRECATION")
+            getApplicationInfo(packageName, PackageManager.GET_META_DATA)
+        }
+    }
     applicationInfo.flags == ApplicationInfo.FLAG_SYSTEM
 }

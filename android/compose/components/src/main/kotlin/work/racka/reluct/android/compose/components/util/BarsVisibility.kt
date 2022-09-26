@@ -97,15 +97,20 @@ private class BarsStates(
  * A remember function for [BarsVisibility]. It survives configuration changes
  * It should be used at the top level Composable or where the root NavHost is located
  * and should be passed down to child Composables as needed.
+ * [defaultTopBar] sets default visibility for Top Bar when the function is called
+ * [defaultBottomBar] sets default visibility for Bottom Bar when the function is called
  */
 @Composable
-fun rememberBarVisibility(): BarsVisibility {
+fun rememberBarVisibility(
+    defaultTopBar: Boolean = true,
+    defaultBottomBar: Boolean = false
+): BarsVisibility {
     val topBarState = rememberSaveable(
         saver = defaultBarVisibilityStateSaver()
-    ) { DefaultBarVisibilityState() }
+    ) { DefaultBarVisibilityState(defaultVisibility = defaultTopBar) }
     val bottomBarState = rememberSaveable(
         saver = defaultBarVisibilityStateSaver()
-    ) { DefaultBarVisibilityState() }
+    ) { DefaultBarVisibilityState(defaultVisibility = defaultBottomBar) }
     val statusBarState = rememberSaveable(
         saver = defaultBarVisibilityStateSaver()
     ) { DefaultBarVisibilityState() }

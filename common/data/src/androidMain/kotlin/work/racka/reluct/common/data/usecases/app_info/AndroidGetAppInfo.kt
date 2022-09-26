@@ -3,6 +3,7 @@ package work.racka.reluct.common.data.usecases.app_info
 import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.drawable.Drawable
+import android.os.Build
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -34,8 +35,15 @@ internal class AndroidGetAppInfo(
             val newContext =
                 context.createPackageContext(packageName, Context.CONTEXT_IGNORE_SECURITY)
             val packageManager = newContext.packageManager
-            val appInfo =
+            val appInfo = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                packageManager.getApplicationInfo(
+                    packageName,
+                    PackageManager.ApplicationInfoFlags.of(PackageManager.GET_META_DATA.toLong())
+                )
+            } else {
+                @Suppress("DEPRECATION")
                 packageManager.getApplicationInfo(packageName, PackageManager.GET_META_DATA)
+            }
             appName = packageManager.getApplicationLabel(appInfo).toString()
         } catch (e: PackageManager.NameNotFoundException) {
             println("Package Name not found: $packageName")
