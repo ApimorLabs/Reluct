@@ -2,7 +2,6 @@ package work.racka.reluct.common.system_service.notifications
 
 import android.annotation.SuppressLint
 import android.app.NotificationChannel
-import android.os.Build
 import androidx.core.app.NotificationManagerCompat
 
 data class NotificationChannelInfo(
@@ -17,16 +16,14 @@ fun NotificationChannelInfo.createNotificationChannel(
     notificationManager: NotificationManagerCompat,
     showBadge: Boolean = true
 ) {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-        val channel = NotificationChannel(
-            this.channelId,
-            this.name,
-            this.importance
-        ).apply {
-            description = this.description
-            setShowBadge(showBadge)
-        }
-        // Register the channel with the system
-        notificationManager.createNotificationChannel(channel)
+    val channel = NotificationChannel(
+        this.channelId,
+        this.name,
+        this.importance
+    ).apply {
+        description = this.description
+        setShowBadge(showBadge)
     }
+    // Register the channel with the system
+    notificationManager.createNotificationChannel(channel)
 }

@@ -1,5 +1,7 @@
 import org.jetbrains.kotlin.konan.properties.Properties
 
+val desugaringVersion = "1.1.8"
+
 plugins {
     kotlin("android")
     id("com.android.application")
@@ -45,6 +47,7 @@ android {
         }
     }
     compileOptions {
+        isCoreLibraryDesugaringEnabled = true
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
@@ -71,6 +74,9 @@ android {
 }
 
 dependencies {
+    // Desugraing
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:$desugaringVersion")
+
     // Dependency Modules
     implementation(project(":android:compose:navigation"))
     implementation(project(":android:compose:theme"))
