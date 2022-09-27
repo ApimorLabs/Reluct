@@ -90,16 +90,11 @@ internal class AndroidHapticFeedback(private val context: Context) : HapticFeedb
         } else {
             @Suppress("DEPRECATION")
             val vibrator = context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                if (vibrationEffect == null) {
-                    val effect = VibrationEffect
-                        .createOneShot(durationMillis, VibrationEffect.DEFAULT_AMPLITUDE)
-                    vibrator.vibrate(effect)
-                } else vibrator.vibrate(vibrationEffect)
-            } else {
-                @Suppress("DEPRECATION")
-                vibrator.vibrate(durationMillis)
-            }
+            if (vibrationEffect == null) {
+                val effect = VibrationEffect
+                    .createOneShot(durationMillis, VibrationEffect.DEFAULT_AMPLITUDE)
+                vibrator.vibrate(effect)
+            } else vibrator.vibrate(vibrationEffect)
         }
     }
 }
