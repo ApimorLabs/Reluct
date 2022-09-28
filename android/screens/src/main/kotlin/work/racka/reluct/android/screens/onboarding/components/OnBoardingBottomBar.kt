@@ -2,14 +2,17 @@ package work.racka.reluct.android.screens.onboarding.components
 
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.Text
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import work.racka.reluct.android.compose.components.buttons.OutlinedReluctButton
 import work.racka.reluct.android.compose.components.buttons.ReluctButton
+import work.racka.reluct.android.compose.components.textfields.texts.HighlightTextProps
+import work.racka.reluct.android.compose.components.textfields.texts.HyperlinkText
 import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.android.screens.R
 import work.racka.reluct.common.features.onboarding.states.OnBoardingPages
@@ -116,9 +119,24 @@ internal fun OnBoardingBottomBar(
         verticalArrangement = Arrangement.spacedBy(Dimens.MediumPadding.size),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        // Put Text
+        // Privacy Policy and Terms of Service
         if (uiState.currentPage is OnBoardingPages.Welcome) {
-            Text(text = "Privacy Policy and Terms of Service", textAlign = TextAlign.Center)
+            HyperlinkText(
+                fullText = stringResource(id = R.string.privacy_policy_terms_text),
+                textAlign = TextAlign.Center,
+                hyperLinks = listOf(
+                    HighlightTextProps(
+                        text = stringResource(id = R.string.privacy_policy_hyperlink_text),
+                        url = stringResource(id = R.string.privacy_policy_hyperlink_url),
+                        color = MaterialTheme.colorScheme.primary
+                    ),
+                    HighlightTextProps(
+                        text = stringResource(id = R.string.terms_of_service_hyperlink_text),
+                        url = stringResource(id = R.string.terms_of_service_hyperlink_url),
+                        color = MaterialTheme.colorScheme.primary
+                    )
+                )
+            )
         }
 
         Row(

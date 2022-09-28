@@ -141,6 +141,15 @@
 
     <!--  On Boarding Text  -->
     <string name="welcome_text">Manage your Tasks and Goals while keeping an eye on your phone usage habits</string>
+    <string name="tasks_highlight_text">Tasks</string>
+    <string name="goals_highlight_text">Goals</string>
+
+    <string name="privacy_policy_terms_text">By continuing you are Agreeing with the Privacy Policy and Terms of Service</string>
+    <string name="privacy_policy_hyperlink_text">Privacy Policy</string>
+    <string name="privacy_policy_hyperlink_url" translatable="false">https://google.com</string>
+    <string name="terms_of_service_hyperlink_text">Terms of Service</string>
+    <string name="terms_of_service_hyperlink_url" translatable="false">https://google.com</string>
+
     <string name="permissions_text">Permissions</string>
     <string name="permissions_desc_text">We need some permissions on this device for the App to function properly.
         Press Next to continue</string>
