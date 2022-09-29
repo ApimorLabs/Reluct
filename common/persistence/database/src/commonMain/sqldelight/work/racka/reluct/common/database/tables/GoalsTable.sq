@@ -1,3 +1,39 @@
+import kotlin.collections.List;
+import kotlin.ranges.LongRange;
+import work.racka.reluct.common.model.domain.goals.GoalInterval;
+import work.racka.reluct.common.model.domain.goals.GoalType;
+import work.racka.reluct.common.model.util.time.Week;
+
 CREATE TABLE GoalsTable (
-id INTEGER NOT NULL PRIMARY KEY
+id TEXT NOT NULL PRIMARY KEY,
+name TEXT NOT NULL,
+isActive INTEGER AS Boolean DEFAULT 0 NOT NULL,
+relatedApps TEXT AS List<String> NOT NULL,
+targetValue INTEGER NOT NULL,
+currentValue INTEGER NOT NULL,
+goalInterval TEXT AS GoalInterval NOT NULL,
+timeInteval TEXT AS LongRange DEFAULT NULL,
+daysOfWeekSelected TEXT AS List<Week>,
+goalType TEXT AS GoalType
 );
+
+insertGoal:
+INSERT OR REPLACE INTO GoalsTable(
+id,
+name,
+isActive,
+relatedApps,
+targetValue,
+currentValue,
+goalInterval,
+timeInteval,
+daysOfWeekSelected,
+goalType
+) VALUES ?;
+
+getAllGoals:
+SELECT * FROM GoalsTable;
+
+getActiveGoals:
+SELECT * FROM GoalsTable
+WHERE isActive = 1;
