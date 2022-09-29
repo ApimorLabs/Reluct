@@ -1,5 +1,9 @@
 <resources>
     <string name="app_name">Reluct</string>
+    <string name="developer_name">Racka Apps</string>
+    <string name="copyright_year">© 2022</string>
+    <string name="app_version">App Version: %1$s</string>
+
     <string name="next_text">Next</string>
     <string name="back_text">Back</string>
     <string name="continue_text">Continue</string>
@@ -17,7 +21,7 @@
     <string name="close_icon">Close</string>
     <string name="app_logo">Application Logo</string>
     <string name="profile_picture">Profile Picture</string>
-    <string name="made_with_text">Made with ❤️ from Tanzania 🇹🇿</string>
+    <string name="made_with_text">Made with ❤️from Tanzania 🇹🇿</string>
 
     <!-- Navigation Destination Names    -->
     <string name="dashboard_destination_text">Dashboard</string>
@@ -138,6 +142,10 @@
     <string name="today_tasks_text">Today\'s Tasks</string>
     <string name="upcoming_tasks_text">Upcoming Tasks</string>
     <string name="view_all_text">View All</string>
+
+    <!-- Settings  -->
+    <string name="settings_text">Settings</string>
+    <!-- Settings END  -->
 
     <!--  On Boarding Text  -->
     <string name="welcome_text">Manage your Tasks and Goals while keeping an eye on your phone usage habits</string>

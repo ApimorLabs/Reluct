@@ -70,6 +70,13 @@ subprojects {
                     useSupportLibrary = true
                 }
 
+                // So you can get the currently assigned App Version from your modules
+                buildConfigField(
+                    "String",
+                    "appVersionName",
+                    "\"${AppConfig.versionName}\""
+                )
+
             }
 
             buildTypes {
