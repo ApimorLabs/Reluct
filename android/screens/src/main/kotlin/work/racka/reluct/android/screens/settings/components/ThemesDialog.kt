@@ -19,8 +19,6 @@ import work.racka.reluct.android.compose.components.cards.headers.ListGroupHeadi
 import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.android.compose.theme.Shapes
 import work.racka.reluct.android.screens.R
-import work.racka.reluct.android.screens.onboarding.components.ThemeSelectCard
-import work.racka.reluct.android.screens.onboarding.components.getThemes
 
 @Composable
 fun ThemesDialog(

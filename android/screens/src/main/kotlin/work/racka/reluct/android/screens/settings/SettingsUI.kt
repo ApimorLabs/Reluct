@@ -24,7 +24,7 @@ import work.racka.reluct.common.features.settings.states.SettingsState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SettingsUI(
+internal fun SettingsUI(
     modifier: Modifier = Modifier,
     snackbarHostState: SnackbarHostState,
     uiState: SettingsState,

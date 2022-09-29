@@ -18,8 +18,8 @@ import androidx.compose.ui.unit.sp
 import work.racka.reluct.android.compose.components.cards.headers.ListGroupHeadingHeader
 import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.android.screens.R
-import work.racka.reluct.android.screens.onboarding.components.ThemeSelectCard
-import work.racka.reluct.android.screens.onboarding.components.getThemes
+import work.racka.reluct.android.screens.settings.components.ThemeSelectCard
+import work.racka.reluct.android.screens.settings.components.getThemes
 import work.racka.reluct.android.screens.util.BackPressHandler
 
 @OptIn(ExperimentalFoundationApi::class)

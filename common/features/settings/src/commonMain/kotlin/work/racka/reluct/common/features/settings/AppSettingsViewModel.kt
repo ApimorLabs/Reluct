@@ -9,7 +9,7 @@ import work.racka.reluct.common.features.settings.states.SettingsEvents
 import work.racka.reluct.common.features.settings.states.SettingsState
 import work.racka.reluct.common.settings.MultiplatformSettings
 
-internal class AppSettingsViewModel(
+class AppSettingsViewModel(
     private val settings: MultiplatformSettings
 ) : CommonViewModel() {
 

@@ -1,4 +1,4 @@
-package work.racka.reluct.android.screens.onboarding.components
+package work.racka.reluct.android.screens.settings.components
 
 import androidx.annotation.StringRes
 import androidx.compose.animation.animateColorAsState
