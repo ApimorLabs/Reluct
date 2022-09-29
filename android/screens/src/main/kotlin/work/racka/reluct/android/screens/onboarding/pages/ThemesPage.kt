@@ -17,10 +17,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import work.racka.reluct.android.compose.components.cards.headers.ListGroupHeadingHeader
 import work.racka.reluct.android.compose.theme.Dimens
-import work.racka.reluct.android.compose.theme.Theme
 import work.racka.reluct.android.screens.R
-import work.racka.reluct.android.screens.onboarding.components.ThemeHolder
-import work.racka.reluct.android.screens.onboarding.components.ThemeSelectCard
+import work.racka.reluct.android.screens.settings.components.ThemeSelectCard
+import work.racka.reluct.android.screens.settings.components.getThemes
 import work.racka.reluct.android.screens.util.BackPressHandler
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -69,7 +68,7 @@ internal fun ThemesPage(
             )
         }
 
-        items(items = themes) { item ->
+        items(items = getThemes()) { item ->
             ThemeSelectCard(
                 themeData = item,
                 isSelected = item.theme.themeValue == selectedTheme,
@@ -78,26 +77,3 @@ internal fun ThemesPage(
         }
     }
 }
-
-private val themes = arrayOf(
-    ThemeHolder(
-        theme = Theme.FOLLOW_SYSTEM,
-        themeNameResId = R.string.default_theme_system,
-        themeDescriptionResId = R.string.default_theme_system_desc
-    ),
-    ThemeHolder(
-        theme = Theme.MATERIAL_YOU,
-        themeNameResId = R.string.material_you_theme_text,
-        themeDescriptionResId = R.string.material_you_theme_text_desc
-    ),
-    ThemeHolder(
-        theme = Theme.LIGHT_THEME,
-        themeNameResId = R.string.light_theme_text,
-        themeDescriptionResId = R.string.light_theme_text_desc
-    ),
-    ThemeHolder(
-        theme = Theme.DARK_THEME,
-        themeNameResId = R.string.dark_theme_text,
-        themeDescriptionResId = R.string.dark_theme_text_desc
-    )
-)

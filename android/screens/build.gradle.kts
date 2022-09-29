@@ -23,6 +23,7 @@ dependencies {
     implementation(project(":common:features:dashboard"))
     implementation(project(":common:features:onboarding"))
     implementation(project(":common:features:screen-time"))
+    implementation(project(":common:features:settings"))
     implementation(project(":common:features:tasks"))
 
     // Core Functionality

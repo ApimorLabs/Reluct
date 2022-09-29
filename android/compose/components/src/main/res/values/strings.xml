@@ -1,5 +1,9 @@
 <resources>
     <string name="app_name">Reluct</string>
+    <string name="developer_name">Racka Apps</string>
+    <string name="copyright_year">© 2022</string>
+    <string name="app_version">App Version: %1$s</string>
+
     <string name="next_text">Next</string>
     <string name="back_text">Back</string>
     <string name="continue_text">Continue</string>
@@ -105,6 +109,10 @@
     <string name="turn_on_focus_desc">Block Distracting Apps from opening</string>
     <string name="turn_on_dnd">Turn On Do Not Disturb</string>
     <string name="turn_on_dnd_desc">Enable Do Not Disturb when Focus Mode is ON</string>
+    <string name="dnd_on_msg">Do not Disturb will be turned on with Focus Mode</string>
+    <string name="dnd_off_msg">Do not Disturb will not engage with Focus Mode</string>
+    <string name="focus_mode_on_msg">Focus Mode turned on</string>
+    <string name="focus_mode_off_msg">Focus Mode turned off</string>
     <string name="manage_distracting_apps">Manage Distracting Apps</string>
     <string name="manage_distracting_apps_desc">Configure your Distracting Apps</string>
     <string name="manually_pause_apps">Manually Pause Apps</string>
@@ -139,6 +147,10 @@
     <string name="upcoming_tasks_text">Upcoming Tasks</string>
     <string name="view_all_text">View All</string>
 
+    <!-- Settings  -->
+    <string name="settings_text">Settings</string>
+    <!-- Settings END  -->
+
     <!--  On Boarding Text  -->
     <string name="welcome_text">Manage your Tasks and Goals while keeping an eye on your phone usage habits</string>
     <string name="tasks_highlight_text">Tasks</string>
@@ -166,6 +178,7 @@
     <string name="display_over_apps_desc_text">Overlay (Display over other Apps) permission needed to block Distracting and Paused Apps so you can focus on your Tasks.
         Allow Display Over other App Permission</string>
     <string name="themes_text">Themes</string>
+    <string name="themes_changed_text">Theme has been changed</string>
     <string name="themes_desc_text">Select Your Preferred Theme Configuration</string>
     <string name="all_set_text">All Set!</string>
     <string name="all_set_desc_text">Everything has been set up. You can continue!</string>

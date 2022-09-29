@@ -1,4 +1,4 @@
-package work.racka.reluct.android.screens.onboarding.components
+package work.racka.reluct.android.screens.settings.components
 
 import androidx.annotation.StringRes
 import androidx.compose.animation.animateColorAsState
@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import work.racka.reluct.android.compose.components.cards.card_with_actions.ReluctDescriptionCard
 import work.racka.reluct.android.compose.theme.Theme
+import work.racka.reluct.android.screens.R
 
 @Composable
 internal fun ThemeSelectCard(
@@ -55,4 +56,27 @@ internal data class ThemeHolder(
     val theme: Theme,
     @StringRes val themeNameResId: Int,
     @StringRes val themeDescriptionResId: Int,
+)
+
+internal fun getThemes() = arrayOf(
+    ThemeHolder(
+        theme = Theme.FOLLOW_SYSTEM,
+        themeNameResId = R.string.default_theme_system,
+        themeDescriptionResId = R.string.default_theme_system_desc
+    ),
+    ThemeHolder(
+        theme = Theme.MATERIAL_YOU,
+        themeNameResId = R.string.material_you_theme_text,
+        themeDescriptionResId = R.string.material_you_theme_text_desc
+    ),
+    ThemeHolder(
+        theme = Theme.LIGHT_THEME,
+        themeNameResId = R.string.light_theme_text,
+        themeDescriptionResId = R.string.light_theme_text_desc
+    ),
+    ThemeHolder(
+        theme = Theme.DARK_THEME,
+        themeNameResId = R.string.dark_theme_text,
+        themeDescriptionResId = R.string.dark_theme_text_desc
+    )
 )

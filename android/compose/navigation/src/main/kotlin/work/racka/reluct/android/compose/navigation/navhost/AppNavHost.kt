@@ -29,9 +29,15 @@ import work.racka.reluct.android.compose.navigation.navhost.graphs.goals.goalsNa
 import work.racka.reluct.android.compose.navigation.navhost.graphs.screentime.ScreenTimeNavHost
 import work.racka.reluct.android.compose.navigation.navhost.graphs.screentime.appScreenTimeStatsNavGraph
 import work.racka.reluct.android.compose.navigation.navhost.graphs.tasks.TasksNavHost
+import work.racka.reluct.android.compose.navigation.transitions.scaleInEnterTransition
+import work.racka.reluct.android.compose.navigation.transitions.scaleInPopEnterTransition
+import work.racka.reluct.android.compose.navigation.transitions.scaleOutExitTransition
+import work.racka.reluct.android.compose.navigation.transitions.scaleOutPopExitTransition
 import work.racka.reluct.android.compose.navigation.util.SettingsCheck
 import work.racka.reluct.android.screens.onboarding.OnBoardingScreen
+import work.racka.reluct.android.screens.settings.SettingsScreen
 import work.racka.reluct.common.core_navigation.compose_destinations.onboarding.OnBoardingDestination
+import work.racka.reluct.common.core_navigation.compose_destinations.settings.SettingsDestination
 import work.racka.reluct.common.core_navigation.compose_destinations.tasks.PendingTasksDestination
 
 @OptIn(ExperimentalAnimationApi::class, ExperimentalMaterial3Api::class)
@@ -173,6 +179,19 @@ fun AppNavHost(modifier: Modifier = Modifier, settingsCheck: SettingsCheck?) {
 
             // Goals
             goalsNavGraph(navController)
+
+            // Settings
+            composable(
+                route = SettingsDestination.route,
+                enterTransition = { scaleInEnterTransition() },
+                exitTransition = { scaleOutExitTransition() },
+                popEnterTransition = { scaleInPopEnterTransition() },
+                popExitTransition = { scaleOutPopExitTransition() }
+            ) {
+                barsVisibility.bottomBar.hide()
+
+                SettingsScreen(goBack = navController::popBackStack)
+            }
 
             // Independent App Screen Time Stats and Limits Graph
             appScreenTimeStatsNavGraph(
