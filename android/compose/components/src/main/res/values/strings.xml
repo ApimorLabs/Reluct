@@ -21,7 +21,7 @@
     <string name="close_icon">Close</string>
     <string name="app_logo">Application Logo</string>
     <string name="profile_picture">Profile Picture</string>
-    <string name="made_with_text">Made with ❤️from Tanzania 🇹🇿</string>
+    <string name="made_with_text">Made with ❤️ from Tanzania 🇹🇿</string>
 
     <!-- Navigation Destination Names    -->
     <string name="dashboard_destination_text">Dashboard</string>

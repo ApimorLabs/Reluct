@@ -3,7 +3,11 @@ package work.racka.reluct.android.compose.navigation.navhost.graphs.dashboard
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
@@ -21,7 +25,6 @@ import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import work.racka.reluct.android.compose.components.R
-import work.racka.reluct.android.compose.components.topBar.ProfilePicture
 import work.racka.reluct.android.compose.components.topBar.ReluctPageHeading
 import work.racka.reluct.android.compose.components.util.BarsVisibility
 import work.racka.reluct.android.compose.navigation.navbar.NavbarDestinations
@@ -37,6 +40,7 @@ import work.racka.reluct.common.core_navigation.compose_destinations.dashboard.D
 import work.racka.reluct.common.core_navigation.compose_destinations.dashboard.DashboardStatsDestination
 import work.racka.reluct.common.core_navigation.compose_destinations.screentime.AppScreenTimeStatsDestination
 import work.racka.reluct.common.core_navigation.compose_destinations.screentime.ScreenTimeStatsDestination
+import work.racka.reluct.common.core_navigation.compose_destinations.settings.SettingsDestination
 import work.racka.reluct.common.core_navigation.compose_destinations.tasks.TaskDetailsDestination
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -60,7 +64,7 @@ internal fun DashboardNavHost(
         topBar = {
             DashboardScreenTopBar(
                 tabPage = tabPage,
-                profilePicUrl = "https://pbs.twimg.com/profile_images/1451052243067805698/LIEt076e_400x400.jpg",
+                //profilePicUrl = "https://pbs.twimg.com/profile_images/1451052243067805698/LIEt076e_400x400.jpg",
                 updateTabPage = {
                     navController.navigate(it.route) {
                         popUpTo(navController.graph.findStartDestination().id) {
@@ -70,6 +74,7 @@ internal fun DashboardNavHost(
                         restoreState = true
                     }
                 },
+                onSettingsClicked = { mainNavController.navigate(SettingsDestination.route) }
             )
         }
     ) { innerPadding ->
@@ -132,8 +137,9 @@ internal fun DashboardNavHost(
 @Composable
 private fun DashboardScreenTopBar(
     tabPage: DashboardTabDestination,
-    profilePicUrl: String?,
+    //profilePicUrl: String?,
     updateTabPage: (DashboardTabDestination) -> Unit,
+    onSettingsClicked: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -147,11 +153,17 @@ private fun DashboardScreenTopBar(
             modifier = Modifier.padding(horizontal = 16.dp),
             title = stringResource(id = R.string.dashboard_destination_text),
             extraItems = {
-                ProfilePicture(
+                IconButton(onClick = onSettingsClicked) {
+                    Icon(
+                        imageVector = Icons.Rounded.Settings,
+                        contentDescription = "Settings"
+                    )
+                }
+                /*ProfilePicture(
                     modifier = Modifier,//.padding(4.dp),
                     pictureUrl = profilePicUrl,
                     size = 36.dp
-                )
+                )*/
             }
         )
 
