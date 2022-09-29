@@ -41,7 +41,7 @@ fun NavGraphBuilder.otherScreenNavGraph(
         ) { navBackStackEntry ->
             barsVisibility.bottomBar.hide()
 
-            // Is safe to cast since this composable will always be inside an activity
+            // Its safe to cast since this composable will always be inside an activity
             val activity = LocalContext.current as Activity
 
             TaskDetailsScreen(
