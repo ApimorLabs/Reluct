@@ -32,8 +32,30 @@ goalType
 ) VALUES ?;
 
 getAllGoals:
-SELECT * FROM GoalsTable;
+SELECT * FROM GoalsTable
+LIMIT :factor * :limitBy;
 
 getActiveGoals:
 SELECT * FROM GoalsTable
+WHERE isActive = 1
+LIMIT :factor * :limitBy;
+
+getInactiveGoals:
+SELECT * FROM GoalsTable
+WHERE isActive = 0
+LIMIT :factor * :limitBy;
+
+deleteGoal:
+DELETE FROM GoalsTable
+WHERE id = :id;
+
+deleteAllInactiveGoals:
+DELETE FROM GoalsTable
+WHERE isActive = 0;
+
+deleteAllActiveGoals:
+DELETE FROM GoalsTable
 WHERE isActive = 1;
+
+deleteAllGoals:
+DELETE FROM GoalsTable;
