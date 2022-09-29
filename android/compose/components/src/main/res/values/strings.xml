@@ -109,8 +109,8 @@
     <string name="turn_on_focus_desc">Block Distracting Apps from opening</string>
     <string name="turn_on_dnd">Turn On Do Not Disturb</string>
     <string name="turn_on_dnd_desc">Enable Do Not Disturb when Focus Mode is ON</string>
-    <string name="dnd_on_msg">Do not Disturb will turned on</string>
-    <string name="dnd_off_msg">Do not Disturb will not engage</string>
+    <string name="dnd_on_msg">Do not Disturb will be turned on with Focus Mode</string>
+    <string name="dnd_off_msg">Do not Disturb will not engage with Focus Mode</string>
     <string name="focus_mode_on_msg">Focus Mode turned on</string>
     <string name="focus_mode_off_msg">Focus Mode turned off</string>
     <string name="manage_distracting_apps">Manage Distracting Apps</string>

@@ -65,6 +65,7 @@ internal fun SettingsUI(
         snackbarHost = {
             SnackbarHost(hostState = snackbarHostState) {
                 Snackbar(
+                    modifier = Modifier.navigationBarsPadding(),
                     snackbarData = it,
                     shape = RoundedCornerShape(10.dp),
                     containerColor = MaterialTheme.colorScheme.inverseSurface,
@@ -114,9 +115,7 @@ internal fun SettingsUI(
                     description = stringResource(R.string.turn_on_focus_desc),
                     checked = uiState.limitSettings.focusModeOn,
                     onCheckedChange = { toggleFocusMode(it) },
-                    icon = Icons.Rounded.AppBlocking,
-                    containerColor = focusModeContainerColor,
-                    contentColor = focusModeContentColor
+                    icon = Icons.Rounded.AppBlocking
                 )
             }
 
