@@ -61,6 +61,14 @@ internal class GoalsDaoImpl(
             )
             ?.asFlow()?.mapToList(dispatcher) ?: flowOf(listOf())
 
+    override suspend fun toggleGoalActiveState(id: String, isActive: Boolean) {
+        goalsTableQueries?.toggleGoalActive(isActive = isActive, id = id)
+    }
+
+    override suspend fun updateGoalCurrentValue(id: String, currentValue: Long) {
+        goalsTableQueries?.updateGoalCurrentValue(currentValue = currentValue, id = id)
+    }
+
     override suspend fun deleteGoal(id: String) {
         goalsTableQueries?.deleteGoal(id)
     }
@@ -73,7 +81,7 @@ internal class GoalsDaoImpl(
         goalsTableQueries?.deleteAllActiveGoals()
     }
 
-    override suspend fun deleteALlGoals() {
+    override suspend fun deleteAllGoals() {
         goalsTableQueries?.deleteAllGoals()
     }
 }

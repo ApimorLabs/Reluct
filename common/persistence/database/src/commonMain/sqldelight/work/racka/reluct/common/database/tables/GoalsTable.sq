@@ -51,6 +51,16 @@ SELECT * FROM GoalsTable
 WHERE isActive = 0
 LIMIT :factor * :limitBy;
 
+toggleGoalActive:
+UPDATE OR IGNORE GoalsTable
+SET isActive = :isActive
+WHERE id = :id;
+
+updateGoalCurrentValue:
+UPDATE OR IGNORE GoalsTable
+SET currentValue = :currentValue
+WHERE id = :id;
+
 deleteGoal:
 DELETE FROM GoalsTable
 WHERE id = :id;

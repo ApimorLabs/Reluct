@@ -33,11 +33,15 @@ interface GoalsDao {
      **/
     fun getInActiveGoals(factor: Long, limitBy: Long = 10): Flow<List<GoalDbObject>>
 
+    suspend fun toggleGoalActiveState(id: String, isActive: Boolean)
+
+    suspend fun updateGoalCurrentValue(id: String, currentValue: Long)
+
     suspend fun deleteGoal(id: String)
 
     suspend fun deleteAllInActiveGoals(id: String)
 
     suspend fun deleteAllActiveGoals(id: String)
 
-    suspend fun deleteALlGoals()
+    suspend fun deleteAllGoals()
 }
