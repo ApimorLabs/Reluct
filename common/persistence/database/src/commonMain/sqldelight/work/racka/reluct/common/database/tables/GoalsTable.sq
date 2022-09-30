@@ -7,6 +7,7 @@ import work.racka.reluct.common.model.util.time.Week;
 CREATE TABLE GoalsTable (
 id TEXT NOT NULL PRIMARY KEY,
 name TEXT NOT NULL,
+description TEXT NOT NULL,
 isActive INTEGER AS Boolean DEFAULT 0 NOT NULL,
 relatedApps TEXT AS List<String> NOT NULL,
 targetValue INTEGER NOT NULL,
@@ -21,6 +22,7 @@ insertGoal:
 INSERT OR REPLACE INTO GoalsTable(
 id,
 name,
+description,
 isActive,
 relatedApps,
 targetValue,
@@ -30,6 +32,10 @@ timeInteval,
 daysOfWeekSelected,
 goalType
 ) VALUES ?;
+
+getGoalById:
+SELECT 1 FROM GoalsTable
+WHERE id = :id;
 
 getAllGoals:
 SELECT * FROM GoalsTable

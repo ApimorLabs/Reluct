@@ -9,6 +9,7 @@ typealias PackageName = String
 data class GoalDbObject(
     val id: String,
     val name: String,
+    val description: String,
     val isActive: Boolean,
     val relatedApps: List<PackageName>,
     val targetValue: Long,

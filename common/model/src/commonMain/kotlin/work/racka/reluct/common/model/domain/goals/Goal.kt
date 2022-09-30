@@ -6,6 +6,7 @@ import work.racka.reluct.common.model.util.time.Week
 data class Goal(
     val id: String,
     val name: String,
+    val description: String,
     val isActive: Boolean,
     val relatedApps: List<AppInfo>,
     val targetValue: Long,
