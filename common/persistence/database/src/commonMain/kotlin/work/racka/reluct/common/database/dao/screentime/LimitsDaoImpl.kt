@@ -24,7 +24,7 @@ internal class LimitsDaoImpl(
         limitsQueries?.insertAppToDb(limit = appLimit)
     }
 
-    override suspend fun getApp(packageName: String): Flow<LimitsDbObject> =
+    override fun getApp(packageName: String): Flow<LimitsDbObject> =
         limitsQueries?.getAppFromDb(packageName = packageName)?.asFlow()
             ?.mapToOneOrDefault(
                 LimitsDbObject(
@@ -56,12 +56,12 @@ internal class LimitsDaoImpl(
                 overridden = false
             )
 
-    override suspend fun getDistractingApps(): Flow<List<LimitsDbObject>> =
+    override fun getDistractingApps(): Flow<List<LimitsDbObject>> =
         limitsQueries?.getDistractingAppsFromDb()
             ?.asFlow()
             ?.mapToList(context = dispatcher) ?: flowOf(emptyList())
 
-    override suspend fun getDistractingAppsSync(): List<LimitsDbObject> =
+    override fun getDistractingAppsSync(): List<LimitsDbObject> =
         limitsQueries?.getDistractingAppsFromDb()?.executeAsList() ?: emptyList()
 
     override suspend fun isDistractingApp(packageName: String): Boolean =
@@ -115,7 +115,7 @@ internal class LimitsDaoImpl(
         }
     }
 
-    override suspend fun getPausedApps(): Flow<List<LimitsDbObject>> =
+    override fun getPausedApps(): Flow<List<LimitsDbObject>> =
         limitsQueries?.getPausedAppsFromDb()
             ?.asFlow()
             ?.mapToList(dispatcher)

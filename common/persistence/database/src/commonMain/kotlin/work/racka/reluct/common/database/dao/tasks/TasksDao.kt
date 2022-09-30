@@ -9,19 +9,19 @@ interface TasksDao {
     fun getTask(id: String): Flow<TaskDbObject?>
 
     /**
-     * [factor] is for how much limit is applied in query. Default is 10
+     * [limitBy] is for how much limit is applied in query. Default is 10
      * [limitBy] * [factor] produces required limit applied in query
      **/
     fun searchTasks(query: String, factor: Long, limitBy: Long = 10): Flow<List<TaskDbObject>>
 
     /**
-     * [factor] is for how much limit is applied in query. Default is 10
+     * [limitBy] is for how much limit is applied in query. Default is 10
      * [limitBy] * [factor] produces required limit applied in query
      **/
     fun getPendingTasks(factor: Long, limitBy: Long = 10): Flow<List<TaskDbObject>>
 
     /**
-     * [factor] is for how much limit is applied in query. Default is 10
+     * [limitBy] is for how much limit is applied in query. Default is 10
      * [limitBy] * [factor] produces required limit applied in query
      **/
     fun getCompletedTasks(factor: Long, limitBy: Long = 10): Flow<List<TaskDbObject>>

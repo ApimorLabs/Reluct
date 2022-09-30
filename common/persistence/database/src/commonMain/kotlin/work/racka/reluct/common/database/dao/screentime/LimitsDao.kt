@@ -16,7 +16,7 @@ interface LimitsDao {
      * Gets A Flow of saved App Limit from the database.
      * If not present it returns a default value.
      */
-    suspend fun getApp(packageName: String): Flow<LimitsDbObject>
+    fun getApp(packageName: String): Flow<LimitsDbObject>
 
     /**
      * Gets A saved App Limit from the database synchronously
@@ -26,9 +26,9 @@ interface LimitsDao {
     /**
      * Get all Distracting Apps. Return an empty flow list when nothing is found
      */
-    suspend fun getDistractingApps(): Flow<List<LimitsDbObject>>
+    fun getDistractingApps(): Flow<List<LimitsDbObject>>
 
-    suspend fun getDistractingAppsSync(): List<LimitsDbObject>
+    fun getDistractingAppsSync(): List<LimitsDbObject>
 
     /**
      * Check if the given app's [packageName] is marked as a Distracting app
@@ -77,7 +77,7 @@ interface LimitsDao {
     /**
      * Get a list of the paused apps asynchronously using [Flow]
      */
-    suspend fun getPausedApps(): Flow<List<LimitsDbObject>>
+    fun getPausedApps(): Flow<List<LimitsDbObject>>
 
     /**
      * Get a list of the paused apps synchronously using [Flow]
