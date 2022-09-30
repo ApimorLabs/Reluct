@@ -8,12 +8,15 @@ import org.koin.core.context.startKoin
 import org.koin.core.context.stopKoin
 import org.koin.dsl.module
 import org.koin.test.KoinTest
+import org.koin.test.inject
 import work.racka.reluct.common.database.di.TestPlatform
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class GoalsDaoImplTest : KoinTest {
+
+    private val dao: GoalsDao by inject()
 
     @BeforeTest
     fun setup() {
@@ -22,7 +25,12 @@ class GoalsDaoImplTest : KoinTest {
             modules(
                 TestPlatform.platformDatabaseModule(),
                 module {
-                    single { }
+                    single<GoalsDao> {
+                        GoalsDaoImpl(
+                            dispatcher = StandardTestDispatcher(),
+                            databaseWrapper = get()
+                        )
+                    }
                 }
             )
         }

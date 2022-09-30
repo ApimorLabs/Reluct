@@ -13,9 +13,9 @@ relatedApps TEXT AS List<String> NOT NULL,
 targetValue INTEGER NOT NULL,
 currentValue INTEGER NOT NULL,
 goalInterval TEXT AS GoalInterval NOT NULL,
-timeInteval TEXT AS LongRange DEFAULT NULL,
-daysOfWeekSelected TEXT AS List<Week>,
-goalType TEXT AS GoalType
+timeInterval TEXT AS LongRange DEFAULT NULL,
+daysOfWeekSelected TEXT AS List<Week> NOT NULL,
+goalType TEXT AS GoalType NOT NULL
 );
 
 insertGoal:
@@ -28,13 +28,13 @@ relatedApps,
 targetValue,
 currentValue,
 goalInterval,
-timeInteval,
+timeInterval,
 daysOfWeekSelected,
 goalType
 ) VALUES ?;
 
 getGoalById:
-SELECT 1 FROM GoalsTable
+SELECT * FROM GoalsTable
 WHERE id = :id;
 
 getAllGoals:
@@ -46,7 +46,7 @@ SELECT * FROM GoalsTable
 WHERE isActive = 1
 LIMIT :factor * :limitBy;
 
-getInactiveGoals:
+getInActiveGoals:
 SELECT * FROM GoalsTable
 WHERE isActive = 0
 LIMIT :factor * :limitBy;
@@ -55,7 +55,7 @@ deleteGoal:
 DELETE FROM GoalsTable
 WHERE id = :id;
 
-deleteAllInactiveGoals:
+deleteAllInActiveGoals:
 DELETE FROM GoalsTable
 WHERE isActive = 0;
 
