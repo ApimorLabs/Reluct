@@ -6,7 +6,7 @@ import work.racka.reluct.common.database.tables.LimitsTableQueries
 
 internal object LimitsHelpers {
     fun LimitsTableQueries.insertAppToDb(limit: LimitsDbObject) {
-        this.transaction {
+        transaction {
             insertApp(
                 LimitsTable(
                     packageName = limit.packageName,
@@ -19,14 +19,13 @@ internal object LimitsHelpers {
         }
     }
 
-    fun LimitsTableQueries.getPausedAppsFromDb() =
-        this.getPausedApps(mapper = limitsDbObjectMapper)
+    fun LimitsTableQueries.getPausedAppsFromDb() = getPausedApps(mapper = limitsDbObjectMapper)
 
     fun LimitsTableQueries.getDistractingAppsFromDb() =
         getDistractingApps(mapper = limitsDbObjectMapper)
 
     fun LimitsTableQueries.getAppFromDb(packageName: String) =
-        this.getApp(packageName, mapper = limitsDbObjectMapper)
+        getApp(packageName, mapper = limitsDbObjectMapper)
 
     private val limitsDbObjectMapper: (
         packageName: String,
