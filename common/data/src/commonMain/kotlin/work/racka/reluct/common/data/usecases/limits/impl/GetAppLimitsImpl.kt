@@ -18,7 +18,7 @@ internal class GetAppLimitsImpl(
     private val dispatcher: CoroutineDispatcher
 ) : GetAppLimits {
     @OptIn(ExperimentalCoroutinesApi::class)
-    override suspend fun getApp(packageName: String): Flow<AppLimits> =
+    override fun getApp(packageName: String): Flow<AppLimits> =
         limitsDao.getApp(packageName).mapLatest { it.asAppLimits(getAppInfo) }
             .flowOn(dispatcher)
 

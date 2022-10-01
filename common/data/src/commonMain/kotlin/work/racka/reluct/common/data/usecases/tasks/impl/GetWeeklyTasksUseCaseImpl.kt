@@ -1,10 +1,10 @@
 package work.racka.reluct.common.data.usecases.tasks.impl
 
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.flow.mapLatest
 import work.racka.reluct.common.data.mappers.tasks.asTask
 import work.racka.reluct.common.data.usecases.tasks.GetWeeklyTasksUseCase
 import work.racka.reluct.common.database.dao.tasks.TasksDao
@@ -37,41 +37,39 @@ internal class GetWeeklyTasksUseCaseImpl(
      * [StatisticsTimeUtils.weekLocalDateTimeStringRange] and
      * [StatisticsTimeUtils.selectedDayDateTimeStringRange]
      */
-    override suspend fun invoke(weekOffset: Int): Flow<Map<Week, DailyTasksStats>> =
-        withContext(backgroundDispatcher) {
-            // Monday to Sunday
-            val weeklyTimeRange = StatisticsTimeUtils
-                .weekLocalDateTimeStringRange(weekOffset = weekOffset)
-            // Array with time range for each day of the Week
-            val daysOfWeekTimeRanges = daysOfWeekDateTimeRanges(weekOffset)
-            dao.getTasksBetweenDateTime(
-                startLocalDateTime = weeklyTimeRange.start,
-                endLocalDateTime = weeklyTimeRange.endInclusive
-            )
-                .map { list ->
-                    /**
-                     * Iterate through the time ranges for each day of the week and get the
-                     * specific pending and completed tasks for each day that fall within the
-                     * respective range. Each day will have it's own [DailyTasksStats] which also
+    @OptIn(ExperimentalCoroutinesApi::class)
+    override fun invoke(weekOffset: Int): Flow<Map<Week, DailyTasksStats>> {
+        // Monday to Sunday
+        val weeklyTimeRange = StatisticsTimeUtils
+            .weekLocalDateTimeStringRange(weekOffset = weekOffset)
+        return dao.getTasksBetweenDateTime(
+            startLocalDateTime = weeklyTimeRange.start,
+            endLocalDateTime = weeklyTimeRange.endInclusive
+        )
+            .mapLatest { list ->
+                /**
+                 * Iterate through the time ranges for each day of the week and get the
+                 * specific pending and completed tasks for each day that fall within the
+                 * respective range. Each day will have it's own [DailyTasksStats] which also
+                 * carries the pending and completed tasks lists.
+                 */
+                /**
+                 * Iterate through the time ranges for each day of the week and get the
+                 * specific pending and completed tasks for each day that fall within the
+                 * respective range. Each day will have it's own [DailyTasksStats] which also
                      * carries the pending and completed tasks lists.
                      */
-                    /**
-                     * Iterate through the time ranges for each day of the week and get the
-                     * specific pending and completed tasks for each day that fall within the
-                     * respective range. Each day will have it's own [DailyTasksStats] which also
-                     * carries the pending and completed tasks lists.
-                     */
-                    daysOfWeekTimeRanges.associate { rangePair ->
-                        val pendingTempList = list
-                            .filter { rangePair.second.contains(it.dueDateLocalDateTime) && !it.done }
-                            .map { it.asTask() }
-                        val completedTempList = list
-                            .filter { rangePair.second.contains(it.dueDateLocalDateTime) && it.done }
-                            .map { it.asTask() }
-                        val dailyTasksStats = DailyTasksStats(
-                            dateFormatted = TimeUtils
-                                .getFormattedDateString(dateTime = rangePair.second.start),
-                            completedTasks = completedTempList,
+                daysOfWeekDateTimeRanges(weekOffset).associate { rangePair ->
+                    val pendingTempList = list
+                        .filter { rangePair.second.contains(it.dueDateLocalDateTime) && !it.done }
+                        .map { it.asTask() }
+                    val completedTempList = list
+                        .filter { rangePair.second.contains(it.dueDateLocalDateTime) && it.done }
+                        .map { it.asTask() }
+                    val dailyTasksStats = DailyTasksStats(
+                        dateFormatted = TimeUtils
+                            .getFormattedDateString(dateTime = rangePair.second.start),
+                        completedTasks = completedTempList,
                             pendingTasks = pendingTempList
                         )
                         rangePair.first to dailyTasksStats

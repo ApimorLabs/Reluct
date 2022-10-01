@@ -4,7 +4,7 @@ import kotlinx.coroutines.flow.Flow
 import work.racka.reluct.common.model.domain.limits.AppLimits
 
 interface GetDistractingApps {
-    suspend fun invoke(): Flow<List<AppLimits>>
+    fun invoke(): Flow<List<AppLimits>>
 
     suspend fun getSync(): List<AppLimits>
 

@@ -23,7 +23,7 @@ internal class ManageAppTimeLimitImpl(
 ) : ManageAppTimeLimit {
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    override suspend fun invoke(packageName: String): Flow<AppTimeLimit> =
+    override fun invoke(packageName: String): Flow<AppTimeLimit> =
         limitsDao.getApp(packageName).mapLatest { it.asTimeLimit(getAppInfo) }
             .flowOn(dispatcher)
 

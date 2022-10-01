@@ -38,7 +38,7 @@ internal val listOfWeekAdapter = object : ColumnAdapter<List<Week>, String> {
 internal val GoalsTableAdapter = GoalsTable.Adapter(
     relatedAppsAdapter = listOfStringAdapter,
     goalIntervalAdapter = EnumColumnAdapter(),
-    timeIntevalAdapter = longRangeAdapter,
+    timeIntervalAdapter = longRangeAdapter,
     daysOfWeekSelectedAdapter = listOfWeekAdapter,
     goalTypeAdapter = EnumColumnAdapter()
 )

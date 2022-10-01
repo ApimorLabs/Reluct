@@ -19,7 +19,7 @@ internal class GetDistractingAppsImpl(
 ) : GetDistractingApps {
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    override suspend fun invoke(): Flow<List<AppLimits>> = limitsDao.getDistractingApps()
+    override fun invoke(): Flow<List<AppLimits>> = limitsDao.getDistractingApps()
         .mapLatest { list ->
             list.map { dbAppLimits -> dbAppLimits.asAppLimits(getAppInfo) }
                 .sortedBy { appLimits -> appLimits.appInfo.appName }

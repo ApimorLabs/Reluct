@@ -19,7 +19,7 @@ internal class GetPausedAppsImpl(
 ) : GetPausedApps {
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    override suspend fun invoke(): Flow<List<AppLimits>> = limitsDao.getPausedApps()
+    override fun invoke(): Flow<List<AppLimits>> = limitsDao.getPausedApps()
         .mapLatest { list ->
             list.map { dbAppLimits -> dbAppLimits.asAppLimits(getAppInfo) }
                 .sortedBy { appLimits -> appLimits.appInfo.appName }
