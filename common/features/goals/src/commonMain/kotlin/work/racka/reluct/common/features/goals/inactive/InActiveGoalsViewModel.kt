@@ -1,4 +1,4 @@
-package work.racka.reluct.common.features.goals.active
+package work.racka.reluct.common.features.goals.inactive
 
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
@@ -11,7 +11,7 @@ import work.racka.reluct.common.features.goals.active.states.GoalsEvents
 import work.racka.reluct.common.features.goals.active.states.GoalsListState
 import work.racka.reluct.common.model.domain.goals.Goal
 
-class ActiveGoalsViewModel(
+class InActiveGoalsViewModel(
     private val getGoals: GetGoals,
     private val modifyGoals: ModifyGoals
 ) : CommonViewModel() {
@@ -26,16 +26,16 @@ class ActiveGoalsViewModel(
     private var limitFactor = 1L
     private var newDataPresent = true
 
-    private var activeGoalsJob: Job? = null
+    private var inActiveGoalsJob: Job? = null
 
     init {
-        getActiveGoals(limitFactor)
+        getInActiveGoals(limitFactor)
     }
 
-    private fun getActiveGoals(limitFactor: Long) {
-        activeGoalsJob?.cancel()
-        activeGoalsJob = vmScope.launch {
-            getGoals.getActiveGoals(factor = limitFactor).collectLatest { goals ->
+    private fun getInActiveGoals(limitFactor: Long) {
+        inActiveGoalsJob?.cancel()
+        inActiveGoalsJob = vmScope.launch {
+            getGoals.getInActiveGoals(factor = limitFactor).collectLatest { goals ->
                 goalUiState.update {
                     newDataPresent = it.goals != goals
                     GoalsListState.Data(goalsData = goals, newDataPresent = newDataPresent)
@@ -47,9 +47,9 @@ class ActiveGoalsViewModel(
     fun fetchMoreData() {
         if (newDataPresent && goalUiState.value !is GoalsListState.Loading) {
             limitFactor++
-            activeGoalsJob?.cancel()
+            inActiveGoalsJob?.cancel()
             goalUiState.update { GoalsListState.Loading(it.goals, newDataPresent) }
-            getActiveGoals(limitFactor)
+            getInActiveGoals(limitFactor)
         }
     }
 
