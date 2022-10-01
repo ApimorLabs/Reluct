@@ -15,6 +15,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation(project(":common:model"))
+                implementation(project(":common:data"))
                 implementation(project(":common:mvvm-core"))
 
                 implementation(Dependencies.Kotlin.Coroutines.core)
