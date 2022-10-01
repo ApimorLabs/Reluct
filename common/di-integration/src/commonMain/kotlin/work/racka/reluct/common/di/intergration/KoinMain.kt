@@ -7,6 +7,7 @@ import work.racka.reluct.common.app.usage.stats.di.AppUsageStats
 import work.racka.reluct.common.data.di.Data
 import work.racka.reluct.common.database.di.Database
 import work.racka.reluct.common.features.dashboard.di.Dashboard
+import work.racka.reluct.common.features.goals.di.Goals
 import work.racka.reluct.common.features.onboarding.di.OnBoarding
 import work.racka.reluct.common.features.screen_time.di.ScreenTime
 import work.racka.reluct.common.features.settings.di.AppSettings
@@ -35,6 +36,7 @@ object KoinMain {
         // Features
         Dashboard.run { install() }
         Tasks.run { tasksModules() }
+        Goals.run { install() }
         ScreenTime.run { screenTimeModules() }
         AppSettings.run { appSettingsModules() }
         OnBoarding.run { install() }

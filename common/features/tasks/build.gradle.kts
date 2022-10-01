@@ -14,7 +14,6 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation(project(":common:core-navigation"))
                 implementation(project(":common:data"))
                 implementation(project(":common:model"))
                 implementation(project(":common:mvvm-core"))
