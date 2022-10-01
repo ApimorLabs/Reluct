@@ -1,5 +1,6 @@
 package work.racka.reluct.common.data.di
 
+import kotlinx.coroutines.Dispatchers
 import org.koin.core.KoinApplication
 import org.koin.dsl.module
 import work.racka.reluct.common.data.usecases.app_usage.GetDailyAppUsageInfo
@@ -10,6 +11,10 @@ import work.racka.reluct.common.data.usecases.app_usage.impl.GetDailyAppUsageInf
 import work.racka.reluct.common.data.usecases.app_usage.impl.GetDailyUsageStatsImpl
 import work.racka.reluct.common.data.usecases.app_usage.impl.GetWeeklyAppUsageInfoImpl
 import work.racka.reluct.common.data.usecases.app_usage.impl.GetWeeklyUsageStatsImpl
+import work.racka.reluct.common.data.usecases.goals.GetGoals
+import work.racka.reluct.common.data.usecases.goals.ModifyGoals
+import work.racka.reluct.common.data.usecases.goals.impl.GetGoalsImpl
+import work.racka.reluct.common.data.usecases.goals.impl.ModifyGoalsImpl
 import work.racka.reluct.common.data.usecases.limits.*
 import work.racka.reluct.common.data.usecases.limits.impl.*
 import work.racka.reluct.common.data.usecases.tasks.GetDailyTasksUseCase
@@ -169,6 +174,18 @@ object Data {
                 haptics = get(),
                 dispatcher = CoroutineDispatchers.backgroundDispatcher
             )
+        }
+
+        factory<GetGoals> {
+            GetGoalsImpl(
+                goalsDao = get(),
+                getAppInfo = get(),
+                backgroundDispatcher = Dispatchers.IO
+            )
+        }
+
+        factory<ModifyGoals> {
+            ModifyGoalsImpl(goalsDao = get(), haptics = get(), dispatcher = Dispatchers.IO)
         }
     }
 }
