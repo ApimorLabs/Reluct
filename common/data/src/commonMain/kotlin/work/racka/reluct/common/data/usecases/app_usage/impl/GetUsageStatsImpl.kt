@@ -5,17 +5,19 @@ import kotlinx.coroutines.withContext
 import work.racka.reluct.common.app.usage.stats.manager.UsageDataManager
 import work.racka.reluct.common.data.mappers.usagestats.asUsageStats
 import work.racka.reluct.common.data.usecases.app_info.GetAppInfo
-import work.racka.reluct.common.data.usecases.app_usage.GetDailyUsageStats
+import work.racka.reluct.common.data.usecases.app_usage.GetUsageStats
 import work.racka.reluct.common.model.domain.usagestats.UsageStats
 import work.racka.reluct.common.model.util.time.StatisticsTimeUtils
+import work.racka.reluct.common.model.util.time.Week
 
-internal class GetDailyUsageStatsImpl(
+internal class GetUsageStatsImpl(
     private val usageManager: UsageDataManager,
     private val getAppInfo: GetAppInfo,
     private val backgroundDispatcher: CoroutineDispatcher
-) : GetDailyUsageStats {
+) : GetUsageStats {
+    private val daysOfWeek = Week.values()
 
-    override suspend fun invoke(weekOffset: Int, dayIsoNumber: Int): UsageStats =
+    override suspend fun dailyUsage(weekOffset: Int, dayIsoNumber: Int): UsageStats =
         withContext(backgroundDispatcher) {
             val selectedDayTimeRange = StatisticsTimeUtils.selectedDayTimeInMillisRange(
                 weekOffset = weekOffset,
@@ -30,5 +32,13 @@ internal class GetDailyUsageStatsImpl(
                 dayIsoNumber = dayIsoNumber,
                 getAppInfo = getAppInfo
             )
+        }
+
+    override suspend fun weeklyUsage(weekOffset: Int): Map<Week, UsageStats> =
+        withContext(backgroundDispatcher) {
+            daysOfWeek.associateWith { dayOfWeek ->
+                val usageStats = dailyUsage(weekOffset, dayOfWeek.isoDayNumber)
+                usageStats
+            }
         }
 }

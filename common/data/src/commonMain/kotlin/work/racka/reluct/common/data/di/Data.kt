@@ -4,11 +4,9 @@ import kotlinx.coroutines.Dispatchers
 import org.koin.core.KoinApplication
 import org.koin.dsl.module
 import work.racka.reluct.common.data.usecases.app_usage.GetAppUsageInfo
-import work.racka.reluct.common.data.usecases.app_usage.GetDailyUsageStats
-import work.racka.reluct.common.data.usecases.app_usage.GetWeeklyUsageStats
+import work.racka.reluct.common.data.usecases.app_usage.GetUsageStats
 import work.racka.reluct.common.data.usecases.app_usage.impl.GetAppUsageInfoImpl
-import work.racka.reluct.common.data.usecases.app_usage.impl.GetDailyUsageStatsImpl
-import work.racka.reluct.common.data.usecases.app_usage.impl.GetWeeklyUsageStatsImpl
+import work.racka.reluct.common.data.usecases.app_usage.impl.GetUsageStatsImpl
 import work.racka.reluct.common.data.usecases.goals.GetGoals
 import work.racka.reluct.common.data.usecases.goals.ModifyGoals
 import work.racka.reluct.common.data.usecases.goals.impl.GetGoalsImpl
@@ -75,17 +73,10 @@ object Data {
             )
         }
 
-        factory<GetDailyUsageStats> {
-            GetDailyUsageStatsImpl(
+        factory<GetUsageStats> {
+            GetUsageStatsImpl(
                 usageManager = get(),
                 getAppInfo = get(),
-                backgroundDispatcher = CoroutineDispatchers.backgroundDispatcher
-            )
-        }
-
-        factory<GetWeeklyUsageStats> {
-            GetWeeklyUsageStatsImpl(
-                dailyUsageStats = get(),
                 backgroundDispatcher = CoroutineDispatchers.backgroundDispatcher
             )
         }
