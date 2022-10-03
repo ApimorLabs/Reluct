@@ -5,8 +5,7 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import work.racka.common.mvvm.viewmodel.CommonViewModel
-import work.racka.reluct.common.data.usecases.tasks.GetDailyTasksUseCase
-import work.racka.reluct.common.data.usecases.tasks.GetWeeklyTasksUseCase
+import work.racka.reluct.common.data.usecases.tasks.GetGroupedTasksStats
 import work.racka.reluct.common.data.usecases.tasks.ModifyTaskUseCase
 import work.racka.reluct.common.data.usecases.time.GetWeekRangeFromOffset
 import work.racka.reluct.common.model.domain.tasks.Task
@@ -18,8 +17,7 @@ import work.racka.reluct.common.model.util.time.WeekUtils
 
 class TasksStatisticsViewModel(
     private val modifyTasksUsesCase: ModifyTaskUseCase,
-    private val getWeeklyTasksUseCase: GetWeeklyTasksUseCase,
-    private val getDailyTasksUseCase: GetDailyTasksUseCase,
+    private val getGroupedTasksStats: GetGroupedTasksStats,
     private val getWeekRangeFromOffset: GetWeekRangeFromOffset,
 ) : CommonViewModel() {
 
@@ -67,7 +65,7 @@ class TasksStatisticsViewModel(
 
     private fun getDailyData() {
         collectDailyTasksJob = vmScope.launch {
-            getDailyTasksUseCase.invoke(
+            getGroupedTasksStats.dailyTasks(
                 weekOffset = weekOffset.value,
                 dayIsoNumber = selectedDay.value
             ).collectLatest { tasks ->
@@ -86,7 +84,7 @@ class TasksStatisticsViewModel(
         collectWeeklyTasksJob = vmScope.launch {
             val weekOffsetText = getWeekRangeFromOffset.invoke(weekOffset.value)
             selectedWeekText.update { weekOffsetText }
-            getWeeklyTasksUseCase.invoke(weekOffset = weekOffset.value)
+            getGroupedTasksStats.weeklyTasks(weekOffset = weekOffset.value)
                 .collectLatest { weeklyTasks ->
                     if (weeklyTasks.isNotEmpty()) {
                         var totalTasksCount = 0

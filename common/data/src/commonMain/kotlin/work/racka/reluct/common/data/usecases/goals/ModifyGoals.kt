@@ -7,4 +7,5 @@ interface ModifyGoals {
     suspend fun deleteGoal(id: String)
     suspend fun toggleGoalActiveState(isActive: Boolean, id: String)
     suspend fun updateGoalCurrentValue(id: String, currentValue: Long)
+    suspend fun syncGoals()
 }

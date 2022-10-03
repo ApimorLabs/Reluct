@@ -17,13 +17,11 @@ import work.racka.reluct.common.data.usecases.goals.impl.GetGoalsImpl
 import work.racka.reluct.common.data.usecases.goals.impl.ModifyGoalsImpl
 import work.racka.reluct.common.data.usecases.limits.*
 import work.racka.reluct.common.data.usecases.limits.impl.*
-import work.racka.reluct.common.data.usecases.tasks.GetDailyTasksUseCase
+import work.racka.reluct.common.data.usecases.tasks.GetGroupedTasksStats
 import work.racka.reluct.common.data.usecases.tasks.GetTasksUseCase
-import work.racka.reluct.common.data.usecases.tasks.GetWeeklyTasksUseCase
 import work.racka.reluct.common.data.usecases.tasks.ModifyTaskUseCase
-import work.racka.reluct.common.data.usecases.tasks.impl.GetDailyTasksUseCaseImpl
+import work.racka.reluct.common.data.usecases.tasks.impl.GetGroupedTasksStatsImpl
 import work.racka.reluct.common.data.usecases.tasks.impl.GetTasksUseCaseImpl
-import work.racka.reluct.common.data.usecases.tasks.impl.GetWeeklyTasksUseCaseImpl
 import work.racka.reluct.common.data.usecases.tasks.impl.ModifyTaskUseCaseImpl
 import work.racka.reluct.common.data.usecases.time.GetWeekRangeFromOffset
 import work.racka.reluct.common.data.usecases.time.impl.GetWeekRangeFromOffsetImpl
@@ -58,16 +56,9 @@ object Data {
             )
         }
 
-        factory<GetWeeklyTasksUseCase> {
-            GetWeeklyTasksUseCaseImpl(
+        factory<GetGroupedTasksStats> {
+            GetGroupedTasksStatsImpl(
                 dao = get(),
-                backgroundDispatcher = CoroutineDispatchers.backgroundDispatcher
-            )
-        }
-
-        factory<GetDailyTasksUseCase> {
-            GetDailyTasksUseCaseImpl(
-                weeklyTasks = get(),
                 backgroundDispatcher = CoroutineDispatchers.backgroundDispatcher
             )
         }
@@ -176,6 +167,8 @@ object Data {
             )
         }
 
+        /** Goals **/
+
         factory<GetGoals> {
             GetGoalsImpl(
                 goalsDao = get(),
@@ -185,7 +178,12 @@ object Data {
         }
 
         factory<ModifyGoals> {
-            ModifyGoalsImpl(goalsDao = get(), haptics = get(), dispatcher = Dispatchers.IO)
+            ModifyGoalsImpl(
+                goalsDao = get(),
+                haptics = get(),
+                getGroupedTasksStats = get(),
+                dispatcher = Dispatchers.IO
+            )
         }
     }
 }
