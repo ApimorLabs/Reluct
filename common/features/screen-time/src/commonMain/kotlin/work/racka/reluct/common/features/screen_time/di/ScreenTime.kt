@@ -34,7 +34,7 @@ object ScreenTime {
         commonViewModel { (packageName: String) ->
             AppScreenTimeStatsViewModel(
                 packageName = packageName,
-                getWeeklyAppUsage = get(),
+                getAppUsageInfo = get(),
                 manageAppTimeLimit = get(),
                 manageDistractingApps = get(),
                 managePausedApps = get(),

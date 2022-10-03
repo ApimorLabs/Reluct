@@ -21,7 +21,7 @@ import org.koin.core.component.get
 import org.koin.core.component.inject
 import org.koin.core.parameter.parametersOf
 import work.racka.reluct.common.core_navigation.compose_destinations.screentime.AppScreenTimeStatsDestination
-import work.racka.reluct.common.data.usecases.app_usage.GetDailyAppUsageInfo
+import work.racka.reluct.common.data.usecases.app_usage.GetAppUsageInfo
 import work.racka.reluct.common.data.usecases.limits.GetAppLimits
 import work.racka.reluct.common.data.usecases.limits.ManageFocusMode
 import work.racka.reluct.common.features.screen_time.R
@@ -44,7 +44,7 @@ internal class ScreenTimeLimitService : Service(), KoinComponent {
     private var viewModel: AppScreenTimeStatsViewModel? = null
 
     private val screenTimeServices: ScreenTimeServices by inject()
-    private val getDailyAppUsageInfo: GetDailyAppUsageInfo by inject()
+    private val getAppUsageInfo: GetAppUsageInfo by inject()
     private val getAppLimits: GetAppLimits by inject()
     private val manageFocusMode: ManageFocusMode by inject()
 
@@ -137,7 +137,7 @@ internal class ScreenTimeLimitService : Service(), KoinComponent {
     private suspend fun manageLimits() {
         val notificationManager = NotificationManagerCompat.from(applicationContext)
         val currentStats = ScreenTimeDataProviders
-            .getCurrentAppStats(getDailyAppUsageInfo, applicationContext)
+            .getCurrentAppStats(getAppUsageInfo, applicationContext)
         currentStats.collectLatest { stats ->
             // Update Our Notification
             val notification = appStatsNotification(applicationContext, stats)
