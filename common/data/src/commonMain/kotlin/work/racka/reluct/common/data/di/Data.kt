@@ -163,6 +163,7 @@ object Data {
             ModifyGoalsImpl(
                 goalsDao = get(),
                 haptics = get(),
+                usageDataManager = get(),
                 getGroupedTasksStats = get(),
                 dispatcher = Dispatchers.IO
             )

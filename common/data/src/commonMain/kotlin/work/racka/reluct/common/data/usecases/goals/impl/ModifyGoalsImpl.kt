@@ -6,7 +6,6 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
 import work.racka.reluct.common.app.usage.stats.manager.UsageDataManager
 import work.racka.reluct.common.data.mappers.goals.asGoalDbObject
-import work.racka.reluct.common.data.usecases.app_usage.GetUsageStats
 import work.racka.reluct.common.data.usecases.goals.ModifyGoals
 import work.racka.reluct.common.data.usecases.tasks.GetGroupedTasksStats
 import work.racka.reluct.common.database.dao.goals.GoalsDao
@@ -15,20 +14,16 @@ import work.racka.reluct.common.model.domain.goals.Goal
 import work.racka.reluct.common.model.domain.goals.GoalInterval
 import work.racka.reluct.common.model.domain.goals.GoalType
 import work.racka.reluct.common.model.util.time.StatisticsTimeUtils
-import work.racka.reluct.common.model.util.time.Week
 import work.racka.reluct.common.model.util.time.WeekUtils
 import work.racka.reluct.common.system_service.haptics.HapticFeedback
 
-class ModifyGoalsImpl(
+internal class ModifyGoalsImpl(
     private val goalsDao: GoalsDao,
     private val haptics: HapticFeedback,
     private val usageDataManager: UsageDataManager,
     private val getGroupedTasksStats: GetGroupedTasksStats,
-    private val getUsageStats: GetUsageStats,
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : ModifyGoals {
-
-    private val daysOfWeek get() = Week.values()
 
     override suspend fun saveGoal(goal: Goal) = withContext(dispatcher) {
         goalsDao.insertGoal(goal.asGoalDbObject())
@@ -58,7 +53,9 @@ class ModifyGoalsImpl(
             when (goal.goalType) {
                 GoalType.TasksGoal -> manageTasksGoalType(goal)
                 GoalType.DeviceScreenTimeGoal -> manageDeviceScreenTimeGoalType(goal)
-                else -> {}
+                GoalType.AppScreenTimeGoal -> manageAppScreenTimeGoalType(goal)
+                GoalType.NumeralGoal -> { /* Do Nothing */
+                }
             }
         }
     }
@@ -139,6 +136,70 @@ class ModifyGoalsImpl(
                         timeInterval.last
                     )
                     goal.copy(currentValue = stats.appsUsageList.sumOf { it.timeInForeground })
+                } else goal
+            }
+        }
+
+    private suspend fun manageAppScreenTimeGoalType(goal: GoalDbObject): GoalDbObject =
+        when (goal.goalInterval) {
+            GoalInterval.Daily -> {
+                val today = WeekUtils.currentDayOfWeek().isoDayNumber
+                val selectedDayTimeRange = StatisticsTimeUtils.selectedDayTimeInMillisRange(
+                    weekOffset = 0,
+                    dayIsoNumber = today
+                )
+                var screenTime = 0L
+                goal.relatedApps.forEach { packageName ->
+                    screenTime += usageDataManager.getAppUsage(
+                        startTimeMillis = selectedDayTimeRange.first,
+                        endTimeMillis = selectedDayTimeRange.last,
+                        packageName = packageName
+                    ).timeInForeground
+                }
+                goal.copy(currentValue = screenTime)
+            }
+            GoalInterval.Weekly -> {
+                if (goal.daysOfWeekSelected.isEmpty() || goal.daysOfWeekSelected.size == 7) {
+                    val weekTimeRange = StatisticsTimeUtils.weekTimeInMillisRange()
+                    var screenTime = 0L
+                    goal.relatedApps.forEach { packageName ->
+                        screenTime += usageDataManager.getAppUsage(
+                            startTimeMillis = weekTimeRange.first,
+                            endTimeMillis = weekTimeRange.last,
+                            packageName = packageName
+                        ).timeInForeground
+                    }
+                    goal.copy(currentValue = screenTime)
+                } else {
+                    var screenTime = 0L
+                    goal.daysOfWeekSelected.map { day ->
+                        val selectedDayTimeRange = StatisticsTimeUtils.selectedDayTimeInMillisRange(
+                            weekOffset = 0,
+                            dayIsoNumber = day.isoDayNumber
+                        )
+                        goal.relatedApps.forEach { packageName ->
+                            screenTime += usageDataManager.getAppUsage(
+                                startTimeMillis = selectedDayTimeRange.first,
+                                endTimeMillis = selectedDayTimeRange.last,
+                                packageName = packageName
+                            ).timeInForeground
+                        }
+                    }
+                    goal.copy(currentValue = screenTime)
+                }
+            }
+            GoalInterval.Custom -> {
+                val timeInterval = goal.timeInterval
+                if (timeInterval != null) {
+                    var screenTime = 0L
+                    goal.relatedApps.forEach { packageName ->
+                        screenTime += usageDataManager.getAppUsage(
+                            startTimeMillis = timeInterval.first,
+                            endTimeMillis = timeInterval.last,
+                            packageName = packageName
+                        ).timeInForeground
+                    }
+                    goal.copy(currentValue = screenTime)
                 } else goal
             }
         }
