@@ -11,19 +11,14 @@ import android.provider.Settings
 import android.util.Log
 import android.view.WindowManager
 import androidx.compose.ui.platform.ComposeView
-import androidx.core.app.NotificationManagerCompat
 import androidx.core.net.toUri
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.first
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.get
 import org.koin.core.component.inject
 import org.koin.core.parameter.parametersOf
 import work.racka.reluct.common.core_navigation.compose_destinations.screentime.AppScreenTimeStatsDestination
-import work.racka.reluct.common.data.usecases.app_usage.GetAppUsageInfo
-import work.racka.reluct.common.data.usecases.limits.GetAppLimits
-import work.racka.reluct.common.data.usecases.limits.ManageFocusMode
 import work.racka.reluct.common.features.screen_time.R
 import work.racka.reluct.common.features.screen_time.statistics.AppScreenTimeStatsViewModel
 import work.racka.reluct.common.features.screen_time.ui.overlay.AppLimitedOverlayView
@@ -44,9 +39,6 @@ internal class ScreenTimeLimitService : Service(), KoinComponent {
     private var viewModel: AppScreenTimeStatsViewModel? = null
 
     private val screenTimeServices: ScreenTimeServices by inject()
-    private val getAppUsageInfo: GetAppUsageInfo by inject()
-    private val getAppLimits: GetAppLimits by inject()
-    private val manageFocusMode: ManageFocusMode by inject()
 
     private var windowManager: WindowManager? = null
 
@@ -135,41 +127,22 @@ internal class ScreenTimeLimitService : Service(), KoinComponent {
     }
 
     private suspend fun manageLimits() {
-        val notificationManager = NotificationManagerCompat.from(applicationContext)
-        val currentStats = ScreenTimeDataProviders
-            .getCurrentAppStats(getAppUsageInfo, applicationContext)
-        currentStats.collectLatest { stats ->
-            // Update Our Notification
-            val notification = appStatsNotification(applicationContext, stats)
-            notificationManager.notify(ScreenTimeServiceNotification.NOTIFICATION_ID, notification)
-
-            val currentDuration = stats.appUsageInfo.timeInForeground
-            val isFocusModeOn = manageFocusMode.isFocusModeOn.first()
-            val appLimits = getAppLimits.getAppSync(stats.appUsageInfo.packageName)
-            val appPastLimit = (currentDuration >= appLimits.timeLimit && appLimits.timeLimit != 0L)
-
+        screenTimeServices.observeCurrentAppBlocking().collectLatest { blockState ->
             // Delay Checking Limits if a home action was initiated
             delayAfterHome()
 
-            // Remove Overlay if packages don't match
-            if (overlaidAppPackageName != appLimits.appInfo.packageName
-                && overlaidAppPackageName.isNotBlank()
-            ) {
-                withContext(Dispatchers.Main) { removeOverlayView() }
-            }
-
-            // Check if the app doesn't violate limits
-            if (!appLimits.overridden && !goneHome) {
-                if (isFocusModeOn && appLimits.isADistractingAp) {
-                    overlayWindow(appLimits.appInfo.packageName)
-                } else if (appLimits.isPaused) {
-                    overlayWindow(appLimits.appInfo.packageName)
-                } else if (appPastLimit) {
-                    //modifyAppLimits.pauseApp(stats.appUsageInfo.packageName, isPaused = true)
-                    overlayWindow(appLimits.appInfo.packageName)
+            when (blockState) {
+                is ScreenTimeServices.BlockState.Allowed -> {
+                    // Remove Overlay if packages don't match
+                    if (overlaidAppPackageName != blockState.appPackageName
+                        && overlaidAppPackageName.isNotBlank()
+                    ) {
+                        withContext(Dispatchers.Main) { removeOverlayView() }
+                    }
                 }
-            } else {
-                Log.d(TAG, "App Has Been Overridden it's limits!")
+                is ScreenTimeServices.BlockState.Blocked -> {
+                    if (!goneHome) overlayWindow(blockState.appPackageName)
+                }
             }
         }
     }

@@ -43,7 +43,8 @@ kotlin {
 
         val androidMain by getting {
             dependencies {
-                implementation(Dependencies.Koin.android)
+                // Defined as API deps - Don't add again in modules that use this module
+                api(Dependencies.Koin.android)
                 api(Dependencies.Android.Essential.coreViewModel)
                 api(Dependencies.Android.Compose.viewModel)
             }

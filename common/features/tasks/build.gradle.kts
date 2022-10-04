@@ -37,19 +37,11 @@ kotlin {
             }
         }
 
-        val androidMain by getting {
-            dependencies {
-                implementation(Dependencies.Android.Essential.coreKtx)
-            }
-        }
+        val androidMain by getting
 
         val androidTest by getting
 
-        val desktopMain by getting {
-            dependencies {
-
-            }
-        }
+        val desktopMain by getting
 
         val desktopTest by getting
     }

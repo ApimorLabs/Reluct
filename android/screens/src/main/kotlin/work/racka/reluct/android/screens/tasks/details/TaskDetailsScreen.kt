@@ -12,7 +12,7 @@ import androidx.compose.ui.platform.LocalContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import org.koin.core.parameter.parametersOf
-import work.racka.common.mvvm.koin.compose.commonViewModel
+import work.racka.common.mvvm.koin.compose.getCommonViewModel
 import work.racka.reluct.android.screens.R
 import work.racka.reluct.common.features.tasks.task_details.TaskDetailsViewModel
 import work.racka.reluct.common.model.states.tasks.TasksEvents
@@ -26,7 +26,7 @@ fun TaskDetailsScreen(
 
     val scaffoldState = rememberScaffoldState()
 
-    val viewModel: TaskDetailsViewModel by commonViewModel { parametersOf(taskId) }
+    val viewModel: TaskDetailsViewModel = getCommonViewModel { parametersOf(taskId) }
     val uiState by viewModel.uiState.collectAsState()
     val events by viewModel.events.collectAsState(initial = TasksEvents.Nothing)
 
@@ -43,14 +43,12 @@ fun TaskDetailsScreen(
         )
     }
 
-    TaskDetailsUI(
-        uiState = uiState,
+    TaskDetailsUI(uiState = uiState,
         scaffoldState = scaffoldState,
         onEditTask = { viewModel.editTask(it.id) },
         onDeleteTask = { viewModel.deleteTask(it.id) },
         onToggleTaskDone = { isDone, task -> viewModel.toggleDone(task, isDone) },
-        onBackClicked = { viewModel.goBack() }
-    )
+        onBackClicked = { viewModel.goBack() })
 }
 
 private fun handleEvents(
@@ -65,8 +63,7 @@ private fun handleEvents(
         is TasksEvents.ShowMessage -> {
             scope.launch {
                 val result = scaffoldState.snackbarHostState.showSnackbar(
-                    message = events.msg,
-                    duration = SnackbarDuration.Short
+                    message = events.msg, duration = SnackbarDuration.Short
                 )
             }
         }
@@ -75,8 +72,7 @@ private fun handleEvents(
             else context.getString(R.string.task_marked_as_not_done, events.msg)
             scope.launch {
                 val result = scaffoldState.snackbarHostState.showSnackbar(
-                    message = msg,
-                    duration = SnackbarDuration.Short
+                    message = msg, duration = SnackbarDuration.Short
                 )
             }
         }

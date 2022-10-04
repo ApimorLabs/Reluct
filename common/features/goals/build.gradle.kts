@@ -35,19 +35,11 @@ kotlin {
             }
         }
 
-        val androidMain by getting {
-            dependencies {
-
-            }
-        }
+        val androidMain by getting
 
         val androidTest by getting
 
-        val desktopMain by getting {
-            dependencies {
-                implementation(Dependencies.Log.slf4j)
-            }
-        }
+        val desktopMain by getting
 
         val desktopTest by getting
     }

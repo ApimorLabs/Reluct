@@ -10,7 +10,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import work.racka.common.mvvm.koin.compose.commonViewModel
+import work.racka.common.mvvm.koin.compose.getCommonViewModel
 import work.racka.reluct.android.compose.components.util.BarsVisibility
 import work.racka.reluct.common.features.screen_time.limits.ScreenTimeLimitsViewModel
 import work.racka.reluct.common.features.screen_time.limits.states.ScreenTimeLimitsEvents
@@ -23,7 +23,7 @@ fun ScreenTimeLimitsScreen(
 ) {
     val scaffoldState = rememberScaffoldState()
 
-    val viewModel: ScreenTimeLimitsViewModel by commonViewModel()
+    val viewModel: ScreenTimeLimitsViewModel = getCommonViewModel()
     val uiState by viewModel.uiState.collectAsState()
     val events by viewModel.events.collectAsState(initial = ScreenTimeLimitsEvents.Nothing)
 
