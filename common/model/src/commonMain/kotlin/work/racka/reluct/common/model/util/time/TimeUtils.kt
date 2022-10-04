@@ -207,13 +207,13 @@ object TimeUtils {
                 val hrs = timePluralOrSingle(diff.hours, TimePeriod.HOUR)
                 "$days $hrs ago"
             }
-            diff.hours <= 1 -> {
+            diff.hours < 0 -> {
                 val hrs = timePluralOrSingle(diff.hours, TimePeriod.HOUR)
                 val min = timePluralOrSingle(diff.minutes, TimePeriod.MINUTE)
                 "$hrs $min ago"
             }
             diff.minutes == 0 -> "Ongoing ${diff.days}"
-            else -> "Error ${diff.hours}"
+            else -> "Error"
         }
         return data
     }
@@ -345,4 +345,7 @@ object TimeUtils {
         return instant.plus(dateTimePeriod, timeZone)
             .toLocalDateTime(timeZone)
     }
+
+    fun epochMillisToLocalDateTime(millis: Long): LocalDateTime =
+        Instant.fromEpochMilliseconds(millis).toLocalDateTime(TimeZone.currentSystemDefault())
 }

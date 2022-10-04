@@ -4,9 +4,9 @@ import work.racka.reluct.common.database.models.LimitsDbObject
 import work.racka.reluct.common.database.tables.LimitsTable
 import work.racka.reluct.common.database.tables.LimitsTableQueries
 
-object LimitsHelpers {
+internal object LimitsHelpers {
     fun LimitsTableQueries.insertAppToDb(limit: LimitsDbObject) {
-        this.transaction {
+        transaction {
             insertApp(
                 LimitsTable(
                     packageName = limit.packageName,
@@ -19,50 +19,27 @@ object LimitsHelpers {
         }
     }
 
-    fun LimitsTableQueries.getPausedAppsFromDb() =
-        this.getPausedApps { packageName, timeLimit, isADistractingApp, isPaused, overridden ->
-            limitsDbObjectMapper(
-                packageName = packageName,
-                timeLimit = timeLimit,
-                isADistractingApp = isADistractingApp,
-                isPaused = isPaused,
-                overridden = overridden
-            )
-        }
+    fun LimitsTableQueries.getPausedAppsFromDb() = getPausedApps(mapper = limitsDbObjectMapper)
 
     fun LimitsTableQueries.getDistractingAppsFromDb() =
-        this.getDistractingApps { packageName, timeLimit, isADistractingApp, isPaused, overridden ->
-            limitsDbObjectMapper(
-                packageName = packageName,
-                timeLimit = timeLimit,
-                isADistractingApp = isADistractingApp,
-                isPaused = isPaused,
-                overridden = overridden
-            )
-        }
+        getDistractingApps(mapper = limitsDbObjectMapper)
 
     fun LimitsTableQueries.getAppFromDb(packageName: String) =
-        this.getApp(packageName) { name, timeLimit, isADistractingApp, isPaused, overridden ->
-            limitsDbObjectMapper(
-                packageName = name,
-                timeLimit = timeLimit,
-                isADistractingApp = isADistractingApp,
-                isPaused = isPaused,
-                overridden = overridden
-            )
-        }
+        getApp(packageName, mapper = limitsDbObjectMapper)
 
-    private fun limitsDbObjectMapper(
+    private val limitsDbObjectMapper: (
         packageName: String,
         timeLimit: Long,
         isADistractingApp: Boolean,
         isPaused: Boolean,
         overridden: Boolean
-    ): LimitsDbObject = LimitsDbObject(
-        packageName = packageName,
-        timeLimit = timeLimit,
-        isADistractingAp = isADistractingApp,
-        isPaused = isPaused,
-        overridden = overridden
-    )
+    ) -> LimitsDbObject = { packageName, timeLimit, isADistractingApp, isPaused, overridden ->
+        LimitsDbObject(
+            packageName = packageName,
+            timeLimit = timeLimit,
+            isADistractingAp = isADistractingApp,
+            isPaused = isPaused,
+            overridden = overridden
+        )
+    }
 }

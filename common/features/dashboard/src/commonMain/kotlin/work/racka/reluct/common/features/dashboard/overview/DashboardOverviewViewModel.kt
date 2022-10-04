@@ -5,7 +5,7 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import work.racka.common.mvvm.viewmodel.CommonViewModel
-import work.racka.reluct.common.data.usecases.app_usage.GetDailyUsageStats
+import work.racka.reluct.common.data.usecases.app_usage.GetUsageStats
 import work.racka.reluct.common.data.usecases.tasks.GetTasksUseCase
 import work.racka.reluct.common.data.usecases.tasks.ModifyTaskUseCase
 import work.racka.reluct.common.features.dashboard.overview.states.DashboardEvents
@@ -18,7 +18,7 @@ import work.racka.reluct.common.model.util.time.WeekUtils
 class DashboardOverviewViewModel(
     private val getTasksUseCase: GetTasksUseCase,
     private val modifyTasksUsesCase: ModifyTaskUseCase,
-    private val getDailyUsageStats: GetDailyUsageStats,
+    private val getUsageStats: GetUsageStats,
 ) : CommonViewModel() {
 
     private val todayScreenTimeState: MutableStateFlow<TodayScreenTimeState> =
@@ -91,7 +91,7 @@ class DashboardOverviewViewModel(
         todayScreenTimeState.update { TodayScreenTimeState.Loading(usageStats = it.usageStats) }
         dailyScreenTimeJob = vmScope.launch {
             val today = WeekUtils.currentDayOfWeek()
-            val dailyData = getDailyUsageStats.invoke(dayIsoNumber = today.isoDayNumber)
+            val dailyData = getUsageStats.dailyUsage(dayIsoNumber = today.isoDayNumber)
             todayScreenTimeState.update {
                 TodayScreenTimeState.Data(
                     dailyUsageStats = dailyData

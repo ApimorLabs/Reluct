@@ -48,8 +48,7 @@ object Tasks {
         commonViewModel {
             TasksStatisticsViewModel(
                 modifyTasksUsesCase = get(),
-                getWeeklyTasksUseCase = get(),
-                getDailyTasksUseCase = get(),
+                getGroupedTasksStats = get(),
                 getWeekRangeFromOffset = get()
             )
         }

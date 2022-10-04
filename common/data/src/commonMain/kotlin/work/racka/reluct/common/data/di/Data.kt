@@ -1,24 +1,23 @@
 package work.racka.reluct.common.data.di
 
+import kotlinx.coroutines.Dispatchers
 import org.koin.core.KoinApplication
 import org.koin.dsl.module
-import work.racka.reluct.common.data.usecases.app_usage.GetDailyAppUsageInfo
-import work.racka.reluct.common.data.usecases.app_usage.GetDailyUsageStats
-import work.racka.reluct.common.data.usecases.app_usage.GetWeeklyAppUsageInfo
-import work.racka.reluct.common.data.usecases.app_usage.GetWeeklyUsageStats
-import work.racka.reluct.common.data.usecases.app_usage.impl.GetDailyAppUsageInfoImpl
-import work.racka.reluct.common.data.usecases.app_usage.impl.GetDailyUsageStatsImpl
-import work.racka.reluct.common.data.usecases.app_usage.impl.GetWeeklyAppUsageInfoImpl
-import work.racka.reluct.common.data.usecases.app_usage.impl.GetWeeklyUsageStatsImpl
+import work.racka.reluct.common.data.usecases.app_usage.GetAppUsageInfo
+import work.racka.reluct.common.data.usecases.app_usage.GetUsageStats
+import work.racka.reluct.common.data.usecases.app_usage.impl.GetAppUsageInfoImpl
+import work.racka.reluct.common.data.usecases.app_usage.impl.GetUsageStatsImpl
+import work.racka.reluct.common.data.usecases.goals.GetGoals
+import work.racka.reluct.common.data.usecases.goals.ModifyGoals
+import work.racka.reluct.common.data.usecases.goals.impl.GetGoalsImpl
+import work.racka.reluct.common.data.usecases.goals.impl.ModifyGoalsImpl
 import work.racka.reluct.common.data.usecases.limits.*
 import work.racka.reluct.common.data.usecases.limits.impl.*
-import work.racka.reluct.common.data.usecases.tasks.GetDailyTasksUseCase
+import work.racka.reluct.common.data.usecases.tasks.GetGroupedTasksStats
 import work.racka.reluct.common.data.usecases.tasks.GetTasksUseCase
-import work.racka.reluct.common.data.usecases.tasks.GetWeeklyTasksUseCase
 import work.racka.reluct.common.data.usecases.tasks.ModifyTaskUseCase
-import work.racka.reluct.common.data.usecases.tasks.impl.GetDailyTasksUseCaseImpl
+import work.racka.reluct.common.data.usecases.tasks.impl.GetGroupedTasksStatsImpl
 import work.racka.reluct.common.data.usecases.tasks.impl.GetTasksUseCaseImpl
-import work.racka.reluct.common.data.usecases.tasks.impl.GetWeeklyTasksUseCaseImpl
 import work.racka.reluct.common.data.usecases.tasks.impl.ModifyTaskUseCaseImpl
 import work.racka.reluct.common.data.usecases.time.GetWeekRangeFromOffset
 import work.racka.reluct.common.data.usecases.time.impl.GetWeekRangeFromOffsetImpl
@@ -53,16 +52,9 @@ object Data {
             )
         }
 
-        factory<GetWeeklyTasksUseCase> {
-            GetWeeklyTasksUseCaseImpl(
+        factory<GetGroupedTasksStats> {
+            GetGroupedTasksStatsImpl(
                 dao = get(),
-                backgroundDispatcher = CoroutineDispatchers.backgroundDispatcher
-            )
-        }
-
-        factory<GetDailyTasksUseCase> {
-            GetDailyTasksUseCaseImpl(
-                weeklyTasks = get(),
                 backgroundDispatcher = CoroutineDispatchers.backgroundDispatcher
             )
         }
@@ -73,32 +65,18 @@ object Data {
         }
 
         // App Usage Stats
-        factory<GetDailyAppUsageInfo> {
-            GetDailyAppUsageInfoImpl(
+        factory<GetAppUsageInfo> {
+            GetAppUsageInfoImpl(
                 usageManager = get(),
                 backgroundDispatcher = CoroutineDispatchers.backgroundDispatcher,
                 getAppInfo = get()
             )
         }
 
-        factory<GetWeeklyAppUsageInfo> {
-            GetWeeklyAppUsageInfoImpl(
-                dailyAppUsageInfo = get(),
-                backgroundDispatcher = CoroutineDispatchers.backgroundDispatcher
-            )
-        }
-
-        factory<GetDailyUsageStats> {
-            GetDailyUsageStatsImpl(
+        factory<GetUsageStats> {
+            GetUsageStatsImpl(
                 usageManager = get(),
                 getAppInfo = get(),
-                backgroundDispatcher = CoroutineDispatchers.backgroundDispatcher
-            )
-        }
-
-        factory<GetWeeklyUsageStats> {
-            GetWeeklyUsageStatsImpl(
-                dailyUsageStats = get(),
                 backgroundDispatcher = CoroutineDispatchers.backgroundDispatcher
             )
         }
@@ -168,6 +146,26 @@ object Data {
                 getAppInfo = get(),
                 haptics = get(),
                 dispatcher = CoroutineDispatchers.backgroundDispatcher
+            )
+        }
+
+        /** Goals **/
+
+        factory<GetGoals> {
+            GetGoalsImpl(
+                goalsDao = get(),
+                getAppInfo = get(),
+                backgroundDispatcher = Dispatchers.IO
+            )
+        }
+
+        factory<ModifyGoals> {
+            ModifyGoalsImpl(
+                goalsDao = get(),
+                haptics = get(),
+                usageDataManager = get(),
+                getGroupedTasksStats = get(),
+                dispatcher = Dispatchers.IO
             )
         }
     }

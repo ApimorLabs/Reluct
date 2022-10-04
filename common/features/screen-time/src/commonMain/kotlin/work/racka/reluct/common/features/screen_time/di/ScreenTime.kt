@@ -15,8 +15,7 @@ object ScreenTime {
     private fun commonModule() = module {
         commonViewModel {
             ScreenTimeStatsViewModel(
-                getWeeklyUsageStats = get(),
-                getDailyUsageStats = get(),
+                getUsageStats = get(),
                 getWeekRangeFromOffset = get(),
                 manageAppTimeLimit = get(),
                 screenTimeServices = get()
@@ -34,7 +33,7 @@ object ScreenTime {
         commonViewModel { (packageName: String) ->
             AppScreenTimeStatsViewModel(
                 packageName = packageName,
-                getWeeklyAppUsage = get(),
+                getAppUsageInfo = get(),
                 manageAppTimeLimit = get(),
                 manageDistractingApps = get(),
                 managePausedApps = get(),

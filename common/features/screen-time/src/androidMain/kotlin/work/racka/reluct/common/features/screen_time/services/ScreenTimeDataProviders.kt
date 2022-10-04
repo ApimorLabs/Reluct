@@ -10,14 +10,14 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.datetime.Clock
-import work.racka.reluct.common.data.usecases.app_usage.GetDailyAppUsageInfo
+import work.racka.reluct.common.data.usecases.app_usage.GetAppUsageInfo
 import work.racka.reluct.common.features.screen_time.permissions.UsageAccessPermission
 import work.racka.reluct.common.model.domain.usagestats.AppUsageStats
 import work.racka.reluct.common.model.util.time.WeekUtils
 
 internal object ScreenTimeDataProviders {
     fun getCurrentAppStats(
-        getDailyAppUsageInfo: GetDailyAppUsageInfo,
+        getAppUsageInfo: GetAppUsageInfo,
         applicationContext: Context
     ): Flow<AppUsageStats> = flow {
         while (true) {
@@ -42,7 +42,7 @@ internal object ScreenTimeDataProviders {
                     }
                 }
                 latestEvent?.let { event ->
-                    getDailyAppUsageInfo.invoke(
+                    getAppUsageInfo.dailUsage(
                         dayIsoNumber = WeekUtils.currentDayOfWeek().isoDayNumber,
                         packageName = event.packageName
                     )

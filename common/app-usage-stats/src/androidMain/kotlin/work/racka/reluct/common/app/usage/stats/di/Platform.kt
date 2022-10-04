@@ -10,7 +10,7 @@ import work.racka.reluct.common.app.usage.stats.manager.UsageDataManagerImpl
 
 internal actual object Platform {
     actual fun module(): Module = module {
-        factory<UsageDataManager> {
+        single<UsageDataManager> {
             val context = androidApplication().applicationContext
             UsageDataManagerImpl(
                 context = context,

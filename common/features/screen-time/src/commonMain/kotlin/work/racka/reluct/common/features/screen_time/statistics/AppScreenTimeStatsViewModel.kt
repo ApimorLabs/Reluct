@@ -5,7 +5,7 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import work.racka.common.mvvm.viewmodel.CommonViewModel
-import work.racka.reluct.common.data.usecases.app_usage.GetWeeklyAppUsageInfo
+import work.racka.reluct.common.data.usecases.app_usage.GetAppUsageInfo
 import work.racka.reluct.common.data.usecases.limits.ManageAppTimeLimit
 import work.racka.reluct.common.data.usecases.limits.ManageDistractingApps
 import work.racka.reluct.common.data.usecases.limits.ManagePausedApps
@@ -28,7 +28,7 @@ import work.racka.reluct.common.model.util.time.WeekUtils
  */
 class AppScreenTimeStatsViewModel(
     private val packageName: String,
-    private val getWeeklyAppUsage: GetWeeklyAppUsageInfo,
+    private val getAppUsageInfo: GetAppUsageInfo,
     private val manageAppTimeLimit: ManageAppTimeLimit,
     private val manageDistractingApps: ManageDistractingApps,
     private val managePausedApps: ManagePausedApps,
@@ -178,7 +178,7 @@ class AppScreenTimeStatsViewModel(
             val selectedDay = selectedInfo.value.selectedDay
             val weekOffsetText = getWeekRangeFromOffset.invoke(weekOffset)
             selectedInfo.update { it.copy(selectedWeekText = weekOffsetText) }
-            val weekData = getWeeklyAppUsage.invoke(
+            val weekData = getAppUsageInfo.weeklyUsage(
                 weekOffset = weekOffset,
                 packageName = packageName
             )

@@ -5,8 +5,7 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import work.racka.common.mvvm.viewmodel.CommonViewModel
-import work.racka.reluct.common.data.usecases.app_usage.GetDailyUsageStats
-import work.racka.reluct.common.data.usecases.app_usage.GetWeeklyUsageStats
+import work.racka.reluct.common.data.usecases.app_usage.GetUsageStats
 import work.racka.reluct.common.data.usecases.limits.ManageAppTimeLimit
 import work.racka.reluct.common.data.usecases.time.GetWeekRangeFromOffset
 import work.racka.reluct.common.features.screen_time.limits.states.AppTimeLimitState
@@ -20,8 +19,7 @@ import work.racka.reluct.common.model.util.time.TimeUtils
 import work.racka.reluct.common.model.util.time.WeekUtils
 
 class ScreenTimeStatsViewModel(
-    private val getWeeklyUsageStats: GetWeeklyUsageStats,
-    private val getDailyUsageStats: GetDailyUsageStats,
+    private val getUsageStats: GetUsageStats,
     private val getWeekRangeFromOffset: GetWeekRangeFromOffset,
     private val manageAppTimeLimit: ManageAppTimeLimit,
     private val screenTimeServices: ScreenTimeServices
@@ -84,7 +82,7 @@ class ScreenTimeStatsViewModel(
         dailyUsageStatsState.update { DailyUsageStatsState.Loading(dailyUsageStats = it.usageStat) }
         dailyScreenTimeStatsJob = vmScope.launch {
             val selected = selectedInfo.value
-            val dailyData = getDailyUsageStats.invoke(
+            val dailyData = getUsageStats.dailyUsage(
                 weekOffset = selected.weekOffset,
                 dayIsoNumber = selected.selectedDay
             )
@@ -106,7 +104,7 @@ class ScreenTimeStatsViewModel(
             val weekOffset = selectedInfo.value.weekOffset
             val weekOffsetText = getWeekRangeFromOffset.invoke(weekOffset)
             selectedInfo.update { it.copy(selectedWeekText = weekOffsetText) }
-            val weeklyData = getWeeklyUsageStats.invoke(weekOffset = weekOffset)
+            val weeklyData = getUsageStats.weeklyUsage(weekOffset = weekOffset)
             if (weeklyData.isEmpty()) {
                 weeklyUsageStatsState.update { WeeklyUsageStatsState.Empty }
             } else {

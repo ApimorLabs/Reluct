@@ -1,3 +1,77 @@
+import kotlin.collections.List;
+import kotlin.ranges.LongRange;
+import work.racka.reluct.common.model.domain.goals.GoalInterval;
+import work.racka.reluct.common.model.domain.goals.GoalType;
+import work.racka.reluct.common.model.util.time.Week;
+
 CREATE TABLE GoalsTable (
-id INTEGER NOT NULL PRIMARY KEY
+id TEXT NOT NULL PRIMARY KEY,
+name TEXT NOT NULL,
+description TEXT NOT NULL,
+isActive INTEGER AS Boolean DEFAULT 0 NOT NULL,
+relatedApps TEXT AS List<String> NOT NULL,
+targetValue INTEGER NOT NULL,
+currentValue INTEGER NOT NULL,
+goalInterval TEXT AS GoalInterval NOT NULL,
+timeInterval TEXT AS LongRange DEFAULT NULL,
+daysOfWeekSelected TEXT AS List<Week> NOT NULL,
+goalType TEXT AS GoalType NOT NULL
 );
+
+insertGoal:
+INSERT OR REPLACE INTO GoalsTable(
+id,
+name,
+description,
+isActive,
+relatedApps,
+targetValue,
+currentValue,
+goalInterval,
+timeInterval,
+daysOfWeekSelected,
+goalType
+) VALUES ?;
+
+getGoalById:
+SELECT * FROM GoalsTable
+WHERE id = :id;
+
+getAllGoals:
+SELECT * FROM GoalsTable
+LIMIT :factor * :limitBy;
+
+getActiveGoals:
+SELECT * FROM GoalsTable
+WHERE isActive = 1
+LIMIT :factor * :limitBy;
+
+getInActiveGoals:
+SELECT * FROM GoalsTable
+WHERE isActive = 0
+LIMIT :factor * :limitBy;
+
+toggleGoalActive:
+UPDATE OR IGNORE GoalsTable
+SET isActive = :isActive
+WHERE id = :id;
+
+updateGoalCurrentValue:
+UPDATE OR IGNORE GoalsTable
+SET currentValue = :currentValue
+WHERE id = :id;
+
+deleteGoal:
+DELETE FROM GoalsTable
+WHERE id = :id;
+
+deleteAllInActiveGoals:
+DELETE FROM GoalsTable
+WHERE isActive = 0;
+
+deleteAllActiveGoals:
+DELETE FROM GoalsTable
+WHERE isActive = 1;
+
+deleteAllGoals:
+DELETE FROM GoalsTable;

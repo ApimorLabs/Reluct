@@ -65,6 +65,18 @@ object StatisticsTimeUtils {
         return start..end
     }
 
+    fun weekTimeInMillisRange(
+        weekOffset: Int = 0,
+        timeZoneId: String = TimeZone.currentSystemDefault().id,
+    ): LongRange {
+        val timeZone = TimeZone.of(timeZoneId)
+        val start = startOfWeekLocalDateTime(weekOffset, timeZoneId)
+            .toInstant(timeZone).toEpochMilliseconds()
+        val end = endOfWeekLocalDateTime(weekOffset, timeZoneId)
+            .toInstant(timeZone).toEpochMilliseconds()
+        return start..end
+    }
+
     fun selectedDayDateTimeString(
         weekOffset: Int = 0,
         selectedDayIsoNumber: Int = 1,
