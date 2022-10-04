@@ -11,7 +11,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import org.koin.core.parameter.parametersOf
 import timber.log.Timber
-import work.racka.common.mvvm.koin.compose.commonViewModel
+import work.racka.common.mvvm.koin.compose.getCommonViewModel
 import work.racka.reluct.common.features.tasks.add_edit_task.AddEditTaskViewModel
 import work.racka.reluct.common.model.states.tasks.TasksEvents
 
@@ -22,7 +22,7 @@ fun AddEditTaskScreen(
 ) {
 
     val scaffoldState = rememberScaffoldState()
-    val viewModel: AddEditTaskViewModel by commonViewModel { parametersOf(taskId) }
+    val viewModel: AddEditTaskViewModel = getCommonViewModel { parametersOf(taskId) }
     val uiState by viewModel.uiState.collectAsState()
     val events by viewModel.events.collectAsState(TasksEvents.Nothing)
 

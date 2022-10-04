@@ -2,11 +2,9 @@ package work.racka.common.mvvm.koin.compose
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
-import androidx.compose.ui.platform.LocalSavedStateRegistryOwner
-import androidx.lifecycle.ViewModelLazy
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStoreOwner
 import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
-import org.koin.androidx.viewmodel.ViewModelOwner
 import org.koin.androidx.viewmodel.ext.android.getViewModelFactory
 import org.koin.core.annotation.KoinInternalApi
 import org.koin.core.context.GlobalContext
@@ -28,13 +26,22 @@ import work.racka.common.mvvm.viewmodel.CommonViewModel
 @Composable
 inline fun <reified T : CommonViewModel> getCommonViewModel(
     qualifier: Qualifier? = null,
-    owner: ViewModelStoreOwner? = null,
+    owner: ViewModelStoreOwner = checkNotNull(LocalViewModelStoreOwner.current) {
+        "No ViewModelStoreOwner was provided via LocalViewModelStoreOwner"
+    },
     scope: Scope = GlobalContext.get().scopeRegistry.rootScope,
     noinline parameters: ParametersDefinition? = null,
 ): T {
-    return commonViewModel<T>(qualifier, owner, scope, parameters).value
+    return remember(qualifier, parameters) {
+        val vmClazz = T::class
+        val factory = getViewModelFactory(
+            owner, vmClazz, qualifier, parameters, scope = scope
+        )
+        ViewModelProvider(owner, factory)[vmClazz.java]
+    }
 }
 
+/*
 @OptIn(KoinInternalApi::class)
 @Composable
 inline fun <reified T : CommonViewModel> commonViewModel(
@@ -43,23 +50,23 @@ inline fun <reified T : CommonViewModel> commonViewModel(
     scope: Scope = GlobalContext.get().scopeRegistry.rootScope,
     noinline parameters: ParametersDefinition? = null,
 ): Lazy<T> {
-    val storeOwner = owner?.let { ViewModelOwner.from(it) } ?: getComposeViewModelOwner()
+    val storeOwner = owner ?: getComposeViewModelOwner()
     return remember(qualifier, parameters) {
-        ViewModelLazy(T::class, { storeOwner.storeOwner.viewModelStore }, {
-            getViewModelFactory<T>({ storeOwner }, qualifier, parameters, scope = scope)
+        ViewModelLazy(T::class, { storeOwner.viewModelStore }, {
+            getViewModelFactory<T>({ storeOwner.viewModelStore }, qualifier, parameters, scope = scope)
         })
     }
 }
 
+*/
 /**
  * Retrieve ViewModelOwner for current LocalViewModelStoreOwner & LocalSavedStateRegistryOwner
  *
  * @return ViewModelOwner
- */
+ *//*
+
 @Composable
-fun getComposeViewModelOwner(): ViewModelOwner {
-    return ViewModelOwner.from(
-        LocalViewModelStoreOwner.current!!,
-        LocalSavedStateRegistryOwner.current
-    )
-}
+fun getComposeViewModelOwner(): ViewModelStoreOwner {
+    ViewModelStoreOwner { ViewModelStore() }
+    return LocalViewModelStoreOwner.current!!
+}*/

@@ -13,7 +13,7 @@ import work.racka.reluct.common.features.tasks.task_details.TaskDetailsViewModel
 object Tasks {
 
     fun KoinApplication.tasksModules() {
-        modules(Platform.platformTasksModule(), commonModule())
+        modules(commonModule())
     }
 
     private fun commonModule() = module {

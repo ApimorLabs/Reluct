@@ -47,7 +47,6 @@ kotlin {
                 implementation(Dependencies.Android.Essential.coreKtx)
                 implementation(Dependencies.Android.Essential.saveState)
                 implementation(Dependencies.Koin.android)
-                implementation(Dependencies.Koin.compose)
 
                 // Compose
                 implementation(project(":android:compose:theme"))

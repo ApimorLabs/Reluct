@@ -11,7 +11,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import work.racka.common.mvvm.koin.compose.commonViewModel
+import work.racka.common.mvvm.koin.compose.getCommonViewModel
 import work.racka.reluct.android.screens.R
 import work.racka.reluct.common.features.tasks.search_tasks.SearchTasksViewModel
 import work.racka.reluct.common.model.states.tasks.TasksEvents
@@ -23,7 +23,7 @@ fun TasksSearchScreen(
 ) {
     val scaffoldState = rememberScaffoldState()
 
-    val viewModel: SearchTasksViewModel by commonViewModel()
+    val viewModel: SearchTasksViewModel = getCommonViewModel()
     val uiState by viewModel.uiState.collectAsState()
     val events by viewModel.events.collectAsState(initial = TasksEvents.Nothing)
 

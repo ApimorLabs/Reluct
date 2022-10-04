@@ -7,7 +7,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import work.racka.common.mvvm.koin.compose.commonViewModel
+import work.racka.common.mvvm.koin.compose.getCommonViewModel
 import work.racka.reluct.android.screens.R
 import work.racka.reluct.common.features.settings.AppSettingsViewModel
 import work.racka.reluct.common.features.settings.states.SettingsEvents
@@ -18,7 +18,7 @@ fun SettingsScreen(
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
 
-    val viewModel: AppSettingsViewModel by commonViewModel()
+    val viewModel: AppSettingsViewModel = getCommonViewModel()
     val uiState by viewModel.uiState.collectAsState()
     val events by viewModel.events.collectAsState(initial = SettingsEvents.Nothing)
 

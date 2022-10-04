@@ -12,7 +12,7 @@ import androidx.compose.ui.platform.LocalContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import org.koin.core.parameter.parametersOf
-import work.racka.common.mvvm.koin.compose.commonViewModel
+import work.racka.common.mvvm.koin.compose.getCommonViewModel
 import work.racka.reluct.android.screens.R
 import work.racka.reluct.common.features.screen_time.statistics.AppScreenTimeStatsViewModel
 import work.racka.reluct.common.features.screen_time.statistics.states.ScreenTimeStatsEvents
@@ -24,7 +24,7 @@ fun AppScreenTimeStatsScreen(
 ) {
     val scaffoldState = rememberScaffoldState()
 
-    val viewModel: AppScreenTimeStatsViewModel by commonViewModel { parametersOf(packageName) }
+    val viewModel: AppScreenTimeStatsViewModel = getCommonViewModel { parametersOf(packageName) }
     val uiState by viewModel.uiState.collectAsState()
     val events by viewModel.events.collectAsState(initial = ScreenTimeStatsEvents.Nothing)
 

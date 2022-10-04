@@ -54,14 +54,10 @@ dependencies {
         implementation(animation)
         implementation(material)
         implementation(preview)
-        implementation(activity)
-        implementation(viewModel)
-        implementation(navigation)
         implementation(materialIconsCore)
         implementation(materialIconsExtended)
         implementation(foundation)
         implementation(foundationLayout)
-        implementation(constraintLayout)
         implementation(material3)
 
         // Testing Compose
@@ -69,18 +65,8 @@ dependencies {
         debugImplementation(tooling)
     }
 
-    // Koin
-    with(Dependencies.Koin) {
-        implementation(compose)
-    }
-
     // Coil Image loader
     implementation(Dependencies.Android.Coil.image)
-
-    // Accompanist
-    with(Dependencies.Android.Accompanist) {
-        implementation(navigationAnimations)
-    }
 
     with(Dependencies.Android.Extras) {
         // Palette

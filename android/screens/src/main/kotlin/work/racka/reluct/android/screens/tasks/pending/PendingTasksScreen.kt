@@ -12,7 +12,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import work.racka.common.mvvm.koin.compose.commonViewModel
+import work.racka.common.mvvm.koin.compose.getCommonViewModel
 import work.racka.reluct.android.compose.components.util.BarsVisibility
 import work.racka.reluct.android.screens.R
 import work.racka.reluct.common.features.tasks.pending_tasks.PendingTasksViewModel
@@ -28,7 +28,7 @@ fun PendingTasksScreen(
 
     val scaffoldState = rememberScaffoldState()
 
-    val viewModel: PendingTasksViewModel by commonViewModel()
+    val viewModel: PendingTasksViewModel = getCommonViewModel()
     val uiState by viewModel.uiState.collectAsState()
     val events by viewModel.events.collectAsState(initial = TasksEvents.Nothing)
 

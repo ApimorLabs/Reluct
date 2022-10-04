@@ -7,7 +7,7 @@ import work.racka.reluct.common.features.settings.AppSettingsViewModel
 
 object AppSettings {
     fun KoinApplication.appSettingsModules() {
-        modules(Platform.module(), commonModule())
+        modules(commonModule())
     }
 
     private fun commonModule() = module {

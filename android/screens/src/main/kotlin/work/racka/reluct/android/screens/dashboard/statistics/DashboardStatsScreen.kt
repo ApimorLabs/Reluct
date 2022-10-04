@@ -5,7 +5,7 @@ import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import work.racka.common.mvvm.koin.compose.commonViewModel
+import work.racka.common.mvvm.koin.compose.getCommonViewModel
 import work.racka.reluct.android.compose.components.util.BarsVisibility
 import work.racka.reluct.common.features.dashboard.statistics.DashboardStatisticsViewModel
 
@@ -18,7 +18,7 @@ fun DashboardStatsScreen(
 ) {
     val scaffoldState = rememberScaffoldState()
 
-    val viewModel: DashboardStatisticsViewModel by commonViewModel()
+    val viewModel: DashboardStatisticsViewModel = getCommonViewModel()
     val screenTimeUiState by viewModel.screenTimeUiState.collectAsState()
     val tasksStatsUiState by viewModel.tasksStatsUiState.collectAsState()
 

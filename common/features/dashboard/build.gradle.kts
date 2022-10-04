@@ -44,41 +44,11 @@ kotlin {
             }
         }
 
-        val androidMain by getting {
-            dependencies {
-                implementation(Dependencies.Android.Essential.coreKtx)
-                implementation(Dependencies.Android.Essential.saveState)
-                implementation(Dependencies.Koin.android)
-                implementation(Dependencies.Koin.compose)
-
-                // Compose
-                implementation(project(":android:compose:theme"))
-                implementation(project(":android:compose:components"))
-                with(Dependencies.Android.Compose) {
-                    implementation(ui)
-                    implementation(animation)
-                    implementation(material)
-                    implementation(preview)
-                    implementation(activity)
-                    implementation(viewModel)
-                    implementation(materialIconsCore)
-                    implementation(materialIconsExtended)
-                    implementation(foundation)
-                    implementation(foundationLayout)
-                    implementation(material3)
-                    implementation(tooling)
-                }
-                implementation(Dependencies.Android.Coil.image)
-            }
-        }
+        val androidMain by getting
 
         val androidTest by getting
 
-        val desktopMain by getting {
-            dependencies {
-                implementation(Dependencies.Log.slf4j)
-            }
-        }
+        val desktopMain by getting
 
         val desktopTest by getting
     }
