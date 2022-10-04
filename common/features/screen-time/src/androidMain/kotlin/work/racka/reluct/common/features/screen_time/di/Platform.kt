@@ -9,7 +9,12 @@ import work.racka.reluct.common.features.screen_time.services.ScreenTimeServices
 internal actual object Platform {
     actual fun installModule(): Module = module {
         factory<ScreenTimeServices> {
-            AndroidScreenTimeServices(context = androidContext())
+            AndroidScreenTimeServices(
+                context = androidContext(),
+                getAppUsageInfo = get(),
+                getAppLimits = get(),
+                manageFocusMode = get(),
+            )
         }
     }
 }
