@@ -16,7 +16,6 @@ import work.racka.reluct.common.system_service.notifications.default_channels.ge
 
 internal object UsageAccessPermission {
 
-    @Suppress("DEPRECATION")
     fun isAllowed(
         context: Context
     ): Boolean {
@@ -29,6 +28,7 @@ internal object UsageAccessPermission {
                 context.packageName
             )
         } else {
+            @Suppress("DEPRECATION")
             appOps.checkOpNoThrow(
                 AppOpsManager.OPSTR_GET_USAGE_STATS,
                 Process.myUid(),
@@ -57,7 +57,7 @@ internal object UsageAccessPermission {
         )
     }
 
-    fun requestIntent() = Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS)
+    private fun requestIntent() = Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS)
 
     private fun Context.openDeviceUsageSettings(): PendingIntent = PendingIntent.getActivity(
         this,

@@ -46,12 +46,12 @@ kotlin {
             dependencies {
                 implementation(Dependencies.Android.Essential.coreKtx)
                 implementation(Dependencies.Android.Essential.saveState)
-                implementation(Dependencies.Koin.android)
 
                 // Compose
                 implementation(project(":android:compose:theme"))
                 implementation(project(":android:compose:components"))
                 with(Dependencies.Android.Compose) {
+                    implementation(runtime)
                     implementation(ui)
                     implementation(animation)
                     implementation(material)
