@@ -11,7 +11,8 @@ kotlin {
         compilations.all {
             kotlinOptions.jvmTarget = JavaVersion.VERSION_11.majorVersion
         }
-        withJava()
+        // TODO: Fix on Electric Eel Beta03: https://issuetracker.google.com/issues/248593403
+        //withJava()
     }
     sourceSets {
         val desktopMain by getting {
