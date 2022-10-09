@@ -48,15 +48,18 @@ internal class ModifyGoalsImpl(
         }
 
     override suspend fun syncGoals() {
-        val goals = goalsDao.getActiveGoals(factor = 0).first().map { goal ->
-            when (goal.goalType) {
-                GoalType.TasksGoal -> manageTasksGoalType(goal)
-                GoalType.DeviceScreenTimeGoal -> manageDeviceScreenTimeGoalType(goal)
-                GoalType.AppScreenTimeGoal -> manageAppScreenTimeGoalType(goal)
-                GoalType.NumeralGoal -> goal
+        val activeGoals = goalsDao.getActiveGoals(factor = 0).first()
+        if (activeGoals.isNotEmpty()) {
+            val updated = goalsDao.getActiveGoals(factor = 0).first().map { goal ->
+                when (goal.goalType) {
+                    GoalType.TasksGoal -> manageTasksGoalType(goal)
+                    GoalType.DeviceScreenTimeGoal -> manageDeviceScreenTimeGoalType(goal)
+                    GoalType.AppScreenTimeGoal -> manageAppScreenTimeGoalType(goal)
+                    GoalType.NumeralGoal -> goal
+                }
             }
+            goalsDao.insertGoals(updated)
         }
-        goalsDao.insertGoals(goals)
     }
 
     private suspend fun manageTasksGoalType(goal: GoalDbObject): GoalDbObject =
