@@ -20,6 +20,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberImagePainter
 import work.racka.reluct.android.compose.components.R
+import work.racka.reluct.android.compose.components.textfields.texts.EntryHeading
 import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.android.compose.theme.Shapes
 import work.racka.reluct.common.model.domain.usagestats.AppUsageInfo
@@ -142,7 +143,7 @@ private fun AppNameAndTimeText(
     Column(
         modifier = modifier
     ) {
-        AppNameHeading(text = appName, color = color)
+        EntryHeading(text = appName, color = color)
         Spacer(modifier = Modifier.width(Dimens.SmallPadding.size))
         TimeInfoText(text = timeText, color = color)
     }

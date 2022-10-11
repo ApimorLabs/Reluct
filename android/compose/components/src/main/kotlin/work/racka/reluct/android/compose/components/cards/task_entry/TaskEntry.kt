@@ -17,6 +17,8 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import work.racka.reluct.android.compose.components.checkboxes.RoundCheckbox
+import work.racka.reluct.android.compose.components.textfields.texts.EntryDescription
+import work.racka.reluct.android.compose.components.textfields.texts.EntryHeading
 import work.racka.reluct.android.compose.components.util.PreviewData
 import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.android.compose.theme.Shapes
@@ -104,7 +106,7 @@ private fun TaskEntryText(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.fillMaxWidth()
         ) {
-            TaskHeading(text = task.title)
+            EntryHeading(text = task.title)
             Spacer(modifier = Modifier.width(Dimens.SmallPadding.size))
             Text(
                 text = task.dueTime,
@@ -115,7 +117,7 @@ private fun TaskEntryText(
             )
         }
         AnimatedVisibility(visible = entryType == EntryType.PendingTask) {
-            TaskDescription(text = task.description)
+            EntryDescription(text = task.description)
         }
         TaskTimeInfo(
             timeText = if (

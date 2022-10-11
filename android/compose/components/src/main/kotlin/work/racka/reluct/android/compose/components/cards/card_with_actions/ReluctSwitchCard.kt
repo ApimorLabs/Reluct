@@ -22,7 +22,7 @@ fun ReluctSwitchCard(
     onCheckedChange: (Boolean) -> Unit,
     enabled: Boolean = true,
     title: @Composable () -> Unit,
-    description: @Composable () -> Unit,
+    description: @Composable ColumnScope.() -> Unit,
     icon: ImageVector? = null,
     onClick: () -> Unit,
     bottomContent: @Composable ColumnScope.() -> Unit = {}

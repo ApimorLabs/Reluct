@@ -46,6 +46,7 @@ dependencies {
     // Compose
     with(Dependencies.Android.Compose) {
         implementation(ui)
+        implementation(toolingPreview)
         implementation(animation)
         implementation(material)
         implementation(preview)

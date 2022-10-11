@@ -192,4 +192,16 @@
     <string name="light_theme_text_desc">See the Light within!</string>
     <string name="dark_theme_text">Dark Theme</string>
     <string name="dark_theme_text_desc">Join the Dark side!</string>
+
+    <!--  Goal Types Text  -->
+    <string name="app_screen_time_goal_interval">App(s) Screen Time</string>
+    <string name="device_screen_time_goal_interval">Device Screen Time</string>
+    <string name="tasks_goal_interval">Task(s)</string>
+    <string name="numeral_goal_interval">Value Based</string>
+
+    <!--  Goal Interval Text  -->
+    <string name="interval_text">Interval</string>
+    <string name="daily_interval_text">Daily</string>
+    <string name="weekly_interval_text">Weekly</string>
+    <string name="custom_interval_text">Custom</string>
 </resources>
