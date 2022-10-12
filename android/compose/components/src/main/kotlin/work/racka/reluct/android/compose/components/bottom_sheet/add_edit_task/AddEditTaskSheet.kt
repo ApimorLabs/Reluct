@@ -6,7 +6,6 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -36,7 +35,6 @@ import work.racka.reluct.common.model.domain.tasks.EditTask
 import work.racka.reluct.common.model.util.time.TimeUtils.plus
 import java.util.*
 
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun AddEditTaskSheet(
     modifier: Modifier = Modifier,
@@ -133,8 +131,8 @@ fun AddEditTaskSheet(
             Spacer(modifier = Modifier.height(Dimens.SmallPadding.size))
             DateTimePills(
                 initialLocalDateTime = advancedDateTime.value,
-                onLocalDateTimeChange = { dateTimeString ->
-                    task.value = task.value.copy(dueDateLocalDateTime = dateTimeString)
+                onLocalDateTimeChange = { dateTime ->
+                    task.value = task.value.copy(dueDateLocalDateTime = dateTime.toString())
                 }
             )
         }
@@ -174,8 +172,8 @@ fun AddEditTaskSheet(
                 Spacer(modifier = Modifier.height(Dimens.SmallPadding.size))
                 DateTimePills(
                     initialLocalDateTime = advancedDateTime.value,
-                    onLocalDateTimeChange = { dateTimeString ->
-                        task.value = task.value.copy(reminderLocalDateTime = dateTimeString)
+                    onLocalDateTimeChange = { dateTime ->
+                        task.value = task.value.copy(reminderLocalDateTime = dateTime.toString())
                     }
                 )
             }
