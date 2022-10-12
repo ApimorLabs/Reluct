@@ -28,15 +28,11 @@ import androidx.compose.ui.unit.LayoutDirection
 import work.racka.reluct.android.compose.components.cards.card_with_actions.ReluctDescriptionCard
 import work.racka.reluct.android.compose.components.textfields.texts.EntryDescription
 import work.racka.reluct.android.compose.components.textfields.texts.EntryHeading
+import work.racka.reluct.android.compose.components.util.PreviewData
 import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.android.compose.theme.ReluctAppTheme
 import work.racka.reluct.android.compose.theme.Shapes
 import work.racka.reluct.common.model.domain.goals.Goal
-import work.racka.reluct.common.model.domain.goals.GoalDuration
-import work.racka.reluct.common.model.domain.goals.GoalInterval
-import work.racka.reluct.common.model.domain.goals.GoalType
-import work.racka.reluct.common.model.util.UUIDGen
-import work.racka.reluct.common.model.util.time.Week
 
 @Composable
 fun GoalEntry(
@@ -114,59 +110,9 @@ private fun DrawScope.drawLinearIndicator(
 @Composable
 private fun GoalEntryPreview() {
 
-    val goals = arrayOf(
-        Goal(
-            id = "1",
-            name = "Complete Tasks",
-            description = "Complete 50 Tasks Every Week",
-            isActive = true,
-            relatedApps = emptyList(),
-            targetValue = 10,
-            currentValue = 3,
-            goalDuration = GoalDuration(
-                goalInterval = GoalInterval.Weekly,
-                timeRangeInMillis = null,
-                formattedTimeRange = null,
-                selectedDaysOfWeek = Week.values().toList()
-            ),
-            goalType = GoalType.TasksGoal
-        ),
-        Goal(
-            id = "2",
-            name = "Save Money Weekly",
-            description = "Save $250 every week",
-            isActive = true,
-            relatedApps = emptyList(),
-            targetValue = 250,
-            currentValue = 150,
-            goalDuration = GoalDuration(
-                goalInterval = GoalInterval.Weekly,
-                timeRangeInMillis = null,
-                formattedTimeRange = null,
-                selectedDaysOfWeek = Week.values().toList()
-            ),
-            goalType = GoalType.NumeralGoal
-        ),
-        Goal(
-            id = UUIDGen.getString(),
-            name = "Reduce Daily Phone Usage",
-            description = "Only use my phone for not more than 5 hours everyday",
-            isActive = true,
-            relatedApps = emptyList(),
-            targetValue = (1.8e7).toLong(),
-            currentValue = (9.2e7).toLong(),
-            goalDuration = GoalDuration(
-                goalInterval = GoalInterval.Daily,
-                timeRangeInMillis = null,
-                formattedTimeRange = null,
-                selectedDaysOfWeek = listOf()
-            ),
-            goalType = GoalType.DeviceScreenTimeGoal
-        )
-    )
     ReluctAppTheme {
         Column(verticalArrangement = Arrangement.spacedBy(Dimens.MediumPadding.size)) {
-            goals.forEach { goal ->
+            PreviewData.goals.forEach { goal ->
                 GoalEntry(goal = goal, onEntryClick = {})
             }
         }

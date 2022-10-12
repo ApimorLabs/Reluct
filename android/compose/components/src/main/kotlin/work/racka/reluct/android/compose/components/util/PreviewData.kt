@@ -1,6 +1,12 @@
 package work.racka.reluct.android.compose.components.util
 
+import work.racka.reluct.common.model.domain.goals.Goal
+import work.racka.reluct.common.model.domain.goals.GoalDuration
+import work.racka.reluct.common.model.domain.goals.GoalInterval
+import work.racka.reluct.common.model.domain.goals.GoalType
 import work.racka.reluct.common.model.domain.tasks.Task
+import work.racka.reluct.common.model.util.UUIDGen
+import work.racka.reluct.common.model.util.time.Week
 
 object PreviewData {
     val task1 = Task(
@@ -66,5 +72,56 @@ object PreviewData {
         timeLeftLabel = "In 3 hours",
         reminderFormatted = "",
         completedDateAndTime = "Time Here"
+    )
+
+    val goals = arrayOf(
+        Goal(
+            id = "1",
+            name = "Complete Tasks",
+            description = "Complete 50 Tasks Every Week",
+            isActive = true,
+            relatedApps = emptyList(),
+            targetValue = 10,
+            currentValue = 3,
+            goalDuration = GoalDuration(
+                goalInterval = GoalInterval.Weekly,
+                timeRangeInMillis = null,
+                formattedTimeRange = null,
+                selectedDaysOfWeek = Week.values().toList()
+            ),
+            goalType = GoalType.TasksGoal
+        ),
+        Goal(
+            id = "2",
+            name = "Save Money Weekly",
+            description = "Save $250 every week",
+            isActive = true,
+            relatedApps = emptyList(),
+            targetValue = 250,
+            currentValue = 150,
+            goalDuration = GoalDuration(
+                goalInterval = GoalInterval.Weekly,
+                timeRangeInMillis = null,
+                formattedTimeRange = null,
+                selectedDaysOfWeek = Week.values().toList()
+            ),
+            goalType = GoalType.NumeralGoal
+        ),
+        Goal(
+            id = UUIDGen.getString(),
+            name = "Reduce Daily Phone Usage",
+            description = "Only use my phone for not more than 5 hours everyday",
+            isActive = true,
+            relatedApps = emptyList(),
+            targetValue = (1.8e7).toLong(),
+            currentValue = (9.2e7).toLong(),
+            goalDuration = GoalDuration(
+                goalInterval = GoalInterval.Daily,
+                timeRangeInMillis = null,
+                formattedTimeRange = null,
+                selectedDaysOfWeek = listOf()
+            ),
+            goalType = GoalType.DeviceScreenTimeGoal
+        )
     )
 }

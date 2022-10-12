@@ -78,7 +78,7 @@ fun ReluctTextField(
     ) {
 
         Row(
-            modifier = modifier
+            modifier = Modifier
                 .clip(shape)
                 .background(color = containerColor)
                 .border(
@@ -88,7 +88,7 @@ fun ReluctTextField(
                 )
                 .clickable {
                     focusRequester.requestFocus()
-                },
+                } then modifier,
             horizontalArrangement = Arrangement.Start,
             verticalAlignment = Alignment.Top
         ) {

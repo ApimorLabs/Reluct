@@ -68,12 +68,12 @@ internal fun GoalTypeLabel(
     val goalTypeText by remember(goalType) {
         derivedStateOf {
             when (goalType) {
-                GoalType.TasksGoal -> context.getString(R.string.tasks_goal_interval)
+                GoalType.TasksGoal -> context.getString(R.string.tasks_goal_type)
                 GoalType.AppScreenTimeGoal ->
-                    context.getString(R.string.app_screen_time_goal_interval)
+                    context.getString(R.string.app_screen_time_goal_type)
                 GoalType.DeviceScreenTimeGoal ->
-                    context.getString(R.string.app_screen_time_goal_interval)
-                GoalType.NumeralGoal -> context.getString(R.string.numeral_goal_interval)
+                    context.getString(R.string.app_screen_time_goal_type)
+                GoalType.NumeralGoal -> context.getString(R.string.numeral_goal_type)
             }
         }
     }
