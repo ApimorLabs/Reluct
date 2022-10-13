@@ -87,7 +87,7 @@ object DefaultGoals {
             goalInterval = GoalInterval.Daily,
             timeRangeInMillis = null,
             formattedTimeRange = null,
-            selectedDaysOfWeek = listOf()
+            selectedDaysOfWeek = Week.values().toList()
         ),
         goalType = GoalType.NumeralGoal
     )
