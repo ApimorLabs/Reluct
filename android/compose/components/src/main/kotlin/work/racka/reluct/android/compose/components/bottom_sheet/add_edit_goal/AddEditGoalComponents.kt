@@ -31,6 +31,7 @@ import work.racka.reluct.android.compose.components.textfields.ReluctTextField
 import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.android.compose.theme.Shapes
 import work.racka.reluct.common.model.domain.app_info.AppInfo
+import work.racka.reluct.common.model.domain.goals.GoalInterval
 import work.racka.reluct.common.model.domain.goals.GoalType
 
 @Composable
@@ -63,6 +64,40 @@ internal fun GoalTypeSelector(
                 contentColor = if (selectedGoalType == type) MaterialTheme.colorScheme.onPrimary
                 else MaterialTheme.colorScheme.onSurfaceVariant,
                 onButtonClicked = { onSelectGoalType(type) }
+            )
+        }
+    }
+}
+
+@Composable
+internal fun GoalIntervalSelector(
+    modifier: Modifier = Modifier,
+    selectedGoalInterval: GoalInterval,
+    onSelectGoalInterval: (GoalInterval) -> Unit
+) {
+    @Composable
+    fun getGoalTypeString(goalInterval: GoalInterval): String =
+        when (goalInterval) {
+            GoalInterval.Daily -> stringResource(R.string.daily_interval_text)
+            GoalInterval.Weekly -> stringResource(R.string.weekly_interval_text)
+            GoalInterval.Custom -> stringResource(R.string.custom_interval_text)
+        }
+
+    LazyRow(
+        modifier = modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(Dimens.SmallPadding.size)
+    ) {
+        items(GoalInterval.values()) { item ->
+            ReluctButton(
+                buttonText = getGoalTypeString(goalInterval = item),
+                icon = null,
+                shape = Shapes.large,
+                buttonColor = if (selectedGoalInterval == item) MaterialTheme.colorScheme.primary
+                else MaterialTheme.colorScheme.surfaceVariant,
+                contentColor = if (selectedGoalInterval == item) MaterialTheme.colorScheme.onPrimary
+                else MaterialTheme.colorScheme.onSurfaceVariant,
+                onButtonClicked = { onSelectGoalInterval(item) }
             )
         }
     }

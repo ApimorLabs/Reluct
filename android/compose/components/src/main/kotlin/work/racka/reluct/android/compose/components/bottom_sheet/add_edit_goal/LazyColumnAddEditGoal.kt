@@ -118,6 +118,19 @@ fun LazyColumnAddEditGoal(
             onUpdateTargetValue = { onUpdateGoal(goal.copy(targetValue = it)) }
         )
 
+        // Goal Interval Selector
+        item {
+            AddEditGoalItemTitle(text = stringResource(R.string.interval_text))
+            Spacer(modifier = Modifier.height(Dimens.SmallPadding.size))
+            GoalIntervalSelector(
+                selectedGoalInterval = goal.goalDuration.goalInterval,
+                onSelectGoalInterval = { interval ->
+                    val duration = goal.goalDuration.copy(goalInterval = interval)
+                    onUpdateGoal(goal.copy(goalDuration = duration))
+                }
+            )
+        }
+
         // Buttons
         item {
             Row(
