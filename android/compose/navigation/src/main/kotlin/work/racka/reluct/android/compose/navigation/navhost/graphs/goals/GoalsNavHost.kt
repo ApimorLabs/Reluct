@@ -4,14 +4,11 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -34,6 +31,7 @@ import work.racka.reluct.android.compose.navigation.transitions.scaleInPopEnterT
 import work.racka.reluct.android.compose.navigation.transitions.scaleOutExitTransition
 import work.racka.reluct.android.compose.navigation.transitions.scaleOutPopExitTransition
 import work.racka.reluct.android.screens.goals.active.ActiveGoalsScreen
+import work.racka.reluct.android.screens.goals.inactive.InactiveGoalsScreen
 import work.racka.reluct.common.core_navigation.compose_destinations.goals.ActiveGoalsDestination
 import work.racka.reluct.common.core_navigation.compose_destinations.goals.InactiveGoalsDestination
 
@@ -106,15 +104,16 @@ internal fun GoalsNavHost(
                 popEnterTransition = { scaleInPopEnterTransition() },
                 popExitTransition = { scaleOutPopExitTransition() }
             ) {
-                Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text(
-                        text = "Goals: $route",
-                        color = MaterialTheme.colorScheme.onBackground
-                    )
-                }
+                InactiveGoalsScreen(
+                    mainScaffoldPadding = mainScaffoldPadding,
+                    barsVisibility = barsVisibility,
+                    onNavigateToAddGoal = { defaultGoalIndex: Int? ->
+                        Timber.d("Goal Index: $defaultGoalIndex")
+                    },
+                    onNavigateToGoalDetails = { goalId: String? ->
+                        Timber.d("Goal Id: $goalId")
+                    }
+                )
             }
         }
     }
