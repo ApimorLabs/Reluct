@@ -2,10 +2,9 @@ package work.racka.reluct.android.screens.goals.active
 
 import android.content.Context
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.material.BottomSheetScaffoldState
-import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.ScaffoldState
 import androidx.compose.material.SnackbarDuration
-import androidx.compose.material.rememberBottomSheetScaffoldState
+import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -19,7 +18,6 @@ import work.racka.reluct.android.screens.R
 import work.racka.reluct.common.features.goals.active.ActiveGoalsViewModel
 import work.racka.reluct.common.features.goals.active.states.GoalsEvents
 
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun ActiveGoalsScreen(
     mainScaffoldPadding: PaddingValues,
@@ -28,7 +26,7 @@ fun ActiveGoalsScreen(
     onNavigateToGoalDetails: (goalId: String) -> Unit
 ) {
 
-    val scaffoldState = rememberBottomSheetScaffoldState()
+    val scaffoldState = rememberScaffoldState()
 
     val viewModel = getCommonViewModel<ActiveGoalsViewModel>()
     val uiState by viewModel.uiState.collectAsState()
@@ -56,12 +54,11 @@ fun ActiveGoalsScreen(
     )
 }
 
-@OptIn(ExperimentalMaterialApi::class)
 private fun handleEvents(
     context: Context,
     events: GoalsEvents,
     scope: CoroutineScope,
-    scaffoldState: BottomSheetScaffoldState,
+    scaffoldState: ScaffoldState,
 ) {
     when (events) {
         is GoalsEvents.ChangedGoalState -> {

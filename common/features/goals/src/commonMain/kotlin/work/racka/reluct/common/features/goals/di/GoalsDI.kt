@@ -23,6 +23,7 @@ object GoalsDI {
             AddEditGoalViewModel(
                 getGoals = get(),
                 modifyGoals = get(),
+                getInstalledApps = get(),
                 goalId = goalId,
                 defaultGoalIndex = defaultGoalIndex
             )

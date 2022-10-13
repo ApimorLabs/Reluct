@@ -7,7 +7,10 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.material.Scaffold
+import androidx.compose.material.ScaffoldState
+import androidx.compose.material.Snackbar
+import androidx.compose.material.SnackbarHost
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.ArrowUpward
@@ -19,6 +22,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
 import kotlinx.coroutines.launch
 import work.racka.reluct.android.compose.components.animations.slideInVerticallyFadeReversed
 import work.racka.reluct.android.compose.components.animations.slideOutVerticallyFadeReversed
@@ -36,14 +40,14 @@ import work.racka.reluct.common.model.domain.goals.Goal
 
 @OptIn(
     ExperimentalAnimationApi::class,
-    ExperimentalFoundationApi::class, ExperimentalMaterialApi::class
+    ExperimentalFoundationApi::class
 )
 @Composable
 internal fun ActiveGoalsUI(
     modifier: Modifier = Modifier,
     mainScaffoldPadding: PaddingValues,
     barsVisibility: BarsVisibility,
-    scaffoldState: BottomSheetScaffoldState,
+    scaffoldState: ScaffoldState,
     uiState: ActiveGoalsState,
     fetchMoreData: () -> Unit,
     onAddGoal: (defaultGoalIndex: Int?) -> Unit,
@@ -51,25 +55,23 @@ internal fun ActiveGoalsUI(
 ) {
     val listState = rememberLazyListState()
     val scrollContext = rememberScrollContext(listState = listState)
+    var showNewGoalDialog by remember { mutableStateOf(false) }
 
     val scope = rememberCoroutineScope()
 
+    // React to scroll position
     LaunchedEffect(scrollContext.isBottom) {
         if (scrollContext.isBottom && uiState.goalsListState.shouldUpdateData
             && uiState.goalsListState !is GoalsListState.Loading && !uiState.isSyncing
         ) {
             fetchMoreData()
         }
-    }
 
-    // Need to evaluate recomposition overhead when user it at the
-    // top of the list
-    if (scrollContext.isTop) {
-        barsVisibility.bottomBar.show()
-        barsVisibility.topBar.show()
-    } else {
-        barsVisibility.bottomBar.hide()
-        barsVisibility.topBar.hide()
+        if (scrollContext.isTop) {
+            barsVisibility.bottomBar.show()
+        } else {
+            barsVisibility.bottomBar.hide()
+        }
     }
 
     val mainScaffoldBottomPadding by remember(mainScaffoldPadding) {
@@ -81,7 +83,7 @@ internal fun ActiveGoalsUI(
     val snackbarModifier = if (scrollContext.isTop) Modifier
     else Modifier.navigationBarsPadding()
 
-    BottomSheetScaffold(
+    Scaffold(
         modifier = modifier
             .fillMaxSize(),
         scaffoldState = scaffoldState,
@@ -110,22 +112,10 @@ internal fun ActiveGoalsUI(
                     buttonText = stringResource(R.string.new_goal_text),
                     contentDescription = stringResource(R.string.add_icon),
                     icon = Icons.Rounded.Add,
-                    onButtonClicked = {
-                        barsVisibility.bottomBar.hide()
-                        scope.launch { scaffoldState.bottomSheetState.expand() }
-                    }
+                    onButtonClicked = { showNewGoalDialog = true }
                 )
             }
-        },
-        sheetContent = {
-            NewGoalSheet(
-                onAddGoal = onAddGoal,
-                onCloseSheet = {
-                    scope.launch { scaffoldState.bottomSheetState.collapse() }
-                }
-            )
-        },
-        sheetShape = RoundedCornerShape(topStart = 10.dp, topEnd = 10.dp)
+        }
     ) { innerPadding ->
 
         Box(
@@ -163,7 +153,7 @@ internal fun ActiveGoalsUI(
                     contentAlignment = Alignment.Center
                 ) {
                     LottieAnimationWithDescription(
-                        lottieResId = R.raw.no_data,
+                        lottieResId = R.raw.no_task_animation,
                         imageSize = 200.dp,
                         description = stringResource(R.string.no_goals_text)
                     )
@@ -247,6 +237,16 @@ internal fun ActiveGoalsUI(
                         scope.launch { listState.animateScrollToItem(0) }
                     },
                     expanded = false
+                )
+            }
+        }
+
+
+        if (showNewGoalDialog) {
+            Dialog(onDismissRequest = { showNewGoalDialog = false }) {
+                NewGoalSheet(
+                    modifier = Modifier.height(500.dp),
+                    onAddGoal = onAddGoal
                 )
             }
         }
