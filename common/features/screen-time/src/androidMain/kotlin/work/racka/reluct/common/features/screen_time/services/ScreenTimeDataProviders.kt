@@ -21,7 +21,7 @@ internal object ScreenTimeDataProviders {
         applicationContext: Context
     ): Flow<AppUsageStats> = flow {
         while (true) {
-            delay(500)
+            delay(5000)
             if (UsageAccessPermission.isAllowed(applicationContext)) {
                 val currentTime = Clock.System.now().toEpochMilliseconds()
                 val startTimeMillis = currentTime - (1000 * 1800)
