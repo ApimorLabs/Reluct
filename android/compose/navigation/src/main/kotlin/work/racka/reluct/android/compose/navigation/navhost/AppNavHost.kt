@@ -25,7 +25,7 @@ import work.racka.reluct.android.compose.navigation.navbar.NavbarDestinations
 import work.racka.reluct.android.compose.navigation.navbar.ReluctBottomNavBar
 import work.racka.reluct.android.compose.navigation.navhost.graphs.dashboard.DashboardNavHost
 import work.racka.reluct.android.compose.navigation.navhost.graphs.extras.otherScreenNavGraph
-import work.racka.reluct.android.compose.navigation.navhost.graphs.goals.goalsNavGraph
+import work.racka.reluct.android.compose.navigation.navhost.graphs.goals.GoalsNavHost
 import work.racka.reluct.android.compose.navigation.navhost.graphs.screentime.ScreenTimeNavHost
 import work.racka.reluct.android.compose.navigation.navhost.graphs.screentime.appScreenTimeStatsNavGraph
 import work.racka.reluct.android.compose.navigation.navhost.graphs.tasks.TasksNavHost
@@ -178,7 +178,20 @@ fun AppNavHost(modifier: Modifier = Modifier, settingsCheck: SettingsCheck?) {
             }
 
             // Goals
-            goalsNavGraph(navController)
+            composable(
+                route = NavbarDestinations.Goals.route,
+                enterTransition = { slideInVerticallyFadeReversed(initialScale = transScale) },
+                exitTransition = { slideOutVerticallyFadeReversed(targetScale = transScale) },
+                popEnterTransition = { slideInVerticallyFadeReversed(initialScale = transScale) },
+                popExitTransition = { slideOutVerticallyFadeReversed(targetScale = transScale) }
+            ) {
+                Timber.d("Goals screen called")
+                GoalsNavHost(
+                    mainNavController = navController,
+                    barsVisibility = barsVisibility,
+                    mainScaffoldPadding = innerPadding
+                )
+            }
 
             // Settings
             composable(

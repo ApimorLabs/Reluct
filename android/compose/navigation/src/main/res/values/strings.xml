@@ -6,8 +6,8 @@
     <string name="screen_time_stats">Statistics</string>
     <string name="screen_time_limit">Limits</string>
 
-    <string name="goals_ongoing">Ongoing</string>
-    <string name="goals_completed">Completed</string>
+    <string name="goals_active">Active</string>
+    <string name="goals_inactive">Inactive</string>
 
     <string name="dashboard_overview">Overview</string>
     <string name="dashboard_statistics">Statistics</string>

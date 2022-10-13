@@ -217,4 +217,10 @@
     <string name="start_time_txt">Start Time</string>
     <string name="end_time_txt">End Time</string>
     <string name="choose_days_txt">Choose Days of Week</string>
+    <string name="no_goals_text">No Goals</string>
+    <string name="new_goal_text">New Goal</string>
+
+    <string name="goal_marked_active">Goal Marked Active</string>
+    <string name="goal_marked_inactive">Goal Marked Inactive</string>
+    <string name="examples_text">Examples</string>
 </resources>
