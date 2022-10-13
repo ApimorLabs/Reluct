@@ -83,13 +83,14 @@ internal fun GoalIntervalSelector(
             GoalInterval.Custom -> stringResource(R.string.custom_interval_text)
         }
 
-    LazyRow(
+    Row(
         modifier = modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(Dimens.SmallPadding.size)
     ) {
-        items(GoalInterval.values()) { item ->
+        GoalInterval.values().forEach { item ->
             ReluctButton(
+                modifier = Modifier.weight(1f),
                 buttonText = getGoalTypeString(goalInterval = item),
                 icon = null,
                 shape = Shapes.large,
