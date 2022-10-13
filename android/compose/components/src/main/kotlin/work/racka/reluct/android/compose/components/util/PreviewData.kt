@@ -100,7 +100,7 @@ object PreviewData {
             targetValue = 250,
             currentValue = 150,
             goalDuration = GoalDuration(
-                goalInterval = GoalInterval.Weekly,
+                goalInterval = GoalInterval.Custom,
                 timeRangeInMillis = null,
                 formattedTimeRange = null,
                 selectedDaysOfWeek = Week.values().toList()
@@ -119,7 +119,7 @@ object PreviewData {
                 goalInterval = GoalInterval.Daily,
                 timeRangeInMillis = null,
                 formattedTimeRange = null,
-                selectedDaysOfWeek = listOf()
+                selectedDaysOfWeek = Week.values().toList()
             ),
             goalType = GoalType.DeviceScreenTimeGoal
         )

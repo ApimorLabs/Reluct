@@ -19,6 +19,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import kotlinx.datetime.Clock
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toInstant
+import kotlinx.datetime.toLocalDateTime
 import work.racka.reluct.android.compose.components.R
 import work.racka.reluct.android.compose.components.buttons.ReluctButton
 import work.racka.reluct.android.compose.components.textfields.ReluctTextField
@@ -27,7 +31,10 @@ import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.android.compose.theme.ReluctAppTheme
 import work.racka.reluct.android.compose.theme.Shapes
 import work.racka.reluct.common.model.domain.goals.Goal
+import work.racka.reluct.common.model.domain.goals.GoalInterval
 import work.racka.reluct.common.model.domain.goals.GoalType
+import work.racka.reluct.common.model.util.time.TimeUtils
+import work.racka.reluct.common.model.util.time.TimeUtils.plus
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -42,6 +49,21 @@ fun LazyColumnAddEditGoal(
 ) {
 
     var goalNameError by remember { mutableStateOf(false) }
+
+    val localDateTimeRange by remember(goal.goalDuration.timeRangeInMillis) {
+        derivedStateOf {
+            goal.goalDuration.timeRangeInMillis?.let { range ->
+                val start = TimeUtils.epochMillisToLocalDateTime(range.first)
+                val end = TimeUtils.epochMillisToLocalDateTime(range.last)
+                start..end
+            } ?: run {
+                val start = Clock.System.now()
+                    .toLocalDateTime(TimeZone.currentSystemDefault())
+                val end = start.plus(days = 1)
+                return@run start..end
+            }
+        }
+    }
 
     LazyColumn(
         state = listState,
@@ -125,11 +147,34 @@ fun LazyColumnAddEditGoal(
             GoalIntervalSelector(
                 selectedGoalInterval = goal.goalDuration.goalInterval,
                 onSelectGoalInterval = { interval ->
-                    val duration = goal.goalDuration.copy(goalInterval = interval)
+                    val duration = goal.goalDuration.let {
+                        if (interval == GoalInterval.Custom) {
+                            it.copy(goalInterval = interval)
+                        } else it.copy(goalInterval = interval, timeRangeInMillis = null)
+                    }
                     onUpdateGoal(goal.copy(goalDuration = duration))
                 }
             )
         }
+
+        // Goal Interval Duration Selection
+        goalDurationPicker(
+            dateTimeRange = localDateTimeRange,
+            currentDaysOfWeek = goal.goalDuration.selectedDaysOfWeek,
+            goalInterval = goal.goalDuration.goalInterval,
+            onDateTimeRangeChange = { dateTimeRange ->
+                val start = dateTimeRange.start.toInstant(TimeZone.currentSystemDefault())
+                    .toEpochMilliseconds()
+                val end = dateTimeRange.endInclusive.toInstant(TimeZone.currentSystemDefault())
+                    .toEpochMilliseconds()
+                val duration = goal.goalDuration.copy(timeRangeInMillis = start..end)
+                onUpdateGoal(goal.copy(goalDuration = duration))
+            },
+            onUpdateDaysOfWeek = { daysOfWeek ->
+                val duration = goal.goalDuration.copy(selectedDaysOfWeek = daysOfWeek)
+                onUpdateGoal(goal.copy(goalDuration = duration))
+            }
+        )
 
         // Buttons
         item {
@@ -155,8 +200,8 @@ fun LazyColumnAddEditGoal(
                     contentColor = MaterialTheme.colorScheme.onPrimary,
                     onButtonClicked = {
                         val isTitleBlank = goal.name.isBlank()
-                        if (isTitleBlank) goalNameError = true
-                        else onSave(goal)
+                        goalNameError = isTitleBlank
+                        if (!isTitleBlank) onSave(goal)
                     }
                 )
             }
@@ -170,7 +215,7 @@ private fun AddEditGoalPreview() {
     ReluctAppTheme {
         Surface(color = MaterialTheme.colorScheme.background.copy(.7f)) {
             LazyColumnAddEditGoal(
-                goal = PreviewData.goals[0],
+                goal = PreviewData.goals.last(),
                 onUpdateGoal = {},
                 onDiscard = {},
                 onSave = {},

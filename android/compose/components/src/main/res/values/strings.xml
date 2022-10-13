@@ -214,4 +214,7 @@
     <string name="enter_number_of_tasks_txt">Enter Number of Tasks</string>
     <string name="enter_target_value">Enter Target Value</string>
     <string name="target_value_txt">Target Value</string>
+    <string name="start_time_txt">Start Time</string>
+    <string name="end_time_txt">End Time</string>
+    <string name="choose_days_txt">Choose Days of Week</string>
 </resources>

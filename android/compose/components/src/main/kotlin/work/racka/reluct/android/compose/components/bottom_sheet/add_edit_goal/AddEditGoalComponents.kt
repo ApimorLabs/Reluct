@@ -3,9 +3,7 @@ package work.racka.reluct.android.compose.components.bottom_sheet.add_edit_goal
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyListScope
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.*
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
@@ -14,6 +12,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
@@ -21,7 +20,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
+import kotlinx.datetime.LocalDateTime
 import work.racka.reluct.android.compose.components.R
+import work.racka.reluct.android.compose.components.bottom_sheet.add_edit_task.DateTimePills
 import work.racka.reluct.android.compose.components.buttons.ReluctButton
 import work.racka.reluct.android.compose.components.number_picker.HoursNumberPicker
 import work.racka.reluct.android.compose.components.number_picker.NumberPicker
@@ -33,6 +34,8 @@ import work.racka.reluct.android.compose.theme.Shapes
 import work.racka.reluct.common.model.domain.app_info.AppInfo
 import work.racka.reluct.common.model.domain.goals.GoalInterval
 import work.racka.reluct.common.model.domain.goals.GoalType
+import work.racka.reluct.common.model.util.time.TimeUtils.plus
+import work.racka.reluct.common.model.util.time.Week
 
 @Composable
 internal fun GoalTypeSelector(
@@ -49,12 +52,24 @@ internal fun GoalTypeSelector(
             GoalType.NumeralGoal -> stringResource(R.string.numeral_goal_type)
         }
 
+    val rowState = rememberLazyListState()
+    var selectedItemIndex by remember { mutableStateOf(0) }
+
+    LaunchedEffect(selectedItemIndex) {
+        if (selectedItemIndex != 0) {
+            rowState.animateScrollToItem(selectedItemIndex)
+        }
+    }
+
     LazyRow(
         modifier = modifier.fillMaxWidth(),
+        state = rowState,
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(Dimens.SmallPadding.size)
     ) {
-        items(GoalType.values()) { type ->
+        itemsIndexed(GoalType.values()) { index, type ->
+            selectedItemIndex = if (selectedGoalType == type) index else selectedItemIndex
+
             ReluctButton(
                 buttonText = getGoalTypeString(goalType = type),
                 icon = null,
@@ -294,6 +309,102 @@ internal fun LazyListScope.goalTargetValuePicker(
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
+internal fun LazyListScope.goalDurationPicker(
+    dateTimeRange: ClosedRange<LocalDateTime>,
+    currentDaysOfWeek: List<Week>,
+    goalInterval: GoalInterval,
+    onDateTimeRangeChange: (ClosedRange<LocalDateTime>) -> Unit,
+    onUpdateDaysOfWeek: (List<Week>) -> Unit
+) {
+    when (goalInterval) {
+        GoalInterval.Daily -> {
+            item {
+                AddEditGoalItemTitle(
+                    modifier = Modifier
+                        .animateItemPlacement(),
+                    text = stringResource(R.string.choose_days_txt),
+                )
+                Spacer(modifier = Modifier.height(Dimens.SmallPadding.size))
+                Row(
+                    modifier = Modifier
+                        .animateItemPlacement()
+                        .fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(Dimens.SmallPadding.size)
+                ) {
+                    Week.values().forEach { day ->
+                        ReluctSelectionButton(
+                            modifier = Modifier.weight(1f),
+                            isSelected = currentDaysOfWeek.contains(day),
+                            content = {
+                                Text(
+                                    modifier = Modifier
+                                        .align(Alignment.CenterHorizontally)
+                                        .padding(
+                                            horizontal = Dimens.SmallPadding.size,
+                                            vertical = Dimens.MediumPadding.size
+                                        ),
+                                    text = day.dayAcronym.first().toString(),
+                                    maxLines = 1,
+                                    overflow = TextOverflow.Ellipsis
+                                )
+                            },
+                            onClick = {
+                                val new = currentDaysOfWeek.toMutableSet()
+                                new.apply {
+                                    if (currentDaysOfWeek.contains(day)) remove(day)
+                                    else add(day)
+                                }
+                                onUpdateDaysOfWeek(new.toList())
+                            }
+                        )
+                    }
+                }
+            }
+        }
+        GoalInterval.Custom -> {
+            item {
+                AddEditGoalItemTitle(
+                    modifier = Modifier
+                        .animateItemPlacement(),
+                    text = stringResource(R.string.start_time_txt),
+                )
+                Spacer(modifier = Modifier.height(Dimens.SmallPadding.size))
+                DateTimePills(
+                    modifier = Modifier.animateItemPlacement(),
+                    initialLocalDateTime = dateTimeRange.start,
+                    onLocalDateTimeChange = { dateTime ->
+                        val endTime = if (dateTime >= dateTimeRange.endInclusive)
+                            dateTime.plus(hours = 1) else dateTimeRange.endInclusive
+                        onDateTimeRangeChange(dateTime..endTime)
+                    }
+                )
+            }
+
+            item {
+                AddEditGoalItemTitle(
+                    modifier = Modifier
+                        .animateItemPlacement(),
+                    text = stringResource(R.string.end_time_txt),
+                )
+                Spacer(modifier = Modifier.height(Dimens.SmallPadding.size))
+                DateTimePills(
+                    modifier = Modifier.animateItemPlacement(),
+                    initialLocalDateTime = dateTimeRange.start,
+                    onLocalDateTimeChange = { dateTime ->
+                        val endTime =
+                            if (dateTime <= dateTimeRange.start) dateTimeRange.endInclusive
+                            else dateTime
+                        onDateTimeRangeChange(dateTimeRange.start..endTime)
+                    }
+                )
+            }
+        }
+        else -> {}
+    }
+}
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun GoalNumberPicker(
@@ -326,4 +437,27 @@ private fun GoalNumberPicker(
             textStyle = MaterialTheme.typography.titleMedium
         )
     }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+internal fun ReluctSelectionButton(
+    modifier: Modifier = Modifier,
+    shape: Shape = Shapes.large,
+    isSelected: Boolean,
+    content: @Composable ColumnScope.() -> Unit,
+    onClick: () -> Unit
+) {
+    Card(
+        modifier = modifier,
+        onClick = onClick,
+        shape = shape,
+        colors = CardDefaults.cardColors(
+            containerColor = if (isSelected) MaterialTheme.colorScheme.primary
+            else MaterialTheme.colorScheme.surfaceVariant,
+            contentColor = if (isSelected) MaterialTheme.colorScheme.onPrimary
+            else MaterialTheme.colorScheme.onSurfaceVariant
+        ),
+        content = content
+    )
 }

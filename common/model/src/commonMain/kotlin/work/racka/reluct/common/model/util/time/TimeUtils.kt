@@ -38,7 +38,7 @@ object TimeUtils {
      */
     fun isDateTimeOverdue(
         dateTime: String,
-        originalTimeZoneId: String,
+        originalTimeZoneId: String = TimeZone.currentSystemDefault().id,
         overdueHours: Int = 1,
     ): Boolean {
         val today = Clock.System.now()
@@ -348,4 +348,7 @@ object TimeUtils {
 
     fun epochMillisToLocalDateTime(millis: Long): LocalDateTime =
         Instant.fromEpochMilliseconds(millis).toLocalDateTime(TimeZone.currentSystemDefault())
+
+    fun epochMillisToLocalDateTimeString(millis: Long): String =
+        epochMillisToLocalDateTime(millis).toString()
 }

@@ -14,6 +14,7 @@ import work.racka.reluct.common.model.domain.goals.Goal
 import work.racka.reluct.common.model.domain.goals.GoalInterval
 import work.racka.reluct.common.model.domain.goals.GoalType
 import work.racka.reluct.common.model.util.time.StatisticsTimeUtils
+import work.racka.reluct.common.model.util.time.TimeUtils
 import work.racka.reluct.common.model.util.time.WeekUtils
 import work.racka.reluct.common.system_service.haptics.HapticFeedback
 
@@ -81,11 +82,21 @@ internal class ModifyGoalsImpl(
                 )
             }
             GoalInterval.Custom -> {
-                val timeInterval = goal.timeInterval
-                if (timeInterval != null) {
-                    val tasks = getGroupedTasksStats.timeRangeTasks(timeInterval).first()
-                    goal.copy(currentValue = tasks.completedTasksCount.toLong())
-                } else goal
+                /**
+                 * Check if the End of the Time Interval has not elapsed
+                 * If elapsed, don't update the currentValue and automatically mark the
+                 * Goal as not Active [isActive = false]
+                 */
+                when (val timeInterval = goal.timeInterval) {
+                    null -> goal
+                    else -> {
+                        val endLdt = TimeUtils.epochMillisToLocalDateTimeString(timeInterval.last)
+                        if (!TimeUtils.isDateTimeOverdue(dateTime = endLdt, overdueHours = 0)) {
+                            val tasks = getGroupedTasksStats.timeRangeTasks(timeInterval).first()
+                            goal.copy(currentValue = tasks.completedTasksCount.toLong())
+                        } else goal.copy(isActive = false)
+                    }
+                }
             }
         }
 
@@ -115,14 +126,26 @@ internal class ModifyGoalsImpl(
                 goal.copy(currentValue = stats.appsUsageList.sumOf { it.timeInForeground })
             }
             GoalInterval.Custom -> {
-                val timeInterval = goal.timeInterval
-                if (timeInterval != null) {
-                    val stats = usageDataManager.getUsageStats(
-                        timeInterval.first,
-                        timeInterval.last
-                    )
-                    goal.copy(currentValue = stats.appsUsageList.sumOf { it.timeInForeground })
-                } else goal
+                /**
+                 * Check if the End of the Time Interval has not elapsed
+                 * If elapsed, don't update the currentValue and automatically mark the
+                 * Goal as not Active [isActive = false]
+                 */
+                when (val timeInterval = goal.timeInterval) {
+                    null -> goal
+                    else -> {
+                        val endLdt = TimeUtils.epochMillisToLocalDateTimeString(timeInterval.last)
+                        if (!TimeUtils.isDateTimeOverdue(dateTime = endLdt, overdueHours = 0)) {
+                            val stats = usageDataManager.getUsageStats(
+                                timeInterval.first,
+                                timeInterval.last
+                            )
+                            goal.copy(
+                                currentValue = stats.appsUsageList.sumOf { it.timeInForeground }
+                            )
+                        } else goal.copy(isActive = false)
+                    }
+                }
             }
         }
 
@@ -160,18 +183,28 @@ internal class ModifyGoalsImpl(
                 goal.copy(currentValue = screenTime)
             }
             GoalInterval.Custom -> {
-                val timeInterval = goal.timeInterval
-                if (timeInterval != null) {
-                    var screenTime = 0L
-                    goal.relatedApps.forEach { packageName ->
-                        screenTime += usageDataManager.getAppUsage(
-                            startTimeMillis = timeInterval.first,
-                            endTimeMillis = timeInterval.last,
-                            packageName = packageName
-                        ).timeInForeground
+                /**
+                 * Check if the End of the Time Interval has not elapsed
+                 * If elapsed, don't update the currentValue and automatically mark the
+                 * Goal as not Active [isActive = false]
+                 */
+                when (val timeInterval = goal.timeInterval) {
+                    null -> goal
+                    else -> {
+                        val endLdt = TimeUtils.epochMillisToLocalDateTimeString(timeInterval.last)
+                        if (!TimeUtils.isDateTimeOverdue(dateTime = endLdt, overdueHours = 0)) {
+                            var screenTime = 0L
+                            goal.relatedApps.forEach { packageName ->
+                                screenTime += usageDataManager.getAppUsage(
+                                    startTimeMillis = timeInterval.first,
+                                    endTimeMillis = timeInterval.last,
+                                    packageName = packageName
+                                ).timeInForeground
+                            }
+                            goal.copy(currentValue = screenTime)
+                        } else goal.copy(isActive = false)
                     }
-                    goal.copy(currentValue = screenTime)
-                } else goal
+                }
             }
         }
 }
