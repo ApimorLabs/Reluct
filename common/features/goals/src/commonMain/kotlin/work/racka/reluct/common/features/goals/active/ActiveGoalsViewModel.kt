@@ -52,16 +52,18 @@ class ActiveGoalsViewModel(
         activeGoalsJob?.cancel()
         activeGoalsJob = vmScope.launch {
             getGoals.getActiveGoals(factor = limitFactor).collectLatest { goals ->
-                goalsListState.update {
-                    newDataPresent = it.goals != goals
+                goalsListState.update { state ->
+                    newDataPresent = (state.goals.firstOrNull()?.id != goals.firstOrNull()?.id)
+                            && (state.goals.lastOrNull()?.id != goals.lastOrNull()?.id)
                     GoalsListState.Data(goalsData = goals, newDataPresent = newDataPresent)
                 }
             }
         }
     }
 
-    private fun syncData() {
-        vmScope.launch {
+    fun syncData() {
+        syncDataJob?.cancel()
+        syncDataJob = vmScope.launch {
             isSyncingData.update { true }
             modifyGoals.syncGoals()
             isSyncingData.update { false }
