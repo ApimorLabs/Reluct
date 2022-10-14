@@ -142,9 +142,13 @@ fun LazyColumnAddEditGoal(
 
         // Goal Interval Selector
         item {
-            AddEditGoalItemTitle(text = stringResource(R.string.interval_text))
+            AddEditGoalItemTitle(
+                modifier = Modifier.animateItemPlacement(),
+                text = stringResource(R.string.interval_text)
+            )
             Spacer(modifier = Modifier.height(Dimens.SmallPadding.size))
             GoalIntervalSelector(
+                modifier = Modifier.animateItemPlacement(),
                 selectedGoalInterval = goal.goalDuration.goalInterval,
                 onSelectGoalInterval = { interval ->
                     val duration = goal.goalDuration.let {

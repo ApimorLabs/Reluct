@@ -72,7 +72,7 @@ internal fun GoalTypeLabel(
                 GoalType.AppScreenTimeGoal ->
                     context.getString(R.string.app_screen_time_goal_type)
                 GoalType.DeviceScreenTimeGoal ->
-                    context.getString(R.string.app_screen_time_goal_type)
+                    context.getString(R.string.device_screen_time_goal_type)
                 GoalType.NumeralGoal -> context.getString(R.string.numeral_goal_type)
             }
         }

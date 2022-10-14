@@ -18,6 +18,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import kotlinx.datetime.LocalDateTime
@@ -142,6 +144,7 @@ internal fun SelectedAppsCard(
     modifier: Modifier = Modifier,
     apps: List<AppInfo>,
     onEditApps: () -> Unit,
+    appIconSize: Dp = 36.dp,
     containerColor: Color = MaterialTheme.colorScheme.surfaceVariant,
     contentColor: Color = MaterialTheme.colorScheme.onSurfaceVariant
 ) {
@@ -161,7 +164,8 @@ internal fun SelectedAppsCard(
                 .fillMaxWidth()
         ) {
             LazyRow(
-                modifier = modifier
+                modifier = Modifier
+                    .height(appIconSize)
                     .fillMaxWidth()
                     .weight(1f),
                 verticalAlignment = Alignment.CenterVertically,
@@ -182,6 +186,7 @@ internal fun SelectedAppsCard(
                 } else {
                     items(apps) { app ->
                         Image(
+                            modifier = Modifier.size(appIconSize),
                             painter = rememberAsyncImagePainter(
                                 model = ImageRequest.Builder(LocalContext.current)
                                     .data(app.appIcon.icon).build()
@@ -254,12 +259,12 @@ internal fun LazyListScope.goalTargetValuePicker(
     if (goalType == GoalType.DeviceScreenTimeGoal || goalType == GoalType.AppScreenTimeGoal) {
         item {
             AddEditGoalItemTitle(
-                modifier = Modifier
-                    .animateItemPlacement(),
+                modifier = Modifier.animateItemPlacement(),
                 text = stringResource(R.string.app_time_limit),
             )
             Spacer(modifier = Modifier.height(Dimens.SmallPadding.size))
             GoalScreenTimePicker(
+                modifier = Modifier.animateItemPlacement(),
                 currentTimeMillis = targetValue,
                 onUpdateCurrentTime = onUpdateTargetValue
             )
