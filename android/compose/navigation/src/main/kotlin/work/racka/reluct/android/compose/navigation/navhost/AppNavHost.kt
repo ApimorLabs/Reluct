@@ -26,6 +26,7 @@ import work.racka.reluct.android.compose.navigation.navbar.ReluctBottomNavBar
 import work.racka.reluct.android.compose.navigation.navhost.graphs.dashboard.DashboardNavHost
 import work.racka.reluct.android.compose.navigation.navhost.graphs.extras.otherScreenNavGraph
 import work.racka.reluct.android.compose.navigation.navhost.graphs.goals.GoalsNavHost
+import work.racka.reluct.android.compose.navigation.navhost.graphs.goals.goalDataNavGraph
 import work.racka.reluct.android.compose.navigation.navhost.graphs.screentime.ScreenTimeNavHost
 import work.racka.reluct.android.compose.navigation.navhost.graphs.screentime.appScreenTimeStatsNavGraph
 import work.racka.reluct.android.compose.navigation.navhost.graphs.tasks.TasksNavHost
@@ -193,6 +194,12 @@ fun AppNavHost(modifier: Modifier = Modifier, settingsCheck: SettingsCheck?) {
                 )
             }
 
+            // Goal Data Graph
+            goalDataNavGraph(
+                navController = navController,
+                barsVisibility = barsVisibility
+            )
+
             // Settings
             composable(
                 route = SettingsDestination.route,
@@ -219,5 +226,4 @@ fun AppNavHost(modifier: Modifier = Modifier, settingsCheck: SettingsCheck?) {
             )
         }
     }
-
 }

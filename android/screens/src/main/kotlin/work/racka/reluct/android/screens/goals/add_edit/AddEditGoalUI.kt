@@ -51,9 +51,8 @@ internal fun AddEditGoalUI(
 
     val titleText = when (modifyGoalState) {
         is ModifyGoalState.Data -> {
-            if (modifyGoalState.isEdit) stringResource(R.string.edit_task_text) else stringResource(
-                R.string.add_task_text
-            )
+            if (modifyGoalState.isEdit) stringResource(R.string.edit_goal_text)
+            else stringResource(R.string.add_goal_text)
         }
         else -> "• • •"
     }

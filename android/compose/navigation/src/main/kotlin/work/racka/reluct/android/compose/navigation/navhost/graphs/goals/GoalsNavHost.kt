@@ -33,6 +33,8 @@ import work.racka.reluct.android.compose.navigation.transitions.scaleOutPopExitT
 import work.racka.reluct.android.screens.goals.active.ActiveGoalsScreen
 import work.racka.reluct.android.screens.goals.inactive.InactiveGoalsScreen
 import work.racka.reluct.common.core_navigation.compose_destinations.goals.ActiveGoalsDestination
+import work.racka.reluct.common.core_navigation.compose_destinations.goals.AddEditGoalDestination
+import work.racka.reluct.common.core_navigation.compose_destinations.goals.GoalDetailsDestination
 import work.racka.reluct.common.core_navigation.compose_destinations.goals.InactiveGoalsDestination
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -87,10 +89,15 @@ internal fun GoalsNavHost(
                     mainScaffoldPadding = mainScaffoldPadding,
                     barsVisibility = barsVisibility,
                     onNavigateToAddGoal = { defaultGoalIndex: Int? ->
-                        Timber.d("Goal Index: $defaultGoalIndex")
+                        mainNavController.navigate(
+                            AddEditGoalDestination.argsRoute(
+                                goalId = null,
+                                defaultGoalIndex = defaultGoalIndex
+                            )
+                        )
                     },
                     onNavigateToGoalDetails = { goalId: String? ->
-                        Timber.d("Goal Id: $goalId")
+                        mainNavController.navigate(GoalDetailsDestination.argsRoute(goalId))
                     }
                 )
             }

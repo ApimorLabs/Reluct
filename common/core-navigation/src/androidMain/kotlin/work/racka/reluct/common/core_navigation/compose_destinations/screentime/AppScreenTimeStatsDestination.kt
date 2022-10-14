@@ -1,10 +1,11 @@
 package work.racka.reluct.common.core_navigation.compose_destinations.screentime
 
 import androidx.navigation.*
+import work.racka.reluct.common.core_navigation.destination.NavDefaults
 import work.racka.reluct.common.core_navigation.destination.NavDestination
 
 object AppScreenTimeStatsDestination : NavDestination {
-    private const val APP_URI = "reluct://destinations"
+    private const val APP_URI = NavDefaults.APP_DESTINATION_URI
     private const val BASE_LINK = "screen_time_stats_app_info"
     override val route: String = "$BASE_LINK-route/{${AppScreenTimeStatsArgs.PackageName.name}}"
     override val destination: String = "$BASE_LINK-destination"

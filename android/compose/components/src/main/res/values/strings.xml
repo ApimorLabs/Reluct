@@ -219,6 +219,7 @@
     <string name="choose_days_txt">Choose Days of Week</string>
     <string name="no_goals_text">No Goals</string>
     <string name="new_goal_text">New Goal</string>
+    <string name="edit_goal_text">Edit Goal</string>
     <string name="add_goal_text">Add Goal</string>
     <string name="add_your_goal_text">Add Your Goal</string>
 
