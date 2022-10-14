@@ -26,6 +26,7 @@ import kotlinx.datetime.LocalDateTime
 import work.racka.reluct.android.compose.components.R
 import work.racka.reluct.android.compose.components.bottom_sheet.add_edit_task.DateTimePills
 import work.racka.reluct.android.compose.components.buttons.ReluctButton
+import work.racka.reluct.android.compose.components.cards.date.SelectedDaysOfWeekViewer
 import work.racka.reluct.android.compose.components.number_picker.HoursNumberPicker
 import work.racka.reluct.android.compose.components.number_picker.NumberPicker
 import work.racka.reluct.android.compose.components.number_picker.convertMillisToTime
@@ -331,41 +332,11 @@ internal fun LazyListScope.goalDurationPicker(
                     text = stringResource(R.string.choose_days_txt),
                 )
                 Spacer(modifier = Modifier.height(Dimens.SmallPadding.size))
-                Row(
-                    modifier = Modifier
-                        .animateItemPlacement()
-                        .fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(Dimens.SmallPadding.size)
-                ) {
-                    Week.values().forEach { day ->
-                        ReluctSelectionButton(
-                            modifier = Modifier.weight(1f),
-                            isSelected = currentDaysOfWeek.contains(day),
-                            content = {
-                                Text(
-                                    modifier = Modifier
-                                        .align(Alignment.CenterHorizontally)
-                                        .padding(
-                                            horizontal = Dimens.SmallPadding.size,
-                                            vertical = Dimens.MediumPadding.size
-                                        ),
-                                    text = day.dayAcronym.first().toString(),
-                                    maxLines = 1,
-                                    overflow = TextOverflow.Ellipsis
-                                )
-                            },
-                            onClick = {
-                                val new = currentDaysOfWeek.toMutableSet()
-                                new.apply {
-                                    if (currentDaysOfWeek.contains(day)) remove(day)
-                                    else add(day)
-                                }
-                                onUpdateDaysOfWeek(new.toList())
-                            }
-                        )
-                    }
-                }
+                SelectedDaysOfWeekViewer(
+                    modifier = Modifier.animateItemPlacement(),
+                    selectedDays = currentDaysOfWeek,
+                    onUpdateDaysOfWeek = onUpdateDaysOfWeek
+                )
             }
         }
         GoalInterval.Custom -> {

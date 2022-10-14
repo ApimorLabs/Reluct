@@ -41,7 +41,7 @@
     <string name="add_task">Add Task</string>
     <string name="edit_task">Edit Task</string>
     <string name="task_title_hint">Task name</string>
-    <string name="task_description_hint">Description</string>
+    <string name="description_hint">Description</string>
     <string name="task_title_error_text">Task Name can not be empty</string>
     <string name="task_to_be_done_at_text">To Be Done At</string>
     <string name="reminder_at">Remind At</string>
@@ -223,6 +223,8 @@
     <string name="add_goal_text">Add Goal</string>
     <string name="add_your_goal_text">Add Your Goal</string>
 
+    <string name="active_days_text">Active Days</string>
+    <string name="goal_details_text">Goal Details</string>
     <string name="saved_goal">Goal Saved: %1s</string>
     <string name="goal_marked_active">Goal Marked Active</string>
     <string name="goal_marked_inactive">Goal Marked Inactive</string>
@@ -230,4 +232,6 @@
     <string name="discard_goal_text">Discard Goal</string>
     <string name="goal_not_found_text">Goal Not Found</string>
     <string name="selected_apps_text">Selected Apps</string>
+    <string name="delete_goal_text">Delete Goal</string>
+    <string name="delete_goal_message">This action will permanently delete the current Goal</string>
 </resources>

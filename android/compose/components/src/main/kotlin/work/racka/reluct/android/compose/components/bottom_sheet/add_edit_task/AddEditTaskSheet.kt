@@ -106,7 +106,7 @@ fun AddEditTaskSheet(
             modifier = Modifier
                 .height(200.dp),
             value = task.value.description ?: "",
-            hint = stringResource(R.string.task_description_hint),
+            hint = stringResource(R.string.description_hint),
             keyboardOptions = KeyboardOptions(
                 capitalization = KeyboardCapitalization.Sentences
             ),

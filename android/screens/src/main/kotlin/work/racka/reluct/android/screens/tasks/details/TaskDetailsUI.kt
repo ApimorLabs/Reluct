@@ -111,7 +111,7 @@ fun TaskDetailsUI(
                     CircularProgressIndicator()
                 }
             }
-            // Add or Edit Task
+            // Task Details
             if (uiState is TaskDetailsState.Data) {
                 if (uiState.task != null) {
                     LazyColumn(

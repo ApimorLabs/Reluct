@@ -1,7 +1,9 @@
 package work.racka.reluct.android.compose.components.cards.goal_entry
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
@@ -96,5 +98,40 @@ internal fun GoalTypeLabel(
             maxLines = 1,
             overflow = TextOverflow.Ellipsis
         )
+    }
+}
+
+@Composable
+fun GoalTypeAndIntervalLabels(
+    modifier: Modifier = Modifier,
+    goal: Goal,
+    containerColor: Color = MaterialTheme.colorScheme.primary,
+    contentColor: Color = MaterialTheme.colorScheme.onPrimary
+) {
+    Row(
+        modifier = modifier,
+        horizontalArrangement = Arrangement.spacedBy(Dimens.SmallPadding.size),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        GoalTypeLabel(
+            goalType = goal.goalType,
+            containerColor = containerColor,
+            contentColor = contentColor
+        )
+        Box(
+            modifier = Modifier
+                .clip(Shapes.large)
+                .background(containerColor),
+            contentAlignment = Alignment.Center
+        ) {
+            GoalIntervalLabel(
+                modifier = Modifier.padding(
+                    vertical = Dimens.ExtraSmallPadding.size,
+                    horizontal = Dimens.SmallPadding.size
+                ),
+                goal = goal,
+                color = contentColor
+            )
+        }
     }
 }
