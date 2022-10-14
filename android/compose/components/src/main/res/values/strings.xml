@@ -222,7 +222,11 @@
     <string name="add_goal_text">Add Goal</string>
     <string name="add_your_goal_text">Add Your Goal</string>
 
+    <string name="saved_goal">Goal Saved: %1s</string>
     <string name="goal_marked_active">Goal Marked Active</string>
     <string name="goal_marked_inactive">Goal Marked Inactive</string>
     <string name="examples_text">Examples</string>
+    <string name="discard_goal_text">Discard Goal</string>
+    <string name="goal_not_found_text">Goal Not Found</string>
+    <string name="selected_apps_text">Selected Apps</string>
 </resources>
