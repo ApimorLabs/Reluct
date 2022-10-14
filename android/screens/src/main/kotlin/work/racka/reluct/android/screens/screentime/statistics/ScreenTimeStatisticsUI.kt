@@ -66,12 +66,10 @@ internal fun ScreenTimeStatisticsUI(
     val listState = rememberLazyListState()
     val scrollContext = rememberScrollContext(listState = listState)
 
-    LaunchedEffect(scrollContext.isTop) {
-        if (scrollContext.isTop) {
-            barsVisibility.bottomBar.show()
-        } else {
-            barsVisibility.bottomBar.hide()
-        }
+    if (scrollContext.isTop) {
+        barsVisibility.bottomBar.show()
+    } else {
+        barsVisibility.bottomBar.hide()
     }
 
     val barChartState = remember(uiState.weeklyData) {
