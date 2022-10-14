@@ -167,6 +167,14 @@ internal fun GoalDetailsUI(
                             )
                         }
                     }
+
+                    // Bottom Space
+                    item {
+                        Spacer(
+                            modifier = Modifier
+                                .height(innerPadding.calculateBottomPadding())
+                        )
+                    }
                 }
             }
         }
