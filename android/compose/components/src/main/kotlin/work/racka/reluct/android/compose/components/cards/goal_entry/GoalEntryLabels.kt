@@ -17,7 +17,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import work.racka.reluct.android.compose.components.R
 import work.racka.reluct.android.compose.theme.Dimens
@@ -30,7 +29,8 @@ import work.racka.reluct.common.model.domain.goals.GoalType
 internal fun GoalIntervalLabel(
     modifier: Modifier = Modifier,
     goal: Goal,
-    color: Color = LocalContentColor.current
+    color: Color = LocalContentColor.current,
+    includeExtraText: Boolean = true
 ) {
     val context = LocalContext.current
     val intervalText by remember(
@@ -50,8 +50,17 @@ internal fun GoalIntervalLabel(
             }
         }
     }
+
+    val fullText by remember(intervalText) {
+        derivedStateOf {
+            val preText = if (includeExtraText) context.getString(R.string.interval_text) + " : "
+            else ""
+            preText + intervalText
+        }
+    }
     Text(
-        text = stringResource(id = R.string.interval_text) + " : $intervalText",
+        modifier = modifier,
+        text = fullText,
         style = MaterialTheme.typography.bodyMedium,
         maxLines = 1,
         overflow = TextOverflow.Ellipsis,
@@ -89,8 +98,8 @@ internal fun GoalTypeLabel(
     ) {
         Text(
             modifier = Modifier.padding(
-                vertical = Dimens.ExtraSmallPadding.size,
-                horizontal = Dimens.SmallPadding.size
+                vertical = Dimens.SmallPadding.size,
+                horizontal = Dimens.MediumPadding.size
             ),
             text = goalTypeText,
             style = MaterialTheme.typography.bodyMedium,
@@ -126,11 +135,12 @@ fun GoalTypeAndIntervalLabels(
         ) {
             GoalIntervalLabel(
                 modifier = Modifier.padding(
-                    vertical = Dimens.ExtraSmallPadding.size,
-                    horizontal = Dimens.SmallPadding.size
+                    vertical = Dimens.SmallPadding.size,
+                    horizontal = Dimens.MediumPadding.size
                 ),
                 goal = goal,
-                color = contentColor
+                color = contentColor,
+                includeExtraText = false
             )
         }
     }

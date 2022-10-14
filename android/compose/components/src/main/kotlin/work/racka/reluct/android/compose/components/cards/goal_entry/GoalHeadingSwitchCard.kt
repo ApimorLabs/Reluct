@@ -6,6 +6,8 @@ import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.TweenSpec
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.Divider
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -16,8 +18,10 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.text.TextStyle
 import kotlinx.coroutines.launch
 import work.racka.reluct.android.compose.components.cards.card_with_actions.ReluctSwitchCard
+import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.android.compose.theme.Shapes
 import work.racka.reluct.common.model.domain.goals.Goal
 
@@ -28,6 +32,7 @@ fun GoalHeadingSwitchCard(
     contentColor: Color = MaterialTheme.colorScheme.onSurfaceVariant,
     goal: Goal,
     onToggleActiveState: (goalId: String, isActive: Boolean) -> Unit,
+    textStyle: TextStyle = MaterialTheme.typography.headlineMedium,
     shape: Shape = Shapes.large
 ) {
 
@@ -80,11 +85,29 @@ fun GoalHeadingSwitchCard(
                 Text(
                     modifier = modifier,
                     text = goal.name,
-                    style = MaterialTheme.typography.titleLarge,
+                    style = textStyle,
                     color = LocalContentColor.current
                 )
             },
             description = {},
+            bottomContent = {
+                Divider(
+                    modifier = Modifier.padding(horizontal = Dimens.MediumPadding.size),
+                    color = LocalContentColor.current
+                )
+
+                Text(
+                    modifier = Modifier
+                        .padding(horizontal = Dimens.MediumPadding.size)
+                        .padding(
+                            bottom = Dimens.MediumPadding.size,
+                            top = Dimens.SmallPadding.size
+                        ),
+                    text = goal.description.ifBlank { "No Description" },
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = LocalContentColor.current
+                )
+            },
             onClick = { onToggleActiveState(goal.id, !goal.isActive) },
             containerColor = Color.Transparent,
             contentColor = cardContentColor.value,

@@ -125,7 +125,7 @@ internal fun GoalDetailsUI(
                     item {
                         GoalHeadingSwitchCard(
                             goal = uiState.goal,
-                            onToggleActiveState = onToggleGoalActive
+                            onToggleActiveState = onToggleGoalActive,
                         )
                     }
 
@@ -134,17 +134,6 @@ internal fun GoalDetailsUI(
                         GoalTypeAndIntervalLabels(
                             modifier = Modifier.fillMaxWidth(),
                             goal = uiState.goal
-                        )
-                    }
-
-                    // Description
-                    item {
-                        Text(
-                            text = "${stringResource(R.string.description_hint)}: " +
-                                    uiState.goal.description,
-                            style = MaterialTheme.typography.bodyLarge,
-                            color = LocalContentColor.current
-                                .copy(alpha = .8f)
                         )
                     }
 

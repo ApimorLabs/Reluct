@@ -37,7 +37,7 @@ internal fun AppsListCard(
     ) {
         Column(
             modifier = Modifier.padding(Dimens.MediumPadding.size),
-            verticalArrangement = Arrangement.spacedBy(Dimens.MediumPadding.size),
+            verticalArrangement = Arrangement.spacedBy(Dimens.SmallPadding.size),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             apps.forEach { app ->
