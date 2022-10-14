@@ -2,13 +2,7 @@ package work.racka.reluct.android.compose.navigation.navhost.graphs.goals
 
 import android.app.Activity
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.foundation.layout.*
-import androidx.compose.material3.Button
-import androidx.compose.material3.Text
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.navigation
@@ -21,6 +15,7 @@ import work.racka.reluct.android.compose.navigation.transitions.scaleOutPopExitT
 import work.racka.reluct.android.compose.navigation.util.NavHelpers
 import work.racka.reluct.android.compose.navigation.util.NavHelpers.popBackStackOrExitActivity
 import work.racka.reluct.android.screens.goals.add_edit.AddEditGoalScreen
+import work.racka.reluct.android.screens.goals.details.GoalDetailsScreen
 import work.racka.reluct.common.core_navigation.compose_destinations.goals.AddEditGoalArgs
 import work.racka.reluct.common.core_navigation.compose_destinations.goals.AddEditGoalDestination
 import work.racka.reluct.common.core_navigation.compose_destinations.goals.GoalDetailsArgs
@@ -50,24 +45,13 @@ fun NavGraphBuilder.goalDataNavGraph(
             // Its safe to cast since this composable will always be inside an activity
             val activity = LocalContext.current as Activity
 
-            val goalId = NavHelpers.getStringArgs(backStackEntry, GoalDetailsArgs.GoalId.name)
-
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center
-            ) {
-                Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Text(text = "Goal Id is: $goalId")
-                    Spacer(modifier = Modifier.height(16.dp))
-                    Button(
-                        onClick = {
-                            navController.navigate(AddEditGoalDestination.argsRoute(goalId, null))
-                        }
-                    ) {
-                        Text(text = "Edit")
-                    }
+            GoalDetailsScreen(
+                goalId = NavHelpers.getStringArgs(backStackEntry, GoalDetailsArgs.GoalId.name),
+                onExit = { navController.popBackStackOrExitActivity(activity) },
+                onNavigateToEditGoal = { goalId ->
+                    navController.navigate(AddEditGoalDestination.argsRoute(goalId, null))
                 }
-            }
+            )
         }
 
         // Add or Edit Goal
