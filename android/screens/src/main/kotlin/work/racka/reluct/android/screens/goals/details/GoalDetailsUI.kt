@@ -20,27 +20,32 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import work.racka.reluct.android.compose.components.buttons.OutlinedReluctButton
 import work.racka.reluct.android.compose.components.buttons.ReluctButton
 import work.racka.reluct.android.compose.components.cards.date.SelectedDaysOfWeekViewer
 import work.racka.reluct.android.compose.components.cards.goal_entry.GoalHeadingSwitchCard
 import work.racka.reluct.android.compose.components.cards.goal_entry.GoalTypeAndIntervalLabels
+import work.racka.reluct.android.compose.components.images.LottieAnimationWithDescription
 import work.racka.reluct.android.compose.components.textfields.texts.ListItemTitle
 import work.racka.reluct.android.compose.components.topBar.ReluctSmallTopAppBar
 import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.android.compose.theme.Shapes
 import work.racka.reluct.android.screens.R
 import work.racka.reluct.android.screens.goals.components.AppsListCard
+import work.racka.reluct.common.features.goals.details.states.GoalDetailsState
 import work.racka.reluct.common.model.domain.goals.Goal
+import work.racka.reluct.common.model.domain.goals.GoalInterval
+import work.racka.reluct.common.model.domain.goals.GoalType
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 internal fun GoalDetailsUI(
     modifier: Modifier = Modifier,
     scaffoldState: ScaffoldState,
-    uiState: Any,
+    uiState: GoalDetailsState,
     onEditGoal: (goalId: String) -> Unit,
-    onDeleteGoal: (goalId: String) -> Unit,
+    onDeleteGoal: (goal: Goal) -> Unit,
     onToggleGoalActive: (goalId: String, isActive: Boolean) -> Unit,
     onGoBack: () -> Unit
 ) {
@@ -67,10 +72,9 @@ internal fun GoalDetailsUI(
             )
         },
         bottomBar = {
-            val goal: Goal? = null // TODO: Put state here
-            goal?.let {
+            if (uiState is GoalDetailsState.Data) {
                 DetailsBottomBar(
-                    onEditGoalClicked = { onEditGoal(it.id) },
+                    onEditGoalClicked = { onEditGoal(uiState.goal.id) },
                     onDeleteGoalClicked = { openDeleteDialog = true }
                 )
             }
@@ -98,7 +102,7 @@ internal fun GoalDetailsUI(
             AnimatedVisibility(
                 modifier = Modifier
                     .fillMaxSize(),
-                visible = true,
+                visible = uiState is GoalDetailsState.Loading,
                 enter = scaleIn(),
                 exit = scaleOut()
             ) {
@@ -111,7 +115,7 @@ internal fun GoalDetailsUI(
             }
 
             // Goal Details
-            if (true) {
+            if (uiState is GoalDetailsState.Data) {
                 LazyColumn(
                     state = listState,
                     verticalArrangement = Arrangement
@@ -120,7 +124,7 @@ internal fun GoalDetailsUI(
                     // Title Card
                     item {
                         GoalHeadingSwitchCard(
-                            goal =,
+                            goal = uiState.goal,
                             onToggleActiveState = onToggleGoalActive
                         )
                     }
@@ -129,14 +133,15 @@ internal fun GoalDetailsUI(
                     item {
                         GoalTypeAndIntervalLabels(
                             modifier = Modifier.fillMaxWidth(),
-                            goal =
+                            goal = uiState.goal
                         )
                     }
 
                     // Description
                     item {
                         Text(
-                            text = "${stringResource(R.string.description_hint)}: ",
+                            text = "${stringResource(R.string.description_hint)}: " +
+                                    uiState.goal.description,
                             style = MaterialTheme.typography.bodyLarge,
                             color = LocalContentColor.current
                                 .copy(alpha = .8f)
@@ -144,25 +149,25 @@ internal fun GoalDetailsUI(
                     }
 
                     // Show Current Apps
-                    if (true) {
+                    if (uiState.goal.goalType == GoalType.AppScreenTimeGoal) {
                         item {
                             ListItemTitle(text = stringResource(id = R.string.selected_apps_text))
                         }
 
                         item {
-                            AppsListCard(apps =)
+                            AppsListCard(apps = uiState.goal.relatedApps)
                         }
                     }
 
                     // Applicable days
-                    if (true) {
+                    if (uiState.goal.goalDuration.goalInterval == GoalInterval.Daily) {
                         item {
                             ListItemTitle(text = stringResource(id = R.string.active_days_text))
                         }
 
                         item {
                             SelectedDaysOfWeekViewer(
-                                selectedDays =,
+                                selectedDays = uiState.goal.goalDuration.selectedDaysOfWeek,
                                 onUpdateDaysOfWeek = {}
                             )
                         }
@@ -175,6 +180,26 @@ internal fun GoalDetailsUI(
                                 .height(innerPadding.calculateBottomPadding())
                         )
                     }
+                }
+            }
+
+            // Goal Not Found
+            AnimatedVisibility(
+                modifier = Modifier
+                    .fillMaxSize(),
+                visible = uiState is GoalDetailsState.NotFound,
+                enter = scaleIn(),
+                exit = scaleOut()
+            ) {
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    LottieAnimationWithDescription(
+                        lottieResId = R.raw.no_data,
+                        imageSize = 300.dp,
+                        description = stringResource(R.string.goal_not_found_text)
+                    )
                 }
             }
         }
@@ -199,8 +224,9 @@ internal fun GoalDetailsUI(
                     contentColor = MaterialTheme.colorScheme.onPrimary,
                     onButtonClicked = {
                         openDeleteDialog = false
-                        val goal: Goal? = null // TODO: Put state here
-                        goal?.let { onDeleteGoal(it.id) }
+                        if (uiState is GoalDetailsState.Data) {
+                            onDeleteGoal(uiState.goal)
+                        }
                     }
                 )
             },

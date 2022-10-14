@@ -1,4 +1,4 @@
-package work.racka.reluct.android.screens.goals.add_edit
+package work.racka.reluct.android.screens.goals.details
 
 import android.content.Context
 import androidx.compose.material.ScaffoldState
@@ -15,22 +15,20 @@ import org.koin.core.parameter.parametersOf
 import work.racka.common.mvvm.koin.compose.getCommonViewModel
 import work.racka.reluct.android.screens.R
 import work.racka.reluct.common.features.goals.active.states.GoalsEvents
-import work.racka.reluct.common.features.goals.add_edit_goal.AddEditGoalViewModel
+import work.racka.reluct.common.features.goals.details.GoalDetailsViewModel
 
 @Composable
-fun AddEditGoalScreen(
+fun GoalDetailsScreen(
     goalId: String?,
-    defaultGoalIndex: Int?,
-    onExit: () -> Unit
+    onExit: () -> Unit,
+    onNavigateToEditGoal: (goalId: String) -> Unit
 ) {
-    val scaffoldState = rememberScaffoldState()
 
-    val viewModel = getCommonViewModel<AddEditGoalViewModel> {
-        parametersOf(goalId, defaultGoalIndex)
-    }
+    val viewModel = getCommonViewModel<GoalDetailsViewModel> { parametersOf(goalId) }
     val uiState by viewModel.uiState.collectAsState()
     val events by viewModel.events.collectAsState(initial = GoalsEvents.Nothing)
 
+    val scaffoldState = rememberScaffoldState()
     val context = LocalContext.current
     LaunchedEffect(events) {
         handleEvents(
@@ -42,16 +40,15 @@ fun AddEditGoalScreen(
         )
     }
 
-    AddEditGoalUI(
+    GoalDetailsUI(
         scaffoldState = scaffoldState,
         uiState = uiState,
-        onSave = viewModel::saveCurrentGoal,
-        onCreateNewGoal = viewModel::newGoal,
-        onSyncRelatedApps = viewModel::syncRelatedApps,
-        onUpdateGoal = viewModel::updateCurrentGoal,
-        onModifyApps = viewModel::modifyRelatedApps,
+        onEditGoal = onNavigateToEditGoal,
+        onDeleteGoal = viewModel::deleteGoal,
+        onToggleGoalActive = viewModel::toggleGoalActiveState,
         onGoBack = onExit
     )
+
 }
 
 private fun handleEvents(
@@ -62,8 +59,18 @@ private fun handleEvents(
     onExit: () -> Unit
 ) {
     when (events) {
-        is GoalsEvents.GoalSavedMessage -> {
-            val msg = context.getString(R.string.saved_goal_value, events.goalName)
+        is GoalsEvents.ChangedGoalState -> {
+            val msg = if (events.isActive) context.getString(R.string.goal_marked_active)
+            else context.getString(R.string.goal_marked_inactive)
+            scope.launch {
+                scaffoldState.snackbarHostState.showSnackbar(
+                    message = msg,
+                    duration = SnackbarDuration.Short
+                )
+            }
+        }
+        is GoalsEvents.DeletedGoal -> {
+            val msg = context.getString(R.string.deleted_goal_value, events.goalName)
             scope.launch {
                 scaffoldState.snackbarHostState.showSnackbar(
                     message = msg,

@@ -225,7 +225,8 @@
 
     <string name="active_days_text">Active Days</string>
     <string name="goal_details_text">Goal Details</string>
-    <string name="saved_goal">Goal Saved: %1s</string>
+    <string name="saved_goal_value">Goal Saved: %1s</string>
+    <string name="deleted_goal_value">%1s Goal Deleted</string>
     <string name="goal_marked_active">Goal Marked Active</string>
     <string name="goal_marked_inactive">Goal Marked Inactive</string>
     <string name="examples_text">Examples</string>
