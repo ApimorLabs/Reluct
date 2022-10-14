@@ -1,7 +1,9 @@
 package work.racka.reluct.android.compose.components.cards.goal_entry
 
+import androidx.compose.animation.Animatable
 import androidx.compose.animation.animateColorAsState
-import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.TweenSpec
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -11,10 +13,7 @@ import androidx.compose.material.icons.rounded.ChevronRight
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -25,6 +24,7 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.LayoutDirection
+import kotlinx.coroutines.launch
 import work.racka.reluct.android.compose.components.cards.card_with_actions.ReluctDescriptionCard
 import work.racka.reluct.android.compose.components.textfields.texts.EntryDescription
 import work.racka.reluct.android.compose.components.textfields.texts.EntryHeading
@@ -43,17 +43,36 @@ fun GoalEntry(
     shape: Shape = Shapes.large,
     onEntryClick: () -> Unit
 ) {
-    val progressValue by remember(goal.currentValue, goal.targetValue) {
+
+    val progressValue by remember(goal.currentValue) {
         derivedStateOf {
             if (goal.targetValue <= 0) 0f
             else 1f * goal.currentValue / goal.targetValue
         }
     }
-    val progress by animateFloatAsState(targetValue = progressValue)
+    val progress = remember { Animatable(initialValue = 0f) }
     val progressColor by animateColorAsState(
-        targetValue = if (progress > 1f) MaterialTheme.colorScheme.error.copy(alpha = .3f)
+        targetValue = if (progressValue > 1f) MaterialTheme.colorScheme.error.copy(alpha = .7f)
         else MaterialTheme.colorScheme.primary.copy(alpha = .3f)
     )
+    val cardContentColor = remember { Animatable(contentColor) }
+    val onErrorColor = MaterialTheme.colorScheme.onError
+
+    LaunchedEffect(progressValue) {
+        launch {
+            progress.animateTo(
+                targetValue = progressValue,
+                animationSpec = TweenSpec(durationMillis = 1000)
+            )
+        }
+        launch {
+            cardContentColor.animateTo(
+                targetValue = if (progressValue > 1f) onErrorColor
+                else contentColor,
+                animationSpec = TweenSpec(durationMillis = 1000)
+            )
+        }
+    }
 
     Box(
         modifier = Modifier
@@ -66,10 +85,10 @@ fun GoalEntry(
             modifier = modifier
                 .drawBehind {
                     val strokeWidth = size.height
-                    drawLinearIndicator(0f, progress, progressColor, strokeWidth)
+                    drawLinearIndicator(0f, progress.value, progressColor, strokeWidth)
                 },
             containerColor = Color.Transparent,
-            contentColor = contentColor,
+            contentColor = cardContentColor.value,
             title = {
                 EntryHeading(text = goal.name, color = LocalContentColor.current)
             },

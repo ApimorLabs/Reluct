@@ -68,7 +68,9 @@ internal fun InactiveGoalsUI(
         ) {
             fetchMoreData()
         }
+    }
 
+    LaunchedEffect(scrollContext.isTop) {
         if (scrollContext.isTop) {
             barsVisibility.bottomBar.show()
         } else {

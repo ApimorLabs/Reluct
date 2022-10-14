@@ -48,10 +48,10 @@ internal class ModifyGoalsImpl(
             haptics.click()
         }
 
-    override suspend fun syncGoals() {
-        val activeGoals = goalsDao.getActiveGoals(factor = 0).first()
+    override suspend fun syncGoals() = withContext(dispatcher) {
+        val activeGoals = goalsDao.getActiveGoals(factor = 100).first()
         if (activeGoals.isNotEmpty()) {
-            val updated = goalsDao.getActiveGoals(factor = 0).first().map { goal ->
+            val updated = activeGoals.map { goal ->
                 when (goal.goalType) {
                     GoalType.TasksGoal -> manageTasksGoalType(goal)
                     GoalType.DeviceScreenTimeGoal -> manageDeviceScreenTimeGoalType(goal)
