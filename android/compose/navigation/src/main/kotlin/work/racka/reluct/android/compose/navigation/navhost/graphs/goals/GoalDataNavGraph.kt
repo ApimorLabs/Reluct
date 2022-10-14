@@ -2,12 +2,13 @@ package work.racka.reluct.android.compose.navigation.navhost.graphs.goals
 
 import android.app.Activity
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.navigation
@@ -55,7 +56,17 @@ fun NavGraphBuilder.goalDataNavGraph(
                 modifier = Modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center
             ) {
-                Text(text = "Goal Id is: $goalId")
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    Text(text = "Goal Id is: $goalId")
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Button(
+                        onClick = {
+                            navController.navigate(AddEditGoalDestination.argsRoute(goalId, null))
+                        }
+                    ) {
+                        Text(text = "Edit")
+                    }
+                }
             }
         }
 

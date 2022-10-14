@@ -57,7 +57,7 @@ internal fun AddEditGoalUI(
         else -> "• • •"
     }
 
-    val canGoBack by remember {
+    val canGoBack by remember(modifyGoalState) {
         derivedStateOf {
             modifyGoalState !is ModifyGoalState.Data
         }
