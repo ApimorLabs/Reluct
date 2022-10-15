@@ -9,10 +9,7 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.core.net.toUri
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.mapLatest
+import kotlinx.coroutines.flow.*
 import work.racka.reluct.common.core_navigation.compose_destinations.screentime.AppScreenTimeStatsDestination
 import work.racka.reluct.common.data.usecases.app_usage.GetAppUsageInfo
 import work.racka.reluct.common.data.usecases.limits.GetAppLimits
@@ -28,9 +25,10 @@ internal class AndroidScreenTimeServices(
     private val manageFocusMode: ManageFocusMode
 ) : ScreenTimeServices {
 
-    override fun startLimitsService() {
+    override suspend fun startLimitsService() {
         val notification = UsageAccessPermission.requestUsageAccessNotification(context)
-        if (UsageAccessPermission.isAllowed(context)) {
+        val isAppBlockingEnabled = manageFocusMode.isAppBlockingEnabled.firstOrNull()
+        if (UsageAccessPermission.isAllowed(context) && isAppBlockingEnabled == true) {
             notification.cancel()
             val intent = Intent(context, ScreenTimeLimitService::class.java)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
