@@ -186,6 +186,7 @@ object Dependencies {
         object Firebase {
             val bom by lazy { "com.google.firebase:firebase-bom:${Versions.firebaseBom}" }
             val analytics by lazy { "com.google.firebase:firebase-analytics-ktx" }
+            val crashlytics by lazy { "com.google.firebase:firebase-crashlytics-ktx" }
             val auth by lazy { "com.google.firebase:firebase-auth-ktx" }
         }
 

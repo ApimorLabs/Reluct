@@ -81,9 +81,10 @@ object Versions {
     const val lottie = "5.0.3"
 
     // Firebase
-    const val firebaseBom = "30.4.1"
+    const val firebaseBom = "31.0.0"
+    const val crashlyticsGradle = "2.9.2"
 
     // Google services
-    const val googleServices = "4.3.13"
+    const val googleServices = "4.3.14"
     const val playServicesAuth = "20.3.0"
 }
