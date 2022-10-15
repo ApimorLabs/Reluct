@@ -9,7 +9,7 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.AppBlocking
+import androidx.compose.material.icons.rounded.AppShortcut
 import androidx.compose.material.icons.rounded.DoNotDisturbOnTotalSilence
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
@@ -126,7 +126,7 @@ internal fun ScreenTimeLimitsUI(
                         description = stringResource(R.string.turn_on_focus_desc),
                         checked = uiState.focusModeState.focusModeOn,
                         onCheckedChange = { toggleFocusMode(it) },
-                        icon = Icons.Rounded.AppBlocking,
+                        icon = Icons.Rounded.AppShortcut,
                         containerColor = focusModeContainerColor,
                         contentColor = focusModeContentColor
                     )

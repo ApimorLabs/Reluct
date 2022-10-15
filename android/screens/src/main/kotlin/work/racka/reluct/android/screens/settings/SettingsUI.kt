@@ -1,6 +1,5 @@
 package work.racka.reluct.android.screens.settings
 
-import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -10,7 +9,6 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import work.racka.reluct.android.compose.components.cards.card_with_actions.ReluctDescriptionCard
@@ -28,23 +26,14 @@ internal fun SettingsUI(
     modifier: Modifier = Modifier,
     snackbarHostState: SnackbarHostState,
     uiState: SettingsState,
-    saveTheme: (value: Int) -> Unit,
-    toggleDnd: (value: Boolean) -> Unit,
-    toggleFocusMode: (value: Boolean) -> Unit,
+    onSaveTheme: (value: Int) -> Unit,
+    onToggleDnd: (value: Boolean) -> Unit,
+    onToggleFocusMode: (value: Boolean) -> Unit,
+    onToggleAppBlocking: (value: Boolean) -> Unit,
     onBackClicked: () -> Unit
 ) {
 
     var openThemeDialog by remember { mutableStateOf(false) }
-
-    val focusModeContainerColor by animateColorAsState(
-        targetValue = if (uiState.limitSettings.focusModeOn) Color.Green.copy(alpha = .7f)
-        else MaterialTheme.colorScheme.error.copy(alpha = .8f)
-    )
-
-    val focusModeContentColor by animateColorAsState(
-        targetValue = if (uiState.limitSettings.focusModeOn) Color.Black
-        else MaterialTheme.colorScheme.onError
-    )
 
     Scaffold(
         modifier = modifier,
@@ -114,7 +103,18 @@ internal fun SettingsUI(
                     title = stringResource(R.string.turn_on_focus),
                     description = stringResource(R.string.turn_on_focus_desc),
                     checked = uiState.limitSettings.focusModeOn,
-                    onCheckedChange = { toggleFocusMode(it) },
+                    onCheckedChange = onToggleFocusMode,
+                    icon = Icons.Rounded.AppShortcut
+                )
+            }
+
+            // App Blocking
+            item {
+                LimitsSwitchCard(
+                    title = stringResource(R.string.app_blocking_text),
+                    description = stringResource(R.string.app_blocking_desc_text),
+                    checked = uiState.limitSettings.appBlockingEnabled,
+                    onCheckedChange = onToggleAppBlocking,
                     icon = Icons.Rounded.AppBlocking
                 )
             }
@@ -125,7 +125,7 @@ internal fun SettingsUI(
                     title = stringResource(R.string.turn_on_dnd),
                     description = stringResource(R.string.turn_on_dnd_desc),
                     checked = uiState.limitSettings.dndOn,
-                    onCheckedChange = { toggleDnd(it) },
+                    onCheckedChange = onToggleDnd,
                     icon = Icons.Rounded.DoNotDisturbOnTotalSilence
                 )
             }
@@ -141,7 +141,7 @@ internal fun SettingsUI(
         ThemesDialog(
             onDismiss = { openThemeDialog = false },
             currentTheme = uiState.themeValue,
-            onSaveTheme = saveTheme
+            onSaveTheme = onSaveTheme
         )
     }
 }

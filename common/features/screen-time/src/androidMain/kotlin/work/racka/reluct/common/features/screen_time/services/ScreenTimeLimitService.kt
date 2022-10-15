@@ -50,7 +50,7 @@ internal class ScreenTimeLimitService : Service(), KoinComponent {
 
     override fun onDestroy() {
         android.view.KeyEvent.KEYCODE_HOME
-        scope?.cancel()
+        scope?.cancel()?.also { scope = null }
         overlayLifecycleOwner.onDestroy()
     }
 
@@ -134,7 +134,7 @@ internal class ScreenTimeLimitService : Service(), KoinComponent {
                         withContext(Dispatchers.Main) { removeOverlayView() }
                     }
                 }
-                is ScreenTimeServices.BlockState.Blocked -> {
+                else -> {
                     if (!goneHome) overlayWindow(blockState.appPackageName)
                 }
             }

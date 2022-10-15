@@ -34,7 +34,7 @@ internal class AndroidScreenTimeServices(
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 context.startForegroundService(intent)
             } else context.startService(intent)
-        } else {
+        } else if (isAppBlockingEnabled == true) {
             notification.show()
         }
     }

@@ -15,8 +15,6 @@ class AppSettingsViewModel(
     private val screenTimeServices: ScreenTimeServices
 ) : CommonViewModel() {
 
-    private val themeSelected = settings.theme
-
     private val limitSettings = combine(
         settings.doNoDisturb,
         settings.focusMode,
@@ -30,7 +28,7 @@ class AppSettingsViewModel(
     }
 
     val uiState: StateFlow<SettingsState> = combine(
-        themeSelected, limitSettings
+        settings.theme, limitSettings
     ) { themeSelected, limitSettings ->
         SettingsState(
             themeValue = themeSelected,
@@ -68,10 +66,11 @@ class AppSettingsViewModel(
 
     fun toggleAppBlocking(value: Boolean) {
         vmScope.launch {
-            if (value) screenTimeServices.startLimitsService()
-            else screenTimeServices.stopLimitsService()
-            settings.saveAppBlocking(value)
-            _events.send(SettingsEvents.AppBlockingChanged(value))
+            if (settings.saveAppBlocking(value)) {
+                _events.send(SettingsEvents.AppBlockingChanged(value))
+                if (value) screenTimeServices.startLimitsService()
+                else screenTimeServices.stopLimitsService()
+            }
         }
     }
 }
