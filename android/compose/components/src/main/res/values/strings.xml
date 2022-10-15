@@ -7,6 +7,7 @@
     <string name="next_text">Next</string>
     <string name="back_text">Back</string>
     <string name="continue_text">Continue</string>
+    <string name="invalid_value_text">Invalid Value</string>
     <string name="search_icon">Search Icon</string>
     <string name="option_icon">Options</string>
     <string name="back_icon">Go Back</string>
@@ -213,7 +214,9 @@
     <string name="select_number_of_tasks_txt">Select Number of Tasks</string>
     <string name="enter_number_of_tasks_txt">Enter Number of Tasks</string>
     <string name="enter_target_value">Enter Target Value</string>
+    <string name="enter_current_value">Enter Current Value</string>
     <string name="target_value_txt">Target Value</string>
+    <string name="current_value_txt">Current Value</string>
     <string name="start_time_txt">Start Time</string>
     <string name="end_time_txt">End Time</string>
     <string name="choose_days_txt">Choose Days of Week</string>
@@ -235,4 +238,12 @@
     <string name="selected_apps_text">Selected Apps</string>
     <string name="delete_goal_text">Delete Goal</string>
     <string name="delete_goal_message">This action will permanently delete the current Goal</string>
+    <string name="current_value_value_text">Current Value: %1s</string>
+    <string name="target_value_value_text">Target Value: %1s</string>
+    <string name="sync_text">Sync</string>
+
+    <plurals name="tasks_text">
+        <item quantity="one">%1s Task</item>
+        <item quantity="other">%1s Tasks</item>
+    </plurals>
 </resources>

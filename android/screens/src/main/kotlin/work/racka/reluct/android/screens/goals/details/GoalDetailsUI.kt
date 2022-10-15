@@ -26,6 +26,7 @@ import work.racka.reluct.android.compose.components.buttons.ReluctButton
 import work.racka.reluct.android.compose.components.cards.date.SelectedDaysOfWeekViewer
 import work.racka.reluct.android.compose.components.cards.goal_entry.GoalHeadingSwitchCard
 import work.racka.reluct.android.compose.components.cards.goal_entry.GoalTypeAndIntervalLabels
+import work.racka.reluct.android.compose.components.cards.goal_entry.GoalValuesCard
 import work.racka.reluct.android.compose.components.images.LottieAnimationWithDescription
 import work.racka.reluct.android.compose.components.textfields.texts.ListItemTitle
 import work.racka.reluct.android.compose.components.topBar.ReluctSmallTopAppBar
@@ -33,6 +34,7 @@ import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.android.compose.theme.Shapes
 import work.racka.reluct.android.screens.R
 import work.racka.reluct.android.screens.goals.components.AppsListCard
+import work.racka.reluct.android.screens.goals.components.UpdateValueDialog
 import work.racka.reluct.common.features.goals.details.states.GoalDetailsState
 import work.racka.reluct.common.model.domain.goals.Goal
 import work.racka.reluct.common.model.domain.goals.GoalInterval
@@ -47,11 +49,14 @@ internal fun GoalDetailsUI(
     onEditGoal: (goalId: String) -> Unit,
     onDeleteGoal: (goal: Goal) -> Unit,
     onToggleGoalActive: (goalId: String, isActive: Boolean) -> Unit,
-    onGoBack: () -> Unit
+    onGoBack: () -> Unit,
+    onSyncData: () -> Unit,
+    onUpdateCurrentValue: (goalId: String, value: Long) -> Unit
 ) {
     val listState = rememberLazyListState()
 
     var openDeleteDialog by remember { mutableStateOf(false) }
+    var openUpdateValueDialog by remember { mutableStateOf(false) }
 
     Scaffold(
         scaffoldState = scaffoldState,
@@ -137,6 +142,18 @@ internal fun GoalDetailsUI(
                         )
                     }
 
+                    // Target and Current Value
+                    item {
+                        GoalValuesCard(
+                            isLoading = uiState.isSyncing,
+                            goal = uiState.goal,
+                            onUpdateClicked = { type ->
+                                if (type == GoalType.NumeralGoal) openUpdateValueDialog = true
+                                else onSyncData()
+                            }
+                        )
+                    }
+
                     // Show Current Apps
                     if (uiState.goal.goalType == GoalType.AppScreenTimeGoal) {
                         item {
@@ -169,6 +186,16 @@ internal fun GoalDetailsUI(
                                 .height(innerPadding.calculateBottomPadding())
                         )
                     }
+                }
+
+                // Update Current Value Dialog
+                if (openUpdateValueDialog) {
+                    UpdateValueDialog(
+                        onDismiss = { openUpdateValueDialog = false },
+                        headingText = stringResource(id = R.string.current_value_txt),
+                        initialValue = uiState.goal.currentValue,
+                        onSaveValue = { onUpdateCurrentValue(uiState.goal.id, it) }
+                    )
                 }
             }
 

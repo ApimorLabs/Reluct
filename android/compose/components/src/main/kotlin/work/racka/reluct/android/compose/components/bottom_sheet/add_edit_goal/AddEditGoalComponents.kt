@@ -291,6 +291,8 @@ internal fun LazyListScope.goalTargetValuePicker(
                 ReluctTextField(
                     value = textValue,
                     isError = textValue.isBlank(),
+                    errorText = stringResource(id = R.string.invalid_value_text),
+                    singleLine = true,
                     hint = if (goalType == GoalType.TasksGoal) stringResource(R.string.enter_number_of_tasks_txt)
                     else stringResource(R.string.enter_target_value),
                     keyboardOptions = KeyboardOptions(
@@ -307,7 +309,7 @@ internal fun LazyListScope.goalTargetValuePicker(
                         .copy(textAlign = TextAlign.Center),
                     modifier = Modifier
                         .animateItemPlacement()
-                        .fillMaxWidth(.4f)
+                        .fillMaxWidth(.6f)
                 )
             }
 

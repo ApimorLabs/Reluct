@@ -102,6 +102,7 @@ fun ReluctTextField(
             ) {
                 if (!isTyping) {
                     Text(
+                        modifier = Modifier.fillMaxWidth(),
                         text = hint,
                         color = (if (isErrorActive.value) errorColor else contentColor)
                             .copy(alpha = hintAlpha),

@@ -46,7 +46,9 @@ fun GoalDetailsScreen(
         onEditGoal = onNavigateToEditGoal,
         onDeleteGoal = viewModel::deleteGoal,
         onToggleGoalActive = viewModel::toggleGoalActiveState,
-        onGoBack = onExit
+        onGoBack = onExit,
+        onSyncData = viewModel::syncData,
+        onUpdateCurrentValue = viewModel::updateCurrentValue
     )
 
 }

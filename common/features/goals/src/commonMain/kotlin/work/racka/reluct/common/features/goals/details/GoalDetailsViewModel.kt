@@ -1,5 +1,6 @@
 package work.racka.reluct.common.features.goals.details
 
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.onSuccess
 import kotlinx.coroutines.flow.*
@@ -24,6 +25,8 @@ class GoalDetailsViewModel(
     private val eventsChannel = Channel<GoalsEvents>(Channel.UNLIMITED)
     val events: Flow<GoalsEvents> = eventsChannel.receiveAsFlow()
 
+    private var syncDataJob: Job? = null
+
     init {
         getGoal()
     }
@@ -32,6 +35,24 @@ class GoalDetailsViewModel(
         vmScope.launch {
             modifyGoals.toggleGoalActiveState(isActive, goalId)
             eventsChannel.send(GoalsEvents.ChangedGoalState(isActive, ""))
+        }
+    }
+
+    fun updateCurrentValue(goalId: String, value: Long) {
+        vmScope.launch {
+            modifyGoals.updateGoalCurrentValue(id = goalId, currentValue = value)
+        }
+    }
+
+    fun syncData() {
+        syncDataJob?.cancel()
+        syncDataJob = vmScope.launch {
+            val currentState = state.value
+            if (currentState is GoalDetailsState.Data) {
+                state.update { GoalDetailsState.Data(currentState.goal, true) }
+                modifyGoals.syncGoals()
+                state.update { GoalDetailsState.Data(currentState.goal, false) }
+            }
         }
     }
 
@@ -50,7 +71,7 @@ class GoalDetailsViewModel(
                 else -> getGoals.getGoal(goalId).collectLatest { goal ->
                     when (goal) {
                         null -> state.update { GoalDetailsState.NotFound }
-                        else -> state.update { GoalDetailsState.Data(goal) }
+                        else -> state.update { GoalDetailsState.Data(goal, it.isSyncing) }
                     }
                 }
             }
