@@ -120,6 +120,10 @@
     <string name="manually_pause_app">Manually Pause App</string>
     <string name="manually_pause_app_desc">App will be paused for the whole day</string>
     <string name="manually_pause_apps_desc">Select Apps to pause for the whole day</string>
+    <string name="turn_on_app_blocking_text">Turn on App Blocking</string>
+    <string name="app_blocking_text">App Blocking</string>
+    <string name="app_blocking_desc_text">Enabled Blocking Apps defined by the set Screen Time limits
+    and Focus Mode states. This feature may use more battery as it will be running in the background!</string>
 
     <string name="no_usage_data_text">No Usage Data Found</string>
     <string name="no_paused_apps_text">No Paused Apps</string>

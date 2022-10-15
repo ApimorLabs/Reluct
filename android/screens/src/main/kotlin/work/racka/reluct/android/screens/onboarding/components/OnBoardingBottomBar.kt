@@ -82,7 +82,8 @@ internal fun OnBoardingBottomBar(
                 is OnBoardingPages.Overlay -> {
                     BottomButtonsProperties(
                         positiveText = context.getString(R.string.next_text),
-                        isPositiveEnabled = uiState.permissionsState.overlayGranted,
+                        isPositiveEnabled = uiState.permissionsState.overlayGranted
+                                || !uiState.appBlockingEnabled,
                         positiveAction = { onUpdatePage(OnBoardingPages.Themes) },
                         negativeText = context.getString(R.string.back_text),
                         isNegativeEnabled = true,

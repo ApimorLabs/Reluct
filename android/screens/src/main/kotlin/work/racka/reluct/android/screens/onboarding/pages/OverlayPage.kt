@@ -12,6 +12,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.AppBlocking
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -32,6 +34,7 @@ import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.android.compose.theme.Shapes
 import work.racka.reluct.android.screens.R
 import work.racka.reluct.android.screens.onboarding.components.PermissionStatusCard
+import work.racka.reluct.android.screens.screentime.components.LimitsSwitchCard
 import work.racka.reluct.android.screens.util.BackPressHandler
 import work.racka.reluct.android.screens.util.PermissionCheckHandler
 
@@ -40,12 +43,14 @@ import work.racka.reluct.android.screens.util.PermissionCheckHandler
 internal fun OverlayPage(
     modifier: Modifier = Modifier,
     isGranted: Boolean,
+    isAppBlockingEnabled: Boolean,
     updatePermissionCheck: (isGranted: Boolean) -> Unit,
+    onToggleAppBlocking: (isEnabled: Boolean) -> Unit,
     goBack: () -> Unit
 ) {
     BackPressHandler { goBack() } // Handle Back Presses
 
-    val drawableSize = 300.dp
+    val drawableSize = 200.dp
     val context = LocalContext.current
 
     val openDialog = remember { mutableStateOf(false) }
@@ -72,7 +77,7 @@ internal fun OverlayPage(
     ) {
         stickyHeader {
             ListGroupHeadingHeader(
-                text = stringResource(id = R.string.display_over_apps_text),
+                text = stringResource(id = R.string.app_blocking_text),
                 textAlign = TextAlign.Center,
                 textStyle = MaterialTheme.typography.headlineLarge
                     .copy(fontSize = 40.sp)
@@ -85,6 +90,17 @@ internal fun OverlayPage(
                     .size(drawableSize),
                 painter = painterResource(id = R.drawable.screens_present),
                 contentDescription = null
+            )
+        }
+
+        // App Blocking Switch
+        item {
+            LimitsSwitchCard(
+                title = stringResource(R.string.turn_on_app_blocking_text),
+                description = stringResource(R.string.app_blocking_desc_text),
+                checked = isAppBlockingEnabled,
+                onCheckedChange = onToggleAppBlocking,
+                icon = Icons.Rounded.AppBlocking
             )
         }
 

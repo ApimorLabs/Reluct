@@ -34,6 +34,7 @@ internal class MultiplatformSettingsImpl(
         _doNotDisturb.tryEmit(readDoNotDisturb())
         _onBoardingShown.tryEmit(readOnBoardingShown())
         _savedVersionCode.tryEmit(readSavedVersionCode())
+        _appBlockingEnabled.tryEmit(readAppBlocking())
     }
 
     override fun saveThemeSettings(value: Int): Boolean {
@@ -63,7 +64,7 @@ internal class MultiplatformSettingsImpl(
 
     override fun saveAppBlocking(value: Boolean): Boolean {
         settings.putBoolean(key = Keys.APP_BLOCKING, value = value)
-        return _onBoardingShown.tryEmit(readAppBlocking())
+        return _appBlockingEnabled.tryEmit(readAppBlocking())
     }
 
     // Private Read methods
