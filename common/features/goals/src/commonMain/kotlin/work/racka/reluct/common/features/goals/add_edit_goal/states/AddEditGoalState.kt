@@ -5,7 +5,7 @@ import work.racka.reluct.common.model.domain.goals.Goal
 
 data class AddEditGoalState(
     val modifyGoalState: ModifyGoalState = ModifyGoalState.Loading,
-    val unSelectedAppsState: GoalAppsState = GoalAppsState.Nothing
+    val appsState: GoalAppsState = GoalAppsState.Nothing
 )
 
 sealed class ModifyGoalState {
@@ -22,13 +22,15 @@ sealed class ModifyGoalState {
 }
 
 sealed class GoalAppsState(
+    val selectedApps: List<AppInfo>,
     val unselectedApps: List<AppInfo>
 ) {
-    object Nothing : GoalAppsState(emptyList())
+    object Nothing : GoalAppsState(emptyList(), emptyList())
 
     data class Data(
-        private val apps: List<AppInfo>
-    ) : GoalAppsState(apps)
+        private val selected: List<AppInfo>,
+        private val unselected: List<AppInfo>
+    ) : GoalAppsState(selectedApps = selected, unselectedApps = unselected)
 
-    object Loading : GoalAppsState(emptyList())
+    object Loading : GoalAppsState(emptyList(), emptyList())
 }

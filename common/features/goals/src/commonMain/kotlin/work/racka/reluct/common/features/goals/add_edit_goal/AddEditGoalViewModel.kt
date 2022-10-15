@@ -38,7 +38,7 @@ class AddEditGoalViewModel(
     ) { modifyGoalState, goalAppsState ->
         AddEditGoalState(
             modifyGoalState = modifyGoalState,
-            unSelectedAppsState = goalAppsState
+            appsState = goalAppsState
         )
     }.stateIn(
         scope = vmScope,
@@ -95,9 +95,21 @@ class AddEditGoalViewModel(
             }
             val goalState = modifyGoalState.value
             if (goalState is ModifyGoalState.Data) {
-                val apps = installedApps - goalState.goal.relatedApps.toSet()
-                goalAppsState.update { GoalAppsState.Data(apps) }
-            } else goalAppsState.update { GoalAppsState.Data(installedApps) }
+                val unselected = installedApps.filterNot { installed ->
+                    goalState.goal.relatedApps.any { it.packageName == installed.packageName }
+                }
+                goalAppsState.update {
+                    GoalAppsState.Data(
+                        selected = goalState.goal.relatedApps,
+                        unselected = unselected
+                    )
+                }
+            } else goalAppsState.update {
+                GoalAppsState.Data(
+                    selected = listOf(),
+                    unselected = installedApps
+                )
+            }
         }
     }
 
@@ -111,8 +123,15 @@ class AddEditGoalViewModel(
             val relatedApps = goalState.goal.relatedApps
                 .toMutableSet()
                 .apply { if (isAdd) add(appInfo) else remove(appInfo) }
-            val unSelectedApps = installedApps - relatedApps
-            goalAppsState.update { GoalAppsState.Data(unSelectedApps) }
+            val unSelectedApps = installedApps.filterNot { installed ->
+                relatedApps.any { it.packageName == installed.packageName }
+            }
+            goalAppsState.update {
+                GoalAppsState.Data(
+                    selected = relatedApps.toList(),
+                    unselected = unSelectedApps
+                )
+            }
             updateCurrentGoal(goalState.goal.copy(relatedApps = relatedApps.toList()))
         }
     }

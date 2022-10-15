@@ -60,6 +60,7 @@ fun LazyColumnAddEditGoal(
                 val start = Clock.System.now()
                     .toLocalDateTime(TimeZone.currentSystemDefault())
                 val end = start.plus(days = 1)
+                println(start..end)
                 return@run start..end
             }
         }

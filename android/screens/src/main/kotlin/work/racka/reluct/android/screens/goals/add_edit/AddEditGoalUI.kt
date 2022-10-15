@@ -151,11 +151,11 @@ internal fun AddEditGoalUI(
                     if (openRelatedAppsDialog) {
                         ManageAppsDialog(
                             onDismiss = { openRelatedAppsDialog = false },
-                            isLoading = uiState.unSelectedAppsState is GoalAppsState.Loading,
+                            isLoading = uiState.appsState is GoalAppsState.Loading,
                             topItemsHeading = stringResource(id = R.string.selected_apps_text),
                             bottomItemsHeading = stringResource(id = R.string.apps_text),
-                            topItems = modifyGoalState.goal.relatedApps,
-                            bottomItems = uiState.unSelectedAppsState.unselectedApps,
+                            topItems = uiState.appsState.selectedApps,
+                            bottomItems = uiState.appsState.unselectedApps,
                             onTopItemClicked = { app -> onModifyApps(app, false) },
                             onBottomItemClicked = { app -> onModifyApps(app, true) }
                         )
