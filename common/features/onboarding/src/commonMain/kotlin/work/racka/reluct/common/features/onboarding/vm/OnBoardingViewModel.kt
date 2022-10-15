@@ -1,6 +1,7 @@
 package work.racka.reluct.common.features.onboarding.vm
 
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 import work.racka.common.mvvm.viewmodel.CommonViewModel
 import work.racka.reluct.common.features.onboarding.states.OnBoardingPages
 import work.racka.reluct.common.features.onboarding.states.OnBoardingState
@@ -17,12 +18,13 @@ class OnBoardingViewModel(
     private val permissionsState = MutableStateFlow(PermissionsState())
 
     val uiState: StateFlow<OnBoardingState> = combine(
-        currentPage, permissionsState, settings.theme
-    ) { currentPage, permissionsState, currentThemeValue ->
+        currentPage, permissionsState, settings.theme, settings.appBlockingEnabled
+    ) { currentPage, permissionsState, currentThemeValue, appBlockingEnabled ->
         OnBoardingState(
             currentPage = currentPage,
             permissionsState = permissionsState,
-            currentThemeValue = currentThemeValue
+            currentThemeValue = currentThemeValue,
+            appBlockingEnabled = appBlockingEnabled
         )
     }.stateIn(
         scope = vmScope,
@@ -48,6 +50,12 @@ class OnBoardingViewModel(
             PermissionType.OVERLAY -> {
                 permissionsState.update { it.copy(overlayGranted = isGranted) }
             }
+        }
+    }
+
+    fun toggleAppBlocking(isEnabled: Boolean) {
+        vmScope.launch {
+            settings.saveAppBlocking(isEnabled)
         }
     }
 

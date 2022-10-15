@@ -14,12 +14,14 @@ internal class MultiplatformSettingsImpl(
     private val _doNotDisturb = MutableSharedFlow<Boolean>(replay = 1)
     private val _savedVersionCode = MutableSharedFlow<Int>(replay = 1)
     private val _onBoardingShown = MutableSharedFlow<Boolean>(replay = 1)
+    private val _appBlockingEnabled = MutableSharedFlow<Boolean>(replay = 1)
 
     override val theme: Flow<Int> = _themeFlow.asSharedFlow()
     override val focusMode: Flow<Boolean> = _focusMode.asSharedFlow()
     override val doNoDisturb: Flow<Boolean> = _doNotDisturb.asSharedFlow()
     override val savedVersionCode: Flow<Int> = _savedVersionCode.asSharedFlow()
     override val onBoardingShown: Flow<Boolean> = _onBoardingShown.asSharedFlow()
+    override val appBlockingEnabled: Flow<Boolean> = _appBlockingEnabled.asSharedFlow()
 
 
     init {
@@ -59,6 +61,11 @@ internal class MultiplatformSettingsImpl(
         return _onBoardingShown.tryEmit(readOnBoardingShown())
     }
 
+    override fun saveAppBlocking(value: Boolean): Boolean {
+        settings.putBoolean(key = Keys.APP_BLOCKING, value = value)
+        return _onBoardingShown.tryEmit(readAppBlocking())
+    }
+
     // Private Read methods
     private fun readThemeSettings(): Int =
         settings.getInt(key = Keys.THEME_OPTION, defaultValue = Keys.Defaults.THEME)
@@ -74,4 +81,7 @@ internal class MultiplatformSettingsImpl(
 
     private fun readOnBoardingShown(): Boolean =
         settings.getBoolean(key = Keys.ON_BOARDING_SHOWN, defaultValue = false)
+
+    private fun readAppBlocking(): Boolean =
+        settings.getBoolean(key = Keys.APP_BLOCKING, defaultValue = true)
 }

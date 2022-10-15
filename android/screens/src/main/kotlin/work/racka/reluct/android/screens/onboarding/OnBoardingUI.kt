@@ -26,6 +26,7 @@ fun OnBoardingUI(
     updateCurrentPage: (OnBoardingPages) -> Unit,
     updatePermission: (permissionType: PermissionType, isGranted: Boolean) -> Unit,
     saveTheme: (themeValue: Int) -> Unit,
+    onToggleAppBlocking: (isEnabled: Boolean) -> Unit,
     onBoardingComplete: () -> Unit
 ) {
 
