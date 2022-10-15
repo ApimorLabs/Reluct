@@ -9,5 +9,6 @@ data class SettingsState(
 
 data class LimitSettings(
     val dndOn: Boolean = false,
-    val focusModeOn: Boolean = false
+    val focusModeOn: Boolean = false,
+    val appBlockingEnabled: Boolean = false
 )

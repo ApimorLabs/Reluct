@@ -4,24 +4,31 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import work.racka.common.mvvm.viewmodel.CommonViewModel
+import work.racka.reluct.common.features.screen_time.services.ScreenTimeServices
 import work.racka.reluct.common.features.settings.states.LimitSettings
 import work.racka.reluct.common.features.settings.states.SettingsEvents
 import work.racka.reluct.common.features.settings.states.SettingsState
 import work.racka.reluct.common.settings.MultiplatformSettings
 
 class AppSettingsViewModel(
-    private val settings: MultiplatformSettings
+    private val settings: MultiplatformSettings,
+    private val screenTimeServices: ScreenTimeServices
 ) : CommonViewModel() {
 
-    private val themeSelected = settings.theme
-
-    private val limitSettings =
-        combine(settings.doNoDisturb, settings.focusMode) { dnd, focusMode ->
-            LimitSettings(dndOn = dnd, focusModeOn = focusMode)
-        }
+    private val limitSettings = combine(
+        settings.doNoDisturb,
+        settings.focusMode,
+        settings.appBlockingEnabled
+    ) { dnd, focusMode, appBlocking ->
+        LimitSettings(
+            dndOn = dnd,
+            focusModeOn = focusMode,
+            appBlockingEnabled = appBlocking
+        )
+    }
 
     val uiState: StateFlow<SettingsState> = combine(
-        themeSelected, limitSettings
+        settings.theme, limitSettings
     ) { themeSelected, limitSettings ->
         SettingsState(
             themeValue = themeSelected,
@@ -54,6 +61,16 @@ class AppSettingsViewModel(
         vmScope.launch {
             settings.saveFocusMode(value)
             _events.send(SettingsEvents.FocusModeChanged(value))
+        }
+    }
+
+    fun toggleAppBlocking(value: Boolean) {
+        vmScope.launch {
+            if (settings.saveAppBlocking(value)) {
+                _events.send(SettingsEvents.AppBlockingChanged(value))
+                if (value) screenTimeServices.startLimitsService()
+                else screenTimeServices.stopLimitsService()
+            }
         }
     }
 }

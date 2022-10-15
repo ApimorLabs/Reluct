@@ -17,8 +17,7 @@ object ScreenTime {
             ScreenTimeStatsViewModel(
                 getUsageStats = get(),
                 getWeekRangeFromOffset = get(),
-                manageAppTimeLimit = get(),
-                screenTimeServices = get()
+                manageAppTimeLimit = get()
             )
         }
 

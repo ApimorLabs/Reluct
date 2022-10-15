@@ -112,14 +112,20 @@
     <string name="turn_on_dnd_desc">Enable Do Not Disturb when Focus Mode is ON</string>
     <string name="dnd_on_msg">Do not Disturb will be turned on with Focus Mode</string>
     <string name="dnd_off_msg">Do not Disturb will not engage with Focus Mode</string>
-    <string name="focus_mode_on_msg">Focus Mode turned on</string>
-    <string name="focus_mode_off_msg">Focus Mode turned off</string>
+    <string name="focus_mode_on_msg">Focus Mode turned ON</string>
+    <string name="focus_mode_off_msg">Focus Mode turned OFF</string>
     <string name="manage_distracting_apps">Manage Distracting Apps</string>
     <string name="manage_distracting_apps_desc">Configure your Distracting Apps</string>
     <string name="manually_pause_apps">Manually Pause Apps</string>
     <string name="manually_pause_app">Manually Pause App</string>
     <string name="manually_pause_app_desc">App will be paused for the whole day</string>
     <string name="manually_pause_apps_desc">Select Apps to pause for the whole day</string>
+    <string name="app_blocking_turned_on_text">App Blocking Turned ON</string>
+    <string name="app_blocking_turned_off_text">App Blocking Turned OFF</string>
+    <string name="turn_on_app_blocking_text">Turn on App Blocking</string>
+    <string name="app_blocking_text">App Blocking</string>
+    <string name="app_blocking_desc_text">Enabled Blocking Apps defined by the set Screen Time limits
+    and Focus Mode states. This feature may use more battery as it will be running in the background!</string>
 
     <string name="no_usage_data_text">No Usage Data Found</string>
     <string name="no_paused_apps_text">No Paused Apps</string>

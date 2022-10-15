@@ -7,6 +7,7 @@ object Keys {
     const val AUTO_FOCUS_MODE = "do_not_disturb"
     const val SAVED_VERSION_CODE = "saved_version_code"
     const val ON_BOARDING_SHOWN = "on_boarding_shown"
+    const val APP_BLOCKING = "app_blocking"
 
     object Defaults {
         const val THEME = -1

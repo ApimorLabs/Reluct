@@ -13,11 +13,12 @@ internal class ManageFocusModeImpl(
     private val haptics: HapticFeedback,
     private val backgroundDispatcher: CoroutineDispatcher
 ) : ManageFocusMode {
-    override val isFocusModeOn: Flow<Boolean>
-        get() = settings.focusMode.flowOn(backgroundDispatcher)
+    override val isFocusModeOn: Flow<Boolean> = settings.focusMode.flowOn(backgroundDispatcher)
 
-    override val isDoNotDisturbOn: Flow<Boolean>
-        get() = settings.doNoDisturb.flowOn(backgroundDispatcher)
+    override val isDoNotDisturbOn: Flow<Boolean> = settings.doNoDisturb.flowOn(backgroundDispatcher)
+
+    override val isAppBlockingEnabled: Flow<Boolean> = settings.appBlockingEnabled
+        .flowOn(backgroundDispatcher)
 
     override suspend fun toggleFocusMode(isFocusMode: Boolean) {
         withContext(backgroundDispatcher) {

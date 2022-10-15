@@ -16,15 +16,15 @@ class DashboardStatisticsViewModel(
     private val tasksStatsViewModel: TasksStatisticsViewModel
 ) : CommonViewModel() {
 
-    init {
-        screenTimeStatsViewModel.permissionCheck(true)
-    }
-
     val screenTimeUiState: StateFlow<ScreenTimeStatsState> = screenTimeStatsViewModel.uiState
     val tasksStatsUiState: StateFlow<TasksStatisticsState> = tasksStatsViewModel.uiState
 
     val tasksStatsEvents: Flow<TasksEvents> = tasksStatsViewModel.events
     val screenTimeEvents: Flow<ScreenTimeStatsEvents> = screenTimeStatsViewModel.events
+
+    init {
+        screenTimeStatsViewModel.permissionCheck(true)
+    }
 
     // For Tasks
     fun tasksSelectDay(dayIsoNumber: Int) = tasksStatsViewModel.selectDay(dayIsoNumber)

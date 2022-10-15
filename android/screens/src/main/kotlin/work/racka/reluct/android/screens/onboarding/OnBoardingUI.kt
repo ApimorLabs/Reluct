@@ -26,6 +26,7 @@ fun OnBoardingUI(
     updateCurrentPage: (OnBoardingPages) -> Unit,
     updatePermission: (permissionType: PermissionType, isGranted: Boolean) -> Unit,
     saveTheme: (themeValue: Int) -> Unit,
+    onToggleAppBlocking: (isEnabled: Boolean) -> Unit,
     onBoardingComplete: () -> Unit
 ) {
 
@@ -98,12 +99,14 @@ fun OnBoardingUI(
                     OverlayPage(
                         goBack = { updateCurrentPage(OnBoardingPages.UsageAccess) },
                         isGranted = uiState.permissionsState.overlayGranted,
+                        isAppBlockingEnabled = uiState.appBlockingEnabled,
                         updatePermissionCheck = { isGranted ->
                             updatePermission(
                                 PermissionType.OVERLAY,
                                 isGranted
                             )
-                        }
+                        },
+                        onToggleAppBlocking = onToggleAppBlocking
                     )
                 }
                 is OnBoardingPages.Themes -> {

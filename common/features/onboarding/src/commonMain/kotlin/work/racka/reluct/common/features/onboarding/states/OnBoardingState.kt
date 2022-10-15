@@ -5,7 +5,8 @@ import work.racka.reluct.common.settings.Keys
 data class OnBoardingState(
     val currentPage: OnBoardingPages = OnBoardingPages.Welcome,
     val permissionsState: PermissionsState = PermissionsState(),
-    val currentThemeValue: Int = Keys.Defaults.THEME
+    val currentThemeValue: Int = Keys.Defaults.THEME,
+    val appBlockingEnabled: Boolean = false
 )
 
 sealed class OnBoardingPages {

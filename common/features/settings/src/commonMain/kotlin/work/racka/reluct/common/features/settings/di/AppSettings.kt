@@ -12,7 +12,7 @@ object AppSettings {
 
     private fun commonModule() = module {
         commonViewModel {
-            AppSettingsViewModel(settings = get())
+            AppSettingsViewModel(settings = get(), screenTimeServices = get())
         }
     }
 }

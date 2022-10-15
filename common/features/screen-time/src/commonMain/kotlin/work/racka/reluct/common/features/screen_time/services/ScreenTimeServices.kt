@@ -3,7 +3,7 @@ package work.racka.reluct.common.features.screen_time.services
 import kotlinx.coroutines.flow.Flow
 
 interface ScreenTimeServices {
-    fun startLimitsService()
+    suspend fun startLimitsService()
     fun stopLimitsService()
     fun observeCurrentAppBlocking(): Flow<BlockState>
 

@@ -35,9 +35,10 @@ fun SettingsScreen(
     SettingsUI(
         snackbarHostState = snackbarHostState,
         uiState = uiState,
-        saveTheme = viewModel::saveThemeSettings,
-        toggleDnd = viewModel::toggleDnd,
-        toggleFocusMode = viewModel::toggleFocusMode,
+        onSaveTheme = viewModel::saveThemeSettings,
+        onToggleDnd = viewModel::toggleDnd,
+        onToggleFocusMode = viewModel::toggleFocusMode,
+        onToggleAppBlocking = viewModel::toggleAppBlocking,
         onBackClicked = goBack
     )
 }
@@ -71,6 +72,16 @@ private fun handleEvents(
         is SettingsEvents.FocusModeChanged -> {
             val msg = if (events.isEnabled) context.getString(R.string.focus_mode_on_msg)
             else context.getString(R.string.focus_mode_off_msg)
+            scope.launch {
+                snackbarHostState.showSnackbar(
+                    message = msg,
+                    duration = SnackbarDuration.Short
+                )
+            }
+        }
+        is SettingsEvents.AppBlockingChanged -> {
+            val msg = if (events.isEnabled) context.getString(R.string.app_blocking_turned_on_text)
+            else context.getString(R.string.app_blocking_turned_off_text)
             scope.launch {
                 snackbarHostState.showSnackbar(
                     message = msg,

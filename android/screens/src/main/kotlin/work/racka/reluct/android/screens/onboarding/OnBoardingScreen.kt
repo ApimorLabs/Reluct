@@ -19,6 +19,7 @@ fun OnBoardingScreen(
         updateCurrentPage = viewModel::updateCurrentPage,
         updatePermission = viewModel::updatePermission,
         saveTheme = viewModel::saveTheme,
+        onToggleAppBlocking = viewModel::toggleAppBlocking,
         onBoardingComplete = {
             viewModel.onBoardingComplete()
             navigateHome()

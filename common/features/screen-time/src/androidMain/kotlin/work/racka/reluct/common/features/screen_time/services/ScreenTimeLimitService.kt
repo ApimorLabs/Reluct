@@ -1,7 +1,5 @@
 package work.racka.reluct.common.features.screen_time.services
 
-import android.app.Notification
-import android.app.PendingIntent
 import android.app.Service
 import android.content.Context
 import android.content.Intent
@@ -11,20 +9,17 @@ import android.provider.Settings
 import android.util.Log
 import android.view.WindowManager
 import androidx.compose.ui.platform.ComposeView
-import androidx.core.net.toUri
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collectLatest
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.get
 import org.koin.core.component.inject
 import org.koin.core.parameter.parametersOf
-import work.racka.reluct.common.core_navigation.compose_destinations.screentime.AppScreenTimeStatsDestination
 import work.racka.reluct.common.features.screen_time.R
 import work.racka.reluct.common.features.screen_time.statistics.AppScreenTimeStatsViewModel
 import work.racka.reluct.common.features.screen_time.ui.overlay.AppLimitedOverlayView
 import work.racka.reluct.common.features.screen_time.ui.overlay.LimitsOverlayParams
 import work.racka.reluct.common.features.screen_time.ui.overlay.OverlayLifecycleOwner
-import work.racka.reluct.common.model.domain.usagestats.AppUsageStats
 
 internal class ScreenTimeLimitService : Service(), KoinComponent {
 
@@ -55,8 +50,7 @@ internal class ScreenTimeLimitService : Service(), KoinComponent {
 
     override fun onDestroy() {
         android.view.KeyEvent.KEYCODE_HOME
-        scope?.cancel()
-        screenTimeServices.startLimitsService()
+        scope?.cancel()?.also { scope = null }
         overlayLifecycleOwner.onDestroy()
     }
 
@@ -140,36 +134,11 @@ internal class ScreenTimeLimitService : Service(), KoinComponent {
                         withContext(Dispatchers.Main) { removeOverlayView() }
                     }
                 }
-                is ScreenTimeServices.BlockState.Blocked -> {
+                else -> {
                     if (!goneHome) overlayWindow(blockState.appPackageName)
                 }
             }
         }
-    }
-
-    private fun appStatsNotification(context: Context, app: AppUsageStats): Notification {
-        val uriString = AppScreenTimeStatsDestination
-            .appScreenTimeDeepLink(app.appUsageInfo.packageName)
-        val intent = Intent(
-            Intent.ACTION_VIEW,
-            uriString.toUri()
-        )
-        val pendingIntent = PendingIntent.getActivity(
-            context,
-            0,
-            intent,
-            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-        )
-        return ScreenTimeServiceNotification
-            .createNotification(
-                context = applicationContext,
-                title = getString(R.string.current_app_arg, app.appUsageInfo.appName),
-                content = getString(
-                    R.string.current_app_time_arg,
-                    app.appUsageInfo.formattedTimeInForeground
-                ),
-                onNotificationClick = { pendingIntent }
-            )
     }
 
     private fun goHome() {
