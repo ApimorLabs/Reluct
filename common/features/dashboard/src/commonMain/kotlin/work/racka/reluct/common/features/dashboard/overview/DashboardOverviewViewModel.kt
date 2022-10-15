@@ -12,6 +12,7 @@ import work.racka.reluct.common.features.dashboard.overview.states.DashboardEven
 import work.racka.reluct.common.features.dashboard.overview.states.DashboardOverviewState
 import work.racka.reluct.common.features.dashboard.overview.states.TodayScreenTimeState
 import work.racka.reluct.common.features.dashboard.overview.states.TodayTasksState
+import work.racka.reluct.common.features.screen_time.services.ScreenTimeServices
 import work.racka.reluct.common.model.domain.tasks.Task
 import work.racka.reluct.common.model.util.time.WeekUtils
 
@@ -19,6 +20,7 @@ class DashboardOverviewViewModel(
     private val getTasksUseCase: GetTasksUseCase,
     private val modifyTasksUsesCase: ModifyTaskUseCase,
     private val getUsageStats: GetUsageStats,
+    private val screenTimeServices: ScreenTimeServices
 ) : CommonViewModel() {
 
     private val todayScreenTimeState: MutableStateFlow<TodayScreenTimeState> =
@@ -80,6 +82,7 @@ class DashboardOverviewViewModel(
         permissionsJob = vmScope.launch {
             permissionGranted.collectLatest { isGranted ->
                 if (isGranted) {
+                    screenTimeServices.startLimitsService()
                     getDailyScreenTime()
                 }
             }

@@ -16,7 +16,8 @@ object Dashboard {
             DashboardOverviewViewModel(
                 getTasksUseCase = get(),
                 modifyTasksUsesCase = get(),
-                getUsageStats = get()
+                getUsageStats = get(),
+                screenTimeServices = get()
             )
         }
 
