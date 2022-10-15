@@ -5,6 +5,8 @@ val desugaringVersion = "1.1.8"
 plugins {
     kotlin("android")
     id("com.android.application")
+    id(BuildPlugins.googleServicesApply)
+    id(BuildPlugins.firebaseCrashlyticsApply)
 }
 
 android {
@@ -74,7 +76,7 @@ android {
 }
 
 dependencies {
-    // Desugraing
+    // Desugaring
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:$desugaringVersion")
 
     // Dependency Modules
@@ -132,5 +134,6 @@ dependencies {
         implementation(platform(bom))
         implementation(auth)
         implementation(analytics)
+        implementation(crashlytics)
     }
 }
