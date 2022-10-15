@@ -30,23 +30,23 @@ fun GoalsTabBar(
         divider = { }
     ) {
         TabEntry(
-            title = stringResource(id = R.string.goals_ongoing),
+            title = stringResource(id = R.string.goals_active),
             textColor = getGoalsTabTextColor(
-                tabPage = GoalsTabDestination.Ongoing,
+                tabPage = GoalsTabDestination.Active,
                 selectedTabPage = tabPage
             ),
             onClick = {
-                onTabSelected(GoalsTabDestination.Ongoing)
+                onTabSelected(GoalsTabDestination.Active)
             }
         )
         TabEntry(
-            title = stringResource(id = R.string.goals_completed),
+            title = stringResource(id = R.string.goals_inactive),
             textColor = getGoalsTabTextColor(
-                tabPage = GoalsTabDestination.Completed,
+                tabPage = GoalsTabDestination.Inactive,
                 selectedTabPage = tabPage
             ),
             onClick = {
-                onTabSelected(GoalsTabDestination.Completed)
+                onTabSelected(GoalsTabDestination.Inactive)
             }
         )
     }

@@ -138,7 +138,7 @@ fun LazyColumnAddEditTaskFields(
                 modifier = Modifier
                     .height(200.dp),
                 value = task.value.description ?: "",
-                hint = stringResource(R.string.task_description_hint),
+                hint = stringResource(R.string.description_hint),
                 keyboardOptions = KeyboardOptions(
                     capitalization = KeyboardCapitalization.Sentences
                 ),
@@ -161,8 +161,8 @@ fun LazyColumnAddEditTaskFields(
             Spacer(modifier = Modifier.height(Dimens.SmallPadding.size))
             DateTimePills(
                 initialLocalDateTime = initialDueTime.value,
-                onLocalDateTimeChange = { dateTimeString ->
-                    task.value = task.value.copy(dueDateLocalDateTime = dateTimeString)
+                onLocalDateTimeChange = { dateTime ->
+                    task.value = task.value.copy(dueDateLocalDateTime = dateTime.toString())
                 }
             )
         }
@@ -204,8 +204,9 @@ fun LazyColumnAddEditTaskFields(
                     Spacer(modifier = Modifier.height(Dimens.SmallPadding.size))
                     DateTimePills(
                         initialLocalDateTime = initialReminderTime.value,
-                        onLocalDateTimeChange = { dateTimeString ->
-                            task.value = task.value.copy(reminderLocalDateTime = dateTimeString)
+                        onLocalDateTimeChange = { dateTime ->
+                            task.value =
+                                task.value.copy(reminderLocalDateTime = dateTime.toString())
                         }
                     )
                 }

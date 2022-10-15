@@ -9,23 +9,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
 
 @Composable
-internal fun AppNameHeading(
-    modifier: Modifier = Modifier,
-    text: String,
-    color: Color = LocalContentColor.current
-) {
-    Text(
-        modifier = modifier,
-        text = text,
-        style = MaterialTheme.typography.titleLarge,
-        maxLines = 1,
-        overflow = TextOverflow.Ellipsis,
-        color = color
-    )
-}
-
-@Composable
-fun TimeInfoText(
+internal fun TimeInfoText(
     modifier: Modifier = Modifier,
     text: String,
     color: Color = LocalContentColor.current

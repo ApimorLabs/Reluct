@@ -7,6 +7,7 @@ import kotlinx.coroutines.launch
 import work.racka.common.mvvm.viewmodel.CommonViewModel
 import work.racka.reluct.common.data.usecases.goals.GetGoals
 import work.racka.reluct.common.data.usecases.goals.ModifyGoals
+import work.racka.reluct.common.features.goals.active.states.ActiveGoalsState
 import work.racka.reluct.common.features.goals.active.states.GoalsEvents
 import work.racka.reluct.common.features.goals.active.states.GoalsListState
 import work.racka.reluct.common.model.domain.goals.Goal
@@ -16,9 +17,22 @@ class ActiveGoalsViewModel(
     private val modifyGoals: ModifyGoals
 ) : CommonViewModel() {
 
-    private val goalUiState: MutableStateFlow<GoalsListState> =
+    private val goalsListState: MutableStateFlow<GoalsListState> =
         MutableStateFlow(GoalsListState.Loading())
-    val uiState: StateFlow<GoalsListState> = goalUiState.asStateFlow()
+    private val isSyncingData = MutableStateFlow(false)
+    val uiState: StateFlow<ActiveGoalsState> = combine(
+        goalsListState,
+        isSyncingData
+    ) { goalsListState, isSyncingData ->
+        ActiveGoalsState(
+            isSyncing = isSyncingData,
+            goalsListState = goalsListState
+        )
+    }.stateIn(
+        scope = vmScope,
+        started = SharingStarted.WhileSubscribed(5_000L),
+        initialValue = ActiveGoalsState()
+    )
 
     private val eventsChannel = Channel<GoalsEvents>(capacity = Channel.UNLIMITED)
     val event: Flow<GoalsEvents> = eventsChannel.receiveAsFlow()
@@ -27,28 +41,40 @@ class ActiveGoalsViewModel(
     private var newDataPresent = true
 
     private var activeGoalsJob: Job? = null
+    private var syncDataJob: Job? = null
 
     init {
         getActiveGoals(limitFactor)
+        syncData()
     }
 
     private fun getActiveGoals(limitFactor: Long) {
         activeGoalsJob?.cancel()
         activeGoalsJob = vmScope.launch {
             getGoals.getActiveGoals(factor = limitFactor).collectLatest { goals ->
-                goalUiState.update {
-                    newDataPresent = it.goals != goals
+                goalsListState.update { state ->
+                    newDataPresent = (state.goals.firstOrNull()?.id != goals.firstOrNull()?.id)
+                            && (state.goals.lastOrNull()?.id != goals.lastOrNull()?.id)
                     GoalsListState.Data(goalsData = goals, newDataPresent = newDataPresent)
                 }
             }
         }
     }
 
+    fun syncData() {
+        syncDataJob?.cancel()
+        syncDataJob = vmScope.launch {
+            isSyncingData.update { true }
+            modifyGoals.syncGoals()
+            isSyncingData.update { false }
+        }
+    }
+
     fun fetchMoreData() {
-        if (newDataPresent && goalUiState.value !is GoalsListState.Loading) {
+        if (newDataPresent && goalsListState.value !is GoalsListState.Loading) {
             limitFactor++
             activeGoalsJob?.cancel()
-            goalUiState.update { GoalsListState.Loading(it.goals, newDataPresent) }
+            goalsListState.update { GoalsListState.Loading(it.goals, newDataPresent) }
             getActiveGoals(limitFactor)
         }
     }

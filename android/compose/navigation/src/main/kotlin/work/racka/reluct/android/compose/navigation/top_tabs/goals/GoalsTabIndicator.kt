@@ -27,8 +27,8 @@ internal fun GoalsTabIndicator(
     )
     val indicatorLeft by transition.animateDp(
         transitionSpec = {
-            if (GoalsTabDestination.Ongoing
-                isTransitioningTo GoalsTabDestination.Completed
+            if (GoalsTabDestination.Active
+                isTransitioningTo GoalsTabDestination.Inactive
             ) {
                 // Indicator moves to the right.
                 // Low stiffness spring for the left edge so it moves slower than the right edge.
@@ -46,8 +46,8 @@ internal fun GoalsTabIndicator(
 
     val indicatorRight by transition.animateDp(
         transitionSpec = {
-            if (GoalsTabDestination.Completed
-                isTransitioningTo GoalsTabDestination.Ongoing
+            if (GoalsTabDestination.Inactive
+                isTransitioningTo GoalsTabDestination.Active
             ) {
                 // Indicator moves to the right
                 // Medium stiffness spring for the right edge so it moves faster than the left edge.

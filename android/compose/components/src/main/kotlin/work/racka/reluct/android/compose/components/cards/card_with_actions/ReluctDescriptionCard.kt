@@ -19,7 +19,7 @@ fun ReluctDescriptionCard(
     contentColor: Color = MaterialTheme.colorScheme.onSurfaceVariant,
     shape: Shape = Shapes.large,
     title: @Composable () -> Unit,
-    description: @Composable () -> Unit,
+    description: @Composable ColumnScope.() -> Unit,
     icon: ImageVector? = null,
     rightActions: @Composable RowScope.() -> Unit = {},
     onClick: () -> Unit,

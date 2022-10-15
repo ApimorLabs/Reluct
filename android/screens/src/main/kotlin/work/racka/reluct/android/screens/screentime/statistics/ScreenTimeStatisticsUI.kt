@@ -66,8 +66,6 @@ internal fun ScreenTimeStatisticsUI(
     val listState = rememberLazyListState()
     val scrollContext = rememberScrollContext(listState = listState)
 
-    //TODO: Need to evaluate recomposition overhead when user it at the
-    // top of the list
     if (scrollContext.isTop) {
         barsVisibility.bottomBar.show()
     } else {

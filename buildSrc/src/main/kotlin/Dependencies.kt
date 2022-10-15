@@ -150,6 +150,7 @@ object Dependencies {
             // Compose Testing
             val junit by lazy { "androidx.compose.ui:ui-test-junit4:${Versions.compose}" }
             val tooling by lazy { "androidx.compose.ui:ui-tooling:${Versions.compose}" }
+            val toolingPreview by lazy { "androidx.compose.ui:ui-tooling-preview:${Versions.compose}" }
         }
 
         // Dagger Hilt

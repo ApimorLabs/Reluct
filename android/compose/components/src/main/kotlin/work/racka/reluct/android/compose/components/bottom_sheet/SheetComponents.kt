@@ -9,15 +9,20 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import work.racka.reluct.android.compose.components.R
+import work.racka.reluct.android.compose.theme.Dimens
+import work.racka.reluct.android.compose.theme.ReluctAppTheme
 
 @Composable
-internal fun TopSheetSection(
+fun TopSheetSection(
     modifier: Modifier = Modifier,
+    contentColor: Color = LocalContentColor.current,
     sheetTitle: String,
     rightButtonIcon: ImageVector? = null,
     rightButtonContentDescription: String? = null,
@@ -30,6 +35,7 @@ internal fun TopSheetSection(
         modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        Spacer(modifier = Modifier.height(Dimens.SmallPadding.size))
         Box(
             modifier = Modifier
                 .size(height = 5.dp, width = 32.dp)
@@ -54,7 +60,7 @@ internal fun TopSheetSection(
                     Icon(
                         imageVector = Icons.Outlined.Close,
                         contentDescription = stringResource(id = R.string.close_icon),
-                        tint = LocalContentColor.current
+                        tint = contentColor
                     )
                 }
             }
@@ -62,7 +68,7 @@ internal fun TopSheetSection(
             Text(
                 text = sheetTitle,
                 style = MaterialTheme.typography.headlineSmall,
-                color = LocalContentColor.current,
+                color = contentColor,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
@@ -76,10 +82,24 @@ internal fun TopSheetSection(
                     Icon(
                         imageVector = rightButtonIcon,
                         contentDescription = rightButtonContentDescription,
-                        tint = LocalContentColor.current
+                        tint = contentColor
                     )
                 }
             }
         }
+
+        Spacer(modifier = Modifier.height(Dimens.SmallPadding.size))
+    }
+}
+
+
+@Preview
+@Composable
+private fun TopSheetPreview() {
+    ReluctAppTheme {
+        TopSheetSection(
+            modifier = Modifier.background(MaterialTheme.colorScheme.background),
+            sheetTitle = "Sheet Title",
+            onCloseClicked = { })
     }
 }

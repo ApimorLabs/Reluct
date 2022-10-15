@@ -130,23 +130,24 @@ fun ManageAppsUI(
                     textAlign = TextAlign.Center
                 )
             }
-        }
+        } else {
 
-        items(items = topItems, key = { it.packageName }) { item ->
-            AppNameEntry(
-                modifier = Modifier
-                    .animateItemPlacement()
-                    .clip(Shapes.large)
-                    .clickable { onTopItemClicked(item) },
-                appName = item.appName,
-                icon = item.appIcon.icon,
-                contentColor = contentColor
-            ) {
-                Icon(
-                    imageVector = Icons.Rounded.KeyboardDoubleArrowDown,
-                    contentDescription = "Move Down",
-                    tint = contentColor
-                )
+            items(items = topItems, key = { it.packageName }) { item ->
+                AppNameEntry(
+                    modifier = Modifier
+                        .animateItemPlacement()
+                        .clip(Shapes.large)
+                        .clickable { onTopItemClicked(item) },
+                    appName = item.appName,
+                    icon = item.appIcon.icon,
+                    contentColor = contentColor
+                ) {
+                    Icon(
+                        imageVector = Icons.Rounded.KeyboardDoubleArrowDown,
+                        contentDescription = "Move Down",
+                        tint = contentColor
+                    )
+                }
             }
         }
 
@@ -174,23 +175,23 @@ fun ManageAppsUI(
                     textAlign = TextAlign.Center
                 )
             }
-        }
-
-        items(items = bottomItems, key = { it.packageName }) { item ->
-            AppNameEntry(
-                modifier = Modifier
-                    .animateItemPlacement()
-                    .clip(Shapes.large)
-                    .clickable { onBottomItemClicked(item) },
-                appName = item.appName,
-                icon = item.appIcon.icon,
-                contentColor = contentColor
-            ) {
-                Icon(
-                    imageVector = Icons.Rounded.KeyboardDoubleArrowUp,
-                    contentDescription = "Move Up",
-                    tint = contentColor
-                )
+        } else {
+            items(items = bottomItems, key = { it.packageName }) { item ->
+                AppNameEntry(
+                    modifier = Modifier
+                        .animateItemPlacement()
+                        .clip(Shapes.large)
+                        .clickable { onBottomItemClicked(item) },
+                    appName = item.appName,
+                    icon = item.appIcon.icon,
+                    contentColor = contentColor
+                ) {
+                    Icon(
+                        imageVector = Icons.Rounded.KeyboardDoubleArrowUp,
+                        contentDescription = "Move Up",
+                        tint = contentColor
+                    )
+                }
             }
         }
     }

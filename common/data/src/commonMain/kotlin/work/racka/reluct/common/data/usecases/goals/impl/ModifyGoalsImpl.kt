@@ -14,6 +14,7 @@ import work.racka.reluct.common.model.domain.goals.Goal
 import work.racka.reluct.common.model.domain.goals.GoalInterval
 import work.racka.reluct.common.model.domain.goals.GoalType
 import work.racka.reluct.common.model.util.time.StatisticsTimeUtils
+import work.racka.reluct.common.model.util.time.TimeUtils
 import work.racka.reluct.common.model.util.time.WeekUtils
 import work.racka.reluct.common.system_service.haptics.HapticFeedback
 
@@ -47,16 +48,18 @@ internal class ModifyGoalsImpl(
             haptics.click()
         }
 
-    override suspend fun syncGoals() {
-        val activeGoals = goalsDao.getActiveGoals(factor = 0).first()
-        activeGoals.map { goal ->
-            when (goal.goalType) {
-                GoalType.TasksGoal -> manageTasksGoalType(goal)
-                GoalType.DeviceScreenTimeGoal -> manageDeviceScreenTimeGoalType(goal)
-                GoalType.AppScreenTimeGoal -> manageAppScreenTimeGoalType(goal)
-                GoalType.NumeralGoal -> { /* Do Nothing */
+    override suspend fun syncGoals() = withContext(dispatcher) {
+        val activeGoals = goalsDao.getActiveGoals(factor = 100).first()
+        if (activeGoals.isNotEmpty()) {
+            val updated = activeGoals.map { goal ->
+                when (goal.goalType) {
+                    GoalType.TasksGoal -> manageTasksGoalType(goal)
+                    GoalType.DeviceScreenTimeGoal -> manageDeviceScreenTimeGoalType(goal)
+                    GoalType.AppScreenTimeGoal -> manageAppScreenTimeGoalType(goal)
+                    GoalType.NumeralGoal -> goal
                 }
             }
+            goalsDao.insertGoals(updated)
         }
     }
 
@@ -64,30 +67,36 @@ internal class ModifyGoalsImpl(
         when (goal.goalInterval) {
             GoalInterval.Daily -> {
                 val today = WeekUtils.currentDayOfWeek().isoDayNumber
-                val todayTasks = getGroupedTasksStats.dailyTasks(dayIsoNumber = today).first()
-                goal.copy(currentValue = todayTasks.completedTasksCount.toLong())
+                val checkToday = goal.daysOfWeekSelected.any { it.isoDayNumber == today }
+                if (checkToday || goal.daysOfWeekSelected.isEmpty()) {
+                    val todayTasks = getGroupedTasksStats.dailyTasks(dayIsoNumber = today).first()
+                    goal.copy(currentValue = todayTasks.completedTasksCount.toLong())
+                } else goal
             }
             GoalInterval.Weekly -> {
-                if (goal.daysOfWeekSelected.isEmpty() || goal.daysOfWeekSelected.size == 7) {
-                    val weeklyTasks = getGroupedTasksStats.weeklyTasks().first()
-                    goal.copy(
-                        currentValue = weeklyTasks.entries
-                            .sumOf { it.value.completedTasksCount }
-                            .toLong()
-                    )
-                } else {
-                    val data = goal.daysOfWeekSelected.map { day ->
-                        getGroupedTasksStats.dailyTasks(dayIsoNumber = day.isoDayNumber).first()
-                    }
-                    goal.copy(currentValue = data.sumOf { it.completedTasksCount }.toLong())
-                }
+                val weeklyTasks = getGroupedTasksStats.weeklyTasks().first()
+                goal.copy(
+                    currentValue = weeklyTasks.entries
+                        .sumOf { it.value.completedTasksCount }
+                        .toLong()
+                )
             }
             GoalInterval.Custom -> {
-                val timeInterval = goal.timeInterval
-                if (timeInterval != null) {
-                    val tasks = getGroupedTasksStats.timeRangeTasks(timeInterval).first()
-                    goal.copy(currentValue = tasks.completedTasksCount.toLong())
-                } else goal
+                /**
+                 * Check if the End of the Time Interval has not elapsed
+                 * If elapsed, don't update the currentValue and automatically mark the
+                 * Goal as not Active [isActive = false]
+                 */
+                when (val timeInterval = goal.timeInterval) {
+                    null -> goal
+                    else -> {
+                        val endLdt = TimeUtils.epochMillisToLocalDateTimeString(timeInterval.last)
+                        if (!TimeUtils.isDateTimeOverdue(dateTime = endLdt, overdueHours = 0)) {
+                            val tasks = getGroupedTasksStats.timeRangeTasks(timeInterval).first()
+                            goal.copy(currentValue = tasks.completedTasksCount.toLong())
+                        } else goal.copy(isActive = false)
+                    }
+                }
             }
         }
 
@@ -95,48 +104,48 @@ internal class ModifyGoalsImpl(
         when (goal.goalInterval) {
             GoalInterval.Daily -> {
                 val today = WeekUtils.currentDayOfWeek().isoDayNumber
-                val selectedDayTimeRange = StatisticsTimeUtils.selectedDayTimeInMillisRange(
-                    weekOffset = 0,
-                    dayIsoNumber = today
-                )
-                val stats = usageDataManager.getUsageStats(
-                    startTimeMillis = selectedDayTimeRange.first,
-                    endTimeMillis = selectedDayTimeRange.last
-                )
-                goal.copy(currentValue = stats.appsUsageList.sumOf { it.timeInForeground })
-            }
-            GoalInterval.Weekly -> {
-                if (goal.daysOfWeekSelected.isEmpty() || goal.daysOfWeekSelected.size == 7) {
-                    val weekTimeRange = StatisticsTimeUtils.weekTimeInMillisRange()
-                    val stats = usageDataManager.getUsageStats(
-                        startTimeMillis = weekTimeRange.first,
-                        endTimeMillis = weekTimeRange.last
+                val checkToday = goal.daysOfWeekSelected.any { it.isoDayNumber == today }
+                if (checkToday || goal.daysOfWeekSelected.isEmpty()) {
+                    val selectedDayTimeRange = StatisticsTimeUtils.selectedDayTimeInMillisRange(
+                        weekOffset = 0,
+                        dayIsoNumber = today
                     )
-                    goal.copy(currentValue = stats.appsUsageList.sumOf { it.timeInForeground })
-                } else {
-                    var screenTime = 0L
-                    goal.daysOfWeekSelected.map { day ->
-                        val selectedDayTimeRange = StatisticsTimeUtils.selectedDayTimeInMillisRange(
-                            weekOffset = 0,
-                            dayIsoNumber = day.isoDayNumber
-                        )
-                        screenTime += usageDataManager.getUsageStats(
-                            startTimeMillis = selectedDayTimeRange.first,
-                            endTimeMillis = selectedDayTimeRange.last
-                        ).appsUsageList.sumOf { it.timeInForeground }
-                    }
-                    goal.copy(currentValue = screenTime)
-                }
-            }
-            GoalInterval.Custom -> {
-                val timeInterval = goal.timeInterval
-                if (timeInterval != null) {
                     val stats = usageDataManager.getUsageStats(
-                        timeInterval.first,
-                        timeInterval.last
+                        startTimeMillis = selectedDayTimeRange.first,
+                        endTimeMillis = selectedDayTimeRange.last
                     )
                     goal.copy(currentValue = stats.appsUsageList.sumOf { it.timeInForeground })
                 } else goal
+            }
+            GoalInterval.Weekly -> {
+                val weekTimeRange = StatisticsTimeUtils.weekTimeInMillisRange()
+                val stats = usageDataManager.getUsageStats(
+                    startTimeMillis = weekTimeRange.first,
+                    endTimeMillis = weekTimeRange.last
+                )
+                goal.copy(currentValue = stats.appsUsageList.sumOf { it.timeInForeground })
+            }
+            GoalInterval.Custom -> {
+                /**
+                 * Check if the End of the Time Interval has not elapsed
+                 * If elapsed, don't update the currentValue and automatically mark the
+                 * Goal as not Active [isActive = false]
+                 */
+                when (val timeInterval = goal.timeInterval) {
+                    null -> goal
+                    else -> {
+                        val endLdt = TimeUtils.epochMillisToLocalDateTimeString(timeInterval.last)
+                        if (!TimeUtils.isDateTimeOverdue(dateTime = endLdt, overdueHours = 0)) {
+                            val stats = usageDataManager.getUsageStats(
+                                timeInterval.first,
+                                timeInterval.last
+                            )
+                            goal.copy(
+                                currentValue = stats.appsUsageList.sumOf { it.timeInForeground }
+                            )
+                        } else goal.copy(isActive = false)
+                    }
+                }
             }
         }
 
@@ -144,63 +153,58 @@ internal class ModifyGoalsImpl(
         when (goal.goalInterval) {
             GoalInterval.Daily -> {
                 val today = WeekUtils.currentDayOfWeek().isoDayNumber
-                val selectedDayTimeRange = StatisticsTimeUtils.selectedDayTimeInMillisRange(
-                    weekOffset = 0,
-                    dayIsoNumber = today
-                )
-                var screenTime = 0L
-                goal.relatedApps.forEach { packageName ->
-                    screenTime += usageDataManager.getAppUsage(
-                        startTimeMillis = selectedDayTimeRange.first,
-                        endTimeMillis = selectedDayTimeRange.last,
-                        packageName = packageName
-                    ).timeInForeground
-                }
-                goal.copy(currentValue = screenTime)
-            }
-            GoalInterval.Weekly -> {
-                if (goal.daysOfWeekSelected.isEmpty() || goal.daysOfWeekSelected.size == 7) {
-                    val weekTimeRange = StatisticsTimeUtils.weekTimeInMillisRange()
+                val checkToday = goal.daysOfWeekSelected.any { it.isoDayNumber == today }
+                if (checkToday || goal.daysOfWeekSelected.isEmpty()) {
+                    val selectedDayTimeRange = StatisticsTimeUtils.selectedDayTimeInMillisRange(
+                        weekOffset = 0,
+                        dayIsoNumber = today
+                    )
                     var screenTime = 0L
                     goal.relatedApps.forEach { packageName ->
                         screenTime += usageDataManager.getAppUsage(
-                            startTimeMillis = weekTimeRange.first,
-                            endTimeMillis = weekTimeRange.last,
-                            packageName = packageName
-                        ).timeInForeground
-                    }
-                    goal.copy(currentValue = screenTime)
-                } else {
-                    var screenTime = 0L
-                    goal.daysOfWeekSelected.map { day ->
-                        val selectedDayTimeRange = StatisticsTimeUtils.selectedDayTimeInMillisRange(
-                            weekOffset = 0,
-                            dayIsoNumber = day.isoDayNumber
-                        )
-                        goal.relatedApps.forEach { packageName ->
-                            screenTime += usageDataManager.getAppUsage(
-                                startTimeMillis = selectedDayTimeRange.first,
-                                endTimeMillis = selectedDayTimeRange.last,
-                                packageName = packageName
-                            ).timeInForeground
-                        }
-                    }
-                    goal.copy(currentValue = screenTime)
-                }
-            }
-            GoalInterval.Custom -> {
-                val timeInterval = goal.timeInterval
-                if (timeInterval != null) {
-                    var screenTime = 0L
-                    goal.relatedApps.forEach { packageName ->
-                        screenTime += usageDataManager.getAppUsage(
-                            startTimeMillis = timeInterval.first,
-                            endTimeMillis = timeInterval.last,
+                            startTimeMillis = selectedDayTimeRange.first,
+                            endTimeMillis = selectedDayTimeRange.last,
                             packageName = packageName
                         ).timeInForeground
                     }
                     goal.copy(currentValue = screenTime)
                 } else goal
+            }
+            GoalInterval.Weekly -> {
+                val weekTimeRange = StatisticsTimeUtils.weekTimeInMillisRange()
+                var screenTime = 0L
+                goal.relatedApps.forEach { packageName ->
+                    screenTime += usageDataManager.getAppUsage(
+                        startTimeMillis = weekTimeRange.first,
+                        endTimeMillis = weekTimeRange.last,
+                        packageName = packageName
+                    ).timeInForeground
+                }
+                goal.copy(currentValue = screenTime)
+            }
+            GoalInterval.Custom -> {
+                /**
+                 * Check if the End of the Time Interval has not elapsed
+                 * If elapsed, don't update the currentValue and automatically mark the
+                 * Goal as not Active [isActive = false]
+                 */
+                when (val timeInterval = goal.timeInterval) {
+                    null -> goal
+                    else -> {
+                        val endLdt = TimeUtils.epochMillisToLocalDateTimeString(timeInterval.last)
+                        if (!TimeUtils.isDateTimeOverdue(dateTime = endLdt, overdueHours = 0)) {
+                            var screenTime = 0L
+                            goal.relatedApps.forEach { packageName ->
+                                screenTime += usageDataManager.getAppUsage(
+                                    startTimeMillis = timeInterval.first,
+                                    endTimeMillis = timeInterval.last,
+                                    packageName = packageName
+                                ).timeInForeground
+                            }
+                            goal.copy(currentValue = screenTime)
+                        } else goal.copy(isActive = false)
+                    }
+                }
             }
         }
 }

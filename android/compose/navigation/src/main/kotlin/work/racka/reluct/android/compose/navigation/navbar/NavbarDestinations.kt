@@ -11,7 +11,7 @@ import androidx.compose.material.icons.rounded.GridView
 import androidx.compose.material.icons.rounded.TaskAlt
 import androidx.compose.ui.graphics.vector.ImageVector
 import work.racka.reluct.common.core_navigation.compose_destinations.dashboard.DashboardOverviewDestination
-import work.racka.reluct.common.core_navigation.compose_destinations.goals.OngoingGoalsDestination
+import work.racka.reluct.common.core_navigation.compose_destinations.goals.ActiveGoalsDestination
 import work.racka.reluct.common.core_navigation.compose_destinations.screentime.ScreenTimeStatsDestination
 import work.racka.reluct.common.core_navigation.compose_destinations.tasks.PendingTasksDestination
 
@@ -44,7 +44,7 @@ enum class NavbarDestinations(
         description = "Open Screen Time"
     ),
     Goals(
-        route = OngoingGoalsDestination.destination,
+        route = ActiveGoalsDestination.destination,
         iconActive = Icons.Rounded.TaskAlt,
         iconInactive = Icons.Outlined.TaskAlt,
         label = "Goals",

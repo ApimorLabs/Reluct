@@ -5,7 +5,6 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Build
-import android.util.Log
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.net.toUri
 import kotlinx.coroutines.Dispatchers
@@ -73,10 +72,6 @@ internal class AndroidScreenTimeServices(
                 if (!appLimits.overridden && limitParamChecks) {
                     ScreenTimeServices.BlockState.Blocked(appLimits.appInfo.packageName)
                 } else {
-                    Log.d(
-                        "AndroidScreenTimeServices",
-                        "App Has Been Overridden it's limits!"
-                    )
                     ScreenTimeServices.BlockState.Allowed(appLimits.appInfo.packageName)
                 }
             }

@@ -29,11 +29,11 @@ import work.racka.reluct.android.compose.theme.Shapes
 import work.racka.reluct.common.model.util.time.TimeUtils
 
 @Composable
-fun DateTimePills(
+internal fun DateTimePills(
     modifier: Modifier = Modifier,
     dialogShape: Shape = Shapes.large,
     initialLocalDateTime: LocalDateTime,
-    onLocalDateTimeChange: (dateTimeString: String) -> Unit,
+    onLocalDateTimeChange: (dateTime: LocalDateTime) -> Unit,
 ) {
 
     val dateDialogState = rememberMaterialDialogState()
@@ -71,9 +71,7 @@ fun DateTimePills(
         onLocalDateTimeChange = { dateChange, timeChange ->
             dateChange?.let { localDateTime.value = it }
             timeChange?.let { localDateTime.value = it }
-            onLocalDateTimeChange(
-                localDateTime.value.toString()
-            )
+            onLocalDateTimeChange(localDateTime.value)
         },
     )
 

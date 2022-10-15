@@ -7,6 +7,7 @@
     <string name="next_text">Next</string>
     <string name="back_text">Back</string>
     <string name="continue_text">Continue</string>
+    <string name="invalid_value_text">Invalid Value</string>
     <string name="search_icon">Search Icon</string>
     <string name="option_icon">Options</string>
     <string name="back_icon">Go Back</string>
@@ -41,7 +42,7 @@
     <string name="add_task">Add Task</string>
     <string name="edit_task">Edit Task</string>
     <string name="task_title_hint">Task name</string>
-    <string name="task_description_hint">Description</string>
+    <string name="description_hint">Description</string>
     <string name="task_title_error_text">Task Name can not be empty</string>
     <string name="task_to_be_done_at_text">To Be Done At</string>
     <string name="reminder_at">Remind At</string>
@@ -192,4 +193,57 @@
     <string name="light_theme_text_desc">See the Light within!</string>
     <string name="dark_theme_text">Dark Theme</string>
     <string name="dark_theme_text_desc">Join the Dark side!</string>
+
+    <!--  Goal Types Text  -->
+    <string name="goal_type_text">Goal Type</string>
+    <string name="app_screen_time_goal_type">App(s) Screen Time</string>
+    <string name="device_screen_time_goal_type">Device Screen Time</string>
+    <string name="tasks_goal_type">Task(s)</string>
+    <string name="numeral_goal_type">Value Based</string>
+
+    <!--  Goal Interval Text  -->
+    <string name="interval_text">Interval</string>
+    <string name="daily_interval_text">Daily</string>
+    <string name="weekly_interval_text">Weekly</string>
+    <string name="custom_interval_text">Custom</string>
+
+    <!--  Goal Edit Labels  -->
+    <string name="goal_name_text">Goal Name</string>
+    <string name="goal_name_error_text">Goal Name can not be empty</string>
+    <string name="number_of_tasks_text">Number of Tasks</string>
+    <string name="select_number_of_tasks_txt">Select Number of Tasks</string>
+    <string name="enter_number_of_tasks_txt">Enter Number of Tasks</string>
+    <string name="enter_target_value">Enter Target Value</string>
+    <string name="enter_current_value">Enter Current Value</string>
+    <string name="target_value_txt">Target Value</string>
+    <string name="current_value_txt">Current Value</string>
+    <string name="start_time_txt">Start Time</string>
+    <string name="end_time_txt">End Time</string>
+    <string name="choose_days_txt">Choose Days of Week</string>
+    <string name="no_goals_text">No Goals</string>
+    <string name="new_goal_text">New Goal</string>
+    <string name="edit_goal_text">Edit Goal</string>
+    <string name="add_goal_text">Add Goal</string>
+    <string name="add_your_goal_text">Add Your Goal</string>
+
+    <string name="active_days_text">Active Days</string>
+    <string name="goal_details_text">Goal Details</string>
+    <string name="saved_goal_value">Goal Saved: %1s</string>
+    <string name="deleted_goal_value">%1s Goal Deleted</string>
+    <string name="goal_marked_active">Goal Marked Active</string>
+    <string name="goal_marked_inactive">Goal Marked Inactive</string>
+    <string name="examples_text">Examples</string>
+    <string name="discard_goal_text">Discard Goal</string>
+    <string name="goal_not_found_text">Goal Not Found</string>
+    <string name="selected_apps_text">Selected Apps</string>
+    <string name="delete_goal_text">Delete Goal</string>
+    <string name="delete_goal_message">This action will permanently delete the current Goal</string>
+    <string name="current_value_value_text">Current Value: %1s</string>
+    <string name="target_value_value_text">Target Value: %1s</string>
+    <string name="sync_text">Sync</string>
+
+    <plurals name="tasks_text">
+        <item quantity="one">%1s Task</item>
+        <item quantity="other">%1s Tasks</item>
+    </plurals>
 </resources>

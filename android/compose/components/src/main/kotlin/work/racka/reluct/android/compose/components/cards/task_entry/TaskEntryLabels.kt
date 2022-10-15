@@ -19,6 +19,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import work.racka.reluct.android.compose.components.R
 import work.racka.reluct.android.compose.components.checkboxes.RoundCheckbox
+import work.racka.reluct.android.compose.components.textfields.texts.EntryDescription
+import work.racka.reluct.android.compose.components.textfields.texts.EntryHeading
 import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.android.compose.theme.ReluctAppTheme
 
@@ -49,36 +51,6 @@ fun TaskDetailsHeading(
             color = LocalContentColor.current
         )
     }
-}
-
-@Composable
-internal fun TaskHeading(
-    modifier: Modifier = Modifier,
-    text: String,
-) {
-    Text(
-        modifier = modifier,
-        text = text,
-        style = MaterialTheme.typography.titleLarge,
-        maxLines = 1,
-        overflow = TextOverflow.Ellipsis,
-        color = LocalContentColor.current
-    )
-}
-
-@Composable
-internal fun TaskDescription(
-    modifier: Modifier = Modifier,
-    text: String,
-) {
-    Text(
-        modifier = modifier,
-        text = text,
-        style = MaterialTheme.typography.bodyLarge,
-        maxLines = 2,
-        overflow = TextOverflow.Ellipsis,
-        color = LocalContentColor.current
-    )
 }
 
 @Composable
@@ -128,9 +100,9 @@ internal fun LabelsPreview() {
             val context = LocalContext.current
             val isChecked = remember { mutableStateOf(false) }
             Column {
-                TaskHeading(text = "Tasks Title Here")
+                EntryHeading(text = "Tasks Title Here")
                 Spacer(modifier = Modifier.height(Dimens.ExtraSmallPadding.size))
-                TaskDescription(text = "This is a task description and it it really long. This is a task description and it it really long. This is a task description and it it really long. This is a task description and it it really long. This is a task description and it it really long.")
+                EntryDescription(text = "This is a task description and it it really long. This is a task description and it it really long. This is a task description and it it really long. This is a task description and it it really long. This is a task description and it it really long.")
                 Spacer(modifier = Modifier.height(Dimens.ExtraSmallPadding.size))
                 TaskTimeInfo(timeText = "In 3 hrs")
                 TaskTimeInfo(timeText = "Thu, 20 Feb", showOverdueLabel = true)

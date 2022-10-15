@@ -16,10 +16,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import coil.compose.rememberImagePainter
+import coil.compose.rememberAsyncImagePainter
+import coil.request.ImageRequest
 import work.racka.reluct.android.compose.components.R
+import work.racka.reluct.android.compose.components.textfields.texts.EntryHeading
 import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.android.compose.theme.Shapes
 import work.racka.reluct.common.model.domain.usagestats.AppUsageInfo
@@ -91,11 +94,10 @@ fun AppUsageEntryBase(
     ) {
         Image(
             modifier = Modifier.size(48.dp),
-            /*painter = rememberAsyncImagePainter(
+            painter = rememberAsyncImagePainter(
                 model = ImageRequest.Builder(LocalContext.current)
                     .data(appUsageInfo.appIcon.icon).build()
-            ),*/
-            painter = rememberImagePainter(data = appUsageInfo.appIcon.icon),
+            ),
             contentDescription = appUsageInfo.appName
         )
 
@@ -142,7 +144,7 @@ private fun AppNameAndTimeText(
     Column(
         modifier = modifier
     ) {
-        AppNameHeading(text = appName, color = color)
+        EntryHeading(text = appName, color = color)
         Spacer(modifier = Modifier.width(Dimens.SmallPadding.size))
         TimeInfoText(text = timeText, color = color)
     }

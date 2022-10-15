@@ -33,13 +33,13 @@ internal class ManageDistractingAppsImpl(
     }
 
     override suspend fun markAsDistracting(packageName: String) {
-        haptics.tick()
         modifyAppLimits.makeDistractingApp(packageName = packageName, isDistracting = true)
+        haptics.tick()
     }
 
     override suspend fun markAsNotDistracting(packageName: String) {
-        haptics.tick()
         modifyAppLimits.makeDistractingApp(packageName = packageName, isDistracting = false)
+        haptics.tick()
     }
 
     override suspend fun isDistractingApp(packageName: String): Boolean =
