@@ -18,6 +18,9 @@ kotlin {
                 implementation(project(":common:mvvm-core"))
                 implementation(project(":common:persistence:settings"))
 
+                // Features imported
+                implementation(project(":common:features:screen-time"))
+
                 implementation(Dependencies.Kotlin.Coroutines.core)
                 implementation(Dependencies.Koin.core)
             }
