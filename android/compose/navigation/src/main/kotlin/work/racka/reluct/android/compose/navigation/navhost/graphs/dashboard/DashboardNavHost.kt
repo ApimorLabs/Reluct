@@ -1,14 +1,13 @@
 package work.racka.reluct.android.compose.navigation.navhost.graphs.dashboard
 
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Settings
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.Scaffold
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -153,7 +152,16 @@ private fun DashboardScreenTopBar(
             modifier = Modifier.padding(horizontal = 16.dp),
             title = stringResource(id = R.string.dashboard_destination_text),
             extraItems = {
-                IconButton(onClick = onSettingsClicked) {
+                IconButton(
+                    modifier = Modifier.background(
+                        MaterialTheme.colorScheme.surfaceVariant,
+                        CircleShape
+                    ),
+                    onClick = onSettingsClicked,
+                    colors = IconButtonDefaults.iconButtonColors(
+                        contentColor = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                ) {
                     Icon(
                         imageVector = Icons.Rounded.Settings,
                         contentDescription = "Settings"
