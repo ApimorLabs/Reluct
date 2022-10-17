@@ -33,6 +33,7 @@ kotlin {
             dependencies {
                 implementation(Dependencies.Android.Essential.coreKtx)
                 implementation(Dependencies.Android.Essential.appCompat)
+                implementation(Dependencies.Revenuecat.android) // RevenueCat - Billing
                 implementation(Dependencies.Log.timber)
             }
         }

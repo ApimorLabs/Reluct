@@ -129,6 +129,9 @@ dependencies {
     // Timber - Logging
     implementation(Dependencies.Log.timber)
 
+    // Revenue Cat - Billing
+    implementation(Dependencies.Revenuecat.android)
+
     // Firebase
     with(Dependencies.Android.Firebase) {
         implementation(platform(bom))
