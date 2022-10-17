@@ -4,6 +4,7 @@ import org.koin.core.context.startKoin
 import org.koin.dsl.KoinAppDeclaration
 import racka.reluct.common.authentication.di.Authentication
 import work.racka.reluct.common.app.usage.stats.di.AppUsageStats
+import work.racka.reluct.common.billing.di.Billing
 import work.racka.reluct.common.data.di.Data
 import work.racka.reluct.common.database.di.Database
 import work.racka.reluct.common.features.dashboard.di.Dashboard
@@ -26,6 +27,7 @@ object KoinMain {
         /** Modules in common directory **/
         // Data Sources
         Authentication.run { installModules() }
+        Billing.run { install() }
         Database.run { databaseModules() }
         MultiplatformSettings.run { settingsModules() }
         AppUsageStats.run { appUsageModules() }

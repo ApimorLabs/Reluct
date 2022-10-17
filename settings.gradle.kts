@@ -10,6 +10,7 @@ include(
     ":android:widgets",
     ":common:app-usage-stats",
     ":common:authentication",
+    ":common:billing",
     ":common:core-navigation",
     ":common:data",
     ":common:di-integration",
