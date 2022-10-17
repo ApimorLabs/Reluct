@@ -17,6 +17,7 @@ kotlin {
                 implementation(project(":common:model"))
 
                 implementation(Dependencies.Koin.core)
+                implementation(Dependencies.Kotlin.Coroutines.core)
                 implementation(Dependencies.Log.kermit)
             }
         }
