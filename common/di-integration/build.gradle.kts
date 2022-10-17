@@ -17,7 +17,7 @@ kotlin {
                 implementation(project(":common:app-usage-stats"))
                 implementation(project(":common:authentication"))
                 implementation(project(":common:billing"))
-                implementation(project(":common:data"))
+                implementation(project(":common:domain"))
                 implementation(project(":common:features:dashboard"))
                 implementation(project(":common:features:goals"))
                 implementation(project(":common:features:onboarding"))

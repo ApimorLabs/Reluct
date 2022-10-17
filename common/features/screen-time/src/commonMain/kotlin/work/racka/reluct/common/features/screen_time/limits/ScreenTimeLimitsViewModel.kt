@@ -5,9 +5,9 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import work.racka.common.mvvm.viewmodel.CommonViewModel
-import work.racka.reluct.common.data.usecases.limits.ManageDistractingApps
-import work.racka.reluct.common.data.usecases.limits.ManageFocusMode
-import work.racka.reluct.common.data.usecases.limits.ManagePausedApps
+import work.racka.reluct.common.domain.usecases.limits.ManageDistractingApps
+import work.racka.reluct.common.domain.usecases.limits.ManageFocusMode
+import work.racka.reluct.common.domain.usecases.limits.ManagePausedApps
 import work.racka.reluct.common.features.screen_time.limits.states.*
 import work.racka.reluct.common.features.screen_time.util.Constants
 

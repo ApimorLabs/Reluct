@@ -12,7 +12,7 @@ include(
     ":common:authentication",
     ":common:billing",
     ":common:core-navigation",
-    ":common:data",
+    ":common:domain",
     ":common:di-integration",
     ":common:features:dashboard",
     ":common:features:goals",
