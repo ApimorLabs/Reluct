@@ -18,6 +18,7 @@ import work.racka.reluct.android.screens.R
 import work.racka.reluct.android.screens.screentime.components.LimitsSwitchCard
 import work.racka.reluct.android.screens.settings.components.AppAboutInfo
 import work.racka.reluct.android.screens.settings.components.ThemesDialog
+import work.racka.reluct.common.billing.products.Product
 import work.racka.reluct.common.features.settings.states.SettingsState
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -30,6 +31,8 @@ internal fun SettingsUI(
     onToggleDnd: (value: Boolean) -> Unit,
     onToggleFocusMode: (value: Boolean) -> Unit,
     onToggleAppBlocking: (value: Boolean) -> Unit,
+    onGetCoffeeProducts: () -> Unit,
+    onPurchaseCoffee: (Product) -> Unit,
     onBackClicked: () -> Unit
 ) {
 

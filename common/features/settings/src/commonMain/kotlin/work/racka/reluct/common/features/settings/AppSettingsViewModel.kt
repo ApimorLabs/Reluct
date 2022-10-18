@@ -118,7 +118,7 @@ class AppSettingsViewModel(
     }
 
     // TODO: Check alternatives later
-    fun managePurchaseResult(result: Resource<Boolean>) {
+    fun handlePurchaseResult(result: Resource<Boolean>) {
         vmScope.launch {
             when (result) {
                 is Resource.Success -> {

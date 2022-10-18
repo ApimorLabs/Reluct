@@ -1,5 +1,6 @@
 package work.racka.reluct.android.screens.settings
 
+import android.app.Activity
 import android.content.Context
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHostState
@@ -9,8 +10,10 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import work.racka.common.mvvm.koin.compose.getCommonViewModel
 import work.racka.reluct.android.screens.R
+import work.racka.reluct.common.billing.revenue_cat.PurchaseAction
 import work.racka.reluct.common.features.settings.AppSettingsViewModel
 import work.racka.reluct.common.features.settings.states.SettingsEvents
+import work.racka.reluct.common.model.util.Resource
 
 @Composable
 fun SettingsScreen(
@@ -22,13 +25,21 @@ fun SettingsScreen(
     val uiState by viewModel.uiState.collectAsState()
     val events by viewModel.events.collectAsState(initial = SettingsEvents.Nothing)
 
+    val purchaseAction = remember(viewModel) {
+        PurchaseAction(
+            onSuccess = { viewModel.handlePurchaseResult(Resource.Success(true)) },
+            onError = { msg, _ -> viewModel.handlePurchaseResult(Resource.Error(msg)) }
+        )
+    }
+
     val context = LocalContext.current
     LaunchedEffect(events) {
         handleEvents(
             events = events,
             context = context,
             snackbarHostState = snackbarHostState,
-            scope = this
+            scope = this,
+            purchaseAction = purchaseAction
         )
     }
 
@@ -39,6 +50,8 @@ fun SettingsScreen(
         onToggleDnd = viewModel::toggleDnd,
         onToggleFocusMode = viewModel::toggleFocusMode,
         onToggleAppBlocking = viewModel::toggleAppBlocking,
+        onGetCoffeeProducts = viewModel::getCoffeeProducts,
+        onPurchaseCoffee = viewModel::purchaseCoffee,
         onBackClicked = goBack
     )
 }
@@ -47,7 +60,8 @@ private fun handleEvents(
     events: SettingsEvents,
     context: Context,
     snackbarHostState: SnackbarHostState,
-    scope: CoroutineScope
+    scope: CoroutineScope,
+    purchaseAction: PurchaseAction
 ) {
     when (events) {
         is SettingsEvents.ThemeChanged -> {
@@ -88,6 +102,11 @@ private fun handleEvents(
                     duration = SnackbarDuration.Short
                 )
             }
+        }
+        is SettingsEvents.InitiatePurchase -> {
+            // This will always be an Activity. If it isn't then we have bigger problems
+            val activity = context as Activity
+            purchaseAction.initiate(activity = activity, item = events.product.productInfo.info)
         }
         else -> {}
     }
