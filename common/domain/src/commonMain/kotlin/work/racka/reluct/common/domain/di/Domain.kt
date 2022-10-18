@@ -7,6 +7,8 @@ import work.racka.reluct.common.domain.usecases.app_usage.GetAppUsageInfo
 import work.racka.reluct.common.domain.usecases.app_usage.GetUsageStats
 import work.racka.reluct.common.domain.usecases.app_usage.impl.GetAppUsageInfoImpl
 import work.racka.reluct.common.domain.usecases.app_usage.impl.GetUsageStatsImpl
+import work.racka.reluct.common.domain.usecases.billing.ManageCoffeeProducts
+import work.racka.reluct.common.domain.usecases.billing.impl.ManageCoffeeProductsImpl
 import work.racka.reluct.common.domain.usecases.goals.GetGoals
 import work.racka.reluct.common.domain.usecases.goals.ModifyGoals
 import work.racka.reluct.common.domain.usecases.goals.impl.GetGoalsImpl
@@ -168,5 +170,8 @@ object Domain {
                 dispatcher = Dispatchers.IO
             )
         }
+
+        /** Billing **/
+        factory<ManageCoffeeProducts> { ManageCoffeeProductsImpl(billingApi = get()) }
     }
 }
