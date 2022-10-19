@@ -75,6 +75,10 @@ dependencies {
         // Palette
         implementation(palette)
     }
+
+    // RevenueCat
+    implementation(Dependencies.Revenuecat.android)
+
     // Timber - Logging
     implementation(Dependencies.Log.timber)
 }

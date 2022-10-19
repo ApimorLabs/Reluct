@@ -3,14 +3,13 @@ package work.racka.reluct.android.screens.settings
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.ModalBottomSheetLayout
+import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.*
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.LocalContentColor
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.material.rememberModalBottomSheetState
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -29,11 +28,11 @@ import work.racka.reluct.android.screens.settings.components.ThemesDialog
 import work.racka.reluct.common.billing.products.Product
 import work.racka.reluct.common.features.settings.states.SettingsState
 
-@OptIn(ExperimentalMaterialApi::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class)
 @Composable
 internal fun SettingsUI(
     modifier: Modifier = Modifier,
-    scaffoldState: BottomSheetScaffoldState,
+    snackbarHostState: SnackbarHostState,
     uiState: SettingsState,
     onSaveTheme: (value: Int) -> Unit,
     onToggleDnd: (value: Boolean) -> Unit,
@@ -46,130 +45,147 @@ internal fun SettingsUI(
 
     var openThemeDialog by remember { mutableStateOf(false) }
 
+    val modalSheetState = rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)
     val scope = rememberCoroutineScope()
 
-    BottomSheetScaffold(
-        modifier = modifier,
-        scaffoldState = scaffoldState,
-        topBar = {
-            ReluctSmallTopAppBar(
-                modifier = Modifier.statusBarsPadding(),
-                title = stringResource(R.string.settings_text),
-                navigationIcon = {
-                    IconButton(onClick = onBackClicked) {
-                        Icon(
-                            imageVector = Icons.Rounded.ArrowBack,
-                            contentDescription = null
-                        )
-                    }
-                }
-            )
-        },
-        snackbarHost = {
-            SnackbarHost(hostState = it) { data ->
-                Snackbar(
-                    modifier = Modifier.navigationBarsPadding(),
-                    snackbarData = data,
-                    shape = RoundedCornerShape(10.dp),
-                    backgroundColor = MaterialTheme.colorScheme.inverseSurface,
-                    contentColor = MaterialTheme.colorScheme.inverseOnSurface,
-                    actionColor = MaterialTheme.colorScheme.primary,
-                )
-            }
-        },
+    ModalBottomSheetLayout(
+        sheetState = modalSheetState,
         sheetContent = {
             CoffeeProductsSheet(
                 state = uiState.coffeeProducts,
                 onPurchaseProduct = onPurchaseCoffee,
-                onClose = { scope.launch { scaffoldState.bottomSheetState.collapse() } }
+                onReloadProducts = onGetCoffeeProducts,
+                onClose = {
+                    scope.launch {
+                        modalSheetState.hide()
+                    }
+                }
             )
         },
-        sheetShape = RoundedCornerShape(topStart = 10.dp, topEnd = 10.dp)
-    ) { innerPadding ->
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(innerPadding),
-            contentPadding = PaddingValues(Dimens.MediumPadding.size),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(Dimens.MediumPadding.size)
-        ) {
-            // Theme Settings
-            item {
-                ReluctDescriptionCard(
-                    title = {
-                        Text(
-                            text = stringResource(id = R.string.themes_text),
-                            style = MaterialTheme.typography.titleLarge,
-                            color = LocalContentColor.current
-                        )
-                    },
-                    description = {
-                        Text(
-                            text = stringResource(id = R.string.themes_desc_text),
-                            style = MaterialTheme.typography.bodyLarge,
-                            color = LocalContentColor.current.copy(alpha = .8f)
-                        )
-                    },
-                    icon = Icons.Rounded.DarkMode,
-                    rightActions = {
-                        Icon(imageVector = Icons.Rounded.ChevronRight, contentDescription = "Open")
-                    },
-                    onClick = { openThemeDialog = true }
-                )
-            }
-
-            // Turn On Focus Mode
-            item {
-                LimitsSwitchCard(
-                    title = stringResource(R.string.turn_on_focus),
-                    description = stringResource(R.string.turn_on_focus_desc),
-                    checked = uiState.limitSettings.focusModeOn,
-                    onCheckedChange = onToggleFocusMode,
-                    icon = Icons.Rounded.AppShortcut
-                )
-            }
-
-            // App Blocking
-            item {
-                LimitsSwitchCard(
-                    title = stringResource(R.string.app_blocking_text),
-                    description = stringResource(R.string.app_blocking_desc_text),
-                    checked = uiState.limitSettings.appBlockingEnabled,
-                    onCheckedChange = onToggleAppBlocking,
-                    icon = Icons.Rounded.AppBlocking
-                )
-            }
-
-            // Enable DND
-            item {
-                LimitsSwitchCard(
-                    title = stringResource(R.string.turn_on_dnd),
-                    description = stringResource(R.string.turn_on_dnd_desc),
-                    checked = uiState.limitSettings.dndOn,
-                    onCheckedChange = onToggleDnd,
-                    icon = Icons.Rounded.DoNotDisturbOnTotalSilence
-                )
-            }
-
-            // Support Development
-            item {
-                LimitsDetailsCard(
-                    title = stringResource(id = R.string.support_development_text),
-                    description = stringResource(id = R.string.support_development_desc_text),
-                    icon = Icons.Rounded.Favorite,
-                    onClick = {
-                        scope.launch {
-                            onGetCoffeeProducts()
-                            scaffoldState.bottomSheetState.expand()
+        sheetShape = RoundedCornerShape(topStart = 15.dp, topEnd = 15.dp)
+    ) {
+        Scaffold(
+            modifier = modifier,
+            topBar = {
+                ReluctSmallTopAppBar(
+                    modifier = Modifier.statusBarsPadding(),
+                    title = stringResource(R.string.settings_text),
+                    navigationIcon = {
+                        IconButton(onClick = onBackClicked) {
+                            Icon(
+                                imageVector = Icons.Rounded.ArrowBack,
+                                contentDescription = null
+                            )
                         }
                     }
                 )
+            },
+            snackbarHost = {
+                SnackbarHost(hostState = snackbarHostState) {
+                    Snackbar(
+                        modifier = Modifier.navigationBarsPadding(),
+                        snackbarData = it,
+                        shape = RoundedCornerShape(10.dp),
+                        containerColor = MaterialTheme.colorScheme.inverseSurface,
+                        contentColor = MaterialTheme.colorScheme.inverseOnSurface,
+                        actionColor = MaterialTheme.colorScheme.primary,
+                    )
+                }
             }
+        ) { innerPadding ->
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(innerPadding),
+                contentPadding = PaddingValues(Dimens.MediumPadding.size),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(Dimens.MediumPadding.size)
+            ) {
+                // Theme Settings
+                item {
+                    ReluctDescriptionCard(
+                        title = {
+                            Text(
+                                text = stringResource(id = R.string.themes_text),
+                                style = MaterialTheme.typography.titleLarge,
+                                color = LocalContentColor.current
+                            )
+                        },
+                        description = {
+                            Text(
+                                text = stringResource(id = R.string.themes_desc_text),
+                                style = MaterialTheme.typography.bodyLarge,
+                                color = LocalContentColor.current.copy(alpha = .8f)
+                            )
+                        },
+                        icon = Icons.Rounded.DarkMode,
+                        rightActions = {
+                            Icon(
+                                imageVector = Icons.Rounded.ChevronRight,
+                                contentDescription = "Open"
+                            )
+                        },
+                        onClick = { openThemeDialog = true }
+                    )
+                }
 
-            // About Details
-            item {
-                AppAboutInfo()
+                // Turn On Focus Mode
+                item {
+                    LimitsSwitchCard(
+                        title = stringResource(R.string.turn_on_focus),
+                        description = stringResource(R.string.turn_on_focus_desc),
+                        checked = uiState.limitSettings.focusModeOn,
+                        onCheckedChange = onToggleFocusMode,
+                        icon = Icons.Rounded.AppShortcut
+                    )
+                }
+
+                // App Blocking
+                item {
+                    LimitsSwitchCard(
+                        title = stringResource(R.string.app_blocking_text),
+                        description = stringResource(R.string.app_blocking_desc_text),
+                        checked = uiState.limitSettings.appBlockingEnabled,
+                        onCheckedChange = onToggleAppBlocking,
+                        icon = Icons.Rounded.AppBlocking
+                    )
+                }
+
+                // Enable DND
+                item {
+                    LimitsSwitchCard(
+                        title = stringResource(R.string.turn_on_dnd),
+                        description = stringResource(R.string.turn_on_dnd_desc),
+                        checked = uiState.limitSettings.dndOn,
+                        onCheckedChange = onToggleDnd,
+                        icon = Icons.Rounded.DoNotDisturbOnTotalSilence
+                    )
+                }
+
+                // Support Development
+                item {
+                    LimitsDetailsCard(
+                        title = stringResource(id = R.string.support_development_text),
+                        description = stringResource(id = R.string.support_development_desc_text),
+                        icon = Icons.Rounded.Favorite,
+                        onClick = {
+                            scope.launch {
+                                onGetCoffeeProducts()
+                                modalSheetState.show()
+                            }
+                        }
+                    )
+                }
+
+                // About Details
+                item {
+                    AppAboutInfo()
+                }
+
+                // Bottom Space
+                item {
+                    Spacer(modifier = Modifier.navigationBarsPadding())
+                }
             }
         }
     }

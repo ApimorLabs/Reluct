@@ -2,10 +2,8 @@ package work.racka.reluct.android.screens.settings
 
 import android.app.Activity
 import android.content.Context
-import androidx.compose.material.BottomSheetScaffoldState
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.SnackbarDuration
-import androidx.compose.material.rememberBottomSheetScaffoldState
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalContext
 import kotlinx.coroutines.CoroutineScope
@@ -17,12 +15,11 @@ import work.racka.reluct.common.features.settings.AppSettingsViewModel
 import work.racka.reluct.common.features.settings.states.SettingsEvents
 import work.racka.reluct.common.model.util.Resource
 
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun SettingsScreen(
     goBack: () -> Unit
 ) {
-    val scaffoldState = rememberBottomSheetScaffoldState()
+    val snackbarHostState = remember { SnackbarHostState() }
 
     val viewModel: AppSettingsViewModel = getCommonViewModel()
     val uiState by viewModel.uiState.collectAsState()
@@ -40,14 +37,14 @@ fun SettingsScreen(
         handleEvents(
             events = events,
             context = context,
-            scaffoldState = scaffoldState,
+            snackbarHostState = snackbarHostState,
             scope = this,
             purchaseAction = purchaseAction
         )
     }
 
     SettingsUI(
-        scaffoldState = scaffoldState,
+        snackbarHostState = snackbarHostState,
         uiState = uiState,
         onSaveTheme = viewModel::saveThemeSettings,
         onToggleDnd = viewModel::toggleDnd,
@@ -59,11 +56,10 @@ fun SettingsScreen(
     )
 }
 
-@OptIn(ExperimentalMaterialApi::class)
 private fun handleEvents(
     events: SettingsEvents,
     context: Context,
-    scaffoldState: BottomSheetScaffoldState,
+    snackbarHostState: SnackbarHostState,
     scope: CoroutineScope,
     purchaseAction: PurchaseAction
 ) {
@@ -71,7 +67,7 @@ private fun handleEvents(
         is SettingsEvents.ThemeChanged -> {
             val msg = context.getString(R.string.themes_changed_text)
             scope.launch {
-                scaffoldState.snackbarHostState.showSnackbar(
+                snackbarHostState.showSnackbar(
                     message = msg,
                     duration = SnackbarDuration.Short
                 )
@@ -81,7 +77,7 @@ private fun handleEvents(
             val msg = if (events.isEnabled) context.getString(R.string.dnd_on_msg)
             else context.getString(R.string.dnd_off_msg)
             scope.launch {
-                scaffoldState.snackbarHostState.showSnackbar(
+                snackbarHostState.showSnackbar(
                     message = msg,
                     duration = SnackbarDuration.Short
                 )
@@ -91,7 +87,7 @@ private fun handleEvents(
             val msg = if (events.isEnabled) context.getString(R.string.focus_mode_on_msg)
             else context.getString(R.string.focus_mode_off_msg)
             scope.launch {
-                scaffoldState.snackbarHostState.showSnackbar(
+                snackbarHostState.showSnackbar(
                     message = msg,
                     duration = SnackbarDuration.Short
                 )
@@ -101,7 +97,7 @@ private fun handleEvents(
             val msg = if (events.isEnabled) context.getString(R.string.app_blocking_turned_on_text)
             else context.getString(R.string.app_blocking_turned_off_text)
             scope.launch {
-                scaffoldState.snackbarHostState.showSnackbar(
+                snackbarHostState.showSnackbar(
                     message = msg,
                     duration = SnackbarDuration.Short
                 )
