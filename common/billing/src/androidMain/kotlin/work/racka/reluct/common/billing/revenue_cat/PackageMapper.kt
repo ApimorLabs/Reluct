@@ -13,6 +13,6 @@ internal fun Package.asProduct() = Product(
     productInfo = ProductInfo(this),
     productOffered = ProductOffered(
         sku = packageType.getSku(),
-        id = identifier
+        id = product.sku
     )
 )

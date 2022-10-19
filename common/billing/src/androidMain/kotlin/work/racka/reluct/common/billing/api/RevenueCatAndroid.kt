@@ -27,14 +27,17 @@ internal class RevenueCatAndroid(
 
                     override fun onReceived(offerings: Offerings) {
                         val currentOfferings = offerings.current
+                        println("Offerings: ${currentOfferings?.availablePackages}")
+                        val availablePackages = currentOfferings?.availablePackages ?: listOf()
                         val data = if (filterProducts.isEmpty()) {
-                            currentOfferings?.availablePackages?.map { p: Package ->
+                            availablePackages.map { p: Package ->
                                 p.asProduct()
-                            } ?: listOf()
+                            }
                         } else {
                             filterProducts.mapNotNull { item ->
                                 try {
-                                    currentOfferings?.getPackage(item.id)?.asProduct()
+                                    availablePackages.firstOrNull { it.product.sku == item.id }
+                                        ?.asProduct()
                                 } catch (e: Exception) {
                                     null
                                 }
