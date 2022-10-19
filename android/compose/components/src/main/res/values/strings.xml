@@ -248,6 +248,13 @@
     <string name="target_value_value_text">Target Value: %1s</string>
     <string name="sync_text">Sync</string>
 
+    <string name="support_development_text">Support Development</string>
+    <string name="support_development_desc_text">Buy me some coffee to support development of this app</string>
+    <string name="buy_me_coffee_text">Buy me Coffee</string>
+    <string name="no_products_text">No Products</string>
+    <string name="retry_text">Retry</string>
+    <string name="thank_you_text">Thank You!</string>
+
     <plurals name="tasks_text">
         <item quantity="one">%1s Task</item>
         <item quantity="other">%1s Tasks</item>

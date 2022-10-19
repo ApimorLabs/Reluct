@@ -15,6 +15,7 @@ import work.racka.reluct.android.compose.components.cards.card_with_actions.Relu
 import work.racka.reluct.android.compose.components.topBar.ReluctSmallTopAppBar
 import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.android.screens.R
+import work.racka.reluct.android.screens.screentime.components.LimitsDetailsCard
 import work.racka.reluct.android.screens.screentime.components.LimitsSwitchCard
 import work.racka.reluct.android.screens.settings.components.AppAboutInfo
 import work.racka.reluct.android.screens.settings.components.ThemesDialog
@@ -130,6 +131,18 @@ internal fun SettingsUI(
                     checked = uiState.limitSettings.dndOn,
                     onCheckedChange = onToggleDnd,
                     icon = Icons.Rounded.DoNotDisturbOnTotalSilence
+                )
+            }
+
+            // Support Development
+            item {
+                LimitsDetailsCard(
+                    title = stringResource(id = R.string.support_development_text),
+                    description = stringResource(id = R.string.support_development_desc_text),
+                    icon = Icons.Rounded.Favorite,
+                    onClick = {
+                        onGetCoffeeProducts()
+                    }
                 )
             }
 
