@@ -53,6 +53,7 @@ internal fun SettingsUI(
         sheetState = modalSheetState,
         sheetContent = {
             CoffeeProductsSheet(
+                modifier = Modifier.statusBarsPadding(),
                 state = uiState.coffeeProducts,
                 onPurchaseProduct = onPurchaseCoffee,
                 onReloadProducts = onGetCoffeeProducts,
@@ -64,8 +65,7 @@ internal fun SettingsUI(
             )
         },
         sheetElevation = 0.dp,
-        sheetBackgroundColor = Color.Transparent,
-        sheetShape = RoundedCornerShape(topStart = 15.dp, topEnd = 15.dp)
+        sheetBackgroundColor = Color.Transparent
     ) {
         Scaffold(
             modifier = modifier,

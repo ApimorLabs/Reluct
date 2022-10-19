@@ -4,26 +4,28 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.CheckCircle
+import androidx.compose.material.icons.rounded.ChevronRight
 import androidx.compose.material.icons.rounded.Coffee
 import androidx.compose.material.icons.rounded.Refresh
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import work.racka.reluct.android.compose.components.bottom_sheet.TopSheetSection
 import work.racka.reluct.android.compose.components.buttons.ReluctButton
+import work.racka.reluct.android.compose.components.cards.card_with_actions.ReluctDescriptionCard
 import work.racka.reluct.android.compose.components.images.LottieAnimationWithDescription
 import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.android.screens.R
-import work.racka.reluct.android.screens.screentime.components.LimitsDetailsCard
 import work.racka.reluct.common.billing.products.Product
 import work.racka.reluct.common.features.settings.states.CoffeeProductsState
 
@@ -32,6 +34,7 @@ import work.racka.reluct.common.features.settings.states.CoffeeProductsState
 internal fun CoffeeProductsSheet(
     modifier: Modifier = Modifier,
     tonalElevation: Dp = 6.dp,
+    shape: Shape = RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp),
     state: CoffeeProductsState,
     onReloadProducts: () -> Unit,
     onPurchaseProduct: (Product) -> Unit,
@@ -41,7 +44,8 @@ internal fun CoffeeProductsSheet(
         modifier = modifier,
         tonalElevation = tonalElevation,
         color = MaterialTheme.colorScheme.surface,
-        contentColor = MaterialTheme.colorScheme.onSurface
+        contentColor = MaterialTheme.colorScheme.onSurface,
+        shape = shape
     ) {
         LazyColumn(
             modifier = Modifier
@@ -92,9 +96,8 @@ internal fun CoffeeProductsSheet(
                             )
                         }
                     } else items(state.products) { item ->
-                        LimitsDetailsCard(
-                            title = item.name,
-                            description = item.description,
+                        ProductCard(
+                            product = item,
                             icon = Icons.Rounded.Coffee,
                             onClick = { onPurchaseProduct(item) }
                         )
@@ -117,7 +120,7 @@ internal fun CoffeeProductsSheet(
                         )
                         Spacer(modifier = Modifier.height(Dimens.SmallPadding.size))
                         Text(
-                            text = "${state.product.currencyCode} ${state.product.price}",
+                            text = state.product.price,
                             textAlign = TextAlign.Center,
                             style = MaterialTheme.typography.bodyMedium
                         )
@@ -126,7 +129,7 @@ internal fun CoffeeProductsSheet(
                     item {
                         ReluctButton(
                             buttonText = stringResource(id = R.string.ok),
-                            icon = Icons.Rounded.Refresh,
+                            icon = Icons.Rounded.CheckCircle,
                             onButtonClicked = onClose
                         )
                     }
@@ -156,4 +159,43 @@ internal fun CoffeeProductsSheet(
             }
         }
     }
+}
+
+@Composable
+internal fun ProductCard(
+    modifier: Modifier = Modifier,
+    product: Product,
+    onClick: () -> Unit,
+    icon: ImageVector? = null
+) {
+    ReluctDescriptionCard(
+        modifier = modifier,
+        title = {
+            Text(
+                text = product.name,
+                style = MaterialTheme.typography.titleLarge,
+                color = LocalContentColor.current
+            )
+        },
+        description = {
+            Text(
+                text = product.description,
+                style = MaterialTheme.typography.bodyLarge,
+                color = LocalContentColor.current.copy(alpha = .8f)
+            )
+            Text(
+                text = stringResource(id = R.string.price_text_value, product.price),
+                style = MaterialTheme.typography.titleLarge,
+                color = LocalContentColor.current
+            )
+        },
+        icon = icon,
+        rightActions = {
+            Icon(
+                imageVector = Icons.Rounded.ChevronRight,
+                contentDescription = "Open"
+            )
+        },
+        onClick = onClick
+    )
 }

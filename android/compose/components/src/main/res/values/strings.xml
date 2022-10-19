@@ -254,6 +254,7 @@
     <string name="no_products_text">No Products</string>
     <string name="retry_text">Retry</string>
     <string name="thank_you_text">Thank You!</string>
+    <string name="price_text_value">Price: %1s</string>
 
     <plurals name="tasks_text">
         <item quantity="one">%1s Task</item>
