@@ -3,14 +3,20 @@ package work.racka.reluct.android.screens.settings
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.*
-import androidx.compose.material3.*
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.LocalContentColor
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.launch
 import work.racka.reluct.android.compose.components.cards.card_with_actions.ReluctDescriptionCard
 import work.racka.reluct.android.compose.components.topBar.ReluctSmallTopAppBar
 import work.racka.reluct.android.compose.theme.Dimens
@@ -18,15 +24,16 @@ import work.racka.reluct.android.screens.R
 import work.racka.reluct.android.screens.screentime.components.LimitsDetailsCard
 import work.racka.reluct.android.screens.screentime.components.LimitsSwitchCard
 import work.racka.reluct.android.screens.settings.components.AppAboutInfo
+import work.racka.reluct.android.screens.settings.components.CoffeeProductsSheet
 import work.racka.reluct.android.screens.settings.components.ThemesDialog
 import work.racka.reluct.common.billing.products.Product
 import work.racka.reluct.common.features.settings.states.SettingsState
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 internal fun SettingsUI(
     modifier: Modifier = Modifier,
-    snackbarHostState: SnackbarHostState,
+    scaffoldState: BottomSheetScaffoldState,
     uiState: SettingsState,
     onSaveTheme: (value: Int) -> Unit,
     onToggleDnd: (value: Boolean) -> Unit,
@@ -39,8 +46,11 @@ internal fun SettingsUI(
 
     var openThemeDialog by remember { mutableStateOf(false) }
 
-    Scaffold(
+    val scope = rememberCoroutineScope()
+
+    BottomSheetScaffold(
         modifier = modifier,
+        scaffoldState = scaffoldState,
         topBar = {
             ReluctSmallTopAppBar(
                 modifier = Modifier.statusBarsPadding(),
@@ -56,17 +66,25 @@ internal fun SettingsUI(
             )
         },
         snackbarHost = {
-            SnackbarHost(hostState = snackbarHostState) {
+            SnackbarHost(hostState = it) { data ->
                 Snackbar(
                     modifier = Modifier.navigationBarsPadding(),
-                    snackbarData = it,
+                    snackbarData = data,
                     shape = RoundedCornerShape(10.dp),
-                    containerColor = MaterialTheme.colorScheme.inverseSurface,
+                    backgroundColor = MaterialTheme.colorScheme.inverseSurface,
                     contentColor = MaterialTheme.colorScheme.inverseOnSurface,
                     actionColor = MaterialTheme.colorScheme.primary,
                 )
             }
-        }
+        },
+        sheetContent = {
+            CoffeeProductsSheet(
+                state = uiState.coffeeProducts,
+                onPurchaseProduct = onPurchaseCoffee,
+                onClose = { scope.launch { scaffoldState.bottomSheetState.collapse() } }
+            )
+        },
+        sheetShape = RoundedCornerShape(topStart = 10.dp, topEnd = 10.dp)
     ) { innerPadding ->
         LazyColumn(
             modifier = Modifier
@@ -141,7 +159,10 @@ internal fun SettingsUI(
                     description = stringResource(id = R.string.support_development_desc_text),
                     icon = Icons.Rounded.Favorite,
                     onClick = {
-                        onGetCoffeeProducts()
+                        scope.launch {
+                            onGetCoffeeProducts()
+                            scaffoldState.bottomSheetState.expand()
+                        }
                     }
                 )
             }

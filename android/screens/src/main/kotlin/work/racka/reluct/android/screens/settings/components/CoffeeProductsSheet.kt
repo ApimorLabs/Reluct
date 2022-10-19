@@ -35,7 +35,7 @@ import work.racka.reluct.common.features.settings.states.CoffeeProductsState
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 internal fun CoffeeProductsSheet(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     shape: Shape = RoundedCornerShape(topStart = 10.dp, topEnd = 10.dp),
     tonalElevation: Dp = 6.dp,
     state: CoffeeProductsState,
@@ -46,6 +46,7 @@ internal fun CoffeeProductsSheet(
         modifier = modifier,
         tonalElevation = tonalElevation,
         color = MaterialTheme.colorScheme.surface,
+        contentColor = MaterialTheme.colorScheme.onSurface,
         shape = shape
     ) {
         LazyColumn(
