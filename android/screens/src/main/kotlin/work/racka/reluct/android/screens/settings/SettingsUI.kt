@@ -13,6 +13,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
@@ -62,6 +63,8 @@ internal fun SettingsUI(
                 }
             )
         },
+        sheetElevation = 0.dp,
+        sheetBackgroundColor = Color.Transparent,
         sheetShape = RoundedCornerShape(topStart = 15.dp, topEnd = 15.dp)
     ) {
         Scaffold(
