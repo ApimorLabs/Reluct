@@ -23,6 +23,7 @@ import work.racka.reluct.android.compose.theme.ReluctAppTheme
 fun TopSheetSection(
     modifier: Modifier = Modifier,
     contentColor: Color = LocalContentColor.current,
+    containerColor: Color = Color.Transparent,
     sheetTitle: String,
     rightButtonIcon: ImageVector? = null,
     rightButtonContentDescription: String? = null,
@@ -31,64 +32,69 @@ fun TopSheetSection(
     closeButtonVisible: Boolean = true,
     rightButtonVisible: Boolean = false,
 ) {
-    Column(
+    Surface(
         modifier = modifier,
-        horizontalAlignment = Alignment.CenterHorizontally
+        color = containerColor,
+        contentColor = contentColor
     ) {
-        Spacer(modifier = Modifier.height(Dimens.SmallPadding.size))
-        Box(
-            modifier = Modifier
-                .size(height = 5.dp, width = 32.dp)
-                .background(
-                    color = MaterialTheme.colorScheme.onBackground
-                        .copy(alpha = .1f),
-                    shape = CircleShape
-                )
-        )
-
-        Row(
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier
-                .fillMaxWidth()
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            IconButton(
-                onClick = onCloseClicked,
-                enabled = closeButtonVisible
-            ) {
-                if (closeButtonVisible) {
-                    Icon(
-                        imageVector = Icons.Outlined.Close,
-                        contentDescription = stringResource(id = R.string.close_icon),
-                        tint = contentColor
+            Spacer(modifier = Modifier.height(Dimens.SmallPadding.size))
+            Box(
+                modifier = Modifier
+                    .size(height = 5.dp, width = 32.dp)
+                    .background(
+                        color = MaterialTheme.colorScheme.onBackground
+                            .copy(alpha = .1f),
+                        shape = CircleShape
                     )
-                }
-            }
-
-            Text(
-                text = sheetTitle,
-                style = MaterialTheme.typography.headlineSmall,
-                color = contentColor,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis
             )
 
-
-            IconButton(
-                onClick = onRightButtonClicked,
-                enabled = rightButtonVisible
+            Row(
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .fillMaxWidth()
             ) {
-                if (rightButtonVisible && rightButtonIcon != null) {
-                    Icon(
-                        imageVector = rightButtonIcon,
-                        contentDescription = rightButtonContentDescription,
-                        tint = contentColor
-                    )
+                IconButton(
+                    onClick = onCloseClicked,
+                    enabled = closeButtonVisible
+                ) {
+                    if (closeButtonVisible) {
+                        Icon(
+                            imageVector = Icons.Outlined.Close,
+                            contentDescription = stringResource(id = R.string.close_icon),
+                            tint = contentColor
+                        )
+                    }
+                }
+
+                Text(
+                    text = sheetTitle,
+                    style = MaterialTheme.typography.headlineSmall,
+                    color = contentColor,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+
+
+                IconButton(
+                    onClick = onRightButtonClicked,
+                    enabled = rightButtonVisible
+                ) {
+                    if (rightButtonVisible && rightButtonIcon != null) {
+                        Icon(
+                            imageVector = rightButtonIcon,
+                            contentDescription = rightButtonContentDescription,
+                            tint = contentColor
+                        )
+                    }
                 }
             }
-        }
 
-        Spacer(modifier = Modifier.height(Dimens.SmallPadding.size))
+            Spacer(modifier = Modifier.height(Dimens.SmallPadding.size))
+        }
     }
 }
 

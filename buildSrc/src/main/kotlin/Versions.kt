@@ -69,7 +69,7 @@ object Versions {
     const val dataStore = "1.0.0"
 
     // Billing
-    const val revenuecat = "5.0.0-rc3"
+    const val revenuecat = "5.4.0"
 
     // Glance App Widget - Early Releases
     const val glanceAppWidget = "1.0.0-alpha03"

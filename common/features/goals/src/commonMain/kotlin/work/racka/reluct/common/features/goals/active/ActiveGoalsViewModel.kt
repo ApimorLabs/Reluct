@@ -5,8 +5,8 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import work.racka.common.mvvm.viewmodel.CommonViewModel
-import work.racka.reluct.common.data.usecases.goals.GetGoals
-import work.racka.reluct.common.data.usecases.goals.ModifyGoals
+import work.racka.reluct.common.domain.usecases.goals.GetGoals
+import work.racka.reluct.common.domain.usecases.goals.ModifyGoals
 import work.racka.reluct.common.features.goals.active.states.ActiveGoalsState
 import work.racka.reluct.common.features.goals.active.states.GoalsEvents
 import work.racka.reluct.common.features.goals.active.states.GoalsListState

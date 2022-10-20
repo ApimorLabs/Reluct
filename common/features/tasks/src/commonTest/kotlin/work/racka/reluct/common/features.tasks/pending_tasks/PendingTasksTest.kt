@@ -19,9 +19,9 @@ import org.koin.core.context.stopKoin
 import org.koin.dsl.module
 import org.koin.test.KoinTest
 import org.koin.test.inject
-import work.racka.reluct.common.data.mappers.tasks.asTask
-import work.racka.reluct.common.data.usecases.tasks.GetTasksUseCase
-import work.racka.reluct.common.data.usecases.tasks.ModifyTaskUseCase
+import work.racka.reluct.common.domain.mappers.tasks.asTask
+import work.racka.reluct.common.domain.usecases.tasks.GetTasksUseCase
+import work.racka.reluct.common.domain.usecases.tasks.ModifyTaskUseCase
 import work.racka.reluct.common.features.tasks.util.TestData
 import work.racka.reluct.common.model.states.tasks.PendingTasksState
 import work.racka.reluct.common.model.states.tasks.TasksEvents

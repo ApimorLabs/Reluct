@@ -5,9 +5,9 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import work.racka.common.mvvm.viewmodel.CommonViewModel
-import work.racka.reluct.common.data.usecases.app_usage.GetUsageStats
-import work.racka.reluct.common.data.usecases.limits.ManageAppTimeLimit
-import work.racka.reluct.common.data.usecases.time.GetWeekRangeFromOffset
+import work.racka.reluct.common.domain.usecases.app_usage.GetUsageStats
+import work.racka.reluct.common.domain.usecases.limits.ManageAppTimeLimit
+import work.racka.reluct.common.domain.usecases.time.GetWeekRangeFromOffset
 import work.racka.reluct.common.features.screen_time.limits.states.AppTimeLimitState
 import work.racka.reluct.common.features.screen_time.statistics.states.ScreenTimeStatsEvents
 import work.racka.reluct.common.features.screen_time.statistics.states.ScreenTimeStatsSelectedInfo

@@ -11,9 +11,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
 import work.racka.reluct.common.core_navigation.compose_destinations.screentime.AppScreenTimeStatsDestination
-import work.racka.reluct.common.data.usecases.app_usage.GetAppUsageInfo
-import work.racka.reluct.common.data.usecases.limits.GetAppLimits
-import work.racka.reluct.common.data.usecases.limits.ManageFocusMode
+import work.racka.reluct.common.domain.usecases.app_usage.GetAppUsageInfo
+import work.racka.reluct.common.domain.usecases.limits.GetAppLimits
+import work.racka.reluct.common.domain.usecases.limits.ManageFocusMode
 import work.racka.reluct.common.features.screen_time.R
 import work.racka.reluct.common.features.screen_time.permissions.UsageAccessPermission
 import work.racka.reluct.common.model.domain.usagestats.AppUsageStats

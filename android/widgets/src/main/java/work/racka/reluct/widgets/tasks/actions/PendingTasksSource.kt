@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
-import work.racka.reluct.common.data.usecases.tasks.GetTasksUseCase
+import work.racka.reluct.common.domain.usecases.tasks.GetTasksUseCase
 import work.racka.reluct.widgets.tasks.PendingTasksWidget
 import work.racka.reluct.widgets.tasks.state.PendingTasksInfo
 import work.racka.reluct.widgets.tasks.state.PendingTasksStateDefinition

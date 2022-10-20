@@ -16,6 +16,7 @@ android.apply {
 
 dependencies {
     // Dependency Modules
+    implementation(project(":common:billing"))
     implementation(project(":common:model"))
     implementation(project(":common:mvvm-core"))
     implementation(project(":android:compose:theme"))
@@ -74,6 +75,10 @@ dependencies {
         // Palette
         implementation(palette)
     }
+
+    // RevenueCat
+    implementation(Dependencies.Revenuecat.android)
+
     // Timber - Logging
     implementation(Dependencies.Log.timber)
 }

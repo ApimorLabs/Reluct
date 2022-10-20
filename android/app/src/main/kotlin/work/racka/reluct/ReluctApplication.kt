@@ -1,6 +1,8 @@
 package work.racka.reluct
 
 import android.app.Application
+import com.revenuecat.purchases.Purchases
+import com.revenuecat.purchases.PurchasesConfiguration
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.firstOrNull
@@ -36,5 +38,16 @@ class ReluctApplication : Application() {
         }
 
         Timber.plant(Timber.DebugTree())
+
+        // RevenueCat - Billing
+        Purchases.apply {
+            if (BuildConfig.DEBUG) debugLogsEnabled = true
+            configure(
+                configuration = PurchasesConfiguration.Builder(
+                    context = this@ReluctApplication,
+                    BuildConfig.revenuecat_key
+                ).build()
+            )
+        }
     }
 }

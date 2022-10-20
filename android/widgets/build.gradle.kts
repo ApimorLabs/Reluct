@@ -22,7 +22,7 @@ dependencies {
     implementation(project(":android:compose:theme"))
     implementation(project(":android:compose:components"))
     implementation(project(":android:compose:navigation"))
-    implementation(project(":common:data"))
+    implementation(project(":common:domain"))
 
     // Core Functionality
     with(Dependencies.Android.Essential) {
