@@ -2,8 +2,8 @@ object AppConfig {
     const val compileSdkVersion = 33
     const val minSdkVersion = 26
     const val targetSdkVersion = 33
-    const val versionCode = 2
-    const val versionName = "1.0.0-alpha02"
+    const val versionCode = 3
+    const val versionName = "1.0.0-alpha03"
     const val applicationId = "work.racka.reluct"
 
     object Desktop {

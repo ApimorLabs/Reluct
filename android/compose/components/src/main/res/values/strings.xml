@@ -165,9 +165,11 @@
 
     <string name="privacy_policy_terms_text">By continuing you are Agreeing with the Privacy Policy and Terms of Service</string>
     <string name="privacy_policy_hyperlink_text">Privacy Policy</string>
-    <string name="privacy_policy_hyperlink_url" translatable="false">https://google.com</string>
+    <string name="privacy_policy_hyperlink_url" translatable="false">https://www.racka.work/policies/reluct/privacy-policy</string>
     <string name="terms_of_service_hyperlink_text">Terms of Service</string>
-    <string name="terms_of_service_hyperlink_url" translatable="false">https://google.com</string>
+    <string name="terms_of_service_hyperlink_url" translatable="false">https://www.racka.work/policies/reluct/terms-of-service</string>
+    <string name="privacy_policy_n_terms_hyperlink_text">Privacy Policy &amp; Terms of Service</string>
+    <string name="reluct_polices_hyperlink_url" translatable="false">https://www.racka.work/policies/reluct</string>
 
     <string name="permissions_text">Permissions</string>
     <string name="permissions_desc_text">We need some permissions on this device for the App to function properly.

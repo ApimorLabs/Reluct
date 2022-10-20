@@ -49,8 +49,7 @@ internal fun CoffeeProductsSheet(
     ) {
         LazyColumn(
             modifier = Modifier
-                .padding(horizontal = Dimens.MediumPadding.size)
-                .padding(top = Dimens.MediumPadding.size),
+                .padding(horizontal = Dimens.MediumPadding.size),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(Dimens.MediumPadding.size),
         ) {

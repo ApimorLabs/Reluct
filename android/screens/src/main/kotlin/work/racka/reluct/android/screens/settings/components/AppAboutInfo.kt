@@ -9,6 +9,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import work.racka.reluct.android.compose.components.textfields.texts.HighlightTextProps
+import work.racka.reluct.android.compose.components.textfields.texts.HyperlinkText
 import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.android.screens.BuildConfig
 import work.racka.reluct.android.screens.R
@@ -41,6 +43,19 @@ fun AppAboutInfo(
             text = stringResource(id = R.string.made_with_text),
             textAlign = TextAlign.Center,
             style = MaterialTheme.typography.bodySmall
+        )
+
+        // Terms of Service and Privacy Policy
+        HyperlinkText(
+            fullText = stringResource(id = R.string.privacy_policy_n_terms_hyperlink_text),
+            textAlign = TextAlign.Center,
+            hyperLinks = listOf(
+                HighlightTextProps(
+                    text = stringResource(id = R.string.privacy_policy_n_terms_hyperlink_text),
+                    url = stringResource(id = R.string.reluct_polices_hyperlink_url),
+                    color = MaterialTheme.colorScheme.primary
+                )
+            )
         )
     }
 }
