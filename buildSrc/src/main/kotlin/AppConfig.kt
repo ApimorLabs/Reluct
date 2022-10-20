@@ -2,7 +2,7 @@ object AppConfig {
     const val compileSdkVersion = 33
     const val minSdkVersion = 26
     const val targetSdkVersion = 33
-    const val versionCode = 3
+    const val versionCode = 4
     const val versionName = "1.0.0-alpha03"
     const val applicationId = "work.racka.reluct"
 
