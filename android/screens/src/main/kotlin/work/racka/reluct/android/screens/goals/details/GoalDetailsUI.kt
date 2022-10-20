@@ -78,10 +78,12 @@ internal fun GoalDetailsUI(
         },
         bottomBar = {
             if (uiState is GoalDetailsState.Data) {
-                DetailsBottomBar(
-                    onEditGoalClicked = { onEditGoal(uiState.goal.id) },
-                    onDeleteGoalClicked = { openDeleteDialog = true }
-                )
+                Surface(color = MaterialTheme.colorScheme.background) {
+                    DetailsBottomBar(
+                        onEditGoalClicked = { onEditGoal(uiState.goal.id) },
+                        onDeleteGoalClicked = { openDeleteDialog = true }
+                    )
+                }
             }
         },
         snackbarHost = {
@@ -269,8 +271,7 @@ private fun DetailsBottomBar(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = Dimens.MediumPadding.size)
-            .padding(bottom = Dimens.MediumPadding.size)
+            .padding(Dimens.MediumPadding.size)
             .navigationBarsPadding(),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement
