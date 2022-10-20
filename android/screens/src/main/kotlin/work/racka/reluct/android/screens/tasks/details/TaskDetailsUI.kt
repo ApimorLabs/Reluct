@@ -71,10 +71,12 @@ fun TaskDetailsUI(
         bottomBar = {
             val task = if (uiState is TaskDetailsState.Data) uiState.task else null
             task?.let {
-                DetailsBottomBar(
-                    onEditTaskClicked = { onEditTask(it) },
-                    onDeleteTaskClicked = { openDialog.value = true }
-                )
+                Surface(color = MaterialTheme.colorScheme.background) {
+                    DetailsBottomBar(
+                        onEditTaskClicked = { onEditTask(it) },
+                        onDeleteTaskClicked = { openDialog.value = true }
+                    )
+                }
             }
         },
         snackbarHost = {
@@ -209,8 +211,7 @@ private fun DetailsBottomBar(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = Dimens.MediumPadding.size)
-            .padding(bottom = Dimens.MediumPadding.size)
+            .padding(Dimens.MediumPadding.size)
             .navigationBarsPadding(),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement
