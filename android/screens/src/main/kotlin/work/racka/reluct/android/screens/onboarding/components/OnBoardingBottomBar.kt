@@ -26,7 +26,11 @@ internal fun OnBoardingBottomBar(
     onCompleted: () -> Unit
 ) {
     val context = LocalContext.current
-    val bottomButtons by remember(uiState.currentPage, uiState.permissionsState) {
+    val bottomButtons by remember(
+        uiState.currentPage,
+        uiState.permissionsState,
+        uiState.appBlockingEnabled
+    ) {
         derivedStateOf {
             when (uiState.currentPage) {
                 is OnBoardingPages.Welcome -> {
