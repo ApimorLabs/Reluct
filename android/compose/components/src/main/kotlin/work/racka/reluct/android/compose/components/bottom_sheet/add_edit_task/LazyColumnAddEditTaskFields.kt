@@ -149,7 +149,7 @@ fun LazyColumnAddEditTaskFields(
             )
             Spacer(modifier = Modifier.height(Dimens.SmallPadding.size))
             DateTimePills(
-                initialLocalDateTime = taskDueTime,
+                currentLocalDateTime = taskDueTime,
                 onLocalDateTimeChange = { dateTime ->
                     onUpdateTask(task.copy(dueDateLocalDateTime = dateTime.toString()))
                 }
@@ -194,7 +194,7 @@ fun LazyColumnAddEditTaskFields(
                     )
                     Spacer(modifier = Modifier.height(Dimens.SmallPadding.size))
                     DateTimePills(
-                        initialLocalDateTime = reminderTime,
+                        currentLocalDateTime = reminderTime,
                         onLocalDateTimeChange = { dateTime ->
                             val newTime = if (dateTime > taskDueTime) dateTime
                             else taskDueTime.plus(hours = 1)

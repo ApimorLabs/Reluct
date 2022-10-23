@@ -362,7 +362,7 @@ internal fun LazyListScope.goalDurationPicker(
                 Spacer(modifier = Modifier.height(Dimens.SmallPadding.size))
                 DateTimePills(
                     modifier = Modifier.animateItemPlacement(),
-                    initialLocalDateTime = dateTimeRange.start,
+                    currentLocalDateTime = dateTimeRange.start,
                     onLocalDateTimeChange = { dateTime ->
                         val endTime = if (dateTime >= dateTimeRange.endInclusive)
                             dateTime.plus(hours = 1) else dateTimeRange.endInclusive
@@ -380,7 +380,7 @@ internal fun LazyListScope.goalDurationPicker(
                 Spacer(modifier = Modifier.height(Dimens.SmallPadding.size))
                 DateTimePills(
                     modifier = Modifier.animateItemPlacement(),
-                    initialLocalDateTime = dateTimeRange.endInclusive,
+                    currentLocalDateTime = dateTimeRange.endInclusive,
                     onLocalDateTimeChange = { dateTime ->
                         val endTime =
                             if (dateTime <= dateTimeRange.start) dateTimeRange.endInclusive

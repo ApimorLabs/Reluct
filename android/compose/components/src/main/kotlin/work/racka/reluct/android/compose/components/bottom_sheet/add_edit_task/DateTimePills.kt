@@ -32,32 +32,26 @@ import work.racka.reluct.common.model.util.time.TimeUtils
 internal fun DateTimePills(
     modifier: Modifier = Modifier,
     dialogShape: Shape = Shapes.large,
-    initialLocalDateTime: LocalDateTime,
+    currentLocalDateTime: LocalDateTime,
     onLocalDateTimeChange: (dateTime: LocalDateTime) -> Unit,
 ) {
 
     val dateDialogState = rememberMaterialDialogState()
     val timeDialogState = rememberMaterialDialogState()
 
-    val localDateTime = remember {
-        mutableStateOf(
-            initialLocalDateTime
-        )
-    }
-
-    val dateString = rememberSaveable(localDateTime.value) {
+    val dateString = rememberSaveable(currentLocalDateTime) {
         mutableStateOf(
             TimeUtils.getFormattedDateString(
-                dateTime = localDateTime.value.toString(),
+                dateTime = currentLocalDateTime.toString(),
                 originalTimeZoneId = TimeZone.currentSystemDefault().id
             )
         )
     }
 
-    val timeString = rememberSaveable(localDateTime.value) {
+    val timeString = rememberSaveable(currentLocalDateTime) {
         mutableStateOf(
             TimeUtils.getTimeFromLocalDateTime(
-                dateTime = localDateTime.value.toString(),
+                dateTime = currentLocalDateTime.toString(),
                 originalTimeZoneId = TimeZone.currentSystemDefault().id
             )
         )
@@ -65,13 +59,14 @@ internal fun DateTimePills(
 
     DateAndTimeMaterialDialogs(
         shape = dialogShape,
-        initialLocalDateTime = localDateTime.value,
+        initialLocalDateTime = currentLocalDateTime,
         dateDialogState = dateDialogState,
         timeDialogState = timeDialogState,
         onLocalDateTimeChange = { dateChange, timeChange ->
-            dateChange?.let { localDateTime.value = it }
-            timeChange?.let { localDateTime.value = it }
-            onLocalDateTimeChange(localDateTime.value)
+            var dateTime = currentLocalDateTime
+            dateChange?.let { dateTime = it }
+            timeChange?.let { dateTime = it }
+            onLocalDateTimeChange(dateTime)
         },
     )
 
@@ -115,7 +110,7 @@ private fun DateAndTimeMaterialDialogs(
     onLocalDateTimeChange: (dateChange: LocalDateTime?, timeChange: LocalDateTime?) -> Unit,
 ) {
 
-    val localDateTime = remember {
+    val localDateTime = remember(initialLocalDateTime) {
         mutableStateOf(
             initialLocalDateTime
         )
@@ -132,21 +127,21 @@ private fun DateAndTimeMaterialDialogs(
     ) {
         DatePicker(
             initialDate = LocalDate(
-                localDateTime.value.year,
-                localDateTime.value.monthNumber,
-                localDateTime.value.dayOfMonth
+                initialLocalDateTime.year,
+                initialLocalDateTime.monthNumber,
+                initialLocalDateTime.dayOfMonth
             )
-        ) { dateTime ->
-            localDateTime.value = LocalDateTime(
-                dateTime.year,
-                dateTime.monthNumber,
-                dateTime.dayOfMonth,
-                localDateTime.value.hour,
-                localDateTime.value.minute,
-                localDateTime.value.second,
-                localDateTime.value.nanosecond
+        ) { date ->
+            val dateTime = LocalDateTime(
+                date.year,
+                date.monthNumber,
+                date.dayOfMonth,
+                initialLocalDateTime.hour,
+                initialLocalDateTime.minute,
+                initialLocalDateTime.second,
+                initialLocalDateTime.nanosecond
             )
-            onLocalDateTimeChange(localDateTime.value, null)
+            onLocalDateTimeChange(dateTime, null)
         }
     }
 
@@ -160,18 +155,18 @@ private fun DateAndTimeMaterialDialogs(
         }
     ) {
         Timepicker(
-            initialTime = localDateTime.value
+            initialTime = initialLocalDateTime
         ) { dateTime ->
-            localDateTime.value = LocalDateTime(
-                localDateTime.value.year,
-                localDateTime.value.monthNumber,
-                localDateTime.value.dayOfMonth,
+            val newDateTime = LocalDateTime(
+                initialLocalDateTime.year,
+                initialLocalDateTime.monthNumber,
+                initialLocalDateTime.dayOfMonth,
                 dateTime.hour,
                 dateTime.minute,
                 dateTime.second,
                 dateTime.nanosecond
             )
-            onLocalDateTimeChange(null, localDateTime.value)
+            onLocalDateTimeChange(null, newDateTime)
         }
     }
 }
