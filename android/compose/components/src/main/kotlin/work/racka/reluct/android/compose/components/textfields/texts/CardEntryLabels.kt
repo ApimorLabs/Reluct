@@ -15,13 +15,14 @@ fun EntryHeading(
     modifier: Modifier = Modifier,
     text: String,
     style: TextStyle = MaterialTheme.typography.titleLarge,
-    color: Color = LocalContentColor.current
+    color: Color = LocalContentColor.current,
+    maxLines: Int = 1
 ) {
     Text(
         modifier = modifier,
         text = text,
         style = style,
-        maxLines = 1,
+        maxLines = maxLines,
         overflow = TextOverflow.Ellipsis,
         color = color
     )
