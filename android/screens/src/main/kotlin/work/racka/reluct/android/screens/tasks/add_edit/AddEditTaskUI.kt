@@ -127,10 +127,11 @@ fun AddEditTaskUI(
             ) {
                 if (uiState is ModifyTaskState.Data) {
                     LazyColumnAddEditTaskFields(
-                        editTask = uiState.task,
+                        task = uiState.task,
                         saveButtonText = stringResource(R.string.save_button_text),
                         discardButtonText = stringResource(R.string.discard_button_text),
                         onSave = { onSaveTask() },
+                        onUpdateTask = onUpdateTask,
                         onDiscard = { goBackAttempt() }
                     )
                 }
