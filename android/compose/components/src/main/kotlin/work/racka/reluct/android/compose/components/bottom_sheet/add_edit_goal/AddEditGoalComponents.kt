@@ -372,6 +372,8 @@ internal fun LazyListScope.goalDurationPicker(
             }
 
             item {
+                var endTimeError by remember { mutableStateOf(false) }
+
                 AddEditGoalItemTitle(
                     modifier = Modifier
                         .animateItemPlacement(),
@@ -380,8 +382,11 @@ internal fun LazyListScope.goalDurationPicker(
                 Spacer(modifier = Modifier.height(Dimens.SmallPadding.size))
                 DateTimePills(
                     modifier = Modifier.animateItemPlacement(),
+                    hasError = endTimeError,
+                    errorText = stringResource(id = R.string.goal_time_error_text),
                     currentLocalDateTime = dateTimeRange.endInclusive,
                     onLocalDateTimeChange = { dateTime ->
+                        endTimeError = dateTime <= dateTimeRange.start
                         val endTime =
                             if (dateTime <= dateTimeRange.start) dateTimeRange.endInclusive
                             else dateTime

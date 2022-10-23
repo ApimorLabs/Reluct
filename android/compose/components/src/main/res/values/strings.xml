@@ -49,6 +49,8 @@
     <string name="reminder_at">Remind At</string>
     <string name="set_reminder">Set a reminder</string>
     <string name="set_reminder_desc">Remind you about the task at set time</string>
+    <string name="reminder_time_error_text">This date &amp; time can not be smaller than or equal to
+        the set DUE date &amp; time. Changes have been Rejected!</string>
 
     <string name="turn_on_focus_mode">Turn On Focus Mode</string>
     <string name="turn_on_focus_mode_desc">Selected apps will be disabled</string>
@@ -234,6 +236,8 @@
     <string name="edit_goal_text">Edit Goal</string>
     <string name="add_goal_text">Add Goal</string>
     <string name="add_your_goal_text">Add Your Goal</string>
+    <string name="goal_time_error_text">END date &amp; time can not be smaller than or equal to
+        the START date &amp; time. Changes have been Rejected!</string>
 
     <string name="active_days_text">Active Days</string>
     <string name="goal_details_text">Goal Details</string>

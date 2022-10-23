@@ -60,9 +60,9 @@ fun LazyColumnAddEditTaskFields(
         mutableStateOf(reminderPresent)
     }
 
-    var taskTitleError by remember {
-        mutableStateOf(false)
-    }
+    var taskTitleError by remember { mutableStateOf(false) }
+
+    var reminderTimePillError by remember { mutableStateOf(false) }
 
     val taskDueTime by remember(task.dueDateLocalDateTime) {
         derivedStateOf {
@@ -194,8 +194,11 @@ fun LazyColumnAddEditTaskFields(
                     )
                     Spacer(modifier = Modifier.height(Dimens.SmallPadding.size))
                     DateTimePills(
+                        hasError = reminderTimePillError,
+                        errorText = stringResource(id = R.string.reminder_time_error_text),
                         currentLocalDateTime = reminderTime,
                         onLocalDateTimeChange = { dateTime ->
+                            reminderTimePillError = dateTime <= taskDueTime
                             val newTime = if (dateTime > taskDueTime) dateTime
                             else taskDueTime.plus(hours = 1)
                             onUpdateTask(task.copy(reminderLocalDateTime = newTime.toString()))
