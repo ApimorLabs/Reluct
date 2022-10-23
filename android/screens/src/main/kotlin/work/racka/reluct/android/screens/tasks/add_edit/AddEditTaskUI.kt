@@ -12,9 +12,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -30,13 +28,14 @@ import work.racka.reluct.android.screens.R
 import work.racka.reluct.android.screens.util.BackPressHandler
 import work.racka.reluct.common.model.domain.tasks.EditTask
 import work.racka.reluct.common.model.states.tasks.AddEditTasksState
+import work.racka.reluct.common.model.states.tasks.ModifyTaskState
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun AddEditTaskUI(
     modifier: Modifier = Modifier,
     scaffoldState: ScaffoldState,
-    uiState: AddEditTasksState,
+    uiState: ModifyTaskState,
     onSaveTask: () -> Unit,
     onAddTaskClicked: () -> Unit,
     onUpdateTask: (task: EditTask) -> Unit,
@@ -44,20 +43,27 @@ fun AddEditTaskUI(
 ) {
 
     val titleText = when (uiState) {
-        is AddEditTasksState.Data -> {
-            if (uiState.task == null) stringResource(R.string.add_task_text)
-            else stringResource(R.string.edit_task_text)
+        is ModifyTaskState.Data -> {
+            if (uiState.isEdit) stringResource(R.string.edit_task_text)
+            else stringResource(R.string.add_task_text)
         }
-        else -> stringResource(R.string.add_task_text)
+        else -> "• • •"
     }
 
+    val canGoBack by remember(uiState) {
+        derivedStateOf {
+            uiState !is ModifyTaskState.Data
+        }
+    }
     val taskSaved = remember { mutableStateOf(false) }
-    val openDialog = remember { mutableStateOf(false) }
+    var openDialog by remember { mutableStateOf(false) }
 
-    BackPressHandler {
-        if (taskSaved.value) onBackClicked()
-        else openDialog.value = true
+    fun goBackAttempt() {
+        if (canGoBack) onBackClicked()
+        else openDialog = true
     }
+
+    BackPressHandler { goBackAttempt() }
 
     Scaffold(
         scaffoldState = scaffoldState,
@@ -68,7 +74,7 @@ fun AddEditTaskUI(
                 modifier = Modifier.statusBarsPadding(),
                 title = titleText,
                 navigationIcon = {
-                    IconButton(onClick = { openDialog.value = true }) {
+                    IconButton(onClick = { goBackAttempt() }) {
                         Icon(
                             imageVector = Icons.Rounded.ArrowBack,
                             contentDescription = null
@@ -125,7 +131,7 @@ fun AddEditTaskUI(
                         saveButtonText = stringResource(R.string.save_button_text),
                         discardButtonText = stringResource(R.string.discard_button_text),
                         onSave = { editTask -> onSaveTask(editTask) },
-                        onDiscard = { openDialog.value = true }
+                        onDiscard = { goBackAttempt() }
                     )
                 }
             }
@@ -170,9 +176,9 @@ fun AddEditTaskUI(
         }
 
         // Discard Dialog
-        if (openDialog.value) {
+        if (openDialog) {
             AlertDialog(
-                onDismissRequest = { openDialog.value = false },
+                onDismissRequest = { openDialog = false },
                 title = {
                     Text(text = stringResource(R.string.discard_task))
                 },
@@ -187,7 +193,7 @@ fun AddEditTaskUI(
                         buttonColor = MaterialTheme.colorScheme.primary,
                         contentColor = MaterialTheme.colorScheme.onPrimary,
                         onButtonClicked = {
-                            openDialog.value = false
+                            openDialog = false
                             onBackClicked()
                         }
                     )
@@ -199,7 +205,7 @@ fun AddEditTaskUI(
                         shape = Shapes.large,
                         buttonColor = MaterialTheme.colorScheme.surfaceVariant,
                         contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                        onButtonClicked = { openDialog.value = false }
+                        onButtonClicked = { openDialog = false }
                     )
                 }
             )
