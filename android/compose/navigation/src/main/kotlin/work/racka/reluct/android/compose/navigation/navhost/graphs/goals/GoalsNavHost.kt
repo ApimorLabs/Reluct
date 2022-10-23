@@ -20,7 +20,6 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
-import timber.log.Timber
 import work.racka.reluct.android.compose.components.R
 import work.racka.reluct.android.compose.components.topBar.ReluctPageHeading
 import work.racka.reluct.android.compose.components.util.BarsVisibility
@@ -115,10 +114,15 @@ internal fun GoalsNavHost(
                     mainScaffoldPadding = mainScaffoldPadding,
                     barsVisibility = barsVisibility,
                     onNavigateToAddGoal = { defaultGoalIndex: Int? ->
-                        Timber.d("Goal Index: $defaultGoalIndex")
+                        mainNavController.navigate(
+                            AddEditGoalDestination.argsRoute(
+                                goalId = null,
+                                defaultGoalIndex = defaultGoalIndex
+                            )
+                        )
                     },
                     onNavigateToGoalDetails = { goalId: String? ->
-                        Timber.d("Goal Id: $goalId")
+                        mainNavController.navigate(GoalDetailsDestination.argsRoute(goalId))
                     }
                 )
             }
