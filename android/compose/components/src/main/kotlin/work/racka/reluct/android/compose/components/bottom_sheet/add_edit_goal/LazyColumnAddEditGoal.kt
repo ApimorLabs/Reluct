@@ -15,9 +15,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
@@ -40,7 +42,7 @@ import work.racka.reluct.common.model.domain.goals.GoalType
 import work.racka.reluct.common.model.util.time.TimeUtils
 import work.racka.reluct.common.model.util.time.TimeUtils.plus
 
-@OptIn(ExperimentalFoundationApi::class)
+@OptIn(ExperimentalFoundationApi::class, ExperimentalComposeUiApi::class)
 @Composable
 fun LazyColumnAddEditGoal(
     modifier: Modifier = Modifier,
@@ -53,6 +55,7 @@ fun LazyColumnAddEditGoal(
 ) {
 
     val focusRequest = LocalFocusManager.current
+    val keyboardController = LocalSoftwareKeyboardController.current
 
     var goalNameError by remember { mutableStateOf(false) }
 
@@ -146,6 +149,7 @@ fun LazyColumnAddEditGoal(
 
         // Target Value Manipulation
         goalTargetValuePicker(
+            keyboardController = keyboardController,
             goalType = goal.goalType,
             targetValue = goal.targetValue,
             onUpdateTargetValue = { onUpdateGoal(goal.copy(targetValue = it)) }

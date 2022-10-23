@@ -4,17 +4,21 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.*
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.SoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -126,7 +130,8 @@ internal fun GoalIntervalSelector(
 internal fun AddEditGoalItemTitle(
     modifier: Modifier = Modifier,
     text: String,
-    color: Color = LocalContentColor.current
+    color: Color = LocalContentColor.current,
+    maxLines: Int = 1
 ) {
     Text(
         modifier = modifier
@@ -134,7 +139,7 @@ internal fun AddEditGoalItemTitle(
         text = text,
         style = MaterialTheme.typography.titleMedium,
         color = color,
-        maxLines = 1,
+        maxLines = maxLines,
         overflow = TextOverflow.Ellipsis
     )
 }
@@ -251,8 +256,9 @@ fun GoalScreenTimePicker(
     }
 }
 
-@OptIn(ExperimentalFoundationApi::class)
+@OptIn(ExperimentalFoundationApi::class, ExperimentalComposeUiApi::class)
 internal fun LazyListScope.goalTargetValuePicker(
+    keyboardController: SoftwareKeyboardController?,
     goalType: GoalType,
     targetValue: Long,
     onUpdateTargetValue: (Long) -> Unit
@@ -284,6 +290,7 @@ internal fun LazyListScope.goalTargetValuePicker(
                         .animateItemPlacement(),
                     text = if (goalType == GoalType.TasksGoal) stringResource(R.string.select_number_of_tasks_txt)
                     else stringResource(R.string.target_value_txt),
+                    maxLines = 2
                 )
 
                 Spacer(modifier = Modifier.height(Dimens.MediumPadding.size))
@@ -296,7 +303,11 @@ internal fun LazyListScope.goalTargetValuePicker(
                     hint = if (goalType == GoalType.TasksGoal) stringResource(R.string.enter_number_of_tasks_txt)
                     else stringResource(R.string.enter_target_value),
                     keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Number
+                        keyboardType = KeyboardType.Number,
+                        imeAction = ImeAction.Done
+                    ),
+                    keyboardActions = KeyboardActions(
+                        onDone = { keyboardController?.hide() }
                     ),
                     onTextChange = { text ->
                         textValue = text
