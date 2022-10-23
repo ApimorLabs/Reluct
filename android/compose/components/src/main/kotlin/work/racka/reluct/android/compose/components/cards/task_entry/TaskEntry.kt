@@ -106,7 +106,7 @@ private fun TaskEntryText(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.fillMaxWidth()
         ) {
-            EntryHeading(text = task.title)
+            EntryHeading(text = task.title, modifier = Modifier.weight(1f), maxLines = 2)
             Spacer(modifier = Modifier.width(Dimens.SmallPadding.size))
             Text(
                 text = task.dueTime,
