@@ -1,13 +1,17 @@
 package work.racka.reluct.android.compose.components.bottom_sheet.add_edit_task
 
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.DateRange
 import androidx.compose.material.icons.rounded.Schedule
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
@@ -31,12 +35,23 @@ import work.racka.reluct.common.model.util.time.TimeUtils
 internal fun DateTimePills(
     modifier: Modifier = Modifier,
     dialogShape: Shape = Shapes.large,
+    hasError: Boolean = false,
+    errorText: String = "",
     currentLocalDateTime: LocalDateTime,
     onLocalDateTimeChange: (dateTime: LocalDateTime) -> Unit,
 ) {
 
     val dateDialogState = rememberMaterialDialogState()
     val timeDialogState = rememberMaterialDialogState()
+
+    val pillContainerColor by animateColorAsState(
+        targetValue = if (hasError) MaterialTheme.colorScheme.error
+        else MaterialTheme.colorScheme.surfaceVariant
+    )
+    val pillContentColor by animateColorAsState(
+        targetValue = if (hasError) MaterialTheme.colorScheme.onError
+        else MaterialTheme.colorScheme.onSurfaceVariant
+    )
 
     val dateString = rememberSaveable(currentLocalDateTime) {
         mutableStateOf(
@@ -69,34 +84,40 @@ internal fun DateTimePills(
         },
     )
 
-    Row(
-        horizontalArrangement = Arrangement.spacedBy(Dimens.SmallPadding.size),
-        modifier = modifier
-            .fillMaxWidth()
-    ) {
-        // Date
-        ReluctButton(
-            modifier = Modifier
-                .weight(1f),
-            buttonText = dateString.value,
-            icon = Icons.Rounded.DateRange,
-            onButtonClicked = { dateDialogState.show() },
-            shape = Shapes.large,
-            contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
-            buttonColor = MaterialTheme.colorScheme.surfaceVariant
-        )
+    Column(verticalArrangement = Arrangement.spacedBy(Dimens.SmallPadding.size)) {
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(Dimens.SmallPadding.size),
+            modifier = modifier
+                .fillMaxWidth()
+        ) {
+            // Date
+            ReluctButton(
+                modifier = Modifier
+                    .weight(1f),
+                buttonText = dateString.value,
+                icon = Icons.Rounded.DateRange,
+                onButtonClicked = { dateDialogState.show() },
+                shape = Shapes.large,
+                contentColor = pillContentColor,
+                buttonColor = pillContainerColor
+            )
 
-        // Time
-        ReluctButton(
-            modifier = Modifier
-                .weight(1f),
-            buttonText = timeString.value,
-            icon = Icons.Rounded.Schedule,
-            onButtonClicked = { timeDialogState.show() },
-            shape = Shapes.large,
-            contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
-            buttonColor = MaterialTheme.colorScheme.surfaceVariant
-        )
+            // Time
+            ReluctButton(
+                modifier = Modifier
+                    .weight(1f),
+                buttonText = timeString.value,
+                icon = Icons.Rounded.Schedule,
+                onButtonClicked = { timeDialogState.show() },
+                shape = Shapes.large,
+                contentColor = pillContentColor,
+                buttonColor = pillContainerColor
+            )
+        }
+
+        if (hasError && errorText.isNotBlank()) {
+            Text(text = errorText, color = MaterialTheme.colorScheme.error)
+        }
     }
 }
 
