@@ -49,12 +49,13 @@ internal fun AddEditGoalUI(
 
     val modifyGoalState = uiState.modifyGoalState
 
-    val titleText = when (modifyGoalState) {
+    val (titleText, closeDialogTitle) = when (modifyGoalState) {
         is ModifyGoalState.Data -> {
-            if (modifyGoalState.isEdit) stringResource(R.string.edit_goal_text)
-            else stringResource(R.string.add_goal_text)
+            if (modifyGoalState.isEdit) {
+                stringResource(R.string.edit_goal_text) to stringResource(R.string.discard_changes_text)
+            } else stringResource(R.string.add_goal_text) to stringResource(R.string.discard_goal_text)
         }
-        else -> "• • •"
+        else -> "• • •" to stringResource(R.string.discard_goal_text)
     }
 
     val canGoBack by remember(modifyGoalState) {
@@ -228,7 +229,7 @@ internal fun AddEditGoalUI(
         AlertDialog(
             onDismissRequest = { openExitDialog = false },
             title = {
-                Text(text = stringResource(R.string.discard_goal_text))
+                Text(text = closeDialogTitle)
             },
             text = {
                 Text(text = stringResource(R.string.discard_task_message))

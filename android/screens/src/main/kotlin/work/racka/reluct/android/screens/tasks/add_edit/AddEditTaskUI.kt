@@ -41,12 +41,13 @@ fun AddEditTaskUI(
     onBackClicked: () -> Unit
 ) {
 
-    val titleText = when (uiState) {
+    val (titleText, dialogTitle) = when (uiState) {
         is ModifyTaskState.Data -> {
-            if (uiState.isEdit) stringResource(R.string.edit_task_text)
-            else stringResource(R.string.add_task_text)
+            if (uiState.isEdit) {
+                stringResource(R.string.edit_task_text) to stringResource(R.string.discard_changes_text)
+            } else stringResource(R.string.add_task_text) to stringResource(R.string.discard_task)
         }
-        else -> "• • •"
+        else -> "• • •" to stringResource(R.string.discard_task)
     }
 
     val canGoBack by remember(uiState) {
@@ -203,7 +204,7 @@ fun AddEditTaskUI(
         AlertDialog(
             onDismissRequest = { openDialog = false },
             title = {
-                Text(text = stringResource(R.string.discard_task))
+                Text(text = dialogTitle)
             },
             text = {
                 Text(text = stringResource(R.string.discard_task_message))
