@@ -16,4 +16,19 @@ internal object NavHelpers {
             activity.finish()
         }
     }
+
+    /**
+     * Navigate Bottom Navbar destinations while making sure only one destination instance
+     * is on the stack and pop unwanted destinations such that it always returns to start
+     * destination when you pop the current destination
+     */
+    fun NavHostController.navigateBottomNavBar(route: String, startDestination: String) {
+        navigate(route = route) {
+            popUpTo(startDestination) {
+                saveState = true
+            }
+            launchSingleTop = true
+            restoreState = true
+        }
+    }
 }

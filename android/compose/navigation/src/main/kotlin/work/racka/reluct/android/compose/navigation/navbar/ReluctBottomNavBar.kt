@@ -8,6 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import work.racka.reluct.android.compose.navigation.util.NavHelpers.navigateBottomNavBar
 import work.racka.reluct.android.compose.theme.Typography
 
 @Composable
@@ -49,13 +50,10 @@ fun ReluctBottomNavBar(
                         )
                     },
                     onClick = {
-                        navController.navigate(item.route) {
-                            popUpTo(graphStartDestination) {
-                                saveState = true
-                            }
-                            launchSingleTop = true
-                            restoreState = true
-                        }
+                        navController.navigateBottomNavBar(
+                            route = item.route,
+                            startDestination = graphStartDestination
+                        )
                     }
                 )
             }
