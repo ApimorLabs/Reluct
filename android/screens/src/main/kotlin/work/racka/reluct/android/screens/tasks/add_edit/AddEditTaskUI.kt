@@ -38,8 +38,9 @@ fun AddEditTaskUI(
     scaffoldState: ScaffoldState,
     uiState: AddEditTasksState,
     onSaveTask: (task: EditTask) -> Unit,
-    onAddTaskClicked: () -> Unit = { },
-    onBackClicked: () -> Unit = { },
+    onAddTaskClicked: () -> Unit,
+    onUpdateTask: (task: EditTask) -> Unit,
+    onBackClicked: () -> Unit
 ) {
 
     val titleText = when (uiState) {
