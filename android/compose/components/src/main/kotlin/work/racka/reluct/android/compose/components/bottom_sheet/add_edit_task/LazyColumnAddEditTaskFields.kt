@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.DeleteSweep
@@ -15,14 +16,13 @@ import androidx.compose.material.icons.rounded.Save
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusDirection
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -38,7 +38,6 @@ import work.racka.reluct.android.compose.theme.Shapes
 import work.racka.reluct.common.model.domain.tasks.EditTask
 import work.racka.reluct.common.model.util.time.TimeUtils.getLocalDateTimeWithCorrectTimeZone
 import work.racka.reluct.common.model.util.time.TimeUtils.plus
-import java.util.*
 
 // This provided here so that it doesn't leak DateTime dependencies to the
 // screens modules.
@@ -46,63 +45,48 @@ import java.util.*
 fun LazyColumnAddEditTaskFields(
     modifier: Modifier = Modifier,
     listState: LazyListState = rememberLazyListState(),
-    editTask: EditTask?,
+    task: EditTask,
     saveButtonText: String,
     discardButtonText: String,
     onReminderSet: (reminderLocalDateTime: String) -> Unit = { },
+    onUpdateTask: (EditTask) -> Unit,
     onSave: (EditTask) -> Unit,
-    onDiscard: () -> Unit = { },
+    onDiscard: () -> Unit,
 ) {
-    val setReminder = rememberSaveable(editTask) {
-        val reminderPresent = !editTask?.reminderLocalDateTime.isNullOrBlank()
+    val focusRequest = LocalFocusManager.current
+
+    var setReminder by remember(task) {
+        val reminderPresent = !task.reminderLocalDateTime.isNullOrBlank()
         mutableStateOf(reminderPresent)
     }
 
-    val taskTitleError = remember {
+    var taskTitleError by remember {
         mutableStateOf(false)
     }
 
-    val advancedDateTime = remember {
+    val taskDueTime by remember(task.dueDateLocalDateTime) {
         derivedStateOf {
-            Clock.System.now()
+            if (task.dueDateLocalDateTime.isNotBlank()) {
+                getLocalDateTimeWithCorrectTimeZone(
+                    dateTime = task.dueDateLocalDateTime,
+                    originalTimeZoneId = task.timeZoneId
+                )
+            } else Clock.System.now()
                 .toLocalDateTime(TimeZone.currentSystemDefault())
                 .plus(hours = 1)
         }
     }
 
-    val task = remember {
-        val taskToEdit = editTask
-            ?: EditTask(
-                id = UUID.randomUUID().toString(),
-                title = "",
-                description = null,
-                done = false,
-                overdue = false,
-                dueDateLocalDateTime = advancedDateTime.value.toString(),
-                timeZoneId = TimeZone.currentSystemDefault().id,
-                completedLocalDateTime = null,
-                reminderLocalDateTime = null
-            )
-        mutableStateOf(taskToEdit)
-    }
-
-    val initialDueTime = remember {
+    val reminderTime by remember(task.reminderLocalDateTime) {
         derivedStateOf {
-            getLocalDateTimeWithCorrectTimeZone(
-                dateTime = task.value.dueDateLocalDateTime,
-                originalTimeZoneId = task.value.timeZoneId
-            )
-        }
-    }
-
-    val initialReminderTime = remember {
-        derivedStateOf {
-            if (!task.value.reminderLocalDateTime.isNullOrBlank()) {
-                getLocalDateTimeWithCorrectTimeZone(
-                    dateTime = task.value.reminderLocalDateTime!!,
-                    originalTimeZoneId = task.value.timeZoneId
-                )
-            } else advancedDateTime.value
+            task.reminderLocalDateTime?.let { timeString ->
+                if (timeString.isNotBlank()) {
+                    getLocalDateTimeWithCorrectTimeZone(
+                        dateTime = timeString,
+                        originalTimeZoneId = task.timeZoneId
+                    )
+                } else taskDueTime.plus(hours = 1)
+            } ?: taskDueTime.plus(hours = 1)
         }
     }
 
@@ -117,18 +101,22 @@ fun LazyColumnAddEditTaskFields(
     ) {
         item {
             ReluctTextField(
-                value = task.value.title,
+                value = task.title,
                 hint = stringResource(R.string.task_title_hint),
-                isError = taskTitleError.value,
+                isError = taskTitleError,
                 errorText = stringResource(R.string.task_title_error_text),
                 maxLines = 1,
                 singleLine = true,
                 keyboardOptions = KeyboardOptions(
-                    capitalization = KeyboardCapitalization.Words
+                    capitalization = KeyboardCapitalization.Sentences,
+                    imeAction = ImeAction.Next
+                ),
+                keyboardActions = KeyboardActions(
+                    onNext = { focusRequest.moveFocus(FocusDirection.Next) }
                 ),
                 onTextChange = { text ->
-                    taskTitleError.value = false
-                    task.value = task.value.copy(title = text)
+                    taskTitleError = false
+                    onUpdateTask(task.copy(title = text))
                 }
             )
         }
@@ -137,17 +125,18 @@ fun LazyColumnAddEditTaskFields(
             ReluctTextField(
                 modifier = Modifier
                     .height(200.dp),
-                value = task.value.description ?: "",
+                value = task.description ?: "",
                 hint = stringResource(R.string.description_hint),
                 keyboardOptions = KeyboardOptions(
                     capitalization = KeyboardCapitalization.Sentences
                 ),
                 onTextChange = { text ->
-                    task.value = task.value.copy(description = text)
+                    onUpdateTask(task.copy(description = text))
                 }
             )
         }
 
+        // Task Due Time
         item {
             Text(
                 modifier = Modifier
@@ -160,32 +149,34 @@ fun LazyColumnAddEditTaskFields(
             )
             Spacer(modifier = Modifier.height(Dimens.SmallPadding.size))
             DateTimePills(
-                initialLocalDateTime = initialDueTime.value,
+                initialLocalDateTime = taskDueTime,
                 onLocalDateTimeChange = { dateTime ->
-                    task.value = task.value.copy(dueDateLocalDateTime = dateTime.toString())
+                    onUpdateTask(task.copy(dueDateLocalDateTime = dateTime.toString()))
                 }
             )
         }
 
+        // Task Reminder
         item {
             EntryWithCheckbox(
-                isChecked = setReminder.value,
+                isChecked = setReminder,
                 title = stringResource(R.string.set_reminder),
                 description = stringResource(R.string.set_reminder_desc),
                 onCheckedChanged = { checked ->
-                    setReminder.value = checked
-                    task.value = task.value.copy(
+                    setReminder = checked
+                    val newTask = task.copy(
                         reminderLocalDateTime =
-                        if (setReminder.value) advancedDateTime.value.toString()
+                        if (setReminder) taskDueTime.plus(hours = 1).toString()
                         else null
                     )
+                    onUpdateTask(newTask)
                 }
             )
         }
 
         item {
             AnimatedVisibility(
-                visible = setReminder.value,
+                visible = setReminder,
                 enter = fadeIn(),
                 exit = fadeOut()
             ) {
@@ -203,10 +194,11 @@ fun LazyColumnAddEditTaskFields(
                     )
                     Spacer(modifier = Modifier.height(Dimens.SmallPadding.size))
                     DateTimePills(
-                        initialLocalDateTime = initialReminderTime.value,
+                        initialLocalDateTime = reminderTime,
                         onLocalDateTimeChange = { dateTime ->
-                            task.value =
-                                task.value.copy(reminderLocalDateTime = dateTime.toString())
+                            val newTime = if (dateTime > taskDueTime) dateTime
+                            else taskDueTime.plus(hours = 1)
+                            onUpdateTask(task.copy(reminderLocalDateTime = newTime.toString()))
                         }
                     )
                 }
@@ -235,11 +227,12 @@ fun LazyColumnAddEditTaskFields(
                     buttonColor = MaterialTheme.colorScheme.primary,
                     contentColor = MaterialTheme.colorScheme.onPrimary,
                     onButtonClicked = {
-                        val isTitleBlank = task.value.title.isBlank()
-                        if (isTitleBlank) taskTitleError.value = true
-                        else onSave(task.value)
+                        val isTitleBlank = task.title.isBlank()
+                        taskTitleError = isTitleBlank
+                        if (!isTitleBlank) onSave(task)
 
-                        task.value.reminderLocalDateTime?.let { onReminderSet(it) }
+                        // Trigger Setting Reminder - Not used for now as it's set in Use Cases
+                        task.reminderLocalDateTime?.let { onReminderSet(it) }
                     }
                 )
             }
