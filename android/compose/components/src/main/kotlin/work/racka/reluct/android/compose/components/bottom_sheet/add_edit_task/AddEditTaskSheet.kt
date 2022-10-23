@@ -130,7 +130,7 @@ fun AddEditTaskSheet(
             )
             Spacer(modifier = Modifier.height(Dimens.SmallPadding.size))
             DateTimePills(
-                initialLocalDateTime = advancedDateTime.value,
+                currentLocalDateTime = advancedDateTime.value,
                 onLocalDateTimeChange = { dateTime ->
                     task.value = task.value.copy(dueDateLocalDateTime = dateTime.toString())
                 }
@@ -171,7 +171,7 @@ fun AddEditTaskSheet(
                 )
                 Spacer(modifier = Modifier.height(Dimens.SmallPadding.size))
                 DateTimePills(
-                    initialLocalDateTime = advancedDateTime.value,
+                    currentLocalDateTime = advancedDateTime.value,
                     onLocalDateTimeChange = { dateTime ->
                         task.value = task.value.copy(reminderLocalDateTime = dateTime.toString())
                     }

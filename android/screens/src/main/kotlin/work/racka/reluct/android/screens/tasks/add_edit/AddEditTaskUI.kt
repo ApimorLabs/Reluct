@@ -12,9 +12,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -29,34 +27,42 @@ import work.racka.reluct.android.compose.theme.Shapes
 import work.racka.reluct.android.screens.R
 import work.racka.reluct.android.screens.util.BackPressHandler
 import work.racka.reluct.common.model.domain.tasks.EditTask
-import work.racka.reluct.common.model.states.tasks.AddEditTasksState
+import work.racka.reluct.common.model.states.tasks.ModifyTaskState
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun AddEditTaskUI(
     modifier: Modifier = Modifier,
     scaffoldState: ScaffoldState,
-    uiState: AddEditTasksState,
-    onSaveTask: (task: EditTask) -> Unit,
-    onAddTaskClicked: () -> Unit = { },
-    onBackClicked: () -> Unit = { },
+    uiState: ModifyTaskState,
+    onSaveTask: () -> Unit,
+    onAddTaskClicked: () -> Unit,
+    onUpdateTask: (task: EditTask) -> Unit,
+    onBackClicked: () -> Unit
 ) {
 
     val titleText = when (uiState) {
-        is AddEditTasksState.Data -> {
-            if (uiState.task == null) stringResource(R.string.add_task_text)
-            else stringResource(R.string.edit_task_text)
+        is ModifyTaskState.Data -> {
+            if (uiState.isEdit) stringResource(R.string.edit_task_text)
+            else stringResource(R.string.add_task_text)
         }
-        else -> stringResource(R.string.add_task_text)
+        else -> "• • •"
     }
 
+    val canGoBack by remember(uiState) {
+        derivedStateOf {
+            uiState !is ModifyTaskState.Data
+        }
+    }
     val taskSaved = remember { mutableStateOf(false) }
-    val openDialog = remember { mutableStateOf(false) }
+    var openDialog by remember { mutableStateOf(false) }
 
-    BackPressHandler {
-        if (taskSaved.value) onBackClicked()
-        else openDialog.value = true
+    fun goBackAttempt() {
+        if (canGoBack) onBackClicked()
+        else openDialog = true
     }
+
+    BackPressHandler { goBackAttempt() }
 
     Scaffold(
         scaffoldState = scaffoldState,
@@ -67,7 +73,7 @@ fun AddEditTaskUI(
                 modifier = Modifier.statusBarsPadding(),
                 title = titleText,
                 navigationIcon = {
-                    IconButton(onClick = { openDialog.value = true }) {
+                    IconButton(onClick = { goBackAttempt() }) {
                         Icon(
                             imageVector = Icons.Rounded.ArrowBack,
                             contentDescription = null
@@ -99,7 +105,7 @@ fun AddEditTaskUI(
             AnimatedVisibility(
                 modifier = Modifier
                     .fillMaxSize(),
-                visible = uiState is AddEditTasksState.Loading,
+                visible = uiState is ModifyTaskState.Loading,
                 enter = scaleIn(),
                 exit = scaleOut()
             ) {
@@ -110,33 +116,35 @@ fun AddEditTaskUI(
                     CircularProgressIndicator()
                 }
             }
+
             // Add or Edit Task
             AnimatedVisibility(
                 modifier = Modifier
                     .fillMaxSize(),
-                visible = uiState is AddEditTasksState.Data,
+                visible = uiState is ModifyTaskState.Data,
                 enter = fadeIn(),
                 exit = scaleOut()
             ) {
-                if (uiState is AddEditTasksState.Data) {
+                if (uiState is ModifyTaskState.Data) {
                     LazyColumnAddEditTaskFields(
-                        editTask = uiState.task,
+                        task = uiState.task,
                         saveButtonText = stringResource(R.string.save_button_text),
                         discardButtonText = stringResource(R.string.discard_button_text),
-                        onSave = { editTask -> onSaveTask(editTask) },
-                        onDiscard = { openDialog.value = true }
+                        onSave = { onSaveTask() },
+                        onUpdateTask = onUpdateTask,
+                        onDiscard = { goBackAttempt() }
                     )
                 }
             }
 
+            // Task Saved
             AnimatedVisibility(
                 modifier = Modifier
                     .fillMaxSize(),
-                visible = uiState is AddEditTasksState.TaskSaved,
+                visible = uiState is ModifyTaskState.Saved,
                 enter = scaleIn(),
                 exit = scaleOut()
             ) {
-                taskSaved.value = true
                 Column(
                     modifier = Modifier
                         .verticalScroll(rememberScrollState()),
@@ -166,42 +174,63 @@ fun AddEditTaskUI(
                     )
                 }
             }
-        }
 
-        // Discard Dialog
-        if (openDialog.value) {
-            AlertDialog(
-                onDismissRequest = { openDialog.value = false },
-                title = {
-                    Text(text = stringResource(R.string.discard_task))
-                },
-                text = {
-                    Text(text = stringResource(R.string.discard_task_message))
-                },
-                confirmButton = {
-                    ReluctButton(
-                        buttonText = stringResource(R.string.ok),
-                        icon = null,
-                        shape = Shapes.large,
-                        buttonColor = MaterialTheme.colorScheme.primary,
-                        contentColor = MaterialTheme.colorScheme.onPrimary,
-                        onButtonClicked = {
-                            openDialog.value = false
-                            onBackClicked()
-                        }
-                    )
-                },
-                dismissButton = {
-                    ReluctButton(
-                        buttonText = stringResource(R.string.cancel),
-                        icon = null,
-                        shape = Shapes.large,
-                        buttonColor = MaterialTheme.colorScheme.surfaceVariant,
-                        contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                        onButtonClicked = { openDialog.value = false }
+            // Task Not Found
+            AnimatedVisibility(
+                modifier = Modifier
+                    .fillMaxSize(),
+                visible = uiState is ModifyTaskState.NotFound,
+                enter = scaleIn(),
+                exit = scaleOut()
+            ) {
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    LottieAnimationWithDescription(
+                        lottieResId = R.raw.no_data,
+                        imageSize = 300.dp,
+                        description = stringResource(R.string.task_not_found_text)
                     )
                 }
-            )
+            }
         }
+    }
+
+
+    // Discard Dialog
+    if (openDialog) {
+        AlertDialog(
+            onDismissRequest = { openDialog = false },
+            title = {
+                Text(text = stringResource(R.string.discard_task))
+            },
+            text = {
+                Text(text = stringResource(R.string.discard_task_message))
+            },
+            confirmButton = {
+                ReluctButton(
+                    buttonText = stringResource(R.string.ok),
+                    icon = null,
+                    shape = Shapes.large,
+                    buttonColor = MaterialTheme.colorScheme.primary,
+                    contentColor = MaterialTheme.colorScheme.onPrimary,
+                    onButtonClicked = {
+                        openDialog = false
+                        onBackClicked()
+                    }
+                )
+            },
+            dismissButton = {
+                ReluctButton(
+                    buttonText = stringResource(R.string.cancel),
+                    icon = null,
+                    shape = Shapes.large,
+                    buttonColor = MaterialTheme.colorScheme.surfaceVariant,
+                    contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                    onButtonClicked = { openDialog = false }
+                )
+            }
+        )
     }
 }

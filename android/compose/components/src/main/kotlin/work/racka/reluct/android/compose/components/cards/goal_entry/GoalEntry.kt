@@ -22,9 +22,11 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.drawscope.DrawScope
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.LayoutDirection
 import kotlinx.coroutines.launch
+import work.racka.reluct.android.compose.components.R
 import work.racka.reluct.android.compose.components.cards.card_with_actions.ReluctDescriptionCard
 import work.racka.reluct.android.compose.components.textfields.texts.EntryDescription
 import work.racka.reluct.android.compose.components.textfields.texts.EntryHeading
@@ -93,7 +95,10 @@ fun GoalEntry(
                 EntryHeading(text = goal.name, color = LocalContentColor.current)
             },
             description = {
-                EntryDescription(text = goal.description, color = LocalContentColor.current)
+                EntryDescription(
+                    text = goal.description.ifEmpty { stringResource(R.string.no_description_text) },
+                    color = LocalContentColor.current
+                )
                 GoalIntervalLabel(goal = goal)
                 GoalTypeLabel(goalType = goal.goalType)
             },

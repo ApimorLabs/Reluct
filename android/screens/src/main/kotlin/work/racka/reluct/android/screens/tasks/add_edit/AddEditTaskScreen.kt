@@ -39,9 +39,10 @@ fun AddEditTaskScreen(
     AddEditTaskUI(
         scaffoldState = scaffoldState,
         uiState = uiState,
-        onSaveTask = { viewModel.saveTask(it) },
-        onAddTaskClicked = { viewModel.getTask(null) },
-        onBackClicked = { viewModel.goBack() }
+        onSaveTask = viewModel::saveCurrentTask,
+        onAddTaskClicked = viewModel::newTask,
+        onUpdateTask = viewModel::updateCurrentTask,
+        onBackClicked = onBackClicked
     )
 }
 
@@ -54,7 +55,7 @@ private fun handleEvents(
     when (events) {
         is TasksEvents.ShowMessage -> {
             scope.launch {
-                val result = scaffoldState.snackbarHostState.showSnackbar(
+                scaffoldState.snackbarHostState.showSnackbar(
                     message = events.msg,
                     duration = SnackbarDuration.Short
                 )
