@@ -136,6 +136,7 @@ internal fun TasksSearchUI(
                         key = { it.id }
                     ) { item ->
                         TaskEntry(
+                            playAnimation = true,
                             task = item,
                             entryType = EntryType.CompletedTask,
                             onEntryClick = { onTaskClicked(item) },

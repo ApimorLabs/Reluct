@@ -186,7 +186,8 @@ internal fun TasksStatisticsUI(
                             task = item,
                             entryType = EntryType.TasksWithOverdue,
                             onEntryClick = { onTaskClicked(item) },
-                            onCheckedChange = { onToggleTaskDone(it, item) }
+                            onCheckedChange = { onToggleTaskDone(it, item) },
+                            playAnimation = true
                         )
                     }
                 }
@@ -204,7 +205,8 @@ internal fun TasksStatisticsUI(
                             task = item,
                             entryType = EntryType.CompletedTask,
                             onEntryClick = { onTaskClicked(item) },
-                            onCheckedChange = { onToggleTaskDone(it, item) }
+                            onCheckedChange = { onToggleTaskDone(it, item) },
+                            playAnimation = true
                         )
                     }
                 }

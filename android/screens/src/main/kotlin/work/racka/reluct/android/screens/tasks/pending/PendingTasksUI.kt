@@ -184,7 +184,8 @@ internal fun PendingTasksUI(
                                 task = item,
                                 entryType = EntryType.TasksWithOverdue,
                                 onEntryClick = { onTaskClicked(item) },
-                                onCheckedChange = { onToggleTaskDone(it, item) }
+                                onCheckedChange = { onToggleTaskDone(it, item) },
+                                playAnimation = true
                             )
                         }
                     }
@@ -201,7 +202,8 @@ internal fun PendingTasksUI(
                                 task = item,
                                 entryType = EntryType.PendingTask,
                                 onEntryClick = { onTaskClicked(item) },
-                                onCheckedChange = { onToggleTaskDone(it, item) }
+                                onCheckedChange = { onToggleTaskDone(it, item) },
+                                playAnimation = true
                             )
                         }
                     }
