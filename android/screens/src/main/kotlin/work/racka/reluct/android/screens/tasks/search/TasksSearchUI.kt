@@ -14,7 +14,6 @@ import androidx.compose.material.Snackbar
 import androidx.compose.material.SnackbarHost
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowUpward
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -33,7 +32,6 @@ import work.racka.reluct.android.compose.components.cards.task_entry.EntryType
 import work.racka.reluct.android.compose.components.cards.task_entry.TaskEntry
 import work.racka.reluct.android.compose.components.images.LottieAnimationWithDescription
 import work.racka.reluct.android.compose.components.textfields.search.MaterialSearchBar
-import work.racka.reluct.android.compose.components.topBar.ReluctContentTopBar
 import work.racka.reluct.android.compose.components.util.rememberScrollContext
 import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.android.screens.R
@@ -42,7 +40,7 @@ import work.racka.reluct.common.model.states.tasks.SearchData
 import work.racka.reluct.common.model.states.tasks.SearchTasksState
 
 @OptIn(
-    ExperimentalComposeUiApi::class, ExperimentalMaterial3Api::class,
+    ExperimentalComposeUiApi::class,
     ExperimentalAnimationApi::class
 )
 @Composable
@@ -76,19 +74,15 @@ internal fun TasksSearchUI(
         modifier = modifier.fillMaxSize(),
         scaffoldState = scaffoldState,
         topBar = {
-            ReluctContentTopBar(
-                minShrinkHeight = 36.dp,
-            ) {
-                MaterialSearchBar(
-                    modifier = Modifier
-                        .padding(vertical = Dimens.SmallPadding.size)
-                        .statusBarsPadding(),
-                    value = uiState.searchQuery,
-                    onSearch = { onSearch(it) },
-                    onDismissSearchClicked = { onSearch("") },
-                    focusRequester = focusRequester
-                )
-            }
+            MaterialSearchBar(
+                modifier = Modifier
+                    .padding(vertical = Dimens.SmallPadding.size)
+                    .statusBarsPadding(),
+                value = uiState.searchQuery,
+                onSearch = { onSearch(it) },
+                onDismissSearchClicked = { onSearch("") },
+                focusRequester = focusRequester
+            )
         },
         snackbarHost = {
             SnackbarHost(hostState = it) { data ->
