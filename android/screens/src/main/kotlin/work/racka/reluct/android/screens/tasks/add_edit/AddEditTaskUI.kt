@@ -37,7 +37,7 @@ fun AddEditTaskUI(
     modifier: Modifier = Modifier,
     scaffoldState: ScaffoldState,
     uiState: AddEditTasksState,
-    onSaveTask: (task: EditTask) -> Unit,
+    onSaveTask: () -> Unit,
     onAddTaskClicked: () -> Unit,
     onUpdateTask: (task: EditTask) -> Unit,
     onBackClicked: () -> Unit
