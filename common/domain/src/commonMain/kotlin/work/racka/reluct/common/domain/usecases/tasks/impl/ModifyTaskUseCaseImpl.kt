@@ -37,7 +37,7 @@ internal class ModifyTaskUseCaseImpl(
     override suspend fun saveTask(task: EditTask) {
         withContext(backgroundDispatcher) {
             dao.insertTask(task.asDatabaseModel())
-            haptics.spinAndFall()
+            haptics.click()
             task.reminderLocalDateTime?.let { dateTimeString ->
                 manageTasksAlarms
                     .setAlarm(taskId = task.id, dateTime = dateTimeString.toLocalDateTime())
@@ -48,7 +48,7 @@ internal class ModifyTaskUseCaseImpl(
     override suspend fun deleteTask(taskId: String) {
         withContext(backgroundDispatcher) {
             dao.deleteTask(taskId)
-            haptics.cascadeFall()
+            haptics.heavyClick()
             manageTasksAlarms.removeAlarm(taskId)
         }
     }

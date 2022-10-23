@@ -20,6 +20,7 @@
     <string name="external_link">Open External Link</string>
     <string name="expand_icon">Show More / Show Less</string>
     <string name="settings_icon">Settings</string>
+    <string name="discard_changes_text">Discard Changes</string>
     <string name="close_icon">Close</string>
     <string name="app_logo">Application Logo</string>
     <string name="profile_picture">Profile Picture</string>
