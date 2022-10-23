@@ -115,7 +115,7 @@ fun TaskDetailsUI(
             }
             // Task Details
             if (uiState is TaskDetailsState.Data) {
-                if (uiState.task != null) {
+                uiState.task?.let { task ->
                     LazyColumn(
                         state = listState,
                         verticalArrangement = Arrangement
@@ -124,19 +124,20 @@ fun TaskDetailsUI(
                         item {
                             TaskDetailsHeading(
                                 modifier = Modifier.fillMaxWidth(),
-                                text = uiState.task!!.title,
+                                text = task.title,
                                 textStyle = MaterialTheme.typography.headlineMedium
                                     .copy(fontWeight = FontWeight.Medium),
-                                isChecked = uiState.task!!.done,
+                                isChecked = task.done,
                                 onCheckedChange = { isDone ->
-                                    onToggleTaskDone(isDone, uiState.task!!)
+                                    onToggleTaskDone(isDone, task)
                                 }
                             )
                         }
 
                         item {
                             Text(
-                                text = uiState.task!!.description,
+                                text = task.description
+                                    .ifBlank { stringResource(R.string.no_description_text) },
                                 style = MaterialTheme.typography.bodyLarge,
                                 color = LocalContentColor.current
                                     .copy(alpha = .8f)
@@ -145,7 +146,7 @@ fun TaskDetailsUI(
 
                         item {
                             TaskInfoCard(
-                                task = uiState.task!!,
+                                task = task,
                                 shape = Shapes.large
                             )
                         }

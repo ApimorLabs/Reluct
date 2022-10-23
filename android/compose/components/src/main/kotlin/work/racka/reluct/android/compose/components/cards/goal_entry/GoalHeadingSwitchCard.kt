@@ -18,8 +18,10 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import kotlinx.coroutines.launch
+import work.racka.reluct.android.compose.components.R
 import work.racka.reluct.android.compose.components.cards.card_with_actions.ReluctSwitchCard
 import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.android.compose.theme.Shapes
@@ -103,7 +105,7 @@ fun GoalHeadingSwitchCard(
                             bottom = Dimens.MediumPadding.size,
                             top = Dimens.SmallPadding.size
                         ),
-                    text = goal.description.ifBlank { "No Description" },
+                    text = goal.description.ifBlank { stringResource(R.string.no_description_text) },
                     style = MaterialTheme.typography.bodyLarge,
                     color = LocalContentColor.current
                 )
