@@ -27,7 +27,6 @@ import work.racka.reluct.android.compose.theme.Shapes
 import work.racka.reluct.android.screens.R
 import work.racka.reluct.android.screens.util.BackPressHandler
 import work.racka.reluct.common.model.domain.tasks.EditTask
-import work.racka.reluct.common.model.states.tasks.AddEditTasksState
 import work.racka.reluct.common.model.states.tasks.ModifyTaskState
 
 @OptIn(ExperimentalAnimationApi::class)
@@ -106,7 +105,7 @@ fun AddEditTaskUI(
             AnimatedVisibility(
                 modifier = Modifier
                     .fillMaxSize(),
-                visible = uiState is AddEditTasksState.Loading,
+                visible = uiState is ModifyTaskState.Loading,
                 enter = scaleIn(),
                 exit = scaleOut()
             ) {
@@ -117,33 +116,34 @@ fun AddEditTaskUI(
                     CircularProgressIndicator()
                 }
             }
+
             // Add or Edit Task
             AnimatedVisibility(
                 modifier = Modifier
                     .fillMaxSize(),
-                visible = uiState is AddEditTasksState.Data,
+                visible = uiState is ModifyTaskState.Data,
                 enter = fadeIn(),
                 exit = scaleOut()
             ) {
-                if (uiState is AddEditTasksState.Data) {
+                if (uiState is ModifyTaskState.Data) {
                     LazyColumnAddEditTaskFields(
                         editTask = uiState.task,
                         saveButtonText = stringResource(R.string.save_button_text),
                         discardButtonText = stringResource(R.string.discard_button_text),
-                        onSave = { editTask -> onSaveTask(editTask) },
+                        onSave = { onSaveTask() },
                         onDiscard = { goBackAttempt() }
                     )
                 }
             }
 
+            // Task Saved
             AnimatedVisibility(
                 modifier = Modifier
                     .fillMaxSize(),
-                visible = uiState is AddEditTasksState.TaskSaved,
+                visible = uiState is ModifyTaskState.Saved,
                 enter = scaleIn(),
                 exit = scaleOut()
             ) {
-                taskSaved.value = true
                 Column(
                     modifier = Modifier
                         .verticalScroll(rememberScrollState()),
@@ -173,42 +173,63 @@ fun AddEditTaskUI(
                     )
                 }
             }
-        }
 
-        // Discard Dialog
-        if (openDialog) {
-            AlertDialog(
-                onDismissRequest = { openDialog = false },
-                title = {
-                    Text(text = stringResource(R.string.discard_task))
-                },
-                text = {
-                    Text(text = stringResource(R.string.discard_task_message))
-                },
-                confirmButton = {
-                    ReluctButton(
-                        buttonText = stringResource(R.string.ok),
-                        icon = null,
-                        shape = Shapes.large,
-                        buttonColor = MaterialTheme.colorScheme.primary,
-                        contentColor = MaterialTheme.colorScheme.onPrimary,
-                        onButtonClicked = {
-                            openDialog = false
-                            onBackClicked()
-                        }
-                    )
-                },
-                dismissButton = {
-                    ReluctButton(
-                        buttonText = stringResource(R.string.cancel),
-                        icon = null,
-                        shape = Shapes.large,
-                        buttonColor = MaterialTheme.colorScheme.surfaceVariant,
-                        contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                        onButtonClicked = { openDialog = false }
+            // Task Not Found
+            AnimatedVisibility(
+                modifier = Modifier
+                    .fillMaxSize(),
+                visible = uiState is ModifyTaskState.NotFound,
+                enter = scaleIn(),
+                exit = scaleOut()
+            ) {
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    LottieAnimationWithDescription(
+                        lottieResId = R.raw.no_data,
+                        imageSize = 300.dp,
+                        description = stringResource(R.string.task_not_found_text)
                     )
                 }
-            )
+            }
         }
+    }
+
+
+    // Discard Dialog
+    if (openDialog) {
+        AlertDialog(
+            onDismissRequest = { openDialog = false },
+            title = {
+                Text(text = stringResource(R.string.discard_task))
+            },
+            text = {
+                Text(text = stringResource(R.string.discard_task_message))
+            },
+            confirmButton = {
+                ReluctButton(
+                    buttonText = stringResource(R.string.ok),
+                    icon = null,
+                    shape = Shapes.large,
+                    buttonColor = MaterialTheme.colorScheme.primary,
+                    contentColor = MaterialTheme.colorScheme.onPrimary,
+                    onButtonClicked = {
+                        openDialog = false
+                        onBackClicked()
+                    }
+                )
+            },
+            dismissButton = {
+                ReluctButton(
+                    buttonText = stringResource(R.string.cancel),
+                    icon = null,
+                    shape = Shapes.large,
+                    buttonColor = MaterialTheme.colorScheme.surfaceVariant,
+                    contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                    onButtonClicked = { openDialog = false }
+                )
+            }
+        )
     }
 }
