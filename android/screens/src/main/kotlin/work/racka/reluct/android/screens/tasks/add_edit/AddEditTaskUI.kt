@@ -55,7 +55,6 @@ fun AddEditTaskUI(
             uiState !is ModifyTaskState.Data
         }
     }
-    val taskSaved = remember { mutableStateOf(false) }
     var openDialog by remember { mutableStateOf(false) }
 
     fun goBackAttempt() {
@@ -167,7 +166,7 @@ fun AddEditTaskUI(
                         onButtonClicked = onAddTaskClicked
                     )
                     OutlinedReluctButton(
-                        buttonText = stringResource(R.string.go_back_button_text),
+                        buttonText = stringResource(R.string.exit_text),
                         icon = Icons.Rounded.ArrowBack,
                         shape = Shapes.large,
                         borderColor = MaterialTheme.colorScheme.primary,

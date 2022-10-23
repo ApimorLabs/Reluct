@@ -193,7 +193,7 @@ internal fun AddEditGoalUI(
                         onButtonClicked = onCreateNewGoal
                     )
                     OutlinedReluctButton(
-                        buttonText = stringResource(R.string.go_back_button_text),
+                        buttonText = stringResource(R.string.exit_text),
                         icon = Icons.Rounded.ArrowBack,
                         shape = Shapes.large,
                         borderColor = MaterialTheme.colorScheme.primary,
