@@ -33,12 +33,12 @@ import work.racka.reluct.android.compose.navigation.transitions.scaleInEnterTran
 import work.racka.reluct.android.compose.navigation.transitions.scaleInPopEnterTransition
 import work.racka.reluct.android.compose.navigation.transitions.scaleOutExitTransition
 import work.racka.reluct.android.compose.navigation.transitions.scaleOutPopExitTransition
+import work.racka.reluct.android.compose.navigation.util.NavHelpers.navigateBottomNavBar
 import work.racka.reluct.android.screens.dashboard.overview.DashboardOverviewScreen
 import work.racka.reluct.android.screens.dashboard.statistics.DashboardStatsScreen
 import work.racka.reluct.common.core_navigation.compose_destinations.dashboard.DashboardOverviewDestination
 import work.racka.reluct.common.core_navigation.compose_destinations.dashboard.DashboardStatsDestination
 import work.racka.reluct.common.core_navigation.compose_destinations.screentime.AppScreenTimeStatsDestination
-import work.racka.reluct.common.core_navigation.compose_destinations.screentime.ScreenTimeStatsDestination
 import work.racka.reluct.common.core_navigation.compose_destinations.settings.SettingsDestination
 import work.racka.reluct.common.core_navigation.compose_destinations.tasks.TaskDetailsDestination
 
@@ -96,7 +96,10 @@ internal fun DashboardNavHost(
                     mainScaffoldPadding = mainScaffoldPadding,
                     barsVisibility = barsVisibility,
                     onNavigateToScreenTime = {
-                        mainNavController.navigate(NavbarDestinations.ScreenTime.route)
+                        mainNavController.navigateBottomNavBar(
+                            route = NavbarDestinations.ScreenTime.route,
+                            startDestination = NavbarDestinations.Dashboard.route
+                        )
                     },
                     onNavigateToTaskDetails = {
                         mainNavController.navigate(
@@ -123,8 +126,9 @@ internal fun DashboardNavHost(
                         )
                     },
                     onNavigateToScreenTimeStats = {
-                        mainNavController.navigate(
-                            ScreenTimeStatsDestination.destination
+                        mainNavController.navigateBottomNavBar(
+                            route = NavbarDestinations.ScreenTime.route,
+                            startDestination = NavbarDestinations.Dashboard.route
                         )
                     }
                 )
