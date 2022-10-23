@@ -8,7 +8,6 @@ import work.racka.common.mvvm.viewmodel.CommonViewModel
 import work.racka.reluct.common.domain.usecases.tasks.ModifyTaskUseCase
 import work.racka.reluct.common.features.tasks.util.Constants
 import work.racka.reluct.common.model.domain.tasks.EditTask
-import work.racka.reluct.common.model.states.tasks.AddEditTasksState
 import work.racka.reluct.common.model.states.tasks.ModifyTaskState
 import work.racka.reluct.common.model.states.tasks.TasksEvents
 
@@ -16,8 +15,6 @@ class AddEditTaskViewModel(
     private val modifyTaskUseCase: ModifyTaskUseCase,
     private val taskId: String?
 ) : CommonViewModel() {
-    private val _uiState: MutableStateFlow<AddEditTasksState> =
-        MutableStateFlow(AddEditTasksState.Loading)
 
     private val modifyTaskState: MutableStateFlow<ModifyTaskState> =
         MutableStateFlow(ModifyTaskState.Loading)
@@ -28,7 +25,7 @@ class AddEditTaskViewModel(
         get() = eventsChannel.receiveAsFlow()
 
     init {
-        getTask1(taskId)
+        getTask(taskId)
     }
 
     fun saveCurrentTask() {
@@ -65,43 +62,7 @@ class AddEditTaskViewModel(
         modifyTaskState.update { ModifyTaskState.Data(isEdit = taskId != null, task = task) }
     }
 
-    fun getTask(id: String?) {
-        resetEvents()
-        vmScope.launch {
-            when (id) {
-                null -> {
-                    _uiState.update { AddEditTasksState.Data() }
-                }
-                else -> modifyTaskUseCase.getTaskToEdit(id).collectLatest { task ->
-                    when (task) {
-                        null -> _uiState.update { AddEditTasksState.Data() }
-                        else -> _uiState.update { AddEditTasksState.Data(task) }
-                    }
-                }
-            }
-        }
-    }
-
-    fun saveTask(task: EditTask) {
-        vmScope.launch {
-            modifyTaskUseCase.saveTask(task)
-            val result = eventsChannel.trySend(TasksEvents.ShowMessage(Constants.TASK_SAVED))
-            result.onSuccess {
-                println("AddEdit Task: $taskId")
-                /**
-                 * Go back after saving if you are just editing a Task and the [taskId]
-                 * is not null else just show the TaskSaved State for adding more tasks
-                 */
-                if (taskId != null) {
-                    eventsChannel.send(TasksEvents.Navigation.GoBack)
-                } else {
-                    _uiState.update { AddEditTasksState.TaskSaved }
-                }
-            }
-        }
-    }
-
-    private fun getTask1(taskId: String?) {
+    private fun getTask(taskId: String?) {
         vmScope.launch {
             when (taskId) {
                 null -> modifyTaskState.update {
@@ -120,13 +81,5 @@ class AddEditTaskViewModel(
                 }
             }
         }
-    }
-
-    fun goBack() {
-        eventsChannel.trySend(TasksEvents.Navigation.GoBack)
-    }
-
-    private fun resetEvents() {
-        eventsChannel.trySend(TasksEvents.Nothing)
     }
 }

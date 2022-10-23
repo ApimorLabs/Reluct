@@ -40,9 +40,9 @@ fun AddEditTaskScreen(
         scaffoldState = scaffoldState,
         uiState = uiState,
         onSaveTask = { viewModel.saveTask(it) },
-        onAddTaskClicked = { viewModel.getTask(null) },
-        onUpdateTask = {},
-        onBackClicked = { viewModel.goBack() }
+        onAddTaskClicked = viewModel::newTask,
+        onUpdateTask = viewModel::updateCurrentTask,
+        onBackClicked = onBackClicked
     )
 }
 
