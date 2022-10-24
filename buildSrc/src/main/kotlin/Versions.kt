@@ -9,10 +9,10 @@ object Versions {
     const val kotlinSerialization = "1.3.2"
 
     // Jetbrains
-    const val composeDesktop = "1.2.0-alpha01-dev750"
+    const val composeDesktop = "1.2.0"
 
     // Squareup
-    const val sqlDelight = "1.5.3"
+    const val sqlDelight = "1.5.4"
 
     // Essentials
     const val material = "1.7.0"

@@ -41,7 +41,7 @@ import work.racka.reluct.common.features.screen_time.statistics.states.app_stats
 import work.racka.reluct.common.features.screen_time.statistics.states.app_stats.DailyAppUsageStatsState
 import work.racka.reluct.common.features.screen_time.statistics.states.app_stats.WeeklyAppUsageStatsState
 
-@OptIn(ExperimentalFoundationApi::class)
+@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
 internal fun AppScreenTimeStatsUI(
     modifier: Modifier = Modifier,
@@ -83,23 +83,23 @@ internal fun AppScreenTimeStatsUI(
             .fillMaxSize(),
         scaffoldState = scaffoldState,
         topBar = {
-            SmallTopAppBar(
-                modifier = Modifier.statusBarsPadding(),
-                colors = appBarColors,
+            TopAppBar(
                 title = {
                     TopAppInfoItem(
                         modifier = Modifier.padding(bottom = Dimens.SmallPadding.size),
                         dailyData = uiState.dailyData
                     )
                 },
+                modifier = Modifier.statusBarsPadding(),
                 navigationIcon = {
                     IconButton(onClick = goBack) {
-                        androidx.compose.material3.Icon(
+                        Icon(
                             imageVector = Icons.Rounded.ArrowBack,
                             contentDescription = null
                         )
                     }
-                }
+                },
+                colors = appBarColors
             )
         },
         snackbarHost = {
@@ -278,6 +278,7 @@ private fun TopAppInfoItem(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 private val appBarColors: TopAppBarColors
     @Composable
     get() = TopAppBarDefaults

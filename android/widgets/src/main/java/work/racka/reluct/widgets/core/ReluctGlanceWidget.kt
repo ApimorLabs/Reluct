@@ -15,13 +15,13 @@ import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
-abstract class ReluctGlanceWidget<T>(initialData: T? = null, glanceId: GlanceId) :
+abstract class ReluctGlanceWidget<T>(initialData: T? = null) :
     GlanceAppWidget(), KoinComponent {
-    val context: Context by inject()
+    private val context: Context by inject()
 
-    var glanceId by mutableStateOf<GlanceId?>(null)
-    var size by mutableStateOf<DpSize?>(null)
-    var data by mutableStateOf<T?>(initialData)
+    private var glanceId by mutableStateOf<GlanceId?>(null)
+    private var size by mutableStateOf<DpSize?>(null)
+    private var data by mutableStateOf<T?>(initialData)
 
     private val coroutineScope = MainScope()
     private var loadJob: Job? = null
