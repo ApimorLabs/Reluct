@@ -3,12 +3,14 @@ package work.racka.reluct.android.screens.dashboard.statistics
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import work.racka.common.mvvm.koin.compose.getCommonViewModel
 import work.racka.reluct.android.compose.components.util.BarsVisibility
 import work.racka.reluct.common.features.dashboard.statistics.DashboardStatisticsViewModel
 
+@OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
 fun DashboardStatsScreen(
     mainScaffoldPadding: PaddingValues,
@@ -19,8 +21,8 @@ fun DashboardStatsScreen(
     val scaffoldState = rememberScaffoldState()
 
     val viewModel: DashboardStatisticsViewModel = getCommonViewModel()
-    val screenTimeUiState by viewModel.screenTimeUiState.collectAsState()
-    val tasksStatsUiState by viewModel.tasksStatsUiState.collectAsState()
+    val screenTimeUiState by viewModel.screenTimeUiState.collectAsStateWithLifecycle()
+    val tasksStatsUiState by viewModel.tasksStatsUiState.collectAsStateWithLifecycle()
 
     DashboardStatsUI(
         mainScaffoldPadding = mainScaffoldPadding,

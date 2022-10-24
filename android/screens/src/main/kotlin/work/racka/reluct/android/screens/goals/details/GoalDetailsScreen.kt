@@ -6,9 +6,10 @@ import androidx.compose.material.SnackbarDuration
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import org.koin.core.parameter.parametersOf
@@ -17,6 +18,7 @@ import work.racka.reluct.android.screens.R
 import work.racka.reluct.common.features.goals.active.states.GoalsEvents
 import work.racka.reluct.common.features.goals.details.GoalDetailsViewModel
 
+@OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
 fun GoalDetailsScreen(
     goalId: String?,
@@ -25,8 +27,8 @@ fun GoalDetailsScreen(
 ) {
 
     val viewModel = getCommonViewModel<GoalDetailsViewModel> { parametersOf(goalId) }
-    val uiState by viewModel.uiState.collectAsState()
-    val events by viewModel.events.collectAsState(initial = GoalsEvents.Nothing)
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val events by viewModel.events.collectAsStateWithLifecycle(initialValue = GoalsEvents.Nothing)
 
     val scaffoldState = rememberScaffoldState()
     val context = LocalContext.current

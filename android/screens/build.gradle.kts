@@ -62,6 +62,7 @@ dependencies {
         implementation(foundation)
         implementation(foundationLayout)
         implementation(material3)
+        implementation(lifecycleRuntime)
 
         // Testing Compose
         androidTestImplementation(junit)

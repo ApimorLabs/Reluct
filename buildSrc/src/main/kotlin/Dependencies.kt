@@ -140,6 +140,7 @@ object Dependencies {
             val preview by lazy { "androidx.compose.ui:ui-tooling-preview:${Versions.compose}" }
             val activity by lazy { "androidx.activity:activity-compose:${Versions.activityCompose}" }
             val viewModel by lazy { "androidx.lifecycle:lifecycle-viewmodel-compose:${Versions.lifecycle}" }
+            val lifecycleRuntime by lazy { "androidx.lifecycle:lifecycle-runtime-compose:${Versions.lifecycle}" }
             val navigation by lazy { "androidx.navigation:navigation-compose:${Versions.composeNavigation}" }
             val materialIconsCore by lazy { "androidx.compose.material:material-icons-core:${Versions.compose}" }
             val materialIconsExtended by lazy { "androidx.compose.material:material-icons-extended:${Versions.compose}" }
