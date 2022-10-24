@@ -27,13 +27,14 @@ class ReluctApplication : Application() {
         }
 
         val scope = MainScope()
-        val settings: MultiplatformSettings = get()
         scope.launch {
+            val settings: MultiplatformSettings = get()
             val canContinue = settings.onBoardingShown.firstOrNull()
             if (canContinue == true) {
                 val screenTimeServices: ScreenTimeServices = get()
                 screenTimeServices.startLimitsService()
             }
+        }.invokeOnCompletion {
             scope.cancel()
         }
 
