@@ -4,40 +4,25 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.setMain
-import org.koin.core.context.startKoin
-import org.koin.core.context.stopKoin
-import org.koin.dsl.module
-import org.koin.test.KoinTest
-import org.koin.test.inject
-import work.racka.reluct.common.database.di.TestPlatform
+import work.racka.reluct.common.database.di.getDatabaseWrapper
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class GoalsDaoImplTest : KoinTest {
+class GoalsDaoImplTest {
 
-    private val dao: GoalsDao by inject()
+    private lateinit var dao: GoalsDao
 
     @BeforeTest
     fun setup() {
         Dispatchers.setMain(StandardTestDispatcher())
-        startKoin {
-            modules(
-                TestPlatform.platformDatabaseModule(),
-                module {
-                    single<GoalsDao> {
-                        GoalsDaoImpl(
-                            dispatcher = StandardTestDispatcher(),
-                            databaseWrapper = get()
-                        )
-                    }
-                }
-            )
-        }
+        dao = GoalsDaoImpl(
+            dispatcher = StandardTestDispatcher(),
+            databaseWrapper = getDatabaseWrapper()
+        )
     }
 
     @AfterTest
     fun teardown() {
-        stopKoin()
     }
 }

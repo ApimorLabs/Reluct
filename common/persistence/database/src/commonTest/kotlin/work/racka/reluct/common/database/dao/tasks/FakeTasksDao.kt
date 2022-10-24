@@ -1,30 +1,36 @@
 package work.racka.reluct.common.database.dao.tasks
 
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.flow.transform
-import work.racka.reluct.common.database.util.TestData
+import kotlinx.coroutines.flow.*
+import work.racka.reluct.common.database.util.TasksTestData
 import work.racka.reluct.common.model.data.local.task.TaskDbObject
 
 class FakeTasksDao : TasksDao {
-    private var allTasks = flowOf(TestData.taskDbObjects)
 
-    override fun insertTask(task: TaskDbObject) {}
+    private val tasks = MutableStateFlow(TasksTestData.taskDbObjects)
 
-    override fun getAllTasks(): Flow<List<TaskDbObject>> = allTasks
+    override fun insertTask(task: TaskDbObject) {
+        tasks.update {
+            it.toMutableList().apply {
+                add(task)
+            }.toList()
+        }
+    }
 
-    override fun getTask(id: String): Flow<TaskDbObject?> = allTasks.transform { it.first() }
+    override fun getAllTasks(): Flow<List<TaskDbObject>> = tasks.asStateFlow()
+
+    override fun getTask(id: String): Flow<TaskDbObject?> =
+        tasks.transform { list -> list.firstOrNull { it.id == id } }
 
     override fun searchTasks(query: String, factor: Long, limitBy: Long): Flow<List<TaskDbObject>> {
-        return allTasks.transform { it.take(2) }
+        return tasks.transform { it.take(2) }
     }
 
     override fun getPendingTasks(factor: Long, limitBy: Long): Flow<List<TaskDbObject>> {
-        return allTasks.transform { list -> list.filterNot { it.done } }
+        return tasks.transform { list -> list.filterNot { it.done } }
     }
 
     override fun getCompletedTasks(factor: Long, limitBy: Long): Flow<List<TaskDbObject>> {
-        return allTasks.transform { list -> list.filter { it.done } }
+        return tasks.transform { list -> list.filter { it.done } }
     }
 
     override fun getTasksBetweenDateTime(
@@ -32,7 +38,7 @@ class FakeTasksDao : TasksDao {
         endLocalDateTime: String
     ): Flow<List<TaskDbObject>> {
         val timeRangeString = startLocalDateTime..endLocalDateTime
-        return allTasks
+        return tasks
             .transform { list -> list.filter { timeRangeString.contains(it.dueDateLocalDateTime) } }
     }
 
@@ -42,38 +48,30 @@ class FakeTasksDao : TasksDao {
         wasOverDue: Boolean,
         completedLocalDateTime: String?
     ) {
-        val newFlow: Flow<List<TaskDbObject>> = allTasks.transform { list ->
-            val newItem = list.first().copy(
-                overdue = wasOverDue,
+        tasks.update { list ->
+            val item = list.firstOrNull { it.id == id }?.copy(
                 done = isDone,
+                overdue = wasOverDue,
                 completedLocalDateTime = completedLocalDateTime
             )
-            val newList = list.toMutableList()
-            newList[0] = newItem
-            newList.toList()
+            list.toMutableList().apply {
+                item?.let { task ->
+                    removeAll { it.id == id }
+                    add(task)
+                }
+            }.toList()
         }
-        allTasks = newFlow
     }
 
     override fun deleteTask(id: String) {
-        val newFlow: Flow<List<TaskDbObject>> = allTasks.transform { list ->
-            val newList = list.toMutableList()
-            newList.removeAt(0)
-            newList.toList()
-        }
-        allTasks = newFlow
+        tasks.update { list -> list.toMutableList().apply { removeAll { it.id == id } }.toList() }
     }
 
     override fun deleteAllCompletedTasks() {
-        val newFlow: Flow<List<TaskDbObject>> = allTasks.transform { list ->
-            val newList = list.toMutableList()
-            newList.removeAll { it.done }
-            newList.toList()
-        }
-        allTasks = newFlow
+        tasks.update { list -> list.toMutableList().apply { removeAll { it.done } }.toList() }
     }
 
     override fun deleteAll() {
-        allTasks = flowOf(listOf())
+        tasks.update { listOf() }
     }
 }
