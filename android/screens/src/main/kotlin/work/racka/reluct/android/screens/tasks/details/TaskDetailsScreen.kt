@@ -6,9 +6,10 @@ import androidx.compose.material.SnackbarDuration
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import org.koin.core.parameter.parametersOf
@@ -17,6 +18,7 @@ import work.racka.reluct.android.screens.R
 import work.racka.reluct.common.features.tasks.task_details.TaskDetailsViewModel
 import work.racka.reluct.common.model.states.tasks.TasksEvents
 
+@OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
 fun TaskDetailsScreen(
     taskId: String?,
@@ -27,8 +29,8 @@ fun TaskDetailsScreen(
     val scaffoldState = rememberScaffoldState()
 
     val viewModel: TaskDetailsViewModel = getCommonViewModel { parametersOf(taskId) }
-    val uiState by viewModel.uiState.collectAsState()
-    val events by viewModel.events.collectAsState(initial = TasksEvents.Nothing)
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val events by viewModel.events.collectAsStateWithLifecycle(initialValue = TasksEvents.Nothing)
 
     val context = LocalContext.current
 

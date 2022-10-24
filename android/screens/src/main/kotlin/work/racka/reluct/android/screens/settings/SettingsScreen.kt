@@ -4,8 +4,13 @@ import android.app.Activity
 import android.content.Context
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHostState
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import work.racka.common.mvvm.koin.compose.getCommonViewModel
@@ -15,6 +20,7 @@ import work.racka.reluct.common.features.settings.AppSettingsViewModel
 import work.racka.reluct.common.features.settings.states.SettingsEvents
 import work.racka.reluct.common.model.util.Resource
 
+@OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
 fun SettingsScreen(
     goBack: () -> Unit
@@ -22,8 +28,8 @@ fun SettingsScreen(
     val snackbarHostState = remember { SnackbarHostState() }
 
     val viewModel: AppSettingsViewModel = getCommonViewModel()
-    val uiState by viewModel.uiState.collectAsState()
-    val events by viewModel.events.collectAsState(initial = SettingsEvents.Nothing)
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val events by viewModel.events.collectAsStateWithLifecycle(initialValue = SettingsEvents.Nothing)
 
     val purchaseAction = remember(viewModel) {
         PurchaseAction(

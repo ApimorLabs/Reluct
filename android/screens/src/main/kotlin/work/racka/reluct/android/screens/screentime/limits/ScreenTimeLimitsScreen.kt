@@ -6,8 +6,9 @@ import androidx.compose.material.SnackbarDuration
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import work.racka.common.mvvm.koin.compose.getCommonViewModel
@@ -15,6 +16,7 @@ import work.racka.reluct.android.compose.components.util.BarsVisibility
 import work.racka.reluct.common.features.screen_time.limits.ScreenTimeLimitsViewModel
 import work.racka.reluct.common.features.screen_time.limits.states.ScreenTimeLimitsEvents
 
+@OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
 fun ScreenTimeLimitsScreen(
     mainScaffoldPadding: PaddingValues,
@@ -24,8 +26,8 @@ fun ScreenTimeLimitsScreen(
     val scaffoldState = rememberScaffoldState()
 
     val viewModel: ScreenTimeLimitsViewModel = getCommonViewModel()
-    val uiState by viewModel.uiState.collectAsState()
-    val events by viewModel.events.collectAsState(initial = ScreenTimeLimitsEvents.Nothing)
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val events by viewModel.events.collectAsStateWithLifecycle(initialValue = ScreenTimeLimitsEvents.Nothing)
 
     LaunchedEffect(events) {
         handleEvents(
