@@ -1,7 +1,6 @@
 package work.racka.reluct.android.compose.components.topBar.toolbar
 
 import androidx.compose.foundation.lazy.LazyListState
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
@@ -9,7 +8,6 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.NestedScrollSource
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import work.racka.reluct.android.compose.components.topBar.toolbar.scrollflags.ScrollState
 
@@ -88,7 +86,7 @@ fun rememberToolbarNestedScrollConnection(
 
 @Composable
 private fun TestCollapse() {
-    val listState = rememberLazyListState()
+    /*val listState = rememberLazyListState()
     val toolbarHeightRange = with(LocalDensity.current) {
         minToolbarHeight.roundToPx()..maxToolbarHeight.roundToPx()
     }
@@ -97,6 +95,6 @@ private fun TestCollapse() {
     val scrollConnection = rememberToolbarNestedScrollConnection(
         toolbarState = toolbarState,
         listState = listState
-    )
+    )*/
 
 }

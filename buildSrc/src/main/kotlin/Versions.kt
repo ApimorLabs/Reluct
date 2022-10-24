@@ -5,7 +5,7 @@ object Versions {
     const val coroutines = "1.6.4"
 
     // Networking & JSON
-    const val ktor = "2.0.1"
+    const val ktor = "2.0.2"
     const val kotlinSerialization = "1.3.2"
 
     // Jetbrains
