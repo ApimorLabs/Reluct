@@ -26,3 +26,12 @@ include(
     ":common:persistence:settings",
     ":common:system-services",
 )
+
+pluginManagement {
+    includeBuild("build-configs")
+    repositories {
+        gradlePluginPortal()
+        google()
+        mavenCentral()
+    }
+}
