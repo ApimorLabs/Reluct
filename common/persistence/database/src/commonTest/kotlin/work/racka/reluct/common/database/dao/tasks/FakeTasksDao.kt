@@ -18,7 +18,8 @@ class FakeTasksDao : TasksDao {
 
     override fun getAllTasks(): Flow<List<TaskDbObject>> = tasks.asStateFlow()
 
-    override fun getTask(id: String): Flow<TaskDbObject?> = tasks.transform { it.firstOrNull() }
+    override fun getTask(id: String): Flow<TaskDbObject?> =
+        tasks.transform { list -> list.firstOrNull { it.id == id } }
 
     override fun searchTasks(query: String, factor: Long, limitBy: Long): Flow<List<TaskDbObject>> {
         return tasks.transform { it.take(2) }
@@ -48,31 +49,26 @@ class FakeTasksDao : TasksDao {
         completedLocalDateTime: String?
     ) {
         tasks.update { list ->
-            val newItem = list.first().copy(
-                overdue = wasOverDue,
+            val item = list.firstOrNull { it.id == id }?.copy(
                 done = isDone,
+                overdue = wasOverDue,
                 completedLocalDateTime = completedLocalDateTime
             )
-            val newList = list.toMutableList()
-            newList[0] = newItem
-            newList.toList()
+            list.toMutableList().apply {
+                item?.let { task ->
+                    removeAll { it.id == id }
+                    add(task)
+                }
+            }.toList()
         }
     }
 
     override fun deleteTask(id: String) {
-        tasks.update { list ->
-            val newList = list.toMutableList()
-            newList.removeAt(0)
-            newList.toList()
-        }
+        tasks.update { list -> list.toMutableList().apply { removeAll { it.id == id } }.toList() }
     }
 
     override fun deleteAllCompletedTasks() {
-        tasks.update { list ->
-            val newList = list.toMutableList()
-            newList.removeAll { it.done }
-            newList.toList()
-        }
+        tasks.update { list -> list.toMutableList().apply { removeAll { it.done } }.toList() }
     }
 
     override fun deleteAll() {
