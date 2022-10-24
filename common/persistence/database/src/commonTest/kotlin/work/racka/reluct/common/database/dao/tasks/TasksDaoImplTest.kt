@@ -13,7 +13,7 @@ import org.koin.dsl.module
 import org.koin.test.KoinTest
 import org.koin.test.inject
 import work.racka.reluct.common.database.di.TestPlatform
-import work.racka.reluct.common.database.util.TestData
+import work.racka.reluct.common.database.util.TasksTestData
 import kotlin.test.*
 
 @OptIn(ExperimentalCoroutinesApi::class)
@@ -47,7 +47,7 @@ class TasksDaoImplTest : KoinTest {
     @Test
     fun readAndWriteToDb_ProvidedATaskDbObject_ShouldReadAllTasksObjectsInDb() =
         runTest {
-            val tasks = TestData.taskDbObjects
+            val tasks = TasksTestData.taskDbObjects
             tasks.forEach {
                 dao.insertTask(it)
             }
@@ -64,7 +64,7 @@ class TasksDaoImplTest : KoinTest {
 
     @Test
     fun getTask_WhenTaskFoundInDb_ReturnsSingleTaskMatchingTheId() = runTest {
-        val tasks = TestData.taskDbObjects
+        val tasks = TasksTestData.taskDbObjects
         val expected = tasks.first()
         tasks.forEach {
             dao.insertTask(it)
@@ -82,7 +82,7 @@ class TasksDaoImplTest : KoinTest {
 
     @Test
     fun getTask_WhenTaskNotFoundInDb_ReturnsNull() = runTest {
-        val tasks = TestData.taskDbObjects
+        val tasks = TasksTestData.taskDbObjects
         val wrongId = "20000L"
         tasks.forEach {
             dao.insertTask(it)
@@ -99,7 +99,7 @@ class TasksDaoImplTest : KoinTest {
 
     @Test
     fun getPendingTasks_ReturnsAllPendingTasks() = runTest {
-        val tasks = TestData.taskDbObjects
+        val tasks = TasksTestData.taskDbObjects
         val expectedTasks = tasks.filter { !it.done }
         val factor = 1L
         val limitBy = 50L
@@ -119,7 +119,7 @@ class TasksDaoImplTest : KoinTest {
 
     @Test
     fun getCompletedTasks_ReturnsAllCompletedTasks() = runTest {
-        val tasks = TestData.taskDbObjects
+        val tasks = TasksTestData.taskDbObjects
         val expectedTasks = tasks.filter { it.done }
         val factor = 1L
         val limitBy = 50L
@@ -139,7 +139,7 @@ class TasksDaoImplTest : KoinTest {
 
     @Test
     fun searchTasks_WhenQueryMatchedTitleOrDesc_ReturnsListOfTasksMatchingQuery() = runTest {
-        val tasks = TestData.taskDbObjects
+        val tasks = TasksTestData.taskDbObjects
         val titleQuery = "Task 1"
         val descQuery = "Desc4"
         val expectedTasks1 = tasks.filter { it.title.contains(titleQuery) }
@@ -173,7 +173,7 @@ class TasksDaoImplTest : KoinTest {
 
     @Test
     fun searchTasks_WhenQueryNotMatchedTitleOrDesc_ReturnsEmptyList() = runTest {
-        val tasks = TestData.taskDbObjects
+        val tasks = TasksTestData.taskDbObjects
         val query = "Task no where to be found"
         val factor = 1L
         val limitBy = 50L
@@ -194,7 +194,7 @@ class TasksDaoImplTest : KoinTest {
 
     @Test
     fun toggleDone_WhenTaskIsDoneIsTrue_MarksTaskAsCompletedInDb() = runTest {
-        val tasks = TestData.taskDbObjects
+        val tasks = TasksTestData.taskDbObjects
         val tasksNotDone = tasks.filter { !it.done }
         val taskNotDone = tasksNotDone.first()
         val taskDone = taskNotDone.copy(done = true)
@@ -229,7 +229,7 @@ class TasksDaoImplTest : KoinTest {
 
     @Test
     fun deleteTask_RemovesTaskFromDb() = runTest {
-        val tasks = TestData.taskDbObjects
+        val tasks = TasksTestData.taskDbObjects
         val deletedTask = tasks.first()
         tasks.forEach {
             dao.insertTask(it)
@@ -247,7 +247,7 @@ class TasksDaoImplTest : KoinTest {
 
     @Test
     fun deleteAllCompleted_RemovesAllCompletedTasksFromDb() = runTest {
-        val tasks = TestData.taskDbObjects
+        val tasks = TasksTestData.taskDbObjects
         val deletedTasks = tasks.filter { it.done }
         val factor = 1L
         val limitBy = 50L
@@ -268,7 +268,7 @@ class TasksDaoImplTest : KoinTest {
 
     @Test
     fun deleteAll_RemovesAllTasksFromDb() = runTest {
-        val tasks = TestData.taskDbObjects
+        val tasks = TasksTestData.taskDbObjects
         tasks.forEach {
             dao.insertTask(it)
         }
