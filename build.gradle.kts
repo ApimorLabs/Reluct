@@ -10,14 +10,12 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        // Leaving this plugin here so it can be automatically
-        // updated by Android Studio
-        classpath("com.android.tools.build:gradle:7.3.1")
-
-        classpath(BuildPlugins.kotlin)
-        classpath(BuildPlugins.sqlDelight)
-        classpath(BuildPlugins.googleServices)
-        classpath(BuildPlugins.firebaseCrashlytics)
+        classpath(libs.android.gradle.plugin)
+        classpath(libs.compose.multiplatform.plugin)
+        classpath(libs.kotlin.gradle.plugin)
+        classpath(libs.sqldelight.plugin)
+        classpath(libs.google.services.plugin)
+        classpath(libs.firebase.crashlytics.plugin)
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files

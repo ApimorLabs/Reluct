@@ -45,7 +45,7 @@ junit = "4.3.2"
 junit_test = "1.1.3"
 espresso_test = "3.4.0"
 android_test_core = "1.4.0"
-android_test_arch_core = "1.4.0"
+android_test_arch_core = "2.1.0"
 
 # Helper libs
 coil_image = "2.1.0"
@@ -66,6 +66,7 @@ kermit = "1.0.0"
 # Extras
 lottie = "5.0.3"
 palette = "1.0.0"
+desugaring = "1.1.8"
 
 # Google Services and Firebase
 google_services = "4.3.14"
@@ -80,8 +81,9 @@ crashlytics_gradle = "2.9.2"
 [libraries]
 # Build Plugins (as Classpath)
 android_gradle_plugin = { module = "com.android.tools.build:gradle", version.ref = "android_gradle_plugin" }
-kotin_gradle_plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
-compose_multiplatform_plugin = { module = "org.jetbrains.compose:compose-gradle-plugin" }
+kotlin_gradle_plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+kotlin_serialization_plugin = { module = "org.jetbrains.kotlin:kotlin-serialization", version.ref = "kotlin" }
+compose_multiplatform_plugin = { module = "org.jetbrains.compose:compose-gradle-plugin", version.ref = "compose_multiplatform" }
 sqldelight_plugin = { module = "com.squareup.sqldelight:gradle-plugin", version.ref = "sqlDelight" }
 google_services_plugin = { module = "com.google.gms:google-services", version.ref = "google_services" }
 firebase_crashlytics_plugin = { module = "com.google.firebase:firebase-crashlytics-gradle", version.ref = "crashlytics_gradle" }
@@ -101,7 +103,7 @@ coroutines_test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", ve
 activity_compose = { module = "androidx.activity:activity-compose", version.ref = "activity" }
 core_ktx = { module = "androidx.core:core-ktx", version.ref = "core_ktx" }
 appCompat = { module = "androidx.appcompat:appcompat", version.ref = "appCompat" }
-google_material = { module = "androidx.appcompat:appcompat", version.ref = "google_material" }
+google_material = { module = "com.google.android.material:material", version.ref = "google_material" }
 splash_screen_core = { module = "androidx.core:core-splashscreen", version.ref = "splash_screen" }
 
 # Lifecycle
@@ -145,7 +147,7 @@ decompose_compose_jb = { module = "com.arkivanov.decompose:extensions-compose-je
 koin_core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
 koin_android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
 koin_android_compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koin" }
-koin_anroid_workManager = { module = "io.insert-koin:koin-androidx-workmanager", version.ref = "koin" }
+koin_android_workmanager = { module = "io.insert-koin:koin-androidx-workmanager", version.ref = "koin" }
 koin_test = { module = "io.insert-koin:koin-test", version.ref = "koin" }
 koin_test_junit = { module = "io.insert-koin:koin-test-junit4", version.ref = "koin" }
 
@@ -188,10 +190,10 @@ firebase_auth = { module = "com.google.firebase:firebase-auth-ktx" }
 playservices_auth = { module = "com.google.android.gms:play-services-auth", version.ref = "play_services_auth" }
 
 # Square (Block)
-sqlDelight_runtime = { module = "com.squareup.sqldelight:runtime", version.ref = "sqlDelight" }
-sqlDelight_coroutines = { module = "com.squareup.sqldelight:coroutines-extensions", version.ref = "sqlDelight" }
-sqlDelight_android_driver = { module = "com.squareup.sqldelight:android-driver", version.ref = "sqlDelight" }
-sqlDelight_sqlite_driver = { module = "com.squareup.sqldelight:sqlite-driver", version.ref = "sqlDelight" }
+sqldelight_runtime = { module = "com.squareup.sqldelight:runtime", version.ref = "sqlDelight" }
+sqldelight_coroutines = { module = "com.squareup.sqldelight:coroutines-extensions", version.ref = "sqlDelight" }
+sqldelight_android_driver = { module = "com.squareup.sqldelight:android-driver", version.ref = "sqlDelight" }
+sqldelight_sqlite_driver = { module = "com.squareup.sqldelight:sqlite-driver", version.ref = "sqlDelight" }
 turbine_test = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 
 # Logging
@@ -206,9 +208,10 @@ timber_log = { module = "com.jakewharton.timber:timber", version.ref = "timber" 
 ############# Bundles Start ##################
 [bundles]
 # Bundles that can be used together
+android_core = ["core.ktx", "appCompat"]
 compose_core = ["compose.ui", "compose.runtime", "compose.foundation", "compose.foundation.layout",
     "compose.material", "compose.material3", "compose.material.icons.core", "compose.material.icons.extended",
-    "compose.animation", "compose.preview", "coil.compose"]
+    "compose.animation", "compose.preview", "coil.compose", "activity.compose", "compose.tooling.preview"]
 
 ############# Bundles End ##################
 
