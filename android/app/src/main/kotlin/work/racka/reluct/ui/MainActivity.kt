@@ -11,6 +11,7 @@ import androidx.core.view.WindowCompat
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.withContext
 import org.koin.android.ext.android.get
 import work.racka.reluct.BuildConfig
 import work.racka.reluct.android.compose.navigation.util.SettingsCheck
@@ -64,7 +65,8 @@ class MainActivity : ComponentActivity() {
             LaunchedEffect(Unit) {
                 val onBoardingShown = settings.onBoardingShown.firstOrNull()
                 val savedVersionCode = settings.savedVersionCode.firstOrNull()
-                    ?: (BuildConfig.VERSION_CODE + 1)
+                    ?: (BuildConfig.VERSION_CODE)
+                withContext(Dispatchers.IO) { settings.saveVersionCode(BuildConfig.VERSION_CODE) }
                 settingsCheck = SettingsCheck(
                     isOnBoardingDone = onBoardingShown ?: false,
                     showChangeLog = BuildConfig.VERSION_CODE > savedVersionCode

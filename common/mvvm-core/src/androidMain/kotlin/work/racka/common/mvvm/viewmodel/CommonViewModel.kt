@@ -3,7 +3,6 @@ package work.racka.common.mvvm.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.isActive
 import java.io.Closeable
 
 actual abstract class CommonViewModel actual constructor() : ViewModel() {
@@ -19,6 +18,5 @@ actual abstract class CommonViewModel actual constructor() : ViewModel() {
     override fun onCleared() {
         super.onCleared()
         destroy()
-        println("Is Scope Active: ${vmScope.isActive}")
     }
 }
