@@ -40,7 +40,7 @@ import work.racka.reluct.common.model.domain.goals.Goal
 import work.racka.reluct.common.model.domain.goals.GoalInterval
 import work.racka.reluct.common.model.domain.goals.GoalType
 
-@OptIn(ExperimentalAnimationApi::class)
+@OptIn(ExperimentalAnimationApi::class, ExperimentalMaterial3Api::class)
 @Composable
 internal fun GoalDetailsUI(
     modifier: Modifier = Modifier,

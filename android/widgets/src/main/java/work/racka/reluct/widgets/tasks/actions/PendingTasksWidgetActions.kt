@@ -20,7 +20,11 @@ internal object PendingTasksWidgetParamKeys {
 internal class ToggleTaskDoneAction : ActionCallback, KoinComponent {
     private val modifyTasks: ModifyTaskUseCase by inject()
 
-    override suspend fun onRun(context: Context, glanceId: GlanceId, parameters: ActionParameters) {
+    override suspend fun onAction(
+        context: Context,
+        glanceId: GlanceId,
+        parameters: ActionParameters
+    ) {
         val task = parameters[PendingTasksWidgetParamKeys.TASK_KEY]?.asTask()
         task?.let {
             modifyTasks.toggleTaskDone(it, !it.done)
@@ -32,13 +36,21 @@ internal class ToggleTaskDoneAction : ActionCallback, KoinComponent {
 }
 
 internal class ReloadTasksAction : ActionCallback {
-    override suspend fun onRun(context: Context, glanceId: GlanceId, parameters: ActionParameters) {
+    override suspend fun onAction(
+        context: Context,
+        glanceId: GlanceId,
+        parameters: ActionParameters
+    ) {
         PendingTasksSource.initialize()
     }
 }
 
 internal class OpenTaskDetailsAction : ActionCallback {
-    override suspend fun onRun(context: Context, glanceId: GlanceId, parameters: ActionParameters) {
+    override suspend fun onAction(
+        context: Context,
+        glanceId: GlanceId,
+        parameters: ActionParameters
+    ) {
         val taskId = parameters[PendingTasksWidgetParamKeys.TASK_ID_KEY]
         val uriString = TaskDetailsDestination.taskDetailsDeepLink(taskId)
         val pendingIntent = openDeepLinkPendingIntent(context, uriString)

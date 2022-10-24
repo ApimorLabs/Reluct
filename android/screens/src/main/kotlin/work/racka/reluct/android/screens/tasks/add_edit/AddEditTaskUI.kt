@@ -29,7 +29,7 @@ import work.racka.reluct.android.screens.util.BackPressHandler
 import work.racka.reluct.common.model.domain.tasks.EditTask
 import work.racka.reluct.common.model.states.tasks.ModifyTaskState
 
-@OptIn(ExperimentalAnimationApi::class)
+@OptIn(ExperimentalAnimationApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun AddEditTaskUI(
     modifier: Modifier = Modifier,

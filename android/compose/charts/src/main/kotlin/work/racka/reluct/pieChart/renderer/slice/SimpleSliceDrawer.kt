@@ -35,12 +35,12 @@ class SimpleSliceDrawer(
         val sliceThickness = calculateSectorThickness(area = area)
         val drawableArea = calculateDrawableArea(area = area)
 
-        val clipRect = Rect(
+        /*val clipRect = Rect(
             left = drawableArea.left - drawableArea.left * .2f,
             top = drawableArea.top - drawableArea.top * .2f,
             right = drawableArea.right - drawableArea.right * .2f,
             bottom = drawableArea.bottom - drawableArea.bottom * .2f
-        )
+        )*/
 
         val path = Path()
 //        path.addRoundRect(

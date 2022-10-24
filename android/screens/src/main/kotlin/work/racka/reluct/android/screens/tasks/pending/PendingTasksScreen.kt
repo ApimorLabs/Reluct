@@ -74,7 +74,7 @@ private fun handleEvents(
     when (events) {
         is TasksEvents.ShowMessageDone -> {
             scope.launch {
-                val result = scaffoldState.snackbarHostState.showSnackbar(
+                scaffoldState.snackbarHostState.showSnackbar(
                     message = context.getString(R.string.task_marked_as_done, events.msg),
                     duration = SnackbarDuration.Short
                 )

@@ -1,41 +1,41 @@
 object Versions {
     // Kotlin
-    const val kotlin = "1.7.0"
+    const val kotlin = "1.7.20"
     const val kotlinxDateTime = "0.4.0"
-    const val coroutines = "1.6.1"
+    const val coroutines = "1.6.4"
 
     // Networking & JSON
-    const val ktor = "1.6.7"
+    const val ktor = "2.0.2"
     const val kotlinSerialization = "1.3.2"
 
     // Jetbrains
-    const val composeDesktop = "1.2.0-alpha01-dev750"
+    const val composeDesktop = "1.2.0"
 
     // Squareup
-    const val sqlDelight = "1.5.3"
+    const val sqlDelight = "1.5.4"
 
     // Essentials
-    const val material = "1.7.0-alpha02"
-    const val splashScreen = "1.0.0-rc01"
-    const val appCompat = "1.4.2"
+    const val material = "1.7.0"
+    const val splashScreen = "1.0.0"
+    const val appCompat = "1.6.0-rc01"
     const val gradlePlugin = "7.1.1"
-    const val coreKtx = "1.8.0"
+    const val coreKtx = "1.9.0"
     const val saveState = "1.2.0"
 
     // Compose Base
-    const val composeCompiler = "1.2.0"
-    const val compose = "1.2.0"
+    const val composeCompiler = "1.3.2"
+    const val compose = "1.3.0"
     const val composeConstraintLayout = "1.0.0"
-    const val composeMaterial3 = "1.0.0-alpha14"
-    const val activityCompose = "1.5.1"
+    const val composeMaterial3 = "1.0.0"
+    const val activityCompose = "1.6.1"
 
     // Navigation
-    const val composeNavigation = "2.5.0"
+    const val composeNavigation = "2.5.3"
 
     // Lifecycle components
-    const val lifecycle = "2.5.0"
-    const val lifecycleViewModelCompose = "2.5.0"
-    const val lifecycleRuntimeKtx = "2.5.0"
+    const val lifecycle = "2.5.1"
+    const val lifecycleViewModelCompose = "2.5.1"
+    const val lifecycleRuntimeKtx = "2.5.1"
 
     // Dependency Injection
     const val hilt = "2.40.5"
@@ -72,7 +72,7 @@ object Versions {
     const val revenuecat = "5.4.0"
 
     // Glance App Widget - Early Releases
-    const val glanceAppWidget = "1.0.0-alpha03"
+    const val glanceAppWidget = "1.0.0-alpha05"
 
     // Palette
     const val palette = "1.0.0"

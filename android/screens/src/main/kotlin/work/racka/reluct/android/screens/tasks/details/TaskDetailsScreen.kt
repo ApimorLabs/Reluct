@@ -62,7 +62,7 @@ private fun handleEvents(
     when (events) {
         is TasksEvents.ShowMessage -> {
             scope.launch {
-                val result = scaffoldState.snackbarHostState.showSnackbar(
+                scaffoldState.snackbarHostState.showSnackbar(
                     message = events.msg, duration = SnackbarDuration.Short
                 )
             }
@@ -71,7 +71,7 @@ private fun handleEvents(
             val msg = if (events.isDone) context.getString(R.string.task_marked_as_done, events.msg)
             else context.getString(R.string.task_marked_as_not_done, events.msg)
             scope.launch {
-                val result = scaffoldState.snackbarHostState.showSnackbar(
+                scaffoldState.snackbarHostState.showSnackbar(
                     message = msg, duration = SnackbarDuration.Short
                 )
             }

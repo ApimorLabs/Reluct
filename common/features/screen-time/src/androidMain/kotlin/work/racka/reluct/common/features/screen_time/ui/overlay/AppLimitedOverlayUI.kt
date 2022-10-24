@@ -50,9 +50,6 @@ internal fun AppLimitedOverlayUI(
                 is WeeklyAppUsageStatsState.Empty -> {
                     StatisticsChartState.Empty(data = weeklyState.usageStats)
                 }
-                else -> {
-                    StatisticsChartState.Empty(data = weeklyState.usageStats)
-                }
             }
             result
         }
