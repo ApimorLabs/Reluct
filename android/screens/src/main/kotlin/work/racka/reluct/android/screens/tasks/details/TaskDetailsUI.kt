@@ -34,7 +34,7 @@ import work.racka.reluct.android.screens.R
 import work.racka.reluct.common.model.domain.tasks.Task
 import work.racka.reluct.common.model.states.tasks.TaskDetailsState
 
-@OptIn(ExperimentalAnimationApi::class)
+@OptIn(ExperimentalAnimationApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun TaskDetailsUI(
     modifier: Modifier = Modifier,

@@ -33,7 +33,7 @@ import work.racka.reluct.common.features.goals.add_edit_goal.states.ModifyGoalSt
 import work.racka.reluct.common.model.domain.app_info.AppInfo
 import work.racka.reluct.common.model.domain.goals.Goal
 
-@OptIn(ExperimentalAnimationApi::class)
+@OptIn(ExperimentalAnimationApi::class, ExperimentalMaterial3Api::class)
 @Composable
 internal fun AddEditGoalUI(
     modifier: Modifier = Modifier,
