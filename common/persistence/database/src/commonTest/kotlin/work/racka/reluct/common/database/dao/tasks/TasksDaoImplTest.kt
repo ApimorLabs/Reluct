@@ -7,41 +7,26 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
-import org.koin.core.context.startKoin
-import org.koin.core.context.stopKoin
-import org.koin.dsl.module
-import org.koin.test.KoinTest
-import org.koin.test.inject
-import work.racka.reluct.common.database.di.TestPlatform
+import work.racka.reluct.common.database.di.getDatabaseWrapper
 import work.racka.reluct.common.database.util.TasksTestData
 import kotlin.test.*
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class TasksDaoImplTest : KoinTest {
+class TasksDaoImplTest {
 
-    private val dao: TasksDao by inject()
+    private lateinit var dao: TasksDao
 
     @BeforeTest
     fun setup() {
         Dispatchers.setMain(StandardTestDispatcher())
-        startKoin {
-            modules(
-                TestPlatform.platformDatabaseModule(),
-                module {
-                    single<TasksDao> {
-                        TasksDaoImpl(
-                            dispatcher = StandardTestDispatcher(),
-                            databaseWrapper = get()
-                        )
-                    }
-                }
-            )
-        }
+        dao = TasksDaoImpl(
+            dispatcher = StandardTestDispatcher(),
+            databaseWrapper = getDatabaseWrapper()
+        )
     }
 
     @AfterTest
     fun teardown() {
-        stopKoin()
     }
 
     @Test
@@ -91,6 +76,7 @@ class TasksDaoImplTest : KoinTest {
         launch {
             result.test {
                 val actual = awaitItem()
+                println(actual)
                 assertNull(actual)
                 awaitComplete()
             }
