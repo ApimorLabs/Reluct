@@ -1,4 +1,4 @@
-package work.racka.reluct.common.model.data.local.task
+package work.racka.reluct.common.database.models
 
 /**
  * We don't store time as Instant to avoid changes in TimeZone rules

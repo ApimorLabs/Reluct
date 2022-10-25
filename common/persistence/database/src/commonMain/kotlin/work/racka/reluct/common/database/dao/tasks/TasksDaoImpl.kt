@@ -14,7 +14,7 @@ import work.racka.reluct.common.database.dao.tasks.TasksHelpers.getTaskFromDb
 import work.racka.reluct.common.database.dao.tasks.TasksHelpers.getTasksBetweenDateTimeStringsFromDb
 import work.racka.reluct.common.database.dao.tasks.TasksHelpers.insertTaskToDb
 import work.racka.reluct.common.database.dao.tasks.TasksHelpers.searchTasksFromDb
-import work.racka.reluct.common.model.data.local.task.TaskDbObject
+import work.racka.reluct.common.database.models.TaskDbObject
 
 internal class TasksDaoImpl(
     private val dispatcher: CoroutineDispatcher,

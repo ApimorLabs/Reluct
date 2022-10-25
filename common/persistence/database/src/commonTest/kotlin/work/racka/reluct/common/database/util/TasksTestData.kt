@@ -1,7 +1,7 @@
 package work.racka.reluct.common.database.util
 
 import kotlinx.datetime.*
-import work.racka.reluct.common.model.data.local.task.TaskDbObject
+import work.racka.reluct.common.database.models.TaskDbObject
 
 internal object TasksTestData {
     val taskDbObjects = listOf(

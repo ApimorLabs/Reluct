@@ -8,11 +8,11 @@ import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.withContext
 import kotlinx.datetime.toLocalDateTime
 import work.racka.reluct.common.database.dao.tasks.TasksDao
+import work.racka.reluct.common.database.models.TaskDbObject
 import work.racka.reluct.common.domain.mappers.tasks.asDatabaseModel
 import work.racka.reluct.common.domain.mappers.tasks.asEditTask
 import work.racka.reluct.common.domain.usecases.tasks.ManageTasksAlarms
 import work.racka.reluct.common.domain.usecases.tasks.ModifyTaskUseCase
-import work.racka.reluct.common.model.data.local.task.TaskDbObject
 import work.racka.reluct.common.model.domain.tasks.EditTask
 import work.racka.reluct.common.model.domain.tasks.Task
 import work.racka.reluct.common.model.util.time.TimeUtils

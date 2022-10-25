@@ -1,7 +1,7 @@
 package work.racka.reluct.common.database.dao.tasks
 
 import kotlinx.coroutines.flow.Flow
-import work.racka.reluct.common.model.data.local.task.TaskDbObject
+import work.racka.reluct.common.database.models.TaskDbObject
 
 interface TasksDao {
     fun insertTask(task: TaskDbObject)

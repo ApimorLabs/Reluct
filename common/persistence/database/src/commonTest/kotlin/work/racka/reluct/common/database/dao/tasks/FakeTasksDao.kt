@@ -1,8 +1,8 @@
 package work.racka.reluct.common.database.dao.tasks
 
 import kotlinx.coroutines.flow.*
+import work.racka.reluct.common.database.models.TaskDbObject
 import work.racka.reluct.common.database.util.TasksTestData
-import work.racka.reluct.common.model.data.local.task.TaskDbObject
 
 class FakeTasksDao : TasksDao {
 
