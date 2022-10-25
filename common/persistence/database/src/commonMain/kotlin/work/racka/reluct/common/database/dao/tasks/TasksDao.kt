@@ -2,6 +2,7 @@ package work.racka.reluct.common.database.dao.tasks
 
 import kotlinx.coroutines.flow.Flow
 import work.racka.reluct.common.database.models.TaskDbObject
+import work.racka.reluct.common.database.models.TaskLabelDbObject
 
 interface TasksDao {
     fun insertTask(task: TaskDbObject)
@@ -41,4 +42,21 @@ interface TasksDao {
     fun deleteTask(id: String)
     fun deleteAllCompletedTasks()
     fun deleteAll()
+
+    /**
+     * Task Labels
+     */
+    fun addTaskLabel(label: TaskLabelDbObject)
+
+    fun addAllTaskLabels(labels: List<TaskLabelDbObject>)
+
+    fun getAllTaskLabels(): Flow<List<TaskLabelDbObject>>
+
+    fun getTaskLabel(id: String): Flow<TaskLabelDbObject?>
+
+    fun getTaskLabelSync(id: String): TaskLabelDbObject?
+
+    fun deleteTaskLabel(id: String)
+
+    fun deleteAllTaskLabels()
 }

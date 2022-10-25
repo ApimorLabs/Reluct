@@ -1,6 +1,9 @@
 package work.racka.reluct.common.database.dao.tasks
 
 import work.racka.reluct.common.database.models.TaskDbObject
+import work.racka.reluct.common.database.models.TaskLabelDbObject
+import work.racka.reluct.common.database.tables.TaskLabelsTable
+import work.racka.reluct.common.database.tables.TaskLabelsTableQueries
 import work.racka.reluct.common.database.tables.TasksTable
 import work.racka.reluct.common.database.tables.TasksTableQueries
 
@@ -61,6 +64,45 @@ internal object TasksHelpers {
             mapper = taskDbObjectMapper
         )
 
+    /**
+     * Task Labels
+     */
+    fun TaskLabelsTableQueries.insertLabelToDb(label: TaskLabelDbObject) {
+        transaction {
+            insertLabel(
+                TaskLabelsTable(
+                    id = label.id,
+                    name = label.name,
+                    description = label.description,
+                    colorHex = label.colorHexString
+                )
+            )
+        }
+    }
+
+    fun TaskLabelsTableQueries.insertAllLabelsToDb(labels: List<TaskLabelDbObject>) {
+        transaction {
+            labels.forEach { label ->
+                insertLabel(
+                    TaskLabelsTable(
+                        id = label.id,
+                        name = label.name,
+                        description = label.description,
+                        colorHex = label.colorHexString
+                    )
+                )
+            }
+        }
+    }
+
+    val taskLabelsMapper: (
+        id: String,
+        name: String,
+        description: String,
+        color: String
+    ) -> TaskLabelDbObject = { id, name, description, color ->
+        TaskLabelDbObject(id = id, name = name, description = description, colorHexString = color)
+    }
 
     private val taskDbObjectMapper: (
         id: String, title: String, description: String?, done: Boolean, overdue: Boolean,
