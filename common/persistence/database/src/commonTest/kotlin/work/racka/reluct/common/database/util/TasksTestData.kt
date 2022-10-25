@@ -2,6 +2,7 @@ package work.racka.reluct.common.database.util
 
 import kotlinx.datetime.*
 import work.racka.reluct.common.database.models.TaskDbObject
+import work.racka.reluct.common.database.models.TaskLabelDbObject
 
 internal object TasksTestData {
     val taskDbObjects = listOf(
@@ -59,6 +60,33 @@ internal object TasksTestData {
             completedLocalDateTime = forwardTimeBy(months = -1, days = -3),
             reminderLocalDateTime = null,
             timeZoneId = TimeZone.currentSystemDefault().id
+        )
+    )
+
+    val taskLabels = listOf(
+        TaskLabelDbObject(
+            id = "label_1",
+            name = "Label 1",
+            description = "Description 1",
+            colorHexString = "000000"
+        ),
+        TaskLabelDbObject(
+            id = "label_2",
+            name = "Label 2",
+            description = "Description 2",
+            colorHexString = "000000"
+        ),
+        TaskLabelDbObject(
+            id = "label_3",
+            name = "Label 3",
+            description = "Description 3",
+            colorHexString = "000000"
+        ),
+        TaskLabelDbObject(
+            id = "label_4",
+            name = "Label 4",
+            description = "Description 4",
+            colorHexString = "000000"
         )
     )
 

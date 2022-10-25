@@ -4,8 +4,10 @@ import com.squareup.sqldelight.runtime.coroutines.asFlow
 import com.squareup.sqldelight.runtime.coroutines.mapToList
 import com.squareup.sqldelight.runtime.coroutines.mapToOneOrNull
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.mapLatest
 import work.racka.reluct.common.database.dao.DatabaseWrapper
 import work.racka.reluct.common.database.dao.tasks.TasksHelpers.getAllTasksFromDb
 import work.racka.reluct.common.database.dao.tasks.TasksHelpers.getCompletedTasksFromDb
@@ -116,9 +118,11 @@ internal class TasksDaoImpl(
         labelQueries?.insertLabelToDb(label)
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     override fun getAllTaskLabels(): Flow<List<TaskLabelDbObject>> =
         labelQueries?.getLables(mapper = TasksHelpers.taskLabelsMapper)?.asFlow()
-            ?.mapToList(dispatcher) ?: flowOf(emptyList())
+            ?.mapToList(dispatcher)?.mapLatest { it.asReversed() }
+            ?: flowOf(emptyList())
 
     override fun getTaskLabel(id: String): Flow<TaskLabelDbObject?> =
         labelQueries?.getLabelById(id = id, mapper = TasksHelpers.taskLabelsMapper)?.asFlow()
@@ -135,5 +139,4 @@ internal class TasksDaoImpl(
     override fun deleteAllTaskLabels() {
         labelQueries?.deleteAll()
     }
-
 }
