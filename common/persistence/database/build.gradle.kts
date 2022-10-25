@@ -12,7 +12,7 @@ sqldelight {
         sourceFolders = listOf("sqldelight")
         schemaOutputDirectory =
             file("src/commonMain/sqldelight/work/racka/reluct/common/database/files")
-        version = 1
+        version = 2
         verifyMigrations = true
     }
 }
