@@ -47,16 +47,10 @@ interface TasksDao {
      * Task Labels
      */
     fun addTaskLabel(label: TaskLabelDbObject)
-
     fun addAllTaskLabels(labels: List<TaskLabelDbObject>)
-
     fun getAllTaskLabels(): Flow<List<TaskLabelDbObject>>
-
     fun getTaskLabel(id: String): Flow<TaskLabelDbObject?>
-
     fun getTaskLabelSync(id: String): TaskLabelDbObject?
-
     fun deleteTaskLabel(id: String)
-
     fun deleteAllTaskLabels()
 }

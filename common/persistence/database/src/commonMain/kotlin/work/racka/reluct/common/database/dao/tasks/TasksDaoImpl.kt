@@ -12,9 +12,12 @@ import work.racka.reluct.common.database.dao.tasks.TasksHelpers.getCompletedTask
 import work.racka.reluct.common.database.dao.tasks.TasksHelpers.getPendingTasksFromDb
 import work.racka.reluct.common.database.dao.tasks.TasksHelpers.getTaskFromDb
 import work.racka.reluct.common.database.dao.tasks.TasksHelpers.getTasksBetweenDateTimeStringsFromDb
+import work.racka.reluct.common.database.dao.tasks.TasksHelpers.insertAllLabelsToDb
+import work.racka.reluct.common.database.dao.tasks.TasksHelpers.insertLabelToDb
 import work.racka.reluct.common.database.dao.tasks.TasksHelpers.insertTaskToDb
 import work.racka.reluct.common.database.dao.tasks.TasksHelpers.searchTasksFromDb
 import work.racka.reluct.common.database.models.TaskDbObject
+import work.racka.reluct.common.database.models.TaskLabelDbObject
 
 internal class TasksDaoImpl(
     private val dispatcher: CoroutineDispatcher,
@@ -22,6 +25,7 @@ internal class TasksDaoImpl(
 ) : TasksDao {
 
     private val tasksQueries = databaseWrapper.instance?.tasksTableQueries
+    private val labelQueries = databaseWrapper.instance?.taskLabelsTableQueries
 
     override fun insertTask(task: TaskDbObject) {
         tasksQueries?.insertTaskToDb(task)
@@ -94,4 +98,33 @@ internal class TasksDaoImpl(
     override fun deleteAll() {
         tasksQueries?.deleteAll()
     }
+
+    override fun addAllTaskLabels(labels: List<TaskLabelDbObject>) {
+        labelQueries?.insertAllLabelsToDb(labels)
+    }
+
+    override fun addTaskLabel(label: TaskLabelDbObject) {
+        labelQueries?.insertLabelToDb(label)
+    }
+
+    override fun getAllTaskLabels(): Flow<List<TaskLabelDbObject>> =
+        labelQueries?.getLables(mapper = TasksHelpers.taskLabelsMapper)?.asFlow()
+            ?.mapToList(dispatcher) ?: flowOf(emptyList())
+
+    override fun getTaskLabel(id: String): Flow<TaskLabelDbObject?> =
+        labelQueries?.getLabelById(id = id, mapper = TasksHelpers.taskLabelsMapper)?.asFlow()
+            ?.mapToOneOrNull(dispatcher) ?: flowOf(null)
+
+    override fun getTaskLabelSync(id: String): TaskLabelDbObject? =
+        labelQueries?.getLabelById(id = id, mapper = TasksHelpers.taskLabelsMapper)
+            ?.executeAsOneOrNull()
+
+    override fun deleteTaskLabel(id: String) {
+        labelQueries?.deleteLabel(id)
+    }
+
+    override fun deleteAllTaskLabels() {
+        labelQueries?.deleteAll()
+    }
+
 }
