@@ -15,6 +15,7 @@ internal object TasksHelpers {
                     description = task.description,
                     done = task.done,
                     overdue = task.overdue,
+                    taskLabelsId = task.taskLabels.map { it.id },
                     dueDateLocalDateTime = task.dueDateLocalDateTime,
                     completedLocalDateTime = task.completedLocalDateTime,
                     reminderLocalDateTime = task.reminderLocalDateTime,
@@ -64,9 +65,11 @@ internal object TasksHelpers {
     private val taskDbObjectMapper: (
         id: String, title: String, description: String?, done: Boolean, overdue: Boolean,
         dueDateLocalDateTime: String, completedLocalDateTime: String?,
-        reminderLocalDateTime: String?, timeZoneId: String,
-    ) -> TaskDbObject = { id, title, description, done, overdue, dueDateLocalDateTime,
-                          completedLocalDateTime, reminderLocalDateTime, timeZoneId ->
+        reminderLocalDateTime: String?, timeZoneId: String, taskLabelsId: List<String>
+    ) -> TaskDbObject = {
+            id, title, description, done, overdue, dueDateLocalDateTime,
+            completedLocalDateTime, reminderLocalDateTime, timeZoneId, taskLabelsId,
+        ->
         TaskDbObject(
             id = id,
             title = title,

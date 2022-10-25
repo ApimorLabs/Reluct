@@ -1,3 +1,12 @@
 ALTER TABLE TasksTable
-ADD COLUMN taskLabelsId TEXT NOT NULL
-DEFAULT '';
+ADD COLUMN taskLabelsId TEXT NOT NULL;
+
+UPDATE TasksTable
+SET taskLabelsId = '';
+
+CREATE TABLE TaskLabelsTable (
+id TEXT NOT NULL PRIMARY KEY,
+name TEXT NOT NULL,
+description TEXT NOT NULL,
+colorHex TEXT NOT NULL
+);

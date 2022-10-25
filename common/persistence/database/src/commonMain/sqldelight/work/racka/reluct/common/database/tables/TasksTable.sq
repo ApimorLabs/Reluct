@@ -6,11 +6,11 @@ title TEXT NOT NULL,
 description TEXT,
 done INTEGER AS Boolean DEFAULT 0 NOT NULL,
 overdue INTEGER AS Boolean DEFAULT 0 NOT NULL,
-taskLabelsId TEXT AS List<String> NOT NULL,
 dueDateLocalDateTime TEXT NOT NULL,
 completedLocalDateTime TEXT,
 reminderLocalDateTime TEXT,
-timeZoneId TEXT NOT NULL
+timeZoneId TEXT NOT NULL,
+taskLabelsId TEXT AS List<String> NOT NULL
 );
 
 insertTask:
@@ -20,11 +20,11 @@ title,
 description,
 done,
 overdue,
-taskLabelsId,
 dueDateLocalDateTime,
 completedLocalDateTime,
 reminderLocalDateTime,
-timeZoneId
+timeZoneId,
+taskLabelsId
 ) VALUES ?;
 
 getAllTasks:
