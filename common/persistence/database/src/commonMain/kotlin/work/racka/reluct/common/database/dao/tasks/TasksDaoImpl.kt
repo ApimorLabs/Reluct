@@ -32,32 +32,37 @@ internal class TasksDaoImpl(
     }
 
     override fun getAllTasks(): Flow<List<TaskDbObject>> =
-        tasksQueries?.getAllTasksFromDb()
+        tasksQueries?.getAllTasksFromDb(onGetLabel = ::getTaskLabelSync)
             ?.asFlow()
             ?.mapToList(dispatcher)
             ?: flowOf(emptyList())
 
 
     override fun getTask(id: String): Flow<TaskDbObject?> =
-        tasksQueries?.getTaskFromDb(id)
+        tasksQueries?.getTaskFromDb(id, onGetLabel = ::getTaskLabelSync)
             ?.asFlow()
             ?.mapToOneOrNull(dispatcher)
             ?: flowOf(null)
 
     override fun searchTasks(query: String, factor: Long, limitBy: Long): Flow<List<TaskDbObject>> =
-        tasksQueries?.searchTasksFromDb("%$query%", factor, limitBy)
+        tasksQueries?.searchTasksFromDb(
+            query = "%$query%",
+            factor = factor,
+            limitBy = limitBy,
+            onGetLabel = ::getTaskLabelSync
+        )
             ?.asFlow()
             ?.mapToList(dispatcher)
             ?: flowOf(emptyList())
 
     override fun getPendingTasks(factor: Long, limitBy: Long): Flow<List<TaskDbObject>> =
-        tasksQueries?.getPendingTasksFromDb(factor, limitBy)
+        tasksQueries?.getPendingTasksFromDb(factor, limitBy, onGetLabel = ::getTaskLabelSync)
             ?.asFlow()
             ?.mapToList(dispatcher)
             ?: flowOf(emptyList())
 
     override fun getCompletedTasks(factor: Long, limitBy: Long): Flow<List<TaskDbObject>> =
-        tasksQueries?.getCompletedTasksFromDb(factor, limitBy)
+        tasksQueries?.getCompletedTasksFromDb(factor, limitBy, onGetLabel = ::getTaskLabelSync)
             ?.asFlow()
             ?.mapToList(dispatcher)
             ?: flowOf(emptyList())
@@ -66,7 +71,11 @@ internal class TasksDaoImpl(
         startLocalDateTime: String,
         endLocalDateTime: String,
     ): Flow<List<TaskDbObject>> =
-        tasksQueries?.getTasksBetweenDateTimeStringsFromDb(startLocalDateTime, endLocalDateTime)
+        tasksQueries?.getTasksBetweenDateTimeStringsFromDb(
+            startLocalDateTime = startLocalDateTime,
+            endLocalDateTime = endLocalDateTime,
+            onGetLabel = ::getTaskLabelSync
+        )
             ?.asFlow()
             ?.mapToList(dispatcher)
             ?: flowOf(emptyList())

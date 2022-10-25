@@ -28,40 +28,57 @@ internal object TasksHelpers {
         }
     }
 
-    fun TasksTableQueries.getAllTasksFromDb() = getAllTasks(mapper = taskDbObjectMapper)
+    fun TasksTableQueries.getAllTasksFromDb(onGetLabel: (id: String) -> TaskLabelDbObject?) =
+        getAllTasks(mapper = taskDbObjectMapper(onGetLabel))
 
-    fun TasksTableQueries.getPendingTasksFromDb(factor: Long, limitBy: Long) =
+    fun TasksTableQueries.getPendingTasksFromDb(
+        factor: Long,
+        limitBy: Long,
+        onGetLabel: (id: String) -> TaskLabelDbObject?
+    ) =
         getPendingTasks(
             factor = factor,
             limitBy = limitBy,
-            mapper = taskDbObjectMapper
+            mapper = taskDbObjectMapper(onGetLabel)
         )
 
-    fun TasksTableQueries.getCompletedTasksFromDb(factor: Long, limitBy: Long) =
+    fun TasksTableQueries.getCompletedTasksFromDb(
+        factor: Long,
+        limitBy: Long,
+        onGetLabel: (id: String) -> TaskLabelDbObject?
+    ) =
         getCompeletedTasks(
             factor = factor,
             limitBy = limitBy,
-            mapper = taskDbObjectMapper
+            mapper = taskDbObjectMapper(onGetLabel)
         )
 
     fun TasksTableQueries.getTasksBetweenDateTimeStringsFromDb(
         startLocalDateTime: String,
         endLocalDateTime: String,
+        onGetLabel: (id: String) -> TaskLabelDbObject?
     ) = getTasksBetweenDateTimeStrings(
         startLocalDateTime = startLocalDateTime,
         endLocalDateTime = endLocalDateTime,
-        mapper = taskDbObjectMapper
+        mapper = taskDbObjectMapper(onGetLabel)
     )
 
-    fun TasksTableQueries.getTaskFromDb(taskId: String) =
-        getTask(id = taskId, mapper = taskDbObjectMapper)
+    fun TasksTableQueries.getTaskFromDb(
+        taskId: String,
+        onGetLabel: (id: String) -> TaskLabelDbObject?
+    ) = getTask(id = taskId, mapper = taskDbObjectMapper(onGetLabel))
 
-    fun TasksTableQueries.searchTasksFromDb(query: String, factor: Long, limitBy: Long) =
+    fun TasksTableQueries.searchTasksFromDb(
+        query: String,
+        factor: Long,
+        limitBy: Long,
+        onGetLabel: (id: String) -> TaskLabelDbObject?
+    ) =
         searchTasks(
             query = query,
             factor = factor,
             limitBy = limitBy,
-            mapper = taskDbObjectMapper
+            mapper = taskDbObjectMapper(onGetLabel)
         )
 
     /**
@@ -104,7 +121,7 @@ internal object TasksHelpers {
         TaskLabelDbObject(id = id, name = name, description = description, colorHexString = color)
     }
 
-    private val taskDbObjectMapper: (
+    private fun taskDbObjectMapper(onGetLabel: (id: String) -> TaskLabelDbObject?): (
         id: String, title: String, description: String?, done: Boolean, overdue: Boolean,
         dueDateLocalDateTime: String, completedLocalDateTime: String?,
         reminderLocalDateTime: String?, timeZoneId: String, taskLabelsId: List<String>
@@ -118,6 +135,7 @@ internal object TasksHelpers {
             description = description,
             done = done,
             overdue = overdue,
+            taskLabels = taskLabelsId.mapNotNull { onGetLabel(it) },
             dueDateLocalDateTime = dueDateLocalDateTime,
             completedLocalDateTime = completedLocalDateTime,
             reminderLocalDateTime = reminderLocalDateTime,
