@@ -1,0 +1,3 @@
+ALTER TABLE TasksTable
+ADD COLUMN taskLabelsId TEXT NOT NULL
+DEFAULT '';

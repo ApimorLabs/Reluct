@@ -1,9 +1,12 @@
+import kotlin.collections.List;
+
 CREATE TABLE TasksTable(
 id TEXT NOT NULL PRIMARY KEY,
 title TEXT NOT NULL,
 description TEXT,
 done INTEGER AS Boolean DEFAULT 0 NOT NULL,
 overdue INTEGER AS Boolean DEFAULT 0 NOT NULL,
+taskLabelsId TEXT AS List<String> NOT NULL,
 dueDateLocalDateTime TEXT NOT NULL,
 completedLocalDateTime TEXT,
 reminderLocalDateTime TEXT,
@@ -17,6 +20,7 @@ title,
 description,
 done,
 overdue,
+taskLabelsId,
 dueDateLocalDateTime,
 completedLocalDateTime,
 reminderLocalDateTime,

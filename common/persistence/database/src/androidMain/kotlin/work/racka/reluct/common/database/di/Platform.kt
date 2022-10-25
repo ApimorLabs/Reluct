@@ -4,6 +4,7 @@ import com.squareup.sqldelight.android.AndroidSqliteDriver
 import org.koin.dsl.module
 import work.racka.reluct.common.database.ReluctDatabase
 import work.racka.reluct.common.database.adapters.GoalsTableAdapter
+import work.racka.reluct.common.database.adapters.TasksTableAdapter
 import work.racka.reluct.common.database.dao.DatabaseWrapper
 import work.racka.reluct.common.database.util.Constants
 
@@ -15,7 +16,13 @@ internal actual object Platform {
                 context = get(),
                 name = Constants.RELUCT_DATABASE
             )
-            DatabaseWrapper(ReluctDatabase(driver, GoalsTableAdapter = GoalsTableAdapter))
+            DatabaseWrapper(
+                ReluctDatabase(
+                    driver,
+                    GoalsTableAdapter = GoalsTableAdapter,
+                    TasksTableAdapter = TasksTableAdapter
+                )
+            )
         }
     }
 }
