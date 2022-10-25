@@ -1,0 +1,22 @@
+CREATE TABLE TaskLabelsTable (
+id TEXT NOT NULL PRIMARY KEY,
+name TEXT NOT NULL,
+description TEXT NOT NULL,
+colorHex TEXT NOT NULL
+);
+
+insertLabel:
+INSERT OR REPLACE INTO TaskLabelsTable(
+id, name, description, colorHex
+) VALUES ?;
+
+getLabelById:
+SELECT * FROM TaskLabelsTable
+WHERE id = :id;
+
+deleteLabel:
+DELETE FROM TaskLabelsTable
+WHERE id = :id;
+
+deleteAll:
+DELETE FROM TaskLabelsTable;
