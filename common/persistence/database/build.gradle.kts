@@ -10,6 +10,10 @@ sqldelight {
     database("ReluctDatabase") {
         packageName = "work.racka.reluct.common.database"
         sourceFolders = listOf("sqldelight")
+        schemaOutputDirectory =
+            file("src/commonMain/sqldelight/work/racka/reluct/common/database/files")
+        version = 1
+        verifyMigrations = true
     }
 }
 
