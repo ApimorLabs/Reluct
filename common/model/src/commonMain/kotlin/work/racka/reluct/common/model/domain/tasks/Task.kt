@@ -6,6 +6,7 @@ data class Task(
     val description: String,
     val done: Boolean,
     val overdue: Boolean,
+    val taskLabels: List<TaskLabel> = listOf(),
     val dueDate: String,
     val dueTime: String,
     val timeLeftLabel: String,

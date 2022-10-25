@@ -11,6 +11,7 @@ data class TaskDbObject(
     val description: String?,
     val done: Boolean,
     val overdue: Boolean,
+    val taskLabels: List<TaskLabelDbObject> = listOf(),
     val dueDateLocalDateTime: String,
     val completedLocalDateTime: String?,
     val reminderLocalDateTime: String?,

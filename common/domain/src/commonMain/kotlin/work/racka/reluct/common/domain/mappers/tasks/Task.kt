@@ -29,6 +29,7 @@ fun TaskDbObject.asTask(showShortIntervalAsDay: Boolean = true): Task {
             this.dueDateLocalDateTime,
             this.timeZoneId
         ),
+        taskLabels = taskLabels.map { it.asTaskLabel() },
         dueDate = TimeUtils.getFormattedDateString(
             dateTime = this.dueDateLocalDateTime,
             originalTimeZoneId = this.timeZoneId,
