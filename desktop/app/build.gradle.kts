@@ -38,8 +38,8 @@ compose.desktop {
         mainClass = "work.racka.reluct.MainKt"
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageName = AppConfig.Desktop.packageName
-            packageVersion = AppConfig.Desktop.version
+            packageName = libs.versions.config.desktop.packageName.get()
+            packageVersion = libs.versions.config.desktop.current.get()
         }
     }
 }

@@ -60,11 +60,11 @@ subprojects {
 
         // Provide default library configurations for each Android source
         project.extensions.findByType<com.android.build.gradle.LibraryExtension>()?.apply {
-            compileSdk = AppConfig.compileSdkVersion
+            compileSdk = libs.versions.config.android.compilesdk.get().toInt()
 
             defaultConfig {
-                minSdk = AppConfig.minSdkVersion
-                targetSdk = AppConfig.targetSdkVersion
+                minSdk = libs.versions.config.android.minsdk.get().toInt()
+                targetSdk = libs.versions.config.android.targetsdk.get().toInt()
 
                 testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
                 vectorDrawables {
@@ -75,7 +75,7 @@ subprojects {
                 buildConfigField(
                     "String",
                     "appVersionName",
-                    "\"${AppConfig.versionName}\""
+                    "\"${libs.versions.config.android.versionName.get()}\""
                 )
 
             }
@@ -83,6 +83,7 @@ subprojects {
             buildTypes {
                 getByName("release") {
                     isMinifyEnabled = true
+                    isShrinkResources = true
                 }
             }
 

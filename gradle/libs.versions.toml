@@ -1,5 +1,16 @@
 ######## Dependency versions Start #############
 [versions]
+# App Configs
+config_android_minsdk = "26"
+config_android_compilesdk = "33"
+config_android_targetsdk = "33"
+config_android_versioncode = "6"
+config_android_versionName = "1.0.0-alpha05"
+config_android_applicationId = "work.racka.reluct"
+config_desktop_current = "1.0.0"
+config_desktop_packageName = "work.racka.reluct"
+
+# Important
 kotlin = "1.7.20"
 android_gradle_plugin = "7.3.1"
 compose_multiplatform = "1.2.0"

@@ -1,6 +1,6 @@
 import org.jetbrains.kotlin.konan.properties.Properties
 
-val desugaringVersion = "1.1.8"
+val desugaringVersion = libs.versions.desugaring.get()
 
 plugins {
     kotlin("android")
@@ -12,14 +12,14 @@ plugins {
 android {
     namespace = "work.racka.reluct"
 
-    compileSdk = AppConfig.compileSdkVersion
+    compileSdk = libs.versions.config.android.compilesdk.get().toInt()
 
     defaultConfig {
-        applicationId = AppConfig.applicationId
-        minSdk = AppConfig.minSdkVersion
-        targetSdk = AppConfig.targetSdkVersion
-        versionCode = AppConfig.versionCode
-        versionName = AppConfig.versionName
+        applicationId = libs.versions.config.android.applicationId.get()
+        minSdk = libs.versions.config.android.minsdk.get().toInt()
+        targetSdk = libs.versions.config.android.targetsdk.get().toInt()
+        versionCode = libs.versions.config.android.versioncode.get().toInt()
+        versionName = libs.versions.config.android.versionName.get()
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -42,6 +42,7 @@ android {
     buildTypes {
         getByName("release") {
             isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
