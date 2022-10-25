@@ -13,6 +13,7 @@ buildscript {
         classpath(libs.android.gradle.plugin)
         classpath(libs.compose.multiplatform.plugin)
         classpath(libs.kotlin.gradle.plugin)
+        classpath(libs.kotlin.serialization.plugin)
         classpath(libs.sqldelight.plugin)
         classpath(libs.google.services.plugin)
         classpath(libs.firebase.crashlytics.plugin)

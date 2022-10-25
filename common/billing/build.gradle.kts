@@ -16,15 +16,15 @@ kotlin {
             dependencies {
                 implementation(project(":common:model"))
 
-                implementation(Dependencies.Koin.core)
-                implementation(Dependencies.Kotlin.Coroutines.core)
-                implementation(Dependencies.Log.kermit)
+                implementation(libs.coroutines.core)
+                implementation(libs.koin.core)
+                implementation(libs.kermit.log)
             }
         }
 
         val commonTest by getting {
             dependencies {
-                implementation(Dependencies.Koin.test)
+                implementation(libs.koin.test)
                 implementation(kotlin("test-common"))
                 implementation(kotlin("test-annotations-common"))
             }
@@ -32,10 +32,10 @@ kotlin {
 
         val androidMain by getting {
             dependencies {
-                implementation(Dependencies.Android.Essential.coreKtx)
-                implementation(Dependencies.Android.Essential.appCompat)
-                implementation(Dependencies.Revenuecat.android) // RevenueCat - Billing
-                implementation(Dependencies.Log.timber)
+                implementation(libs.core.ktx)
+                implementation(libs.appCompat)
+                implementation(libs.revenueCat.android) // RevenueCat - Billing
+                implementation(libs.timber.log)
             }
         }
 

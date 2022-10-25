@@ -2,7 +2,7 @@ plugins {
     id("com.android.library")
     kotlin("android")
     id("kotlin-parcelize")
-    kotlin("plugin.serialization") version Versions.kotlin
+    kotlin("plugin.serialization")
 }
 
 android.apply {
@@ -12,7 +12,7 @@ android.apply {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = Versions.composeCompiler
+        kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get()
     }
 }
 
@@ -25,30 +25,24 @@ dependencies {
     implementation(project(":common:domain"))
 
     // Core Functionality
-    with(Dependencies.Android.Essential) {
-        implementation(coreKtx)
-        implementation(material)
-    }
+    implementation(libs.core.ktx)
+    implementation(libs.google.material)
 
-    implementation(Dependencies.Kotlin.kotlinJsonSerialization)
+    implementation(libs.kotlinx.serialization.json)
 
     // Glance
-    implementation(Dependencies.Android.Extras.glanceAppWidget)
+    implementation(libs.compose.glance)
 
     // Koin
-    implementation(Dependencies.Koin.core)
+    implementation(libs.koin.core)
 
     // Testing
-    with(Dependencies.Android.JUnit) {
-        testImplementation(core)
-        testImplementation(test)
-        testImplementation(testExtKtx)
-        androidTestImplementation(test)
-    }
+    testImplementation(libs.junit.core)
+    testImplementation(libs.junit.test)
+    testImplementation(libs.junit.test.ktx)
+    androidTestImplementation(libs.junit.test)
 
-    with(Dependencies.Android.TestCore) {
-        testImplementation(testArch)
-        androidTestImplementation(testArch)
-        androidTestImplementation(testKtx)
-    }
+    testImplementation(libs.android.test.arch.core)
+    androidTestImplementation(libs.android.test.arch.core)
+    androidTestImplementation(libs.android.test.core)
 }

@@ -22,18 +22,16 @@ kotlin {
                 // Features imported
                 implementation(project(":common:features:screen-time"))
 
-                implementation(Dependencies.Kotlin.Coroutines.core)
-                implementation(Dependencies.Koin.core)
+                implementation(libs.coroutines.core)
+                implementation(libs.koin.core)
             }
         }
 
         val commonTest by getting {
             dependencies {
-                implementation(Dependencies.Mockk.core)
-                implementation(Dependencies.Mockk.commonMultiplatform)
-                implementation(Dependencies.Koin.test)
-                implementation(Dependencies.Kotlin.Coroutines.test)
-                implementation(Dependencies.Squareup.Testing.turbine)
+                implementation(libs.koin.test)
+                implementation(libs.coroutines.test)
+                implementation(libs.turbine.test)
                 implementation(kotlin("test-common"))
                 implementation(kotlin("test-annotations-common"))
             }

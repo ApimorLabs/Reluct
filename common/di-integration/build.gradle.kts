@@ -29,7 +29,7 @@ kotlin {
                 implementation(project(":common:persistence:settings"))
                 implementation(project(":common:system-services"))
 
-                implementation(Dependencies.Koin.core)
+                implementation(libs.koin.core)
             }
         }
 

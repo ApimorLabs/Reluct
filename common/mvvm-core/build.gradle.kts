@@ -11,7 +11,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = Versions.composeCompiler
+        kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get()
     }
 }
 
@@ -26,16 +26,16 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation(Dependencies.Koin.core)
-                implementation(Dependencies.Kotlin.Coroutines.core)
-                implementation(Dependencies.ArkIvanov.Decompose.decompose)
+                implementation(libs.koin.core)
+                implementation(libs.coroutines.core)
+                implementation(libs.decompose.core)
             }
         }
 
         val commonTest by getting {
             dependencies {
-                implementation(Dependencies.Koin.test)
-                implementation(Dependencies.Kotlin.Coroutines.test)
+                implementation(libs.koin.test)
+                implementation(libs.coroutines.test)
                 implementation(kotlin("test-common"))
                 implementation(kotlin("test-annotations-common"))
             }
@@ -44,9 +44,9 @@ kotlin {
         val androidMain by getting {
             dependencies {
                 // Defined as API deps - Don't add again in modules that use this module
-                api(Dependencies.Koin.android)
-                api(Dependencies.Android.Essential.coreViewModel)
-                api(Dependencies.Android.Compose.viewModel)
+                api(libs.koin.android)
+                api(libs.viewmodel.core)
+                api(libs.viewmodel.compose)
             }
         }
 

@@ -17,17 +17,17 @@ kotlin {
                 implementation(project(":common:model"))
                 implementation(project(":common:persistence:settings"))
 
-                implementation(Dependencies.Kotlin.Coroutines.core)
-                implementation(Dependencies.Koin.core)
-                implementation(Dependencies.Log.kermit)
+                implementation(libs.coroutines.core)
+                implementation(libs.koin.core)
+                implementation(libs.kermit.log)
             }
         }
 
         val commonTest by getting {
             dependencies {
-                implementation(Dependencies.Koin.test)
-                implementation(Dependencies.Kotlin.Coroutines.test)
-                implementation(Dependencies.Squareup.Testing.turbine)
+                implementation(libs.koin.test)
+                implementation(libs.coroutines.test)
+                implementation(libs.turbine.test)
                 implementation(kotlin("test-common"))
                 implementation(kotlin("test-annotations-common"))
             }
@@ -35,14 +35,12 @@ kotlin {
 
         val androidMain by getting {
             dependencies {
-                implementation(Dependencies.Koin.android)
-                implementation(Dependencies.Android.Essential.coreKtx)
-                implementation(Dependencies.Kotlin.Coroutines.playServices)
-                with(Dependencies.Android.Firebase) {
-                    implementation(project.dependencies.platform(bom))
-                    implementation(auth)
-                    implementation(analytics)
-                }
+                implementation(libs.koin.android)
+                implementation(libs.core.ktx)
+                implementation(libs.coroutines.playservices)
+                implementation(project.dependencies.platform(libs.firebase.bom))
+                implementation(libs.firebase.auth)
+                implementation(libs.firebase.analytics)
             }
         }
 
@@ -50,7 +48,7 @@ kotlin {
 
         val desktopMain by getting {
             dependencies {
-                implementation(Dependencies.Log.slf4j)
+                implementation(libs.slf4j.simple)
             }
         }
 

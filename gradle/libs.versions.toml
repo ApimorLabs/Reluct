@@ -220,5 +220,6 @@ compose_core = ["compose.ui", "compose.runtime", "compose.foundation", "compose.
 [plugins]
 # All Plugin should stay here
 kotlin = { id = "org.jetbrains.kotlin.android", version = "kotlin" }
+kotlin_seriazation = { id = "plugin.serialization", version = "kotlin" }
 
 ########### Plugnis END ##################
