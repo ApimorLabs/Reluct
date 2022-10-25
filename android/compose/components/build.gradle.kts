@@ -11,7 +11,7 @@ android.apply {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = Versions.composeCompiler
+        kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get()
     }
 }
 
@@ -21,64 +21,24 @@ dependencies {
     implementation(project(":android:compose:theme"))
     implementation(project(":common:model"))
 
-    // Core Functionality
-    /*
-    with(Dependencies.Android.Essential) {
-        implementation(coreKtx)
-        implementation(material)
-    }
-    */
-
-    // Testing
-    with(Dependencies.Android.JUnit) {
-        testImplementation(core)
-        testImplementation(test)
-        testImplementation(testExtKtx)
-        androidTestImplementation(test)
-    }
-
-    with(Dependencies.Android.TestCore) {
-        testImplementation(testArch)
-        androidTestImplementation(testArch)
-        androidTestImplementation(testKtx)
-    }
-
     // Compose
-    with(Dependencies.Android.Compose) {
-        implementation(ui)
-        implementation(toolingPreview)
-        implementation(animation)
-        implementation(material)
-        implementation(preview)
-        implementation(materialIconsCore)
-        implementation(materialIconsExtended)
-        implementation(foundation)
-        implementation(foundationLayout)
-        implementation(constraintLayout)
-        implementation(material3)
+    // Compose
+    implementation(libs.bundles.compose.core)
 
-        // Testing Compose
-        androidTestImplementation(junit)
-        debugImplementation(tooling)
-    }
+    // Testing Compose
+    androidTestImplementation(libs.compose.junit)
+    debugImplementation(libs.compose.tooling)
 
     // DateTime
-    implementation(Dependencies.Kotlin.dateTime)
-
-    // Coil Image loader
-    implementation(Dependencies.Android.Coil.image)
+    implementation(libs.kotlinx.date.time)
 
     // Accompanist: Keep an eye out for deprecated features
-    with(Dependencies.Android.Accompanist) {
-        implementation(pager)
-    }
+    implementation(libs.accompanist.pager)
 
-    with(Dependencies.Android.Extras) {
-        // Palette
-        implementation(palette)
-        // Lottie - Compose
-        implementation(lottieCompose)
-    }
+    // Palette
+    implementation(libs.palette)
+    // Lottie - Compose
+    implementation(libs.lottie.compose)
     // Timber - Logging
-    implementation(Dependencies.Log.timber)
+    implementation(libs.timber.log)
 }

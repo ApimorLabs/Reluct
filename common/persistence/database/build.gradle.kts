@@ -26,21 +26,19 @@ kotlin {
             dependencies {
                 implementation(project(":common:model"))
 
-                implementation(Dependencies.Koin.core)
-                implementation(Dependencies.Log.kermit)
-                with(Dependencies.Squareup.SQLDelight) {
-                    implementation(runtime)
-                    implementation(coroutineExtensions)
-                }
+                implementation(libs.koin.core)
+                implementation(libs.kermit.log)
+                implementation(libs.sqldelight.runtime)
+                implementation(libs.sqldelight.coroutines)
             }
         }
 
         val commonTest by getting {
             dependencies {
-                implementation(Dependencies.Kotlin.dateTime)
-                implementation(Dependencies.Koin.test)
-                implementation(Dependencies.Kotlin.Coroutines.test)
-                implementation(Dependencies.Squareup.Testing.turbine)
+                implementation(libs.kotlinx.date.time)
+                implementation(libs.koin.test)
+                implementation(libs.coroutines.test)
+                implementation(libs.turbine.test)
                 implementation(kotlin("test-common"))
                 implementation(kotlin("test-annotations-common"))
             }
@@ -48,20 +46,20 @@ kotlin {
 
         val androidMain by getting {
             dependencies {
-                implementation(Dependencies.Squareup.SQLDelight.androidDriver)
+                implementation(libs.sqldelight.android.driver)
             }
         }
 
         val androidTest by getting {
             dependencies {
-                implementation(Dependencies.Squareup.SQLDelight.sqliteDriver)
+                implementation(libs.sqldelight.sqlite.driver)
             }
         }
 
         val desktopMain by getting {
             dependencies {
-                implementation(Dependencies.Squareup.SQLDelight.sqliteDriver)
-                implementation(Dependencies.Log.slf4j)
+                implementation(libs.sqldelight.sqlite.driver)
+                implementation(libs.slf4j.simple)
             }
         }
 

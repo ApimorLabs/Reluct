@@ -10,7 +10,7 @@ android.apply {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = Versions.composeCompiler
+        kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get()
     }
 }
 
@@ -37,49 +37,26 @@ dependencies {
     */
 
     // Testing
-    with(Dependencies.Android.JUnit) {
-        testImplementation(core)
-        testImplementation(test)
-        testImplementation(testExtKtx)
-        androidTestImplementation(test)
-    }
+    testImplementation(libs.junit.test)
+    testImplementation(libs.junit.test.ktx)
+    androidTestImplementation(libs.junit.test)
 
-    with(Dependencies.Android.TestCore) {
-        testImplementation(testArch)
-        androidTestImplementation(testArch)
-        androidTestImplementation(testKtx)
-    }
+    testImplementation(libs.android.test.arch.core)
+    androidTestImplementation(libs.android.test.arch.core)
+    androidTestImplementation(libs.android.test.core)
 
     // Compose
-    with(Dependencies.Android.Compose) {
-        implementation(ui)
-        implementation(activity)
-        implementation(animation)
-        implementation(material)
-        implementation(preview)
-        implementation(materialIconsCore)
-        implementation(materialIconsExtended)
-        implementation(foundation)
-        implementation(foundationLayout)
-        implementation(material3)
-        implementation(lifecycleRuntime)
+    implementation(libs.bundles.compose.core)
+    implementation(libs.lifecycle.compose.runtime)
+    androidTestImplementation(libs.compose.junit)
+    androidTestImplementation(libs.compose.tooling)
 
-        // Testing Compose
-        androidTestImplementation(junit)
-        debugImplementation(tooling)
-    }
-
-    // Coil Image loader
-    implementation(Dependencies.Android.Coil.image)
-
-    with(Dependencies.Android.Extras) {
-        // Palette
-        implementation(palette)
-    }
+    // Palette
+    implementation(libs.palette)
 
     // RevenueCat
-    implementation(Dependencies.Revenuecat.android)
+    implementation(libs.revenueCat.android)
 
     // Timber - Logging
-    implementation(Dependencies.Log.timber)
+    implementation(libs.timber.log)
 }

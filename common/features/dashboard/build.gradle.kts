@@ -1,13 +1,10 @@
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
-    id("org.jetbrains.compose") version Versions.composeDesktop
 }
 
 android {
     namespace = "work.racka.reluct.common.features.dashboard"
-    buildFeatures { compose = true }
-    composeOptions { kotlinCompilerExtensionVersion = Versions.composeCompiler }
 }
 
 kotlin {
@@ -26,19 +23,17 @@ kotlin {
                 implementation(project(":common:features:screen-time"))
                 implementation(project(":common:features:tasks"))
 
-                implementation(Dependencies.Kotlin.Coroutines.core)
-                implementation(Dependencies.Koin.core)
-                implementation(Dependencies.Log.kermit)
+                implementation(libs.coroutines.core)
+                implementation(libs.koin.core)
+                implementation(libs.kermit.log)
             }
         }
 
         val commonTest by getting {
             dependencies {
-                implementation(Dependencies.Mockk.core)
-                implementation(Dependencies.Mockk.commonMultiplatform)
-                implementation(Dependencies.Koin.test)
-                implementation(Dependencies.Kotlin.Coroutines.test)
-                implementation(Dependencies.Squareup.Testing.turbine)
+                implementation(libs.koin.test)
+                implementation(libs.coroutines.test)
+                implementation(libs.turbine.test)
                 implementation(kotlin("test-common"))
                 implementation(kotlin("test-annotations-common"))
             }

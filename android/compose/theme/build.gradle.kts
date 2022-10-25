@@ -10,23 +10,19 @@ android.apply {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = Versions.composeCompiler
+        kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get()
     }
 }
 
 dependencies {
     // Core Functionality
-    with(Dependencies.Android.Essential) {
-        implementation(appCompat)
-    }
+    implementation(libs.appCompat)
 
     // Compose
-    with(Dependencies.Android.Compose) {
-        implementation(ui)
-        implementation(material)
-        implementation(materialIconsCore)
-        implementation(materialIconsExtended)
-        implementation(foundation)
-        implementation(material3)
-    }
+    implementation(libs.compose.ui)
+    implementation(libs.compose.material)
+    implementation(libs.compose.material.icons.core)
+    implementation(libs.compose.material.icons.extended)
+    implementation(libs.compose.foundation)
+    implementation(libs.compose.material3)
 }

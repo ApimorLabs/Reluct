@@ -10,42 +10,25 @@ android.apply {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = Versions.composeCompiler
+        kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get()
     }
 }
 
 dependencies {
-    // Dependency Modules
-
-    // Testing
-    with(Dependencies.Android.JUnit) {
-        testImplementation(core)
-        testImplementation(test)
-        testImplementation(testExtKtx)
-        androidTestImplementation(test)
-    }
-
-    with(Dependencies.Android.TestCore) {
-        testImplementation(testArch)
-        androidTestImplementation(testArch)
-        androidTestImplementation(testKtx)
-    }
 
     // Compose
-    with(Dependencies.Android.Compose) {
-        implementation(ui)
-        implementation(animation)
-        implementation(material)
-        implementation(preview)
-        implementation(foundation)
-        implementation(foundationLayout)
-        implementation(material3)
+    implementation(libs.compose.ui)
+    implementation(libs.compose.animation)
+    implementation(libs.compose.material)
+    implementation(libs.compose.material3)
+    implementation(libs.compose.preview)
+    implementation(libs.compose.foundation)
+    implementation(libs.compose.foundation.layout)
 
-        // Testing Compose
-        androidTestImplementation(junit)
-        debugImplementation(tooling)
-    }
+    // Testing Compose
+    androidTestImplementation(libs.compose.junit)
+    debugImplementation(libs.compose.tooling)
 
     // Timber - Logging
-    implementation(Dependencies.Log.timber)
+    implementation(libs.timber.log)
 }

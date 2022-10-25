@@ -19,18 +19,17 @@ kotlin {
                 implementation(project(":common:mvvm-core"))
                 implementation(project(":common:persistence:settings"))
 
-                implementation(Dependencies.Kotlin.Coroutines.core)
-                implementation(Dependencies.Koin.core)
-                implementation(Dependencies.Log.kermit)
+                implementation(libs.coroutines.core)
+                implementation(libs.koin.core)
+                implementation(libs.kermit.log)
             }
         }
 
         val commonTest by getting {
             dependencies {
-                implementation(Dependencies.Kotlin.dateTime)
-                implementation(Dependencies.Koin.test)
-                implementation(Dependencies.Kotlin.Coroutines.test)
-                implementation(Dependencies.Squareup.Testing.turbine)
+                implementation(libs.koin.test)
+                implementation(libs.coroutines.test)
+                implementation(libs.turbine.test)
                 implementation(kotlin("test-common"))
                 implementation(kotlin("test-annotations-common"))
             }
@@ -38,7 +37,7 @@ kotlin {
 
         val androidMain by getting {
             dependencies {
-                implementation(Dependencies.Android.Essential.coreKtx)
+                implementation(libs.core.ktx)
             }
         }
 

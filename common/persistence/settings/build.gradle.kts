@@ -3,7 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
-    kotlin("plugin.serialization") version Versions.kotlin
+    kotlin("plugin.serialization")
 }
 
 android {
@@ -17,24 +17,22 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation(Dependencies.Kotlin.serializationCore)
-                implementation(Dependencies.Kotlin.dateTime)
-                implementation(Dependencies.Kotlin.Coroutines.core)
-                implementation(Dependencies.Koin.core)
-                implementation(Dependencies.Log.kermit)
-                with(Dependencies.RusshWolf.MultiplatformSettings) {
-                    implementation(core)
-                    implementation(noArg)
-                }
+                implementation(libs.kotlinx.serialization.core)
+                implementation(libs.kotlinx.date.time)
+                implementation(libs.coroutines.core)
+                implementation(libs.koin.core)
+                implementation(libs.kermit.log)
+                implementation(libs.multiplatform.settings.core)
+                implementation(libs.multiplatform.settings.noArg)
             }
         }
 
         val commonTest by getting {
             dependencies {
-                implementation(Dependencies.RusshWolf.MultiplatformSettings.test)
-                implementation(Dependencies.Koin.test)
-                implementation(Dependencies.Kotlin.Coroutines.test)
-                implementation(Dependencies.Squareup.Testing.turbine)
+                implementation(libs.multiplatform.settings.test)
+                implementation(libs.koin.test)
+                implementation(libs.coroutines.test)
+                implementation(libs.turbine.test)
                 implementation(kotlin("test-common"))
                 implementation(kotlin("test-annotations-common"))
             }

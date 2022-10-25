@@ -1,25 +1,25 @@
 import org.jetbrains.kotlin.konan.properties.Properties
 
-val desugaringVersion = "1.1.8"
+val desugaringVersion = libs.versions.desugaring.get()
 
 plugins {
     kotlin("android")
     id("com.android.application")
-    id(BuildPlugins.googleServicesApply)
-    id(BuildPlugins.firebaseCrashlyticsApply)
+    id("com.google.gms.google-services")
+    id("com.google.firebase.crashlytics")
 }
 
 android {
     namespace = "work.racka.reluct"
 
-    compileSdk = AppConfig.compileSdkVersion
+    compileSdk = libs.versions.config.android.compilesdk.get().toInt()
 
     defaultConfig {
-        applicationId = AppConfig.applicationId
-        minSdk = AppConfig.minSdkVersion
-        targetSdk = AppConfig.targetSdkVersion
-        versionCode = AppConfig.versionCode
-        versionName = AppConfig.versionName
+        applicationId = libs.versions.config.android.applicationId.get()
+        minSdk = libs.versions.config.android.minsdk.get().toInt()
+        targetSdk = libs.versions.config.android.targetsdk.get().toInt()
+        versionCode = libs.versions.config.android.versioncode.get().toInt()
+        versionName = libs.versions.config.android.versionName.get()
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -42,6 +42,7 @@ android {
     buildTypes {
         getByName("release") {
             isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -57,7 +58,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = Versions.composeCompiler
+        kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get()
     }
     packagingOptions {
         resources {
@@ -88,55 +89,45 @@ dependencies {
     implementation(project(":common:persistence:settings"))
 
     // Core Functionality
-    with(Dependencies.Android.Essential) {
-        implementation(coreKtx)
-        implementation(appCompat)
-        implementation(material)
-        implementation(coreViewModel)
-    }
+    implementation(libs.core.ktx)
+    implementation(libs.appCompat)
+    implementation(libs.google.material)
+    implementation(libs.viewmodel.core)
 
     // Testing
-    with(Dependencies.Android.JUnit) {
-        testImplementation(core)
-        testImplementation(test)
-        testImplementation(testExtKtx)
-        androidTestImplementation(test)
-    }
+    testImplementation(libs.junit.core)
+    testImplementation(libs.junit.test)
+    testImplementation(libs.junit.test.ktx)
+    androidTestImplementation(libs.junit.test)
 
-    with(Dependencies.Android.TestCore) {
-        testImplementation(testArch)
-        androidTestImplementation(testArch)
-        androidTestImplementation(testKtx)
-    }
+    testImplementation(libs.android.test.arch.core)
+    androidTestImplementation(libs.android.test.arch.core)
+    androidTestImplementation(libs.android.test.core)
 
     // Compose
-    with(Dependencies.Android.Compose) {
-        implementation(ui)
-        implementation(activity)
-        implementation(foundation)
+    implementation(libs.compose.ui)
+    implementation(libs.activity.compose)
+    implementation(libs.compose.foundation)
 
-        // Testing Compose
-        androidTestImplementation(junit)
-        debugImplementation(tooling)
-    }
+    // Testing Compose
+    androidTestImplementation(libs.compose.junit)
+    debugImplementation(libs.compose.tooling)
 
     // Koin DI
-    implementation(Dependencies.Koin.android)
+    implementation(libs.koin.android)
     // Accompanist
-    implementation(Dependencies.Android.Accompanist.systemUiController)
+    implementation(libs.accompanist.system.ui.controller)
     // Splash Screen
-    implementation(Dependencies.Android.Extras.splashScreenCore)
+    implementation(libs.splash.screen.core)
     // Timber - Logging
-    implementation(Dependencies.Log.timber)
+    implementation(libs.timber.log)
 
     // Revenue Cat - Billing
-    implementation(Dependencies.Revenuecat.android)
+    implementation(libs.revenueCat.android)
 
     // Firebase
-    with(Dependencies.Android.Firebase) {
-        implementation(platform(bom))
-        implementation(auth)
-        implementation(analytics)
-        implementation(crashlytics)
-    }
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.auth)
+    implementation(libs.firebase.analytics)
+    implementation(libs.firebase.crashlytics)
 }

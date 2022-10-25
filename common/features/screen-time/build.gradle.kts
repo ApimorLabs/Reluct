@@ -1,13 +1,13 @@
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
-    id("org.jetbrains.compose") version Versions.composeDesktop
+    id("org.jetbrains.compose")
 }
 
 android {
     namespace = "work.racka.reluct.common.features.screen_time"
     buildFeatures { compose = true }
-    composeOptions { kotlinCompilerExtensionVersion = Versions.composeCompiler }
+    composeOptions { kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get() }
 }
 
 kotlin {
@@ -24,19 +24,17 @@ kotlin {
                 implementation(project(":common:persistence:settings"))
                 implementation(project(":common:system-services"))
 
-                implementation(Dependencies.Kotlin.Coroutines.core)
-                implementation(Dependencies.Koin.core)
-                implementation(Dependencies.Log.kermit)
+                implementation(libs.coroutines.core)
+                implementation(libs.koin.core)
+                implementation(libs.kermit.log)
             }
         }
 
         val commonTest by getting {
             dependencies {
-                implementation(Dependencies.Mockk.core)
-                implementation(Dependencies.Mockk.commonMultiplatform)
-                implementation(Dependencies.Koin.test)
-                implementation(Dependencies.Kotlin.Coroutines.test)
-                implementation(Dependencies.Squareup.Testing.turbine)
+                implementation(libs.koin.test)
+                implementation(libs.coroutines.test)
+                implementation(libs.turbine.test)
                 implementation(kotlin("test-common"))
                 implementation(kotlin("test-annotations-common"))
             }
@@ -44,28 +42,14 @@ kotlin {
 
         val androidMain by getting {
             dependencies {
-                implementation(Dependencies.Android.Essential.coreKtx)
-                implementation(Dependencies.Android.Essential.saveState)
+                implementation(libs.core.ktx)
+                implementation(libs.savedState)
 
                 // Compose
                 implementation(project(":android:compose:theme"))
                 implementation(project(":android:compose:components"))
-                with(Dependencies.Android.Compose) {
-                    implementation(runtime)
-                    implementation(ui)
-                    implementation(animation)
-                    implementation(material)
-                    implementation(preview)
-                    implementation(activity)
-                    implementation(viewModel)
-                    implementation(materialIconsCore)
-                    implementation(materialIconsExtended)
-                    implementation(foundation)
-                    implementation(foundationLayout)
-                    implementation(material3)
-                    implementation(tooling)
-                }
-                implementation(Dependencies.Android.Coil.image)
+                implementation(libs.bundles.compose.core)
+                implementation(libs.viewmodel.compose)
             }
         }
 
@@ -73,7 +57,7 @@ kotlin {
 
         val desktopMain by getting {
             dependencies {
-                implementation(Dependencies.Log.slf4j)
+                implementation(libs.slf4j.simple)
             }
         }
 

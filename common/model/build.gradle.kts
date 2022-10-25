@@ -1,7 +1,7 @@
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
-    kotlin("plugin.serialization") version Versions.kotlin
+    kotlin("plugin.serialization")
 }
 
 android {
@@ -15,10 +15,8 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                with(Dependencies.Kotlin) {
-                    implementation(serializationCore)
-                    api(dateTime)
-                }
+                implementation(libs.kotlinx.serialization.core)
+                api(libs.kotlinx.date.time)
             }
         }
 
@@ -34,7 +32,7 @@ kotlin {
 
         val desktopMain by getting {
             dependencies {
-                implementation(Dependencies.Log.slf4j)
+                implementation(libs.slf4j.simple)
             }
         }
 

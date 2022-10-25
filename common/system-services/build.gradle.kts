@@ -1,7 +1,7 @@
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
-    kotlin("plugin.serialization") version Versions.kotlin
+    kotlin("plugin.serialization")
 }
 
 android {
@@ -16,13 +16,11 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation(project(":common:model"))
-                implementation(Dependencies.Koin.core)
-                implementation(Dependencies.Log.kermit)
-                with(Dependencies.Kotlin) {
-                    implementation(serializationCore)
-                    implementation(dateTime)
-                    implementation(Dependencies.Kotlin.Coroutines.core)
-                }
+                implementation(libs.koin.core)
+                implementation(libs.kermit.log)
+                implementation(libs.kotlinx.serialization.core)
+                implementation(libs.kotlinx.date.time)
+                implementation(libs.coroutines.core)
             }
         }
 
@@ -30,7 +28,7 @@ kotlin {
 
         val androidMain by getting {
             dependencies {
-                implementation(Dependencies.Koin.android)
+                implementation(libs.koin.android)
             }
         }
 
@@ -38,7 +36,7 @@ kotlin {
 
         val desktopMain by getting {
             dependencies {
-                implementation(Dependencies.Log.slf4j)
+                implementation(libs.slf4j.simple)
             }
         }
 

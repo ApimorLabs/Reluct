@@ -1,9 +1,8 @@
-import org.jetbrains.compose.compose
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 
 plugins {
     kotlin("multiplatform")
-    id("org.jetbrains.compose") version Versions.composeDesktop
+    id("org.jetbrains.compose")
 }
 
 kotlin {
@@ -26,8 +25,8 @@ kotlin {
                 implementation(compose.desktop.components.splitPane)
                 implementation(compose.materialIconsExtended)
 
-                implementation(Dependencies.Kotlin.dateTime)
-                implementation(Dependencies.Koin.core)
+                implementation(libs.kotlinx.date.time)
+                implementation(libs.koin.core)
             }
         }
         val desktopTest by getting
@@ -39,8 +38,8 @@ compose.desktop {
         mainClass = "work.racka.reluct.MainKt"
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageName = AppConfig.Desktop.packageName
-            packageVersion = AppConfig.Desktop.version
+            packageName = libs.versions.config.desktop.packageName.get()
+            packageVersion = libs.versions.config.desktop.current.get()
         }
     }
 }

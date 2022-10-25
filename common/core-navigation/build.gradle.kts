@@ -10,7 +10,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = Versions.composeCompiler
+        kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get()
     }
 }
 
@@ -30,11 +30,9 @@ kotlin {
         val androidMain by getting {
             dependencies {
                 // Compose
-                with(Dependencies.Android.Compose) {
-                    implementation(materialIconsCore)
-                    implementation(materialIconsExtended)
-                }
-                implementation(Dependencies.Android.Compose.navigation)
+                implementation(libs.compose.material.icons.core)
+                implementation(libs.compose.material.icons.extended)
+                implementation(libs.navigation.compose)
             }
         }
 
