@@ -7,10 +7,6 @@ import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material.Scaffold
-import androidx.compose.material.ScaffoldState
-import androidx.compose.material.Snackbar
-import androidx.compose.material.SnackbarHost
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Delete
@@ -38,7 +34,7 @@ import work.racka.reluct.common.model.states.tasks.TaskDetailsState
 @Composable
 fun TaskDetailsUI(
     modifier: Modifier = Modifier,
-    scaffoldState: ScaffoldState,
+    snackbarState: SnackbarHostState,
     uiState: TaskDetailsState,
     onEditTask: (task: Task) -> Unit = { },
     onDeleteTask: (task: Task) -> Unit,
@@ -51,9 +47,9 @@ fun TaskDetailsUI(
     val openDialog = remember { mutableStateOf(false) }
 
     Scaffold(
-        scaffoldState = scaffoldState,
         modifier = modifier.fillMaxSize(),
-        backgroundColor = MaterialTheme.colorScheme.background,
+        contentWindowInsets = WindowInsets(0, 0, 0, 0),
+        containerColor = MaterialTheme.colorScheme.background,
         topBar = {
             ReluctSmallTopAppBar(
                 modifier = Modifier.statusBarsPadding(),
@@ -80,11 +76,11 @@ fun TaskDetailsUI(
             }
         },
         snackbarHost = {
-            SnackbarHost(hostState = it) { data ->
+            SnackbarHost(hostState = snackbarState) { data ->
                 Snackbar(
                     modifier = Modifier.navigationBarsPadding(),
                     snackbarData = data,
-                    backgroundColor = MaterialTheme.colorScheme.inverseSurface,
+                    containerColor = MaterialTheme.colorScheme.inverseSurface,
                     contentColor = MaterialTheme.colorScheme.inverseOnSurface,
                     actionColor = MaterialTheme.colorScheme.primary,
                 )

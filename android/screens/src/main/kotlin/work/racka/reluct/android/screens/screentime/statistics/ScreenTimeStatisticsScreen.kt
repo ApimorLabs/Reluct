@@ -2,12 +2,12 @@ package work.racka.reluct.android.screens.screentime.statistics
 
 import android.content.Context
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.material.ScaffoldState
-import androidx.compose.material.SnackbarDuration
-import androidx.compose.material.rememberScaffoldState
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -26,7 +26,7 @@ fun ScreenTimeStatisticsScreen(
     barsVisibility: BarsVisibility,
     onNavigateToAppUsageInfo: (packageName: String) -> Unit,
 ) {
-    val scaffoldState = rememberScaffoldState()
+    val snackbarState = remember { SnackbarHostState() }
 
     val viewModel: ScreenTimeStatsViewModel = getCommonViewModel()
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -39,7 +39,7 @@ fun ScreenTimeStatisticsScreen(
             events = events,
             context = context,
             scope = this,
-            scaffoldState = scaffoldState,
+            snackbarState = snackbarState,
             navigateToAppUsageInfo = { onNavigateToAppUsageInfo(it) }
         )
     }
@@ -47,14 +47,14 @@ fun ScreenTimeStatisticsScreen(
     ScreenTimeStatisticsUI(
         mainScaffoldPadding = mainScaffoldPadding,
         barsVisibility = barsVisibility,
-        scaffoldState = scaffoldState,
+        snackbarHostState = snackbarState,
         uiState = uiState,
-        getUsageData = { viewModel.permissionCheck(it) },
-        onSelectDay = { dayIsoNumber -> viewModel.selectDay(dayIsoNumber) },
-        onUpdateWeekOffset = { offsetValue -> viewModel.updateWeekOffset(offsetValue) },
+        getUsageData = viewModel::permissionCheck,
+        onSelectDay = viewModel::selectDay,
+        onUpdateWeekOffset = viewModel::updateWeekOffset,
         onAppUsageInfoClick = { appInfo -> viewModel.navigateToAppInfo(appInfo.packageName) },
-        onAppTimeLimitSettingsClicked = { viewModel.selectAppTimeLimit(it) },
-        onSaveAppTimeLimitSettings = { hours, minutes -> viewModel.saveTimeLimit(hours, minutes) }
+        onAppTimeLimitSettingsClicked = viewModel::selectAppTimeLimit,
+        onSaveAppTimeLimitSettings = viewModel::saveTimeLimit
     )
 }
 
@@ -62,7 +62,7 @@ private fun handleEvents(
     events: ScreenTimeStatsEvents,
     context: Context,
     scope: CoroutineScope,
-    scaffoldState: ScaffoldState,
+    snackbarState: SnackbarHostState,
     navigateToAppUsageInfo: (packageName: String) -> Unit,
 ) {
     when (events) {
@@ -70,7 +70,7 @@ private fun handleEvents(
             val message =
                 context.getString(R.string.time_limit_change_arg, events.app.appInfo.appName)
             scope.launch {
-                scaffoldState.snackbarHostState.showSnackbar(
+                snackbarState.showSnackbar(
                     message = message,
                     duration = SnackbarDuration.Short
                 )

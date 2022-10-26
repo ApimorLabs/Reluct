@@ -2,12 +2,12 @@ package work.racka.reluct.android.screens.dashboard.overview
 
 import android.content.Context
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.material.ScaffoldState
-import androidx.compose.material.SnackbarDuration
-import androidx.compose.material.rememberScaffoldState
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -27,7 +27,7 @@ fun DashboardOverviewScreen(
     onNavigateToScreenTime: () -> Unit,
     onNavigateToTaskDetails: (taskId: String) -> Unit
 ) {
-    val scaffoldState = rememberScaffoldState()
+    val snackbarHostState = remember { SnackbarHostState() }
 
     val viewModel: DashboardOverviewViewModel = getCommonViewModel()
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -39,14 +39,14 @@ fun DashboardOverviewScreen(
             context = context,
             scope = this,
             events = events,
-            scaffoldState = scaffoldState
+            snackbarHostState = snackbarHostState
         )
     }
 
     DashboardOverviewUI(
         mainScaffoldPadding = mainScaffoldPadding,
         barsVisibility = barsVisibility,
-        scaffoldState = scaffoldState,
+        snackbarHostState = snackbarHostState,
         uiState = uiState,
         getUsageData = { viewModel.permissionCheck(isGranted = it) },
         openScreenTimeStats = onNavigateToScreenTime,
@@ -59,7 +59,7 @@ private fun handleEvents(
     context: Context,
     events: DashboardEvents,
     scope: CoroutineScope,
-    scaffoldState: ScaffoldState,
+    snackbarHostState: SnackbarHostState,
 ) {
     when (events) {
         is DashboardEvents.ShowMessageDone -> {
@@ -67,7 +67,7 @@ private fun handleEvents(
                 val msg = if (events.isDone) {
                     context.getString(R.string.task_marked_as_done, events.msg)
                 } else context.getString(R.string.task_marked_as_not_done, events.msg)
-                scaffoldState.snackbarHostState.showSnackbar(
+                snackbarHostState.showSnackbar(
                     message = msg,
                     duration = SnackbarDuration.Short
                 )

@@ -26,7 +26,7 @@ fun LottieAnimationWithDescription(
     modifier: Modifier = Modifier,
     @RawRes lottieResId: Int,
     imageSize: Dp = 148.dp,
-    iterations: Int = 5,
+    iterations: Int = 1,
     description: String?,
     descriptionTextStyle: TextStyle = MaterialTheme.typography.titleLarge,
 ) {

@@ -94,7 +94,8 @@ internal fun SettingsUI(
                         actionColor = MaterialTheme.colorScheme.primary,
                     )
                 }
-            }
+            },
+            contentWindowInsets = WindowInsets(0, 0, 0, 0)
         ) { innerPadding ->
             LazyColumn(
                 modifier = Modifier

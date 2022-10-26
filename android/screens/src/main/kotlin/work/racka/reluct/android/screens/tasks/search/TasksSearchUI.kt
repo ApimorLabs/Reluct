@@ -8,14 +8,9 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material.Scaffold
-import androidx.compose.material.ScaffoldState
-import androidx.compose.material.Snackbar
-import androidx.compose.material.SnackbarHost
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowUpward
-import androidx.compose.material3.LinearProgressIndicator
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
@@ -41,17 +36,17 @@ import work.racka.reluct.common.model.states.tasks.SearchTasksState
 
 @OptIn(
     ExperimentalComposeUiApi::class,
-    ExperimentalAnimationApi::class
+    ExperimentalAnimationApi::class, ExperimentalMaterial3Api::class
 )
 @Composable
 internal fun TasksSearchUI(
     modifier: Modifier = Modifier,
-    scaffoldState: ScaffoldState,
+    snackbarState: SnackbarHostState,
     uiState: SearchTasksState,
     fetchMoreData: () -> Unit,
     onSearch: (query: String) -> Unit,
     onTaskClicked: (task: Task) -> Unit,
-    onToggleTaskDone: (isDone: Boolean, task: Task) -> Unit,
+    onToggleTaskDone: (task: Task, isDone: Boolean) -> Unit,
 ) {
 
     val listState = rememberLazyListState()
@@ -72,7 +67,6 @@ internal fun TasksSearchUI(
 
     Scaffold(
         modifier = modifier.fillMaxSize(),
-        scaffoldState = scaffoldState,
         topBar = {
             MaterialSearchBar(
                 modifier = Modifier
@@ -85,16 +79,17 @@ internal fun TasksSearchUI(
             )
         },
         snackbarHost = {
-            SnackbarHost(hostState = it) { data ->
+            SnackbarHost(hostState = snackbarState) { data ->
                 Snackbar(
                     snackbarData = data,
-                    backgroundColor = MaterialTheme.colorScheme.inverseSurface,
+                    containerColor = MaterialTheme.colorScheme.inverseSurface,
                     contentColor = MaterialTheme.colorScheme.inverseOnSurface,
                     actionColor = MaterialTheme.colorScheme.primary,
                 )
             }
         },
-        backgroundColor = MaterialTheme.colorScheme.background,
+        containerColor = MaterialTheme.colorScheme.background,
+        contentWindowInsets = WindowInsets(0, 0, 0, 0)
     ) { innerPadding ->
         Box(
             modifier = Modifier
@@ -134,7 +129,7 @@ internal fun TasksSearchUI(
                             task = item,
                             entryType = EntryType.CompletedTask,
                             onEntryClick = { onTaskClicked(item) },
-                            onCheckedChange = { onToggleTaskDone(it, item) }
+                            onCheckedChange = { onToggleTaskDone(item, it) }
                         )
                     }
 

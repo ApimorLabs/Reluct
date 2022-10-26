@@ -66,7 +66,8 @@ internal fun TasksNavHost(
                     }
                 },
             )
-        }
+        },
+        contentWindowInsets = WindowInsets(0, 0, 0, 0)
     ) { innerPapping ->
         AnimatedNavHost(
             modifier = Modifier.padding(innerPapping),

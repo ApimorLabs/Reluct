@@ -9,10 +9,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Scaffold
-import androidx.compose.material.ScaffoldState
-import androidx.compose.material.Snackbar
-import androidx.compose.material.SnackbarHost
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.AppBlocking
 import androidx.compose.material.icons.rounded.ArrowBack
@@ -45,7 +41,7 @@ import work.racka.reluct.common.features.screen_time.statistics.states.app_stats
 @Composable
 internal fun AppScreenTimeStatsUI(
     modifier: Modifier = Modifier,
-    scaffoldState: ScaffoldState,
+    snackbarHostState: SnackbarHostState,
     uiState: AppScreenTimeStatsState,
     toggleDistractingState: (value: Boolean) -> Unit,
     togglePausedState: (value: Boolean) -> Unit,
@@ -81,7 +77,6 @@ internal fun AppScreenTimeStatsUI(
     Scaffold(
         modifier = modifier
             .fillMaxSize(),
-        scaffoldState = scaffoldState,
         topBar = {
             TopAppBar(
                 title = {
@@ -103,18 +98,19 @@ internal fun AppScreenTimeStatsUI(
             )
         },
         snackbarHost = {
-            SnackbarHost(hostState = it) { data ->
+            SnackbarHost(hostState = snackbarHostState) { data ->
                 Snackbar(
                     modifier = Modifier.navigationBarsPadding(),
                     shape = RoundedCornerShape(10.dp),
                     snackbarData = data,
-                    backgroundColor = MaterialTheme.colorScheme.inverseSurface,
+                    containerColor = MaterialTheme.colorScheme.inverseSurface,
                     contentColor = MaterialTheme.colorScheme.inverseOnSurface,
                     actionColor = MaterialTheme.colorScheme.primary,
                 )
             }
         },
-        backgroundColor = MaterialTheme.colorScheme.background,
+        containerColor = MaterialTheme.colorScheme.background,
+        contentWindowInsets = WindowInsets(0, 0, 0, 0)
     ) { padding ->
 
         Box(

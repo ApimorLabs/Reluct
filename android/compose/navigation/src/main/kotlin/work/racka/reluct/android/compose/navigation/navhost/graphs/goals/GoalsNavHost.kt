@@ -67,7 +67,8 @@ internal fun GoalsNavHost(
                     }
                 }
             )
-        }
+        },
+        contentWindowInsets = WindowInsets(0, 0, 0, 0)
     ) { innerPadding ->
         AnimatedNavHost(
             modifier = Modifier.padding(innerPadding),

@@ -1,11 +1,11 @@
 package work.racka.reluct.android.screens.tasks.add_edit
 
-import androidx.compose.material.ScaffoldState
-import androidx.compose.material.SnackbarDuration
-import androidx.compose.material.rememberScaffoldState
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.coroutines.CoroutineScope
@@ -23,7 +23,7 @@ fun AddEditTaskScreen(
     onBackClicked: () -> Unit,
 ) {
 
-    val scaffoldState = rememberScaffoldState()
+    val snackbarState = remember { SnackbarHostState() }
     val viewModel: AddEditTaskViewModel = getCommonViewModel { parametersOf(taskId) }
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val events by viewModel.events.collectAsStateWithLifecycle(TasksEvents.Nothing)
@@ -33,13 +33,13 @@ fun AddEditTaskScreen(
         handleEvents(
             events = events,
             scope = this,
-            scaffoldState = scaffoldState,
+            snackbarState = snackbarState,
             goBack = onBackClicked
         )
     }
 
     AddEditTaskUI(
-        scaffoldState = scaffoldState,
+        snackbarState = snackbarState,
         uiState = uiState,
         onSaveTask = viewModel::saveCurrentTask,
         onAddTaskClicked = viewModel::newTask,
@@ -51,13 +51,13 @@ fun AddEditTaskScreen(
 private fun handleEvents(
     events: TasksEvents,
     scope: CoroutineScope,
-    scaffoldState: ScaffoldState,
+    snackbarState: SnackbarHostState,
     goBack: () -> Unit,
 ) {
     when (events) {
         is TasksEvents.ShowMessage -> {
             scope.launch {
-                scaffoldState.snackbarHostState.showSnackbar(
+                snackbarState.showSnackbar(
                     message = events.msg,
                     duration = SnackbarDuration.Short
                 )

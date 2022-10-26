@@ -10,14 +10,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Scaffold
-import androidx.compose.material.ScaffoldState
-import androidx.compose.material.Snackbar
-import androidx.compose.material.SnackbarHost
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.LinearProgressIndicator
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -48,13 +41,13 @@ import work.racka.reluct.common.features.screen_time.statistics.states.all_stats
 import work.racka.reluct.common.features.screen_time.statistics.states.all_stats.WeeklyUsageStatsState
 import work.racka.reluct.common.model.domain.usagestats.AppUsageInfo
 
-@OptIn(ExperimentalFoundationApi::class)
+@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
 internal fun ScreenTimeStatisticsUI(
     modifier: Modifier = Modifier,
     mainScaffoldPadding: PaddingValues,
     barsVisibility: BarsVisibility,
-    scaffoldState: ScaffoldState,
+    snackbarHostState: SnackbarHostState,
     uiState: ScreenTimeStatsState,
     getUsageData: (isGranted: Boolean) -> Unit,
     onSelectDay: (dayIsoNumber: Int) -> Unit,
@@ -114,20 +107,20 @@ internal fun ScreenTimeStatisticsUI(
     Scaffold(
         modifier = modifier
             .fillMaxSize(),
-        scaffoldState = scaffoldState,
         snackbarHost = {
-            SnackbarHost(hostState = it) { data ->
+            SnackbarHost(hostState = snackbarHostState) { data ->
                 Snackbar(
                     modifier = snackbarModifier,
                     shape = RoundedCornerShape(10.dp),
                     snackbarData = data,
-                    backgroundColor = MaterialTheme.colorScheme.inverseSurface,
+                    containerColor = MaterialTheme.colorScheme.inverseSurface,
                     contentColor = MaterialTheme.colorScheme.inverseOnSurface,
                     actionColor = MaterialTheme.colorScheme.primary,
                 )
             }
         },
-        backgroundColor = MaterialTheme.colorScheme.background,
+        containerColor = MaterialTheme.colorScheme.background,
+        contentWindowInsets = WindowInsets(0, 0, 0, 0)
     ) { padding ->
 
         Box(

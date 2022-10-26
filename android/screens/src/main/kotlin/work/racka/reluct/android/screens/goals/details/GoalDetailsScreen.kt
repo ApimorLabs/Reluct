@@ -1,12 +1,12 @@
 package work.racka.reluct.android.screens.goals.details
 
 import android.content.Context
-import androidx.compose.material.ScaffoldState
-import androidx.compose.material.SnackbarDuration
-import androidx.compose.material.rememberScaffoldState
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -30,20 +30,20 @@ fun GoalDetailsScreen(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val events by viewModel.events.collectAsStateWithLifecycle(initialValue = GoalsEvents.Nothing)
 
-    val scaffoldState = rememberScaffoldState()
+    val snackbarState = remember { SnackbarHostState() }
     val context = LocalContext.current
     LaunchedEffect(events) {
         handleEvents(
             context = context,
             events = events,
             scope = this,
-            scaffoldState = scaffoldState,
+            snackbarState = snackbarState,
             onExit = onExit
         )
     }
 
     GoalDetailsUI(
-        scaffoldState = scaffoldState,
+        snackbarState = snackbarState,
         uiState = uiState,
         onEditGoal = onNavigateToEditGoal,
         onDeleteGoal = viewModel::deleteGoal,
@@ -59,7 +59,7 @@ private fun handleEvents(
     context: Context,
     events: GoalsEvents,
     scope: CoroutineScope,
-    scaffoldState: ScaffoldState,
+    snackbarState: SnackbarHostState,
     onExit: () -> Unit
 ) {
     when (events) {
@@ -67,7 +67,7 @@ private fun handleEvents(
             val msg = if (events.isActive) context.getString(R.string.goal_marked_active)
             else context.getString(R.string.goal_marked_inactive)
             scope.launch {
-                scaffoldState.snackbarHostState.showSnackbar(
+                snackbarState.showSnackbar(
                     message = msg,
                     duration = SnackbarDuration.Short
                 )
@@ -76,7 +76,7 @@ private fun handleEvents(
         is GoalsEvents.DeletedGoal -> {
             val msg = context.getString(R.string.deleted_goal_value, events.goalName)
             scope.launch {
-                scaffoldState.snackbarHostState.showSnackbar(
+                snackbarState.showSnackbar(
                     message = msg,
                     duration = SnackbarDuration.Short
                 )
