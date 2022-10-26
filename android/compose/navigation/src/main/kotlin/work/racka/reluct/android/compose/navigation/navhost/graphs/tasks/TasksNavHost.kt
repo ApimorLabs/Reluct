@@ -14,7 +14,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
-import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.google.accompanist.navigation.animation.AnimatedNavHost
@@ -29,6 +28,7 @@ import work.racka.reluct.android.compose.navigation.transitions.scaleInEnterTran
 import work.racka.reluct.android.compose.navigation.transitions.scaleInPopEnterTransition
 import work.racka.reluct.android.compose.navigation.transitions.scaleOutExitTransition
 import work.racka.reluct.android.compose.navigation.transitions.scaleOutPopExitTransition
+import work.racka.reluct.android.compose.navigation.util.NavHelpers.navigateNavBarElements
 import work.racka.reluct.android.screens.tasks.done.CompletedTasksScreen
 import work.racka.reluct.android.screens.tasks.pending.PendingTasksScreen
 import work.racka.reluct.android.screens.tasks.statistics.TasksStatisticsScreen
@@ -57,13 +57,7 @@ internal fun TasksNavHost(
                 tabPage = tabPage,
                 navigateToSearch = { mainNavController.navigate(SearchTasksDestination.route) },
                 updateTabPage = {
-                    navController.navigate(it.route) {
-                        popUpTo(navController.graph.findStartDestination().id) {
-                            saveState = true
-                        }
-                        launchSingleTop = true
-                        restoreState = true
-                    }
+                    navController.navigateNavBarElements(it.route)
                 },
             )
         },

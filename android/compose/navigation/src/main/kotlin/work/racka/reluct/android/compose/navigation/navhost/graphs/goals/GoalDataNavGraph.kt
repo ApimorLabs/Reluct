@@ -2,6 +2,7 @@ package work.racka.reluct.android.compose.navigation.navhost.graphs.goals
 
 import android.app.Activity
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
@@ -40,8 +41,6 @@ fun NavGraphBuilder.goalDataNavGraph(
             popEnterTransition = { scaleInPopEnterTransition() },
             popExitTransition = { scaleOutPopExitTransition() }
         ) { backStackEntry ->
-            barsVisibility.bottomBar.hide()
-
             // Its safe to cast since this composable will always be inside an activity
             val activity = LocalContext.current as Activity
 
@@ -52,6 +51,8 @@ fun NavGraphBuilder.goalDataNavGraph(
                     navController.navigate(AddEditGoalDestination.argsRoute(goalId, null))
                 }
             )
+
+            SideEffect { barsVisibility.bottomBar.hide() }
         }
 
         // Add or Edit Goal
@@ -64,8 +65,6 @@ fun NavGraphBuilder.goalDataNavGraph(
             popEnterTransition = { scaleInPopEnterTransition() },
             popExitTransition = { scaleOutPopExitTransition() }
         ) { backStackEntry ->
-            barsVisibility.bottomBar.hide()
-
             // Its safe to cast since this composable will always be inside an activity
             val activity = LocalContext.current as Activity
 
@@ -77,6 +76,8 @@ fun NavGraphBuilder.goalDataNavGraph(
                 defaultGoalIndex = goalIndex?.let { i -> if (i < 0) null else i },
                 onExit = { navController.popBackStackOrExitActivity(activity) }
             )
+
+            SideEffect { barsVisibility.bottomBar.hide() }
         }
     }
 }

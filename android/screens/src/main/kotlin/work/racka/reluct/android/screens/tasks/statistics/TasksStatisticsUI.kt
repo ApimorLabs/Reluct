@@ -12,6 +12,7 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -51,14 +52,12 @@ internal fun TasksStatisticsUI(
     val listState = rememberLazyListState()
     val scrollContext = rememberScrollContext(listState = listState)
 
-    // Need to evaluate recomposition overhead when user it at the
-    // top of the list
-    if (scrollContext.isTop) {
-        barsVisibility.bottomBar.show()
-        barsVisibility.topBar.show()
-    } else {
-        barsVisibility.bottomBar.hide()
-        barsVisibility.topBar.hide()
+    SideEffect {
+        if (scrollContext.isTop) {
+            barsVisibility.bottomBar.show()
+        } else {
+            barsVisibility.bottomBar.hide()
+        }
     }
 
     val barChartState = remember(uiState.weeklyTasksState) {
@@ -149,7 +148,7 @@ internal fun TasksStatisticsUI(
                 if (uiState.dailyTasksState is DailyTasksState.Empty) {
                     item {
                         AnimatedVisibility(
-                            visible = uiState.dailyTasksState is DailyTasksState.Empty,
+                            visible = true,
                             enter = fadeIn(),
                             exit = fadeOut()
                         ) {

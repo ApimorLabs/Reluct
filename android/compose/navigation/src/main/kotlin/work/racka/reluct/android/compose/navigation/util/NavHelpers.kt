@@ -23,10 +23,13 @@ internal object NavHelpers {
      * destination instance is on the stack and pop unwanted destinations such that it always
      * returns to start destination when you pop the current destination
      */
-    fun NavHostController.navigateNavBarElements(route: String) {
+    fun NavHostController.navigateNavBarElements(route: String, startDestination: String? = null) {
         navigate(route = route) {
-            popUpTo(graph.findStartDestination().id) {
-                saveState = true
+            val popDestination = startDestination ?: graph.findStartDestination().route
+            popDestination?.let { dest ->
+                popUpTo(dest) {
+                    saveState = true
+                }
             }
             launchSingleTop = true
             restoreState = true

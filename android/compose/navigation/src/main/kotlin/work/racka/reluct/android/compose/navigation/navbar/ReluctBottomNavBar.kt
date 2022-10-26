@@ -50,7 +50,10 @@ fun ReluctBottomNavBar(
                         )
                     },
                     onClick = {
-                        navController.navigateNavBarElements(route = item.route)
+                        navController.navigateNavBarElements(
+                            route = item.route,
+                            startDestination = graphStartDestination
+                        )
                     }
                 )
             }

@@ -60,7 +60,7 @@ android_test_arch_core = "2.1.0"
 
 # Helper libs
 coil_image = "2.1.0"
-accompanist = "0.25.0"
+accompanist = "0.27.0"
 
 # Preference
 multiplatform_settings = "0.9"
@@ -82,7 +82,7 @@ desugaring = "1.1.8"
 # Google Services and Firebase
 google_services = "4.3.14"
 play_services_auth = "20.3.0"
-firebase_bom = "31.0.0"
+firebase_bom = "31.0.1"
 crashlytics_gradle = "2.9.2"
 
 ######## Dependency versions End #############

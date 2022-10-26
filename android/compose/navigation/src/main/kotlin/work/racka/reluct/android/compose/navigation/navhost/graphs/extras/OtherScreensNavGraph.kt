@@ -2,6 +2,7 @@ package work.racka.reluct.android.compose.navigation.navhost.graphs.extras
 
 import android.app.Activity
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
@@ -39,8 +40,6 @@ fun NavGraphBuilder.otherScreenNavGraph(
             popEnterTransition = { scaleInPopEnterTransition() },
             popExitTransition = { scaleOutPopExitTransition() }
         ) { navBackStackEntry ->
-            barsVisibility.bottomBar.hide()
-
             // Its safe to cast since this composable will always be inside an activity
             val activity = LocalContext.current as Activity
 
@@ -53,6 +52,8 @@ fun NavGraphBuilder.otherScreenNavGraph(
                 },
                 onBackClicked = { navController.popBackStackOrExitActivity(activity) }
             )
+
+            SideEffect { barsVisibility.bottomBar.hide() }
         }
 
         // Add Task
@@ -64,8 +65,6 @@ fun NavGraphBuilder.otherScreenNavGraph(
             popEnterTransition = { scaleInPopEnterTransition() },
             popExitTransition = { scaleOutPopExitTransition() }
         ) { navBackStackEntry ->
-            barsVisibility.bottomBar.hide()
-
             // Its safe to cast since this composable will always be inside an activity
             val activity = LocalContext.current as Activity
 
@@ -73,6 +72,8 @@ fun NavGraphBuilder.otherScreenNavGraph(
                 taskId = NavHelpers.getStringArgs(navBackStackEntry, AddEditTaskArgs.TaskId.name),
                 onBackClicked = { navController.popBackStackOrExitActivity(activity) }
             )
+
+            SideEffect { barsVisibility.bottomBar.hide() }
         }
 
         // Task Search
@@ -83,7 +84,6 @@ fun NavGraphBuilder.otherScreenNavGraph(
             popEnterTransition = { scaleInPopEnterTransition() },
             popExitTransition = { scaleOutPopExitTransition() }
         ) {
-            barsVisibility.bottomBar.hide()
             TasksSearchScreen(
                 onNavigateToTaskDetails = {
                     navController.navigate(
@@ -92,6 +92,8 @@ fun NavGraphBuilder.otherScreenNavGraph(
                 },
                 onBackClicked = { navController.popBackStack() }
             )
+
+            SideEffect { barsVisibility.bottomBar.hide() }
         }
     }
 }

@@ -13,6 +13,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.google.accompanist.navigation.animation.AnimatedNavHost
@@ -85,8 +86,6 @@ fun AppNavHost(modifier: Modifier = Modifier, settingsCheck: SettingsCheck?) {
                 popEnterTransition = { fadeIn() },
                 popExitTransition = { fadeOut() }
             ) {
-                barsVisibility.bottomBar.hide()
-
                 LaunchedEffect(Unit, settingsCheck) {
                     settingsCheck?.let { check ->
                         if (check.isOnBoardingDone) {
@@ -109,6 +108,8 @@ fun AppNavHost(modifier: Modifier = Modifier, settingsCheck: SettingsCheck?) {
                 ) {
                     CircularProgressIndicator()
                 }
+
+                SideEffect { barsVisibility.bottomBar.hide() }
             }
 
             // OnBoarding
@@ -119,7 +120,6 @@ fun AppNavHost(modifier: Modifier = Modifier, settingsCheck: SettingsCheck?) {
                 popEnterTransition = { slideInVerticallyFadeReversed(initialScale = transScale) },
                 popExitTransition = { slideOutVerticallyFadeReversed(targetScale = transScale) }
             ) {
-                barsVisibility.bottomBar.hide()
                 OnBoardingScreen(
                     navigateHome = {
                         navController.navigate(NavbarDestinations.Dashboard.route) {
@@ -127,6 +127,8 @@ fun AppNavHost(modifier: Modifier = Modifier, settingsCheck: SettingsCheck?) {
                         }
                     }
                 )
+
+                SideEffect { barsVisibility.bottomBar.hide() }
             }
 
             // Dashboard
