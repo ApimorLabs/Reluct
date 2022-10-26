@@ -1,15 +1,14 @@
 package work.racka.reluct.android.screens.screentime.statistics
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.animateContentSize
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
+import androidx.compose.animation.*
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.ArrowUpward
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -17,7 +16,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.launch
 import work.racka.reluct.android.compose.components.buttons.ReluctButton
+import work.racka.reluct.android.compose.components.buttons.ReluctFloatingActionButton
 import work.racka.reluct.android.compose.components.buttons.ValueOffsetButton
 import work.racka.reluct.android.compose.components.cards.app_usage_entry.AppUsageEntry
 import work.racka.reluct.android.compose.components.cards.headers.ListGroupHeadingHeader
@@ -41,7 +42,10 @@ import work.racka.reluct.common.features.screen_time.statistics.states.all_stats
 import work.racka.reluct.common.features.screen_time.statistics.states.all_stats.WeeklyUsageStatsState
 import work.racka.reluct.common.model.domain.usagestats.AppUsageInfo
 
-@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
+@OptIn(
+    ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class,
+    ExperimentalAnimationApi::class
+)
 @Composable
 internal fun ScreenTimeStatisticsUI(
     modifier: Modifier = Modifier,
@@ -58,6 +62,7 @@ internal fun ScreenTimeStatisticsUI(
 ) {
     val listState = rememberLazyListState()
     val scrollContext = rememberScrollContext(listState = listState)
+    val scope = rememberCoroutineScope()
 
     if (scrollContext.isTop) {
         barsVisibility.bottomBar.show()
@@ -253,6 +258,27 @@ internal fun ScreenTimeStatisticsUI(
                             .navigationBarsPadding()
                     )
                 }
+            }
+
+            // Scroll To Top
+            AnimatedVisibility(
+                modifier = Modifier.align(Alignment.BottomCenter),
+                visible = !scrollContext.isTop,
+                enter = scaleIn(),
+                exit = scaleOut()
+            ) {
+                ReluctFloatingActionButton(
+                    modifier = Modifier
+                        .padding(bottom = Dimens.MediumPadding.size)
+                        .navigationBarsPadding(),
+                    buttonText = "",
+                    contentDescription = stringResource(R.string.scroll_to_top),
+                    icon = Icons.Rounded.ArrowUpward,
+                    onButtonClicked = {
+                        scope.launch { listState.animateScrollToItem(0) }
+                    },
+                    expanded = false
+                )
             }
         }
 

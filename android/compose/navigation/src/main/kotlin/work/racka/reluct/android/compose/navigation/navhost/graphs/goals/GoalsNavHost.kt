@@ -85,6 +85,7 @@ internal fun GoalsNavHost(
                 popEnterTransition = { scaleInPopEnterTransition() },
                 popExitTransition = { scaleOutPopExitTransition() }
             ) {
+                println("Active Goals Called")
                 ActiveGoalsScreen(
                     mainScaffoldPadding = mainScaffoldPadding,
                     barsVisibility = barsVisibility,

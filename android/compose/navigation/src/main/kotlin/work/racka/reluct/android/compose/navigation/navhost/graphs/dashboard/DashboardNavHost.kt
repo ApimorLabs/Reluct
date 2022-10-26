@@ -8,10 +8,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -23,6 +20,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
+import timber.log.Timber
 import work.racka.reluct.android.compose.components.R
 import work.racka.reluct.android.compose.components.topBar.ReluctPageHeading
 import work.racka.reluct.android.compose.components.util.BarsVisibility
@@ -93,6 +91,7 @@ internal fun DashboardNavHost(
                 popEnterTransition = { scaleInPopEnterTransition() },
                 popExitTransition = { scaleOutPopExitTransition() }
             ) {
+                Timber.d("Dashboard Overview Screen")
                 DashboardOverviewScreen(
                     mainScaffoldPadding = mainScaffoldPadding,
                     barsVisibility = barsVisibility,

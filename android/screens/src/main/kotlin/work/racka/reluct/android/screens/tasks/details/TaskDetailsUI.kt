@@ -90,6 +90,7 @@ fun TaskDetailsUI(
 
         Box(
             modifier = Modifier
+                .padding(innerPadding)
                 .navigationBarsPadding()
                 .padding(horizontal = Dimens.MediumPadding.size)
                 .fillMaxSize()
@@ -149,10 +150,7 @@ fun TaskDetailsUI(
 
                         // Bottom Space
                         item {
-                            Spacer(
-                                modifier = Modifier
-                                    .height(innerPadding.calculateBottomPadding())
-                            )
+                            Spacer(modifier = Modifier)
                         }
                     }
                 }

@@ -62,10 +62,12 @@ internal fun ActiveGoalsUI(
         }
     }
 
-    if (scrollContext.isTop) {
-        barsVisibility.bottomBar.show()
-    } else {
-        barsVisibility.bottomBar.hide()
+    SideEffect {
+        if (scrollContext.isTop) {
+            barsVisibility.bottomBar.show()
+        } else {
+            barsVisibility.bottomBar.hide()
+        }
     }
 
     val mainScaffoldBottomPadding by remember(mainScaffoldPadding) {
