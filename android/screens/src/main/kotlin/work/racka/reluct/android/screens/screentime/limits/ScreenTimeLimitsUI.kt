@@ -11,10 +11,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.AppShortcut
 import androidx.compose.material.icons.rounded.DoNotDisturbOnTotalSilence
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -53,12 +50,12 @@ internal fun ScreenTimeLimitsUI(
     val listState = rememberLazyListState()
     val scrollContext = rememberScrollContext(listState = listState)
 
-    // Need to evaluate recomposition overhead when user it at the
-    // top of the list
-    if (scrollContext.isTop) {
-        barsVisibility.bottomBar.show()
-    } else {
-        barsVisibility.bottomBar.hide()
+    SideEffect {
+        if (scrollContext.isTop) {
+            barsVisibility.bottomBar.show()
+        } else {
+            barsVisibility.bottomBar.hide()
+        }
     }
 
     val focusModeContainerColor by animateColorAsState(

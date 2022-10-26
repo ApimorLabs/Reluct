@@ -2,6 +2,7 @@ package work.racka.reluct.android.compose.navigation.navhost.graphs.screentime
 
 import android.app.Activity
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
@@ -37,8 +38,6 @@ fun NavGraphBuilder.appScreenTimeStatsNavGraph(
             popEnterTransition = { scaleInPopEnterTransition() },
             popExitTransition = { scaleOutPopExitTransition() }
         ) { backStackEntry ->
-            barsVisibility.bottomBar.hide()
-
             // Is safe to cast since this composable will always be inside an activity
             val activity = LocalContext.current as Activity
 
@@ -47,6 +46,8 @@ fun NavGraphBuilder.appScreenTimeStatsNavGraph(
                     .getStringArgs(backStackEntry, AppScreenTimeStatsArgs.PackageName.name) ?: "",
                 onBackClicked = { navController.popBackStackOrExitActivity(activity) }
             )
+
+            SideEffect { barsVisibility.bottomBar.hide() }
         }
     }
 }

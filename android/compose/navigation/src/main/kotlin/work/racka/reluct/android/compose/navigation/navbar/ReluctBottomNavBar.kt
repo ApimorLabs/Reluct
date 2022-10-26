@@ -14,7 +14,8 @@ import work.racka.reluct.android.compose.theme.Typography
 @Composable
 fun ReluctBottomNavBar(
     modifier: Modifier = Modifier,
-    navController: NavHostController
+    navController: NavHostController,
+    graphStartDestination: String,
 ) {
 
     val items = NavbarDestinations.values()
@@ -49,7 +50,10 @@ fun ReluctBottomNavBar(
                         )
                     },
                     onClick = {
-                        navController.navigateNavBarElements(route = item.route)
+                        navController.navigateNavBarElements(
+                            route = item.route,
+                            startDestination = graphStartDestination
+                        )
                     }
                 )
             }

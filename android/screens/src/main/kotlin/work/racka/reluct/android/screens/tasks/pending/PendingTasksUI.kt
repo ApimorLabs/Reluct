@@ -63,14 +63,12 @@ internal fun PendingTasksUI(
         }
     }
 
-    // Need to evaluate recomposition overhead when user it at the
-    // top of the list
-    if (scrollContext.isTop) {
-        barsVisibility.bottomBar.show()
-        barsVisibility.topBar.show()
-    } else {
-        barsVisibility.bottomBar.hide()
-        barsVisibility.topBar.hide()
+    SideEffect {
+        if (scrollContext.isTop) {
+            barsVisibility.bottomBar.show()
+        } else {
+            barsVisibility.bottomBar.hide()
+        }
     }
 
     val mainScaffoldBottomPadding by remember(mainScaffoldPadding) {

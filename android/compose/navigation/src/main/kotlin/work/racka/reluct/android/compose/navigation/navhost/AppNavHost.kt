@@ -62,7 +62,10 @@ fun AppNavHost(modifier: Modifier = Modifier, settingsCheck: SettingsCheck?) {
                 enter = slideInVerticallyFadeReversed(),
                 exit = slideOutVerticallyFadeReversed()
             ) {
-                ReluctBottomNavBar(navController = navController)
+                ReluctBottomNavBar(
+                    navController = navController,
+                    graphStartDestination = NavbarDestinations.Dashboard.route
+                )
             }
         },
         contentWindowInsets = WindowInsets(0, 0, 0, 0)
