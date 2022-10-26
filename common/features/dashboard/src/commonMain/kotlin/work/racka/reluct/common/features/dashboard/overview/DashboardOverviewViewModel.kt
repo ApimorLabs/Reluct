@@ -6,6 +6,8 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import work.racka.common.mvvm.viewmodel.CommonViewModel
 import work.racka.reluct.common.domain.usecases.app_usage.GetUsageStats
+import work.racka.reluct.common.domain.usecases.goals.GetGoals
+import work.racka.reluct.common.domain.usecases.goals.ModifyGoals
 import work.racka.reluct.common.domain.usecases.tasks.GetTasksUseCase
 import work.racka.reluct.common.domain.usecases.tasks.ModifyTaskUseCase
 import work.racka.reluct.common.features.dashboard.overview.states.DashboardEvents
@@ -13,6 +15,7 @@ import work.racka.reluct.common.features.dashboard.overview.states.DashboardOver
 import work.racka.reluct.common.features.dashboard.overview.states.TodayScreenTimeState
 import work.racka.reluct.common.features.dashboard.overview.states.TodayTasksState
 import work.racka.reluct.common.features.screen_time.services.ScreenTimeServices
+import work.racka.reluct.common.model.domain.goals.Goal
 import work.racka.reluct.common.model.domain.tasks.Task
 import work.racka.reluct.common.model.util.time.WeekUtils
 
@@ -20,6 +23,8 @@ class DashboardOverviewViewModel(
     private val getTasksUseCase: GetTasksUseCase,
     private val modifyTasksUsesCase: ModifyTaskUseCase,
     private val getUsageStats: GetUsageStats,
+    private val getGoals: GetGoals,
+    private val modifyGoals: ModifyGoals,
     private val screenTimeServices: ScreenTimeServices
 ) : CommonViewModel() {
 
@@ -27,13 +32,15 @@ class DashboardOverviewViewModel(
         MutableStateFlow(TodayScreenTimeState.Nothing)
     private val todayTasksState: MutableStateFlow<TodayTasksState> =
         MutableStateFlow(TodayTasksState.Nothing)
+    private val goals: MutableStateFlow<List<Goal>> = MutableStateFlow(listOf())
 
     val uiState: StateFlow<DashboardOverviewState> = combine(
-        todayScreenTimeState, todayTasksState
-    ) { todayScreenTimeState, todayTasksState ->
+        todayScreenTimeState, todayTasksState, goals
+    ) { todayScreenTimeState, todayTasksState, goals ->
         DashboardOverviewState(
             todayScreenTimeState = todayScreenTimeState,
-            todayTasksState = todayTasksState
+            todayTasksState = todayTasksState,
+            goals = goals
         )
     }.stateIn(
         scope = vmScope,
@@ -44,7 +51,6 @@ class DashboardOverviewViewModel(
     private val _events = Channel<DashboardEvents>(Channel.UNLIMITED)
     val events: Flow<DashboardEvents> = _events.receiveAsFlow()
 
-    private var pendingTasksJob: Job? = null
     private var dailyScreenTimeJob: Job? = null
     private var permissionsJob: Job? = null
 
@@ -53,6 +59,7 @@ class DashboardOverviewViewModel(
     init {
         initializeScreenTimeData()
         getPendingTasks()
+        initializeGoals()
     }
 
     fun permissionCheck(isGranted: Boolean) {
@@ -67,9 +74,8 @@ class DashboardOverviewViewModel(
     }
 
     private fun getPendingTasks() {
-        pendingTasksJob?.cancel()
         todayTasksState.update { TodayTasksState.Loading(it.pending) }
-        pendingTasksJob = vmScope.launch {
+        vmScope.launch {
             // We get only 5 pending Tasks
             getTasksUseCase.getPendingTasks(factor = 1L, limitBy = 5).collectLatest { tasks ->
                 todayTasksState.update { TodayTasksState.Data(tasks = tasks) }
@@ -101,5 +107,19 @@ class DashboardOverviewViewModel(
                 )
             }
         }
+    }
+
+    private fun getGoals() {
+        vmScope.launch {
+            // We get only 3 goals
+            getGoals.getActiveGoals(factor = 1L, limitBy = 3).collectLatest { data ->
+                goals.update { data }
+            }
+        }
+    }
+
+    private fun initializeGoals() {
+        getGoals()
+        vmScope.launch { modifyGoals.syncGoals() }
     }
 }

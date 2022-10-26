@@ -35,6 +35,7 @@ import work.racka.reluct.android.screens.dashboard.overview.DashboardOverviewScr
 import work.racka.reluct.android.screens.dashboard.statistics.DashboardStatsScreen
 import work.racka.reluct.common.core_navigation.compose_destinations.dashboard.DashboardOverviewDestination
 import work.racka.reluct.common.core_navigation.compose_destinations.dashboard.DashboardStatsDestination
+import work.racka.reluct.common.core_navigation.compose_destinations.goals.GoalDetailsDestination
 import work.racka.reluct.common.core_navigation.compose_destinations.screentime.AppScreenTimeStatsDestination
 import work.racka.reluct.common.core_navigation.compose_destinations.settings.SettingsDestination
 import work.racka.reluct.common.core_navigation.compose_destinations.tasks.TaskDetailsDestination
@@ -97,6 +98,9 @@ internal fun DashboardNavHost(
                         mainNavController.navigate(
                             TaskDetailsDestination.argsRoute(it)
                         )
+                    },
+                    onNavigateToGoalDetails = { goalId: String? ->
+                        mainNavController.navigate(GoalDetailsDestination.argsRoute(goalId))
                     }
                 )
             }

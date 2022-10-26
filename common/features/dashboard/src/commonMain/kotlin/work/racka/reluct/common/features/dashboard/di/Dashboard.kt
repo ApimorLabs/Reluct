@@ -17,6 +17,8 @@ object Dashboard {
                 getTasksUseCase = get(),
                 modifyTasksUsesCase = get(),
                 getUsageStats = get(),
+                getGoals = get(),
+                modifyGoals = get(),
                 screenTimeServices = get()
             )
         }
