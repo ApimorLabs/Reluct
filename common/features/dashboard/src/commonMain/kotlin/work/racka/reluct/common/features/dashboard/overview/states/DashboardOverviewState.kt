@@ -1,11 +1,13 @@
 package work.racka.reluct.common.features.dashboard.overview.states
 
+import work.racka.reluct.common.model.domain.goals.Goal
 import work.racka.reluct.common.model.domain.tasks.Task
 import work.racka.reluct.common.model.domain.usagestats.UsageStats
 
 data class DashboardOverviewState(
     val todayScreenTimeState: TodayScreenTimeState = TodayScreenTimeState.Nothing,
-    val todayTasksState: TodayTasksState = TodayTasksState.Nothing
+    val todayTasksState: TodayTasksState = TodayTasksState.Nothing,
+    val goals: List<Goal> = listOf()
 )
 
 sealed class TodayScreenTimeState(
