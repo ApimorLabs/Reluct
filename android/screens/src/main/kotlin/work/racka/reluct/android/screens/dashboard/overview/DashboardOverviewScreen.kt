@@ -25,7 +25,8 @@ fun DashboardOverviewScreen(
     mainScaffoldPadding: PaddingValues,
     barsVisibility: BarsVisibility,
     onNavigateToScreenTime: () -> Unit,
-    onNavigateToTaskDetails: (taskId: String) -> Unit
+    onNavigateToTaskDetails: (taskId: String) -> Unit,
+    onNavigateToGoalDetails: (goalId: String) -> Unit
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
 
@@ -52,7 +53,7 @@ fun DashboardOverviewScreen(
         openScreenTimeStats = onNavigateToScreenTime,
         openPendingTask = { onNavigateToTaskDetails(it.id) },
         onToggleTaskDone = { isDone, task -> viewModel.toggleDone(task = task, isDone = isDone) },
-        onGoalClicked = { }
+        onGoalClicked = { onNavigateToGoalDetails(it.id) }
     )
 }
 
