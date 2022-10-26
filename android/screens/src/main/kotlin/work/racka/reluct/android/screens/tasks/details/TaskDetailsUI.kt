@@ -206,7 +206,8 @@ private fun DetailsBottomBar(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(Dimens.MediumPadding.size)
+            .padding(horizontal = Dimens.MediumPadding.size)
+            .padding(bottom = Dimens.MediumPadding.size)
             .navigationBarsPadding(),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement
