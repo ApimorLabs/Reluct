@@ -1,12 +1,12 @@
 package work.racka.reluct.android.screens.screentime.limits
 
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.material.ScaffoldState
-import androidx.compose.material.SnackbarDuration
-import androidx.compose.material.rememberScaffoldState
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.coroutines.CoroutineScope
@@ -23,7 +23,7 @@ fun ScreenTimeLimitsScreen(
     barsVisibility: BarsVisibility,
     onNavigateToAppUsageInfo: (packageName: String) -> Unit
 ) {
-    val scaffoldState = rememberScaffoldState()
+    val snackbarState = remember { SnackbarHostState() }
 
     val viewModel: ScreenTimeLimitsViewModel = getCommonViewModel()
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -33,7 +33,7 @@ fun ScreenTimeLimitsScreen(
         handleEvents(
             events = events,
             scope = this,
-            scaffoldState = scaffoldState,
+            snackbarState = snackbarState,
             navigateToAppUsageInfo = { onNavigateToAppUsageInfo(it) }
         )
     }
@@ -41,15 +41,15 @@ fun ScreenTimeLimitsScreen(
     ScreenTimeLimitsUI(
         mainScaffoldPadding = mainScaffoldPadding,
         barsVisibility = barsVisibility,
-        scaffoldState = scaffoldState,
+        snackbarState = snackbarState,
         uiState = uiState,
-        toggleFocusMode = { viewModel.toggleFocusMode(it) },
-        toggleDnd = { viewModel.toggleDnd(it) },
-        getDistractingApps = { viewModel.getDistractingApps() },
-        pauseApp = { viewModel.pauseApp(it) },
-        resumeApp = { viewModel.unPauseApp(it) },
-        makeDistractingApp = { viewModel.markAsDistracting(it) },
-        removeDistractingApp = { viewModel.markAsNonDistracting(it) }
+        toggleFocusMode = viewModel::toggleFocusMode,
+        toggleDnd = viewModel::toggleDnd,
+        getDistractingApps = viewModel::getDistractingApps,
+        pauseApp = viewModel::pauseApp,
+        resumeApp = viewModel::unPauseApp,
+        makeDistractingApp = viewModel::markAsDistracting,
+        removeDistractingApp = viewModel::markAsNonDistracting
     )
 
 }
@@ -57,7 +57,7 @@ fun ScreenTimeLimitsScreen(
 private fun handleEvents(
     events: ScreenTimeLimitsEvents,
     scope: CoroutineScope,
-    scaffoldState: ScaffoldState,
+    snackbarState: SnackbarHostState,
     navigateToAppUsageInfo: (packageName: String) -> Unit,
 ) {
     when (events) {
@@ -69,7 +69,7 @@ private fun handleEvents(
         }
         is ScreenTimeLimitsEvents.ShowMessageDone -> {
             scope.launch {
-                scaffoldState.snackbarHostState.showSnackbar(
+                snackbarState.showSnackbar(
                     message = events.msg,
                     duration = SnackbarDuration.Short
                 )

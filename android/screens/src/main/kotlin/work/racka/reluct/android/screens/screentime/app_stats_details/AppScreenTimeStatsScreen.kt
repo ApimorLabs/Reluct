@@ -1,12 +1,12 @@
 package work.racka.reluct.android.screens.screentime.app_stats_details
 
 import android.content.Context
-import androidx.compose.material.ScaffoldState
-import androidx.compose.material.SnackbarDuration
-import androidx.compose.material.rememberScaffoldState
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -24,7 +24,7 @@ fun AppScreenTimeStatsScreen(
     packageName: String,
     onBackClicked: () -> Unit
 ) {
-    val scaffoldState = rememberScaffoldState()
+    val snackbarHostState = remember { SnackbarHostState() }
 
     val viewModel: AppScreenTimeStatsViewModel = getCommonViewModel { parametersOf(packageName) }
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -36,18 +36,18 @@ fun AppScreenTimeStatsScreen(
             context = context,
             events = events,
             scope = this,
-            scaffoldState = scaffoldState
+            snackbarHostState = snackbarHostState
         )
     }
 
     AppScreenTimeStatsUI(
-        scaffoldState = scaffoldState,
+        snackbarHostState = snackbarHostState,
         uiState = uiState,
-        toggleDistractingState = { viewModel.toggleDistractingState(it) },
-        togglePausedState = { viewModel.togglePausedState(it) },
-        saveTimeLimit = { hours, minutes -> viewModel.saveTimeLimit(hours, minutes) },
-        onSelectDay = { viewModel.selectDay(it) },
-        onUpdateWeekOffset = { viewModel.updateWeekOffset(it) },
+        toggleDistractingState = viewModel::toggleDistractingState,
+        togglePausedState = viewModel::togglePausedState,
+        saveTimeLimit = viewModel::saveTimeLimit,
+        onSelectDay = viewModel::selectDay,
+        onUpdateWeekOffset = viewModel::updateWeekOffset,
         goBack = onBackClicked
     )
 }
@@ -56,13 +56,13 @@ private fun handleEvents(
     events: ScreenTimeStatsEvents,
     context: Context,
     scope: CoroutineScope,
-    scaffoldState: ScaffoldState
+    snackbarHostState: SnackbarHostState
 ) {
     when (events) {
         is ScreenTimeStatsEvents.ShowMessageDone -> {
             val message = events.msg
             scope.launch {
-                scaffoldState.snackbarHostState.showSnackbar(
+                snackbarHostState.showSnackbar(
                     message = message,
                     duration = SnackbarDuration.Short
                 )
@@ -72,7 +72,7 @@ private fun handleEvents(
             val message =
                 context.getString(R.string.time_limit_change_arg, events.app.appInfo.appName)
             scope.launch {
-                scaffoldState.snackbarHostState.showSnackbar(
+                snackbarHostState.showSnackbar(
                     message = message,
                     duration = SnackbarDuration.Short
                 )

@@ -8,7 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import work.racka.reluct.android.compose.navigation.util.NavHelpers.navigateBottomNavBar
+import work.racka.reluct.android.compose.navigation.util.NavHelpers.navigateNavBarElements
 import work.racka.reluct.android.compose.theme.Typography
 
 @Composable
@@ -50,10 +50,7 @@ fun ReluctBottomNavBar(
                         )
                     },
                     onClick = {
-                        navController.navigateBottomNavBar(
-                            route = item.route,
-                            startDestination = graphStartDestination
-                        )
+                        navController.navigateNavBarElements(route = item.route)
                     }
                 )
             }

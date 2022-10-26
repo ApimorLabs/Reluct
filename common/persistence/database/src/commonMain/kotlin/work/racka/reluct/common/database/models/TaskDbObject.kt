@@ -1,4 +1,4 @@
-package work.racka.reluct.common.model.data.local.task
+package work.racka.reluct.common.database.models
 
 /**
  * We don't store time as Instant to avoid changes in TimeZone rules
@@ -11,6 +11,7 @@ data class TaskDbObject(
     val description: String?,
     val done: Boolean,
     val overdue: Boolean,
+    val taskLabels: List<TaskLabelDbObject> = listOf(),
     val dueDateLocalDateTime: String,
     val completedLocalDateTime: String?,
     val reminderLocalDateTime: String?,

@@ -3,6 +3,8 @@ package work.racka.reluct.common.database.dao.tasks
 import app.cash.turbine.test
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.runTest
@@ -263,8 +265,81 @@ class TasksDaoImplTest {
         launch {
             result.test {
                 val actual = awaitItem()
-                awaitComplete()
                 assertTrue(actual.isEmpty())
+                cancelAndIgnoreRemainingEvents()
+            }
+        }
+    }
+
+    @Test
+    fun addLabels_getAllTaskLabels_ShouldReturnAllInsertedLabels() = runTest {
+        val labels = TasksTestData.taskLabels
+        dao.addAllTaskLabels(labels)
+        val result = dao.getAllTasks()
+        launch {
+            result.take(2).firstOrNull()?.let {
+                val actual = it
+                println(actual)
+                assertTrue { actual.size == labels.size }
+            }
+        }
+    }
+
+    @Test
+    fun deleteLabel_WhenIdPassed_ItemWithShouldNotBeFound() = runTest {
+        val labels = TasksTestData.taskLabels
+        val expect = labels.last()
+        dao.addAllTaskLabels(labels)
+        dao.deleteTaskLabel(expect.id)
+        val result = dao.getAllTasks()
+        launch {
+            result.test {
+                val actual = awaitItem()
+                assertTrue { actual.size != labels.size }
+                assertFalse { actual.any { it.id == expect.id } }
+            }
+        }
+    }
+
+    @Test
+    fun getTaskLabel_WhenCorrectIdPassed_ShouldReturnTheLabel() = runTest {
+        val labels = TasksTestData.taskLabels
+        val expect = labels.first()
+        dao.addAllTaskLabels(labels)
+        val result = dao.getTaskLabel(expect.id)
+        launch {
+            result.test {
+                val actual = awaitItem()
+                assertNotNull(actual)
+                assertTrue { actual == expect }
+            }
+        }
+    }
+
+    @Test
+    fun getTaskLabel_WhenWrongIdPassed_ShouldReturnNull() = runTest {
+        val labels = TasksTestData.taskLabels
+        val wrongId = "very_wrong_id"
+        dao.addAllTaskLabels(labels)
+        val result = dao.getTaskLabel(wrongId)
+        launch {
+            result.test {
+                val actual = awaitItem()
+                assertNull(actual) // TODO
+            }
+        }
+    }
+
+    @Test
+    fun deleteAllLabels_ShouldLeaveAnEmptyTable() = runTest {
+        val labels = TasksTestData.taskLabels
+        dao.addAllTaskLabels(labels)
+        dao.deleteAllTaskLabels()
+        val result = dao.getAllTasks()
+        launch {
+            result.test {
+                val actual = awaitItem()
+                assertTrue { actual.isEmpty() }
             }
         }
     }

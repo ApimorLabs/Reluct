@@ -1,12 +1,15 @@
 package work.racka.reluct.common.database.dao.tasks
 
 import kotlinx.coroutines.flow.*
+import work.racka.reluct.common.database.models.TaskDbObject
+import work.racka.reluct.common.database.models.TaskLabelDbObject
 import work.racka.reluct.common.database.util.TasksTestData
-import work.racka.reluct.common.model.data.local.task.TaskDbObject
 
 class FakeTasksDao : TasksDao {
 
     private val tasks = MutableStateFlow(TasksTestData.taskDbObjects)
+
+    private val taskLabels = MutableStateFlow(TasksTestData.taskLabels)
 
     override fun insertTask(task: TaskDbObject) {
         tasks.update {
@@ -73,5 +76,29 @@ class FakeTasksDao : TasksDao {
 
     override fun deleteAll() {
         tasks.update { listOf() }
+    }
+
+    override fun addTaskLabel(label: TaskLabelDbObject) {
+        taskLabels.update { list -> list.toMutableList().apply { add(label) }.toList() }
+    }
+
+    override fun addAllTaskLabels(labels: List<TaskLabelDbObject>) {
+        taskLabels.update { it + labels }
+    }
+
+    override fun getAllTaskLabels(): Flow<List<TaskLabelDbObject>> = taskLabels.asStateFlow()
+
+    override fun getTaskLabel(id: String): Flow<TaskLabelDbObject?> =
+        taskLabels.transform { list -> list.firstOrNull { it.id == id } }
+
+    override fun getTaskLabelSync(id: String): TaskLabelDbObject? =
+        taskLabels.value.firstOrNull { it.id == id }
+
+    override fun deleteAllTaskLabels() {
+        taskLabels.update { listOf() }
+    }
+
+    override fun deleteTaskLabel(id: String) {
+        taskLabels.update { list -> list.toMutableList().apply { removeAll { it.id == id } } }
     }
 }

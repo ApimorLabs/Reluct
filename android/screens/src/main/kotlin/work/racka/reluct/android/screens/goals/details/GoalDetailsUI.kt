@@ -7,10 +7,6 @@ import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material.Scaffold
-import androidx.compose.material.ScaffoldState
-import androidx.compose.material.Snackbar
-import androidx.compose.material.SnackbarHost
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Delete
@@ -44,7 +40,7 @@ import work.racka.reluct.common.model.domain.goals.GoalType
 @Composable
 internal fun GoalDetailsUI(
     modifier: Modifier = Modifier,
-    scaffoldState: ScaffoldState,
+    snackbarState: SnackbarHostState,
     uiState: GoalDetailsState,
     onEditGoal: (goalId: String) -> Unit,
     onDeleteGoal: (goal: Goal) -> Unit,
@@ -59,9 +55,9 @@ internal fun GoalDetailsUI(
     var openUpdateValueDialog by remember { mutableStateOf(false) }
 
     Scaffold(
-        scaffoldState = scaffoldState,
         modifier = modifier.fillMaxSize(),
-        backgroundColor = MaterialTheme.colorScheme.background,
+        containerColor = MaterialTheme.colorScheme.background,
+        contentWindowInsets = WindowInsets(0, 0, 0, 0),
         topBar = {
             ReluctSmallTopAppBar(
                 modifier = Modifier.statusBarsPadding(),
@@ -87,11 +83,11 @@ internal fun GoalDetailsUI(
             }
         },
         snackbarHost = {
-            SnackbarHost(hostState = it) { data ->
+            SnackbarHost(hostState = snackbarState) { data ->
                 Snackbar(
                     modifier = Modifier.navigationBarsPadding(),
                     snackbarData = data,
-                    backgroundColor = MaterialTheme.colorScheme.inverseSurface,
+                    containerColor = MaterialTheme.colorScheme.inverseSurface,
                     contentColor = MaterialTheme.colorScheme.inverseOnSurface,
                     actionColor = MaterialTheme.colorScheme.primary,
                 )

@@ -1,6 +1,6 @@
 package work.racka.reluct.common.domain.mappers.tasks
 
-import work.racka.reluct.common.model.data.local.task.TaskDbObject
+import work.racka.reluct.common.database.models.TaskDbObject
 import work.racka.reluct.common.model.domain.tasks.EditTask
 
 /**
@@ -13,6 +13,7 @@ fun EditTask.asDatabaseModel(): TaskDbObject =
         description = this.description,
         done = this.done,
         overdue = this.overdue,
+        taskLabels = taskLabels.map { it.asTaskLabelDbObject() },
         dueDateLocalDateTime = this.dueDateLocalDateTime,
         completedLocalDateTime = this.completedLocalDateTime,
         reminderLocalDateTime = this.reminderLocalDateTime,
@@ -31,6 +32,7 @@ fun TaskDbObject.asEditTask(): EditTask =
         description = this.description,
         done = this.done,
         overdue = this.overdue,
+        taskLabels = taskLabels.map { it.asTaskLabel() },
         dueDateLocalDateTime = this.dueDateLocalDateTime,
         completedLocalDateTime = this.completedLocalDateTime,
         reminderLocalDateTime = this.reminderLocalDateTime,

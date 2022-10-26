@@ -10,16 +10,10 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Scaffold
-import androidx.compose.material.ScaffoldState
-import androidx.compose.material.Snackbar
-import androidx.compose.material.SnackbarHost
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.ArrowUpward
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.LinearProgressIndicator
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -42,18 +36,18 @@ import work.racka.reluct.common.model.states.tasks.PendingTasksState
 
 @OptIn(
     ExperimentalAnimationApi::class,
-    ExperimentalFoundationApi::class
+    ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class
 )
 @Composable
 internal fun PendingTasksUI(
     modifier: Modifier = Modifier,
     mainScaffoldPadding: PaddingValues,
     barsVisibility: BarsVisibility,
-    scaffoldState: ScaffoldState,
+    snackbarState: SnackbarHostState,
     uiState: PendingTasksState,
     onTaskClicked: (task: Task) -> Unit,
     onAddTaskClicked: (task: Task?) -> Unit,
-    onToggleTaskDone: (isDone: Boolean, task: Task) -> Unit,
+    onToggleTaskDone: (task: Task, isDone: Boolean) -> Unit,
     fetchMoreData: () -> Unit,
 ) {
     val listState = rememberLazyListState()
@@ -89,22 +83,21 @@ internal fun PendingTasksUI(
     else Modifier.navigationBarsPadding()
 
     Scaffold(
-        modifier = modifier
-            .fillMaxSize(),
-        scaffoldState = scaffoldState,
+        modifier = modifier.fillMaxSize(),
         snackbarHost = {
-            SnackbarHost(hostState = it) { data ->
+            SnackbarHost(hostState = snackbarState) { data ->
                 Snackbar(
                     modifier = snackbarModifier,
                     shape = RoundedCornerShape(10.dp),
                     snackbarData = data,
-                    backgroundColor = MaterialTheme.colorScheme.inverseSurface,
+                    containerColor = MaterialTheme.colorScheme.inverseSurface,
                     contentColor = MaterialTheme.colorScheme.inverseOnSurface,
                     actionColor = MaterialTheme.colorScheme.primary,
                 )
             }
         },
-        backgroundColor = MaterialTheme.colorScheme.background,
+        containerColor = MaterialTheme.colorScheme.background,
+        contentWindowInsets = WindowInsets(0, 0, 0, 0),
         floatingActionButton = {
             AnimatedVisibility(
                 visible = scrollContext.isTop,
@@ -184,7 +177,7 @@ internal fun PendingTasksUI(
                                 task = item,
                                 entryType = EntryType.TasksWithOverdue,
                                 onEntryClick = { onTaskClicked(item) },
-                                onCheckedChange = { onToggleTaskDone(it, item) },
+                                onCheckedChange = { onToggleTaskDone(item, it) },
                                 playAnimation = true
                             )
                         }
@@ -202,7 +195,7 @@ internal fun PendingTasksUI(
                                 task = item,
                                 entryType = EntryType.PendingTask,
                                 onEntryClick = { onTaskClicked(item) },
-                                onCheckedChange = { onToggleTaskDone(it, item) },
+                                onCheckedChange = { onToggleTaskDone(item, it) },
                                 playAnimation = true
                             )
                         }

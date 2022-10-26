@@ -1,12 +1,12 @@
 package work.racka.reluct.android.screens.tasks.details
 
 import android.content.Context
-import androidx.compose.material.ScaffoldState
-import androidx.compose.material.SnackbarDuration
-import androidx.compose.material.rememberScaffoldState
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -26,7 +26,7 @@ fun TaskDetailsScreen(
     onBackClicked: () -> Unit,
 ) {
 
-    val scaffoldState = rememberScaffoldState()
+    val snackbarState = remember { SnackbarHostState() }
 
     val viewModel: TaskDetailsViewModel = getCommonViewModel { parametersOf(taskId) }
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -39,14 +39,14 @@ fun TaskDetailsScreen(
             context = context,
             events = events,
             scope = this,
-            scaffoldState = scaffoldState,
+            snackbarState = snackbarState,
             navigateToEditTask = { taskId -> onNavigateToEditTask(taskId) },
             goBack = onBackClicked
         )
     }
 
     TaskDetailsUI(uiState = uiState,
-        scaffoldState = scaffoldState,
+        snackbarState = snackbarState,
         onEditTask = { viewModel.editTask(it.id) },
         onDeleteTask = { viewModel.deleteTask(it.id) },
         onToggleTaskDone = { isDone, task -> viewModel.toggleDone(task, isDone) },
@@ -57,14 +57,14 @@ private fun handleEvents(
     context: Context,
     events: TasksEvents,
     scope: CoroutineScope,
-    scaffoldState: ScaffoldState,
+    snackbarState: SnackbarHostState,
     navigateToEditTask: (taskId: String) -> Unit,
     goBack: () -> Unit,
 ) {
     when (events) {
         is TasksEvents.ShowMessage -> {
             scope.launch {
-                scaffoldState.snackbarHostState.showSnackbar(
+                snackbarState.showSnackbar(
                     message = events.msg, duration = SnackbarDuration.Short
                 )
             }
@@ -73,7 +73,7 @@ private fun handleEvents(
             val msg = if (events.isDone) context.getString(R.string.task_marked_as_done, events.msg)
             else context.getString(R.string.task_marked_as_not_done, events.msg)
             scope.launch {
-                scaffoldState.snackbarHostState.showSnackbar(
+                snackbarState.showSnackbar(
                     message = msg, duration = SnackbarDuration.Short
                 )
             }

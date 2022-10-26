@@ -33,7 +33,7 @@ import work.racka.reluct.android.compose.navigation.transitions.scaleInEnterTran
 import work.racka.reluct.android.compose.navigation.transitions.scaleInPopEnterTransition
 import work.racka.reluct.android.compose.navigation.transitions.scaleOutExitTransition
 import work.racka.reluct.android.compose.navigation.transitions.scaleOutPopExitTransition
-import work.racka.reluct.android.compose.navigation.util.NavHelpers.navigateBottomNavBar
+import work.racka.reluct.android.compose.navigation.util.NavHelpers.navigateNavBarElements
 import work.racka.reluct.android.screens.dashboard.overview.DashboardOverviewScreen
 import work.racka.reluct.android.screens.dashboard.statistics.DashboardStatsScreen
 import work.racka.reluct.common.core_navigation.compose_destinations.dashboard.DashboardOverviewDestination
@@ -75,7 +75,8 @@ internal fun DashboardNavHost(
                 },
                 onSettingsClicked = { mainNavController.navigate(SettingsDestination.route) }
             )
-        }
+        },
+        contentWindowInsets = WindowInsets(0, 0, 0, 0)
     ) { innerPadding ->
         AnimatedNavHost(
             modifier = Modifier.padding(innerPadding),
@@ -96,9 +97,8 @@ internal fun DashboardNavHost(
                     mainScaffoldPadding = mainScaffoldPadding,
                     barsVisibility = barsVisibility,
                     onNavigateToScreenTime = {
-                        mainNavController.navigateBottomNavBar(
-                            route = NavbarDestinations.ScreenTime.route,
-                            startDestination = NavbarDestinations.Dashboard.route
+                        mainNavController.navigateNavBarElements(
+                            route = NavbarDestinations.ScreenTime.route
                         )
                     },
                     onNavigateToTaskDetails = {
@@ -109,6 +109,7 @@ internal fun DashboardNavHost(
                 )
             }
 
+            // Dashboard Stats
             composable(
                 route = DashboardStatsDestination.route,
                 // Transition animations
@@ -126,9 +127,8 @@ internal fun DashboardNavHost(
                         )
                     },
                     onNavigateToScreenTimeStats = {
-                        mainNavController.navigateBottomNavBar(
-                            route = NavbarDestinations.ScreenTime.route,
-                            startDestination = NavbarDestinations.Dashboard.route
+                        mainNavController.navigateNavBarElements(
+                            route = NavbarDestinations.ScreenTime.route
                         )
                     }
                 )

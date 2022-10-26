@@ -1,8 +1,11 @@
 package work.racka.reluct.common.database.dao.tasks
 
+import work.racka.reluct.common.database.models.TaskDbObject
+import work.racka.reluct.common.database.models.TaskLabelDbObject
+import work.racka.reluct.common.database.tables.TaskLabelsTable
+import work.racka.reluct.common.database.tables.TaskLabelsTableQueries
 import work.racka.reluct.common.database.tables.TasksTable
 import work.racka.reluct.common.database.tables.TasksTableQueries
-import work.racka.reluct.common.model.data.local.task.TaskDbObject
 
 internal object TasksHelpers {
 
@@ -15,6 +18,7 @@ internal object TasksHelpers {
                     description = task.description,
                     done = task.done,
                     overdue = task.overdue,
+                    taskLabelsId = task.taskLabels.map { it.id },
                     dueDateLocalDateTime = task.dueDateLocalDateTime,
                     completedLocalDateTime = task.completedLocalDateTime,
                     reminderLocalDateTime = task.reminderLocalDateTime,
@@ -24,55 +28,114 @@ internal object TasksHelpers {
         }
     }
 
-    fun TasksTableQueries.getAllTasksFromDb() = getAllTasks(mapper = taskDbObjectMapper)
+    fun TasksTableQueries.getAllTasksFromDb(onGetLabel: (id: String) -> TaskLabelDbObject?) =
+        getAllTasks(mapper = taskDbObjectMapper(onGetLabel))
 
-    fun TasksTableQueries.getPendingTasksFromDb(factor: Long, limitBy: Long) =
+    fun TasksTableQueries.getPendingTasksFromDb(
+        factor: Long,
+        limitBy: Long,
+        onGetLabel: (id: String) -> TaskLabelDbObject?
+    ) =
         getPendingTasks(
             factor = factor,
             limitBy = limitBy,
-            mapper = taskDbObjectMapper
+            mapper = taskDbObjectMapper(onGetLabel)
         )
 
-    fun TasksTableQueries.getCompletedTasksFromDb(factor: Long, limitBy: Long) =
+    fun TasksTableQueries.getCompletedTasksFromDb(
+        factor: Long,
+        limitBy: Long,
+        onGetLabel: (id: String) -> TaskLabelDbObject?
+    ) =
         getCompeletedTasks(
             factor = factor,
             limitBy = limitBy,
-            mapper = taskDbObjectMapper
+            mapper = taskDbObjectMapper(onGetLabel)
         )
 
     fun TasksTableQueries.getTasksBetweenDateTimeStringsFromDb(
         startLocalDateTime: String,
         endLocalDateTime: String,
+        onGetLabel: (id: String) -> TaskLabelDbObject?
     ) = getTasksBetweenDateTimeStrings(
         startLocalDateTime = startLocalDateTime,
         endLocalDateTime = endLocalDateTime,
-        mapper = taskDbObjectMapper
+        mapper = taskDbObjectMapper(onGetLabel)
     )
 
-    fun TasksTableQueries.getTaskFromDb(taskId: String) =
-        getTask(id = taskId, mapper = taskDbObjectMapper)
+    fun TasksTableQueries.getTaskFromDb(
+        taskId: String,
+        onGetLabel: (id: String) -> TaskLabelDbObject?
+    ) = getTask(id = taskId, mapper = taskDbObjectMapper(onGetLabel))
 
-    fun TasksTableQueries.searchTasksFromDb(query: String, factor: Long, limitBy: Long) =
+    fun TasksTableQueries.searchTasksFromDb(
+        query: String,
+        factor: Long,
+        limitBy: Long,
+        onGetLabel: (id: String) -> TaskLabelDbObject?
+    ) =
         searchTasks(
             query = query,
             factor = factor,
             limitBy = limitBy,
-            mapper = taskDbObjectMapper
+            mapper = taskDbObjectMapper(onGetLabel)
         )
 
+    /**
+     * Task Labels
+     */
+    fun TaskLabelsTableQueries.insertLabelToDb(label: TaskLabelDbObject) {
+        transaction {
+            insertLabel(
+                TaskLabelsTable(
+                    id = label.id,
+                    name = label.name,
+                    description = label.description,
+                    colorHex = label.colorHexString
+                )
+            )
+        }
+    }
 
-    private val taskDbObjectMapper: (
+    fun TaskLabelsTableQueries.insertAllLabelsToDb(labels: List<TaskLabelDbObject>) {
+        transaction {
+            labels.forEach { label ->
+                insertLabel(
+                    TaskLabelsTable(
+                        id = label.id,
+                        name = label.name,
+                        description = label.description,
+                        colorHex = label.colorHexString
+                    )
+                )
+            }
+        }
+    }
+
+    val taskLabelsMapper: (
+        id: String,
+        name: String,
+        description: String,
+        color: String
+    ) -> TaskLabelDbObject = { id, name, description, color ->
+        TaskLabelDbObject(id = id, name = name, description = description, colorHexString = color)
+    }
+
+    private fun taskDbObjectMapper(onGetLabel: (id: String) -> TaskLabelDbObject?): (
         id: String, title: String, description: String?, done: Boolean, overdue: Boolean,
         dueDateLocalDateTime: String, completedLocalDateTime: String?,
-        reminderLocalDateTime: String?, timeZoneId: String,
-    ) -> TaskDbObject = { id, title, description, done, overdue, dueDateLocalDateTime,
-                          completedLocalDateTime, reminderLocalDateTime, timeZoneId ->
+        reminderLocalDateTime: String?, timeZoneId: String, taskLabelsId: List<String>
+    ) -> TaskDbObject = {
+            id, title, description, done, overdue, dueDateLocalDateTime,
+            completedLocalDateTime, reminderLocalDateTime, timeZoneId, taskLabelsId,
+        ->
         TaskDbObject(
             id = id,
             title = title,
             description = description,
             done = done,
             overdue = overdue,
+            taskLabels = taskLabelsId.mapNotNull { onGetLabel(it) },
             dueDateLocalDateTime = dueDateLocalDateTime,
             completedLocalDateTime = completedLocalDateTime,
             reminderLocalDateTime = reminderLocalDateTime,

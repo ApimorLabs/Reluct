@@ -4,10 +4,6 @@ import androidx.compose.animation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.Scaffold
-import androidx.compose.material.ScaffoldState
-import androidx.compose.material.Snackbar
-import androidx.compose.material.SnackbarHost
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.ArrowBack
@@ -33,7 +29,7 @@ import work.racka.reluct.common.model.states.tasks.ModifyTaskState
 @Composable
 fun AddEditTaskUI(
     modifier: Modifier = Modifier,
-    scaffoldState: ScaffoldState,
+    snackbarState: SnackbarHostState,
     uiState: ModifyTaskState,
     onSaveTask: () -> Unit,
     onAddTaskClicked: () -> Unit,
@@ -65,9 +61,9 @@ fun AddEditTaskUI(
     BackPressHandler { goBackAttempt() }
 
     Scaffold(
-        scaffoldState = scaffoldState,
         modifier = modifier.fillMaxSize(),
-        backgroundColor = MaterialTheme.colorScheme.background,
+        containerColor = MaterialTheme.colorScheme.background,
+        contentWindowInsets = WindowInsets(0, 0, 0, 0),
         topBar = {
             ReluctSmallTopAppBar(
                 modifier = Modifier.statusBarsPadding(),
@@ -83,11 +79,11 @@ fun AddEditTaskUI(
             )
         },
         snackbarHost = {
-            SnackbarHost(hostState = it) { data ->
+            SnackbarHost(hostState = snackbarState) { data ->
                 Snackbar(
                     modifier = Modifier.navigationBarsPadding(),
                     snackbarData = data,
-                    backgroundColor = MaterialTheme.colorScheme.inverseSurface,
+                    containerColor = MaterialTheme.colorScheme.inverseSurface,
                     contentColor = MaterialTheme.colorScheme.inverseOnSurface,
                     actionColor = MaterialTheme.colorScheme.primary,
                 )

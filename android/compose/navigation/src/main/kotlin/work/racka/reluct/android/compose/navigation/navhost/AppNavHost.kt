@@ -5,6 +5,7 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.CircularProgressIndicator
@@ -17,7 +18,6 @@ import androidx.compose.ui.Modifier
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
-import timber.log.Timber
 import work.racka.reluct.android.compose.components.animations.slideInVerticallyFadeReversed
 import work.racka.reluct.android.compose.components.animations.slideOutVerticallyFadeReversed
 import work.racka.reluct.android.compose.components.util.rememberBarVisibility
@@ -66,7 +66,8 @@ fun AppNavHost(modifier: Modifier = Modifier, settingsCheck: SettingsCheck?) {
                     graphStartDestination = NavbarDestinations.Dashboard.route
                 )
             }
-        }
+        },
+        contentWindowInsets = WindowInsets(0, 0, 0, 0)
     ) { innerPadding ->
 
         AnimatedNavHost(
@@ -118,7 +119,6 @@ fun AppNavHost(modifier: Modifier = Modifier, settingsCheck: SettingsCheck?) {
                 popEnterTransition = { slideInVerticallyFadeReversed(initialScale = transScale) },
                 popExitTransition = { slideOutVerticallyFadeReversed(targetScale = transScale) }
             ) {
-                Timber.d("On Boarding screen called")
                 barsVisibility.bottomBar.hide()
                 OnBoardingScreen(
                     navigateHome = {
@@ -137,7 +137,6 @@ fun AppNavHost(modifier: Modifier = Modifier, settingsCheck: SettingsCheck?) {
                 popEnterTransition = { slideInVerticallyFadeReversed(initialScale = transScale) },
                 popExitTransition = { slideOutVerticallyFadeReversed(targetScale = transScale) }
             ) {
-                Timber.d("Dashboard screen called")
                 DashboardNavHost(
                     mainNavController = navController,
                     barsVisibility = barsVisibility,
@@ -154,7 +153,6 @@ fun AppNavHost(modifier: Modifier = Modifier, settingsCheck: SettingsCheck?) {
                 popEnterTransition = { slideInVerticallyFadeReversed(initialScale = transScale) },
                 popExitTransition = { slideOutVerticallyFadeReversed(targetScale = transScale) }
             ) {
-                Timber.d("Tasks screen called")
                 TasksNavHost(
                     mainNavController = navController,
                     mainScaffoldPadding = innerPadding,
@@ -170,7 +168,6 @@ fun AppNavHost(modifier: Modifier = Modifier, settingsCheck: SettingsCheck?) {
                 popEnterTransition = { slideInVerticallyFadeReversed(initialScale = transScale) },
                 popExitTransition = { slideOutVerticallyFadeReversed(targetScale = transScale) }
             ) {
-                Timber.d("Screen time screen called")
                 ScreenTimeNavHost(
                     mainNavController = navController,
                     barsVisibility = barsVisibility,
@@ -186,7 +183,6 @@ fun AppNavHost(modifier: Modifier = Modifier, settingsCheck: SettingsCheck?) {
                 popEnterTransition = { slideInVerticallyFadeReversed(initialScale = transScale) },
                 popExitTransition = { slideOutVerticallyFadeReversed(targetScale = transScale) }
             ) {
-                Timber.d("Goals screen called")
                 GoalsNavHost(
                     mainNavController = navController,
                     barsVisibility = barsVisibility,

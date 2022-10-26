@@ -6,6 +6,7 @@ data class EditTask(
     val description: String?,
     val done: Boolean,
     val overdue: Boolean,
+    val taskLabels: List<TaskLabel> = listOf(),
     val dueDateLocalDateTime: String,
     val completedLocalDateTime: String?,
     val reminderLocalDateTime: String?,

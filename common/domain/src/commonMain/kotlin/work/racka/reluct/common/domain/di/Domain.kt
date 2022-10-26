@@ -17,9 +17,11 @@ import work.racka.reluct.common.domain.usecases.limits.*
 import work.racka.reluct.common.domain.usecases.limits.impl.*
 import work.racka.reluct.common.domain.usecases.tasks.GetGroupedTasksStats
 import work.racka.reluct.common.domain.usecases.tasks.GetTasksUseCase
+import work.racka.reluct.common.domain.usecases.tasks.ManageTaskLabels
 import work.racka.reluct.common.domain.usecases.tasks.ModifyTaskUseCase
 import work.racka.reluct.common.domain.usecases.tasks.impl.GetGroupedTasksStatsImpl
 import work.racka.reluct.common.domain.usecases.tasks.impl.GetTasksUseCaseImpl
+import work.racka.reluct.common.domain.usecases.tasks.impl.ManageTaskLabelsImpl
 import work.racka.reluct.common.domain.usecases.tasks.impl.ModifyTaskUseCaseImpl
 import work.racka.reluct.common.domain.usecases.time.GetWeekRangeFromOffset
 import work.racka.reluct.common.domain.usecases.time.impl.GetWeekRangeFromOffsetImpl
@@ -58,6 +60,13 @@ object Domain {
             GetGroupedTasksStatsImpl(
                 dao = get(),
                 backgroundDispatcher = CoroutineDispatchers.backgroundDispatcher
+            )
+        }
+
+        factory<ManageTaskLabels> {
+            ManageTaskLabelsImpl(
+                dao = get(),
+                dispatcher = Dispatchers.IO
             )
         }
 
