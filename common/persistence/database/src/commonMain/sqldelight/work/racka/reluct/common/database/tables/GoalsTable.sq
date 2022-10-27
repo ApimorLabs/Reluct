@@ -4,7 +4,7 @@ import work.racka.reluct.common.model.domain.goals.GoalInterval;
 import work.racka.reluct.common.model.domain.goals.GoalType;
 import work.racka.reluct.common.model.util.time.Week;
 
-CREATE TABLE GoalsTable (
+CREATE TABLE IF NOT EXISTS GoalsTable (
 id TEXT NOT NULL PRIMARY KEY,
 name TEXT NOT NULL,
 description TEXT NOT NULL,

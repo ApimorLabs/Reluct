@@ -1,0 +1,39 @@
+import kotlin.collections.List;
+import kotlin.ranges.LongRange;
+import work.racka.reluct.common.model.domain.goals.GoalInterval;
+import work.racka.reluct.common.model.domain.goals.GoalType;
+import work.racka.reluct.common.model.util.time.Week;
+
+CREATE TABLE IF NOT EXISTS TasksTable(
+id TEXT NOT NULL PRIMARY KEY,
+title TEXT NOT NULL,
+description TEXT,
+done INTEGER AS Boolean DEFAULT 0 NOT NULL,
+overdue INTEGER AS Boolean DEFAULT 0 NOT NULL,
+dueDateLocalDateTime TEXT NOT NULL,
+completedLocalDateTime TEXT,
+reminderLocalDateTime TEXT,
+timeZoneId TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS GoalsTable (
+id TEXT NOT NULL PRIMARY KEY,
+name TEXT NOT NULL,
+description TEXT NOT NULL,
+isActive INTEGER AS Boolean DEFAULT 0 NOT NULL,
+relatedApps TEXT AS List<String> NOT NULL,
+targetValue INTEGER NOT NULL,
+currentValue INTEGER NOT NULL,
+goalInterval TEXT AS GoalInterval NOT NULL,
+timeInterval TEXT AS LongRange DEFAULT NULL,
+daysOfWeekSelected TEXT AS List<Week> NOT NULL,
+goalType TEXT AS GoalType NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS LimitsTable (
+packageName TEXT NOT NULL PRIMARY KEY,
+timeLimit INTEGER NOT NULL,
+isADistractingApp INTEGER AS Boolean DEFAULT 0 NOT NULL,
+isPaused INTEGER AS Boolean DEFAULT 0 NOT NULL,
+overridden INTEGER AS Boolean DEFAULT 0 NOT NULL
+);
