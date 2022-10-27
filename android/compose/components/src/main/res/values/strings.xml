@@ -4,6 +4,8 @@
     <string name="copyright_year">© 2022</string>
     <string name="app_version">App Version: %1$s</string>
 
+    <string name="name_text">Name</string>
+    <string name="name_error_text">Name can not be empty</string>
     <string name="next_text">Next</string>
     <string name="back_text">Back</string>
     <string name="continue_text">Continue</string>

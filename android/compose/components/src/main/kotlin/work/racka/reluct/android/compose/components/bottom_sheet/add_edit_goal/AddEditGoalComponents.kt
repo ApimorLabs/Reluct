@@ -208,7 +208,6 @@ internal fun SelectedAppsCard(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GoalScreenTimePicker(
     modifier: Modifier = Modifier,
@@ -399,7 +398,6 @@ internal fun LazyListScope.goalDurationPicker(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun GoalNumberPicker(
     modifier: Modifier = Modifier,
