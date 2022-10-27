@@ -1,4 +1,4 @@
-package work.racka.reluct.android.screens.tasks.components
+package work.racka.reluct.android.compose.components.bottom_sheet.task_labels
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow

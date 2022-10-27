@@ -162,8 +162,7 @@ internal fun AddEditTaskUI(
 
                 // Add or Edit Task
                 AnimatedVisibility(
-                    modifier = Modifier
-                        .fillMaxSize(),
+                    modifier = Modifier.fillMaxSize(),
                     visible = modifyTaskState is ModifyTaskState.Data,
                     enter = fadeIn(),
                     exit = scaleOut()
@@ -175,7 +174,8 @@ internal fun AddEditTaskUI(
                             discardButtonText = stringResource(R.string.discard_button_text),
                             onSave = { onSaveTask() },
                             onUpdateTask = onUpdateTask,
-                            onDiscard = { goBackAttempt() }
+                            onDiscard = { goBackAttempt() },
+                            onEditLabels = { scope.launch { modalSheetState.show() } }
                         )
                     }
                 }
