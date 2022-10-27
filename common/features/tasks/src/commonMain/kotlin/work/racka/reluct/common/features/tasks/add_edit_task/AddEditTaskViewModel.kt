@@ -5,14 +5,17 @@ import kotlinx.coroutines.channels.onSuccess
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import work.racka.common.mvvm.viewmodel.CommonViewModel
+import work.racka.reluct.common.domain.usecases.tasks.ManageTaskLabels
 import work.racka.reluct.common.domain.usecases.tasks.ModifyTaskUseCase
 import work.racka.reluct.common.features.tasks.util.Constants
 import work.racka.reluct.common.model.domain.tasks.EditTask
+import work.racka.reluct.common.model.domain.tasks.TaskLabel
 import work.racka.reluct.common.model.states.tasks.ModifyTaskState
 import work.racka.reluct.common.model.states.tasks.TasksEvents
 
 class AddEditTaskViewModel(
     private val modifyTaskUseCase: ModifyTaskUseCase,
+    private val manageTaskLabels: ManageTaskLabels,
     private val taskId: String?
 ) : CommonViewModel() {
 
@@ -60,6 +63,18 @@ class AddEditTaskViewModel(
 
     fun updateCurrentTask(task: EditTask) {
         modifyTaskState.update { ModifyTaskState.Data(isEdit = taskId != null, task = task) }
+    }
+
+    fun saveLabel(label: TaskLabel) {
+        vmScope.launch {
+            manageTaskLabels.addLabel(label)
+        }
+    }
+
+    fun deleteLabel(label: TaskLabel) {
+        vmScope.launch {
+            manageTaskLabels.deleteLabel(label.id)
+        }
     }
 
     private fun getTask(taskId: String?) {

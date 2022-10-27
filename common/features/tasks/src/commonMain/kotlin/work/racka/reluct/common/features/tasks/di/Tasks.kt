@@ -20,6 +20,7 @@ object Tasks {
         commonViewModel { (taskId: String?) ->
             AddEditTaskViewModel(
                 modifyTaskUseCase = get(),
+                manageTaskLabels = get(),
                 taskId = taskId
             )
         }
