@@ -1,5 +1,6 @@
 ALTER TABLE TasksTable
-ADD COLUMN taskLabelsId TEXT NOT NULL;
+ADD COLUMN taskLabelsId TEXT NOT NULL
+DEFAULT '';
 
 UPDATE TasksTable
 SET taskLabelsId = '';
