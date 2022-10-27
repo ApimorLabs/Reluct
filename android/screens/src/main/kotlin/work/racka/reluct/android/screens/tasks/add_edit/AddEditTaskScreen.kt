@@ -13,6 +13,7 @@ import kotlinx.coroutines.launch
 import org.koin.core.parameter.parametersOf
 import timber.log.Timber
 import work.racka.common.mvvm.koin.compose.getCommonViewModel
+import work.racka.reluct.android.screens.tasks.components.ModifyTaskLabel
 import work.racka.reluct.common.features.tasks.add_edit_task.AddEditTaskViewModel
 import work.racka.reluct.common.model.states.tasks.TasksEvents
 
@@ -44,7 +45,13 @@ fun AddEditTaskScreen(
         onSaveTask = viewModel::saveCurrentTask,
         onAddTaskClicked = viewModel::newTask,
         onUpdateTask = viewModel::updateCurrentTask,
-        onBackClicked = onBackClicked
+        onBackClicked = onBackClicked,
+        onModifyTaskLabel = { modifyLabel ->
+            when (modifyLabel) {
+                is ModifyTaskLabel.SaveLabel -> modifyLabel.label.run(viewModel::saveLabel)
+                is ModifyTaskLabel.Delete -> modifyLabel.label.run(viewModel::deleteLabel)
+            }
+        }
     )
 }
 
