@@ -59,19 +59,7 @@ fun LazyColumnSelectTaskLabelsSheet(
                     description = stringResource(R.string.no_saved_label_text)
                 )
             }
-        }
-
-        item {
-            ReluctButton(
-                modifier = Modifier.fillMaxWidth(.7f),
-                shape = Shapes.large,
-                buttonText = stringResource(R.string.new_task_label_text),
-                icon = Icons.Rounded.Add,
-                onButtonClicked = onAddNewLabel
-            )
-        }
-
-        if (availableLabels.isNotEmpty()) {
+        } else {
             items(availableLabels, key = { it.id }) { item ->
                 val selected by remember(selectedLabels) {
                     derivedStateOf {
@@ -87,6 +75,16 @@ fun LazyColumnSelectTaskLabelsSheet(
                     onCheckedChange = { onEditLabels(it, item) }
                 )
             }
+        }
+
+        item {
+            ReluctButton(
+                modifier = Modifier.fillMaxWidth(.7f),
+                shape = Shapes.large,
+                buttonText = stringResource(R.string.new_task_label_text),
+                icon = Icons.Rounded.Add,
+                onButtonClicked = onAddNewLabel
+            )
         }
 
         // Bottom Space

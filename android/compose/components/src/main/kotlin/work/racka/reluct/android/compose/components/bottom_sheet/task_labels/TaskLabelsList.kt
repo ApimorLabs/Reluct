@@ -50,7 +50,7 @@ fun TaskLabelsSelectCard(
                     .fillMaxWidth()
                     .weight(1f),
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(Dimens.MediumPadding.size)
+                horizontalArrangement = Arrangement.spacedBy(Dimens.SmallPadding.size)
             ) {
                 if (labels.isEmpty()) {
                     item {

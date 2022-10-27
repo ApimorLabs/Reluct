@@ -80,16 +80,10 @@ internal fun ManageTaskLabelsSheet(
 
                 is TaskLabelsPage.ModifyLabel -> {
                     AddEditTaskLabelSheet(
-                        onClose = onClose,
+                        onClose = { page.value = TaskLabelsPage.ShowLabels },
                         initialLabel = targetState.label,
-                        onSaveLabel = {
-                            onSaveLabel(it)
-                            page.value = TaskLabelsPage.ShowLabels
-                        },
-                        onDeleteLabel = {
-                            onDeleteLabel(it)
-                            page.value = TaskLabelsPage.ShowLabels
-                        }
+                        onSaveLabel = onSaveLabel,
+                        onDeleteLabel = onDeleteLabel
                     )
                 }
             }

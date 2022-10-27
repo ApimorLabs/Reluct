@@ -151,7 +151,7 @@ fun TaskDetailsUI(
                                 LazyRow(
                                     verticalAlignment = Alignment.CenterVertically,
                                     horizontalArrangement = Arrangement
-                                        .spacedBy(Dimens.MediumPadding.size),
+                                        .spacedBy(Dimens.SmallPadding.size),
                                     modifier = Modifier.fillMaxWidth()
                                 ) {
                                     items(task.taskLabels, key = { it.id }) { item ->
@@ -176,7 +176,7 @@ fun TaskDetailsUI(
 
                         // Bottom Space
                         item {
-                            Spacer(modifier = Modifier)
+                            Spacer(modifier = Modifier.navigationBarsPadding())
                         }
                     }
                 }

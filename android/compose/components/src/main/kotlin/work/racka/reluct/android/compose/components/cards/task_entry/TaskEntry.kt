@@ -140,7 +140,7 @@ private fun TaskEntryData(
         if (task.taskLabels.isNotEmpty()) {
             LazyRow(
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(Dimens.MediumPadding.size),
+                horizontalArrangement = Arrangement.spacedBy(Dimens.SmallPadding.size),
                 modifier = Modifier.fillMaxWidth()
             ) {
                 items(task.taskLabels, key = { it.id }) { item ->

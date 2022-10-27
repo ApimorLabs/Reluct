@@ -2,6 +2,7 @@ package work.racka.reluct.android.compose.components.bottom_sheet.task_labels
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.text.KeyboardActions
@@ -11,10 +12,7 @@ import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.DeleteSweep
 import androidx.compose.material.icons.rounded.Refresh
 import androidx.compose.material.icons.rounded.Save
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -74,7 +72,7 @@ fun AddEditTaskLabelSheet(
     var labelNameError by remember { mutableStateOf(false) }
 
     LazyColumn(
-        modifier = modifier,
+        modifier = modifier.imePadding(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(Dimens.MediumPadding.size),
     ) {
@@ -85,7 +83,10 @@ fun AddEditTaskLabelSheet(
                 contentColor = MaterialTheme.colorScheme.onSurface,
                 onCloseClicked = onClose,
                 rightButtonIcon = initialLabel?.let { Icons.Rounded.Delete },
-                onRightButtonClicked = { initialLabel?.let(onDeleteLabel) }
+                onRightButtonClicked = {
+                    initialLabel?.let(onDeleteLabel)
+                    onClose()
+                }
             )
         }
 
@@ -93,7 +94,8 @@ fun AddEditTaskLabelSheet(
         item {
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = Alignment.Top,
+                horizontalArrangement = Arrangement.spacedBy(Dimens.SmallPadding.size)
             ) {
                 ReluctTextField(
                     modifier = Modifier.fillMaxWidth(.8f),
@@ -116,23 +118,25 @@ fun AddEditTaskLabelSheet(
                     }
                 )
 
-                Spacer(modifier = Modifier.height(Dimens.MediumPadding.size))
-
-                Button(
-                    modifier = Modifier.weight(1f),
-                    onClick = {
-                        val colorHexString = getRandomColor().toHexString()
-                        label.value = label.value.copy(colorHexString = colorHexString)
-                    },
-                    colors = ButtonDefaults.buttonColors(
-                        contentColor = labelContent,
-                        containerColor = labelContainer
-                    )
+                Box(
+                    modifier = Modifier
+                        .weight(1f)
+                        .background(color = labelContainer, shape = Shapes.large),
+                    contentAlignment = Alignment.Center
                 ) {
-                    Icon(
-                        imageVector = Icons.Rounded.Refresh,
-                        contentDescription = "Random Color"
-                    )
+                    IconButton(
+                        modifier = Modifier.padding(3.dp),
+                        onClick = {
+                            val colorHexString = getRandomColor().toHexString()
+                            label.value = label.value.copy(colorHexString = colorHexString)
+                        }
+                    ) {
+                        Icon(
+                            imageVector = Icons.Rounded.Refresh,
+                            contentDescription = "Random Color",
+                            tint = labelContent
+                        )
+                    }
                 }
             }
         }

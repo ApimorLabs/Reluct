@@ -227,6 +227,14 @@ fun LazyColumnAddEditGoal(
                 )
             }
         }
+
+        item {
+            Spacer(
+                modifier = Modifier
+                    .navigationBarsPadding()
+                    .imePadding()
+            )
+        }
     }
 }
 

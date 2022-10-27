@@ -257,5 +257,13 @@ fun LazyColumnAddEditTaskFields(
                 )
             }
         }
+
+        item {
+            Spacer(
+                modifier = Modifier
+                    .navigationBarsPadding()
+                    .imePadding()
+            )
+        }
     }
 }
