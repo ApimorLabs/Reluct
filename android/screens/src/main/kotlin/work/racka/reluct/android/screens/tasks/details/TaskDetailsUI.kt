@@ -4,8 +4,11 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBack
@@ -23,6 +26,7 @@ import work.racka.reluct.android.compose.components.buttons.OutlinedReluctButton
 import work.racka.reluct.android.compose.components.buttons.ReluctButton
 import work.racka.reluct.android.compose.components.cards.task_entry.TaskDetailsHeading
 import work.racka.reluct.android.compose.components.cards.task_entry.TaskInfoCard
+import work.racka.reluct.android.compose.components.cards.task_label_entry.TaskLabelPill
 import work.racka.reluct.android.compose.components.topBar.ReluctSmallTopAppBar
 import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.android.compose.theme.Shapes
@@ -139,6 +143,28 @@ fun TaskDetailsUI(
                                 color = LocalContentColor.current
                                     .copy(alpha = .8f)
                             )
+                        }
+
+                        // Task Labels
+                        if (task.taskLabels.isNotEmpty()) {
+                            item {
+                                LazyRow(
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    horizontalArrangement = Arrangement
+                                        .spacedBy(Dimens.MediumPadding.size),
+                                    modifier = Modifier.fillMaxWidth()
+                                ) {
+                                    items(task.taskLabels, key = { it.id }) { item ->
+                                        TaskLabelPill(
+                                            modifier = Modifier.clickable {
+                                                // TODO: Show Info
+                                            },
+                                            name = item.name,
+                                            colorHex = item.colorHexString
+                                        )
+                                    }
+                                }
+                            }
                         }
 
                         item {
