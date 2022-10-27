@@ -4,15 +4,21 @@ import androidx.compose.animation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.ModalBottomSheetLayout
+import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.ArrowBack
+import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.launch
 import work.racka.reluct.android.compose.components.bottom_sheet.add_edit_task.LazyColumnAddEditTaskFields
 import work.racka.reluct.android.compose.components.buttons.OutlinedReluctButton
 import work.racka.reluct.android.compose.components.buttons.ReluctButton
@@ -21,21 +27,31 @@ import work.racka.reluct.android.compose.components.topBar.ReluctSmallTopAppBar
 import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.android.compose.theme.Shapes
 import work.racka.reluct.android.screens.R
+import work.racka.reluct.android.screens.tasks.components.ManageTaskLabelsSheet
+import work.racka.reluct.android.screens.tasks.components.ModifyTaskLabel
 import work.racka.reluct.android.screens.util.BackPressHandler
 import work.racka.reluct.common.model.domain.tasks.EditTask
 import work.racka.reluct.common.model.states.tasks.ModifyTaskState
 
-@OptIn(ExperimentalAnimationApi::class, ExperimentalMaterial3Api::class)
+@OptIn(
+    ExperimentalAnimationApi::class,
+    ExperimentalMaterial3Api::class,
+    ExperimentalMaterialApi::class
+)
 @Composable
-fun AddEditTaskUI(
+internal fun AddEditTaskUI(
     modifier: Modifier = Modifier,
     snackbarState: SnackbarHostState,
     uiState: ModifyTaskState,
     onSaveTask: () -> Unit,
     onAddTaskClicked: () -> Unit,
     onUpdateTask: (task: EditTask) -> Unit,
-    onBackClicked: () -> Unit
+    onBackClicked: () -> Unit,
+    onModifyTaskLabel: (ModifyTaskLabel) -> Unit
 ) {
+
+    val modalSheetState = rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)
+    val scope = rememberCoroutineScope()
 
     val (titleText, dialogTitle) = when (uiState) {
         is ModifyTaskState.Data -> {
@@ -60,134 +76,149 @@ fun AddEditTaskUI(
 
     BackPressHandler { goBackAttempt() }
 
-    Scaffold(
-        modifier = modifier.fillMaxSize(),
-        containerColor = MaterialTheme.colorScheme.background,
-        contentWindowInsets = WindowInsets(0, 0, 0, 0),
-        topBar = {
-            ReluctSmallTopAppBar(
+    ModalBottomSheetLayout(
+        sheetState = modalSheetState,
+        sheetContent = {
+            ManageTaskLabelsSheet(
                 modifier = Modifier.statusBarsPadding(),
-                title = titleText,
-                navigationIcon = {
-                    IconButton(onClick = { goBackAttempt() }) {
-                        Icon(
-                            imageVector = Icons.Rounded.ArrowBack,
-                            contentDescription = null
+                labelsState =,
+                onSaveLabel = { onModifyTaskLabel(ModifyTaskLabel.SaveLabel(it)) },
+                onDeleteLabel = { onModifyTaskLabel(ModifyTaskLabel.Delete(it)) },
+                onClose = { scope.launch { modalSheetState.hide() } }
+            )
+        },
+        sheetElevation = 0.dp,
+        sheetBackgroundColor = Color.Transparent
+    ) {
+        Scaffold(
+            modifier = modifier.fillMaxSize(),
+            containerColor = MaterialTheme.colorScheme.background,
+            contentWindowInsets = WindowInsets(0, 0, 0, 0),
+            topBar = {
+                ReluctSmallTopAppBar(
+                    modifier = Modifier.statusBarsPadding(),
+                    title = titleText,
+                    navigationIcon = {
+                        IconButton(onClick = { goBackAttempt() }) {
+                            Icon(
+                                imageVector = Icons.Rounded.ArrowBack,
+                                contentDescription = null
+                            )
+                        }
+                    }
+                )
+            },
+            snackbarHost = {
+                SnackbarHost(hostState = snackbarState) { data ->
+                    Snackbar(
+                        modifier = Modifier.navigationBarsPadding(),
+                        snackbarData = data,
+                        containerColor = MaterialTheme.colorScheme.inverseSurface,
+                        contentColor = MaterialTheme.colorScheme.inverseOnSurface,
+                        actionColor = MaterialTheme.colorScheme.primary,
+                    )
+                }
+            }
+        ) { innerPadding ->
+            Box(
+                modifier = Modifier
+                    .padding(innerPadding)
+                    .navigationBarsPadding()
+                    .padding(horizontal = Dimens.MediumPadding.size)
+                    .fillMaxSize()
+            ) {
+                // Loading
+                AnimatedVisibility(
+                    modifier = Modifier
+                        .fillMaxSize(),
+                    visible = uiState is ModifyTaskState.Loading,
+                    enter = scaleIn(),
+                    exit = scaleOut()
+                ) {
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        CircularProgressIndicator()
+                    }
+                }
+
+                // Add or Edit Task
+                AnimatedVisibility(
+                    modifier = Modifier
+                        .fillMaxSize(),
+                    visible = uiState is ModifyTaskState.Data,
+                    enter = fadeIn(),
+                    exit = scaleOut()
+                ) {
+                    if (uiState is ModifyTaskState.Data) {
+                        LazyColumnAddEditTaskFields(
+                            task = uiState.task,
+                            saveButtonText = stringResource(R.string.save_button_text),
+                            discardButtonText = stringResource(R.string.discard_button_text),
+                            onSave = { onSaveTask() },
+                            onUpdateTask = onUpdateTask,
+                            onDiscard = { goBackAttempt() }
                         )
                     }
                 }
-            )
-        },
-        snackbarHost = {
-            SnackbarHost(hostState = snackbarState) { data ->
-                Snackbar(
-                    modifier = Modifier.navigationBarsPadding(),
-                    snackbarData = data,
-                    containerColor = MaterialTheme.colorScheme.inverseSurface,
-                    contentColor = MaterialTheme.colorScheme.inverseOnSurface,
-                    actionColor = MaterialTheme.colorScheme.primary,
-                )
-            }
-        }
-    ) { innerPadding ->
-        Box(
-            modifier = Modifier
-                .padding(innerPadding)
-                .navigationBarsPadding()
-                .padding(horizontal = Dimens.MediumPadding.size)
-                .fillMaxSize()
-        ) {
-            // Loading
-            AnimatedVisibility(
-                modifier = Modifier
-                    .fillMaxSize(),
-                visible = uiState is ModifyTaskState.Loading,
-                enter = scaleIn(),
-                exit = scaleOut()
-            ) {
-                Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center
-                ) {
-                    CircularProgressIndicator()
-                }
-            }
 
-            // Add or Edit Task
-            AnimatedVisibility(
-                modifier = Modifier
-                    .fillMaxSize(),
-                visible = uiState is ModifyTaskState.Data,
-                enter = fadeIn(),
-                exit = scaleOut()
-            ) {
-                if (uiState is ModifyTaskState.Data) {
-                    LazyColumnAddEditTaskFields(
-                        task = uiState.task,
-                        saveButtonText = stringResource(R.string.save_button_text),
-                        discardButtonText = stringResource(R.string.discard_button_text),
-                        onSave = { onSaveTask() },
-                        onUpdateTask = onUpdateTask,
-                        onDiscard = { goBackAttempt() }
-                    )
-                }
-            }
-
-            // Task Saved
-            AnimatedVisibility(
-                modifier = Modifier
-                    .fillMaxSize(),
-                visible = uiState is ModifyTaskState.Saved,
-                enter = scaleIn(),
-                exit = scaleOut()
-            ) {
-                Column(
+                // Task Saved
+                AnimatedVisibility(
                     modifier = Modifier
-                        .verticalScroll(rememberScrollState()),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement
-                        .spacedBy(Dimens.MediumPadding.size)
+                        .fillMaxSize(),
+                    visible = uiState is ModifyTaskState.Saved,
+                    enter = scaleIn(),
+                    exit = scaleOut()
                 ) {
-                    LottieAnimationWithDescription(
-                        lottieResId = R.raw.task_saved,
-                        imageSize = 300.dp,
-                        description = null
-                    )
-                    ReluctButton(
-                        buttonText = stringResource(R.string.add_task_button_text),
-                        icon = Icons.Rounded.Add,
-                        shape = Shapes.large,
-                        buttonColor = MaterialTheme.colorScheme.primary,
-                        contentColor = MaterialTheme.colorScheme.onPrimary,
-                        onButtonClicked = onAddTaskClicked
-                    )
-                    OutlinedReluctButton(
-                        buttonText = stringResource(R.string.exit_text),
-                        icon = Icons.Rounded.ArrowBack,
-                        shape = Shapes.large,
-                        borderColor = MaterialTheme.colorScheme.primary,
-                        onButtonClicked = onBackClicked
-                    )
+                    Column(
+                        modifier = Modifier
+                            .verticalScroll(rememberScrollState()),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement
+                            .spacedBy(Dimens.MediumPadding.size)
+                    ) {
+                        LottieAnimationWithDescription(
+                            lottieResId = R.raw.task_saved,
+                            imageSize = 300.dp,
+                            description = null
+                        )
+                        ReluctButton(
+                            buttonText = stringResource(R.string.add_task_button_text),
+                            icon = Icons.Rounded.Add,
+                            shape = Shapes.large,
+                            buttonColor = MaterialTheme.colorScheme.primary,
+                            contentColor = MaterialTheme.colorScheme.onPrimary,
+                            onButtonClicked = onAddTaskClicked
+                        )
+                        OutlinedReluctButton(
+                            buttonText = stringResource(R.string.exit_text),
+                            icon = Icons.Rounded.ArrowBack,
+                            shape = Shapes.large,
+                            borderColor = MaterialTheme.colorScheme.primary,
+                            onButtonClicked = onBackClicked
+                        )
+                    }
                 }
-            }
 
-            // Task Not Found
-            AnimatedVisibility(
-                modifier = Modifier
-                    .fillMaxSize(),
-                visible = uiState is ModifyTaskState.NotFound,
-                enter = scaleIn(),
-                exit = scaleOut()
-            ) {
-                Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center
+                // Task Not Found
+                AnimatedVisibility(
+                    modifier = Modifier
+                        .fillMaxSize(),
+                    visible = uiState is ModifyTaskState.NotFound,
+                    enter = scaleIn(),
+                    exit = scaleOut()
                 ) {
-                    LottieAnimationWithDescription(
-                        lottieResId = R.raw.no_data,
-                        imageSize = 300.dp,
-                        description = stringResource(R.string.task_not_found_text)
-                    )
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        LottieAnimationWithDescription(
+                            lottieResId = R.raw.no_data,
+                            imageSize = 300.dp,
+                            description = stringResource(R.string.task_not_found_text)
+                        )
+                    }
                 }
             }
         }
