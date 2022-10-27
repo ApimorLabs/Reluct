@@ -109,6 +109,7 @@
     <string name="select_task_labels_text">Select Task Labels</string>
     <string name="task_label_text">Task Label</string>
     <string name="no_saved_label_text">No Saved Labels</string>
+    <string name="no_selected_labels_text">No Selected Labels</string>
 
     <string name="time_limit_change_arg">Screen Time Limit for %1$s changed</string>
 
