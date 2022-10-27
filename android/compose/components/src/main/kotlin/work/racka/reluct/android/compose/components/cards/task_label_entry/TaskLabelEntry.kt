@@ -5,6 +5,10 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Edit
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -30,7 +34,8 @@ fun TaskLabelEntry(
     isSelected: Boolean = false,
     showCheckbox: Boolean = true,
     onEntryClick: () -> Unit,
-    onCheckedChange: (Boolean) -> Unit
+    onCheckedChange: (Boolean) -> Unit,
+    onEdit: () -> Unit = {}
 ) {
 
     val labelColors by remember(label.colorHexString) {
@@ -80,6 +85,12 @@ fun TaskLabelEntry(
                     .size(32.dp)
                     .background(color = labelColors.first, shape = CircleShape)
             )
+
+            if (!showCheckbox) {
+                IconButton(onClick = onEdit) {
+                    Icon(imageVector = Icons.Rounded.Edit, contentDescription = null)
+                }
+            }
         }
     )
 }

@@ -38,7 +38,7 @@ import work.racka.reluct.common.model.util.UUIDGen
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun AddTaskLabelSheet(
+fun AddEditTaskLabelSheet(
     modifier: Modifier = Modifier,
     onClose: () -> Unit,
     initialLabel: TaskLabel?,
@@ -78,7 +78,7 @@ fun AddTaskLabelSheet(
     ) {
         stickyHeader {
             TopSheetSection(
-                sheetTitle = stringResource(id = R.string.buy_me_coffee_text),
+                sheetTitle = stringResource(id = R.string.task_label_text),
                 containerColor = MaterialTheme.colorScheme.surface,
                 contentColor = MaterialTheme.colorScheme.onSurface,
                 onCloseClicked = onClose
@@ -183,6 +183,15 @@ fun AddTaskLabelSheet(
                     }
                 )
             }
+        }
+
+        // Bottom Space
+        item {
+            Spacer(
+                modifier = Modifier
+                    .padding(bottom = Dimens.MediumPadding.size)
+                    .navigationBarsPadding()
+            )
         }
     }
 }

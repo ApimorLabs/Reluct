@@ -105,6 +105,9 @@
     <string name="delete_task">Delete Task</string>
     <string name="discard_task">Discard Task</string>
     <string name="discard_task_message">This action will discard all the current changes</string>
+    <string name="select_task_labels_text">Select Task Labels</string>
+    <string name="task_label_text">Task Label</string>
+    <string name="no_saved_label_text">No Saved Labels</string>
 
     <string name="time_limit_change_arg">Screen Time Limit for %1$s changed</string>
 
