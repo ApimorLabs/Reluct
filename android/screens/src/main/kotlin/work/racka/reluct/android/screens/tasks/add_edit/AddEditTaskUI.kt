@@ -27,10 +27,12 @@ import work.racka.reluct.android.compose.components.topBar.ReluctSmallTopAppBar
 import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.android.compose.theme.Shapes
 import work.racka.reluct.android.screens.R
+import work.racka.reluct.android.screens.tasks.components.CurrentTaskLabels
 import work.racka.reluct.android.screens.tasks.components.ManageTaskLabelsSheet
 import work.racka.reluct.android.screens.tasks.components.ModifyTaskLabel
 import work.racka.reluct.android.screens.util.BackPressHandler
 import work.racka.reluct.common.model.domain.tasks.EditTask
+import work.racka.reluct.common.model.states.tasks.AddEditTaskState
 import work.racka.reluct.common.model.states.tasks.ModifyTaskState
 
 @OptIn(
@@ -42,7 +44,7 @@ import work.racka.reluct.common.model.states.tasks.ModifyTaskState
 internal fun AddEditTaskUI(
     modifier: Modifier = Modifier,
     snackbarState: SnackbarHostState,
-    uiState: ModifyTaskState,
+    uiState: AddEditTaskState,
     onSaveTask: () -> Unit,
     onAddTaskClicked: () -> Unit,
     onUpdateTask: (task: EditTask) -> Unit,
@@ -53,18 +55,33 @@ internal fun AddEditTaskUI(
     val modalSheetState = rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)
     val scope = rememberCoroutineScope()
 
-    val (titleText, dialogTitle) = when (uiState) {
+    val modifyTaskState = uiState.modifyTaskState
+
+    val labelsState by remember(modifyTaskState, uiState.availableTaskLabels) {
+        derivedStateOf {
+            val task = if (modifyTaskState is ModifyTaskState.Data) modifyTaskState.task else null
+            CurrentTaskLabels(
+                availableLabels = uiState.availableTaskLabels,
+                selectedLabels = task?.taskLabels ?: emptyList(),
+                onUpdateSelectedLabels = { labels ->
+                    task?.copy(taskLabels = labels)?.let(onUpdateTask)
+                }
+            )
+        }
+    }
+
+    val (titleText, dialogTitle) = when (modifyTaskState) {
         is ModifyTaskState.Data -> {
-            if (uiState.isEdit) {
+            if (modifyTaskState.isEdit) {
                 stringResource(R.string.edit_task_text) to stringResource(R.string.discard_changes_text)
             } else stringResource(R.string.add_task_text) to stringResource(R.string.discard_task)
         }
         else -> "• • •" to stringResource(R.string.discard_task)
     }
 
-    val canGoBack by remember(uiState) {
+    val canGoBack by remember(modifyTaskState) {
         derivedStateOf {
-            uiState !is ModifyTaskState.Data
+            modifyTaskState !is ModifyTaskState.Data
         }
     }
     var openDialog by remember { mutableStateOf(false) }
@@ -81,7 +98,7 @@ internal fun AddEditTaskUI(
         sheetContent = {
             ManageTaskLabelsSheet(
                 modifier = Modifier.statusBarsPadding(),
-                labelsState =,
+                labelsState = labelsState,
                 onSaveLabel = { onModifyTaskLabel(ModifyTaskLabel.SaveLabel(it)) },
                 onDeleteLabel = { onModifyTaskLabel(ModifyTaskLabel.Delete(it)) },
                 onClose = { scope.launch { modalSheetState.hide() } }
@@ -131,7 +148,7 @@ internal fun AddEditTaskUI(
                 AnimatedVisibility(
                     modifier = Modifier
                         .fillMaxSize(),
-                    visible = uiState is ModifyTaskState.Loading,
+                    visible = modifyTaskState is ModifyTaskState.Loading,
                     enter = scaleIn(),
                     exit = scaleOut()
                 ) {
@@ -147,13 +164,13 @@ internal fun AddEditTaskUI(
                 AnimatedVisibility(
                     modifier = Modifier
                         .fillMaxSize(),
-                    visible = uiState is ModifyTaskState.Data,
+                    visible = modifyTaskState is ModifyTaskState.Data,
                     enter = fadeIn(),
                     exit = scaleOut()
                 ) {
-                    if (uiState is ModifyTaskState.Data) {
+                    if (modifyTaskState is ModifyTaskState.Data) {
                         LazyColumnAddEditTaskFields(
-                            task = uiState.task,
+                            task = modifyTaskState.task,
                             saveButtonText = stringResource(R.string.save_button_text),
                             discardButtonText = stringResource(R.string.discard_button_text),
                             onSave = { onSaveTask() },
@@ -167,7 +184,7 @@ internal fun AddEditTaskUI(
                 AnimatedVisibility(
                     modifier = Modifier
                         .fillMaxSize(),
-                    visible = uiState is ModifyTaskState.Saved,
+                    visible = modifyTaskState is ModifyTaskState.Saved,
                     enter = scaleIn(),
                     exit = scaleOut()
                 ) {
@@ -205,7 +222,7 @@ internal fun AddEditTaskUI(
                 AnimatedVisibility(
                     modifier = Modifier
                         .fillMaxSize(),
-                    visible = uiState is ModifyTaskState.NotFound,
+                    visible = modifyTaskState is ModifyTaskState.NotFound,
                     enter = scaleIn(),
                     exit = scaleOut()
                 ) {
