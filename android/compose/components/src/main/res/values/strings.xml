@@ -44,6 +44,7 @@
     <string name="negative_dialog_button">Cancel</string>
 
     <string name="add_task">Add Task</string>
+    <string name="new_task_label_text">New Task Label</string>
     <string name="edit_task">Edit Task</string>
     <string name="task_title_hint">Task name</string>
     <string name="description_hint">Description</string>

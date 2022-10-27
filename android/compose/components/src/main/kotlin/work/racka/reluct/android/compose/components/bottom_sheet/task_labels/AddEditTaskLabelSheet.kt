@@ -7,6 +7,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.DeleteSweep
 import androidx.compose.material.icons.rounded.Refresh
 import androidx.compose.material.icons.rounded.Save
@@ -42,7 +43,8 @@ fun AddEditTaskLabelSheet(
     modifier: Modifier = Modifier,
     onClose: () -> Unit,
     initialLabel: TaskLabel?,
-    onAddLabel: (TaskLabel) -> Unit
+    onSaveLabel: (TaskLabel) -> Unit,
+    onDeleteLabel: (TaskLabel) -> Unit
 ) {
 
     val focusRequest = LocalFocusManager.current
@@ -81,7 +83,9 @@ fun AddEditTaskLabelSheet(
                 sheetTitle = stringResource(id = R.string.task_label_text),
                 containerColor = MaterialTheme.colorScheme.surface,
                 contentColor = MaterialTheme.colorScheme.onSurface,
-                onCloseClicked = onClose
+                onCloseClicked = onClose,
+                rightButtonIcon = initialLabel?.let { Icons.Rounded.Delete },
+                onRightButtonClicked = { initialLabel?.let(onDeleteLabel) }
             )
         }
 
@@ -177,7 +181,7 @@ fun AddEditTaskLabelSheet(
                         val isNameBlank = label.value.name.isBlank()
                         labelNameError = isNameBlank
                         if (!isNameBlank) {
-                            onAddLabel(label.value)
+                            onSaveLabel(label.value)
                             onClose()
                         }
                     }

@@ -1,12 +1,11 @@
 package work.racka.reluct.android.compose.components.bottom_sheet.task_labels
 
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.navigationBarsPadding
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
@@ -18,9 +17,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import work.racka.reluct.android.compose.components.R
 import work.racka.reluct.android.compose.components.bottom_sheet.TopSheetSection
+import work.racka.reluct.android.compose.components.buttons.ReluctButton
 import work.racka.reluct.android.compose.components.cards.task_label_entry.TaskLabelEntry
+import work.racka.reluct.android.compose.components.cards.task_label_entry.TaskLabelsEntryMode
 import work.racka.reluct.android.compose.components.images.LottieAnimationWithDescription
 import work.racka.reluct.android.compose.theme.Dimens
+import work.racka.reluct.android.compose.theme.Shapes
 import work.racka.reluct.common.model.domain.tasks.TaskLabel
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -28,8 +30,10 @@ import work.racka.reluct.common.model.domain.tasks.TaskLabel
 fun LazyColumnSelectTaskLabelsSheet(
     modifier: Modifier = Modifier,
     onClose: () -> Unit,
+    entryMode: TaskLabelsEntryMode = TaskLabelsEntryMode.SelectLabels,
     availableLabels: List<TaskLabel>,
     selectedLabels: List<TaskLabel>,
+    onAddNewLabel: () -> Unit,
     onEditLabels: (isAdd: Boolean, label: TaskLabel) -> Unit
 ) {
 
@@ -55,7 +59,19 @@ fun LazyColumnSelectTaskLabelsSheet(
                     description = stringResource(R.string.no_saved_label_text)
                 )
             }
-        } else {
+        }
+
+        item {
+            ReluctButton(
+                modifier = Modifier.fillMaxWidth(.7f),
+                shape = Shapes.large,
+                buttonText = stringResource(R.string.new_task_label_text),
+                icon = Icons.Rounded.Add,
+                onButtonClicked = onAddNewLabel
+            )
+        }
+
+        if (availableLabels.isNotEmpty()) {
             items(availableLabels, key = { it.id }) { item ->
                 val selected by remember(selectedLabels) {
                     derivedStateOf {
@@ -64,6 +80,7 @@ fun LazyColumnSelectTaskLabelsSheet(
                 }
 
                 TaskLabelEntry(
+                    entryMode = entryMode,
                     label = item,
                     isSelected = selected,
                     onEntryClick = { onEditLabels(!selected, item) },

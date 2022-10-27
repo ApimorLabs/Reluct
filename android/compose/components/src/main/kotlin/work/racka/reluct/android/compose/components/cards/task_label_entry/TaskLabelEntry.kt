@@ -30,9 +30,9 @@ import work.racka.reluct.common.model.domain.tasks.TaskLabel
 @Composable
 fun TaskLabelEntry(
     modifier: Modifier = Modifier,
+    entryMode: TaskLabelsEntryMode = TaskLabelsEntryMode.SelectLabels,
     label: TaskLabel,
     isSelected: Boolean = false,
-    showCheckbox: Boolean = true,
     onEntryClick: () -> Unit,
     onCheckedChange: (Boolean) -> Unit,
     onEdit: () -> Unit = {}
@@ -47,12 +47,12 @@ fun TaskLabelEntry(
     }
 
     val containerColor by animateColorAsState(
-        targetValue = if (isSelected) labelColors.first
-        else MaterialTheme.colorScheme.surfaceVariant
+        targetValue = if (isSelected && entryMode == TaskLabelsEntryMode.SelectLabels)
+            labelColors.first else MaterialTheme.colorScheme.surfaceVariant
     )
     val contentColor by animateColorAsState(
-        targetValue = if (isSelected) labelColors.second
-        else MaterialTheme.colorScheme.onSurfaceVariant
+        targetValue = if (isSelected && entryMode == TaskLabelsEntryMode.SelectLabels)
+            labelColors.second else MaterialTheme.colorScheme.onSurfaceVariant
     )
 
     ReluctDescriptionCard(
@@ -70,23 +70,29 @@ fun TaskLabelEntry(
         },
         onClick = onEntryClick,
         leftItems = {
-            if (showCheckbox) {
+            if (entryMode == TaskLabelsEntryMode.SelectLabels) {
                 RoundCheckbox(
                     isChecked = isSelected,
                     onCheckedChange = {
                         onCheckedChange(it)
                     }
                 )
+            } else {
+                Box(
+                    modifier = Modifier
+                        .size(32.dp)
+                        .background(color = labelColors.first, shape = CircleShape)
+                )
             }
         },
         rightItems = {
-            Box(
-                modifier = Modifier
-                    .size(32.dp)
-                    .background(color = labelColors.first, shape = CircleShape)
-            )
-
-            if (!showCheckbox) {
+            if (entryMode == TaskLabelsEntryMode.SelectLabels) {
+                Box(
+                    modifier = Modifier
+                        .size(32.dp)
+                        .background(color = labelColors.first, shape = CircleShape)
+                )
+            } else {
                 IconButton(onClick = onEdit) {
                     Icon(imageVector = Icons.Rounded.Edit, contentDescription = null)
                 }
