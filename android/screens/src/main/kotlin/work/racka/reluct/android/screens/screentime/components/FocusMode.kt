@@ -76,9 +76,9 @@ fun LimitsDetailsCard(
                 color = LocalContentColor.current.copy(alpha = .8f)
             )
         },
-        icon = icon,
+        leftItems = { icon?.let { Icon(imageVector = it, contentDescription = null) } },
         onClick = onClick,
-        rightActions = {
+        rightItems = {
             Icon(imageVector = Icons.Rounded.ChevronRight, contentDescription = "Open")
         },
         bottomContent = bottomContent

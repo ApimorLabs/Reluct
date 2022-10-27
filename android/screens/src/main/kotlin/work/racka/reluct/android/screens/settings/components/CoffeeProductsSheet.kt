@@ -188,8 +188,8 @@ internal fun ProductCard(
                 color = LocalContentColor.current
             )
         },
-        icon = icon,
-        rightActions = {
+        leftItems = { icon?.let { Icon(imageVector = it, contentDescription = null) } },
+        rightItems = {
             Icon(
                 imageVector = Icons.Rounded.ChevronRight,
                 contentDescription = "Open"

@@ -122,8 +122,13 @@ internal fun SettingsUI(
                                 color = LocalContentColor.current.copy(alpha = .8f)
                             )
                         },
-                        icon = Icons.Rounded.DarkMode,
-                        rightActions = {
+                        leftItems = {
+                            Icon(
+                                imageVector = Icons.Rounded.DarkMode,
+                                contentDescription = null
+                            )
+                        },
+                        rightItems = {
                             Icon(
                                 imageVector = Icons.Rounded.ChevronRight,
                                 contentDescription = "Open"

@@ -7,7 +7,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.graphics.vector.ImageVector
 import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.android.compose.theme.Shapes
 
@@ -20,8 +19,8 @@ fun ReluctDescriptionCard(
     shape: Shape = Shapes.large,
     title: @Composable () -> Unit,
     description: @Composable ColumnScope.() -> Unit,
-    icon: ImageVector? = null,
-    rightActions: @Composable RowScope.() -> Unit = {},
+    leftItems: @Composable RowScope.() -> Unit = {},
+    rightItems: @Composable RowScope.() -> Unit = {},
     onClick: () -> Unit,
     bottomContent: @Composable ColumnScope.() -> Unit = {}
 ) {
@@ -43,9 +42,7 @@ fun ReluctDescriptionCard(
                 .padding(Dimens.MediumPadding.size)
                 .fillMaxWidth()
         ) {
-            icon?.let {
-                Icon(imageVector = icon, contentDescription = null)
-            }
+            leftItems()
 
             Column(
                 modifier = Modifier
@@ -57,7 +54,8 @@ fun ReluctDescriptionCard(
                 title()
                 description()
             }
-            rightActions()
+
+            rightItems()
         }
         bottomContent()
     }

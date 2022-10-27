@@ -107,7 +107,7 @@ fun AddTaskLabelSheet(
                         onNext = { focusRequest.moveFocus(FocusDirection.Next) }
                     ),
                     onTextChange = { text ->
-                        labelNameError = false
+                        labelNameError = text.isBlank()
                         label.value = label.value.copy(name = text)
                     }
                 )

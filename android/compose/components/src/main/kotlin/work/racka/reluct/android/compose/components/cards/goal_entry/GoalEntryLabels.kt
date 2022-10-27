@@ -203,7 +203,7 @@ fun GoalValuesCard(
         },
         description = {},
         onClick = { onUpdateClicked(goal.goalType) },
-        rightActions = {
+        rightItems = {
             IconButton(onClick = { onUpdateClicked(goal.goalType) }, enabled = !isLoading) {
                 if (goal.goalType == GoalType.NumeralGoal) {
                     Icon(
