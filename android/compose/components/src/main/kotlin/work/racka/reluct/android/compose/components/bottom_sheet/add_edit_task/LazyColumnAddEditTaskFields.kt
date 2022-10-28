@@ -87,8 +87,8 @@ fun LazyColumnAddEditTaskFields(
                         dateTime = timeString,
                         originalTimeZoneId = task.timeZoneId
                     )
-                } else taskDueTime.plus(hours = 1)
-            } ?: taskDueTime.plus(hours = 1)
+                } else taskDueTime
+            } ?: taskDueTime
         }
     }
 
@@ -183,7 +183,7 @@ fun LazyColumnAddEditTaskFields(
                     setReminder = checked
                     val newTask = task.copy(
                         reminderLocalDateTime =
-                        if (setReminder) taskDueTime.plus(hours = 1).toString()
+                        if (setReminder) taskDueTime.toString()
                         else null
                     )
                     onUpdateTask(newTask)
