@@ -197,7 +197,6 @@ internal fun DashboardOverviewUI(
                 // Upcoming Tasks
                 items(items = uiState.todayTasksState.pending, key = { it.id }) { item ->
                     TaskEntry(
-                        playAnimation = true,
                         modifier = Modifier.animateItemPlacement(),
                         task = item,
                         entryType = EntryType.TasksWithOverdue,

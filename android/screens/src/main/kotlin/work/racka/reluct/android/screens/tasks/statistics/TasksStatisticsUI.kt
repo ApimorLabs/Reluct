@@ -200,8 +200,7 @@ internal fun TasksStatisticsUI(
                             task = item,
                             entryType = EntryType.CompletedTask,
                             onEntryClick = { onTaskClicked(item) },
-                            onCheckedChange = { onToggleTaskDone(item, it) },
-                            playAnimation = true
+                            onCheckedChange = { onToggleTaskDone(item, it) }
                         )
                     }
                 }

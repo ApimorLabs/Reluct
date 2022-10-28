@@ -128,7 +128,6 @@ internal fun TasksSearchUI(
                     ) { item ->
                         TaskEntry(
                             modifier = Modifier.animateItemPlacement(),
-                            playAnimation = true,
                             task = item,
                             entryType = EntryType.CompletedTask,
                             onEntryClick = { onTaskClicked(item) },
