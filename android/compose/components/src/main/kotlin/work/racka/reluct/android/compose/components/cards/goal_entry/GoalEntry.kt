@@ -102,9 +102,8 @@ fun GoalEntry(
                 GoalIntervalLabel(goal = goal)
                 GoalTypeLabel(goalType = goal.goalType)
             },
-            icon = null,
             onClick = onEntryClick,
-            rightActions = {
+            rightItems = {
                 Icon(imageVector = Icons.Rounded.ChevronRight, contentDescription = "Open")
             }
         )

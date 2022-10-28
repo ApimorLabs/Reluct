@@ -30,7 +30,7 @@ fun TopSheetSection(
     onCloseClicked: () -> Unit,
     onRightButtonClicked: () -> Unit = { },
     closeButtonVisible: Boolean = true,
-    rightButtonVisible: Boolean = false,
+    rightButtonEnabled: Boolean = true,
 ) {
     Surface(
         modifier = modifier,
@@ -81,9 +81,9 @@ fun TopSheetSection(
 
                 IconButton(
                     onClick = onRightButtonClicked,
-                    enabled = rightButtonVisible
+                    enabled = rightButtonEnabled
                 ) {
-                    if (rightButtonVisible && rightButtonIcon != null) {
+                    if (rightButtonIcon != null) {
                         Icon(
                             imageVector = rightButtonIcon,
                             contentDescription = rightButtonContentDescription,

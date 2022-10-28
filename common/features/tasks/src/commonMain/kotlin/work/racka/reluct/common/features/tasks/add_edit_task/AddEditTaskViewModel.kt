@@ -5,20 +5,37 @@ import kotlinx.coroutines.channels.onSuccess
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import work.racka.common.mvvm.viewmodel.CommonViewModel
+import work.racka.reluct.common.domain.usecases.tasks.ManageTaskLabels
 import work.racka.reluct.common.domain.usecases.tasks.ModifyTaskUseCase
 import work.racka.reluct.common.features.tasks.util.Constants
 import work.racka.reluct.common.model.domain.tasks.EditTask
+import work.racka.reluct.common.model.domain.tasks.TaskLabel
+import work.racka.reluct.common.model.states.tasks.AddEditTaskState
 import work.racka.reluct.common.model.states.tasks.ModifyTaskState
 import work.racka.reluct.common.model.states.tasks.TasksEvents
 
 class AddEditTaskViewModel(
     private val modifyTaskUseCase: ModifyTaskUseCase,
+    private val manageTaskLabels: ManageTaskLabels,
     private val taskId: String?
 ) : CommonViewModel() {
 
     private val modifyTaskState: MutableStateFlow<ModifyTaskState> =
         MutableStateFlow(ModifyTaskState.Loading)
-    val uiState: StateFlow<ModifyTaskState> = modifyTaskState.asStateFlow()
+    private val availableTaskLabels: MutableStateFlow<List<TaskLabel>> = MutableStateFlow(listOf())
+
+    val uiState: StateFlow<AddEditTaskState> = combine(
+        modifyTaskState, availableTaskLabels
+    ) { modifyTaskState, availableTaskLabels ->
+        AddEditTaskState(
+            modifyTaskState = modifyTaskState,
+            availableTaskLabels = availableTaskLabels
+        )
+    }.stateIn(
+        scope = vmScope,
+        initialValue = AddEditTaskState(),
+        started = SharingStarted.WhileSubscribed(5_000L)
+    )
 
     private val eventsChannel: Channel<TasksEvents> = Channel()
     val events: Flow<TasksEvents>
@@ -26,6 +43,7 @@ class AddEditTaskViewModel(
 
     init {
         getTask(taskId)
+        getTaskLabels()
     }
 
     fun saveCurrentTask() {
@@ -60,6 +78,26 @@ class AddEditTaskViewModel(
 
     fun updateCurrentTask(task: EditTask) {
         modifyTaskState.update { ModifyTaskState.Data(isEdit = taskId != null, task = task) }
+    }
+
+    fun saveLabel(label: TaskLabel) {
+        vmScope.launch {
+            manageTaskLabels.addLabel(label)
+        }
+    }
+
+    fun deleteLabel(label: TaskLabel) {
+        vmScope.launch {
+            manageTaskLabels.deleteLabel(label.id)
+        }
+    }
+
+    private fun getTaskLabels() {
+        vmScope.launch {
+            manageTaskLabels.allLabels().collectLatest { labels ->
+                availableTaskLabels.update { labels }
+            }
+        }
     }
 
     private fun getTask(taskId: String?) {

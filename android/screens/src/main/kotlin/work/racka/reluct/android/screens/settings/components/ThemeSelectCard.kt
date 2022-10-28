@@ -2,6 +2,7 @@ package work.racka.reluct.android.screens.settings.components
 
 import androidx.annotation.StringRes
 import androidx.compose.animation.animateColorAsState
+import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -47,7 +48,7 @@ internal fun ThemeSelectCard(
                 color = LocalContentColor.current.copy(alpha = .8f)
             )
         },
-        icon = themeData.theme.icon,
+        leftItems = { Icon(imageVector = themeData.theme.icon, contentDescription = null) },
         onClick = { onSelectTheme(themeData.theme.themeValue) }
     )
 }

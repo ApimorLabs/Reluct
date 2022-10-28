@@ -15,6 +15,7 @@ import kotlinx.coroutines.launch
 import org.koin.core.parameter.parametersOf
 import work.racka.common.mvvm.koin.compose.getCommonViewModel
 import work.racka.reluct.android.screens.R
+import work.racka.reluct.android.screens.tasks.components.ModifyTaskLabel
 import work.racka.reluct.common.features.tasks.task_details.TaskDetailsViewModel
 import work.racka.reluct.common.model.states.tasks.TasksEvents
 
@@ -50,7 +51,14 @@ fun TaskDetailsScreen(
         onEditTask = { viewModel.editTask(it.id) },
         onDeleteTask = { viewModel.deleteTask(it.id) },
         onToggleTaskDone = { isDone, task -> viewModel.toggleDone(task, isDone) },
-        onBackClicked = { viewModel.goBack() })
+        onBackClicked = { viewModel.goBack() },
+        onModifyTaskLabel = { modifyLabel ->
+            when (modifyLabel) {
+                is ModifyTaskLabel.SaveLabel -> modifyLabel.label.run(viewModel::saveLabel)
+                is ModifyTaskLabel.Delete -> modifyLabel.label.run(viewModel::deleteLabel)
+            }
+        }
+    )
 }
 
 private fun handleEvents(

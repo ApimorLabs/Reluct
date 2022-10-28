@@ -1,4 +1,4 @@
-CREATE TABLE LimitsTable (
+CREATE TABLE IF NOT EXISTS LimitsTable (
 packageName TEXT NOT NULL PRIMARY KEY,
 timeLimit INTEGER NOT NULL,
 isADistractingApp INTEGER AS Boolean DEFAULT 0 NOT NULL,

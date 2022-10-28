@@ -14,6 +14,7 @@ sqldelight {
             file("src/commonMain/sqldelight/work/racka/reluct/common/database/files")
         version = 2
         verifyMigrations = true
+        dialect = "sqlite:3.24"
     }
 }
 

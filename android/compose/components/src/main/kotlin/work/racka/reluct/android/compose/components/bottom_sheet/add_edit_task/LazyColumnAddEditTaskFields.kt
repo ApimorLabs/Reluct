@@ -30,6 +30,7 @@ import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import work.racka.reluct.android.compose.components.R
+import work.racka.reluct.android.compose.components.bottom_sheet.task_labels.TaskLabelsSelectCard
 import work.racka.reluct.android.compose.components.buttons.ReluctButton
 import work.racka.reluct.android.compose.components.cards.settings.EntryWithCheckbox
 import work.racka.reluct.android.compose.components.textfields.ReluctTextField
@@ -52,6 +53,7 @@ fun LazyColumnAddEditTaskFields(
     onUpdateTask: (EditTask) -> Unit,
     onSave: (EditTask) -> Unit,
     onDiscard: () -> Unit,
+    onEditLabels: () -> Unit
 ) {
     val focusRequest = LocalFocusManager.current
 
@@ -134,6 +136,21 @@ fun LazyColumnAddEditTaskFields(
                     onUpdateTask(task.copy(description = text))
                 }
             )
+        }
+
+        // Task Due Time
+        item {
+            Text(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                text = stringResource(R.string.task_labels_text),
+                style = MaterialTheme.typography.titleMedium,
+                color = LocalContentColor.current,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
+            Spacer(modifier = Modifier.height(Dimens.SmallPadding.size))
+            TaskLabelsSelectCard(labels = task.taskLabels, onEditLabels = onEditLabels)
         }
 
         // Task Due Time
@@ -239,6 +256,14 @@ fun LazyColumnAddEditTaskFields(
                     }
                 )
             }
+        }
+
+        item {
+            Spacer(
+                modifier = Modifier
+                    .navigationBarsPadding()
+                    .imePadding()
+            )
         }
     }
 }

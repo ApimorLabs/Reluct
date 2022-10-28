@@ -220,7 +220,12 @@ private fun ReasonCard(
                             color = LocalContentColor.current.copy(alpha = .8f)
                         )
                     },
-                    icon = Icons.Rounded.HourglassBottom,
+                    leftItems = {
+                        Icon(
+                            imageVector = Icons.Rounded.HourglassBottom,
+                            contentDescription = null
+                        )
+                    },
                     onClick = { }
                 )
             } else if (focusModeOn && appSettingsData.isDistractingApp) {
@@ -241,7 +246,12 @@ private fun ReasonCard(
                             color = LocalContentColor.current.copy(alpha = .8f)
                         )
                     },
-                    icon = Icons.Rounded.AppBlocking,
+                    leftItems = {
+                        Icon(
+                            imageVector = Icons.Rounded.AppBlocking,
+                            contentDescription = null
+                        )
+                    },
                     onClick = { }
                 )
             } else {
@@ -261,7 +271,12 @@ private fun ReasonCard(
                             color = LocalContentColor.current.copy(alpha = .8f)
                         )
                     },
-                    icon = Icons.Rounded.PauseCircle,
+                    leftItems = {
+                        Icon(
+                            imageVector = Icons.Rounded.PauseCircle,
+                            contentDescription = null
+                        )
+                    },
                     onClick = { }
                 )
             }

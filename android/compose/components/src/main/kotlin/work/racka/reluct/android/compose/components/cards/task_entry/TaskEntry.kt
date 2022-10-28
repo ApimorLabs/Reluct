@@ -5,6 +5,8 @@ import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -18,6 +20,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import work.racka.reluct.android.compose.components.R
+import work.racka.reluct.android.compose.components.cards.task_label_entry.TaskLabelPill
 import work.racka.reluct.android.compose.components.checkboxes.RoundCheckbox
 import work.racka.reluct.android.compose.components.textfields.texts.EntryDescription
 import work.racka.reluct.android.compose.components.textfields.texts.EntryHeading
@@ -84,7 +87,7 @@ fun TaskEntry(
                 }
             )
             Spacer(modifier = Modifier.width(Dimens.SmallPadding.size))
-            TaskEntryText(
+            TaskEntryData(
                 task = task,
                 entryType = entryType
             )
@@ -94,7 +97,7 @@ fun TaskEntry(
 }
 
 @Composable
-private fun TaskEntryText(
+private fun TaskEntryData(
     modifier: Modifier = Modifier,
     task: Task,
     entryType: EntryType,
@@ -132,6 +135,19 @@ private fun TaskEntryText(
             showOverdueLabel = entryType == EntryType.CompletedTask,
             overdue = task.overdue
         )
+
+        // Task Labels
+        if (task.taskLabels.isNotEmpty()) {
+            LazyRow(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(Dimens.SmallPadding.size),
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                items(task.taskLabels, key = { it.id }) { item ->
+                    TaskLabelPill(name = item.name, colorHex = item.colorHexString)
+                }
+            }
+        }
     }
 }
 
