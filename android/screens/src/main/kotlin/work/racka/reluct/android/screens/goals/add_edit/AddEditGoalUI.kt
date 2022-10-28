@@ -1,6 +1,7 @@
 package work.racka.reluct.android.screens.goals.add_edit
 
-import androidx.compose.animation.*
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -99,118 +100,87 @@ internal fun AddEditGoalUI(
                 .padding(horizontal = Dimens.MediumPadding.size)
                 .fillMaxSize()
         ) {
-
-            // Loading
-            AnimatedVisibility(
-                modifier = Modifier
-                    .fillMaxSize(),
-                visible = modifyGoalState is ModifyGoalState.Loading,
-                enter = scaleIn(),
-                exit = scaleOut()
-            ) {
-                Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center
-                ) {
-                    CircularProgressIndicator()
-                }
-            }
-
-            // Add or Edit Goal
-            AnimatedVisibility(
-                modifier = Modifier
-                    .fillMaxSize(),
-                visible = modifyGoalState is ModifyGoalState.Data,
-                enter = fadeIn(),
-                exit = scaleOut()
-            ) {
-                if (modifyGoalState is ModifyGoalState.Data) {
-                    // Add and Edit Column
-                    LazyColumnAddEditGoal(
-                        goal = modifyGoalState.goal,
-                        onUpdateGoal = onUpdateGoal,
-                        onDiscard = { goBackAttempt(canGoBack) },
-                        onSave = { onSave() },
-                        onShowAppPicker = {
-                            openRelatedAppsDialog = true
-                            onSyncRelatedApps()
+            AnimatedContent(
+                targetState = modifyGoalState,
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) { targetState ->
+                when (targetState) {
+                    is ModifyGoalState.Loading -> {
+                        Box(
+                            modifier = Modifier.fillMaxSize(),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            CircularProgressIndicator()
                         }
-                    )
-
-                    // Manage Related Apps
-                    if (openRelatedAppsDialog) {
-                        ManageAppsDialog(
-                            onDismiss = { openRelatedAppsDialog = false },
-                            isLoading = uiState.appsState is GoalAppsState.Loading,
-                            topItemsHeading = stringResource(id = R.string.selected_apps_text),
-                            bottomItemsHeading = stringResource(id = R.string.apps_text),
-                            topItems = uiState.appsState.selectedApps,
-                            bottomItems = uiState.appsState.unselectedApps,
-                            onTopItemClicked = { app -> onModifyApps(app, false) },
-                            onBottomItemClicked = { app -> onModifyApps(app, true) }
+                    }
+                    is ModifyGoalState.Data -> {
+                        // Add and Edit Column
+                        LazyColumnAddEditGoal(
+                            goal = targetState.goal,
+                            onUpdateGoal = onUpdateGoal,
+                            onDiscard = { goBackAttempt(canGoBack) },
+                            onSave = { onSave() },
+                            onShowAppPicker = {
+                                openRelatedAppsDialog = true
+                                onSyncRelatedApps()
+                            }
                         )
+                    }
+                    is ModifyGoalState.NotFound -> {
+                        LottieAnimationWithDescription(
+                            lottieResId = R.raw.no_data,
+                            imageSize = 300.dp,
+                            description = stringResource(R.string.goal_not_found_text)
+                        )
+                    }
+                    is ModifyGoalState.Saved -> {
+                        Column(
+                            modifier = Modifier
+                                .verticalScroll(rememberScrollState()),
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement
+                                .spacedBy(Dimens.MediumPadding.size)
+                        ) {
+                            LottieAnimationWithDescription(
+                                lottieResId = R.raw.task_saved,
+                                imageSize = 300.dp,
+                                description = null
+                            )
+                            ReluctButton(
+                                buttonText = stringResource(R.string.new_goal_text),
+                                icon = Icons.Rounded.Add,
+                                shape = Shapes.large,
+                                buttonColor = MaterialTheme.colorScheme.primary,
+                                contentColor = MaterialTheme.colorScheme.onPrimary,
+                                onButtonClicked = onCreateNewGoal
+                            )
+                            OutlinedReluctButton(
+                                buttonText = stringResource(R.string.exit_text),
+                                icon = Icons.Rounded.ArrowBack,
+                                shape = Shapes.large,
+                                borderColor = MaterialTheme.colorScheme.primary,
+                                onButtonClicked = onGoBack
+                            )
+                        }
                     }
                 }
             }
-
-            // Goal Saved
-            AnimatedVisibility(
-                modifier = Modifier
-                    .fillMaxSize(),
-                visible = modifyGoalState is ModifyGoalState.Saved,
-                enter = scaleIn(),
-                exit = scaleOut()
-            ) {
-                Column(
-                    modifier = Modifier
-                        .verticalScroll(rememberScrollState()),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement
-                        .spacedBy(Dimens.MediumPadding.size)
-                ) {
-                    LottieAnimationWithDescription(
-                        lottieResId = R.raw.task_saved,
-                        imageSize = 300.dp,
-                        description = null
-                    )
-                    ReluctButton(
-                        buttonText = stringResource(R.string.new_goal_text),
-                        icon = Icons.Rounded.Add,
-                        shape = Shapes.large,
-                        buttonColor = MaterialTheme.colorScheme.primary,
-                        contentColor = MaterialTheme.colorScheme.onPrimary,
-                        onButtonClicked = onCreateNewGoal
-                    )
-                    OutlinedReluctButton(
-                        buttonText = stringResource(R.string.exit_text),
-                        icon = Icons.Rounded.ArrowBack,
-                        shape = Shapes.large,
-                        borderColor = MaterialTheme.colorScheme.primary,
-                        onButtonClicked = onGoBack
-                    )
-                }
-            }
-
-            // Goal Not Found
-            AnimatedVisibility(
-                modifier = Modifier
-                    .fillMaxSize(),
-                visible = modifyGoalState is ModifyGoalState.NotFound,
-                enter = scaleIn(),
-                exit = scaleOut()
-            ) {
-                Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center
-                ) {
-                    LottieAnimationWithDescription(
-                        lottieResId = R.raw.no_data,
-                        imageSize = 300.dp,
-                        description = stringResource(R.string.goal_not_found_text)
-                    )
-                }
-            }
         }
+    }
+
+    // Manage Related Apps
+    if (openRelatedAppsDialog) {
+        ManageAppsDialog(
+            onDismiss = { openRelatedAppsDialog = false },
+            isLoading = uiState.appsState is GoalAppsState.Loading,
+            topItemsHeading = stringResource(id = R.string.selected_apps_text),
+            bottomItemsHeading = stringResource(id = R.string.apps_text),
+            topItems = uiState.appsState.selectedApps,
+            bottomItems = uiState.appsState.unselectedApps,
+            onTopItemClicked = { app -> onModifyApps(app, false) },
+            onBottomItemClicked = { app -> onModifyApps(app, true) }
+        )
     }
 
     // Discard Dialog

@@ -1,9 +1,7 @@
 package work.racka.reluct.android.screens.goals.details
 
-import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.animation.scaleIn
-import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -102,116 +100,104 @@ internal fun GoalDetailsUI(
                 .padding(horizontal = Dimens.MediumPadding.size)
                 .fillMaxSize()
         ) {
-            // Loading
-            AnimatedVisibility(
-                modifier = Modifier
-                    .fillMaxSize(),
-                visible = uiState is GoalDetailsState.Loading,
-                enter = scaleIn(),
-                exit = scaleOut()
-            ) {
-                Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center
-                ) {
-                    CircularProgressIndicator()
-                }
-            }
-
-            // Goal Details
-            if (uiState is GoalDetailsState.Data) {
-                LazyColumn(
-                    state = listState,
-                    verticalArrangement = Arrangement
-                        .spacedBy(Dimens.MediumPadding.size)
-                ) {
-                    // Title Card
-                    item {
-                        GoalHeadingSwitchCard(
-                            goal = uiState.goal,
-                            onToggleActiveState = onToggleGoalActive,
+            AnimatedContent(
+                targetState = uiState,
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) { targetState ->
+                when (targetState) {
+                    is GoalDetailsState.Loading -> {
+                        Box(
+                            modifier = Modifier.fillMaxSize(),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            CircularProgressIndicator()
+                        }
+                    }
+                    is GoalDetailsState.NotFound -> {
+                        LottieAnimationWithDescription(
+                            lottieResId = R.raw.no_data,
+                            imageSize = 300.dp,
+                            description = stringResource(R.string.goal_not_found_text)
                         )
                     }
-
-                    // Labels
-                    item {
-                        GoalTypeAndIntervalLabels(
-                            modifier = Modifier.fillMaxWidth(),
-                            goal = uiState.goal
-                        )
-                    }
-
-                    // Target and Current Value
-                    item {
-                        GoalValuesCard(
-                            isLoading = uiState.isSyncing,
-                            goal = uiState.goal,
-                            onUpdateClicked = { type ->
-                                if (type == GoalType.NumeralGoal) openUpdateValueDialog = true
-                                else onSyncData()
+                    is GoalDetailsState.Data -> {
+                        LazyColumn(
+                            state = listState,
+                            verticalArrangement = Arrangement
+                                .spacedBy(Dimens.MediumPadding.size)
+                        ) {
+                            // Title Card
+                            item {
+                                GoalHeadingSwitchCard(
+                                    goal = targetState.goal,
+                                    onToggleActiveState = onToggleGoalActive,
+                                )
                             }
-                        )
-                    }
 
-                    // Show Current Apps
-                    if (uiState.goal.goalType == GoalType.AppScreenTimeGoal) {
-                        item {
-                            ListItemTitle(text = stringResource(id = R.string.selected_apps_text))
+                            // Labels
+                            item {
+                                GoalTypeAndIntervalLabels(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    goal = targetState.goal
+                                )
+                            }
+
+                            // Target and Current Value
+                            item {
+                                GoalValuesCard(
+                                    isLoading = targetState.isSyncing,
+                                    goal = targetState.goal,
+                                    onUpdateClicked = { type ->
+                                        if (type == GoalType.NumeralGoal)
+                                            openUpdateValueDialog = true
+                                        else onSyncData()
+                                    }
+                                )
+                            }
+
+                            // Show Current Apps
+                            if (targetState.goal.goalType == GoalType.AppScreenTimeGoal) {
+                                item {
+                                    ListItemTitle(text = stringResource(id = R.string.selected_apps_text))
+                                }
+
+                                item {
+                                    AppsListCard(apps = targetState.goal.relatedApps)
+                                }
+                            }
+
+                            // Applicable days
+                            if (targetState.goal.goalDuration.goalInterval == GoalInterval.Daily) {
+                                item {
+                                    ListItemTitle(text = stringResource(id = R.string.active_days_text))
+                                }
+
+                                item {
+                                    SelectedDaysOfWeekViewer(
+                                        selectedDays = targetState.goal
+                                            .goalDuration.selectedDaysOfWeek,
+                                        onUpdateDaysOfWeek = {}
+                                    )
+                                }
+                            }
+
+                            // Bottom Space
+                            item {
+                                Spacer(modifier = Modifier)
+                            }
                         }
 
-                        item {
-                            AppsListCard(apps = uiState.goal.relatedApps)
-                        }
-                    }
-
-                    // Applicable days
-                    if (uiState.goal.goalDuration.goalInterval == GoalInterval.Daily) {
-                        item {
-                            ListItemTitle(text = stringResource(id = R.string.active_days_text))
-                        }
-
-                        item {
-                            SelectedDaysOfWeekViewer(
-                                selectedDays = uiState.goal.goalDuration.selectedDaysOfWeek,
-                                onUpdateDaysOfWeek = {}
+                        // Update Current Value Dialog
+                        if (openUpdateValueDialog) {
+                            UpdateValueDialog(
+                                onDismiss = { openUpdateValueDialog = false },
+                                headingText = stringResource(id = R.string.current_value_txt),
+                                initialValue = targetState.goal.currentValue,
+                                onSaveValue = { onUpdateCurrentValue(targetState.goal.id, it) }
                             )
                         }
                     }
-
-                    // Bottom Space
-                    item {
-                        Spacer(modifier = Modifier)
-                    }
-                }
-
-                // Update Current Value Dialog
-                if (openUpdateValueDialog) {
-                    UpdateValueDialog(
-                        onDismiss = { openUpdateValueDialog = false },
-                        headingText = stringResource(id = R.string.current_value_txt),
-                        initialValue = uiState.goal.currentValue,
-                        onSaveValue = { onUpdateCurrentValue(uiState.goal.id, it) }
-                    )
-                }
-            }
-
-            // Goal Not Found
-            AnimatedVisibility(
-                modifier = Modifier
-                    .fillMaxSize(),
-                visible = uiState is GoalDetailsState.NotFound,
-                enter = scaleIn(),
-                exit = scaleOut()
-            ) {
-                Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center
-                ) {
-                    LottieAnimationWithDescription(
-                        lottieResId = R.raw.no_data,
-                        imageSize = 300.dp,
-                        description = stringResource(R.string.goal_not_found_text)
-                    )
                 }
             }
         }
