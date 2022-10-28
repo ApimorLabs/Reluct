@@ -157,6 +157,7 @@
     screen. Please select the Reluct app and Allow it to Display Over Other Apps to block distracting and paused apps</string>
     <string name="reminders_permissions_rationale_dialog_text">You are about to be sent to the Alarms &amp; Reminders settings
     screen. Please select the Reluct app and Allow it to set Alarms &amp; Reminders for your Tasks</string>
+    <string name="find_draw_over_apps_text">Find Display of Other Apps Permission in Settings and enable it for the Reluct App</string>
     <string name="allow_permission">Allow</string>
     <string name="click_to_grant_text">Click to Grant Permission</string>
     <string name="permission_granted_text">Permission Granted</string>

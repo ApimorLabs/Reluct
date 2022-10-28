@@ -15,6 +15,7 @@ import work.racka.reluct.android.compose.components.textfields.texts.HighlightTe
 import work.racka.reluct.android.compose.components.textfields.texts.HyperlinkText
 import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.android.screens.R
+import work.racka.reluct.android.screens.util.isAndroid13Plus
 import work.racka.reluct.common.features.onboarding.states.OnBoardingPages
 import work.racka.reluct.common.features.onboarding.states.OnBoardingState
 
@@ -47,7 +48,11 @@ internal fun OnBoardingBottomBar(
                     BottomButtonsProperties(
                         positiveText = context.getString(R.string.next_text),
                         isPositiveEnabled = true,
-                        positiveAction = { onUpdatePage(OnBoardingPages.Notifications) },
+                        positiveAction = {
+                            if (isAndroid13Plus())
+                                onUpdatePage(OnBoardingPages.Notifications)
+                            else onUpdatePage(OnBoardingPages.UsageAccess)
+                        },
                         negativeText = context.getString(R.string.back_text),
                         isNegativeEnabled = true,
                         negativeAction = { onUpdatePage(OnBoardingPages.Welcome) }
@@ -80,7 +85,11 @@ internal fun OnBoardingBottomBar(
                         positiveAction = { onUpdatePage(OnBoardingPages.Overlay) },
                         negativeText = context.getString(R.string.back_text),
                         isNegativeEnabled = true,
-                        negativeAction = { onUpdatePage(OnBoardingPages.Reminders) }
+                        negativeAction = {
+                            if (isAndroid13Plus())
+                                onUpdatePage(OnBoardingPages.Reminders)
+                            else onUpdatePage(OnBoardingPages.Permissions)
+                        }
                     )
                 }
                 is OnBoardingPages.Overlay -> {

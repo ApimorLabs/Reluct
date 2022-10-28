@@ -1,8 +1,10 @@
 package work.racka.reluct.android.screens.onboarding.pages
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.provider.Settings
+import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -143,12 +145,7 @@ internal fun OverlayPage(
                     contentColor = MaterialTheme.colorScheme.onPrimary,
                     onButtonClicked = {
                         openDialog.value = false
-                        launcher.launch(
-                            Intent(
-                                Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
-                                Uri.parse("package: ${context.packageName}")
-                            )
-                        )
+                        launcher.launch(context.createOverlaySettingsIntent())
                     }
                 )
             },
@@ -165,3 +162,19 @@ internal fun OverlayPage(
         )
     }
 }
+
+private fun Context.createOverlaySettingsIntent() =
+    Intent(
+        Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+        Uri.parse("package:$packageName")
+    ).let { intent ->
+        if (intent.resolveActivity(packageManager) != null) intent
+        else {
+            Toast.makeText(
+                this,
+                getString(R.string.find_draw_over_apps_text),
+                Toast.LENGTH_LONG
+            ).show()
+            Intent(Settings.ACTION_SETTINGS)
+        }
+    }

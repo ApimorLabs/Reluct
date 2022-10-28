@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.android.screens.onboarding.components.OnBoardingBottomBar
 import work.racka.reluct.android.screens.onboarding.pages.*
+import work.racka.reluct.android.screens.util.isAndroid13Plus
 import work.racka.reluct.common.features.onboarding.states.OnBoardingPages
 import work.racka.reluct.common.features.onboarding.states.OnBoardingState
 import work.racka.reluct.common.features.onboarding.states.PermissionType
@@ -83,7 +84,11 @@ fun OnBoardingUI(
                 }
                 is OnBoardingPages.UsageAccess -> {
                     UsageAccessPage(
-                        goBack = { updateCurrentPage(OnBoardingPages.Reminders) },
+                        goBack = {
+                            if (isAndroid13Plus())
+                                updateCurrentPage(OnBoardingPages.Reminders)
+                            else updateCurrentPage(OnBoardingPages.Permissions)
+                        },
                         isGranted = uiState.permissionsState.usageAccessGranted,
                         updatePermissionCheck = { isGranted ->
                             updatePermission(
