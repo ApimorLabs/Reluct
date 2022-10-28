@@ -47,6 +47,15 @@ class TaskDetailsViewModel(
 
     init {
         getTask()
+        getTaskLabels()
+    }
+
+    private fun getTaskLabels() {
+        vmScope.launch {
+            manageTaskLabels.allLabels().collectLatest { labels ->
+                availableTaskLabels.update { labels }
+            }
+        }
     }
 
     private fun getTask() {
@@ -86,6 +95,18 @@ class TaskDetailsViewModel(
                 TasksEvents.ShowMessage(Constants.DELETED_SUCCESSFULLY)
             )
             result.onSuccess { eventsChannel.send(TasksEvents.Navigation.GoBack) }
+        }
+    }
+
+    fun saveLabel(label: TaskLabel) {
+        vmScope.launch {
+            manageTaskLabels.addLabel(label)
+        }
+    }
+
+    fun deleteLabel(label: TaskLabel) {
+        vmScope.launch {
+            manageTaskLabels.deleteLabel(label.id)
         }
     }
 

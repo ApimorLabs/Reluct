@@ -58,6 +58,7 @@ object Tasks {
             TaskDetailsViewModel(
                 getTasksUseCase = get(),
                 modifyTasksUsesCase = get(),
+                manageTaskLabels = get(),
                 taskId = taskId
             )
         }
