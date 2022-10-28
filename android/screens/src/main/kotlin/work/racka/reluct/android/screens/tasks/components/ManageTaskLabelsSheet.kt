@@ -66,7 +66,7 @@ internal fun ManageTaskLabelsSheet(
                         onClose = onClose,
                         availableLabels = labelsState.availableLabels,
                         selectedLabels = labelsState.selectedLabels,
-                        onAddNewLabel = { page.value = TaskLabelsPage.ModifyLabel(null) },
+                        onModifyLabel = { page.value = TaskLabelsPage.ModifyLabel(it) },
                         onEditLabels = { isAdd: Boolean, label: TaskLabel ->
                             labelsState.selectedLabels.toMutableList().apply {
                                 if (isAdd) add(label)

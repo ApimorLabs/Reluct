@@ -33,8 +33,8 @@ fun LazyColumnSelectTaskLabelsSheet(
     entryMode: TaskLabelsEntryMode = TaskLabelsEntryMode.SelectLabels,
     availableLabels: List<TaskLabel>,
     selectedLabels: List<TaskLabel>,
-    onAddNewLabel: () -> Unit,
-    onEditLabels: (isAdd: Boolean, label: TaskLabel) -> Unit
+    onModifyLabel: (TaskLabel?) -> Unit,
+    onEditLabels: (isAdd: Boolean, label: TaskLabel) -> Unit,
 ) {
 
     LazyColumn(
@@ -72,7 +72,8 @@ fun LazyColumnSelectTaskLabelsSheet(
                     label = item,
                     isSelected = selected,
                     onEntryClick = { onEditLabels(!selected, item) },
-                    onCheckedChange = { onEditLabels(it, item) }
+                    onCheckedChange = { onEditLabels(it, item) },
+                    onEdit = { onModifyLabel(item) }
                 )
             }
         }
@@ -83,7 +84,7 @@ fun LazyColumnSelectTaskLabelsSheet(
                 shape = Shapes.large,
                 buttonText = stringResource(R.string.new_task_label_text),
                 icon = Icons.Rounded.Add,
-                onButtonClicked = onAddNewLabel
+                onButtonClicked = { onModifyLabel(null) }
             )
         }
 
