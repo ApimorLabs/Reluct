@@ -4,6 +4,7 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -36,7 +37,8 @@ import work.racka.reluct.common.model.states.tasks.SearchTasksState
 
 @OptIn(
     ExperimentalComposeUiApi::class,
-    ExperimentalAnimationApi::class, ExperimentalMaterial3Api::class
+    ExperimentalAnimationApi::class, ExperimentalMaterial3Api::class,
+    ExperimentalFoundationApi::class
 )
 @Composable
 internal fun TasksSearchUI(
@@ -125,6 +127,7 @@ internal fun TasksSearchUI(
                         key = { it.id }
                     ) { item ->
                         TaskEntry(
+                            modifier = Modifier.animateItemPlacement(),
                             playAnimation = true,
                             task = item,
                             entryType = EntryType.CompletedTask,

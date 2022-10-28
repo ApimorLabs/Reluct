@@ -172,6 +172,7 @@ internal fun PendingTasksUI(
                             key = { it.id }
                         ) { item ->
                             TaskEntry(
+                                modifier = Modifier.animateItemPlacement(),
                                 task = item,
                                 entryType = EntryType.TasksWithOverdue,
                                 onEntryClick = { onTaskClicked(item) },
