@@ -149,83 +149,85 @@ internal fun TaskDetailsUI(
                                 CircularProgressIndicator()
                             }
                         }
-                        is TaskState.Data -> {
-                            LazyColumn(
-                                state = listState,
-                                verticalArrangement = Arrangement
-                                    .spacedBy(Dimens.MediumPadding.size)
-                            ) {
-                                item {
-                                    TaskDetailsHeading(
-                                        modifier = Modifier.fillMaxWidth(),
-                                        text = targetState.task.title,
-                                        textStyle = MaterialTheme.typography.headlineMedium
-                                            .copy(fontWeight = FontWeight.Medium),
-                                        isChecked = targetState.task.done,
-                                        onCheckedChange = { isDone ->
-                                            onToggleTaskDone(isDone, targetState.task)
-                                        }
-                                    )
-                                }
-
-                                item {
-                                    Text(
-                                        text = targetState.task.description
-                                            .ifBlank { stringResource(R.string.no_description_text) },
-                                        style = MaterialTheme.typography.bodyLarge,
-                                        color = LocalContentColor.current
-                                            .copy(alpha = .8f)
-                                    )
-                                }
-
-                                // Task Labels
-                                if (targetState.task.taskLabels.isNotEmpty()) {
-                                    item {
-                                        LazyRow(
-                                            verticalAlignment = Alignment.CenterVertically,
-                                            horizontalArrangement = Arrangement
-                                                .spacedBy(Dimens.SmallPadding.size),
-                                            modifier = Modifier.fillMaxWidth()
-                                        ) {
-                                            items(
-                                                targetState.task.taskLabels,
-                                                key = { it.id }
-                                            ) { item ->
-                                                TaskLabelPill(
-                                                    modifier = Modifier.clickable {
-                                                        scope.launch {
-                                                            taskLabelsPage =
-                                                                TaskLabelsPage.ModifyLabel(item)
-                                                            modalSheetState.show()
-                                                        }
-                                                    },
-                                                    name = item.name,
-                                                    colorHex = item.colorHexString
-                                                )
-                                            }
-                                        }
-                                    }
-                                }
-
-                                item {
-                                    TaskInfoCard(
-                                        task = targetState.task,
-                                        shape = Shapes.large
-                                    )
-                                }
-
-                                // Bottom Space
-                                item {
-                                    Spacer(modifier = Modifier.navigationBarsPadding())
-                                }
-                            }
-                        }
+                        is TaskState.Data -> {}
                         else -> {
                             LottieAnimationWithDescription(
                                 lottieResId = R.raw.no_data,
                                 imageSize = 300.dp,
                                 description = stringResource(R.string.task_not_found_text)
                             )
+                        }
+                    }
+                }
+
+                if (taskState is TaskState.Data) {
+                    LazyColumn(
+                        state = listState,
+                        verticalArrangement = Arrangement
+                            .spacedBy(Dimens.MediumPadding.size)
+                    ) {
+                        item {
+                            TaskDetailsHeading(
+                                modifier = Modifier.fillMaxWidth(),
+                                text = taskState.task.title,
+                                textStyle = MaterialTheme.typography.headlineMedium
+                                    .copy(fontWeight = FontWeight.Medium),
+                                isChecked = taskState.task.done,
+                                onCheckedChange = { isDone ->
+                                    onToggleTaskDone(isDone, taskState.task)
+                                }
+                            )
+                        }
+
+                        item {
+                            Text(
+                                text = taskState.task.description
+                                    .ifBlank { stringResource(R.string.no_description_text) },
+                                style = MaterialTheme.typography.bodyLarge,
+                                color = LocalContentColor.current
+                                    .copy(alpha = .8f)
+                            )
+                        }
+
+                        // Task Labels
+                        if (taskState.task.taskLabels.isNotEmpty()) {
+                            item {
+                                LazyRow(
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    horizontalArrangement = Arrangement
+                                        .spacedBy(Dimens.SmallPadding.size),
+                                    modifier = Modifier.fillMaxWidth()
+                                ) {
+                                    items(
+                                        taskState.task.taskLabels,
+                                        key = { it.id }
+                                    ) { item ->
+                                        TaskLabelPill(
+                                            modifier = Modifier.clickable {
+                                                scope.launch {
+                                                    taskLabelsPage =
+                                                        TaskLabelsPage.ModifyLabel(item)
+                                                    modalSheetState.show()
+                                                }
+                                            },
+                                            name = item.name,
+                                            colorHex = item.colorHexString
+                                        )
+                                    }
+                                }
+                            }
+                        }
+
+                        item {
+                            TaskInfoCard(
+                                task = taskState.task,
+                                shape = Shapes.large
+                            )
+                        }
+
+                        // Bottom Space
+                        item {
+                            Spacer(modifier = Modifier.navigationBarsPadding())
                         }
                     }
                 }
