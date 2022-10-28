@@ -57,7 +57,7 @@ fun LazyColumnAddEditTaskFields(
 ) {
     val focusRequest = LocalFocusManager.current
 
-    var setReminder by remember(task) {
+    val setReminder by remember(task) {
         val reminderPresent = !task.reminderLocalDateTime.isNullOrBlank()
         mutableStateOf(reminderPresent)
     }
@@ -180,10 +180,9 @@ fun LazyColumnAddEditTaskFields(
                 title = stringResource(R.string.set_reminder),
                 description = stringResource(R.string.set_reminder_desc),
                 onCheckedChanged = { checked ->
-                    setReminder = checked
                     val newTask = task.copy(
                         reminderLocalDateTime =
-                        if (setReminder) taskDueTime.toString()
+                        if (checked) taskDueTime.toString()
                         else null
                     )
                     onUpdateTask(newTask)
@@ -217,7 +216,7 @@ fun LazyColumnAddEditTaskFields(
                         onLocalDateTimeChange = { dateTime ->
                             reminderTimePillError = dateTime <= taskDueTime
                             val newTime = if (dateTime > taskDueTime) dateTime
-                            else taskDueTime.plus(hours = 1)
+                            else taskDueTime
                             onUpdateTask(task.copy(reminderLocalDateTime = newTime.toString()))
                         }
                     )
