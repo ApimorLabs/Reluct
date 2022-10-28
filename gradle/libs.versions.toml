@@ -4,7 +4,7 @@
 config_android_minsdk = "26"
 config_android_compilesdk = "33"
 config_android_targetsdk = "33"
-config_android_versioncode = "6"
+config_android_versioncode = "7"
 config_android_versionName = "1.0.0-alpha06"
 config_android_applicationId = "work.racka.reluct"
 config_desktop_current = "1.0.0"
