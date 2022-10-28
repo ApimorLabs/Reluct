@@ -1,5 +1,6 @@
 package work.racka.reluct.android.screens.util
 
+import android.os.Build
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
@@ -29,3 +30,5 @@ fun PermissionCheckHandler(
         onDispose { lifecycleOwner.lifecycle.removeObserver(observer) }
     }
 }
+
+fun isAndroid13Plus() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
