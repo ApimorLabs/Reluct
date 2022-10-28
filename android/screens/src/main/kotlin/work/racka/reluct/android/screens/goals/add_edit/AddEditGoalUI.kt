@@ -114,19 +114,6 @@ internal fun AddEditGoalUI(
                             CircularProgressIndicator()
                         }
                     }
-                    is ModifyGoalState.Data -> {
-                        // Add and Edit Column
-                        LazyColumnAddEditGoal(
-                            goal = targetState.goal,
-                            onUpdateGoal = onUpdateGoal,
-                            onDiscard = { goBackAttempt(canGoBack) },
-                            onSave = { onSave() },
-                            onShowAppPicker = {
-                                openRelatedAppsDialog = true
-                                onSyncRelatedApps()
-                            }
-                        )
-                    }
                     is ModifyGoalState.NotFound -> {
                         LottieAnimationWithDescription(
                             lottieResId = R.raw.no_data,
@@ -164,7 +151,22 @@ internal fun AddEditGoalUI(
                             )
                         }
                     }
+                    else -> {}
                 }
+            }
+
+            if (modifyGoalState is ModifyGoalState.Data) {
+                // Add and Edit Column
+                LazyColumnAddEditGoal(
+                    goal = modifyGoalState.goal,
+                    onUpdateGoal = onUpdateGoal,
+                    onDiscard = { goBackAttempt(canGoBack) },
+                    onSave = { onSave() },
+                    onShowAppPicker = {
+                        openRelatedAppsDialog = true
+                        onSyncRelatedApps()
+                    }
+                )
             }
         }
     }

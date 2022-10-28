@@ -142,17 +142,6 @@ internal fun AddEditTaskUI(
                                 CircularProgressIndicator()
                             }
                         }
-                        is ModifyTaskState.Data -> {
-                            LazyColumnAddEditTaskFields(
-                                task = targetState.task,
-                                saveButtonText = stringResource(R.string.save_button_text),
-                                discardButtonText = stringResource(R.string.discard_button_text),
-                                onSave = { onSaveTask() },
-                                onUpdateTask = onUpdateTask,
-                                onDiscard = { goBackAttempt() },
-                                onEditLabels = { scope.launch { modalSheetState.show() } }
-                            )
-                        }
                         is ModifyTaskState.Saved -> {
                             Column(
                                 modifier = Modifier
@@ -190,7 +179,20 @@ internal fun AddEditTaskUI(
                                 description = stringResource(R.string.task_not_found_text)
                             )
                         }
+                        else -> {}
                     }
+                }
+
+                if (modifyTaskState is ModifyTaskState.Data) {
+                    LazyColumnAddEditTaskFields(
+                        task = modifyTaskState.task,
+                        saveButtonText = stringResource(R.string.save_button_text),
+                        discardButtonText = stringResource(R.string.discard_button_text),
+                        onSave = { onSaveTask() },
+                        onUpdateTask = onUpdateTask,
+                        onDiscard = { goBackAttempt() },
+                        onEditLabels = { scope.launch { modalSheetState.show() } }
+                    )
                 }
             }
         }

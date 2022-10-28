@@ -166,6 +166,7 @@ internal fun CompletedTasksUI(
                             key = { it.id }
                         ) { item ->
                             TaskEntry(
+                                modifier = Modifier.animateItemPlacement(),
                                 playAnimation = true,
                                 task = item,
                                 entryType = EntryType.CompletedTask,
