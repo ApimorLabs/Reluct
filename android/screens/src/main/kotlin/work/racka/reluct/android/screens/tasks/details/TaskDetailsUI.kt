@@ -1,9 +1,7 @@
 package work.racka.reluct.android.screens.tasks.details
 
-import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.animation.scaleIn
-import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -33,6 +31,7 @@ import work.racka.reluct.android.compose.components.cards.task_entry.TaskDetails
 import work.racka.reluct.android.compose.components.cards.task_entry.TaskInfoCard
 import work.racka.reluct.android.compose.components.cards.task_label_entry.TaskLabelPill
 import work.racka.reluct.android.compose.components.cards.task_label_entry.TaskLabelsEntryMode
+import work.racka.reluct.android.compose.components.images.LottieAnimationWithDescription
 import work.racka.reluct.android.compose.components.topBar.ReluctSmallTopAppBar
 import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.android.compose.theme.Shapes
@@ -135,87 +134,98 @@ internal fun TaskDetailsUI(
                     .padding(horizontal = Dimens.MediumPadding.size)
                     .fillMaxSize()
             ) {
-                // Loading
-                AnimatedVisibility(
-                    modifier = Modifier
-                        .fillMaxSize(),
-                    visible = taskState is TaskState.Loading,
-                    enter = scaleIn(),
-                    exit = scaleOut()
-                ) {
-                    Box(
-                        modifier = Modifier.fillMaxSize(),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        CircularProgressIndicator()
-                    }
-                }
-                // Task Details
-                if (taskState is TaskState.Data) {
-                    LazyColumn(
-                        state = listState,
-                        verticalArrangement = Arrangement
-                            .spacedBy(Dimens.MediumPadding.size)
-                    ) {
-                        item {
-                            TaskDetailsHeading(
-                                modifier = Modifier.fillMaxWidth(),
-                                text = taskState.task.title,
-                                textStyle = MaterialTheme.typography.headlineMedium
-                                    .copy(fontWeight = FontWeight.Medium),
-                                isChecked = taskState.task.done,
-                                onCheckedChange = { isDone ->
-                                    onToggleTaskDone(isDone, taskState.task)
+
+                AnimatedContent(
+                    targetState = taskState,
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center
+                ) { targetState ->
+                    when (targetState) {
+                        is TaskState.Loading -> {
+                            Box(
+                                modifier = Modifier.fillMaxSize(),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                CircularProgressIndicator()
+                            }
+                        }
+                        is TaskState.Data -> {
+                            LazyColumn(
+                                state = listState,
+                                verticalArrangement = Arrangement
+                                    .spacedBy(Dimens.MediumPadding.size)
+                            ) {
+                                item {
+                                    TaskDetailsHeading(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        text = targetState.task.title,
+                                        textStyle = MaterialTheme.typography.headlineMedium
+                                            .copy(fontWeight = FontWeight.Medium),
+                                        isChecked = targetState.task.done,
+                                        onCheckedChange = { isDone ->
+                                            onToggleTaskDone(isDone, targetState.task)
+                                        }
+                                    )
                                 }
-                            )
-                        }
 
-                        item {
-                            Text(
-                                text = taskState.task.description
-                                    .ifBlank { stringResource(R.string.no_description_text) },
-                                style = MaterialTheme.typography.bodyLarge,
-                                color = LocalContentColor.current
-                                    .copy(alpha = .8f)
-                            )
-                        }
+                                item {
+                                    Text(
+                                        text = targetState.task.description
+                                            .ifBlank { stringResource(R.string.no_description_text) },
+                                        style = MaterialTheme.typography.bodyLarge,
+                                        color = LocalContentColor.current
+                                            .copy(alpha = .8f)
+                                    )
+                                }
 
-                        // Task Labels
-                        if (taskState.task.taskLabels.isNotEmpty()) {
-                            item {
-                                LazyRow(
-                                    verticalAlignment = Alignment.CenterVertically,
-                                    horizontalArrangement = Arrangement
-                                        .spacedBy(Dimens.SmallPadding.size),
-                                    modifier = Modifier.fillMaxWidth()
-                                ) {
-                                    items(taskState.task.taskLabels, key = { it.id }) { item ->
-                                        TaskLabelPill(
-                                            modifier = Modifier.clickable {
-                                                scope.launch {
-                                                    taskLabelsPage =
-                                                        TaskLabelsPage.ModifyLabel(item)
-                                                    modalSheetState.show()
-                                                }
-                                            },
-                                            name = item.name,
-                                            colorHex = item.colorHexString
-                                        )
+                                // Task Labels
+                                if (targetState.task.taskLabels.isNotEmpty()) {
+                                    item {
+                                        LazyRow(
+                                            verticalAlignment = Alignment.CenterVertically,
+                                            horizontalArrangement = Arrangement
+                                                .spacedBy(Dimens.SmallPadding.size),
+                                            modifier = Modifier.fillMaxWidth()
+                                        ) {
+                                            items(
+                                                targetState.task.taskLabels,
+                                                key = { it.id }
+                                            ) { item ->
+                                                TaskLabelPill(
+                                                    modifier = Modifier.clickable {
+                                                        scope.launch {
+                                                            taskLabelsPage =
+                                                                TaskLabelsPage.ModifyLabel(item)
+                                                            modalSheetState.show()
+                                                        }
+                                                    },
+                                                    name = item.name,
+                                                    colorHex = item.colorHexString
+                                                )
+                                            }
+                                        }
                                     }
+                                }
+
+                                item {
+                                    TaskInfoCard(
+                                        task = targetState.task,
+                                        shape = Shapes.large
+                                    )
+                                }
+
+                                // Bottom Space
+                                item {
+                                    Spacer(modifier = Modifier.navigationBarsPadding())
                                 }
                             }
                         }
-
-                        item {
-                            TaskInfoCard(
-                                task = taskState.task,
-                                shape = Shapes.large
+                        else -> {
+                            LottieAnimationWithDescription(
+                                lottieResId = R.raw.no_data,
+                                imageSize = 300.dp,
+                                description = stringResource(R.string.task_not_found_text)
                             )
-                        }
-
-                        // Bottom Space
-                        item {
-                            Spacer(modifier = Modifier.navigationBarsPadding())
                         }
                     }
                 }
