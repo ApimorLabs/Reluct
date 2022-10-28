@@ -11,6 +11,7 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.ModalBottomSheetLayout
 import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBack
@@ -21,18 +22,25 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.launch
 import work.racka.reluct.android.compose.components.buttons.OutlinedReluctButton
 import work.racka.reluct.android.compose.components.buttons.ReluctButton
 import work.racka.reluct.android.compose.components.cards.task_entry.TaskDetailsHeading
 import work.racka.reluct.android.compose.components.cards.task_entry.TaskInfoCard
 import work.racka.reluct.android.compose.components.cards.task_label_entry.TaskLabelPill
+import work.racka.reluct.android.compose.components.cards.task_label_entry.TaskLabelsEntryMode
 import work.racka.reluct.android.compose.components.topBar.ReluctSmallTopAppBar
 import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.android.compose.theme.Shapes
 import work.racka.reluct.android.screens.R
 import work.racka.reluct.android.screens.tasks.components.CurrentTaskLabels
+import work.racka.reluct.android.screens.tasks.components.ManageTaskLabelsSheet
+import work.racka.reluct.android.screens.tasks.components.ModifyTaskLabel
+import work.racka.reluct.android.screens.tasks.components.TaskLabelsPage
 import work.racka.reluct.common.features.tasks.states.TaskDetailsState
 import work.racka.reluct.common.features.tasks.states.TaskState
 import work.racka.reluct.common.model.domain.tasks.Task
@@ -43,7 +51,7 @@ import work.racka.reluct.common.model.domain.tasks.TaskLabel
     ExperimentalMaterialApi::class
 )
 @Composable
-fun TaskDetailsUI(
+internal fun TaskDetailsUI(
     modifier: Modifier = Modifier,
     snackbarState: SnackbarHostState,
     uiState: TaskDetailsState,
@@ -51,6 +59,7 @@ fun TaskDetailsUI(
     onDeleteTask: (task: Task) -> Unit,
     onToggleTaskDone: (isDone: Boolean, task: Task) -> Unit,
     onBackClicked: () -> Unit = { },
+    onModifyTaskLabel: (ModifyTaskLabel) -> Unit
 ) {
 
     val modalSheetState = rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)
@@ -60,173 +69,195 @@ fun TaskDetailsUI(
 
     val taskState = uiState.taskState
     val labelsState by getLabelState(availableLabels = uiState.availableTaskLabels)
+    var taskLabelsPage: TaskLabelsPage by remember { mutableStateOf(TaskLabelsPage.ShowLabels) }
 
-    Scaffold(
-        modifier = modifier.fillMaxSize(),
-        contentWindowInsets = WindowInsets(0, 0, 0, 0),
-        containerColor = MaterialTheme.colorScheme.background,
-        topBar = {
-            ReluctSmallTopAppBar(
+    ModalBottomSheetLayout(
+        sheetState = modalSheetState,
+        sheetContent = {
+            ManageTaskLabelsSheet(
                 modifier = Modifier.statusBarsPadding(),
-                title = stringResource(R.string.task_details_text),
-                navigationIcon = {
-                    IconButton(onClick = onBackClicked) {
-                        Icon(
-                            imageVector = Icons.Rounded.ArrowBack,
-                            contentDescription = null
+                entryMode = TaskLabelsEntryMode.ViewLabels,
+                startPage = taskLabelsPage,
+                labelsState = labelsState,
+                onSaveLabel = { onModifyTaskLabel(ModifyTaskLabel.SaveLabel(it)) },
+                onDeleteLabel = { onModifyTaskLabel(ModifyTaskLabel.Delete(it)) },
+                onClose = { scope.launch { modalSheetState.hide() } }
+            )
+        },
+        sheetElevation = 0.dp,
+        sheetBackgroundColor = Color.Transparent
+    ) {
+        Scaffold(
+            modifier = modifier.fillMaxSize(),
+            contentWindowInsets = WindowInsets(0, 0, 0, 0),
+            containerColor = MaterialTheme.colorScheme.background,
+            topBar = {
+                ReluctSmallTopAppBar(
+                    modifier = Modifier.statusBarsPadding(),
+                    title = stringResource(R.string.task_details_text),
+                    navigationIcon = {
+                        IconButton(onClick = onBackClicked) {
+                            Icon(
+                                imageVector = Icons.Rounded.ArrowBack,
+                                contentDescription = null
+                            )
+                        }
+                    }
+                )
+            },
+            bottomBar = {
+                if (taskState is TaskState.Data) {
+                    Surface(color = MaterialTheme.colorScheme.background) {
+                        DetailsBottomBar(
+                            onEditTaskClicked = { onEditTask(taskState.task) },
+                            onDeleteTaskClicked = { openDialog.value = true }
                         )
                     }
                 }
-            )
-        },
-        bottomBar = {
-            if (taskState is TaskState.Data) {
-                Surface(color = MaterialTheme.colorScheme.background) {
-                    DetailsBottomBar(
-                        onEditTaskClicked = { onEditTask(taskState.task) },
-                        onDeleteTaskClicked = { openDialog.value = true }
+            },
+            snackbarHost = {
+                SnackbarHost(hostState = snackbarState) { data ->
+                    Snackbar(
+                        modifier = Modifier.navigationBarsPadding(),
+                        snackbarData = data,
+                        containerColor = MaterialTheme.colorScheme.inverseSurface,
+                        contentColor = MaterialTheme.colorScheme.inverseOnSurface,
+                        actionColor = MaterialTheme.colorScheme.primary,
                     )
                 }
             }
-        },
-        snackbarHost = {
-            SnackbarHost(hostState = snackbarState) { data ->
-                Snackbar(
-                    modifier = Modifier.navigationBarsPadding(),
-                    snackbarData = data,
-                    containerColor = MaterialTheme.colorScheme.inverseSurface,
-                    contentColor = MaterialTheme.colorScheme.inverseOnSurface,
-                    actionColor = MaterialTheme.colorScheme.primary,
-                )
-            }
-        }
-    ) { innerPadding ->
+        ) { innerPadding ->
 
-        Box(
-            modifier = Modifier
-                .padding(innerPadding)
-                .navigationBarsPadding()
-                .padding(horizontal = Dimens.MediumPadding.size)
-                .fillMaxSize()
-        ) {
-            // Loading
-            AnimatedVisibility(
+            Box(
                 modifier = Modifier
-                    .fillMaxSize(),
-                visible = taskState is TaskState.Loading,
-                enter = scaleIn(),
-                exit = scaleOut()
+                    .padding(innerPadding)
+                    .navigationBarsPadding()
+                    .padding(horizontal = Dimens.MediumPadding.size)
+                    .fillMaxSize()
             ) {
-                Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center
+                // Loading
+                AnimatedVisibility(
+                    modifier = Modifier
+                        .fillMaxSize(),
+                    visible = taskState is TaskState.Loading,
+                    enter = scaleIn(),
+                    exit = scaleOut()
                 ) {
-                    CircularProgressIndicator()
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        CircularProgressIndicator()
+                    }
                 }
-            }
-            // Task Details
-            if (taskState is TaskState.Data) {
-                LazyColumn(
-                    state = listState,
-                    verticalArrangement = Arrangement
-                        .spacedBy(Dimens.MediumPadding.size)
-                ) {
-                    item {
-                        TaskDetailsHeading(
-                            modifier = Modifier.fillMaxWidth(),
-                            text = taskState.task.title,
-                            textStyle = MaterialTheme.typography.headlineMedium
-                                .copy(fontWeight = FontWeight.Medium),
-                            isChecked = taskState.task.done,
-                            onCheckedChange = { isDone ->
-                                onToggleTaskDone(isDone, taskState.task)
-                            }
-                        )
-                    }
-
-                    item {
-                        Text(
-                            text = taskState.task.description
-                                .ifBlank { stringResource(R.string.no_description_text) },
-                            style = MaterialTheme.typography.bodyLarge,
-                            color = LocalContentColor.current
-                                .copy(alpha = .8f)
-                        )
-                    }
-
-                    // Task Labels
-                    if (taskState.task.taskLabels.isNotEmpty()) {
+                // Task Details
+                if (taskState is TaskState.Data) {
+                    LazyColumn(
+                        state = listState,
+                        verticalArrangement = Arrangement
+                            .spacedBy(Dimens.MediumPadding.size)
+                    ) {
                         item {
-                            LazyRow(
-                                verticalAlignment = Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement
-                                    .spacedBy(Dimens.SmallPadding.size),
-                                modifier = Modifier.fillMaxWidth()
-                            ) {
-                                items(taskState.task.taskLabels, key = { it.id }) { item ->
-                                    TaskLabelPill(
-                                        modifier = Modifier.clickable {
-                                            // TODO: Show Info
-                                        },
-                                        name = item.name,
-                                        colorHex = item.colorHexString
-                                    )
+                            TaskDetailsHeading(
+                                modifier = Modifier.fillMaxWidth(),
+                                text = taskState.task.title,
+                                textStyle = MaterialTheme.typography.headlineMedium
+                                    .copy(fontWeight = FontWeight.Medium),
+                                isChecked = taskState.task.done,
+                                onCheckedChange = { isDone ->
+                                    onToggleTaskDone(isDone, taskState.task)
+                                }
+                            )
+                        }
+
+                        item {
+                            Text(
+                                text = taskState.task.description
+                                    .ifBlank { stringResource(R.string.no_description_text) },
+                                style = MaterialTheme.typography.bodyLarge,
+                                color = LocalContentColor.current
+                                    .copy(alpha = .8f)
+                            )
+                        }
+
+                        // Task Labels
+                        if (taskState.task.taskLabels.isNotEmpty()) {
+                            item {
+                                LazyRow(
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    horizontalArrangement = Arrangement
+                                        .spacedBy(Dimens.SmallPadding.size),
+                                    modifier = Modifier.fillMaxWidth()
+                                ) {
+                                    items(taskState.task.taskLabels, key = { it.id }) { item ->
+                                        TaskLabelPill(
+                                            modifier = Modifier.clickable {
+                                                scope.launch {
+                                                    taskLabelsPage =
+                                                        TaskLabelsPage.ModifyLabel(item)
+                                                    modalSheetState.show()
+                                                }
+                                            },
+                                            name = item.name,
+                                            colorHex = item.colorHexString
+                                        )
+                                    }
                                 }
                             }
                         }
-                    }
 
-                    item {
-                        TaskInfoCard(
-                            task = taskState.task,
-                            shape = Shapes.large
-                        )
-                    }
+                        item {
+                            TaskInfoCard(
+                                task = taskState.task,
+                                shape = Shapes.large
+                            )
+                        }
 
-                    // Bottom Space
-                    item {
-                        Spacer(modifier = Modifier.navigationBarsPadding())
+                        // Bottom Space
+                        item {
+                            Spacer(modifier = Modifier.navigationBarsPadding())
+                        }
                     }
                 }
             }
         }
-    }
 
 
-    // Delete Task Dialog
-    if (openDialog.value) {
-        AlertDialog(
-            onDismissRequest = { openDialog.value = false },
-            title = {
-                Text(text = stringResource(R.string.delete_task))
-            },
-            text = {
-                Text(text = stringResource(R.string.delete_task_message))
-            },
-            confirmButton = {
-                ReluctButton(
-                    buttonText = stringResource(R.string.ok),
-                    icon = null,
-                    shape = Shapes.large,
-                    buttonColor = MaterialTheme.colorScheme.primary,
-                    contentColor = MaterialTheme.colorScheme.onPrimary,
-                    onButtonClicked = {
-                        openDialog.value = false
-                        if (taskState is TaskState.Data) taskState.task.run(onDeleteTask)
-                    }
-                )
-            },
-            dismissButton = {
-                ReluctButton(
-                    buttonText = stringResource(R.string.cancel),
-                    icon = null,
-                    shape = Shapes.large,
-                    buttonColor = MaterialTheme.colorScheme.surfaceVariant,
-                    contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                    onButtonClicked = { openDialog.value = false }
-                )
-            }
-        )
+        // Delete Task Dialog
+        if (openDialog.value) {
+            AlertDialog(
+                onDismissRequest = { openDialog.value = false },
+                title = {
+                    Text(text = stringResource(R.string.delete_task))
+                },
+                text = {
+                    Text(text = stringResource(R.string.delete_task_message))
+                },
+                confirmButton = {
+                    ReluctButton(
+                        buttonText = stringResource(R.string.ok),
+                        icon = null,
+                        shape = Shapes.large,
+                        buttonColor = MaterialTheme.colorScheme.primary,
+                        contentColor = MaterialTheme.colorScheme.onPrimary,
+                        onButtonClicked = {
+                            openDialog.value = false
+                            if (taskState is TaskState.Data) taskState.task.run(onDeleteTask)
+                        }
+                    )
+                },
+                dismissButton = {
+                    ReluctButton(
+                        buttonText = stringResource(R.string.cancel),
+                        icon = null,
+                        shape = Shapes.large,
+                        buttonColor = MaterialTheme.colorScheme.surfaceVariant,
+                        contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                        onButtonClicked = { openDialog.value = false }
+                    )
+                }
+            )
+        }
     }
 
 }

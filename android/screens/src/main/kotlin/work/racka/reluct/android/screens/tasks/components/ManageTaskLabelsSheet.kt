@@ -44,7 +44,7 @@ internal fun ManageTaskLabelsSheet(
     onDeleteLabel: (TaskLabel) -> Unit,
     onClose: () -> Unit
 ) {
-    val page = remember {
+    val page = remember(startPage) {
         mutableStateOf(startPage)
     }
     Surface(
