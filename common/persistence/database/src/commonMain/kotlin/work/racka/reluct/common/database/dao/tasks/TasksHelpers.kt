@@ -28,59 +28,6 @@ internal object TasksHelpers {
         }
     }
 
-    fun TasksTableQueries.getAllTasksFromDb(onGetLabel: (id: String) -> TaskLabelDbObject?) =
-        getAllTasks(mapper = taskDbObjectMapper(onGetLabel))
-
-    fun TasksTableQueries.getPendingTasksFromDb(
-        factor: Long,
-        limitBy: Long,
-        onGetLabel: (id: String) -> TaskLabelDbObject?
-    ) =
-        getPendingTasks(
-            factor = factor,
-            limitBy = limitBy,
-            mapper = taskDbObjectMapper(onGetLabel)
-        )
-
-    fun TasksTableQueries.getCompletedTasksFromDb(
-        factor: Long,
-        limitBy: Long,
-        onGetLabel: (id: String) -> TaskLabelDbObject?
-    ) =
-        getCompeletedTasks(
-            factor = factor,
-            limitBy = limitBy,
-            mapper = taskDbObjectMapper(onGetLabel)
-        )
-
-    fun TasksTableQueries.getTasksBetweenDateTimeStringsFromDb(
-        startLocalDateTime: String,
-        endLocalDateTime: String,
-        onGetLabel: (id: String) -> TaskLabelDbObject?
-    ) = getTasksBetweenDateTimeStrings(
-        startLocalDateTime = startLocalDateTime,
-        endLocalDateTime = endLocalDateTime,
-        mapper = taskDbObjectMapper(onGetLabel)
-    )
-
-    fun TasksTableQueries.getTaskFromDb(
-        taskId: String,
-        onGetLabel: (id: String) -> TaskLabelDbObject?
-    ) = getTask(id = taskId, mapper = taskDbObjectMapper(onGetLabel))
-
-    fun TasksTableQueries.searchTasksFromDb(
-        query: String,
-        factor: Long,
-        limitBy: Long,
-        onGetLabel: (id: String) -> TaskLabelDbObject?
-    ) =
-        searchTasks(
-            query = query,
-            factor = factor,
-            limitBy = limitBy,
-            mapper = taskDbObjectMapper(onGetLabel)
-        )
-
     /**
      * Task Labels
      */
@@ -121,28 +68,6 @@ internal object TasksHelpers {
         TaskLabelDbObject(id = id, name = name, description = description, colorHexString = color)
     }
 
-    private fun taskDbObjectMapper(onGetLabel: (id: String) -> TaskLabelDbObject?): (
-        id: String, title: String, description: String?, done: Boolean, overdue: Boolean,
-        dueDateLocalDateTime: String, completedLocalDateTime: String?,
-        reminderLocalDateTime: String?, timeZoneId: String, taskLabelsId: List<String>
-    ) -> TaskDbObject = {
-            id, title, description, done, overdue, dueDateLocalDateTime,
-            completedLocalDateTime, reminderLocalDateTime, timeZoneId, taskLabelsId,
-        ->
-        TaskDbObject(
-            id = id,
-            title = title,
-            description = description,
-            done = done,
-            overdue = overdue,
-            taskLabels = taskLabelsId.mapNotNull { onGetLabel(it) },
-            dueDateLocalDateTime = dueDateLocalDateTime,
-            completedLocalDateTime = completedLocalDateTime,
-            reminderLocalDateTime = reminderLocalDateTime,
-            timeZoneId = timeZoneId
-        )
-    }
-
     fun TasksTable.asDbObject(allLabels: List<TaskLabelDbObject>) = TaskDbObject(
         id = id,
         title = title,
@@ -157,4 +82,28 @@ internal object TasksHelpers {
         reminderLocalDateTime = reminderLocalDateTime,
         timeZoneId = timeZoneId
     )
+
+    /**
+     * Not In Use Right Now
+    private fun taskDbObjectMapper(onGetLabel: (id: String) -> TaskLabelDbObject?): (
+    id: String, title: String, description: String?, done: Boolean, overdue: Boolean,
+    dueDateLocalDateTime: String, completedLocalDateTime: String?,
+    reminderLocalDateTime: String?, timeZoneId: String, taskLabelsId: List<String>
+    ) -> TaskDbObject = {
+    id, title, description, done, overdue, dueDateLocalDateTime,
+    completedLocalDateTime, reminderLocalDateTime, timeZoneId, taskLabelsId,
+    ->
+    TaskDbObject(
+    id = id,
+    title = title,
+    description = description,
+    done = done,
+    overdue = overdue,
+    taskLabels = taskLabelsId.mapNotNull { onGetLabel(it) },
+    dueDateLocalDateTime = dueDateLocalDateTime,
+    completedLocalDateTime = completedLocalDateTime,
+    reminderLocalDateTime = reminderLocalDateTime,
+    timeZoneId = timeZoneId
+    )
+    }*/
 }
