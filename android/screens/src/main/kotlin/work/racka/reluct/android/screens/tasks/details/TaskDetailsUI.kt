@@ -10,14 +10,15 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.Edit
+import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -31,10 +32,15 @@ import work.racka.reluct.android.compose.components.topBar.ReluctSmallTopAppBar
 import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.android.compose.theme.Shapes
 import work.racka.reluct.android.screens.R
+import work.racka.reluct.android.screens.tasks.components.CurrentTaskLabels
 import work.racka.reluct.common.model.domain.tasks.Task
+import work.racka.reluct.common.model.domain.tasks.TaskLabel
 import work.racka.reluct.common.model.states.tasks.TaskDetailsState
 
-@OptIn(ExperimentalAnimationApi::class, ExperimentalMaterial3Api::class)
+@OptIn(
+    ExperimentalAnimationApi::class, ExperimentalMaterial3Api::class,
+    ExperimentalMaterialApi::class
+)
 @Composable
 fun TaskDetailsUI(
     modifier: Modifier = Modifier,
@@ -46,9 +52,12 @@ fun TaskDetailsUI(
     onBackClicked: () -> Unit = { },
 ) {
 
+    val modalSheetState = rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)
+    val scope = rememberCoroutineScope()
     val listState = rememberLazyListState()
-
     val openDialog = remember { mutableStateOf(false) }
+
+    val labelsState by getLabelState(availableLabels =)
 
     Scaffold(
         modifier = modifier.fillMaxSize(),
@@ -256,6 +265,17 @@ private fun DetailsBottomBar(
             onButtonClicked = onDeleteTaskClicked,
             borderColor = MaterialTheme.colorScheme.primary,
             shape = Shapes.large
+        )
+    }
+}
+
+@Composable
+private fun getLabelState(availableLabels: List<TaskLabel>) = remember(availableLabels) {
+    derivedStateOf {
+        CurrentTaskLabels(
+            availableLabels = availableLabels,
+            selectedLabels = emptyList(),
+            onUpdateSelectedLabels = {}
         )
     }
 }

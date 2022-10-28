@@ -6,6 +6,7 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import work.racka.common.mvvm.viewmodel.CommonViewModel
 import work.racka.reluct.common.domain.usecases.tasks.GetTasksUseCase
+import work.racka.reluct.common.domain.usecases.tasks.ManageTaskLabels
 import work.racka.reluct.common.domain.usecases.tasks.ModifyTaskUseCase
 import work.racka.reluct.common.features.tasks.util.Constants
 import work.racka.reluct.common.model.domain.tasks.Task
@@ -15,6 +16,7 @@ import work.racka.reluct.common.model.states.tasks.TasksEvents
 class TaskDetailsViewModel(
     private val getTasksUseCase: GetTasksUseCase,
     private val modifyTasksUsesCase: ModifyTaskUseCase,
+    private val manageTaskLabels: ManageTaskLabels,
     private val taskId: String?,
 ) : CommonViewModel() {
 
