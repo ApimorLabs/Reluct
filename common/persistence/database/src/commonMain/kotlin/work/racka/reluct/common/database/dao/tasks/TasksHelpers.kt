@@ -142,4 +142,19 @@ internal object TasksHelpers {
             timeZoneId = timeZoneId
         )
     }
+
+    fun TasksTable.asDbObject(allLabels: List<TaskLabelDbObject>) = TaskDbObject(
+        id = id,
+        title = title,
+        description = description,
+        done = done,
+        overdue = overdue,
+        taskLabels = taskLabelsId.mapNotNull { labelId ->
+            allLabels.firstOrNull { labelId == it.id }
+        },
+        dueDateLocalDateTime = dueDateLocalDateTime,
+        completedLocalDateTime = completedLocalDateTime,
+        reminderLocalDateTime = reminderLocalDateTime,
+        timeZoneId = timeZoneId
+    )
 }

@@ -45,14 +45,7 @@ internal fun AddEditGoalUI(
 
     val modifyGoalState = uiState.modifyGoalState
 
-    val (titleText, closeDialogTitle) = when (modifyGoalState) {
-        is ModifyGoalState.Data -> {
-            if (modifyGoalState.isEdit) {
-                stringResource(R.string.edit_goal_text) to stringResource(R.string.discard_changes_text)
-            } else stringResource(R.string.add_goal_text) to stringResource(R.string.discard_goal_text)
-        }
-        else -> "• • •" to stringResource(R.string.discard_goal_text)
-    }
+    val (titleText, closeDialogTitle) = getTitles(modifyGoalState)
 
     val canGoBack by remember(modifyGoalState) {
         derivedStateOf {
@@ -255,4 +248,15 @@ internal fun AddEditGoalUI(
             }
         )
     }
+}
+
+
+@Composable
+private fun getTitles(modifyGoalState: ModifyGoalState) = when (modifyGoalState) {
+    is ModifyGoalState.Data -> {
+        if (modifyGoalState.isEdit) {
+            stringResource(R.string.edit_goal_text) to stringResource(R.string.discard_changes_text)
+        } else stringResource(R.string.add_goal_text) to stringResource(R.string.discard_goal_text)
+    }
+    else -> "• • •" to stringResource(R.string.discard_goal_text)
 }

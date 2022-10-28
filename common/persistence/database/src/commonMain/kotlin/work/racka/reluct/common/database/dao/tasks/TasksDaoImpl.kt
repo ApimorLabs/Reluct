@@ -8,7 +8,10 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.mapLatest
+import kotlinx.coroutines.flow.zip
+import kotlinx.coroutines.withContext
 import work.racka.reluct.common.database.dao.DatabaseWrapper
+import work.racka.reluct.common.database.dao.tasks.TasksHelpers.asDbObject
 import work.racka.reluct.common.database.dao.tasks.TasksHelpers.getAllTasksFromDb
 import work.racka.reluct.common.database.dao.tasks.TasksHelpers.getCompletedTasksFromDb
 import work.racka.reluct.common.database.dao.tasks.TasksHelpers.getPendingTasksFromDb
@@ -38,6 +41,18 @@ internal class TasksDaoImpl(
             ?.asFlow()
             ?.mapToList(dispatcher)
             ?: flowOf(emptyList())
+
+    // TODO: Use later
+    fun getTasks(): Flow<List<TaskDbObject>> {
+        val dbTasks = tasksQueries?.getAllTasks()?.asFlow()?.mapToList(dispatcher)
+            ?: flowOf(emptyList())
+        val dbLabels = getAllTaskLabels()
+        return dbTasks.zip(dbLabels) { tasks, labels ->
+            withContext(dispatcher) {
+                tasks.map { task -> task.asDbObject(labels) }
+            }
+        }
+    }
 
 
     override fun getTask(id: String): Flow<TaskDbObject?> =
