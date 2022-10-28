@@ -1,6 +1,7 @@
 package work.racka.reluct.android.screens.tasks.add_edit
 
-import androidx.compose.animation.*
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -127,98 +128,68 @@ internal fun AddEditTaskUI(
                     .padding(horizontal = Dimens.MediumPadding.size)
                     .fillMaxSize()
             ) {
-                // Loading
-                AnimatedVisibility(
-                    modifier = Modifier
-                        .fillMaxSize(),
-                    visible = modifyTaskState is ModifyTaskState.Loading,
-                    enter = scaleIn(),
-                    exit = scaleOut()
-                ) {
-                    Box(
-                        modifier = Modifier.fillMaxSize(),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        CircularProgressIndicator()
-                    }
-                }
-
-                // Add or Edit Task
-                AnimatedVisibility(
+                AnimatedContent(
+                    targetState = modifyTaskState,
                     modifier = Modifier.fillMaxSize(),
-                    visible = modifyTaskState is ModifyTaskState.Data,
-                    enter = fadeIn(),
-                    exit = scaleOut()
-                ) {
-                    if (modifyTaskState is ModifyTaskState.Data) {
-                        println("Add Edit Recomposed")
-                        LazyColumnAddEditTaskFields(
-                            task = modifyTaskState.task,
-                            saveButtonText = stringResource(R.string.save_button_text),
-                            discardButtonText = stringResource(R.string.discard_button_text),
-                            onSave = { onSaveTask() },
-                            onUpdateTask = onUpdateTask,
-                            onDiscard = { goBackAttempt() },
-                            onEditLabels = { scope.launch { modalSheetState.show() } }
-                        )
-                    }
-                }
-
-                // Task Saved
-                AnimatedVisibility(
-                    modifier = Modifier
-                        .fillMaxSize(),
-                    visible = modifyTaskState is ModifyTaskState.Saved,
-                    enter = scaleIn(),
-                    exit = scaleOut()
-                ) {
-                    Column(
-                        modifier = Modifier
-                            .verticalScroll(rememberScrollState()),
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement
-                            .spacedBy(Dimens.MediumPadding.size)
-                    ) {
-                        LottieAnimationWithDescription(
-                            lottieResId = R.raw.task_saved,
-                            imageSize = 300.dp,
-                            description = null
-                        )
-                        ReluctButton(
-                            buttonText = stringResource(R.string.add_task_button_text),
-                            icon = Icons.Rounded.Add,
-                            shape = Shapes.large,
-                            buttonColor = MaterialTheme.colorScheme.primary,
-                            contentColor = MaterialTheme.colorScheme.onPrimary,
-                            onButtonClicked = onAddTaskClicked
-                        )
-                        OutlinedReluctButton(
-                            buttonText = stringResource(R.string.exit_text),
-                            icon = Icons.Rounded.ArrowBack,
-                            shape = Shapes.large,
-                            borderColor = MaterialTheme.colorScheme.primary,
-                            onButtonClicked = onBackClicked
-                        )
-                    }
-                }
-
-                // Task Not Found
-                AnimatedVisibility(
-                    modifier = Modifier
-                        .fillMaxSize(),
-                    visible = modifyTaskState is ModifyTaskState.NotFound,
-                    enter = scaleIn(),
-                    exit = scaleOut()
-                ) {
-                    Box(
-                        modifier = Modifier.fillMaxSize(),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        LottieAnimationWithDescription(
-                            lottieResId = R.raw.no_data,
-                            imageSize = 300.dp,
-                            description = stringResource(R.string.task_not_found_text)
-                        )
+                    contentAlignment = Alignment.Center
+                ) { targetState ->
+                    when (targetState) {
+                        is ModifyTaskState.Loading -> {
+                            Box(
+                                modifier = Modifier.fillMaxSize(),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                CircularProgressIndicator()
+                            }
+                        }
+                        is ModifyTaskState.Data -> {
+                            LazyColumnAddEditTaskFields(
+                                task = targetState.task,
+                                saveButtonText = stringResource(R.string.save_button_text),
+                                discardButtonText = stringResource(R.string.discard_button_text),
+                                onSave = { onSaveTask() },
+                                onUpdateTask = onUpdateTask,
+                                onDiscard = { goBackAttempt() },
+                                onEditLabels = { scope.launch { modalSheetState.show() } }
+                            )
+                        }
+                        is ModifyTaskState.Saved -> {
+                            Column(
+                                modifier = Modifier
+                                    .verticalScroll(rememberScrollState()),
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                                verticalArrangement = Arrangement
+                                    .spacedBy(Dimens.MediumPadding.size)
+                            ) {
+                                LottieAnimationWithDescription(
+                                    lottieResId = R.raw.task_saved,
+                                    imageSize = 300.dp,
+                                    description = null
+                                )
+                                ReluctButton(
+                                    buttonText = stringResource(R.string.add_task_button_text),
+                                    icon = Icons.Rounded.Add,
+                                    shape = Shapes.large,
+                                    buttonColor = MaterialTheme.colorScheme.primary,
+                                    contentColor = MaterialTheme.colorScheme.onPrimary,
+                                    onButtonClicked = onAddTaskClicked
+                                )
+                                OutlinedReluctButton(
+                                    buttonText = stringResource(R.string.exit_text),
+                                    icon = Icons.Rounded.ArrowBack,
+                                    shape = Shapes.large,
+                                    borderColor = MaterialTheme.colorScheme.primary,
+                                    onButtonClicked = onBackClicked
+                                )
+                            }
+                        }
+                        is ModifyTaskState.NotFound -> {
+                            LottieAnimationWithDescription(
+                                lottieResId = R.raw.no_data,
+                                imageSize = 300.dp,
+                                description = stringResource(R.string.task_not_found_text)
+                            )
+                        }
                     }
                 }
             }
