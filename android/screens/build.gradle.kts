@@ -47,6 +47,8 @@ dependencies {
 
     // Compose
     implementation(libs.bundles.compose.core)
+    implementation(libs.accompanist.pager)
+    implementation(libs.accompanist.pager.indicators)
     implementation(libs.lifecycle.compose.runtime)
     androidTestImplementation(libs.compose.junit)
     androidTestImplementation(libs.compose.tooling)

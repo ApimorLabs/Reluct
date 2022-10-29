@@ -41,6 +41,9 @@ import work.racka.reluct.common.features.dashboard.overview.states.TodayTasksSta
 import work.racka.reluct.common.model.domain.goals.Goal
 import work.racka.reluct.common.model.domain.tasks.Task
 
+/**
+ * Is Active is used
+ */
 @OptIn(
     ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class,
     ExperimentalAnimationApi::class
@@ -48,6 +51,7 @@ import work.racka.reluct.common.model.domain.tasks.Task
 @Composable
 internal fun DashboardOverviewUI(
     modifier: Modifier = Modifier,
+    isActive: Boolean = true,
     mainScaffoldPadding: PaddingValues,
     barsVisibility: BarsVisibility,
     snackbarHostState: SnackbarHostState,
@@ -55,7 +59,7 @@ internal fun DashboardOverviewUI(
     getUsageData: (isGranted: Boolean) -> Unit,
     openScreenTimeStats: () -> Unit,
     openPendingTask: (Task) -> Unit,
-    onToggleTaskDone: (isDone: Boolean, task: Task) -> Unit,
+    onToggleTaskDone: (task: Task, isDone: Boolean) -> Unit,
     onGoalClicked: (Goal) -> Unit
 ) {
     val listState = rememberLazyListState()
@@ -201,7 +205,7 @@ internal fun DashboardOverviewUI(
                         task = item,
                         entryType = EntryType.TasksWithOverdue,
                         onEntryClick = { openPendingTask(item) },
-                        onCheckedChange = { onToggleTaskDone(it, item) }
+                        onCheckedChange = { onToggleTaskDone(item, it) }
                     )
                 }
 

@@ -30,8 +30,8 @@ class TasksStatisticsViewModel(
     private val dailyTasksState: MutableStateFlow<DailyTasksState> =
         MutableStateFlow(DailyTasksState.Loading())
 
-    private lateinit var collectDailyTasksJob: Job
-    private lateinit var collectWeeklyTasksJob: Job
+    private var collectDailyTasksJob: Job? = null
+    private var collectWeeklyTasksJob: Job? = null
 
 
     val uiState: StateFlow<TasksStatisticsState> = combine(
@@ -56,6 +56,10 @@ class TasksStatisticsViewModel(
 
     init {
         getData()
+    }
+
+    fun initializeData() {
+        if (collectWeeklyTasksJob == null && collectDailyTasksJob == null) getData()
     }
 
     private fun getData() {
@@ -105,15 +109,15 @@ class TasksStatisticsViewModel(
     fun selectDay(selectedDayIsoNumber: Int) {
         dailyTasksState.update { DailyTasksState.Loading(dayTextValue = it.dayText) }
         selectedDay.update { selectedDayIsoNumber }
-        collectDailyTasksJob.cancel()
+        collectDailyTasksJob?.cancel()
         getDailyData()
     }
 
     fun updateWeekOffset(weekOffsetValue: Int) {
         weeklyTasksState.update { WeeklyTasksState.Loading(totalTaskCount = it.totalWeekTasksCount) }
         weekOffset.update { weekOffsetValue }
-        collectDailyTasksJob.cancel()
-        collectWeeklyTasksJob.cancel()
+        collectDailyTasksJob?.cancel()
+        collectWeeklyTasksJob?.cancel()
         getData()
     }
 

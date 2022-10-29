@@ -53,13 +53,19 @@ class DashboardOverviewViewModel(
 
     private var dailyScreenTimeJob: Job? = null
     private var permissionsJob: Job? = null
+    private var goalsJob: Job? = null
+    private var pendingTasksJob: Job? = null
 
     private val permissionGranted = MutableStateFlow(false)
 
     init {
-        initializeScreenTimeData()
-        getPendingTasks()
-        initializeGoals()
+
+    }
+
+    fun initializeData() {
+        permissionsJob ?: run { initializeScreenTimeData() }
+        pendingTasksJob ?: run { getPendingTasks() }
+        goalsJob ?: run { initializeGoals() }
     }
 
     fun permissionCheck(isGranted: Boolean) {
@@ -74,8 +80,9 @@ class DashboardOverviewViewModel(
     }
 
     private fun getPendingTasks() {
+        pendingTasksJob?.cancel()
         todayTasksState.update { TodayTasksState.Loading(it.pending) }
-        vmScope.launch {
+        pendingTasksJob = vmScope.launch {
             // We get only 5 pending Tasks
             getTasksUseCase.getPendingTasks(factor = 1L, limitBy = 5).collectLatest { tasks ->
                 todayTasksState.update { TodayTasksState.Data(tasks = tasks) }
@@ -110,7 +117,8 @@ class DashboardOverviewViewModel(
     }
 
     private fun getGoals() {
-        vmScope.launch {
+        goalsJob?.cancel()
+        goalsJob = vmScope.launch {
             // We get only 3 goals
             getGoals.getActiveGoals(factor = 1L, limitBy = 3).collectLatest { data ->
                 goals.update { data }

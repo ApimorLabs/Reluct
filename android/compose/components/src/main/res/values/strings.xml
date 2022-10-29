@@ -34,6 +34,20 @@
     <string name="screen_time_destination_text">Screen Time</string>
     <string name="goals_destination_text">Goals</string>
 
+    <!--  Navigation Tabs Names  -->
+    <string name="tasks_done">Done</string>
+    <string name="tasks_pending">Tasks</string>
+    <string name="tasks_stats">Statistics</string>
+
+    <string name="screen_time_stats">Statistics</string>
+    <string name="screen_time_limit">Limits</string>
+
+    <string name="goals_active">Active</string>
+    <string name="goals_inactive">Inactive</string>
+
+    <string name="dashboard_overview">Overview</string>
+    <string name="dashboard_statistics">Statistics</string>
+
     <string name="overdue_text">Overdue</string>
     <string name="in_time_text">In Time</string>
 

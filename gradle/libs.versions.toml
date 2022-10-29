@@ -148,6 +148,7 @@ compose_tooling_preview = { module = "androidx.compose.ui:ui-tooling-preview", v
 # Accompanist
 accompanist_nav_animations = { module = "com.google.accompanist:accompanist-navigation-animation", version.ref = "accompanist" }
 accompanist_pager = { module = "com.google.accompanist:accompanist-pager", version.ref = "accompanist" }
+accompanist_pager_indicators = { module = "com.google.accompanist:accompanist-pager-indicators", version.ref = "accompanist" }
 accompanist_swipe_refresh = { module = "com.google.accompanist:accompanist-swiperefresh", version.ref = "accompanist" }
 accompanist_system_ui_controller = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "accompanist" }
 

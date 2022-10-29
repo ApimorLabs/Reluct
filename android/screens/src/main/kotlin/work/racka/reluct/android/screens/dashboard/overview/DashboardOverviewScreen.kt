@@ -52,7 +52,7 @@ fun DashboardOverviewScreen(
         getUsageData = { viewModel.permissionCheck(isGranted = it) },
         openScreenTimeStats = onNavigateToScreenTime,
         openPendingTask = { onNavigateToTaskDetails(it.id) },
-        onToggleTaskDone = { isDone, task -> viewModel.toggleDone(task = task, isDone = isDone) },
+        onToggleTaskDone = { task, isDone -> viewModel.toggleDone(task = task, isDone = isDone) },
         onGoalClicked = { onNavigateToGoalDetails(it.id) }
     )
 }

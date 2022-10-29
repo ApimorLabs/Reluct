@@ -16,25 +16,15 @@ import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.google.accompanist.navigation.animation.AnimatedNavHost
-import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
-import timber.log.Timber
 import work.racka.reluct.android.compose.components.R
 import work.racka.reluct.android.compose.components.topBar.ReluctPageHeading
 import work.racka.reluct.android.compose.components.util.BarsVisibility
 import work.racka.reluct.android.compose.navigation.navbar.NavbarDestinations
 import work.racka.reluct.android.compose.navigation.top_tabs.dashboard.DashboardTabBar
 import work.racka.reluct.android.compose.navigation.top_tabs.dashboard.DashboardTabDestination
-import work.racka.reluct.android.compose.navigation.transitions.scaleInEnterTransition
-import work.racka.reluct.android.compose.navigation.transitions.scaleInPopEnterTransition
-import work.racka.reluct.android.compose.navigation.transitions.scaleOutExitTransition
-import work.racka.reluct.android.compose.navigation.transitions.scaleOutPopExitTransition
 import work.racka.reluct.android.compose.navigation.util.NavHelpers.navigateNavBarElements
-import work.racka.reluct.android.screens.dashboard.overview.DashboardOverviewScreen
-import work.racka.reluct.android.screens.dashboard.statistics.DashboardStatsScreen
-import work.racka.reluct.common.core_navigation.compose_destinations.dashboard.DashboardOverviewDestination
-import work.racka.reluct.common.core_navigation.compose_destinations.dashboard.DashboardStatsDestination
+import work.racka.reluct.android.screens.dashboard.DashboardScreen
 import work.racka.reluct.common.core_navigation.compose_destinations.goals.GoalDetailsDestination
 import work.racka.reluct.common.core_navigation.compose_destinations.screentime.AppScreenTimeStatsDestination
 import work.racka.reluct.common.core_navigation.compose_destinations.settings.SettingsDestination
@@ -57,7 +47,31 @@ internal fun DashboardNavHost(
         }
     }
 
-    Scaffold(
+    DashboardScreen(
+        mainScaffoldPadding = mainScaffoldPadding,
+        barsVisibility = barsVisibility,
+        onNavigateToScreenTime = {
+            mainNavController.navigateNavBarElements(
+                route = NavbarDestinations.ScreenTime.route
+            )
+        },
+        onNavigateToTaskDetails = {
+            mainNavController.navigate(
+                TaskDetailsDestination.argsRoute(it)
+            )
+        },
+        onNavigateToGoalDetails = { goalId: String? ->
+            mainNavController.navigate(GoalDetailsDestination.argsRoute(goalId))
+        },
+        onNavigateToAppUsageInfo = { packageName ->
+            mainNavController.navigate(
+                AppScreenTimeStatsDestination.argsRoute(packageName)
+            )
+        },
+        onSettingsClicked = { mainNavController.navigate(SettingsDestination.route) }
+    )
+
+    /*Scaffold(
         topBar = {
             DashboardScreenTopBar(
                 tabPage = tabPage,
@@ -130,7 +144,7 @@ internal fun DashboardNavHost(
                 )
             }
         }
-    }
+    }*/
 }
 
 @Composable
