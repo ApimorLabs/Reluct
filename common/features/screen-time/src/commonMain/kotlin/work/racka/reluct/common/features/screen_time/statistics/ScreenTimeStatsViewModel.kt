@@ -2,6 +2,7 @@ package work.racka.reluct.common.features.screen_time.statistics
 
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import work.racka.common.mvvm.viewmodel.CommonViewModel
@@ -62,6 +63,15 @@ class ScreenTimeStatsViewModel(
         val todayIsoNumber = WeekUtils.currentDayOfWeek().isoDayNumber
         selectedInfo.update { it.copy(selectedDay = todayIsoNumber) }
         getData()
+        vmScope.launch {
+            flow {
+                var num = 0
+                while (true) {
+                    emit(num++)
+                    delay(1000L)
+                }
+            }.collectLatest { println(it) }
+        }
     }
 
     private fun getData() {

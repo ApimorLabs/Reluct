@@ -38,4 +38,9 @@ class DashboardStatisticsViewModel(
 
     fun saveAppTimeLimit(hours: Int, minutes: Int) =
         screenTimeStatsViewModel.saveTimeLimit(hours, minutes)
+
+    override fun destroy() {
+        screenTimeStatsViewModel.destroy()
+        tasksStatsViewModel.destroy()
+    }
 }
