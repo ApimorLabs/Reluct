@@ -2,6 +2,7 @@ rootProject.name = "Reluct"
 include(
     ":desktop:app",
     ":android:app",
+    ":android:benchmark",
     ":android:compose:components",
     ":android:compose:charts",
     ":android:compose:navigation",
