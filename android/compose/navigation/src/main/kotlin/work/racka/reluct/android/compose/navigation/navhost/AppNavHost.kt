@@ -115,10 +115,10 @@ fun AppNavHost(modifier: Modifier = Modifier, settingsCheck: SettingsCheck?) {
             // OnBoarding
             composable(
                 route = OnBoardingDestination.route,
-                enterTransition = { slideInVerticallyFadeReversed(initialScale = transScale) },
-                exitTransition = { slideOutVerticallyFadeReversed(targetScale = transScale) },
-                popEnterTransition = { slideInVerticallyFadeReversed(initialScale = transScale) },
-                popExitTransition = { slideOutVerticallyFadeReversed(targetScale = transScale) }
+                enterTransition = { scaleInEnterTransition() },
+                exitTransition = { scaleOutExitTransition() },
+                popEnterTransition = { scaleInPopEnterTransition() },
+                popExitTransition = { scaleOutPopExitTransition() }
             ) {
                 OnBoardingScreen(
                     navigateHome = {
@@ -134,10 +134,10 @@ fun AppNavHost(modifier: Modifier = Modifier, settingsCheck: SettingsCheck?) {
             // Dashboard
             composable(
                 route = NavbarDestinations.Dashboard.route,
-                enterTransition = { slideInVerticallyFadeReversed(initialScale = transScale) },
-                exitTransition = { slideOutVerticallyFadeReversed(targetScale = transScale) },
-                popEnterTransition = { slideInVerticallyFadeReversed(initialScale = transScale) },
-                popExitTransition = { slideOutVerticallyFadeReversed(targetScale = transScale) }
+                enterTransition = { scaleInEnterTransition() },
+                exitTransition = { scaleOutExitTransition() },
+                popEnterTransition = { scaleInPopEnterTransition() },
+                popExitTransition = { scaleOutPopExitTransition() }
             ) {
                 DashboardNavHost(
                     mainNavController = navController,
@@ -150,10 +150,10 @@ fun AppNavHost(modifier: Modifier = Modifier, settingsCheck: SettingsCheck?) {
             composable(
                 route = NavbarDestinations.Tasks.route,
                 deepLinks = PendingTasksDestination.deepLinks,
-                enterTransition = { slideInVerticallyFadeReversed(initialScale = transScale) },
-                exitTransition = { slideOutVerticallyFadeReversed(targetScale = transScale) },
-                popEnterTransition = { slideInVerticallyFadeReversed(initialScale = transScale) },
-                popExitTransition = { slideOutVerticallyFadeReversed(targetScale = transScale) }
+                enterTransition = { scaleInEnterTransition() },
+                exitTransition = { scaleOutExitTransition() },
+                popEnterTransition = { scaleInPopEnterTransition() },
+                popExitTransition = { scaleOutPopExitTransition() }
             ) {
                 TasksNavHost(
                     mainNavController = navController,
@@ -165,10 +165,10 @@ fun AppNavHost(modifier: Modifier = Modifier, settingsCheck: SettingsCheck?) {
             // Screen Time
             composable(
                 route = NavbarDestinations.ScreenTime.route,
-                enterTransition = { slideInVerticallyFadeReversed(initialScale = transScale) },
-                exitTransition = { slideOutVerticallyFadeReversed(targetScale = transScale) },
-                popEnterTransition = { slideInVerticallyFadeReversed(initialScale = transScale) },
-                popExitTransition = { slideOutVerticallyFadeReversed(targetScale = transScale) }
+                enterTransition = { scaleInEnterTransition() },
+                exitTransition = { scaleOutExitTransition() },
+                popEnterTransition = { scaleInPopEnterTransition() },
+                popExitTransition = { scaleOutPopExitTransition() }
             ) {
                 ScreenTimeNavHost(
                     mainNavController = navController,
@@ -180,10 +180,10 @@ fun AppNavHost(modifier: Modifier = Modifier, settingsCheck: SettingsCheck?) {
             // Goals
             composable(
                 route = NavbarDestinations.Goals.route,
-                enterTransition = { slideInVerticallyFadeReversed(initialScale = transScale) },
-                exitTransition = { slideOutVerticallyFadeReversed(targetScale = transScale) },
-                popEnterTransition = { slideInVerticallyFadeReversed(initialScale = transScale) },
-                popExitTransition = { slideOutVerticallyFadeReversed(targetScale = transScale) }
+                enterTransition = { scaleInEnterTransition() },
+                exitTransition = { scaleOutExitTransition() },
+                popEnterTransition = { scaleInPopEnterTransition() },
+                popExitTransition = { scaleOutPopExitTransition() }
             ) {
                 GoalsNavHost(
                     mainNavController = navController,
