@@ -8,6 +8,12 @@ android {
 
     compileSdk = libs.versions.config.android.compilesdk.get().toInt()
 
+    defaultConfig {
+        minSdk = libs.versions.config.android.minsdk.get().toInt()
+        targetSdk = libs.versions.config.android.targetsdk.get().toInt()
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
+
     buildTypes {
         // This benchmark buildType is used for benchmarking, and should function like your
         // release build (for example, with minification on). It"s signed with a debug key
@@ -20,9 +26,14 @@ android {
             matchingFallbacks += listOf("release")
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "../app/proguard-rules.pro"
+                "../app/benchmark-rules.pro"
             )
         }
+    }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
 
     targetProjectPath = ":android:app"
