@@ -7,6 +7,7 @@
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <permission android:name="android.permission.QUERY_ALL_PACKAGES" />
+
     <uses-permission
         android:name="android.permission.PACKAGE_USAGE_STATS"
         tools:ignore="ProtectedPermissions" />
@@ -24,8 +25,13 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:windowSoftInputMode="adjustResize"
-        android:theme="@style/Theme.AppSplash">
+        android:theme="@style/Theme.AppSplash"
+        android:windowSoftInputMode="adjustResize">
+
+        <profileable
+            android:shell="true"
+            tools:targetApi="q" />
+
         <activity
             android:name=".ui.MainActivity"
             android:exported="true"
@@ -36,8 +42,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
-            <!--   This is for deep links throughout the app.
-                Accompanying URIs can be found in :android:compose:navigation:destinations  -->
+            <!--
+                   This is for deep links throughout the app.
+                Accompanying URIs can be found in :android:compose:navigation:destinations
+            -->
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
