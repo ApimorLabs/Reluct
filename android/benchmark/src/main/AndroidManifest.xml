@@ -4,4 +4,7 @@
     <queries>
         <package android:name="work.racka.reluct" />
     </queries>
+
+    <!-- Requesting legacy storage is needed to be able to write to additionalTestOutputDir on API 29 -->
+    <application android:requestLegacyExternalStorage="true" />
 </manifest>
