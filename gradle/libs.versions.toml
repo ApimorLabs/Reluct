@@ -50,6 +50,7 @@ koin = "3.2.2"
 # Square (Block)
 sqlDelight = "1.5.4"
 turbine = "0.7.0"
+leakcanary = "2.9.1"
 
 # Testing
 junit = "4.3.2"
@@ -210,6 +211,7 @@ sqldelight_coroutines = { module = "com.squareup.sqldelight:coroutines-extension
 sqldelight_android_driver = { module = "com.squareup.sqldelight:android-driver", version.ref = "sqlDelight" }
 sqldelight_sqlite_driver = { module = "com.squareup.sqldelight:sqlite-driver", version.ref = "sqlDelight" }
 turbine_test = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
+leakcanary_android = { module = "com.squareup.leakcanary:leakcanary-android", version.ref = "leakcanary" }
 
 # Logging
 slf4j_simple = { module = "org.slf4j:slf4j-simple", version.ref = "slf4j" }

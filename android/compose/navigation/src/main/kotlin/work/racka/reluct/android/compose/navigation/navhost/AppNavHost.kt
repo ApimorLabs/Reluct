@@ -49,8 +49,6 @@ fun AppNavHost(modifier: Modifier = Modifier, settingsCheck: SettingsCheck?) {
     val navController = rememberAnimatedNavController()
     val barsVisibility = rememberBarVisibility(defaultBottomBar = false)
 
-    val transScale = .05f
-
     // Route used specifically for checking if the On Boarding flow was shown and Signed In
     val checkingRoute = "dummy_route"
 
