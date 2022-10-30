@@ -1,4 +1,4 @@
-package work.racka.reluct.android.compose.navigation.top_tabs.screentime
+package work.racka.reluct.android.compose.navigation.toptabs.tasks
 
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateDp
@@ -16,27 +16,33 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.zIndex
 
 @Composable
-internal fun ScreenTimeTabIndicator(
-    modifier: Modifier = Modifier,
+internal fun TasksTabIndicator(
     tabPositions: List<TabPosition>,
-    tabPage: ScreenTimeTabDestination,
+    tabPage: TasksTabDestination,
+    modifier: Modifier = Modifier,
 ) {
     val transition = updateTransition(
         targetState = tabPage,
-        label = "Screen Time Tab Indicator"
+        label = "Tasks Tab Indicator"
     )
     val indicatorLeft by transition.animateDp(
         transitionSpec = {
-            if (ScreenTimeTabDestination.Statistics
-                isTransitioningTo ScreenTimeTabDestination.Limits
-            ) {
-                // Indicator moves to the right.
-                // Low stiffness spring for the left edge so it moves slower than the right edge.
-                spring(stiffness = Spring.StiffnessVeryLow)
-            } else {
-                // Indicator moves to the left.
-                // Medium stiffness spring for the left edge so it moves faster than the right edge.
-                spring(stiffness = Spring.StiffnessMedium)
+            when {
+                TasksTabDestination.Tasks
+                    isTransitioningTo TasksTabDestination.Done -> {
+                    spring(stiffness = Spring.StiffnessVeryLow)
+                }
+                TasksTabDestination.Done
+                    isTransitioningTo TasksTabDestination.Statistics -> {
+                    spring(stiffness = Spring.StiffnessVeryLow)
+                }
+                TasksTabDestination.Tasks
+                    isTransitioningTo TasksTabDestination.Statistics -> {
+                    spring(stiffness = Spring.StiffnessVeryLow)
+                }
+                else -> {
+                    spring(stiffness = Spring.StiffnessMedium)
+                }
             }
         },
         label = "Indicator Left"
@@ -46,15 +52,11 @@ internal fun ScreenTimeTabIndicator(
 
     val indicatorRight by transition.animateDp(
         transitionSpec = {
-            if (ScreenTimeTabDestination.Limits
-                isTransitioningTo ScreenTimeTabDestination.Statistics
+            if (TasksTabDestination.Statistics
+                isTransitioningTo TasksTabDestination.Tasks
             ) {
-                // Indicator moves to the right
-                // Medium stiffness spring for the right edge so it moves faster than the left edge.
                 spring(stiffness = Spring.StiffnessMedium)
             } else {
-                // Indicator moves to the left.
-                // Low stiffness spring for the right edge so it moves slower than the left edge.
                 spring(stiffness = Spring.StiffnessVeryLow)
             }
         },

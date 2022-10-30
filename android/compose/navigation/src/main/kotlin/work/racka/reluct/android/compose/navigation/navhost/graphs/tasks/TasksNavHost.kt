@@ -22,8 +22,8 @@ import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import work.racka.reluct.android.compose.components.R
 import work.racka.reluct.android.compose.components.textfields.search.PlaceholderMaterialSearchBar
 import work.racka.reluct.android.compose.components.util.BarsVisibility
-import work.racka.reluct.android.compose.navigation.top_tabs.tasks.TasksTabBar
-import work.racka.reluct.android.compose.navigation.top_tabs.tasks.TasksTabDestination
+import work.racka.reluct.android.compose.navigation.toptabs.tasks.TasksTabBar
+import work.racka.reluct.android.compose.navigation.toptabs.tasks.TasksTabDestination
 import work.racka.reluct.android.compose.navigation.transitions.scaleInEnterTransition
 import work.racka.reluct.android.compose.navigation.transitions.scaleInPopEnterTransition
 import work.racka.reluct.android.compose.navigation.transitions.scaleOutExitTransition
@@ -40,8 +40,8 @@ import work.racka.reluct.common.core_navigation.compose_destinations.tasks.*
 internal fun TasksNavHost(
     mainNavController: NavHostController,
     barsVisibility: BarsVisibility,
-    navController: NavHostController = rememberAnimatedNavController(),
     mainScaffoldPadding: PaddingValues,
+    navController: NavHostController = rememberAnimatedNavController(),
 ) {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
@@ -69,7 +69,6 @@ internal fun TasksNavHost(
             route = PendingTasksDestination.destination,
             startDestination = PendingTasksDestination.route
         ) {
-
             // Tasks
             composable(
                 route = PendingTasksDestination.route,

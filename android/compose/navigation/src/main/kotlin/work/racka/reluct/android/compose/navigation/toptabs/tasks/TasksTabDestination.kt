@@ -1,4 +1,4 @@
-package work.racka.reluct.android.compose.navigation.top_tabs.tasks
+package work.racka.reluct.android.compose.navigation.toptabs.tasks
 
 import work.racka.reluct.common.core_navigation.compose_destinations.tasks.CompletedTasksDestination
 import work.racka.reluct.common.core_navigation.compose_destinations.tasks.PendingTasksDestination

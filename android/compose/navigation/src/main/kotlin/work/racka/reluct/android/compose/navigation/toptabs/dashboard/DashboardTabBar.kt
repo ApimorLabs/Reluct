@@ -1,4 +1,4 @@
-package work.racka.reluct.android.compose.navigation.top_tabs.dashboard
+package work.racka.reluct.android.compose.navigation.toptabs.dashboard
 
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
@@ -15,9 +15,9 @@ import work.racka.reluct.android.compose.theme.ReluctAppTheme
 
 @Composable
 fun DashboardTabBar(
-    modifier: Modifier = Modifier,
     tabPage: DashboardTabDestination,
     onTabSelected: (tabPage: DashboardTabDestination) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     TabRow(
         modifier = modifier.width(250.dp),
@@ -70,6 +70,9 @@ private fun getDashboardTabTextColor(
     tabPage: DashboardTabDestination,
     selectedTabPage: DashboardTabDestination,
 ): Color =
-    if (tabPage == selectedTabPage) MaterialTheme.colorScheme.onPrimary
-    else MaterialTheme.colorScheme.onBackground
-        .copy(alpha = .5f)
+    if (tabPage == selectedTabPage) {
+        MaterialTheme.colorScheme.onPrimary
+    } else {
+        MaterialTheme.colorScheme.onBackground
+            .copy(alpha = .5f)
+    }

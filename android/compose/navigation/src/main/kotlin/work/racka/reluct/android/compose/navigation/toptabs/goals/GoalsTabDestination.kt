@@ -1,4 +1,4 @@
-package work.racka.reluct.android.compose.navigation.top_tabs.goals
+package work.racka.reluct.android.compose.navigation.toptabs.goals
 
 import work.racka.reluct.common.core_navigation.compose_destinations.goals.ActiveGoalsDestination
 import work.racka.reluct.common.core_navigation.compose_destinations.goals.InactiveGoalsDestination

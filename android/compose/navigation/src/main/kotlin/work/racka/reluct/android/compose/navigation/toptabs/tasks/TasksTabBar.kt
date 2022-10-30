@@ -1,4 +1,4 @@
-package work.racka.reluct.android.compose.navigation.top_tabs.tasks
+package work.racka.reluct.android.compose.navigation.toptabs.tasks
 
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
@@ -13,9 +13,9 @@ import work.racka.reluct.android.compose.navigation.R
 
 @Composable
 fun TasksTabBar(
-    modifier: Modifier = Modifier,
     tabPage: TasksTabDestination,
     onTabSelected: (tabPage: TasksTabDestination) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     TabRow(
         modifier = modifier.width(300.dp),
@@ -67,6 +67,9 @@ private fun getTasksTabTextColor(
     tabPage: TasksTabDestination,
     selectedTabPage: TasksTabDestination,
 ): Color =
-    if (tabPage == selectedTabPage) MaterialTheme.colorScheme.onPrimary
-    else MaterialTheme.colorScheme.onBackground
-        .copy(alpha = .5f)
+    if (tabPage == selectedTabPage) {
+        MaterialTheme.colorScheme.onPrimary
+    } else {
+        MaterialTheme.colorScheme.onBackground
+            .copy(alpha = .5f)
+    }

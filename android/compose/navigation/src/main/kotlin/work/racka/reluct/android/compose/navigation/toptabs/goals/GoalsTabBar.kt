@@ -1,4 +1,4 @@
-package work.racka.reluct.android.compose.navigation.top_tabs.goals
+package work.racka.reluct.android.compose.navigation.toptabs.goals
 
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
@@ -13,9 +13,9 @@ import work.racka.reluct.android.compose.navigation.R
 
 @Composable
 fun GoalsTabBar(
-    modifier: Modifier = Modifier,
     tabPage: GoalsTabDestination,
     onTabSelected: (tabPage: GoalsTabDestination) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     TabRow(
         modifier = modifier.width(250.dp),
@@ -57,6 +57,9 @@ private fun getGoalsTabTextColor(
     tabPage: GoalsTabDestination,
     selectedTabPage: GoalsTabDestination,
 ): Color =
-    if (tabPage == selectedTabPage) MaterialTheme.colorScheme.onPrimary
-    else MaterialTheme.colorScheme.onBackground
-        .copy(alpha = .5f)
+    if (tabPage == selectedTabPage) {
+        MaterialTheme.colorScheme.onPrimary
+    } else {
+        MaterialTheme.colorScheme.onBackground
+            .copy(alpha = .5f)
+    }

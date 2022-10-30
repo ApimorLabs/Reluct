@@ -1,4 +1,4 @@
-package work.racka.reluct.android.compose.navigation.top_tabs.goals
+package work.racka.reluct.android.compose.navigation.toptabs.screentime
 
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateDp
@@ -16,19 +16,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.zIndex
 
 @Composable
-internal fun GoalsTabIndicator(
-    modifier: Modifier = Modifier,
+internal fun ScreenTimeTabIndicator(
     tabPositions: List<TabPosition>,
-    tabPage: GoalsTabDestination,
+    tabPage: ScreenTimeTabDestination,
+    modifier: Modifier = Modifier,
 ) {
     val transition = updateTransition(
         targetState = tabPage,
-        label = "Goals Tab Indicator"
+        label = "Screen Time Tab Indicator"
     )
     val indicatorLeft by transition.animateDp(
         transitionSpec = {
-            if (GoalsTabDestination.Active
-                isTransitioningTo GoalsTabDestination.Inactive
+            if (ScreenTimeTabDestination.Statistics
+                isTransitioningTo ScreenTimeTabDestination.Limits
             ) {
                 // Indicator moves to the right.
                 // Low stiffness spring for the left edge so it moves slower than the right edge.
@@ -46,8 +46,8 @@ internal fun GoalsTabIndicator(
 
     val indicatorRight by transition.animateDp(
         transitionSpec = {
-            if (GoalsTabDestination.Inactive
-                isTransitioningTo GoalsTabDestination.Active
+            if (ScreenTimeTabDestination.Limits
+                isTransitioningTo ScreenTimeTabDestination.Statistics
             ) {
                 // Indicator moves to the right
                 // Medium stiffness spring for the right edge so it moves faster than the left edge.

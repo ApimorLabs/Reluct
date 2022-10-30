@@ -1,4 +1,4 @@
-package work.racka.reluct.android.compose.navigation.top_tabs.screentime
+package work.racka.reluct.android.compose.navigation.toptabs.screentime
 
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
@@ -13,9 +13,9 @@ import work.racka.reluct.android.compose.navigation.R
 
 @Composable
 fun ScreenTimeTabBar(
-    modifier: Modifier = Modifier,
     tabPage: ScreenTimeTabDestination,
     onTabSelected: (tabPage: ScreenTimeTabDestination) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     TabRow(
         modifier = modifier.width(250.dp),
@@ -57,6 +57,9 @@ private fun getScreenTimeTabTextColor(
     tabPage: ScreenTimeTabDestination,
     selectedTabPage: ScreenTimeTabDestination,
 ): Color =
-    if (tabPage == selectedTabPage) MaterialTheme.colorScheme.onPrimary
-    else MaterialTheme.colorScheme.onBackground
-        .copy(alpha = .5f)
+    if (tabPage == selectedTabPage) {
+        MaterialTheme.colorScheme.onPrimary
+    } else {
+        MaterialTheme.colorScheme.onBackground
+            .copy(alpha = .5f)
+    }

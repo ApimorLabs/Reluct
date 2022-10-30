@@ -1,4 +1,4 @@
-package work.racka.reluct.android.compose.navigation.top_tabs.screentime
+package work.racka.reluct.android.compose.navigation.toptabs.screentime
 
 import work.racka.reluct.common.core_navigation.compose_destinations.screentime.ScreenTimeLimitsDestination
 import work.racka.reluct.common.core_navigation.compose_destinations.screentime.ScreenTimeStatsDestination

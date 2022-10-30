@@ -22,8 +22,8 @@ import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import work.racka.reluct.android.compose.components.R
 import work.racka.reluct.android.compose.components.topBar.ReluctPageHeading
 import work.racka.reluct.android.compose.components.util.BarsVisibility
-import work.racka.reluct.android.compose.navigation.top_tabs.screentime.ScreenTimeTabBar
-import work.racka.reluct.android.compose.navigation.top_tabs.screentime.ScreenTimeTabDestination
+import work.racka.reluct.android.compose.navigation.toptabs.screentime.ScreenTimeTabBar
+import work.racka.reluct.android.compose.navigation.toptabs.screentime.ScreenTimeTabDestination
 import work.racka.reluct.android.compose.navigation.transitions.scaleInEnterTransition
 import work.racka.reluct.android.compose.navigation.transitions.scaleInPopEnterTransition
 import work.racka.reluct.android.compose.navigation.transitions.scaleOutExitTransition
@@ -41,8 +41,8 @@ import work.racka.reluct.common.core_navigation.compose_destinations.screentime.
 internal fun ScreenTimeNavHost(
     mainNavController: NavHostController,
     barsVisibility: BarsVisibility,
-    navController: NavHostController = rememberAnimatedNavController(),
     mainScaffoldPadding: PaddingValues,
+    navController: NavHostController = rememberAnimatedNavController(),
 ) {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination

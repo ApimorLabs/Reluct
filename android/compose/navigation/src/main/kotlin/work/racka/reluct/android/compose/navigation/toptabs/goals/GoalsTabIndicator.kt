@@ -1,6 +1,9 @@
-package work.racka.reluct.android.compose.navigation.top_tabs.dashboard
+package work.racka.reluct.android.compose.navigation.toptabs.goals
 
-import androidx.compose.animation.core.*
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.animateDp
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.updateTransition
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -10,24 +13,22 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.composed
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 
 @Composable
-internal fun DashboardTabIndicator(
-    modifier: Modifier = Modifier,
+internal fun GoalsTabIndicator(
     tabPositions: List<TabPosition>,
-    tabPage: DashboardTabDestination,
+    tabPage: GoalsTabDestination,
+    modifier: Modifier = Modifier,
 ) {
     val transition = updateTransition(
         targetState = tabPage,
-        label = "Dashboard Tab Indicator"
+        label = "Goals Tab Indicator"
     )
     val indicatorLeft by transition.animateDp(
         transitionSpec = {
-            if (DashboardTabDestination.Overview
-                isTransitioningTo DashboardTabDestination.Statistics
+            if (GoalsTabDestination.Active
+                isTransitioningTo GoalsTabDestination.Inactive
             ) {
                 // Indicator moves to the right.
                 // Low stiffness spring for the left edge so it moves slower than the right edge.
@@ -45,8 +46,8 @@ internal fun DashboardTabIndicator(
 
     val indicatorRight by transition.animateDp(
         transitionSpec = {
-            if (DashboardTabDestination.Statistics
-                isTransitioningTo DashboardTabDestination.Overview
+            if (GoalsTabDestination.Inactive
+                isTransitioningTo GoalsTabDestination.Active
             ) {
                 // Indicator moves to the right
                 // Medium stiffness spring for the right edge so it moves faster than the left edge.
@@ -76,17 +77,3 @@ internal fun DashboardTabIndicator(
             )
     )
 }
-
-internal fun Modifier.customTabIndicatorOffset(currentTabPosition: TabPosition): Modifier =
-    composed {
-        val indicatorWidth = 16.dp
-        val currentTabWidth = currentTabPosition.width
-        val indicatorOffset by animateDpAsState(
-            targetValue = currentTabPosition.left + currentTabWidth / 2 - indicatorWidth / 2,
-            animationSpec = tween()
-        )
-        fillMaxSize()
-            .wrapContentSize(Alignment.BottomStart)
-            .offset(x = indicatorOffset)
-            .width(indicatorWidth)
-    }

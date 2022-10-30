@@ -1,4 +1,4 @@
-package work.racka.reluct.android.compose.navigation.top_tabs
+package work.racka.reluct.android.compose.navigation.toptabs
 
 data class TabDestination(
     val route: String,
