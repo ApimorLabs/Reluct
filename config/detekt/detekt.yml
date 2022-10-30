@@ -719,6 +719,10 @@ style:
     excludeImports:
       - 'java.util.*'
 
+formatting:
+  NoWildcardImports:
+    active: false
+
 TwitterCompose:
   CompositionLocalAllowlist:
     active: true

@@ -71,9 +71,9 @@ fun ReluctAppTheme(
     }
 
     val colors = when (theme) {
-        1 -> AppLightColorScheme
-        2 -> AppDarkColorScheme
-        12 -> dynamicColors
+        Theme.LIGHT_THEME.themeValue -> AppLightColorScheme
+        Theme.DARK_THEME.themeValue -> AppDarkColorScheme
+        Theme.MATERIAL_YOU.themeValue -> dynamicColors
         else -> autoColors
     }
 
