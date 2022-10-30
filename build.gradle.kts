@@ -55,6 +55,16 @@ subprojects {
     beforeEvaluate {
         dependencies {
             detektPlugins(libs.detekt.formatting)
+            detektPlugins(libs.detekt.rule.twitter.compose)
+        }
+
+        // Filter out Detect from check task
+        if (tasks.names.contains("check")) {
+            tasks.named("check").configure {
+                this.setDependsOn(this.dependsOn.filterNot {
+                    it is TaskProvider<*> && it.name == "detekt"
+                })
+            }
         }
     }
 

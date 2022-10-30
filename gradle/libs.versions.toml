@@ -79,7 +79,7 @@ kermit = "1.0.0"
 
 # Linter
 ktlint_gradle = "11.0.0"
-ktlint_twitter_compose = "0.0.22"
+linter_twitter_compose = "0.0.22"
 detekt = "1.22.0-RC2"
 
 # Extras
@@ -228,7 +228,8 @@ timber_log = { module = "com.jakewharton.timber:timber", version.ref = "timber" 
 detekt_gradle_plugin = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", version.ref = "detekt" }
 detekt_formatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detekt" }
 ktlint_gradle_plugin = { module = "org.jlleitschuh.gradle:ktlint-gradle", version.ref = "ktlint_gradle" }
-ktlint_rule_twitter_compose = { module = "com.twitter.compose.rules:ktlint", version.ref = "ktlint_twitter_compose" }
+ktlint_rule_twitter_compose = { module = "com.twitter.compose.rules:ktlint", version.ref = "linter_twitter_compose" }
+detekt_rule_twitter_compose = { module = "com.twitter.compose.rules:detekt", version.ref = "linter_twitter_compose" }
 
 ########### Libraries End ##################
 
