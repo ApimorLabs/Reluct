@@ -1,7 +1,15 @@
+import io.gitlab.arturbosch.detekt.Detekt
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
 
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+plugins {
+    // TODO: Remove once https://youtrack.jetbrains.com/issue/KTIJ-19369 is fixed
+    @Suppress("DSL_SCOPE_VIOLATION")
+    alias(libs.plugins.detekt.gradle)
+}
+
 buildscript {
 
     repositories {
@@ -40,7 +48,40 @@ allprojects {
 }
 
 subprojects {
+
+    // Detekt
+    apply(plugin = "io.gitlab.arturbosch.detekt")
+
+    beforeEvaluate {
+        dependencies {
+            detektPlugins(libs.detekt.formatting)
+        }
+    }
+
     afterEvaluate {
+        /**
+         * Start - Detekt Configuration for All sub projects
+         */
+        detekt {
+            toolVersion = libs.versions.detekt.get()
+            config = files("$rootDir/config/detekt/detekt.yml")
+            buildUponDefaultConfig = true
+        }
+
+        tasks.withType<Detekt>().configureEach {
+            exclude("**/generated/**", "**/resources/**", "**/build/**")
+            include("**/kotlin/**", "**/*.kt")
+
+            reports {
+                xml.required.set(false)
+                html.required.set(true)
+                txt.required.set(false)
+                sarif.required.set(false)
+                md.required.set(true)
+            }
+        }
+        /** End - Detek Config **/
+
         val kmpExtension = project.extensions.findByType<KotlinMultiplatformExtension>()
 
         // Check if the subproject is KMP or a normal Android subproject
