@@ -2,7 +2,7 @@ package work.racka.reluct.common.domain.mappers.limits
 
 import work.racka.reluct.common.database.models.LimitsDbObject
 import work.racka.reluct.common.domain.usecases.app_info.GetAppInfo
-import work.racka.reluct.common.model.domain.app_info.AppInfo
+import work.racka.reluct.common.model.domain.appInfo.AppInfo
 import work.racka.reluct.common.model.domain.limits.AppLimits
 import work.racka.reluct.common.model.domain.limits.AppTimeLimit
 import work.racka.reluct.common.model.util.time.TimeUtils

@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.dp
 import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.android.compose.theme.Shapes
 import work.racka.reluct.android.screens.screentime.components.AppNameEntry
-import work.racka.reluct.common.model.domain.app_info.AppInfo
+import work.racka.reluct.common.model.domain.appInfo.AppInfo
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

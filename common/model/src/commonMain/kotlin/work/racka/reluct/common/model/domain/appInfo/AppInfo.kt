@@ -1,4 +1,4 @@
-package work.racka.reluct.common.model.domain.app_info
+package work.racka.reluct.common.model.domain.appInfo
 
 import work.racka.reluct.common.model.domain.core.Icon
 

@@ -14,7 +14,7 @@ import work.racka.reluct.common.features.goals.active.states.GoalsEvents
 import work.racka.reluct.common.features.goals.add_edit_goal.states.AddEditGoalState
 import work.racka.reluct.common.features.goals.add_edit_goal.states.GoalAppsState
 import work.racka.reluct.common.features.goals.add_edit_goal.states.ModifyGoalState
-import work.racka.reluct.common.model.domain.app_info.AppInfo
+import work.racka.reluct.common.model.domain.appInfo.AppInfo
 import work.racka.reluct.common.model.domain.goals.Goal
 
 /**

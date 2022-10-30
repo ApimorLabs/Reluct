@@ -1,6 +1,6 @@
 package work.racka.reluct.common.model.domain.goals
 
-import work.racka.reluct.common.model.domain.app_info.AppInfo
+import work.racka.reluct.common.model.domain.appInfo.AppInfo
 
 data class Goal(
     val id: String,

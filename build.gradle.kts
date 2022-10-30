@@ -1,5 +1,4 @@
 import io.gitlab.arturbosch.detekt.Detekt
-import io.gitlab.arturbosch.detekt.report.ReportMergeTask
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
 
@@ -79,9 +78,19 @@ subprojects {
             buildUponDefaultConfig = true
         }
 
-        tasks.withType<Detekt>().configureEach detekt@ {
+        tasks.withType<Detekt>().configureEach detekt@{
             exclude("**/generated/**", "**/resources/**", "**/build/**")
-            include("**/kotlin/**", "**/*.kt")
+            include("**/kotlin/**", "**/java/**", "**/*.kt", "**/*.kts")
+            /*setSource(
+                files(
+                    "src/main/java",
+                    "src/test/java",
+                    "src/main/kotlin",
+                    "src/test/kotlin",
+                    "gensrc/main/kotlin",
+                )
+            )*/
+
             basePath = rootProject.projectDir.absolutePath
             autoCorrect = true
             reports {

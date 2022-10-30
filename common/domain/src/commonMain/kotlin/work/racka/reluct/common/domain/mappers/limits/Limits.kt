@@ -2,7 +2,7 @@ package work.racka.reluct.common.domain.mappers.limits
 
 import work.racka.reluct.common.database.models.LimitsDbObject
 import work.racka.reluct.common.domain.usecases.app_info.GetAppInfo
-import work.racka.reluct.common.model.domain.app_info.AppInfo
+import work.racka.reluct.common.model.domain.appInfo.AppInfo
 import work.racka.reluct.common.model.domain.limits.AppLimits
 
 suspend fun LimitsDbObject.asAppLimits(getAppInfo: GetAppInfo) = AppLimits(

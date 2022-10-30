@@ -28,7 +28,7 @@ import work.racka.reluct.android.compose.components.cards.headers.ListGroupHeadi
 import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.android.compose.theme.Shapes
 import work.racka.reluct.android.screens.R
-import work.racka.reluct.common.model.domain.app_info.AppInfo
+import work.racka.reluct.common.model.domain.appInfo.AppInfo
 
 @Composable
 fun ManageAppsDialog(
