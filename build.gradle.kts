@@ -11,12 +11,6 @@ plugins {
     alias(libs.plugins.detekt.gradle)
 }
 
-val detektReportMergeHtml by tasks.registering(ReportMergeTask::class)
-
-val detektReportMergeMd by tasks.registering(ReportMergeTask::class) {
-    output.set(rootProject.layout.buildDirectory.file("reports/detekt/merge.md"))
-}
-
 buildscript {
 
     repositories {
@@ -65,7 +59,7 @@ subprojects {
             detektPlugins(libs.detekt.rule.twitter.compose)
         }
 
-        // Filter out Detect from check task
+        // Filter out Detekt from check task
         if (tasks.names.contains("check")) {
             tasks.named("check").configure {
                 this.setDependsOn(this.dependsOn.filterNot {
@@ -85,7 +79,7 @@ subprojects {
             buildUponDefaultConfig = true
         }
 
-        tasks.withType<Detekt> detekt@ {
+        tasks.withType<Detekt>().configureEach detekt@ {
             exclude("**/generated/**", "**/resources/**", "**/build/**")
             include("**/kotlin/**", "**/*.kt")
             basePath = rootProject.projectDir.absolutePath
