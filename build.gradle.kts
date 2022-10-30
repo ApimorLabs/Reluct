@@ -1,4 +1,5 @@
 import io.gitlab.arturbosch.detekt.Detekt
+import io.gitlab.arturbosch.detekt.report.ReportMergeTask
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
 
@@ -47,6 +48,14 @@ allprojects {
     }
 }
 
+val detektReportMergeHtml by tasks.registering(ReportMergeTask::class) {
+    output.set(rootProject.layout.buildDirectory.file("reports/detekt/merge.html"))
+}
+
+val detektReportMergeMd by tasks.registering(ReportMergeTask::class) {
+    output.set(rootProject.layout.buildDirectory.file("reports/detekt/merge.md"))
+}
+
 subprojects {
 
     // Detekt
@@ -72,22 +81,35 @@ subprojects {
         /**
          * Start - Detekt Configuration for All sub projects
          */
-        detekt {
-            toolVersion = libs.versions.detekt.get()
-            config = files("$rootDir/config/detekt/detekt.yml")
-            buildUponDefaultConfig = true
-        }
+        /**
+         * Only actual projects (eg. :android:compose:theme) have this task and not
+         * the intermediate destinations
+         */
+        if (tasks.names.contains("check")) {
+            detekt {
+                toolVersion = libs.versions.detekt.get()
+                config = files("$rootDir/config/detekt/detekt.yml")
+                buildUponDefaultConfig = true
+            }
 
-        tasks.withType<Detekt>().configureEach {
-            exclude("**/generated/**", "**/resources/**", "**/build/**")
-            include("**/kotlin/**", "**/*.kt")
-
-            reports {
-                xml.required.set(false)
-                html.required.set(true)
-                txt.required.set(false)
-                sarif.required.set(false)
-                md.required.set(true)
+            tasks.withType<Detekt>().configureEach detekt@{
+                exclude("**/generated/**", "**/resources/**", "**/build/**")
+                include("**/kotlin/**", "**/*.kt")
+                basePath = rootProject.projectDir.absolutePath
+                reports {
+                    xml.required.set(false)
+                    html.required.set(true)
+                    txt.required.set(false)
+                    sarif.required.set(false)
+                    md.required.set(true)
+                }
+                finalizedBy(detektReportMergeHtml, detektReportMergeMd)
+                detektReportMergeHtml.configure {
+                    input.from(this@detekt.htmlReportFile)
+                }
+                detektReportMergeMd.configure {
+                    input.from(this@detekt.mdReportFile)
+                }
             }
         }
         /** End - Detek Config **/
