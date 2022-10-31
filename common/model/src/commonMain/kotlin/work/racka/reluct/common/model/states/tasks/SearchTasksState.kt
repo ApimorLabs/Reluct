@@ -1,5 +1,7 @@
 package work.racka.reluct.common.model.states.tasks
 
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 import work.racka.reluct.common.model.domain.tasks.Task
 
 data class SearchTasksState(
@@ -9,15 +11,15 @@ data class SearchTasksState(
 )
 
 sealed class SearchData(
-    val tasksData: List<Task>,
+    val tasksData: ImmutableList<Task>,
 ) {
     data class Data(
-        private val tasks: List<Task>,
+        private val tasks: ImmutableList<Task>,
     ) : SearchData(tasks)
 
     class Loading(
-        tasks: List<Task> = emptyList(),
+        tasks: ImmutableList<Task> = persistentListOf(),
     ) : SearchData(tasks)
 
-    object Empty : SearchData(tasksData = emptyList())
+    object Empty : SearchData(tasksData = persistentListOf())
 }
