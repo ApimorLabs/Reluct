@@ -20,9 +20,9 @@ import work.racka.reluct.android.compose.theme.Shapes
 
 @Composable
 fun TaskLabelPill(
-    modifier: Modifier = Modifier,
     name: String,
-    colorHex: String
+    colorHex: String,
+    modifier: Modifier = Modifier,
 ) {
     val labelColors by remember(colorHex) {
         derivedStateOf {
@@ -40,7 +40,8 @@ fun TaskLabelPill(
     ) {
         Text(
             modifier = Modifier.padding(
-                vertical = Dimens.SmallPadding.size, horizontal = Dimens.MediumPadding.size
+                vertical = Dimens.SmallPadding.size,
+                horizontal = Dimens.MediumPadding.size
             ),
             text = name,
             style = MaterialTheme.typography.bodyMedium,

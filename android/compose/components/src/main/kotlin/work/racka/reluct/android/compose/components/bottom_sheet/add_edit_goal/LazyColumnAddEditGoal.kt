@@ -45,15 +45,14 @@ import work.racka.reluct.common.model.util.time.TimeUtils.plus
 @OptIn(ExperimentalFoundationApi::class, ExperimentalComposeUiApi::class)
 @Composable
 fun LazyColumnAddEditGoal(
-    modifier: Modifier = Modifier,
-    listState: LazyListState = rememberLazyListState(),
     goal: Goal,
     onUpdateGoal: (Goal) -> Unit,
     onDiscard: () -> Unit,
     onSave: (goal: Goal) -> Unit,
-    onShowAppPicker: () -> Unit
+    onShowAppPicker: () -> Unit,
+    modifier: Modifier = Modifier,
+    listState: LazyListState = rememberLazyListState(),
 ) {
-
     val focusRequest = LocalFocusManager.current
     val keyboardController = LocalSoftwareKeyboardController.current
 
@@ -169,7 +168,9 @@ fun LazyColumnAddEditGoal(
                     val duration = goal.goalDuration.let {
                         if (interval == GoalInterval.Custom) {
                             it.copy(goalInterval = interval)
-                        } else it.copy(goalInterval = interval, timeRangeInMillis = null)
+                        } else {
+                            it.copy(goalInterval = interval, timeRangeInMillis = null)
+                        }
                     }
                     onUpdateGoal(goal.copy(goalDuration = duration))
                 }

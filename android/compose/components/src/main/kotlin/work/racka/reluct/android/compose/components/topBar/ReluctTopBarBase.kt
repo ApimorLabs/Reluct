@@ -42,7 +42,6 @@ fun ReluctTopBarBase(
     collapsed: Boolean = false,
     content: @Composable BoxScope.() -> Unit,
 ) {
-
     val animatedElevation by animateDpAsState(
         targetValue = if (collapsed) 10.dp else 0.dp,
         animationSpec = tween(500, easing = LinearOutSlowInEasing)
@@ -50,12 +49,17 @@ fun ReluctTopBarBase(
     val animatedTitleAlpha by animateFloatAsState(
         targetValue = if (!toolbarHeading.isNullOrBlank()) {
             if (collapsed) 1f else 0f
-        } else 0f,
+        } else {
+            0f
+        },
         animationSpec = tween(300, easing = LinearOutSlowInEasing)
     )
     val animatedColor by animateColorAsState(
-        targetValue = if (collapsed) collapsedBackgroundColor
-        else containerColor,
+        targetValue = if (collapsed) {
+            collapsedBackgroundColor
+        } else {
+            containerColor
+        },
         animationSpec = tween(300, easing = LinearOutSlowInEasing)
     )
 

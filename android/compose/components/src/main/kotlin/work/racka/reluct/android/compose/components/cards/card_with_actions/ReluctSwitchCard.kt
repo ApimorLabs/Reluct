@@ -14,20 +14,19 @@ import work.racka.reluct.android.compose.theme.Shapes
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ReluctSwitchCard(
+    title: @Composable () -> Unit,
+    description: @Composable ColumnScope.() -> Unit,
+    checked: Boolean,
+    onCheckedChange: (Boolean) -> Unit,
+    onClick: () -> Unit,
     modifier: Modifier = Modifier,
     containerColor: Color = MaterialTheme.colorScheme.surfaceVariant,
     contentColor: Color = MaterialTheme.colorScheme.onSurfaceVariant,
     shape: Shape = Shapes.large,
-    checked: Boolean,
-    onCheckedChange: (Boolean) -> Unit,
     enabled: Boolean = true,
-    title: @Composable () -> Unit,
-    description: @Composable ColumnScope.() -> Unit,
     icon: ImageVector? = null,
-    onClick: () -> Unit,
     bottomContent: @Composable ColumnScope.() -> Unit = {}
 ) {
-
     Card(
         enabled = enabled,
         colors = CardDefaults.cardColors(

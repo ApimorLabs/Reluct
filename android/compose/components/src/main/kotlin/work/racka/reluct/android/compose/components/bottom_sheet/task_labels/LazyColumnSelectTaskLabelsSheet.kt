@@ -28,15 +28,14 @@ import work.racka.reluct.common.model.domain.tasks.TaskLabel
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun LazyColumnSelectTaskLabelsSheet(
-    modifier: Modifier = Modifier,
     onClose: () -> Unit,
-    entryMode: TaskLabelsEntryMode = TaskLabelsEntryMode.SelectLabels,
     availableLabels: List<TaskLabel>,
     selectedLabels: List<TaskLabel>,
     onModifyLabel: (TaskLabel?) -> Unit,
     onEditLabels: (isAdd: Boolean, label: TaskLabel) -> Unit,
+    modifier: Modifier = Modifier,
+    entryMode: TaskLabelsEntryMode = TaskLabelsEntryMode.SelectLabels,
 ) {
-
     LazyColumn(
         modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally,

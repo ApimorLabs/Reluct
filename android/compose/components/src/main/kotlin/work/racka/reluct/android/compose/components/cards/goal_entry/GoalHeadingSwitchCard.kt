@@ -29,25 +29,30 @@ import work.racka.reluct.common.model.domain.goals.Goal
 
 @Composable
 fun GoalHeadingSwitchCard(
+    goal: Goal,
     modifier: Modifier = Modifier,
+    onToggleActiveState: (goalId: String, isActive: Boolean) -> Unit,
     containerColor: Color = MaterialTheme.colorScheme.surfaceVariant,
     contentColor: Color = MaterialTheme.colorScheme.onSurfaceVariant,
-    goal: Goal,
-    onToggleActiveState: (goalId: String, isActive: Boolean) -> Unit,
     textStyle: TextStyle = MaterialTheme.typography.headlineMedium,
     shape: Shape = Shapes.large
 ) {
-
     val progressValue by remember(goal.currentValue) {
         derivedStateOf {
-            if (goal.targetValue <= 0) 0f
-            else 1f * goal.currentValue / goal.targetValue
+            if (goal.targetValue <= 0) {
+                0f
+            } else {
+                1f * goal.currentValue / goal.targetValue
+            }
         }
     }
     val progress = remember { Animatable(initialValue = 0f) }
     val progressColor by animateColorAsState(
-        targetValue = if (progressValue > 1f) MaterialTheme.colorScheme.error.copy(alpha = .7f)
-        else MaterialTheme.colorScheme.primary.copy(alpha = .3f)
+        targetValue = if (progressValue > 1f) {
+            MaterialTheme.colorScheme.error.copy(alpha = .7f)
+        } else {
+            MaterialTheme.colorScheme.primary.copy(alpha = .3f)
+        }
     )
     val cardContentColor = remember { Animatable(contentColor) }
     val onErrorColor = MaterialTheme.colorScheme.onError
@@ -61,8 +66,11 @@ fun GoalHeadingSwitchCard(
         }
         launch {
             cardContentColor.animateTo(
-                targetValue = if (progressValue > 1f) onErrorColor
-                else contentColor,
+                targetValue = if (progressValue > 1f) {
+                    onErrorColor
+                } else {
+                    contentColor
+                },
                 animationSpec = TweenSpec(durationMillis = 1000)
             )
         }
@@ -72,11 +80,11 @@ fun GoalHeadingSwitchCard(
         modifier = Modifier
             .clip(shape)
             .background(containerColor)
-                then modifier,
+            then modifier,
         contentAlignment = Alignment.Center
     ) {
         ReluctSwitchCard(
-            modifier = modifier
+            modifier = Modifier
                 .drawBehind {
                     val strokeWidth = size.height
                     drawLinearIndicator(0f, progress.value, progressColor, strokeWidth)
@@ -85,7 +93,7 @@ fun GoalHeadingSwitchCard(
             onCheckedChange = { onToggleActiveState(goal.id, it) },
             title = {
                 Text(
-                    modifier = modifier,
+                    modifier = Modifier,
                     text = goal.name,
                     style = textStyle,
                     color = LocalContentColor.current

@@ -21,18 +21,17 @@ import work.racka.reluct.common.model.util.time.Week
 
 @Composable
 fun AppScreenTimeStatisticsCard(
-    modifier: Modifier = Modifier,
     barChartState: StatisticsChartState<Map<Week, AppUsageStats>>,
-    barColor: Color = MaterialTheme.colorScheme.secondary
-        .copy(alpha = .7f),
     selectedDayText: String,
     selectedDayScreenTime: String,
     weeklyTotalScreenTime: String,
     selectedDayIsoNumber: Int,
     onBarClicked: (Int) -> Unit,
     weekUpdateButton: @Composable () -> Unit,
+    modifier: Modifier = Modifier,
+    barColor: Color = MaterialTheme.colorScheme.secondary
+        .copy(alpha = .7f),
 ) {
-
     val bars = remember(barChartState) {
         derivedStateOf {
             val tempList = mutableListOf<BarChartData.Bar>()
@@ -81,7 +80,9 @@ fun AppScreenTimeStatisticsCard(
             Text(
                 text = if (barChartState is StatisticsChartState.Success) {
                     stringResource(R.string.weekly_screen_time_tally, weeklyTotalScreenTime)
-                } else "• • • • •",
+                } else {
+                    "• • • • •"
+                },
                 style = MaterialTheme.typography.titleLarge
                     .copy(fontWeight = FontWeight.Medium),
                 maxLines = 1,

@@ -55,7 +55,7 @@ internal fun MaterialDialogScope.DialogButtonsLayout(
         modifier
             .fillMaxWidth()
             .padding(horizontal = 8.dp),
-        //.background(dialogState.dialogBackgroundColor!!),
+        // .background(dialogState.dialogBackgroundColor!!),
         { measurables, constraints ->
 
             if (measurables.isEmpty()) {
@@ -123,15 +123,16 @@ class MaterialDialogButtons(private val scope: MaterialDialogScope) {
     @Composable
     fun Button(
         text: String,
-        textStyle: TextStyle = MaterialTheme.typography.labelMedium,
         onClick: () -> Unit = {},
+        modifier: Modifier = Modifier,
+        textStyle: TextStyle = MaterialTheme.typography.labelMedium,
     ) {
         val buttonText = text.uppercase(Locale.getDefault())
         TextButton(
             onClick = {
                 onClick()
             },
-            modifier = Modifier
+            modifier = modifier
                 .layoutId(MaterialDialogButtonTypes.Text)
                 .testTag(MaterialDialogButtonTypes.Text.testTag),
         ) {
@@ -150,6 +151,7 @@ class MaterialDialogButtons(private val scope: MaterialDialogScope) {
     @Composable
     fun PositiveButton(
         text: String,
+        modifier: Modifier = Modifier,
         textStyle: TextStyle = MaterialTheme.typography.labelMedium,
         disableDismiss: Boolean = false,
         onClick: () -> Unit = {},
@@ -170,7 +172,7 @@ class MaterialDialogButtons(private val scope: MaterialDialogScope) {
 
                 onClick()
             },
-            modifier = Modifier
+            modifier = modifier
                 .layoutId(MaterialDialogButtonTypes.Positive)
                 .testTag(MaterialDialogButtonTypes.Positive.testTag),
             enabled = buttonEnabled
@@ -189,6 +191,7 @@ class MaterialDialogButtons(private val scope: MaterialDialogScope) {
     @Composable
     fun NegativeButton(
         text: String,
+        modifier: Modifier = Modifier,
         textStyle: TextStyle = MaterialTheme.typography.labelMedium,
         onClick: () -> Unit = {},
     ) {
@@ -202,7 +205,7 @@ class MaterialDialogButtons(private val scope: MaterialDialogScope) {
                 }
                 onClick()
             },
-            modifier = Modifier
+            modifier = modifier
                 .layoutId(MaterialDialogButtonTypes.Negative)
                 .testTag(MaterialDialogButtonTypes.Negative.testTag),
         ) {
@@ -219,11 +222,12 @@ class MaterialDialogButtons(private val scope: MaterialDialogScope) {
     @Composable
     fun AccessibilityButton(
         icon: ImageVector,
-        colorFilter: ColorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
         onClick: () -> Unit,
+        modifier: Modifier = Modifier,
+        colorFilter: ColorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
     ) {
         Box(
-            Modifier
+            modifier
                 .size(48.dp)
                 .layoutId(MaterialDialogButtonTypes.Accessibility)
                 .testTag(MaterialDialogButtonTypes.Accessibility.testTag)

@@ -33,24 +33,29 @@ import work.racka.reluct.common.model.util.time.TimeUtils
 
 @Composable
 internal fun DateTimePills(
+    currentLocalDateTime: LocalDateTime,
+    onLocalDateTimeChange: (dateTime: LocalDateTime) -> Unit,
     modifier: Modifier = Modifier,
     dialogShape: Shape = Shapes.large,
     hasError: Boolean = false,
     errorText: String = "",
-    currentLocalDateTime: LocalDateTime,
-    onLocalDateTimeChange: (dateTime: LocalDateTime) -> Unit,
 ) {
-
     val dateDialogState = rememberMaterialDialogState()
     val timeDialogState = rememberMaterialDialogState()
 
     val pillContainerColor by animateColorAsState(
-        targetValue = if (hasError) MaterialTheme.colorScheme.error
-        else MaterialTheme.colorScheme.surfaceVariant
+        targetValue = if (hasError) {
+            MaterialTheme.colorScheme.error
+        } else {
+            MaterialTheme.colorScheme.surfaceVariant
+        }
     )
     val pillContentColor by animateColorAsState(
-        targetValue = if (hasError) MaterialTheme.colorScheme.onError
-        else MaterialTheme.colorScheme.onSurfaceVariant
+        targetValue = if (hasError) {
+            MaterialTheme.colorScheme.onError
+        } else {
+            MaterialTheme.colorScheme.onSurfaceVariant
+        }
     )
 
     val dateString = rememberSaveable(currentLocalDateTime) {
@@ -123,13 +128,12 @@ internal fun DateTimePills(
 
 @Composable
 private fun DateAndTimeMaterialDialogs(
-    shape: Shape = Shapes.large,
     initialLocalDateTime: LocalDateTime,
     dateDialogState: MaterialDialogState,
     timeDialogState: MaterialDialogState,
     onLocalDateTimeChange: (dateChange: LocalDateTime?, timeChange: LocalDateTime?) -> Unit,
+    shape: Shape = Shapes.large,
 ) {
-
     // Date
     MaterialDialog(
         dialogState = dateDialogState,

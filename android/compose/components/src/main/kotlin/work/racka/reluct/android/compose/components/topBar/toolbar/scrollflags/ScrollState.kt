@@ -23,7 +23,9 @@ class ScrollState(
                 val oldOffset = _scrollOffset
                 _scrollOffset = value.coerceIn(0f, maxHeight.toFloat())
                 _consumed = oldOffset - _scrollOffset
-            } else _consumed = 0f
+            } else {
+                _consumed = 0f
+            }
         }
 
     override val offset: Float

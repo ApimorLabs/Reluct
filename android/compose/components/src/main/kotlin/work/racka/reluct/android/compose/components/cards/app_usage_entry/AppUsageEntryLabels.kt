@@ -10,8 +10,8 @@ import androidx.compose.ui.text.style.TextOverflow
 
 @Composable
 internal fun TimeInfoText(
-    modifier: Modifier = Modifier,
     text: String,
+    modifier: Modifier = Modifier,
     color: Color = LocalContentColor.current
 ) {
     Text(

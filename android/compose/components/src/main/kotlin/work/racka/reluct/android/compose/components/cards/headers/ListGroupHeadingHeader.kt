@@ -21,8 +21,8 @@ import work.racka.reluct.android.compose.theme.Dimens
 
 @Composable
 fun ListGroupHeadingHeader(
-    modifier: Modifier = Modifier,
     text: String,
+    modifier: Modifier = Modifier,
     textStyle: TextStyle = MaterialTheme.typography.headlineSmall,
     textAlign: TextAlign = TextAlign.Start,
     containerColor: Color = MaterialTheme.colorScheme.background,

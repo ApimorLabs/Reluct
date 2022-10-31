@@ -54,7 +54,6 @@ abstract class ScrollFlagState(heightRange: IntRange) : ToolbarState {
 
 abstract class FixedScrollFlagState(heightRange: IntRange) : ScrollFlagState(heightRange) {
     final override val offset: Float = 0f
-
 }
 
 @Composable
@@ -75,7 +74,7 @@ fun rememberToolbarNestedScrollConnection(
         object : NestedScrollConnection {
             override fun onPreScroll(available: Offset, source: NestedScrollSource): Offset {
                 toolbarState.scrollTopLimitReached = listState.firstVisibleItemIndex == 0 &&
-                        listState.firstVisibleItemScrollOffset == 0
+                    listState.firstVisibleItemScrollOffset == 0
                 toolbarState.scrollOffset = toolbarState.scrollOffset - available.y
                 // Returning Zero so we just observe the scroll but don't execute it
                 return Offset(x = 0f, y = toolbarState.consumed)
@@ -96,5 +95,4 @@ private fun TestCollapse() {
         toolbarState = toolbarState,
         listState = listState
     )*/
-
 }

@@ -29,7 +29,6 @@ fun ProfilePicture(
     size: Dp = 36.dp,
     onPictureClicked: () -> Unit = { }
 ) {
-
     var imageLoading by remember {
         mutableStateOf(true)
     }
@@ -50,7 +49,6 @@ fun ProfilePicture(
                 .build()
         )
     }
-
 
     IconButton(
         modifier = modifier.size(size),

@@ -13,15 +13,15 @@ import work.racka.reluct.android.compose.theme.Shapes
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ReluctDescriptionCard(
+    title: @Composable () -> Unit,
+    description: @Composable ColumnScope.() -> Unit,
+    onClick: () -> Unit,
     modifier: Modifier = Modifier,
     containerColor: Color = MaterialTheme.colorScheme.surfaceVariant,
     contentColor: Color = MaterialTheme.colorScheme.onSurfaceVariant,
     shape: Shape = Shapes.large,
-    title: @Composable () -> Unit,
-    description: @Composable ColumnScope.() -> Unit,
     leftItems: @Composable RowScope.() -> Unit = {},
     rightItems: @Composable RowScope.() -> Unit = {},
-    onClick: () -> Unit,
     bottomContent: @Composable ColumnScope.() -> Unit = {}
 ) {
     Card(

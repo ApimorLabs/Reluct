@@ -30,7 +30,6 @@ fun LottieAnimationWithDescription(
     description: String?,
     descriptionTextStyle: TextStyle = MaterialTheme.typography.titleLarge,
 ) {
-
     val composition by rememberLottieComposition(
         spec = LottieCompositionSpec.RawRes(lottieResId)
     )

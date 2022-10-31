@@ -38,24 +38,29 @@ import work.racka.reluct.common.model.domain.goals.Goal
 
 @Composable
 fun GoalEntry(
-    modifier: Modifier = Modifier,
     goal: Goal,
+    onEntryClick: () -> Unit,
+    modifier: Modifier = Modifier,
     containerColor: Color = MaterialTheme.colorScheme.surfaceVariant,
     contentColor: Color = MaterialTheme.colorScheme.onSurfaceVariant,
     shape: Shape = Shapes.large,
-    onEntryClick: () -> Unit
 ) {
-
     val progressValue by remember(goal.currentValue) {
         derivedStateOf {
-            if (goal.targetValue <= 0) 0f
-            else 1f * goal.currentValue / goal.targetValue
+            if (goal.targetValue <= 0) {
+                0f
+            } else {
+                1f * goal.currentValue / goal.targetValue
+            }
         }
     }
     val progress = remember { Animatable(initialValue = 0f) }
     val progressColor by animateColorAsState(
-        targetValue = if (progressValue > 1f) MaterialTheme.colorScheme.error.copy(alpha = .7f)
-        else MaterialTheme.colorScheme.primary.copy(alpha = .3f)
+        targetValue = if (progressValue > 1f) {
+            MaterialTheme.colorScheme.error.copy(alpha = .7f)
+        } else {
+            MaterialTheme.colorScheme.primary.copy(alpha = .3f)
+        }
     )
     val cardContentColor = remember { Animatable(contentColor) }
     val onErrorColor = MaterialTheme.colorScheme.onError
@@ -69,8 +74,11 @@ fun GoalEntry(
         }
         launch {
             cardContentColor.animateTo(
-                targetValue = if (progressValue > 1f) onErrorColor
-                else contentColor,
+                targetValue = if (progressValue > 1f) {
+                    onErrorColor
+                } else {
+                    contentColor
+                },
                 animationSpec = TweenSpec(durationMillis = 1000)
             )
         }
@@ -80,7 +88,7 @@ fun GoalEntry(
         modifier = Modifier
             .clip(shape)
             .background(containerColor)
-                then modifier,
+            then modifier,
         contentAlignment = Alignment.Center
     ) {
         ReluctDescriptionCard(
@@ -132,7 +140,6 @@ internal fun DrawScope.drawLinearIndicator(
 @Preview
 @Composable
 private fun GoalEntryPreview() {
-
     ReluctAppTheme {
         Column(verticalArrangement = Arrangement.spacedBy(Dimens.MediumPadding.size)) {
             PreviewData.goals.forEach { goal ->

@@ -17,13 +17,13 @@ import work.racka.reluct.pieChart.renderer.text.SimpleTextDrawer
 
 @Composable
 fun StatisticsPieChartBase(
-    modifier: Modifier = Modifier,
-    contentColor: Color = MaterialTheme.colorScheme.secondary,
     slices: List<PieChartData.Slice>,
     dataLoading: Boolean,
     middleText: String,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    contentColor: Color = MaterialTheme.colorScheme.secondary,
     chartSize: Dp = 160.dp,
-    onClick: () -> Unit
 ) {
     Box(
         modifier = modifier then Modifier.size(chartSize),

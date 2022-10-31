@@ -36,7 +36,8 @@ internal fun GoalIntervalLabel(
 ) {
     val context = LocalContext.current
     val intervalText by remember(
-        goal.goalDuration.goalInterval, goal.goalDuration.formattedTimeRange
+        goal.goalDuration.goalInterval,
+        goal.goalDuration.formattedTimeRange
     ) {
         derivedStateOf {
             when (goal.goalDuration.goalInterval) {
@@ -46,7 +47,9 @@ internal fun GoalIntervalLabel(
                     val formatted = goal.goalDuration.formattedTimeRange
                     if (formatted != null) {
                         "${formatted.start} - ${formatted.endInclusive}"
-                    } else context.getString(R.string.custom_interval_text)
+                    } else {
+                        context.getString(R.string.custom_interval_text)
+                    }
                 }
             }
         }
@@ -54,8 +57,11 @@ internal fun GoalIntervalLabel(
 
     val fullText by remember(intervalText) {
         derivedStateOf {
-            val preText = if (includeExtraText) context.getString(R.string.interval_text) + " : "
-            else ""
+            val preText = if (includeExtraText) {
+                context.getString(R.string.interval_text) + " : "
+            } else {
+                ""
+            }
             preText + intervalText
         }
     }
@@ -71,10 +77,10 @@ internal fun GoalIntervalLabel(
 
 @Composable
 internal fun GoalTypeLabel(
-    modifier: Modifier = Modifier,
     goalType: GoalType,
+    modifier: Modifier = Modifier,
     containerColor: Color = MaterialTheme.colorScheme.primary,
-    contentColor: Color = MaterialTheme.colorScheme.onPrimary
+    contentColor: Color = MaterialTheme.colorScheme.onPrimary,
 ) {
     val context = LocalContext.current
     val goalTypeText by remember(goalType) {
@@ -96,7 +102,8 @@ internal fun GoalTypeLabel(
     ) {
         Text(
             modifier = Modifier.padding(
-                vertical = Dimens.SmallPadding.size, horizontal = Dimens.MediumPadding.size
+                vertical = Dimens.SmallPadding.size,
+                horizontal = Dimens.MediumPadding.size
             ),
             text = goalTypeText,
             style = MaterialTheme.typography.bodyMedium,
@@ -109,10 +116,10 @@ internal fun GoalTypeLabel(
 
 @Composable
 fun GoalTypeAndIntervalLabels(
-    modifier: Modifier = Modifier,
     goal: Goal,
+    modifier: Modifier = Modifier,
     containerColor: Color = MaterialTheme.colorScheme.primary,
-    contentColor: Color = MaterialTheme.colorScheme.onPrimary
+    contentColor: Color = MaterialTheme.colorScheme.onPrimary,
 ) {
     Row(
         modifier = modifier,
@@ -120,7 +127,9 @@ fun GoalTypeAndIntervalLabels(
         verticalAlignment = Alignment.CenterVertically
     ) {
         GoalTypeLabel(
-            goalType = goal.goalType, containerColor = containerColor, contentColor = contentColor
+            goalType = goal.goalType,
+            containerColor = containerColor,
+            contentColor = contentColor
         )
         Box(
             modifier = Modifier
@@ -130,8 +139,12 @@ fun GoalTypeAndIntervalLabels(
         ) {
             GoalIntervalLabel(
                 modifier = Modifier.padding(
-                    vertical = Dimens.SmallPadding.size, horizontal = Dimens.MediumPadding.size
-                ), goal = goal, color = contentColor, includeExtraText = false
+                    vertical = Dimens.SmallPadding.size,
+                    horizontal = Dimens.MediumPadding.size
+                ),
+                goal = goal,
+                color = contentColor,
+                includeExtraText = false
             )
         }
     }
@@ -139,21 +152,23 @@ fun GoalTypeAndIntervalLabels(
 
 @Composable
 fun GoalValuesCard(
-    modifier: Modifier = Modifier,
     goal: Goal,
+    onUpdateClicked: (GoalType) -> Unit,
+    modifier: Modifier = Modifier,
     isLoading: Boolean = false,
     containerColor: Color = MaterialTheme.colorScheme.surfaceVariant,
     contentColor: Color = MaterialTheme.colorScheme.onSurfaceVariant,
-    onUpdateClicked: (GoalType) -> Unit
 ) {
     val context = LocalContext.current
     val targetValueText by remember(goal.targetValue) {
         derivedStateOf {
             when (goal.goalType) {
-                GoalType.AppScreenTimeGoal -> TimeUtils
-                    .getFormattedTimeDurationString(goal.targetValue)
-                GoalType.DeviceScreenTimeGoal -> TimeUtils
-                    .getFormattedTimeDurationString(goal.targetValue)
+                GoalType.AppScreenTimeGoal ->
+                    TimeUtils
+                        .getFormattedTimeDurationString(goal.targetValue)
+                GoalType.DeviceScreenTimeGoal ->
+                    TimeUtils
+                        .getFormattedTimeDurationString(goal.targetValue)
                 GoalType.TasksGoal -> context.resources.getQuantityString(
                     R.plurals.tasks_text,
                     goal.targetValue.toInt(),
@@ -167,10 +182,12 @@ fun GoalValuesCard(
     val currentValueText by remember(goal.currentValue) {
         derivedStateOf {
             when (goal.goalType) {
-                GoalType.AppScreenTimeGoal -> TimeUtils
-                    .getFormattedTimeDurationString(goal.currentValue)
-                GoalType.DeviceScreenTimeGoal -> TimeUtils
-                    .getFormattedTimeDurationString(goal.currentValue)
+                GoalType.AppScreenTimeGoal ->
+                    TimeUtils
+                        .getFormattedTimeDurationString(goal.currentValue)
+                GoalType.DeviceScreenTimeGoal ->
+                    TimeUtils
+                        .getFormattedTimeDurationString(goal.currentValue)
                 GoalType.TasksGoal -> context.resources.getQuantityString(
                     R.plurals.tasks_text,
                     goal.currentValue.toInt(),

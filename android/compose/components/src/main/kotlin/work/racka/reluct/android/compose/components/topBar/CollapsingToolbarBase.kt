@@ -59,7 +59,6 @@ fun CollapsingToolbarBase(
     onCollapsed: (Boolean) -> Unit,
     content: @Composable BoxScope.() -> Unit,
 ) {
-
     val scrollDp = toolbarHeight + toolbarOffset.dp
     val collapsed by remember(scrollDp) {
         mutableStateOf(
@@ -77,12 +76,17 @@ fun CollapsingToolbarBase(
     val animatedTitleAlpha by animateFloatAsState(
         targetValue = if (!toolbarHeading.isNullOrBlank()) {
             if (scrollDp <= minShrinkHeight + 20.dp) 1f else 0f
-        } else 0f,
+        } else {
+            0f
+        },
         animationSpec = tween(300, easing = LinearOutSlowInEasing)
     )
     val animatedColor by animateColorAsState(
-        targetValue = if (scrollDp < minShrinkHeight + 20.dp) collapsedBackgroundColor
-        else backgroundColor,
+        targetValue = if (scrollDp < minShrinkHeight + 20.dp) {
+            collapsedBackgroundColor
+        } else {
+            backgroundColor
+        },
         animationSpec = tween(300, easing = LinearOutSlowInEasing)
     )
 

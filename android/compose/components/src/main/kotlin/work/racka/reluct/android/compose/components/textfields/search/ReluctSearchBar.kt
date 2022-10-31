@@ -53,8 +53,8 @@ fun ReluctSearchBar(
     onSearch: (String) -> Unit = { },
     onOptionsClicked: () -> Unit = { },
     onDismissSearchClicked: () -> Unit = { },
-    keyboardController: SoftwareKeyboardController?
-    = LocalSoftwareKeyboardController.current,
+    keyboardController: SoftwareKeyboardController? =
+        LocalSoftwareKeyboardController.current,
     focusManager: FocusManager = LocalFocusManager.current,
     extraButton: @Composable BoxScope.() -> Unit = { }
 ) {
@@ -73,13 +73,17 @@ fun ReluctSearchBar(
     val externalPadding: Dp by animateDpAsState(
         targetValue = if (isHintActive) {
             Dimens.MediumPadding.size
-        } else Dimens.ExtraSmallPadding.size
+        } else {
+            Dimens.ExtraSmallPadding.size
+        }
     )
 
     val middlePadding: Dp by animateDpAsState(
         targetValue = if (isHintActive) {
             Dimens.SmallPadding.size
-        } else Dimens.ExtraSmallPadding.size
+        } else {
+            Dimens.ExtraSmallPadding.size
+        }
     )
 
     val angle: Float by animateFloatAsState(
@@ -119,7 +123,6 @@ fun ReluctSearchBar(
             horizontalArrangement = Arrangement.Start,
             verticalAlignment = Alignment.CenterVertically
         ) {
-
             // Arrow/Search - Left
             Box(
                 contentAlignment = Alignment.Center
@@ -154,7 +157,6 @@ fun ReluctSearchBar(
                         )
                     }
                 }
-
             }
 
             // Search - Center

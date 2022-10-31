@@ -16,24 +16,23 @@ import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.android.compose.theme.Shapes
 import work.racka.reluct.barChart.BarChartData
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun StatisticsBarChartCard(
-    modifier: Modifier = Modifier,
-    containerColor: Color = MaterialTheme.colorScheme.surfaceVariant,
-    contentColor: Color = MaterialTheme.colorScheme.secondary,
-    shape: Shape = Shapes.large,
     bars: List<BarChartData.Bar>,
-    selectedBarColor: Color = contentColor,
     dataLoading: Boolean,
     noDataText: String,
-    chartHeight: Dp = 160.dp,
     selectedDayIsoNumber: Int,
     onBarClicked: (Int) -> Unit,
     topLeftText: @Composable () -> Unit,
     topRightText: @Composable () -> Unit,
     belowChartText: @Composable () -> Unit,
     bodyContent: @Composable () -> Unit,
+    modifier: Modifier = Modifier,
+    containerColor: Color = MaterialTheme.colorScheme.surfaceVariant,
+    contentColor: Color = MaterialTheme.colorScheme.secondary,
+    shape: Shape = Shapes.large,
+    selectedBarColor: Color = contentColor,
+    chartHeight: Dp = 160.dp,
 ) {
     Card(
         colors = CardDefaults.cardColors(

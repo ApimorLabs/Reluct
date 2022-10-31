@@ -38,13 +38,12 @@ import work.racka.reluct.common.model.util.UUIDGen
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun AddEditTaskLabelSheet(
-    modifier: Modifier = Modifier,
     onClose: () -> Unit,
     initialLabel: TaskLabel?,
     onSaveLabel: (TaskLabel) -> Unit,
-    onDeleteLabel: (TaskLabel) -> Unit
+    onDeleteLabel: (TaskLabel) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
-
     val focusRequest = LocalFocusManager.current
 
     val label = remember(initialLabel) {

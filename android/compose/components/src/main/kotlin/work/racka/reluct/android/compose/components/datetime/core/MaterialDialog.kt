@@ -41,6 +41,7 @@ import kotlin.math.min
  */
 @Composable
 fun MaterialDialog(
+    content: @Composable MaterialDialogScope.() -> Unit,
     dialogState: MaterialDialogState = rememberMaterialDialogState(),
     properties: DialogProperties = DialogProperties(),
     backgroundColor: Color = MaterialTheme.colorScheme.surface,
@@ -50,7 +51,6 @@ fun MaterialDialog(
     autoDismiss: Boolean = true,
     onCloseRequest: (MaterialDialogState) -> Unit = { it.hide() },
     buttons: @Composable MaterialDialogButtons.() -> Unit = {},
-    content: @Composable MaterialDialogScope.() -> Unit,
 ) {
     val dialogScope = remember { MaterialDialogScopeImpl(dialogState, autoDismiss) }
     DisposableEffect(dialogState.showing) {

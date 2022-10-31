@@ -32,15 +32,14 @@ import work.racka.reluct.common.model.domain.tasks.Task
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TaskEntry(
-    modifier: Modifier = Modifier,
-    playAnimation: Boolean = false,
     task: Task,
     entryType: EntryType,
     onEntryClick: () -> Unit,
     onCheckedChange: (Boolean) -> Unit,
+    modifier: Modifier = Modifier,
+    playAnimation: Boolean = false,
 ) {
-
-    //Scale animation
+    // Scale animation
     val animatedProgress = remember(task) {
         Animatable(initialValue = 0.8f)
     }
@@ -53,11 +52,15 @@ fun TaskEntry(
         }
     }
 
-    val animatedModifier = if (playAnimation) modifier
-        .graphicsLayer(
-            scaleX = animatedProgress.value,
-            scaleY = animatedProgress.value
-        ) else modifier
+    val animatedModifier = if (playAnimation) {
+        modifier
+            .graphicsLayer(
+                scaleX = animatedProgress.value,
+                scaleY = animatedProgress.value
+            )
+    } else {
+        modifier
+    }
 
     val showErrorColor = remember(task.overdue, entryType) {
         derivedStateOf {
@@ -66,8 +69,11 @@ fun TaskEntry(
     }
     Card(
         colors = CardDefaults.cardColors(
-            containerColor = if (showErrorColor.value) MaterialTheme.colorScheme.error
-            else MaterialTheme.colorScheme.surfaceVariant,
+            containerColor = if (showErrorColor.value) {
+                MaterialTheme.colorScheme.error
+            } else {
+                MaterialTheme.colorScheme.surfaceVariant
+            },
         ),
         onClick = { onEntryClick() },
         modifier = animatedModifier
@@ -93,14 +99,13 @@ fun TaskEntry(
             )
         }
     }
-
 }
 
 @Composable
 private fun TaskEntryData(
-    modifier: Modifier = Modifier,
     task: Task,
     entryType: EntryType,
+    modifier: Modifier = Modifier,
 ) {
     Column(
         modifier = modifier,
@@ -130,8 +135,11 @@ private fun TaskEntryData(
             timeText = if (
                 entryType == EntryType.PendingTask ||
                 entryType == EntryType.TasksWithOverdue
-            ) task.timeLeftLabel
-            else task.dueDate,
+            ) {
+                task.timeLeftLabel
+            } else {
+                task.dueDate
+            },
             showOverdueLabel = entryType == EntryType.CompletedTask,
             overdue = task.overdue
         )

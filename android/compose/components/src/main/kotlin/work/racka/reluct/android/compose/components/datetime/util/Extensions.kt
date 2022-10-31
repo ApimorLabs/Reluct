@@ -17,12 +17,10 @@ data class YearMonth(
 internal fun Float.getOffset(angle: Double): Offset =
     Offset((this * cos(angle)).toFloat(), (this * sin(angle)).toFloat())
 
-
 internal val LocalDate.yearMonth: YearMonth
     get() = YearMonth(this.year, this.month)
 
 fun test() {
-
 }
 
 internal val Month.monthString: String
@@ -41,8 +39,9 @@ internal val LocalDateTime.simpleHour: Int
     }
 
 internal fun LocalDateTime.toAM(): LocalDateTime =
-    if (this.isAM) this
-    else {
+    if (this.isAM) {
+        this
+    } else {
         LocalDateTime(
             this.year,
             this.monthNumber,
@@ -55,8 +54,9 @@ internal fun LocalDateTime.toAM(): LocalDateTime =
     }
 
 internal fun LocalDateTime.toPM(): LocalDateTime =
-    if (!this.isAM) this
-    else {
+    if (!this.isAM) {
+        this
+    } else {
         LocalDateTime(
             this.year,
             this.monthNumber,
