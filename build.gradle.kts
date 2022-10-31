@@ -1,6 +1,8 @@
 import io.gitlab.arturbosch.detekt.Detekt
+import io.gitlab.arturbosch.detekt.DetektCreateBaselineTask
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
+import org.jetbrains.kotlin.util.profile
 
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
@@ -52,6 +54,52 @@ subprojects {
     // Detekt
     apply(plugin = "io.gitlab.arturbosch.detekt")
 
+    /**
+     * Start - Detekt Configuration for All sub projects
+     */
+    detekt {
+        config = files("$rootDir/config/detekt/detekt.yml")
+        buildUponDefaultConfig = true
+        ignoredBuildTypes = listOf("release")
+        source = files(
+            io.gitlab.arturbosch.detekt.extensions.DetektExtension.DEFAULT_SRC_DIR_JAVA,
+            //io.gitlab.arturbosch.detekt.extensions.DetektExtension.DEFAULT_TEST_SRC_DIR_JAVA,
+            io.gitlab.arturbosch.detekt.extensions.DetektExtension.DEFAULT_SRC_DIR_KOTLIN,
+            //io.gitlab.arturbosch.detekt.extensions.DetektExtension.DEFAULT_TEST_SRC_DIR_KOTLIN,
+            "src/commonMain/kotlin",
+            "src/androidMain/kotlin",
+            "src/desktopMain/kotlin",
+            "src/jsMain/kotlin",
+        )
+    }
+
+    tasks.withType<Detekt>().configureEach detekt@{
+        //include("**/kotlin/**", "**/java/**", "**/*.kt")
+        exclude("**/build/**", "**/generated/**", "**/resources/**")
+        basePath = rootProject.projectDir.absolutePath
+        autoCorrect = true
+        reports {
+            xml.required.set(false)
+            html.required.set(true)
+            txt.required.set(false)
+            sarif.required.set(false)
+            md.required.set(false)
+
+            html {
+                required.set(true)
+                outputLocation.set(
+                    this@subprojects.layout.buildDirectory.file("reports/detekt.html")
+                )
+            }
+        }
+    }
+
+    tasks.withType<DetektCreateBaselineTask>().configureEach detekt@{
+        //include("**/kotlin/**", "**/java/**", "**/*.kt")
+        exclude("**/build/**", "**/generated/**", "**/resources/**")
+        basePath = rootProject.projectDir.absolutePath
+    }
+
     beforeEvaluate {
         dependencies {
             detektPlugins(libs.detekt.formatting)
@@ -69,46 +117,6 @@ subprojects {
     }
 
     afterEvaluate {
-        /**
-         * Start - Detekt Configuration for All sub projects
-         */
-        detekt {
-            toolVersion = libs.versions.detekt.get()
-            config = files("$rootDir/config/detekt/detekt.yml")
-            buildUponDefaultConfig = true
-        }
-
-        tasks.withType<Detekt>().configureEach detekt@{
-            exclude("**/generated/**", "**/resources/**", "**/build/**")
-            include("**/kotlin/**", "**/java/**", "**/*.kt", "**/*.kts")
-            /*setSource(
-                files(
-                    "src/main/java",
-                    "src/test/java",
-                    "src/main/kotlin",
-                    "src/test/kotlin",
-                    "gensrc/main/kotlin",
-                )
-            )*/
-
-            basePath = rootProject.projectDir.absolutePath
-            autoCorrect = true
-            reports {
-                xml.required.set(false)
-                html.required.set(true)
-                txt.required.set(false)
-                sarif.required.set(false)
-                md.required.set(false)
-
-                html {
-                    required.set(true)
-                    outputLocation.set(
-                        this@subprojects.layout.buildDirectory.file("reports/detekt.html")
-                    )
-                }
-            }
-        }
-        /** End - Detek Config **/
 
         val kmpExtension = project.extensions.findByType<KotlinMultiplatformExtension>()
 

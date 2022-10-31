@@ -32,7 +32,7 @@ object GoalsHelpers {
         daysOfWeekSelected: List<Week>,
         goalType: GoalType
     ) -> GoalDbObject = { id, name, description, isActive, relatedApps, targetValue, currentValue,
-                          goalInterval, timeInterval, daysOfWeekSelected, goalType ->
+        goalInterval, timeInterval, daysOfWeekSelected, goalType ->
         GoalDbObject(
             id = id,
             name = name,

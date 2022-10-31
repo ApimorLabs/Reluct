@@ -27,6 +27,8 @@ internal val listOfWeekAdapter = object : ColumnAdapter<List<Week>, String> {
     override fun encode(value: List<Week>): String = value.joinToString(":")
     override fun decode(databaseValue: String): List<Week> = if (databaseValue.isBlank()) {
         listOf()
-    } else databaseValue.split(":")
-        .map { enumName -> enumValues.first { it.name == enumName } }
+    } else {
+        databaseValue.split(":")
+            .map { enumName -> enumValues.first { it.name == enumName } }
+    }
 }

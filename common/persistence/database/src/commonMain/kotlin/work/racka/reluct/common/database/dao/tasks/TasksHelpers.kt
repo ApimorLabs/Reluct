@@ -85,25 +85,25 @@ internal object TasksHelpers {
 
     /**
      * Not In Use Right Now
-    private fun taskDbObjectMapper(onGetLabel: (id: String) -> TaskLabelDbObject?): (
-    id: String, title: String, description: String?, done: Boolean, overdue: Boolean,
-    dueDateLocalDateTime: String, completedLocalDateTime: String?,
-    reminderLocalDateTime: String?, timeZoneId: String, taskLabelsId: List<String>
-    ) -> TaskDbObject = {
-    id, title, description, done, overdue, dueDateLocalDateTime,
-    completedLocalDateTime, reminderLocalDateTime, timeZoneId, taskLabelsId,
-    ->
-    TaskDbObject(
-    id = id,
-    title = title,
-    description = description,
-    done = done,
-    overdue = overdue,
-    taskLabels = taskLabelsId.mapNotNull { onGetLabel(it) },
-    dueDateLocalDateTime = dueDateLocalDateTime,
-    completedLocalDateTime = completedLocalDateTime,
-    reminderLocalDateTime = reminderLocalDateTime,
-    timeZoneId = timeZoneId
-    )
-    }*/
+     private fun taskDbObjectMapper(onGetLabel: (id: String) -> TaskLabelDbObject?): (
+     id: String, title: String, description: String?, done: Boolean, overdue: Boolean,
+     dueDateLocalDateTime: String, completedLocalDateTime: String?,
+     reminderLocalDateTime: String?, timeZoneId: String, taskLabelsId: List<String>
+     ) -> TaskDbObject = {
+     id, title, description, done, overdue, dueDateLocalDateTime,
+     completedLocalDateTime, reminderLocalDateTime, timeZoneId, taskLabelsId,
+     ->
+     TaskDbObject(
+     id = id,
+     title = title,
+     description = description,
+     done = done,
+     overdue = overdue,
+     taskLabels = taskLabelsId.mapNotNull { onGetLabel(it) },
+     dueDateLocalDateTime = dueDateLocalDateTime,
+     completedLocalDateTime = completedLocalDateTime,
+     reminderLocalDateTime = reminderLocalDateTime,
+     timeZoneId = timeZoneId
+     )
+     }*/
 }
