@@ -3,6 +3,9 @@ package work.racka.reluct.common.billing.api
 import com.revenuecat.purchases.*
 import com.revenuecat.purchases.interfaces.ReceiveCustomerInfoCallback
 import com.revenuecat.purchases.interfaces.ReceiveOfferingsCallback
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.suspendCancellableCoroutine
@@ -17,7 +20,7 @@ internal class RevenueCatAndroid(
     private val purchases: Purchases,
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : BillingApi {
-    override suspend fun getProducts(filterProducts: List<ProductOffered>): Resource<List<Product>> =
+    override suspend fun getProducts(filterProducts: List<ProductOffered>): Resource<ImmutableList<Product>> =
         withContext(dispatcher) {
             suspendCancellableCoroutine { cont ->
                 val listener = object : ReceiveOfferingsCallback {
@@ -30,7 +33,7 @@ internal class RevenueCatAndroid(
                         val data = if (filterProducts.isEmpty()) {
                             currentOfferings?.availablePackages?.map { p: Package ->
                                 p.asProduct()
-                            } ?: listOf()
+                            }?.toImmutableList() ?: persistentListOf()
                         } else {
                             filterProducts.mapNotNull { item ->
                                 try {
@@ -38,7 +41,7 @@ internal class RevenueCatAndroid(
                                 } catch (e: Exception) {
                                     null
                                 }
-                            }
+                            }.toImmutableList()
                         }
                         cont.resume(Resource.Success(data))
                     }

@@ -1,5 +1,6 @@
 package work.racka.reluct.common.features.settings.states
 
+import kotlinx.collections.immutable.ImmutableList
 import work.racka.reluct.common.billing.products.Product
 import work.racka.reluct.common.settings.Keys
 
@@ -20,7 +21,7 @@ sealed class CoffeeProductsState {
 
     data class FetchError(val message: String) : CoffeeProductsState()
 
-    data class ShowProducts(val products: List<Product>) : CoffeeProductsState()
+    data class ShowProducts(val products: ImmutableList<Product>) : CoffeeProductsState()
 
     data class PurchaseSuccess(val product: Product) : CoffeeProductsState()
 

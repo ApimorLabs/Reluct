@@ -1,5 +1,6 @@
 package work.racka.reluct.common.features.settings
 
+import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
@@ -96,7 +97,9 @@ class AppSettingsViewModel(
                 is Resource.Success -> {
                     result.data?.let { products ->
                         coffeeProductsState.update { CoffeeProductsState.ShowProducts(products) }
-                    } ?: coffeeProductsState.update { CoffeeProductsState.ShowProducts(listOf()) }
+                    } ?: coffeeProductsState.update {
+                        CoffeeProductsState.ShowProducts(persistentListOf())
+                    }
                 }
                 is Resource.Error -> {
                     val message = result.message ?: "Error Occurred"
