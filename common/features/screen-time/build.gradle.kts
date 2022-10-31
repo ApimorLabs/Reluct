@@ -24,6 +24,7 @@ kotlin {
                 implementation(project(":common:persistence:settings"))
                 implementation(project(":common:system-services"))
 
+                implementation(compose.runtime)
                 implementation(libs.coroutines.core)
                 implementation(libs.koin.core)
                 implementation(libs.kermit.log)
