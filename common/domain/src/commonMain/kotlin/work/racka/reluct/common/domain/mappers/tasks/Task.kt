@@ -1,5 +1,6 @@
 package work.racka.reluct.common.domain.mappers.tasks
 
+import kotlinx.collections.immutable.toImmutableList
 import work.racka.reluct.common.database.models.TaskDbObject
 import work.racka.reluct.common.model.domain.tasks.Task
 import work.racka.reluct.common.model.util.time.TimeUtils
@@ -29,7 +30,7 @@ fun TaskDbObject.asTask(showShortIntervalAsDay: Boolean = true): Task {
             this.dueDateLocalDateTime,
             this.timeZoneId
         ),
-        taskLabels = taskLabels.map { it.asTaskLabel() },
+        taskLabels = taskLabels.map { it.asTaskLabel() }.toImmutableList(),
         dueDate = TimeUtils.getFormattedDateString(
             dateTime = this.dueDateLocalDateTime,
             originalTimeZoneId = this.timeZoneId,
