@@ -27,7 +27,7 @@ internal class ManageTaskLabelsImpl(
         haptics.click()
     }
 
-    override suspend fun adLabels(labels: List<TaskLabel>) = withContext(dispatcher) {
+    override suspend fun addLabels(labels: ImmutableList<TaskLabel>) = withContext(dispatcher) {
         dao.addAllTaskLabels(labels = labels.map { it.asTaskLabelDbObject() })
         haptics.click()
     }

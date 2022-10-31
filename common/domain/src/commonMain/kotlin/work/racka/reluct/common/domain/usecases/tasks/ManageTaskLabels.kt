@@ -6,7 +6,7 @@ import work.racka.reluct.common.model.domain.tasks.TaskLabel
 
 interface ManageTaskLabels {
     suspend fun addLabel(label: TaskLabel)
-    suspend fun adLabels(labels: List<TaskLabel>)
+    suspend fun addLabels(labels: ImmutableList<TaskLabel>)
 
     fun allLabels(): Flow<ImmutableList<TaskLabel>>
     fun getLabel(id: String): Flow<TaskLabel?>
