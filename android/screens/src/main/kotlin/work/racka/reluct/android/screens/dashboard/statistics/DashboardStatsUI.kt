@@ -159,42 +159,43 @@ internal fun DashboardStatsUI(
                             .usageStat.formattedTotalScreenTime,
                         weeklyTotalScreenTime = screenTimeUiState.weeklyData.formattedTotalTime,
                         selectedDayIsoNumber = screenTimeUiState.selectedInfo.selectedDay,
-                        onBarClicked = { onScreenTimeSelectDay(it) }
-                    ) {
-                        // Show 2 Apps
-                        Column(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                            verticalArrangement = Arrangement.Top
-                        ) {
-                            screenTimeUiState.dailyData.usageStat.appsUsageList.take(3)
-                                .forEach { item ->
-                                    AppUsageEntryBase(
-                                        modifier = Modifier
-                                            .padding(vertical = Dimens.SmallPadding.size)
-                                            .fillMaxWidth()
-                                            .clip(Shapes.large)
-                                            .clickable { onAppUsageInfoClick(item) },
-                                        appUsageInfo = item,
-                                        onTimeSettingsClick = {
-                                            onSelectAppTimeLimit(item.packageName)
-                                            showAppTimeLimitDialog = true
-                                        },
-                                        contentColor = MaterialTheme.colorScheme.onSurfaceVariant
-                                    )
-                                }
+                        onBarClicked = { onScreenTimeSelectDay(it) },
+                        weekUpdateButton = {
+                            // Show 2 Apps
+                            Column(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                                verticalArrangement = Arrangement.Top
+                            ) {
+                                screenTimeUiState.dailyData.usageStat.appsUsageList.take(3)
+                                    .forEach { item ->
+                                        AppUsageEntryBase(
+                                            modifier = Modifier
+                                                .padding(vertical = Dimens.SmallPadding.size)
+                                                .fillMaxWidth()
+                                                .clip(Shapes.large)
+                                                .clickable { onAppUsageInfoClick(item) },
+                                            appUsageInfo = item,
+                                            onTimeSettingsClick = {
+                                                onSelectAppTimeLimit(item.packageName)
+                                                showAppTimeLimitDialog = true
+                                            },
+                                            contentColor = MaterialTheme.colorScheme.onSurfaceVariant
+                                        )
+                                    }
 
-                            OutlinedReluctButton(
-                                modifier = Modifier.padding(vertical = Dimens.SmallPadding.size),
-                                buttonText = stringResource(id = R.string.view_all_text),
-                                icon = null,
-                                onButtonClicked = onViewAllScreenTimeStats,
-                                borderColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                                contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                                buttonTextStyle = MaterialTheme.typography.bodyMedium
-                            )
+                                OutlinedReluctButton(
+                                    modifier = Modifier.padding(vertical = Dimens.SmallPadding.size),
+                                    buttonText = stringResource(id = R.string.view_all_text),
+                                    icon = null,
+                                    onButtonClicked = onViewAllScreenTimeStats,
+                                    borderColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                                    contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                                    buttonTextStyle = MaterialTheme.typography.bodyMedium
+                                )
+                            }
                         }
-                    }
+                    )
                 }
 
                 // Tasks Stats

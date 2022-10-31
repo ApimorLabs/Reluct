@@ -141,27 +141,28 @@ private fun DateAndTimeMaterialDialogs(
         buttons = {
             PositiveButton(text = stringResource(id = R.string.positive_dialog_button))
             NegativeButton(text = stringResource(id = R.string.negative_dialog_button))
+        },
+        content = {
+            DatePicker(
+                initialDate = LocalDate(
+                    initialLocalDateTime.year,
+                    initialLocalDateTime.monthNumber,
+                    initialLocalDateTime.dayOfMonth
+                )
+            ) { date ->
+                val dateTime = LocalDateTime(
+                    date.year,
+                    date.monthNumber,
+                    date.dayOfMonth,
+                    initialLocalDateTime.hour,
+                    initialLocalDateTime.minute,
+                    initialLocalDateTime.second,
+                    initialLocalDateTime.nanosecond
+                )
+                onLocalDateTimeChange(dateTime, null)
+            }
         }
-    ) {
-        DatePicker(
-            initialDate = LocalDate(
-                initialLocalDateTime.year,
-                initialLocalDateTime.monthNumber,
-                initialLocalDateTime.dayOfMonth
-            )
-        ) { date ->
-            val dateTime = LocalDateTime(
-                date.year,
-                date.monthNumber,
-                date.dayOfMonth,
-                initialLocalDateTime.hour,
-                initialLocalDateTime.minute,
-                initialLocalDateTime.second,
-                initialLocalDateTime.nanosecond
-            )
-            onLocalDateTimeChange(dateTime, null)
-        }
-    }
+    )
 
     // Time
     MaterialDialog(
@@ -170,21 +171,22 @@ private fun DateAndTimeMaterialDialogs(
         buttons = {
             PositiveButton(text = stringResource(id = R.string.positive_dialog_button))
             NegativeButton(text = stringResource(id = R.string.negative_dialog_button))
+        },
+        content = {
+            Timepicker(
+                initialTime = initialLocalDateTime
+            ) { dateTime ->
+                val newDateTime = LocalDateTime(
+                    initialLocalDateTime.year,
+                    initialLocalDateTime.monthNumber,
+                    initialLocalDateTime.dayOfMonth,
+                    dateTime.hour,
+                    dateTime.minute,
+                    dateTime.second,
+                    dateTime.nanosecond
+                )
+                onLocalDateTimeChange(null, newDateTime)
+            }
         }
-    ) {
-        Timepicker(
-            initialTime = initialLocalDateTime
-        ) { dateTime ->
-            val newDateTime = LocalDateTime(
-                initialLocalDateTime.year,
-                initialLocalDateTime.monthNumber,
-                initialLocalDateTime.dayOfMonth,
-                dateTime.hour,
-                dateTime.minute,
-                dateTime.second,
-                dateTime.nanosecond
-            )
-            onLocalDateTimeChange(null, newDateTime)
-        }
-    }
+    )
 }

@@ -19,6 +19,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.launch
 import work.racka.reluct.android.compose.components.bottom_sheet.add_edit_task.LazyColumnAddEditTaskFields
 import work.racka.reluct.android.compose.components.buttons.OutlinedReluctButton
@@ -239,14 +241,14 @@ internal fun AddEditTaskUI(
 @Composable
 private fun getLabelState(
     modifyTaskState: ModifyTaskState,
-    availableLabels: List<TaskLabel>,
+    availableLabels: ImmutableList<TaskLabel>,
     onUpdateTask: (task: EditTask) -> Unit
 ) = remember(modifyTaskState, availableLabels) {
     derivedStateOf {
         val task = if (modifyTaskState is ModifyTaskState.Data) modifyTaskState.task else null
         CurrentTaskLabels(
             availableLabels = availableLabels,
-            selectedLabels = task?.taskLabels ?: emptyList(),
+            selectedLabels = task?.taskLabels ?: persistentListOf(),
             onUpdateSelectedLabels = { labels ->
                 task?.copy(taskLabels = labels)?.let(onUpdateTask)
             }
