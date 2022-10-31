@@ -12,6 +12,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import kotlinx.collections.immutable.ImmutableMap
 import work.racka.reluct.android.compose.components.R
 import work.racka.reluct.android.compose.components.cards.statistics.StatisticsBarChartCard
 import work.racka.reluct.android.compose.components.cards.statistics.StatisticsChartState
@@ -21,7 +22,7 @@ import work.racka.reluct.common.model.util.time.Week
 
 @Composable
 fun TasksStatisticsCard(
-    barChartState: StatisticsChartState<Map<Week, DailyTasksStats>>,
+    barChartState: StatisticsChartState<ImmutableMap<Week, DailyTasksStats>>,
     selectedDayText: String,
     selectedDayTasksDone: Int,
     selectedDayTasksPending: Int,
@@ -33,7 +34,7 @@ fun TasksStatisticsCard(
     barColor: Color = MaterialTheme.colorScheme.secondary
         .copy(alpha = .7f),
 ) {
-    val bars = remember(barChartState) {
+    val bars = remember(barChartState.data) {
         derivedStateOf {
             val tempList = mutableListOf<BarChartData.Bar>()
             barChartState.data.forEach { entry ->

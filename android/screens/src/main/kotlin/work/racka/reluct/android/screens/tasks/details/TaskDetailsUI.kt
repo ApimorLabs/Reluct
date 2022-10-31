@@ -24,6 +24,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.launch
 import work.racka.reluct.android.compose.components.buttons.OutlinedReluctButton
 import work.racka.reluct.android.compose.components.buttons.ReluctButton
@@ -311,11 +313,11 @@ private fun DetailsBottomBar(
 }
 
 @Composable
-private fun getLabelState(availableLabels: List<TaskLabel>) = remember(availableLabels) {
+private fun getLabelState(availableLabels: ImmutableList<TaskLabel>) = remember(availableLabels) {
     derivedStateOf {
         CurrentTaskLabels(
             availableLabels = availableLabels,
-            selectedLabels = emptyList(),
+            selectedLabels = persistentListOf(),
             onUpdateSelectedLabels = {}
         )
     }
