@@ -1,5 +1,7 @@
 package work.racka.reluct.common.model.states.tasks
 
+import kotlinx.collections.immutable.ImmutableMap
+import kotlinx.collections.immutable.persistentMapOf
 import work.racka.reluct.common.model.domain.tasks.DailyTasksStats
 import work.racka.reluct.common.model.util.time.Week
 
@@ -12,20 +14,20 @@ data class TasksStatisticsState(
 )
 
 sealed class WeeklyTasksState(
-    val weeklyTasks: Map<Week, DailyTasksStats>,
+    val weeklyTasks: ImmutableMap<Week, DailyTasksStats>,
     val totalWeekTasksCount: Int,
 ) {
     data class Data(
-        val tasks: Map<Week, DailyTasksStats>,
+        val tasks: ImmutableMap<Week, DailyTasksStats>,
         val totalTaskCount: Int,
     ) : WeeklyTasksState(tasks, totalTaskCount)
 
     class Loading(
-        tasks: Map<Week, DailyTasksStats> = mapOf(),
+        tasks: ImmutableMap<Week, DailyTasksStats> = persistentMapOf(),
         totalTaskCount: Int = 0,
     ) : WeeklyTasksState(tasks, totalTaskCount)
 
-    object Empty : WeeklyTasksState(mapOf(), 0)
+    object Empty : WeeklyTasksState(persistentMapOf(), 0)
 }
 
 sealed class DailyTasksState(
