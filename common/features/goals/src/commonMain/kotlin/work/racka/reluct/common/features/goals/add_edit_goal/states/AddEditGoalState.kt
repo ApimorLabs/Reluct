@@ -1,5 +1,7 @@
 package work.racka.reluct.common.features.goals.add_edit_goal.states
 
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 import work.racka.reluct.common.model.domain.appInfo.AppInfo
 import work.racka.reluct.common.model.domain.goals.Goal
 
@@ -22,15 +24,15 @@ sealed class ModifyGoalState {
 }
 
 sealed class GoalAppsState(
-    val selectedApps: List<AppInfo>,
-    val unselectedApps: List<AppInfo>
+    val selectedApps: ImmutableList<AppInfo>,
+    val unselectedApps: ImmutableList<AppInfo>
 ) {
-    object Nothing : GoalAppsState(emptyList(), emptyList())
+    object Nothing : GoalAppsState(persistentListOf(), persistentListOf())
 
     data class Data(
-        private val selected: List<AppInfo>,
-        private val unselected: List<AppInfo>
+        private val selected: ImmutableList<AppInfo>,
+        private val unselected: ImmutableList<AppInfo>
     ) : GoalAppsState(selectedApps = selected, unselectedApps = unselected)
 
-    object Loading : GoalAppsState(emptyList(), emptyList())
+    object Loading : GoalAppsState(persistentListOf(), persistentListOf())
 }
