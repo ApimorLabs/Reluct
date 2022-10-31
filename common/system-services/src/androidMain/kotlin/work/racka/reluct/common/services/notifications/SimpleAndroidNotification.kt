@@ -1,4 +1,4 @@
-package work.racka.reluct.common.system_service.notifications
+package work.racka.reluct.common.services.notifications
 
 import android.app.Notification
 import android.app.PendingIntent
@@ -77,6 +77,7 @@ class SimpleAndroidNotification(
             bitmap
         } catch (e: OutOfMemoryError) {
             // Handle the error
+            println("Icon error: ${e.message}")
             null
         }
 }

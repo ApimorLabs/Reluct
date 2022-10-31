@@ -16,7 +16,7 @@ import work.racka.reluct.common.model.domain.goals.GoalType
 import work.racka.reluct.common.model.util.time.StatisticsTimeUtils
 import work.racka.reluct.common.model.util.time.TimeUtils
 import work.racka.reluct.common.model.util.time.WeekUtils
-import work.racka.reluct.common.system_service.haptics.HapticFeedback
+import work.racka.reluct.common.services.haptics.HapticFeedback
 
 internal class ModifyGoalsImpl(
     private val goalsDao: GoalsDao,

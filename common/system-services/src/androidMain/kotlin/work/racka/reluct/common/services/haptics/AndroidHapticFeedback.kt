@@ -1,57 +1,61 @@
-package work.racka.reluct.common.system_service.haptics
+package work.racka.reluct.common.services.haptics
 
 import android.content.Context
 import android.os.*
 
 internal class AndroidHapticFeedback(private val context: Context) : HapticFeedback {
     override fun tick() {
-        val durationMillis = 20L
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             val vibrationEffect = VibrationEffect.createPredefined(VibrationEffect.EFFECT_TICK)
-            vibrate(durationMillis, vibrationEffect)
-        } else vibrate(durationMillis)
+            vibrate(DEFAULT_TICK_DURATION, vibrationEffect)
+        } else {
+            vibrate(DEFAULT_TICK_DURATION)
+        }
     }
 
     override fun click() {
-        val durationMillis = 40L
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             val vibrationEffect = VibrationEffect.createPredefined(VibrationEffect.EFFECT_CLICK)
-            vibrate(durationMillis, vibrationEffect)
-        } else vibrate(durationMillis)
+            vibrate(DEFAULT_CLICK_DURATION, vibrationEffect)
+        } else {
+            vibrate(DEFAULT_CLICK_DURATION)
+        }
     }
 
     override fun doubleClick() {
-        val durationMillis = 100L
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             val vibrationEffect = VibrationEffect
                 .createPredefined(VibrationEffect.EFFECT_DOUBLE_CLICK)
-            vibrate(durationMillis, vibrationEffect)
-        } else vibrate(durationMillis)
+            vibrate(DEFAULT_DOUBLE_CLICK_DURATION, vibrationEffect)
+        } else {
+            vibrate(DEFAULT_DOUBLE_CLICK_DURATION)
+        }
     }
 
     override fun heavyClick() {
-        val durationMillis = 120L
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             val vibrationEffect = VibrationEffect
                 .createPredefined(VibrationEffect.EFFECT_HEAVY_CLICK)
-            vibrate(durationMillis, vibrationEffect)
-        } else vibrate(durationMillis)
+            vibrate(DEFAULT_LONG_VIBRATE_DURATION, vibrationEffect)
+        } else {
+            vibrate(DEFAULT_LONG_VIBRATE_DURATION)
+        }
     }
 
     override fun cascadeFall() {
-        val durationMillis = 120L
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             val vibrationEffect = VibrationEffect.startComposition()
                 .addPrimitive(VibrationEffect.Composition.PRIMITIVE_QUICK_RISE, 1f)
-                .addPrimitive(VibrationEffect.Composition.PRIMITIVE_QUICK_FALL, 1f, 20)
+                .addPrimitive(VibrationEffect.Composition.PRIMITIVE_QUICK_FALL, 1f, QUICK_FALL_DELAY)
                 .addPrimitive(VibrationEffect.Composition.PRIMITIVE_THUD, 1f)
                 .compose()
-            vibrate(durationMillis, vibrationEffect)
-        } else vibrate(durationMillis)
+            vibrate(DEFAULT_LONG_VIBRATE_DURATION, vibrationEffect)
+        } else {
+            vibrate(DEFAULT_LONG_VIBRATE_DURATION)
+        }
     }
 
     override fun spinAndFall() {
-        val durationMillis = 120L
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             val vibrationEffect = VibrationEffect.startComposition()
                 .addPrimitive(VibrationEffect.Composition.PRIMITIVE_LOW_TICK, 1f)
@@ -59,8 +63,10 @@ internal class AndroidHapticFeedback(private val context: Context) : HapticFeedb
                 .addPrimitive(VibrationEffect.Composition.PRIMITIVE_QUICK_FALL, 1f)
                 .addPrimitive(VibrationEffect.Composition.PRIMITIVE_TICK, 1f)
                 .compose()
-            vibrate(durationMillis, vibrationEffect)
-        } else vibrate(durationMillis)
+            vibrate(DEFAULT_LONG_VIBRATE_DURATION, vibrationEffect)
+        } else {
+            vibrate(DEFAULT_LONG_VIBRATE_DURATION)
+        }
     }
 
     override fun customDuration(durationMillis: Long) {
@@ -94,7 +100,17 @@ internal class AndroidHapticFeedback(private val context: Context) : HapticFeedb
                 val effect = VibrationEffect
                     .createOneShot(durationMillis, VibrationEffect.DEFAULT_AMPLITUDE)
                 vibrator.vibrate(effect)
-            } else vibrator.vibrate(vibrationEffect)
+            } else {
+                vibrator.vibrate(vibrationEffect)
+            }
         }
+    }
+
+    companion object {
+        const val QUICK_FALL_DELAY = 20
+        const val DEFAULT_TICK_DURATION = 20L
+        const val DEFAULT_CLICK_DURATION = 40L
+        const val DEFAULT_DOUBLE_CLICK_DURATION = 100L
+        const val DEFAULT_LONG_VIBRATE_DURATION = 120L
     }
 }

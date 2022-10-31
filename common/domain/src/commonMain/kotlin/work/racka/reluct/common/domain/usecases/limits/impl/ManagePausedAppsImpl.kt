@@ -10,7 +10,7 @@ import work.racka.reluct.common.domain.usecases.limits.GetPausedApps
 import work.racka.reluct.common.domain.usecases.limits.ManagePausedApps
 import work.racka.reluct.common.domain.usecases.limits.ModifyAppLimits
 import work.racka.reluct.common.model.domain.appInfo.AppInfo
-import work.racka.reluct.common.system_service.haptics.HapticFeedback
+import work.racka.reluct.common.services.haptics.HapticFeedback
 
 internal class ManagePausedAppsImpl(
     private val getPausedApps: GetPausedApps,

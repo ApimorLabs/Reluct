@@ -1,4 +1,4 @@
-package work.racka.reluct.common.system_service.haptics
+package work.racka.reluct.common.services.haptics
 
 interface HapticFeedback {
     fun tick()

@@ -6,7 +6,7 @@ import android.content.Intent
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.net.toUri
 import work.racka.reluct.common.domain.R
-import work.racka.reluct.common.system_service.notifications.NotificationChannelInfo
+import work.racka.reluct.common.services.notifications.NotificationChannelInfo
 
 internal object AlarmReminderNotifications {
 

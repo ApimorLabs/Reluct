@@ -1,4 +1,4 @@
-package work.racka.reluct.common.system_service.notifications
+package work.racka.reluct.common.services.notifications
 
 import android.annotation.SuppressLint
 import android.app.NotificationChannel

@@ -1,8 +1,8 @@
-package work.racka.reluct.common.system_service.notifications.default_channels
+package work.racka.reluct.common.services.notifications.defaultChannels
 
 import android.content.Context
 import androidx.core.app.NotificationManagerCompat
-import work.racka.reluct.common.system_service.notifications.NotificationChannelInfo
+import work.racka.reluct.common.services.notifications.NotificationChannelInfo
 import work.racka.reluct.common.system_services.R
 
 fun getAppAlertsChannel(context: Context) = NotificationChannelInfo(

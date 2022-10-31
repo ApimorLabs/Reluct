@@ -1,4 +1,4 @@
-package work.racka.reluct.common.system_service.di
+package work.racka.reluct.common.services.di
 
 import org.koin.core.KoinApplication
 import org.koin.core.module.Module

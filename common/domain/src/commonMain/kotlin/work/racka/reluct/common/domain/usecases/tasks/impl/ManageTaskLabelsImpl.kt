@@ -12,7 +12,7 @@ import work.racka.reluct.common.domain.mappers.tasks.asTaskLabel
 import work.racka.reluct.common.domain.mappers.tasks.asTaskLabelDbObject
 import work.racka.reluct.common.domain.usecases.tasks.ManageTaskLabels
 import work.racka.reluct.common.model.domain.tasks.TaskLabel
-import work.racka.reluct.common.system_service.haptics.HapticFeedback
+import work.racka.reluct.common.services.haptics.HapticFeedback
 
 internal class ManageTaskLabelsImpl(
     private val dao: TasksDao,

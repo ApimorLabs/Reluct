@@ -14,7 +14,7 @@ import work.racka.reluct.common.features.screen_time.di.ScreenTime
 import work.racka.reluct.common.features.settings.di.AppSettings
 import work.racka.reluct.common.features.tasks.di.Tasks
 import work.racka.reluct.common.settings.di.MultiplatformSettings
-import work.racka.reluct.common.system_service.di.SystemServices
+import work.racka.reluct.common.services.di.SystemServices
 
 object KoinMain {
     // This should be used in every platform target as a starting point for Koin

@@ -16,7 +16,7 @@ import work.racka.reluct.common.domain.usecases.tasks.ModifyTaskUseCase
 import work.racka.reluct.common.model.domain.tasks.EditTask
 import work.racka.reluct.common.model.domain.tasks.Task
 import work.racka.reluct.common.model.util.time.TimeUtils
-import work.racka.reluct.common.system_service.haptics.HapticFeedback
+import work.racka.reluct.common.services.haptics.HapticFeedback
 
 internal class ModifyTaskUseCaseImpl(
     private val dao: TasksDao,

@@ -13,7 +13,7 @@ import work.racka.reluct.common.domain.mappers.limits.convertTimeToMillis
 import work.racka.reluct.common.domain.usecases.app_info.GetAppInfo
 import work.racka.reluct.common.domain.usecases.limits.ManageAppTimeLimit
 import work.racka.reluct.common.model.domain.limits.AppTimeLimit
-import work.racka.reluct.common.system_service.haptics.HapticFeedback
+import work.racka.reluct.common.services.haptics.HapticFeedback
 
 internal class ManageAppTimeLimitImpl(
     private val limitsDao: LimitsDao,
