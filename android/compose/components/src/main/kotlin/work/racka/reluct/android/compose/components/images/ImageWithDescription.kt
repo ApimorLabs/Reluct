@@ -26,7 +26,6 @@ fun ImageWithDescription(
     description: String?,
     descriptionTextStyle: TextStyle = MaterialTheme.typography.titleLarge,
 ) {
-
     Column(
         modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -57,7 +56,6 @@ fun ImageWithDescription(
     description: String?,
     descriptionTextStyle: TextStyle = MaterialTheme.typography.titleLarge,
 ) {
-
     Column(
         modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally,

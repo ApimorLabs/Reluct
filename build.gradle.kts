@@ -1,7 +1,17 @@
+import io.gitlab.arturbosch.detekt.Detekt
+import io.gitlab.arturbosch.detekt.DetektCreateBaselineTask
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
+import org.jetbrains.kotlin.util.profile
 
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+plugins {
+    // TODO: Remove once https://youtrack.jetbrains.com/issue/KTIJ-19369 is fixed
+    @Suppress("DSL_SCOPE_VIOLATION")
+    alias(libs.plugins.detekt.gradle)
+}
+
 buildscript {
 
     repositories {
@@ -40,7 +50,74 @@ allprojects {
 }
 
 subprojects {
+
+    // Detekt
+    apply(plugin = "io.gitlab.arturbosch.detekt")
+
+    /**
+     * Start - Detekt Configuration for All sub projects
+     */
+    detekt {
+        config = files("$rootDir/config/detekt/detekt.yml")
+        buildUponDefaultConfig = true
+        ignoredBuildTypes = listOf("release")
+        source = files(
+            io.gitlab.arturbosch.detekt.extensions.DetektExtension.DEFAULT_SRC_DIR_JAVA,
+            //io.gitlab.arturbosch.detekt.extensions.DetektExtension.DEFAULT_TEST_SRC_DIR_JAVA,
+            io.gitlab.arturbosch.detekt.extensions.DetektExtension.DEFAULT_SRC_DIR_KOTLIN,
+            //io.gitlab.arturbosch.detekt.extensions.DetektExtension.DEFAULT_TEST_SRC_DIR_KOTLIN,
+            "src/commonMain/kotlin",
+            "src/androidMain/kotlin",
+            "src/desktopMain/kotlin",
+            "src/jsMain/kotlin",
+        )
+    }
+
+    tasks.withType<Detekt>().configureEach detekt@{
+        //include("**/kotlin/**", "**/java/**", "**/*.kt")
+        exclude("**/build/**", "**/generated/**", "**/resources/**")
+        basePath = rootProject.projectDir.absolutePath
+        autoCorrect = true
+        reports {
+            xml.required.set(false)
+            html.required.set(true)
+            txt.required.set(false)
+            sarif.required.set(false)
+            md.required.set(false)
+
+            html {
+                required.set(true)
+                outputLocation.set(
+                    this@subprojects.layout.buildDirectory.file("reports/detekt.html")
+                )
+            }
+        }
+    }
+
+    tasks.withType<DetektCreateBaselineTask>().configureEach detekt@{
+        //include("**/kotlin/**", "**/java/**", "**/*.kt")
+        exclude("**/build/**", "**/generated/**", "**/resources/**")
+        basePath = rootProject.projectDir.absolutePath
+    }
+
+    beforeEvaluate {
+        dependencies {
+            detektPlugins(libs.detekt.formatting)
+            detektPlugins(libs.detekt.rule.twitter.compose)
+        }
+
+        // Filter out Detekt from check task
+        if (tasks.names.contains("check")) {
+            tasks.named("check").configure {
+                this.setDependsOn(this.dependsOn.filterNot {
+                    it is TaskProvider<*> && it.name == "detekt"
+                })
+            }
+        }
+    }
+
     afterEvaluate {
+
         val kmpExtension = project.extensions.findByType<KotlinMultiplatformExtension>()
 
         // Check if the subproject is KMP or a normal Android subproject

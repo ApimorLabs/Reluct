@@ -17,10 +17,9 @@ import java.util.concurrent.TimeUnit
 
 @Composable
 fun SummaryPieChart(
+    dayStats: UsageStats,
     modifier: Modifier = Modifier,
-    dayStats: UsageStats
 ) {
-
     val slices = remember(dayStats) {
         mutableStateOf(mutableListOf<PieChartData.Slice>())
     }

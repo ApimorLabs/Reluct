@@ -1,7 +1,7 @@
 package work.racka.reluct.common.domain.usecases.limits
 
 import kotlinx.coroutines.flow.Flow
-import work.racka.reluct.common.model.domain.app_info.AppInfo
+import work.racka.reluct.common.model.domain.appInfo.AppInfo
 
 interface ManageDistractingApps {
     /**

@@ -19,17 +19,16 @@ import work.racka.reluct.android.compose.theme.Dimens
 
 @Composable
 fun OutlinedReluctButton(
-    modifier: Modifier = Modifier,
     buttonText: String,
-    buttonTextStyle: TextStyle = MaterialTheme.typography.bodyLarge,
     icon: ImageVector?,
+    onButtonClicked: () -> Unit,
+    modifier: Modifier = Modifier,
+    buttonTextStyle: TextStyle = MaterialTheme.typography.bodyLarge,
     borderColor: Color = MaterialTheme.colorScheme.primary,
     contentColor: Color = LocalContentColor.current,
     shape: Shape = CircleShape,
-    onButtonClicked: () -> Unit,
     enabled: Boolean = true,
 ) {
-
     OutlinedButton(
         onClick = onButtonClicked,
         shape = shape,

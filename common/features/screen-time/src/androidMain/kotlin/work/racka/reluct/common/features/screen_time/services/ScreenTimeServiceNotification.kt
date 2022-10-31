@@ -10,11 +10,11 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import work.racka.reluct.common.features.screen_time.R
 import work.racka.reluct.common.model.domain.core.Icon
-import work.racka.reluct.common.system_service.notifications.NotificationChannelInfo
-import work.racka.reluct.common.system_service.notifications.NotificationData
-import work.racka.reluct.common.system_service.notifications.SimpleAndroidNotification
-import work.racka.reluct.common.system_service.notifications.createNotificationChannel
-import work.racka.reluct.common.system_service.notifications.default_channels.getAppAlertsChannel
+import work.racka.reluct.common.services.notifications.NotificationChannelInfo
+import work.racka.reluct.common.services.notifications.NotificationData
+import work.racka.reluct.common.services.notifications.SimpleAndroidNotification
+import work.racka.reluct.common.services.notifications.createNotificationChannel
+import work.racka.reluct.common.services.notifications.defaultChannels.getAppAlertsChannel
 
 object ScreenTimeServiceNotification {
     fun createNotification(

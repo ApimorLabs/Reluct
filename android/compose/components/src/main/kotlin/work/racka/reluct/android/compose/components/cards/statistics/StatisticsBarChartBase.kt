@@ -14,13 +14,12 @@ import work.racka.reluct.barChart.renderer.yaxis.SimpleYAxisDrawer
 
 @Composable
 internal fun StatisticsBarChartBase(
-    modifier: Modifier = Modifier,
     bars: List<BarChartData.Bar>,
-    selectedBarColor: Color = MaterialTheme.colorScheme.primary,
     selectedDayIsoNumber: Int,
     onBarClicked: (Int) -> Unit,
+    modifier: Modifier = Modifier,
+    selectedBarColor: Color = MaterialTheme.colorScheme.primary,
 ) {
-
     BarChart(
         barChartData = BarChartData(bars = bars),
         modifier = modifier.fillMaxWidth(),

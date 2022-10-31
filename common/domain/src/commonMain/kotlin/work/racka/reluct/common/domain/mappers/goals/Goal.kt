@@ -2,7 +2,7 @@ package work.racka.reluct.common.domain.mappers.goals
 
 import work.racka.reluct.common.database.models.GoalDbObject
 import work.racka.reluct.common.domain.usecases.app_info.GetAppInfo
-import work.racka.reluct.common.model.domain.app_info.AppInfo
+import work.racka.reluct.common.model.domain.appInfo.AppInfo
 import work.racka.reluct.common.model.domain.goals.Goal
 import work.racka.reluct.common.model.domain.goals.GoalDuration
 import work.racka.reluct.common.model.util.time.TimeUtils

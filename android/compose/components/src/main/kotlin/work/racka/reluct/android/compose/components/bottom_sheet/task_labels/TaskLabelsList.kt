@@ -22,9 +22,9 @@ import work.racka.reluct.common.model.domain.tasks.TaskLabel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TaskLabelsSelectCard(
-    modifier: Modifier = Modifier,
     labels: List<TaskLabel>,
     onEditLabels: () -> Unit,
+    modifier: Modifier = Modifier,
     containerColor: Color = MaterialTheme.colorScheme.surfaceVariant,
     contentColor: Color = MaterialTheme.colorScheme.onSurfaceVariant,
     cardHeight: Dp = 48.dp

@@ -21,10 +21,7 @@ import work.racka.reluct.common.model.util.time.Week
 
 @Composable
 fun TasksStatisticsCard(
-    modifier: Modifier = Modifier,
     barChartState: StatisticsChartState<Map<Week, DailyTasksStats>>,
-    barColor: Color = MaterialTheme.colorScheme.secondary
-        .copy(alpha = .7f),
     selectedDayText: String,
     selectedDayTasksDone: Int,
     selectedDayTasksPending: Int,
@@ -32,8 +29,10 @@ fun TasksStatisticsCard(
     selectedDayIsoNumber: Int,
     onBarClicked: (Int) -> Unit,
     weekUpdateButton: @Composable () -> Unit,
+    modifier: Modifier = Modifier,
+    barColor: Color = MaterialTheme.colorScheme.secondary
+        .copy(alpha = .7f),
 ) {
-
     val bars = remember(barChartState) {
         derivedStateOf {
             val tempList = mutableListOf<BarChartData.Bar>()

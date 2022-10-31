@@ -39,22 +39,25 @@ class MainActivity : ComponentActivity() {
             )
             val systemUiController = rememberSystemUiController()
             val isDarkMode = isSystemInDarkTheme()
-            val useDarkIcons = derivedStateOf {
-                when (themeValue) {
-                    Theme.FOLLOW_SYSTEM.themeValue -> !isDarkMode
-                    Theme.DARK_THEME.themeValue -> false
-                    Theme.LIGHT_THEME.themeValue -> true
-                    else -> !isDarkMode
+            val useDarkIcons by remember(themeValue) {
+                derivedStateOf {
+                    when (themeValue) {
+                        Theme.FOLLOW_SYSTEM.themeValue -> !isDarkMode
+                        Theme.DARK_THEME.themeValue -> false
+                        Theme.LIGHT_THEME.themeValue -> true
+                        else -> !isDarkMode
+                    }
                 }
             }
-            SideEffect {
+
+            LaunchedEffect(useDarkIcons) {
                 systemUiController.apply {
                     setStatusBarColor(
-                        darkIcons = useDarkIcons.value,
+                        darkIcons = useDarkIcons,
                         color = Color.Transparent
                     )
                     setNavigationBarColor(
-                        darkIcons = useDarkIcons.value,
+                        darkIcons = useDarkIcons,
                         color = Color.Transparent
                     )
                 }

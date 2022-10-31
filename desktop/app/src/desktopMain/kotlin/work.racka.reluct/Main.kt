@@ -51,8 +51,10 @@ fun TestScreen() {
             modifier = Modifier
                 .onPreviewKeyEvent {
                     when {
-                        (it.isCtrlPressed && it.key == Key.Enter
-                                && it.type == KeyEventType.KeyDown)
+                        (
+                            it.isCtrlPressed && it.key == Key.Enter &&
+                                it.type == KeyEventType.KeyDown
+                            )
                         -> {
                             click()
                             true
@@ -71,6 +73,5 @@ fun TestScreen() {
         ) {
             Text("Compute")
         }
-
     }
 }

@@ -59,13 +59,12 @@ fun MaterialSearchBar(
     shape: Shape = Shapes.large,
     defaultPadding: Dp = Dimens.MediumPadding.size,
     smallestPadding: Dp = Dimens.ExtraSmallPadding.size,
-    keyboardController: SoftwareKeyboardController?
-    = LocalSoftwareKeyboardController.current,
+    keyboardController: SoftwareKeyboardController? =
+        LocalSoftwareKeyboardController.current,
     focusManager: FocusManager = LocalFocusManager.current,
     focusRequester: FocusRequester = remember { FocusRequester() },
     extraButton: @Composable BoxScope.() -> Unit = { },
 ) {
-
     var isHintActive by remember {
         mutableStateOf(hint.isNotEmpty())
     }
@@ -80,7 +79,9 @@ fun MaterialSearchBar(
     val middlePadding: Dp by animateDpAsState(
         targetValue = if (isHintActive) {
             Dimens.SmallPadding.size
-        } else smallestPadding
+        } else {
+            smallestPadding
+        }
     )
 
     val angle: Float by animateFloatAsState(
@@ -119,7 +120,6 @@ fun MaterialSearchBar(
             horizontalArrangement = Arrangement.Start,
             verticalAlignment = Alignment.CenterVertically
         ) {
-
             // Arrow/Search - Left
             Box(
                 contentAlignment = Alignment.Center
@@ -152,7 +152,6 @@ fun MaterialSearchBar(
                         )
                     }
                 }
-
             }
 
             // Search - Center
@@ -253,7 +252,6 @@ fun PlaceholderMaterialSearchBar(
             horizontalArrangement = Arrangement.Start,
             verticalAlignment = Alignment.CenterVertically
         ) {
-
             // Search - Left
             Box(
                 contentAlignment = Alignment.Center
@@ -267,7 +265,6 @@ fun PlaceholderMaterialSearchBar(
                         tint = contentColor
                     )
                 }
-
             }
 
             // Search - Center

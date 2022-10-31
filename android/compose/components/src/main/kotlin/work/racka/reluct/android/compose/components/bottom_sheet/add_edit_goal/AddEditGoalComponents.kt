@@ -38,7 +38,7 @@ import work.racka.reluct.android.compose.components.number_picker.convertTimeToM
 import work.racka.reluct.android.compose.components.textfields.ReluctTextField
 import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.android.compose.theme.Shapes
-import work.racka.reluct.common.model.domain.app_info.AppInfo
+import work.racka.reluct.common.model.domain.appInfo.AppInfo
 import work.racka.reluct.common.model.domain.goals.GoalInterval
 import work.racka.reluct.common.model.domain.goals.GoalType
 import work.racka.reluct.common.model.util.time.TimeUtils.plus
@@ -46,9 +46,9 @@ import work.racka.reluct.common.model.util.time.Week
 
 @Composable
 internal fun GoalTypeSelector(
-    modifier: Modifier = Modifier,
     selectedGoalType: GoalType,
-    onSelectGoalType: (GoalType) -> Unit
+    onSelectGoalType: (GoalType) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     @Composable
     fun getGoalTypeString(goalType: GoalType): String =
@@ -81,10 +81,16 @@ internal fun GoalTypeSelector(
                 buttonText = getGoalTypeString(goalType = type),
                 icon = null,
                 shape = Shapes.large,
-                buttonColor = if (selectedGoalType == type) MaterialTheme.colorScheme.primary
-                else MaterialTheme.colorScheme.surfaceVariant,
-                contentColor = if (selectedGoalType == type) MaterialTheme.colorScheme.onPrimary
-                else MaterialTheme.colorScheme.onSurfaceVariant,
+                buttonColor = if (selectedGoalType == type) {
+                    MaterialTheme.colorScheme.primary
+                } else {
+                    MaterialTheme.colorScheme.surfaceVariant
+                },
+                contentColor = if (selectedGoalType == type) {
+                    MaterialTheme.colorScheme.onPrimary
+                } else {
+                    MaterialTheme.colorScheme.onSurfaceVariant
+                },
                 onButtonClicked = { onSelectGoalType(type) }
             )
         }
@@ -93,9 +99,9 @@ internal fun GoalTypeSelector(
 
 @Composable
 internal fun GoalIntervalSelector(
-    modifier: Modifier = Modifier,
     selectedGoalInterval: GoalInterval,
-    onSelectGoalInterval: (GoalInterval) -> Unit
+    onSelectGoalInterval: (GoalInterval) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     @Composable
     fun getGoalTypeString(goalInterval: GoalInterval): String =
@@ -116,10 +122,16 @@ internal fun GoalIntervalSelector(
                 buttonText = getGoalTypeString(goalInterval = item),
                 icon = null,
                 shape = Shapes.large,
-                buttonColor = if (selectedGoalInterval == item) MaterialTheme.colorScheme.primary
-                else MaterialTheme.colorScheme.surfaceVariant,
-                contentColor = if (selectedGoalInterval == item) MaterialTheme.colorScheme.onPrimary
-                else MaterialTheme.colorScheme.onSurfaceVariant,
+                buttonColor = if (selectedGoalInterval == item) {
+                    MaterialTheme.colorScheme.primary
+                } else {
+                    MaterialTheme.colorScheme.surfaceVariant
+                },
+                contentColor = if (selectedGoalInterval == item) {
+                    MaterialTheme.colorScheme.onPrimary
+                } else {
+                    MaterialTheme.colorScheme.onSurfaceVariant
+                },
                 onButtonClicked = { onSelectGoalInterval(item) }
             )
         }
@@ -128,10 +140,10 @@ internal fun GoalIntervalSelector(
 
 @Composable
 internal fun AddEditGoalItemTitle(
-    modifier: Modifier = Modifier,
     text: String,
+    modifier: Modifier = Modifier,
     color: Color = LocalContentColor.current,
-    maxLines: Int = 1
+    maxLines: Int = 1,
 ) {
     Text(
         modifier = modifier
@@ -147,9 +159,9 @@ internal fun AddEditGoalItemTitle(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun SelectedAppsCard(
-    modifier: Modifier = Modifier,
     apps: List<AppInfo>,
     onEditApps: () -> Unit,
+    modifier: Modifier = Modifier,
     appIconSize: Dp = 36.dp,
     containerColor: Color = MaterialTheme.colorScheme.surfaceVariant,
     contentColor: Color = MaterialTheme.colorScheme.onSurfaceVariant
@@ -210,9 +222,9 @@ internal fun SelectedAppsCard(
 
 @Composable
 fun GoalScreenTimePicker(
-    modifier: Modifier = Modifier,
     currentTimeMillis: Long,
     onUpdateCurrentTime: (timeMillis: Long) -> Unit,
+    modifier: Modifier = Modifier,
     containerColor: Color = MaterialTheme.colorScheme.surfaceVariant,
     contentColor: Color = MaterialTheme.colorScheme.onSurfaceVariant
 ) {
@@ -287,8 +299,11 @@ internal fun LazyListScope.goalTargetValuePicker(
                     modifier = Modifier
                         .weight(1f)
                         .animateItemPlacement(),
-                    text = if (goalType == GoalType.TasksGoal) stringResource(R.string.select_number_of_tasks_txt)
-                    else stringResource(R.string.target_value_txt),
+                    text = if (goalType == GoalType.TasksGoal) {
+                        stringResource(R.string.select_number_of_tasks_txt)
+                    } else {
+                        stringResource(R.string.target_value_txt)
+                    },
                     maxLines = 2
                 )
 
@@ -299,8 +314,11 @@ internal fun LazyListScope.goalTargetValuePicker(
                     isError = textValue.isBlank(),
                     errorText = stringResource(id = R.string.invalid_value_text),
                     singleLine = true,
-                    hint = if (goalType == GoalType.TasksGoal) stringResource(R.string.enter_number_of_tasks_txt)
-                    else stringResource(R.string.enter_target_value),
+                    hint = if (goalType == GoalType.TasksGoal) {
+                        stringResource(R.string.enter_number_of_tasks_txt)
+                    } else {
+                        stringResource(R.string.enter_target_value)
+                    },
                     keyboardOptions = KeyboardOptions(
                         keyboardType = KeyboardType.Number,
                         imeAction = ImeAction.Done
@@ -322,7 +340,6 @@ internal fun LazyListScope.goalTargetValuePicker(
                         .fillMaxWidth(.6f)
                 )
             }
-
         }
     }
 }
@@ -363,8 +380,11 @@ internal fun LazyListScope.goalDurationPicker(
                     modifier = Modifier.animateItemPlacement(),
                     currentLocalDateTime = dateTimeRange.start,
                     onLocalDateTimeChange = { dateTime ->
-                        val endTime = if (dateTime >= dateTimeRange.endInclusive)
-                            dateTime.plus(hours = 1) else dateTimeRange.endInclusive
+                        val endTime = if (dateTime >= dateTimeRange.endInclusive) {
+                            dateTime.plus(hours = 1)
+                        } else {
+                            dateTimeRange.endInclusive
+                        }
                         onDateTimeRangeChange(dateTime..endTime)
                     }
                 )
@@ -387,8 +407,11 @@ internal fun LazyListScope.goalDurationPicker(
                     onLocalDateTimeChange = { dateTime ->
                         endTimeError = dateTime <= dateTimeRange.start
                         val endTime =
-                            if (dateTime <= dateTimeRange.start) dateTimeRange.endInclusive
-                            else dateTime
+                            if (dateTime <= dateTimeRange.start) {
+                                dateTimeRange.endInclusive
+                            } else {
+                                dateTime
+                            }
                         onDateTimeRangeChange(dateTimeRange.start..endTime)
                     }
                 )
@@ -400,10 +423,10 @@ internal fun LazyListScope.goalDurationPicker(
 
 @Composable
 private fun GoalNumberPicker(
-    modifier: Modifier = Modifier,
     name: String,
     currentValue: Long,
     onUpdateCurrentValue: (Long) -> Unit,
+    modifier: Modifier = Modifier,
     containerColor: Color = MaterialTheme.colorScheme.surfaceVariant,
     contentColor: Color = MaterialTheme.colorScheme.onSurfaceVariant,
     numberRange: IntRange = 0..10000
@@ -434,21 +457,27 @@ private fun GoalNumberPicker(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun ReluctSelectionButton(
-    modifier: Modifier = Modifier,
-    shape: Shape = Shapes.large,
     isSelected: Boolean,
     content: @Composable ColumnScope.() -> Unit,
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    shape: Shape = Shapes.large,
 ) {
     Card(
         modifier = modifier,
         onClick = onClick,
         shape = shape,
         colors = CardDefaults.cardColors(
-            containerColor = if (isSelected) MaterialTheme.colorScheme.primary
-            else MaterialTheme.colorScheme.surfaceVariant,
-            contentColor = if (isSelected) MaterialTheme.colorScheme.onPrimary
-            else MaterialTheme.colorScheme.onSurfaceVariant
+            containerColor = if (isSelected) {
+                MaterialTheme.colorScheme.primary
+            } else {
+                MaterialTheme.colorScheme.surfaceVariant
+            },
+            contentColor = if (isSelected) {
+                MaterialTheme.colorScheme.onPrimary
+            } else {
+                MaterialTheme.colorScheme.onSurfaceVariant
+            }
         ),
         content = content
     )

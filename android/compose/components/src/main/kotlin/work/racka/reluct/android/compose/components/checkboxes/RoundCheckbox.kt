@@ -22,11 +22,10 @@ import work.racka.reluct.android.compose.components.R
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 internal fun RoundCheckbox(
-    modifier: Modifier = Modifier,
     isChecked: Boolean,
     onCheckedChange: (Boolean) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
-
     Box(
         modifier = Modifier
             .clip(CircleShape)

@@ -16,11 +16,11 @@ import work.racka.reluct.android.compose.theme.Shapes
 
 @Composable
 fun ReluctFloatingActionButton(
-    modifier: Modifier = Modifier,
     buttonText: String,
     icon: ImageVector,
     contentDescription: String?,
     onButtonClicked: () -> Unit,
+    modifier: Modifier = Modifier,
     expanded: Boolean = true,
 ) {
     Box(

@@ -22,13 +22,13 @@ import work.racka.reluct.common.model.domain.tasks.Task
 
 @Composable
 fun GroupedTaskEntries(
-    modifier: Modifier = Modifier,
-    playScaleAnimation: Boolean = false,
     entryType: EntryType,
     groupTitle: String,
     taskList: List<Task>,
     onEntryClicked: (task: Task) -> Unit,
     onCheckedChange: (isDone: Boolean, task: Task) -> Unit,
+    modifier: Modifier = Modifier,
+    playScaleAnimation: Boolean = false,
 ) {
     Column(
         modifier = modifier,
@@ -65,8 +65,13 @@ internal fun GroupedTasksPrev() {
         color = MaterialTheme.colorScheme.background
     ) {
         val dialogState = rememberMaterialDialogState()
-        val list = listOf(PreviewData.task1, PreviewData.task2,
-            PreviewData.task3, PreviewData.task4, PreviewData.task5)
+        val list = listOf(
+            PreviewData.task1,
+            PreviewData.task2,
+            PreviewData.task3,
+            PreviewData.task4,
+            PreviewData.task5
+        )
         val context = LocalContext.current
         Column {
             GroupedTaskEntries(

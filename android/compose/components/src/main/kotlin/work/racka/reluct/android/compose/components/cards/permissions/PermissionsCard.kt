@@ -23,15 +23,14 @@ import work.racka.reluct.android.compose.theme.Shapes
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PermissionsCard(
-    modifier: Modifier = Modifier,
     imageSlot: @Composable () -> Unit,
     permissionDetails: String,
     onPermissionRequest: () -> Unit,
+    modifier: Modifier = Modifier,
     containerColor: Color = MaterialTheme.colorScheme.surfaceVariant,
     contentColor: Color = MaterialTheme.colorScheme.onSurfaceVariant,
     shape: Shape = Shapes.large,
 ) {
-
     Card(
         colors = CardDefaults.cardColors(
             containerColor = containerColor,

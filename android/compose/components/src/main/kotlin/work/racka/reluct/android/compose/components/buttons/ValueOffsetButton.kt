@@ -29,18 +29,17 @@ import work.racka.reluct.android.compose.theme.Dimens
  */
 @Composable
 fun ValueOffsetButton(
-    modifier: Modifier = Modifier,
     text: String,
-    textStyle: TextStyle = MaterialTheme.typography.bodyLarge,
     offsetValue: Int,
+    onOffsetValueChange: (value: Int) -> Unit,
+    modifier: Modifier = Modifier,
+    textStyle: TextStyle = MaterialTheme.typography.bodyLarge,
     containerColor: Color = MaterialTheme.colorScheme.primary,
     contentColor: Color = LocalContentColor.current,
     shape: Shape = CircleShape,
     incrementEnabled: Boolean = true,
     decrementEnabled: Boolean = true,
-    onOffsetValueChange: (value: Int) -> Unit,
 ) {
-
     Box(
         modifier = modifier
             .clip(shape)
@@ -63,8 +62,13 @@ fun ValueOffsetButton(
                     imageVector = Icons.Rounded.NavigateBefore,
                     contentDescription = "Decrease",
                     tint = contentColor
-                        .copy(alpha = if (decrementEnabled) ContentAlpha.high
-                        else ContentAlpha.disabled)
+                        .copy(
+                            alpha = if (decrementEnabled) {
+                                ContentAlpha.high
+                            } else {
+                                ContentAlpha.disabled
+                            }
+                        )
                 )
             }
 
@@ -88,8 +92,13 @@ fun ValueOffsetButton(
                     imageVector = Icons.Rounded.NavigateNext,
                     contentDescription = "Increase",
                     tint = contentColor
-                        .copy(alpha = if (incrementEnabled) ContentAlpha.high
-                        else ContentAlpha.disabled)
+                        .copy(
+                            alpha = if (incrementEnabled) {
+                                ContentAlpha.high
+                            } else {
+                                ContentAlpha.disabled
+                            }
+                        )
                 )
             }
         }

@@ -26,11 +26,11 @@ import work.racka.reluct.android.compose.theme.ReluctAppTheme
 
 @Composable
 fun TaskDetailsHeading(
-    modifier: Modifier = Modifier,
     text: String,
-    textStyle: TextStyle = MaterialTheme.typography.titleLarge,
     isChecked: Boolean,
     onCheckedChange: (Boolean) -> Unit,
+    modifier: Modifier = Modifier,
+    textStyle: TextStyle = MaterialTheme.typography.titleLarge,
 ) {
     Row(
         modifier = modifier,
@@ -45,7 +45,6 @@ fun TaskDetailsHeading(
             }
         )
         Text(
-            modifier = modifier,
             text = text,
             style = textStyle,
             color = LocalContentColor.current
@@ -55,12 +54,11 @@ fun TaskDetailsHeading(
 
 @Composable
 internal fun TaskTimeInfo(
-    modifier: Modifier = Modifier,
     timeText: String,
+    modifier: Modifier = Modifier,
     showOverdueLabel: Boolean = false,
     overdue: Boolean = false,
 ) {
-
     Row(modifier = modifier) {
         Text(
             text = timeText,
@@ -79,8 +77,11 @@ internal fun TaskTimeInfo(
             )
             Spacer(modifier = Modifier.width(Dimens.ExtraSmallPadding.size))
             Text(
-                text = if (overdue) stringResource(id = R.string.overdue_text)
-                else stringResource(id = R.string.in_time_text),
+                text = if (overdue) {
+                    stringResource(id = R.string.overdue_text)
+                } else {
+                    stringResource(id = R.string.in_time_text)
+                },
                 style = MaterialTheme.typography.bodyMedium,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
@@ -102,7 +103,9 @@ internal fun LabelsPreview() {
             Column {
                 EntryHeading(text = "Tasks Title Here")
                 Spacer(modifier = Modifier.height(Dimens.ExtraSmallPadding.size))
-                EntryDescription(text = "This is a task description and it it really long. This is a task description and it it really long. This is a task description and it it really long. This is a task description and it it really long. This is a task description and it it really long.")
+                EntryDescription(
+                    text = "This is a task description and it it really long. This is a task description and it it really long. This is a task description and it it really long. This is a task description and it it really long. This is a task description and it it really long."
+                )
                 Spacer(modifier = Modifier.height(Dimens.ExtraSmallPadding.size))
                 TaskTimeInfo(timeText = "In 3 hrs")
                 TaskTimeInfo(timeText = "Thu, 20 Feb", showOverdueLabel = true)

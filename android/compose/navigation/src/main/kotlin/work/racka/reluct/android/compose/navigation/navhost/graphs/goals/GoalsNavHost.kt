@@ -22,8 +22,8 @@ import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import work.racka.reluct.android.compose.components.R
 import work.racka.reluct.android.compose.components.topBar.ReluctPageHeading
 import work.racka.reluct.android.compose.components.util.BarsVisibility
-import work.racka.reluct.android.compose.navigation.top_tabs.goals.GoalsTabBar
-import work.racka.reluct.android.compose.navigation.top_tabs.goals.GoalsTabDestination
+import work.racka.reluct.android.compose.navigation.toptabs.goals.GoalsTabBar
+import work.racka.reluct.android.compose.navigation.toptabs.goals.GoalsTabDestination
 import work.racka.reluct.android.compose.navigation.transitions.scaleInEnterTransition
 import work.racka.reluct.android.compose.navigation.transitions.scaleInPopEnterTransition
 import work.racka.reluct.android.compose.navigation.transitions.scaleOutExitTransition
@@ -42,8 +42,8 @@ import work.racka.reluct.common.core_navigation.compose_destinations.goals.Inact
 internal fun GoalsNavHost(
     mainNavController: NavHostController,
     barsVisibility: BarsVisibility,
+    mainScaffoldPadding: PaddingValues,
     navController: NavHostController = rememberAnimatedNavController(),
-    mainScaffoldPadding: PaddingValues
 ) {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination

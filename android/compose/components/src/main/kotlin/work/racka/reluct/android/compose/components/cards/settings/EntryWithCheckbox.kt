@@ -14,13 +14,12 @@ import work.racka.reluct.android.compose.theme.Dimens
 
 @Composable
 fun EntryWithCheckbox(
-    modifier: Modifier = Modifier,
     title: String,
     description: String,
     isChecked: Boolean,
     onCheckedChanged: (Boolean) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
-
     Row(
         modifier = modifier
             .fillMaxWidth(),

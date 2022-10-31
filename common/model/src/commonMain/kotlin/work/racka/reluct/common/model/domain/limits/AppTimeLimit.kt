@@ -1,6 +1,6 @@
 package work.racka.reluct.common.model.domain.limits
 
-import work.racka.reluct.common.model.domain.app_info.AppInfo
+import work.racka.reluct.common.model.domain.appInfo.AppInfo
 
 data class AppTimeLimit(
     val appInfo: AppInfo,

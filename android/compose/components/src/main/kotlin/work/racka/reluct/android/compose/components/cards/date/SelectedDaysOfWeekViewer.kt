@@ -15,9 +15,9 @@ import work.racka.reluct.common.model.util.time.Week
 
 @Composable
 fun SelectedDaysOfWeekViewer(
-    modifier: Modifier = Modifier,
     selectedDays: List<Week>,
-    onUpdateDaysOfWeek: (List<Week>) -> Unit
+    onUpdateDaysOfWeek: (List<Week>) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Row(
         modifier = modifier
@@ -45,8 +45,11 @@ fun SelectedDaysOfWeekViewer(
                 onClick = {
                     val new = selectedDays.toMutableSet()
                     new.apply {
-                        if (selectedDays.contains(day)) remove(day)
-                        else add(day)
+                        if (selectedDays.contains(day)) {
+                            remove(day)
+                        } else {
+                            add(day)
+                        }
                     }
                     onUpdateDaysOfWeek(new.toList())
                 }

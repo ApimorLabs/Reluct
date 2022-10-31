@@ -21,13 +21,13 @@ import work.racka.reluct.android.compose.theme.ReluctAppTheme
 
 @Composable
 fun TopSheetSection(
+    sheetTitle: String,
+    onCloseClicked: () -> Unit,
     modifier: Modifier = Modifier,
     contentColor: Color = LocalContentColor.current,
     containerColor: Color = Color.Transparent,
-    sheetTitle: String,
     rightButtonIcon: ImageVector? = null,
     rightButtonContentDescription: String? = null,
-    onCloseClicked: () -> Unit,
     onRightButtonClicked: () -> Unit = { },
     closeButtonVisible: Boolean = true,
     rightButtonEnabled: Boolean = true,
@@ -78,7 +78,6 @@ fun TopSheetSection(
                     overflow = TextOverflow.Ellipsis
                 )
 
-
                 IconButton(
                     onClick = onRightButtonClicked,
                     enabled = rightButtonEnabled
@@ -98,7 +97,6 @@ fun TopSheetSection(
     }
 }
 
-
 @Preview
 @Composable
 private fun TopSheetPreview() {
@@ -106,6 +104,7 @@ private fun TopSheetPreview() {
         TopSheetSection(
             modifier = Modifier.background(MaterialTheme.colorScheme.background),
             sheetTitle = "Sheet Title",
-            onCloseClicked = { })
+            onCloseClicked = { }
+        )
     }
 }

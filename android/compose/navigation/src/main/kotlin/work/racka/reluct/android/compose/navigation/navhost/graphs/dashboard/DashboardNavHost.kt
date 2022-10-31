@@ -24,8 +24,8 @@ import work.racka.reluct.android.compose.components.R
 import work.racka.reluct.android.compose.components.topBar.ReluctPageHeading
 import work.racka.reluct.android.compose.components.util.BarsVisibility
 import work.racka.reluct.android.compose.navigation.navbar.NavbarDestinations
-import work.racka.reluct.android.compose.navigation.top_tabs.dashboard.DashboardTabBar
-import work.racka.reluct.android.compose.navigation.top_tabs.dashboard.DashboardTabDestination
+import work.racka.reluct.android.compose.navigation.toptabs.dashboard.DashboardTabBar
+import work.racka.reluct.android.compose.navigation.toptabs.dashboard.DashboardTabDestination
 import work.racka.reluct.android.compose.navigation.transitions.scaleInEnterTransition
 import work.racka.reluct.android.compose.navigation.transitions.scaleInPopEnterTransition
 import work.racka.reluct.android.compose.navigation.transitions.scaleOutExitTransition
@@ -46,8 +46,8 @@ import work.racka.reluct.common.core_navigation.compose_destinations.tasks.TaskD
 internal fun DashboardNavHost(
     mainNavController: NavHostController,
     barsVisibility: BarsVisibility,
-    navController: NavHostController = rememberAnimatedNavController(),
     mainScaffoldPadding: PaddingValues,
+    navController: NavHostController = rememberAnimatedNavController(),
 ) {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
@@ -61,7 +61,7 @@ internal fun DashboardNavHost(
         topBar = {
             DashboardScreenTopBar(
                 tabPage = tabPage,
-                //profilePicUrl = "https://pbs.twimg.com/profile_images/1451052243067805698/LIEt076e_400x400.jpg",
+                // profilePicUrl = "https://pbs.twimg.com/profile_images/1451052243067805698/LIEt076e_400x400.jpg",
                 updateTabPage = {
                     navController.navigateNavBarElements(it.route)
                 },
@@ -136,7 +136,7 @@ internal fun DashboardNavHost(
 @Composable
 private fun DashboardScreenTopBar(
     tabPage: DashboardTabDestination,
-    //profilePicUrl: String?,
+    // profilePicUrl: String?,
     updateTabPage: (DashboardTabDestination) -> Unit,
     onSettingsClicked: () -> Unit
 ) {

@@ -13,17 +13,15 @@ import work.racka.reluct.android.compose.theme.Typography
 
 @Composable
 fun ReluctBottomNavBar(
-    modifier: Modifier = Modifier,
     navController: NavHostController,
     graphStartDestination: String,
+    modifier: Modifier = Modifier,
 ) {
-
     val items = NavbarDestinations.values()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
 
     Surface(
-        modifier = modifier,
         color = MaterialTheme.colorScheme.surface,
         tonalElevation = NavBarElevation.Level2
     ) {
@@ -42,7 +40,7 @@ fun ReluctBottomNavBar(
                         Text(text = item.label, style = Typography.labelMedium)
                     },
                     selected = selected,
-                    //colors = ,
+                    // colors = ,
                     icon = {
                         Icon(
                             imageVector = if (selected) item.iconActive else item.iconInactive,

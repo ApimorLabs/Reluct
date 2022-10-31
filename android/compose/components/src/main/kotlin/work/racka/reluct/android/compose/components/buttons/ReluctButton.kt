@@ -18,17 +18,16 @@ import work.racka.reluct.android.compose.theme.Dimens
 
 @Composable
 fun ReluctButton(
-    modifier: Modifier = Modifier,
     buttonText: String,
-    buttonTextStyle: TextStyle = MaterialTheme.typography.bodyLarge,
     icon: ImageVector?,
+    onButtonClicked: () -> Unit,
+    modifier: Modifier = Modifier,
+    buttonTextStyle: TextStyle = MaterialTheme.typography.bodyLarge,
     buttonColor: Color = MaterialTheme.colorScheme.primary,
     contentColor: Color = MaterialTheme.colorScheme.onPrimary,
     shape: Shape = CircleShape,
-    onButtonClicked: () -> Unit,
     enabled: Boolean = true,
 ) {
-
     Button(
         onClick = onButtonClicked,
         shape = shape,

@@ -1,6 +1,6 @@
 package work.racka.reluct.common.features.screen_time.limits.states
 
-import work.racka.reluct.common.model.domain.app_info.AppInfo
+import work.racka.reluct.common.model.domain.appInfo.AppInfo
 
 data class ScreenTimeLimitState(
     val focusModeState: FocusModeState = FocusModeState(),

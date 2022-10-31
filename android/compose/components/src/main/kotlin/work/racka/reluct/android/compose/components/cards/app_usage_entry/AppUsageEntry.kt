@@ -30,16 +30,15 @@ import work.racka.reluct.common.model.domain.usagestats.AppUsageInfo
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppUsageEntry(
+    appUsageInfo: AppUsageInfo,
+    onEntryClick: () -> Unit,
+    onTimeSettingsClick: () -> Unit,
     modifier: Modifier = Modifier,
     containerColor: Color = MaterialTheme.colorScheme.surfaceVariant,
     contentColor: Color = MaterialTheme.colorScheme.onSurfaceVariant,
     playAnimation: Boolean = false,
-    appUsageInfo: AppUsageInfo,
-    onEntryClick: () -> Unit,
-    onTimeSettingsClick: () -> Unit
 ) {
-
-    //Scale animation
+    // Scale animation
     val animatedProgress = remember(appUsageInfo) {
         Animatable(initialValue = 0.8f)
     }
@@ -52,11 +51,15 @@ fun AppUsageEntry(
         }
     }
 
-    val animatedModifier = if (playAnimation) modifier
-        .graphicsLayer(
-            scaleX = animatedProgress.value,
-            scaleY = animatedProgress.value
-        ) else modifier
+    val animatedModifier = if (playAnimation) {
+        modifier
+            .graphicsLayer(
+                scaleX = animatedProgress.value,
+                scaleY = animatedProgress.value
+            )
+    } else {
+        modifier
+    }
 
     Card(
         colors = CardDefaults.cardColors(
@@ -81,9 +84,9 @@ fun AppUsageEntry(
 
 @Composable
 fun AppUsageEntryBase(
-    modifier: Modifier = Modifier,
     appUsageInfo: AppUsageInfo,
     onTimeSettingsClick: () -> Unit,
+    modifier: Modifier = Modifier,
     contentColor: Color = MaterialTheme.colorScheme.onSurfaceVariant,
 ) {
     Row(
@@ -130,15 +133,15 @@ private fun AppUsageTextAndTimerButton(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceEvenly
     ) {
-        
+
     }
 }*/
 
 @Composable
 private fun AppNameAndTimeText(
-    modifier: Modifier = Modifier,
     appName: String,
     timeText: String,
+    modifier: Modifier = Modifier,
     color: Color = LocalContentColor.current
 ) {
     Column(

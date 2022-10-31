@@ -44,8 +44,7 @@ import work.racka.reluct.common.core_navigation.compose_destinations.tasks.Pendi
 
 @OptIn(ExperimentalAnimationApi::class, ExperimentalMaterial3Api::class)
 @Composable
-fun AppNavHost(modifier: Modifier = Modifier, settingsCheck: SettingsCheck?) {
-
+fun AppNavHost(settingsCheck: SettingsCheck?, modifier: Modifier = Modifier) {
     val navController = rememberAnimatedNavController()
     val barsVisibility = rememberBarVisibility(defaultBottomBar = false)
 
@@ -75,7 +74,6 @@ fun AppNavHost(modifier: Modifier = Modifier, settingsCheck: SettingsCheck?) {
             startDestination = checkingRoute,
             route = "root"
         ) {
-
             // Checking Route
             composable(
                 route = checkingRoute,
@@ -215,7 +213,7 @@ fun AppNavHost(modifier: Modifier = Modifier, settingsCheck: SettingsCheck?) {
                 barsVisibility = barsVisibility
             )
 
-            //All Other screens that don't share Scaffolds
+            // All Other screens that don't share Scaffolds
             otherScreenNavGraph(
                 navController = navController,
                 barsVisibility = barsVisibility

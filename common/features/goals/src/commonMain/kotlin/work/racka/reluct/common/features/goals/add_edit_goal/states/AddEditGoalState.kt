@@ -1,6 +1,6 @@
 package work.racka.reluct.common.features.goals.add_edit_goal.states
 
-import work.racka.reluct.common.model.domain.app_info.AppInfo
+import work.racka.reluct.common.model.domain.appInfo.AppInfo
 import work.racka.reluct.common.model.domain.goals.Goal
 
 data class AddEditGoalState(

@@ -4,7 +4,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 
 internal class DesktopScreenTimeServices : ScreenTimeServices {
-    override fun startLimitsService() {
+    override suspend fun startLimitsService() {
     }
 
     override fun stopLimitsService() {

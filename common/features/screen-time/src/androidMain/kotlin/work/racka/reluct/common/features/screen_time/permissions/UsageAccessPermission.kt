@@ -10,9 +10,9 @@ import android.provider.Settings
 import androidx.core.app.NotificationCompat
 import work.racka.reluct.common.features.screen_time.R
 import work.racka.reluct.common.model.domain.core.Icon
-import work.racka.reluct.common.system_service.notifications.NotificationData
-import work.racka.reluct.common.system_service.notifications.SimpleAndroidNotification
-import work.racka.reluct.common.system_service.notifications.default_channels.getAppAlertsChannel
+import work.racka.reluct.common.services.notifications.NotificationData
+import work.racka.reluct.common.services.notifications.SimpleAndroidNotification
+import work.racka.reluct.common.services.notifications.defaultChannels.getAppAlertsChannel
 
 internal object UsageAccessPermission {
 

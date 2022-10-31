@@ -77,6 +77,11 @@ slf4j = "1.7.30"
 logback = "1.2.3"
 kermit = "1.0.0"
 
+# Linter
+ktlint_gradle = "11.0.0"
+linter_twitter_compose = "0.0.22"
+detekt = "1.22.0-RC2"
+
 # Extras
 lottie = "5.0.3"
 palette = "1.0.0"
@@ -219,6 +224,13 @@ logback_classic = { module = "ch.qos.logback:logback-classic", version.ref = "lo
 kermit_log = { module = "co.touchlab:kermit", version.ref = "kermit" }
 timber_log = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
 
+# Linter
+detekt_gradle_plugin = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", version.ref = "detekt" }
+detekt_formatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detekt" }
+ktlint_gradle_plugin = { module = "org.jlleitschuh.gradle:ktlint-gradle", version.ref = "ktlint_gradle" }
+ktlint_rule_twitter_compose = { module = "com.twitter.compose.rules:ktlint", version.ref = "linter_twitter_compose" }
+detekt_rule_twitter_compose = { module = "com.twitter.compose.rules:detekt", version.ref = "linter_twitter_compose" }
+
 ########### Libraries End ##################
 
 
@@ -236,7 +248,9 @@ compose_core = ["compose.ui", "compose.runtime", "compose.foundation", "compose.
 ########### Plugnis Start ##################
 [plugins]
 # All Plugin should stay here
-kotlin = { id = "org.jetbrains.kotlin.android", version = "kotlin" }
-kotlin_seriazation = { id = "plugin.serialization", version = "kotlin" }
+kotlin = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin_seriazation = { id = "plugin.serialization", version.ref = "kotlin" }
+ktlint_gradle = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlint_gradle" }
+detekt_gradle = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt"}
 
 ########### Plugnis END ##################

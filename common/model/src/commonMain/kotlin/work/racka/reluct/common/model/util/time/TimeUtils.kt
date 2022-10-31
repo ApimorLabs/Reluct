@@ -1,6 +1,12 @@
 package work.racka.reluct.common.model.util.time
 
 import kotlinx.datetime.*
+import kotlinx.datetime.TimeZone
+import work.racka.reluct.common.model.util.time.TimeConstants.HOURLY_MINUTES_SECONDS
+import work.racka.reluct.common.model.util.time.TimeConstants.MILLIS_PER_HOUR
+import work.racka.reluct.common.model.util.time.TimeConstants.MILLIS_PER_MINUTE
+import work.racka.reluct.common.model.util.time.TimeConstants.MILLIS_PER_SECOND
+import java.util.*
 import kotlin.math.abs
 
 object TimeUtils {
@@ -67,7 +73,7 @@ object TimeUtils {
         if (!showShortIntervalAsDay) {
             return if (today.year == localDT.year) {
                 "${localDT.dayOfWeek.toDayOfWeekShortenedString()}, " +
-                        "${localDT.month.toMonthShortenedString()} ${localDT.dayOfMonth}"
+                    "${localDT.month.toMonthShortenedString()} ${localDT.dayOfMonth}"
             } else {
                 "${localDT.month.toMonthShortenedString()} ${localDT.dayOfMonth}, ${localDT.year}"
             }
@@ -90,7 +96,7 @@ object TimeUtils {
             }
             else -> {
                 "${date.dayOfWeek.toDayOfWeekShortenedString()}, " +
-                        "${date.month.toMonthShortenedString()} ${date.dayOfMonth}"
+                    "${date.month.toMonthShortenedString()} ${date.dayOfMonth}"
             }
         }
     }
@@ -99,12 +105,13 @@ object TimeUtils {
      * Get the formatted time duration from time in millis
      */
     fun getFormattedTimeDurationString(timeMillis: Long): String {
-        val hours = (timeMillis / 3.6e6).toInt()
-        val minutes = ((timeMillis / 60000) % 60).toInt()
-        val seconds = ((timeMillis / 1000) % 60).toInt()
+        val hours = (timeMillis / MILLIS_PER_HOUR).toInt()
+        val minutes = ((timeMillis / MILLIS_PER_MINUTE) % HOURLY_MINUTES_SECONDS).toInt()
+        val seconds = ((timeMillis / MILLIS_PER_SECOND) % HOURLY_MINUTES_SECONDS).toInt()
         return when {
             hours > 0 -> {
                 String.format(
+                    Locale.getDefault(),
                     "%02d hrs %02d min",
                     hours,
                     minutes
@@ -171,45 +178,45 @@ object TimeUtils {
         val diff = currentTime.periodUntil(instant, TimeZone.currentSystemDefault())
         val data = when {
             diff.years > 0 -> {
-                val yr = timePluralOrSingle(diff.years, TimePeriod.YEAR)
-                val mth = timePluralOrSingle(diff.months, TimePeriod.MONTH)
+                val yr = timeSuffix(diff.years, TimePeriod.YEAR)
+                val mth = timeSuffix(diff.months, TimePeriod.MONTH)
                 "In $yr $mth"
             }
             diff.months > 0 -> {
-                val mth = timePluralOrSingle(diff.months, TimePeriod.MONTH)
+                val mth = timeSuffix(diff.months, TimePeriod.MONTH)
                 "In $mth"
             }
             diff.days > 0 -> {
-                val days = timePluralOrSingle(diff.days, TimePeriod.DAY)
-                val hrs = timePluralOrSingle(diff.hours, TimePeriod.HOUR)
+                val days = timeSuffix(diff.days, TimePeriod.DAY)
+                val hrs = timeSuffix(diff.hours, TimePeriod.HOUR)
                 "In $days $hrs"
             }
             diff.hours > 0 -> {
-                val hrs = timePluralOrSingle(diff.hours, TimePeriod.HOUR)
-                val min = timePluralOrSingle(diff.minutes, TimePeriod.MINUTE)
+                val hrs = timeSuffix(diff.hours, TimePeriod.HOUR)
+                val min = timeSuffix(diff.minutes, TimePeriod.MINUTE)
                 "In $hrs $min"
             }
             diff.minutes > 0 -> {
-                val min = timePluralOrSingle(diff.minutes, TimePeriod.MINUTE)
+                val min = timeSuffix(diff.minutes, TimePeriod.MINUTE)
                 "In $min"
             }
             diff.years < 0 -> {
-                val yr = timePluralOrSingle(diff.years, TimePeriod.YEAR)
-                val mth = timePluralOrSingle(diff.months, TimePeriod.MONTH)
+                val yr = timeSuffix(diff.years, TimePeriod.YEAR)
+                val mth = timeSuffix(diff.months, TimePeriod.MONTH)
                 "$yr $mth ago"
             }
             diff.months < 0 -> {
-                val mth = timePluralOrSingle(diff.months, TimePeriod.MONTH)
+                val mth = timeSuffix(diff.months, TimePeriod.MONTH)
                 "$mth ago"
             }
             diff.days < 0 -> {
-                val days = timePluralOrSingle(diff.days, TimePeriod.DAY)
-                val hrs = timePluralOrSingle(diff.hours, TimePeriod.HOUR)
+                val days = timeSuffix(diff.days, TimePeriod.DAY)
+                val hrs = timeSuffix(diff.hours, TimePeriod.HOUR)
                 "$days $hrs ago"
             }
             diff.hours < 0 -> {
-                val hrs = timePluralOrSingle(diff.hours, TimePeriod.HOUR)
-                val min = timePluralOrSingle(diff.minutes, TimePeriod.MINUTE)
+                val hrs = timeSuffix(diff.hours, TimePeriod.HOUR)
+                val min = timeSuffix(diff.minutes, TimePeriod.MINUTE)
                 "$hrs $min ago"
             }
             diff.minutes == 0 -> "Ongoing ${diff.days}"
@@ -222,7 +229,7 @@ object TimeUtils {
      * Return provided Period of time with a plural or single abbreviation appended
      * to it
      */
-    private fun timePluralOrSingle(value: Int, period: TimePeriod): String {
+    private fun timeSuffix(value: Int, period: TimePeriod): String {
         val abs = abs(value)
         return when (period) {
             TimePeriod.MINUTE -> {
@@ -275,7 +282,7 @@ object TimeUtils {
             DayOfWeek.FRIDAY -> "Fri"
             DayOfWeek.SATURDAY -> "Sat"
             DayOfWeek.SUNDAY -> "Sun"
-            else -> throw IllegalArgumentException()
+            else -> throw IllegalArgumentException("Invalid Day of Week")
         }
 
     private fun DayOfWeek.toDayOfWeekString(): String =
@@ -287,7 +294,7 @@ object TimeUtils {
             DayOfWeek.FRIDAY -> "Friday"
             DayOfWeek.SATURDAY -> "Saturday"
             DayOfWeek.SUNDAY -> "Sunday"
-            else -> throw IllegalArgumentException()
+            else -> throw IllegalArgumentException("Invalid Day of Week")
         }
 
     /**
@@ -307,7 +314,7 @@ object TimeUtils {
             Month.OCTOBER -> "Oct"
             Month.NOVEMBER -> "Nov"
             Month.DECEMBER -> "Dec"
-            else -> throw IllegalArgumentException()
+            else -> throw IllegalArgumentException("Invalid Month value")
         }
 
     /**
@@ -327,7 +334,7 @@ object TimeUtils {
             Month.OCTOBER -> "October"
             Month.NOVEMBER -> "November"
             Month.DECEMBER -> "December"
-            else -> throw IllegalArgumentException()
+            else -> throw IllegalArgumentException("Invalid Month value")
         }
 
     fun LocalDateTime.plus(

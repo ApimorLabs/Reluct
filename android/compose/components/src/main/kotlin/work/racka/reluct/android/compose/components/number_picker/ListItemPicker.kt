@@ -62,7 +62,7 @@ fun <T> ListItemPicker(
             val index = list.indexOf(value)
             val offsetRange = remember(value, list) {
                 -((list.count() - 1) - index) * halfNumbersColumnHeightPx to
-                        index * halfNumbersColumnHeightPx
+                    index * halfNumbersColumnHeightPx
             }
             updateBounds(offsetRange.first, offsetRange.second)
         }
@@ -138,7 +138,7 @@ fun <T> ListItemPicker(
             ) {
                 val baseLabelModifier = Modifier.align(Alignment.Center)
                 ProvideTextStyle(textStyle) {
-                    if (indexOfElement > 0)
+                    if (indexOfElement > 0) {
                         Label(
                             text = label(list.elementAt(indexOfElement - 1)),
                             modifier = baseLabelModifier
@@ -150,17 +150,20 @@ fun <T> ListItemPicker(
                                     )
                                 )
                         )
+                    }
                     Label(
                         text = label(list.elementAt(indexOfElement)),
                         modifier = baseLabelModifier
                             .alpha(
-                                (maxOf(
-                                    minimumAlpha,
-                                    1 - abs(coercedAnimatedOffset) / halfNumbersColumnHeightPx
-                                ))
+                                (
+                                    maxOf(
+                                        minimumAlpha,
+                                        1 - abs(coercedAnimatedOffset) / halfNumbersColumnHeightPx
+                                    )
+                                    )
                             )
                     )
-                    if (indexOfElement < list.count() - 1)
+                    if (indexOfElement < list.count() - 1) {
                         Label(
                             text = label(list.elementAt(indexOfElement + 1)),
                             modifier = baseLabelModifier
@@ -172,6 +175,7 @@ fun <T> ListItemPicker(
                                     )
                                 )
                         )
+                    }
                 }
             }
             Box(
@@ -196,10 +200,12 @@ fun <T> ListItemPicker(
             .toDp()
 
         // Set the size of the layout as big as it can
-        layout(dividersWidth.toPx().toInt(), placeables
-            .sumOf {
-                it.height
-            }
+        layout(
+            dividersWidth.toPx().toInt(),
+            placeables
+                .sumOf {
+                    it.height
+                }
         ) {
             // Track the y co-ord we have placed children up to
             var yPosition = 0

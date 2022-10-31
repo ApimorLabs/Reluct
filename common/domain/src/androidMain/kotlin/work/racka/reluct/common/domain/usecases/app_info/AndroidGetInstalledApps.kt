@@ -8,7 +8,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import work.racka.reluct.common.domain.util.hasMainActivity
-import work.racka.reluct.common.model.domain.app_info.AppInfo
+import work.racka.reluct.common.model.domain.appInfo.AppInfo
 
 internal class AndroidGetInstalledApps(
     private val context: Context, private val getAppInfo: GetAppInfo,

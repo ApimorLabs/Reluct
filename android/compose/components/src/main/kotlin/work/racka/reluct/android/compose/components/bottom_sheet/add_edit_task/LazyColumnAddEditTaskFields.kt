@@ -44,16 +44,16 @@ import work.racka.reluct.common.model.util.time.TimeUtils.plus
 // screens modules.
 @Composable
 fun LazyColumnAddEditTaskFields(
-    modifier: Modifier = Modifier,
-    listState: LazyListState = rememberLazyListState(),
     task: EditTask,
     saveButtonText: String,
     discardButtonText: String,
-    onReminderSet: (reminderLocalDateTime: String) -> Unit = { },
     onUpdateTask: (EditTask) -> Unit,
     onSave: (EditTask) -> Unit,
     onDiscard: () -> Unit,
-    onEditLabels: () -> Unit
+    onEditLabels: () -> Unit,
+    modifier: Modifier = Modifier,
+    listState: LazyListState = rememberLazyListState(),
+    onReminderSet: (reminderLocalDateTime: String) -> Unit = { },
 ) {
     val focusRequest = LocalFocusManager.current
 
@@ -73,9 +73,11 @@ fun LazyColumnAddEditTaskFields(
                     dateTime = task.dueDateLocalDateTime,
                     originalTimeZoneId = task.timeZoneId
                 )
-            } else Clock.System.now()
-                .toLocalDateTime(TimeZone.currentSystemDefault())
-                .plus(hours = 1)
+            } else {
+                Clock.System.now()
+                    .toLocalDateTime(TimeZone.currentSystemDefault())
+                    .plus(hours = 1)
+            }
         }
     }
 
@@ -87,7 +89,9 @@ fun LazyColumnAddEditTaskFields(
                         dateTime = timeString,
                         originalTimeZoneId = task.timeZoneId
                     )
-                } else taskDueTime
+                } else {
+                    taskDueTime
+                }
             } ?: taskDueTime
         }
     }
@@ -182,8 +186,11 @@ fun LazyColumnAddEditTaskFields(
                 onCheckedChanged = { checked ->
                     val newTask = task.copy(
                         reminderLocalDateTime =
-                        if (checked) taskDueTime.toString()
-                        else null
+                        if (checked) {
+                            taskDueTime.toString()
+                        } else {
+                            null
+                        }
                     )
                     onUpdateTask(newTask)
                 }
@@ -215,8 +222,11 @@ fun LazyColumnAddEditTaskFields(
                         currentLocalDateTime = reminderTime,
                         onLocalDateTimeChange = { dateTime ->
                             reminderTimePillError = dateTime <= taskDueTime
-                            val newTime = if (dateTime > taskDueTime) dateTime
-                            else taskDueTime
+                            val newTime = if (dateTime > taskDueTime) {
+                                dateTime
+                            } else {
+                                taskDueTime
+                            }
                             onUpdateTask(task.copy(reminderLocalDateTime = newTime.toString()))
                         }
                     )

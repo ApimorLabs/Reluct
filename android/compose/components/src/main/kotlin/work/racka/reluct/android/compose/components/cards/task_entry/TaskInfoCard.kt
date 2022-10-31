@@ -20,16 +20,14 @@ import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.android.compose.theme.Shapes
 import work.racka.reluct.common.model.domain.tasks.Task
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TaskInfoCard(
-    modifier: Modifier = Modifier,
     task: Task,
+    modifier: Modifier = Modifier,
     containerColor: Color = MaterialTheme.colorScheme.surfaceVariant,
     contentColor: Color = MaterialTheme.colorScheme.onSurfaceVariant,
     shape: Shape = Shapes.large,
 ) {
-
     Card(
         colors = CardDefaults.cardColors(
             containerColor = containerColor,
@@ -60,18 +58,26 @@ fun TaskInfoCard(
             )
 
             TaskInfoEntry(
-                text = if (task.overdue) stringResource(id = R.string.overdue_text)
-                else stringResource(id = R.string.in_time_text),
+                text = if (task.overdue) {
+                    stringResource(id = R.string.overdue_text)
+                } else {
+                    stringResource(id = R.string.in_time_text)
+                },
                 icon = Icons.Rounded.Timer,
                 contentDescription = null,
-                color = if (task.overdue) MaterialTheme.colorScheme.error
-                else Color.Green
+                color = if (task.overdue) {
+                    MaterialTheme.colorScheme.error
+                } else {
+                    Color.Green
+                }
             )
 
             if (task.done) {
                 TaskInfoEntry(
-                    text = stringResource(R.string.task_completed_date_time_text,
-                        task.completedDateAndTime),
+                    text = stringResource(
+                        R.string.task_completed_date_time_text,
+                        task.completedDateAndTime
+                    ),
                     icon = Icons.Rounded.AlarmOn,
                     contentDescription = null
                 )
@@ -90,12 +96,12 @@ fun TaskInfoCard(
 
 @Composable
 internal fun TaskInfoEntry(
-    modifier: Modifier = Modifier,
     text: String,
-    textStyle: TextStyle = MaterialTheme.typography.titleMedium,
-    color: Color = LocalContentColor.current,
     icon: ImageVector,
     contentDescription: String?,
+    modifier: Modifier = Modifier,
+    textStyle: TextStyle = MaterialTheme.typography.titleMedium,
+    color: Color = LocalContentColor.current,
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -117,9 +123,9 @@ internal fun TaskInfoEntry(
 
 @Composable
 internal fun TaskInfoText(
-    modifier: Modifier = Modifier,
     text: String,
     style: TextStyle,
+    modifier: Modifier = Modifier,
     color: Color = LocalContentColor.current,
 ) {
     Text(

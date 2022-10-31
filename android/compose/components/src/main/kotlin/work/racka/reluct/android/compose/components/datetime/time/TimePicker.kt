@@ -369,11 +369,15 @@ private fun VerticalPeriodPicker(
                 .clip(topPeriodShape)
                 .background(state.colors.periodBackgroundColor(state.selectedTime.isAM).value)
                 .then(
-                    if (isAMEnabled) Modifier.clickable {
-                        state.selectedTime = state.selectedTime
-                            .toAM()
-                            .coerceIn(state.timeRange)
-                    } else Modifier
+                    if (isAMEnabled) {
+                        Modifier.clickable {
+                            state.selectedTime = state.selectedTime
+                                .toAM()
+                                .coerceIn(state.timeRange)
+                        }
+                    } else {
+                        Modifier
+                    }
                 ),
             contentAlignment = Alignment.Center
         ) {
@@ -399,11 +403,15 @@ private fun VerticalPeriodPicker(
                 .clip(bottomPeriodShape)
                 .background(state.colors.periodBackgroundColor(!state.selectedTime.isAM).value)
                 .then(
-                    if (isPMEnabled) Modifier.clickable {
-                        state.selectedTime = state.selectedTime
-                            .toPM()
-                            .coerceIn(state.timeRange)
-                    } else Modifier
+                    if (isPMEnabled) {
+                        Modifier.clickable {
+                            state.selectedTime = state.selectedTime
+                                .toPM()
+                                .coerceIn(state.timeRange)
+                        }
+                    } else {
+                        Modifier
+                    }
                 ),
             contentAlignment = Alignment.Center
         ) {
@@ -449,11 +457,15 @@ private fun HorizontalPeriodPicker(
                 .clip(leftPeriodShape)
                 .background(state.colors.periodBackgroundColor(state.selectedTime.isAM).value)
                 .then(
-                    if (isAMEnabled) Modifier.clickable {
-                        state.selectedTime = state.selectedTime
-                            .toAM()
-                            .coerceIn(state.timeRange)
-                    } else Modifier
+                    if (isAMEnabled) {
+                        Modifier.clickable {
+                            state.selectedTime = state.selectedTime
+                                .toAM()
+                                .coerceIn(state.timeRange)
+                        }
+                    } else {
+                        Modifier
+                    }
                 ),
             contentAlignment = Alignment.Center
         ) {
@@ -479,11 +491,15 @@ private fun HorizontalPeriodPicker(
                 .clip(rightPeriodShape)
                 .background(state.colors.periodBackgroundColor(!state.selectedTime.isAM).value)
                 .then(
-                    if (isPMEnabled) Modifier.clickable {
-                        state.selectedTime = state.selectedTime
-                            .toPM()
-                            .coerceIn(state.timeRange)
-                    } else Modifier
+                    if (isPMEnabled) {
+                        Modifier.clickable {
+                            state.selectedTime = state.selectedTime
+                                .toPM()
+                                .coerceIn(state.timeRange)
+                        }
+                    } else {
+                        Modifier
+                    }
                 ),
             contentAlignment = Alignment.Center
         ) {

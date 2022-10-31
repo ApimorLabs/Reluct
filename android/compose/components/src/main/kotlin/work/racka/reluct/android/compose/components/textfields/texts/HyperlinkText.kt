@@ -51,7 +51,7 @@ fun HyperlinkText(
                         textDecoration = linkTextDecoration,
                         shadow = textStyle.shadow,
 
-                        ),
+                    ),
                     start = 0,
                     end = fullText.lastIndex
                 )
@@ -75,7 +75,7 @@ fun HyperlinkText(
                             textDecoration = linkTextDecoration,
                             shadow = textStyle.shadow,
 
-                            ),
+                        ),
                         start = startIndex,
                         end = endIndex
                     )
@@ -109,7 +109,6 @@ fun HyperlinkText(
         overflow = overflow,
         onClick = {
             annotatedString
-
                 .getStringAnnotations(tag = "URL", it, it)
                 .firstOrNull()?.let { stringAnnotation ->
                     uriHandler.openUri(stringAnnotation.item)

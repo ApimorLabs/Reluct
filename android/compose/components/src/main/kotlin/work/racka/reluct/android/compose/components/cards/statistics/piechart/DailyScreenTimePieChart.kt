@@ -25,12 +25,12 @@ import work.racka.reluct.pieChart.PieChartData
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DailyScreenTimePieChart(
-    modifier: Modifier = Modifier,
-    containerColor: Color = MaterialTheme.colorScheme.surfaceVariant,
-    contentColor: Color = MaterialTheme.colorScheme.secondary,
     pieChartState: StatisticsChartState<UsageStats>,
     onClick: () -> Unit,
+    modifier: Modifier = Modifier,
     shape: Shape = Shapes.large,
+    containerColor: Color = MaterialTheme.colorScheme.surfaceVariant,
+    contentColor: Color = MaterialTheme.colorScheme.secondary,
 ) {
     val slices by remember(pieChartState) {
         derivedStateOf {
@@ -86,8 +86,11 @@ fun DailyScreenTimePieChart(
                 modifier = Modifier,
                 contentColor = contentColor,
                 screenTimeText = pieChartState.data.formattedTotalScreenTime,
-                unlockCount = if (pieChartState is StatisticsChartState.Loading) "..."
-                else pieChartState.data.unlockCount.toString()
+                unlockCount = if (pieChartState is StatisticsChartState.Loading) {
+                    "..."
+                } else {
+                    pieChartState.data.unlockCount.toString()
+                }
             )
         }
     }
@@ -95,10 +98,10 @@ fun DailyScreenTimePieChart(
 
 @Composable
 private fun StatsDetails(
-    modifier: Modifier = Modifier,
     contentColor: Color,
     screenTimeText: String,
-    unlockCount: String
+    unlockCount: String,
+    modifier: Modifier = Modifier,
 ) {
     Column(
         modifier = modifier,

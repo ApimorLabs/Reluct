@@ -50,5 +50,4 @@ enum class NavbarDestinations(
         label = "Goals",
         description = "Open Goals"
     );
-
 }

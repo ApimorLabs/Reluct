@@ -247,8 +247,9 @@ private fun CalendarViewHeader(
                     .clickable(
                         onClick = {
                             coroutineScope.launch {
-                                if (pagerState.currentPage - 1 >= 0)
+                                if (pagerState.currentPage - 1 >= 0) {
                                     pagerState.animateScrollToPage(pagerState.currentPage - 1)
+                                }
                             }
                         }
                     ),
@@ -266,8 +267,9 @@ private fun CalendarViewHeader(
                     .clickable(
                         onClick = {
                             coroutineScope.launch {
-                                if (pagerState.currentPage + 1 < pagerState.pageCount)
+                                if (pagerState.currentPage + 1 < pagerState.pageCount) {
                                     pagerState.animateScrollToPage(pagerState.currentPage + 1)
+                                }
                             }
                         }
                     ),
@@ -431,7 +433,6 @@ private val LocalDate.nextMonth
  * Get the LocalDate for the end of the month
  */
 private val LocalDate.atEndOfMonth get() = nextMonth - DatePeriod(days = 1)
-
 
 private fun getDates(date: LocalDate): Pair<Int, Int> {
     val numDays = date.atEndOfMonth.dayOfMonth

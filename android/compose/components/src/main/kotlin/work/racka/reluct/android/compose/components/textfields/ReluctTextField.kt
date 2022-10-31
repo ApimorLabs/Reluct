@@ -76,7 +76,6 @@ fun ReluctTextField(
         verticalArrangement = Arrangement
             .spacedBy(Dimens.ExtraSmallPadding.size)
     ) {
-
         Row(
             modifier = Modifier
                 .clip(shape)

@@ -7,7 +7,6 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 
-
 val myFonts = FontFamily(
     Font(R.font.lexenddeca_bold, weight = FontWeight.Bold),
     Font(R.font.lexenddeca_light, weight = FontWeight.Light),

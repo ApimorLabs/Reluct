@@ -9,8 +9,8 @@ import work.racka.reluct.common.domain.usecases.app_info.GetInstalledApps
 import work.racka.reluct.common.domain.usecases.limits.GetDistractingApps
 import work.racka.reluct.common.domain.usecases.limits.ManageDistractingApps
 import work.racka.reluct.common.domain.usecases.limits.ModifyAppLimits
-import work.racka.reluct.common.model.domain.app_info.AppInfo
-import work.racka.reluct.common.system_service.haptics.HapticFeedback
+import work.racka.reluct.common.model.domain.appInfo.AppInfo
+import work.racka.reluct.common.services.haptics.HapticFeedback
 
 internal class ManageDistractingAppsImpl(
     private val getDistractingApps: GetDistractingApps,

@@ -16,8 +16,8 @@ import work.racka.reluct.common.domain.R
 import work.racka.reluct.common.domain.alarms.AlarmReminderNotifications.getTaskReminderNotificationInfo
 import work.racka.reluct.common.domain.usecases.tasks.GetTasksUseCase
 import work.racka.reluct.common.model.domain.core.Icon
-import work.racka.reluct.common.system_service.notifications.NotificationData
-import work.racka.reluct.common.system_service.notifications.SimpleAndroidNotification
+import work.racka.reluct.common.services.notifications.NotificationData
+import work.racka.reluct.common.services.notifications.SimpleAndroidNotification
 
 internal class AlarmsReceiver : BroadcastReceiver(), KoinComponent {
 

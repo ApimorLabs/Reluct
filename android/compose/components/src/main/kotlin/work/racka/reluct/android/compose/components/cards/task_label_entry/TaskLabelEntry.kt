@@ -29,15 +29,14 @@ import work.racka.reluct.common.model.domain.tasks.TaskLabel
 
 @Composable
 fun TaskLabelEntry(
-    modifier: Modifier = Modifier,
-    entryMode: TaskLabelsEntryMode = TaskLabelsEntryMode.SelectLabels,
     label: TaskLabel,
-    isSelected: Boolean = false,
     onEntryClick: () -> Unit,
     onCheckedChange: (Boolean) -> Unit,
+    modifier: Modifier = Modifier,
+    entryMode: TaskLabelsEntryMode = TaskLabelsEntryMode.SelectLabels,
+    isSelected: Boolean = false,
     onEdit: () -> Unit = {}
 ) {
-
     val labelColors by remember(label.colorHexString) {
         derivedStateOf {
             val color = label.colorHexString.toColor()
@@ -47,12 +46,18 @@ fun TaskLabelEntry(
     }
 
     val containerColor by animateColorAsState(
-        targetValue = if (isSelected && entryMode == TaskLabelsEntryMode.SelectLabels)
-            labelColors.first else MaterialTheme.colorScheme.surfaceVariant
+        targetValue = if (isSelected && entryMode == TaskLabelsEntryMode.SelectLabels) {
+            labelColors.first
+        } else {
+            MaterialTheme.colorScheme.surfaceVariant
+        }
     )
     val contentColor by animateColorAsState(
-        targetValue = if (isSelected && entryMode == TaskLabelsEntryMode.SelectLabels)
-            labelColors.second else MaterialTheme.colorScheme.onSurfaceVariant
+        targetValue = if (isSelected && entryMode == TaskLabelsEntryMode.SelectLabels) {
+            labelColors.second
+        } else {
+            MaterialTheme.colorScheme.onSurfaceVariant
+        }
     )
 
     ReluctDescriptionCard(

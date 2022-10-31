@@ -61,21 +61,26 @@ fun ReluctAppTheme(
 
     val dynamicColors = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
         val context = LocalContext.current
-        if (isSystemInDarkTheme()) dynamicDarkColorScheme(context)
-        else dynamicLightColorScheme(context)
-    } else autoColors
+        if (isSystemInDarkTheme()) {
+            dynamicDarkColorScheme(context)
+        } else {
+            dynamicLightColorScheme(context)
+        }
+    } else {
+        autoColors
+    }
 
     val colors = when (theme) {
-        1 -> AppLightColorScheme
-        2 -> AppDarkColorScheme
-        12 -> dynamicColors
+        Theme.LIGHT_THEME.themeValue -> AppLightColorScheme
+        Theme.DARK_THEME.themeValue -> AppDarkColorScheme
+        Theme.MATERIAL_YOU.themeValue -> dynamicColors
         else -> autoColors
     }
 
     MaterialTheme(
         colorScheme = colors,
         typography = Typography,
-        //shapes = Shapes,
+        // shapes = Shapes,
         content = content
     )
 }
