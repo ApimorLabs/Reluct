@@ -1,5 +1,7 @@
 package work.racka.reluct.common.features.tasks.pending_tasks
 
+import kotlinx.collections.immutable.toImmutableList
+import kotlinx.collections.immutable.toImmutableMap
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
@@ -10,6 +12,7 @@ import work.racka.reluct.common.domain.usecases.tasks.ModifyTaskUseCase
 import work.racka.reluct.common.model.domain.tasks.Task
 import work.racka.reluct.common.model.states.tasks.PendingTasksState
 import work.racka.reluct.common.model.states.tasks.TasksEvents
+import work.racka.reluct.common.model.util.list.filterPersistent
 
 class PendingTasksViewModel(
     private val getTasksUseCase: GetTasksUseCase,
@@ -38,10 +41,12 @@ class PendingTasksViewModel(
     private fun getPendingTasks(limitFactor: Long) {
         pendingTasksJob = vmScope.launch {
             getTasksUseCase.getPendingTasks(factor = limitFactor).collectLatest { taskList ->
-                val overdueList = taskList.filter { it.overdue }
+                val overdueList = taskList.filterPersistent { it.overdue }
                 val grouped = taskList
-                    .filterNot { it.overdue }
+                    .filter { it.overdue }
                     .groupBy { it.dueDate }
+                    .mapValues { it.value.toImmutableList() }
+                    .toImmutableMap()
                 _uiState.update {
                     newDataPresent = it.tasksData != grouped
                     PendingTasksState.Data(
@@ -62,7 +67,7 @@ class PendingTasksViewModel(
                 PendingTasksState.Loading(
                     tasks = it.tasksData,
                     overdueTasks = it.overdueTasksData,
-                    newDataPresent = newDataPresent
+                    newDataPresent = it.shouldUpdateData
                 )
             }
             getPendingTasks(limitFactor)
