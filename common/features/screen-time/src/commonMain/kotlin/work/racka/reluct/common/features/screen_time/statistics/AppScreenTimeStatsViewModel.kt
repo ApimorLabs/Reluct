@@ -156,7 +156,7 @@ class AppScreenTimeStatsViewModel(
         appSettingsJob?.cancel()
         appSettings.update { AppSettingsState.Loading }
         appSettingsJob = vmScope.launch {
-            manageAppTimeLimit.invoke(packageName).collectLatest { app ->
+            manageAppTimeLimit.getLimit(packageName).collectLatest { app ->
                 val isDistracting = manageDistractingApps.isDistractingApp(app.appInfo.packageName)
                 val isPaused = managePausedApps.isPaused(app.appInfo.packageName)
                 appSettings.update {
