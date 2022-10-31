@@ -1,5 +1,7 @@
 package work.racka.reluct.common.domain.usecases.tasks.impl
 
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -31,8 +33,8 @@ internal class ManageTaskLabelsImpl(
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    override fun allLabels(): Flow<List<TaskLabel>> = dao.getAllTaskLabels()
-        .mapLatest { list -> list.map { it.asTaskLabel() } }
+    override fun allLabels(): Flow<ImmutableList<TaskLabel>> = dao.getAllTaskLabels()
+        .mapLatest { list -> list.map { it.asTaskLabel() }.toImmutableList() }
         .flowOn(dispatcher)
 
     @OptIn(ExperimentalCoroutinesApi::class)
