@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
+import kotlinx.collections.immutable.ImmutableList
 import kotlinx.datetime.LocalDateTime
 import work.racka.reluct.android.compose.components.R
 import work.racka.reluct.android.compose.components.bottom_sheet.add_edit_task.DateTimePills
@@ -347,10 +348,10 @@ internal fun LazyListScope.goalTargetValuePicker(
 @OptIn(ExperimentalFoundationApi::class)
 internal fun LazyListScope.goalDurationPicker(
     dateTimeRange: ClosedRange<LocalDateTime>,
-    currentDaysOfWeek: List<Week>,
+    currentDaysOfWeek: ImmutableList<Week>,
     goalInterval: GoalInterval,
     onDateTimeRangeChange: (ClosedRange<LocalDateTime>) -> Unit,
-    onUpdateDaysOfWeek: (List<Week>) -> Unit
+    onUpdateDaysOfWeek: (ImmutableList<Week>) -> Unit
 ) {
     when (goalInterval) {
         GoalInterval.Daily -> {
