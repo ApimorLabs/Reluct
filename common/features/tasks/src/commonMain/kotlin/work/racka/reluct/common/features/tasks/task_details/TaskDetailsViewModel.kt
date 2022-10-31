@@ -1,5 +1,7 @@
 package work.racka.reluct.common.features.tasks.task_details
 
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.onSuccess
@@ -24,7 +26,8 @@ class TaskDetailsViewModel(
 ) : CommonViewModel() {
 
     private val taskState: MutableStateFlow<TaskState> = MutableStateFlow(TaskState.Loading)
-    private val availableTaskLabels: MutableStateFlow<List<TaskLabel>> = MutableStateFlow(listOf())
+    private val availableTaskLabels: MutableStateFlow<ImmutableList<TaskLabel>> =
+        MutableStateFlow(persistentListOf())
 
     private val eventsChannel: Channel<TasksEvents> = Channel()
 
