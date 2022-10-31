@@ -1,5 +1,8 @@
 package work.racka.reluct.common.domain.usecases.tasks.impl
 
+import kotlinx.collections.immutable.ImmutableMap
+import kotlinx.collections.immutable.toImmutableList
+import kotlinx.collections.immutable.toImmutableMap
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
@@ -40,9 +43,11 @@ internal class GetGroupedTasksStatsImpl(
                 val pendingTempList = list
                     .filter { !it.done }
                     .map { it.asTask() }
+                    .toImmutableList()
                 val completedTempList = list
                     .filter { it.done }
                     .map { it.asTask() }
+                    .toImmutableList()
                 DailyTasksStats(
                     dateFormatted = TimeUtils
                         .getFormattedDateString(dateTime = dayRange.start),
@@ -65,7 +70,7 @@ internal class GetGroupedTasksStatsImpl(
      * [StatisticsTimeUtils.weekLocalDateTimeStringRange] and
      * [StatisticsTimeUtils.selectedDayDateTimeStringRange]
      */
-    override fun weeklyTasks(weekOffset: Int): Flow<Map<Week, DailyTasksStats>> {
+    override fun weeklyTasks(weekOffset: Int): Flow<ImmutableMap<Week, DailyTasksStats>> {
         // Monday to Sunday
         val weeklyTimeRange = StatisticsTimeUtils
             .weekLocalDateTimeStringRange(weekOffset = weekOffset)
@@ -90,9 +95,11 @@ internal class GetGroupedTasksStatsImpl(
                     val pendingTempList = list
                         .filter { rangePair.second.contains(it.dueDateLocalDateTime) && !it.done }
                         .map { it.asTask() }
+                        .toImmutableList()
                     val completedTempList = list
                         .filter { rangePair.second.contains(it.dueDateLocalDateTime) && it.done }
                         .map { it.asTask() }
+                        .toImmutableList()
                     val dailyTasksStats = DailyTasksStats(
                         dateFormatted = TimeUtils
                             .getFormattedDateString(dateTime = rangePair.second.start),
@@ -100,7 +107,7 @@ internal class GetGroupedTasksStatsImpl(
                         pendingTasks = pendingTempList
                     )
                     rangePair.first to dailyTasksStats
-                }
+                }.toImmutableMap()
             }
             .flowOn(backgroundDispatcher)
     }
@@ -118,9 +125,11 @@ internal class GetGroupedTasksStatsImpl(
                 val pendingTempList = list
                     .filter { !it.done }
                     .map { it.asTask() }
+                    .toImmutableList()
                 val completedTempList = list
                     .filter { it.done }
                     .map { it.asTask() }
+                    .toImmutableList()
                 DailyTasksStats(
                     dateFormatted = TimeUtils
                         .getFormattedDateString(dateTime = dateTimeRange.start),
