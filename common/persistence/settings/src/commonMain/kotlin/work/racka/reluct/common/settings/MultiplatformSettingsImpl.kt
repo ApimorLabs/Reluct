@@ -23,7 +23,6 @@ internal class MultiplatformSettingsImpl(
     override val onBoardingShown: Flow<Boolean> = _onBoardingShown.asSharedFlow()
     override val appBlockingEnabled: Flow<Boolean> = _appBlockingEnabled.asSharedFlow()
 
-
     init {
         initializeSettings()
     }
