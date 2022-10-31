@@ -4,6 +4,8 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -17,7 +19,7 @@ internal class AndroidGetInstalledApps(
     private val packageManager = context.packageManager
 
     @SuppressLint("QueryPermissionsNeeded")
-    override suspend fun invoke(): List<AppInfo> = withContext(dispatcher) {
+    override suspend fun invoke(): ImmutableList<AppInfo> = withContext(dispatcher) {
         val installedApps = packageManager.run {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 getInstalledApplications(
@@ -36,6 +38,8 @@ internal class AndroidGetInstalledApps(
                 appName = getAppInfo.getAppName(it.packageName),
                 appIcon = getAppInfo.getAppIcon(it.packageName)
             )
-        }.sortedBy { it.appName }
+        }
+            .sortedBy { it.appName }
+            .toImmutableList()
     }
 }
