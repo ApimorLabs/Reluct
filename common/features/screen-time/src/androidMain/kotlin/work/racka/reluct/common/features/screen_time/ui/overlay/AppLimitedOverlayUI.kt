@@ -38,7 +38,7 @@ internal fun AppLimitedOverlayUI(
 
     val uiState by viewModel.uiState.collectAsState()
 
-    val barChartState = remember(uiState.weeklyData) {
+    val barChartState by remember(uiState.weeklyData) {
         derivedStateOf {
             val result = when (val weeklyState = uiState.weeklyData) {
                 is WeeklyAppUsageStatsState.Data -> {
@@ -110,7 +110,7 @@ internal fun AppLimitedOverlayUI(
             val dailyData = uiState.dailyData
             item {
                 AppScreenTimeStatisticsCard(
-                    barChartState = barChartState.value,
+                    barChartState = barChartState,
                     selectedDayText = if (dailyData is DailyAppUsageStatsState.Data)
                         dailyData.dayText else "...",
                     selectedDayScreenTime = if (dailyData is DailyAppUsageStatsState.Data)

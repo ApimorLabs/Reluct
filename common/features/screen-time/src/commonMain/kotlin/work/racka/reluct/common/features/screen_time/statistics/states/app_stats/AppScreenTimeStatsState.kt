@@ -1,5 +1,7 @@
 package work.racka.reluct.common.features.screen_time.statistics.states.app_stats
 
+import kotlinx.collections.immutable.ImmutableMap
+import kotlinx.collections.immutable.persistentMapOf
 import work.racka.reluct.common.features.screen_time.statistics.states.ScreenTimeStatsSelectedInfo
 import work.racka.reluct.common.model.domain.limits.AppTimeLimit
 import work.racka.reluct.common.model.domain.usagestats.AppUsageStats
@@ -13,20 +15,20 @@ data class AppScreenTimeStatsState(
 )
 
 sealed class WeeklyAppUsageStatsState(
-    val usageStats: Map<Week, AppUsageStats>,
+    val usageStats: ImmutableMap<Week, AppUsageStats>,
     val formattedTotalTime: String
 ) {
     data class Data(
-        private val weeklyUsageStats: Map<Week, AppUsageStats>,
+        private val weeklyUsageStats: ImmutableMap<Week, AppUsageStats>,
         private val weeklyFormattedTotalTime: String
     ) : WeeklyAppUsageStatsState(weeklyUsageStats, weeklyFormattedTotalTime)
 
     class Loading(
-        weeklyUsageStats: Map<Week, AppUsageStats> = mapOf(),
+        weeklyUsageStats: ImmutableMap<Week, AppUsageStats> = persistentMapOf(),
         weeklyFormattedTotalTime: String = "..."
     ) : WeeklyAppUsageStatsState(weeklyUsageStats, weeklyFormattedTotalTime)
 
-    object Empty : WeeklyAppUsageStatsState(mapOf(), "...")
+    object Empty : WeeklyAppUsageStatsState(persistentMapOf(), "...")
 }
 
 sealed class DailyAppUsageStatsState {
