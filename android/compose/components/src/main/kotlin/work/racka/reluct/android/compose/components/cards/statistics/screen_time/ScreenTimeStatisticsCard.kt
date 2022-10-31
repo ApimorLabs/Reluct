@@ -32,7 +32,7 @@ fun ScreenTimeStatisticsCard(
     barColor: Color = MaterialTheme.colorScheme.secondary
         .copy(alpha = .7f),
 ) {
-    val bars = remember(barChartState) {
+    val bars = remember(barChartState.data) {
         derivedStateOf {
             val tempList = mutableListOf<BarChartData.Bar>()
             barChartState.data.forEach { entry ->

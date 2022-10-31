@@ -43,7 +43,7 @@ class PendingTasksViewModel(
             getTasksUseCase.getPendingTasks(factor = limitFactor).collectLatest { taskList ->
                 val overdueList = taskList.filterPersistent { it.overdue }
                 val grouped = taskList
-                    .filter { it.overdue }
+                    .filterNot { it.overdue }
                     .groupBy { it.dueDate }
                     .mapValues { it.value.toImmutableList() }
                     .toImmutableMap()
