@@ -12,6 +12,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toPersistentList
 import work.racka.reluct.android.compose.components.bottom_sheet.task_labels.AddEditTaskLabelSheet
 import work.racka.reluct.android.compose.components.bottom_sheet.task_labels.LazyColumnSelectTaskLabelsSheet
 import work.racka.reluct.android.compose.components.cards.task_label_entry.TaskLabelsEntryMode
@@ -20,9 +22,9 @@ import work.racka.reluct.common.model.domain.tasks.TaskLabel
 
 @Stable
 internal data class CurrentTaskLabels(
-    val availableLabels: List<TaskLabel>,
-    val selectedLabels: List<TaskLabel>,
-    val onUpdateSelectedLabels: (List<TaskLabel>) -> Unit
+    val availableLabels: ImmutableList<TaskLabel>,
+    val selectedLabels: ImmutableList<TaskLabel>,
+    val onUpdateSelectedLabels: (ImmutableList<TaskLabel>) -> Unit
 )
 
 @Stable
@@ -68,11 +70,11 @@ internal fun ManageTaskLabelsSheet(
                         selectedLabels = labelsState.selectedLabels,
                         onModifyLabel = { page.value = TaskLabelsPage.ModifyLabel(it) },
                         onEditLabels = { isAdd: Boolean, label: TaskLabel ->
-                            labelsState.selectedLabels.toMutableList().apply {
+                            labelsState.selectedLabels.toPersistentList().builder().apply {
                                 if (isAdd) add(label)
                                 else remove(label)
-                            }.also { newList ->
-                                labelsState.onUpdateSelectedLabels(newList.toList())
+                            }.build().also { newList ->
+                                labelsState.onUpdateSelectedLabels(newList)
                             }
                         }
                     )
