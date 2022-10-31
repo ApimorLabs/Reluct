@@ -1,5 +1,7 @@
 package work.racka.reluct.common.domain.usecases.goals.impl
 
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -18,14 +20,22 @@ class GetGoalsImpl(
     private val getAppInfo: GetAppInfo,
     private val backgroundDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : GetGoals {
-    override fun getActiveGoals(factor: Long, limitBy: Long): Flow<List<Goal>> = goalsDao
+    override fun getActiveGoals(factor: Long, limitBy: Long): Flow<ImmutableList<Goal>> = goalsDao
         .getActiveGoals(factor = factor, limitBy = limitBy)
-        .mapLatest { list -> list.map { it.asGoal(getAppInfo) }.asReversed() }
+        .mapLatest { list ->
+            list.map { it.asGoal(getAppInfo) }
+                .asReversed()
+                .toImmutableList()
+        }
         .flowOn(backgroundDispatcher)
 
-    override fun getInActiveGoals(factor: Long, limitBy: Long): Flow<List<Goal>> = goalsDao
+    override fun getInActiveGoals(factor: Long, limitBy: Long): Flow<ImmutableList<Goal>> = goalsDao
         .getInActiveGoals(factor = factor, limitBy = limitBy)
-        .mapLatest { list -> list.map { it.asGoal(getAppInfo) }.asReversed() }
+        .mapLatest { list ->
+            list.map { it.asGoal(getAppInfo) }
+                .asReversed()
+                .toImmutableList()
+        }
         .flowOn(backgroundDispatcher)
 
     override fun getGoal(id: String): Flow<Goal?> = goalsDao.getGoalById(id)

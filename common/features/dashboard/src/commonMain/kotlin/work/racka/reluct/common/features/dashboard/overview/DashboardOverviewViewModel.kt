@@ -1,5 +1,7 @@
 package work.racka.reluct.common.features.dashboard.overview
 
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
@@ -32,7 +34,7 @@ class DashboardOverviewViewModel(
         MutableStateFlow(TodayScreenTimeState.Nothing)
     private val todayTasksState: MutableStateFlow<TodayTasksState> =
         MutableStateFlow(TodayTasksState.Nothing)
-    private val goals: MutableStateFlow<List<Goal>> = MutableStateFlow(listOf())
+    private val goals: MutableStateFlow<ImmutableList<Goal>> = MutableStateFlow(persistentListOf())
 
     val uiState: StateFlow<DashboardOverviewState> = combine(
         todayScreenTimeState, todayTasksState, goals
