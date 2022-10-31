@@ -1,5 +1,7 @@
 package work.racka.reluct.common.domain.usecases.app_usage.impl
 
+import kotlinx.collections.immutable.ImmutableMap
+import kotlinx.collections.immutable.toImmutableMap
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import work.racka.reluct.common.app.usage.stats.manager.UsageDataManager
@@ -42,13 +44,13 @@ internal class GetAppUsageInfoImpl(
     override suspend fun weeklyUsage(
         weekOffset: Int,
         packageName: String
-    ): Map<Week, AppUsageStats> = withContext(backgroundDispatcher) {
+    ): ImmutableMap<Week, AppUsageStats> = withContext(backgroundDispatcher) {
         daysOfWeek.associateWith { dayOfWeek ->
             dailUsage(
                 weekOffset = weekOffset,
                 dayIsoNumber = dayOfWeek.isoDayNumber,
                 packageName = packageName
             )
-        }
+        }.toImmutableMap()
     }
 }

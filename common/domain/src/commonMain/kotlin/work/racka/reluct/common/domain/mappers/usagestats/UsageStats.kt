@@ -1,5 +1,6 @@
 package work.racka.reluct.common.domain.mappers.usagestats
 
+import kotlinx.collections.immutable.toImmutableList
 import work.racka.reluct.common.app.usage.stats.model.DataUsageStats
 import work.racka.reluct.common.domain.usecases.app_info.GetAppInfo
 import work.racka.reluct.common.model.domain.usagestats.UsageStats
@@ -23,7 +24,7 @@ suspend fun DataUsageStats.asUsageStats(
     )
     val totalScreenTime = appsUsageList.sumOf { it.timeInForeground }
     return UsageStats(
-        appsUsageList = this.appsUsageList.map { it.asAppUsageInfo(getAppInfo) },
+        appsUsageList = this.appsUsageList.map { it.asAppUsageInfo(getAppInfo) }.toImmutableList(),
         dateFormatted = TimeUtils.getFormattedDateString(
             dateTime = selectedDayDateTimeString,
             showShortIntervalAsDay = showIntervalAsDay
