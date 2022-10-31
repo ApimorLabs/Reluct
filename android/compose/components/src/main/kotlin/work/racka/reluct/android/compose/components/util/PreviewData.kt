@@ -1,5 +1,7 @@
 package work.racka.reluct.android.compose.components.util
 
+import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toImmutableList
 import work.racka.reluct.common.model.domain.goals.Goal
 import work.racka.reluct.common.model.domain.goals.GoalDuration
 import work.racka.reluct.common.model.domain.goals.GoalInterval
@@ -80,14 +82,14 @@ object PreviewData {
             name = "Complete Tasks",
             description = "Complete 50 Tasks Every Week",
             isActive = true,
-            relatedApps = emptyList(),
+            relatedApps = persistentListOf(),
             targetValue = 10,
             currentValue = 3,
             goalDuration = GoalDuration(
                 goalInterval = GoalInterval.Weekly,
                 timeRangeInMillis = null,
                 formattedTimeRange = null,
-                selectedDaysOfWeek = Week.values().toList()
+                selectedDaysOfWeek = Week.values().toList().toImmutableList()
             ),
             goalType = GoalType.TasksGoal
         ),
@@ -96,14 +98,14 @@ object PreviewData {
             name = "Save Money Weekly",
             description = "Save $250 every week",
             isActive = true,
-            relatedApps = emptyList(),
+            relatedApps = persistentListOf(),
             targetValue = 250,
             currentValue = 150,
             goalDuration = GoalDuration(
                 goalInterval = GoalInterval.Custom,
                 timeRangeInMillis = null,
                 formattedTimeRange = null,
-                selectedDaysOfWeek = Week.values().toList()
+                selectedDaysOfWeek = Week.values().toList().toImmutableList()
             ),
             goalType = GoalType.NumeralGoal
         ),
@@ -112,14 +114,14 @@ object PreviewData {
             name = "Reduce Daily Phone Usage",
             description = "Only use my phone for not more than 5 hours everyday",
             isActive = true,
-            relatedApps = emptyList(),
+            relatedApps = persistentListOf(),
             targetValue = (1.8e7).toLong(),
             currentValue = (9.2e7).toLong(),
             goalDuration = GoalDuration(
                 goalInterval = GoalInterval.Daily,
                 timeRangeInMillis = null,
                 formattedTimeRange = null,
-                selectedDaysOfWeek = Week.values().toList()
+                selectedDaysOfWeek = Week.values().toList().toImmutableList()
             ),
             goalType = GoalType.DeviceScreenTimeGoal
         )

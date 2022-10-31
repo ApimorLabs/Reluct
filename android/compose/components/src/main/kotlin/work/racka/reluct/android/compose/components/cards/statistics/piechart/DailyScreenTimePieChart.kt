@@ -32,7 +32,7 @@ fun DailyScreenTimePieChart(
     containerColor: Color = MaterialTheme.colorScheme.surfaceVariant,
     contentColor: Color = MaterialTheme.colorScheme.secondary,
 ) {
-    val slices by remember(pieChartState) {
+    val slices by remember(pieChartState.data) {
         derivedStateOf {
             val tempList = mutableListOf<PieChartData.Slice>()
             val list = pieChartState.data.appsUsageList

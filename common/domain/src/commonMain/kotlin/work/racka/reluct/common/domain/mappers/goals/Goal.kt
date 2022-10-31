@@ -1,5 +1,6 @@
 package work.racka.reluct.common.domain.mappers.goals
 
+import kotlinx.collections.immutable.toImmutableList
 import work.racka.reluct.common.database.models.GoalDbObject
 import work.racka.reluct.common.domain.usecases.app_info.GetAppInfo
 import work.racka.reluct.common.model.domain.appInfo.AppInfo
@@ -39,14 +40,14 @@ suspend fun GoalDbObject.asGoal(getAppInfo: GetAppInfo): Goal {
         name = name,
         description = description,
         isActive = isActive,
-        relatedApps = listedApps,
+        relatedApps = listedApps.toImmutableList(),
         targetValue = targetValue,
         currentValue = currentValue,
         goalDuration = GoalDuration(
             goalInterval = goalInterval,
             timeRangeInMillis = timeInterval,
             formattedTimeRange = formattedTimeRange,
-            selectedDaysOfWeek = daysOfWeekSelected
+            selectedDaysOfWeek = daysOfWeekSelected.toImmutableList()
         ),
         goalType = goalType
     )
