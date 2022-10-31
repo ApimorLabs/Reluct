@@ -1,5 +1,7 @@
 package work.racka.reluct.common.features.screen_time.limits.states
 
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 import work.racka.reluct.common.model.domain.appInfo.AppInfo
 
 data class ScreenTimeLimitState(
@@ -14,36 +16,37 @@ data class FocusModeState(
 )
 
 sealed class PausedAppsState(
-    val pausedApps: List<AppInfo>,
-    val unPausedApps: List<AppInfo>
+    val pausedApps: ImmutableList<AppInfo>,
+    val unPausedApps: ImmutableList<AppInfo>
 ) {
-    class Data(pausedApps: List<AppInfo>, unPausedApps: List<AppInfo>) : PausedAppsState(
-        pausedApps = pausedApps,
-        unPausedApps = unPausedApps
-    )
+    class Data(pausedApps: ImmutableList<AppInfo>, unPausedApps: ImmutableList<AppInfo>) :
+        PausedAppsState(
+            pausedApps = pausedApps,
+            unPausedApps = unPausedApps
+        )
 
     class Loading(
-        pausedApps: List<AppInfo> = emptyList(),
-        unPausedApps: List<AppInfo> = emptyList()
+        pausedApps: ImmutableList<AppInfo> = persistentListOf(),
+        unPausedApps: ImmutableList<AppInfo> = persistentListOf()
     ) : PausedAppsState(
         pausedApps = pausedApps,
         unPausedApps = unPausedApps
     )
 
-    object Nothing : PausedAppsState(emptyList(), emptyList())
+    object Nothing : PausedAppsState(persistentListOf(), persistentListOf())
 }
 
 sealed class DistractingAppsState(
-    val distractingApps: List<AppInfo>,
-    val otherApps: List<AppInfo>
+    val distractingApps: ImmutableList<AppInfo>,
+    val otherApps: ImmutableList<AppInfo>
 ) {
-    class Data(distractingApps: List<AppInfo>, otherApps: List<AppInfo>) :
+    class Data(distractingApps: ImmutableList<AppInfo>, otherApps: ImmutableList<AppInfo>) :
         DistractingAppsState(distractingApps = distractingApps, otherApps = otherApps)
 
     class Loading(
-        distractingApps: List<AppInfo> = emptyList(),
-        otherApps: List<AppInfo> = emptyList()
+        distractingApps: ImmutableList<AppInfo> = persistentListOf(),
+        otherApps: ImmutableList<AppInfo> = persistentListOf()
     ) : DistractingAppsState(distractingApps = distractingApps, otherApps = otherApps)
 
-    object Nothing : DistractingAppsState(emptyList(), emptyList())
+    object Nothing : DistractingAppsState(persistentListOf(), persistentListOf())
 }

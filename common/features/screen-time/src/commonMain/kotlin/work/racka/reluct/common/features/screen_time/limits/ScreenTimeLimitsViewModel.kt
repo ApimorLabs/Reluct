@@ -58,7 +58,7 @@ class ScreenTimeLimitsViewModel(
         if (distractingAppsJob == null) {
             distractingAppsState.update { DistractingAppsState.Loading() }
             distractingAppsJob = vmScope.launch {
-                manageDistractingApps.invoke().collectLatest { apps ->
+                manageDistractingApps.getApps().collectLatest { apps ->
                     // First is distracting apps, Second is Non Distracting apps
                     distractingAppsState.update {
                         DistractingAppsState.Data(
@@ -183,7 +183,7 @@ class ScreenTimeLimitsViewModel(
         pausedAppsJob?.cancel()
         pausedAppsState.update { PausedAppsState.Loading() }
         pausedAppsJob = vmScope.launch {
-            managePausedApps.invoke().collectLatest { apps ->
+            managePausedApps.getApps().collectLatest { apps ->
                 // First is paused apps, Second is un paused apps
                 pausedAppsState.update {
                     PausedAppsState.Data(
