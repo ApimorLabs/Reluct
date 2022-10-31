@@ -9,14 +9,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toImmutableList
+import kotlinx.collections.immutable.toPersistentList
 import work.racka.reluct.android.compose.components.bottom_sheet.add_edit_goal.ReluctSelectionButton
 import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.common.model.util.time.Week
 
 @Composable
 fun SelectedDaysOfWeekViewer(
-    selectedDays: List<Week>,
-    onUpdateDaysOfWeek: (List<Week>) -> Unit,
+    selectedDays: ImmutableList<Week>,
+    onUpdateDaysOfWeek: (ImmutableList<Week>) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Row(
@@ -43,15 +46,10 @@ fun SelectedDaysOfWeekViewer(
                     )
                 },
                 onClick = {
-                    val new = selectedDays.toMutableSet()
-                    new.apply {
-                        if (selectedDays.contains(day)) {
-                            remove(day)
-                        } else {
-                            add(day)
-                        }
-                    }
-                    onUpdateDaysOfWeek(new.toList())
+                    val new = selectedDays.toPersistentList().builder().apply {
+                        if (selectedDays.contains(day)) remove(day) else add(day)
+                    }.build().toImmutableList()
+                    onUpdateDaysOfWeek(new)
                 }
             )
         }
