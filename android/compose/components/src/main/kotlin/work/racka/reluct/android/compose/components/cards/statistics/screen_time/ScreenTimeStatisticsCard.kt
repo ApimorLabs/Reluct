@@ -7,11 +7,15 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import kotlinx.collections.immutable.ImmutableMap
+import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toImmutableList
 import work.racka.reluct.android.compose.components.R
 import work.racka.reluct.android.compose.components.cards.statistics.StatisticsBarChartCard
 import work.racka.reluct.android.compose.components.cards.statistics.StatisticsChartState
@@ -21,7 +25,7 @@ import work.racka.reluct.common.model.util.time.Week
 
 @Composable
 fun ScreenTimeStatisticsCard(
-    barChartState: StatisticsChartState<Map<Week, UsageStats>>,
+    barChartState: StatisticsChartState<ImmutableMap<Week, UsageStats>>,
     selectedDayText: String,
     selectedDayScreenTime: String,
     weeklyTotalScreenTime: String,
@@ -32,26 +36,26 @@ fun ScreenTimeStatisticsCard(
     barColor: Color = MaterialTheme.colorScheme.secondary
         .copy(alpha = .7f),
 ) {
-    val bars = remember(barChartState.data) {
+    val bars by remember(barChartState.data) {
         derivedStateOf {
-            val tempList = mutableListOf<BarChartData.Bar>()
-            barChartState.data.forEach { entry ->
-                tempList.add(
-                    BarChartData.Bar(
-                        value = entry.value.totalScreenTime.toFloat(),
-                        color = barColor,
-                        label = entry.key.dayAcronym,
-                        uniqueId = entry.key.isoDayNumber
+            persistentListOf<BarChartData.Bar>().builder().apply {
+                barChartState.data.forEach { entry ->
+                    add(
+                        BarChartData.Bar(
+                            value = entry.value.totalScreenTime.toFloat(),
+                            color = barColor,
+                            label = entry.key.dayAcronym,
+                            uniqueId = entry.key.isoDayNumber
+                        )
                     )
-                )
-            }
-            tempList.toList()
+                }
+            }.build().toImmutableList()
         }
     }
 
     StatisticsBarChartCard(
         modifier = modifier,
-        bars = bars.value,
+        bars = bars,
         dataLoading = barChartState is StatisticsChartState.Loading,
         noDataText = stringResource(id = R.string.no_app_usage_data_text),
         selectedBarColor = MaterialTheme.colorScheme.primary,
