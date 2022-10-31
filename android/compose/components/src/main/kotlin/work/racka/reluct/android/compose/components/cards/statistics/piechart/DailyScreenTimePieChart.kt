@@ -14,6 +14,7 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import kotlinx.collections.immutable.*
 import work.racka.reluct.android.compose.components.R
 import work.racka.reluct.android.compose.components.cards.statistics.StatisticsChartState
 import work.racka.reluct.android.compose.components.util.extractColor
@@ -34,24 +35,24 @@ fun DailyScreenTimePieChart(
 ) {
     val slices by remember(pieChartState.data) {
         derivedStateOf {
-            val tempList = mutableListOf<PieChartData.Slice>()
-            val list = pieChartState.data.appsUsageList
-            val firstItems = list.take(4)
-            val otherItems = list - firstItems.toSet()
-            val otherSlice = PieChartData.Slice(
-                value = otherItems.sumOf { it.timeInForeground }.toFloat(),
-                color = Color.Gray
-            )
-            firstItems.forEach { data ->
-                val colorInt = data.appIcon.icon.extractColor()
-                val slice = PieChartData.Slice(
-                    value = data.timeInForeground.toFloat(),
-                    color = Color(colorInt)
+            persistentListOf<PieChartData.Slice>().builder().apply {
+                val list = pieChartState.data.appsUsageList
+                val firstItems = list.take(4)
+                val otherItems = list - firstItems.toSet()
+                val otherSlice = PieChartData.Slice(
+                    value = otherItems.sumOf { it.timeInForeground }.toFloat(),
+                    color = Color.Gray
                 )
-                tempList.add(slice)
-            }
-            tempList.add(otherSlice)
-            tempList.toList()
+                firstItems.forEach { data ->
+                    val colorInt = data.appIcon.icon.extractColor()
+                    val slice = PieChartData.Slice(
+                        value = data.timeInForeground.toFloat(),
+                        color = Color(colorInt)
+                    )
+                    add(slice)
+                }
+                add(otherSlice)
+            }.build().toImmutableList()
         }
     }
     Card(

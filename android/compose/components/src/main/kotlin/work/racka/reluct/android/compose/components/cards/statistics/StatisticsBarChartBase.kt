@@ -5,6 +5,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import kotlinx.collections.immutable.ImmutableList
 import work.racka.reluct.barChart.BarChart
 import work.racka.reluct.barChart.BarChartData
 import work.racka.reluct.barChart.BarChartOptions
@@ -14,7 +15,7 @@ import work.racka.reluct.barChart.renderer.yaxis.SimpleYAxisDrawer
 
 @Composable
 internal fun StatisticsBarChartBase(
-    bars: List<BarChartData.Bar>,
+    bars: ImmutableList<BarChartData.Bar>,
     selectedDayIsoNumber: Int,
     onBarClicked: (Int) -> Unit,
     modifier: Modifier = Modifier,
