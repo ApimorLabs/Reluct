@@ -10,4 +10,4 @@ contributions you make are **greatly appreciated**.
 1. Push to the branch (`git push origin feature/1/amazing-feature`)
 1. Open a pull request
 
-(Here, `1` = issue number)
+(Here, `#1` = issue number)
