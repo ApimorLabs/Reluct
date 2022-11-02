@@ -93,7 +93,7 @@ I have a `components` [module](https://github.com/ReluctApp/Reluct/tree/main/and
 But it's not all rainbows, when you start doing custom things it can become tricky pretty fast.
 **1. Making the bottom navigation bar collapsible on scroll or in some destinations was quite tricky**
 You need the bottom nav bar to be at the top most `Scaffold` for the best effect, but hiding and showing it is based on the children screen below the top `Scaffold`
-So what can you do to monitor the scroll of the different screens and decide when to hide or show the bar, while still maintaining [Unidirectional Data Flow](https://developer.android.com/jetpack/compose/architecture#udf)? 
+So what can you do to monitor the scroll of the different screens and decide when to hide or show the bar, while still maintaining readable code? 
 Well you need to create something custom to do that for you. So, I had to create [BarsVisibility](https://github.com/ReluctApp/Reluct/blob/main/android/compose/components/src/main/kotlin/work/racka/reluct/android/compose/components/util/BarsVisibility.kt) and [ScrollContext](https://github.com/ReluctApp/Reluct/blob/main/android/compose/components/src/main/kotlin/work/racka/reluct/android/compose/components/util/LazyListUtils.kt)
 ```kotlin
 // BarsVisibility interface
@@ -159,6 +159,7 @@ fun MyApp() {
                       barsVisibility.bottomBar.hide()
                   }
                 }
+              
                 LazyList(listState) {
                     // Some Items Here
                 }
@@ -171,7 +172,26 @@ The issue with this is that hiding or showing the Bottom nav bar causes the whol
 size of the parent `Scaffold` which cause re-calculation of its size. If most of Composables aren't [skippable](https://www.jetpackcompose.app/articles/donut-hole-skipping-in-jetpack-compose) then you are out of luck.
 This is something I'm still exploring to see how I can fix it.
 
-There are various other quirks like this that need you to come up with your own solution and make sure your solution doesn't drastically affect performance.
+**2. Easily ending up with function having numerous parameters**
+See [ScreenTimeStatisticsUI](https://github.com/ReluctApp/Reluct/blob/main/android/screens/src/main/kotlin/work/racka/reluct/android/screens/screentime/statistics/ScreenTimeStatisticsUI.kt) as an example.
+If you really want to make sure you don't break [Unidirectional Data Flow](https://developer.android.com/jetpack/compose/architecture#udf) and don't pollute you all you child composables with `ViewModel` parameter that will cause multiple recompositions you need to State Hoist and end up with this;
+```kotlin
+@Composable
+internal fun ScreenTimeStatisticsUI(
+    modifier: Modifier = Modifier,
+    barsVisibility: BarsVisibility,
+    snackbarHostState: SnackbarHostState,
+    uiState: ScreenTimeStatsState,
+    getUsageData: (isGranted: Boolean) -> Unit,
+    onSelectDay: (dayIsoNumber: Int) -> Unit,
+    onUpdateWeekOffset: (weekOffsetValue: Int) -> Unit,
+    onAppUsageInfoClick: (app: AppUsageInfo) -> Unit,
+    onAppTimeLimitSettingsClicked: (packageName: String) -> Unit,
+    onSaveAppTimeLimitSettings: (hours: Int, minutes: Int) -> Unit
+)
+```
+
+**There are various other quirks like this that need you to come up with your own solution and make sure your solution doesn't drastically affect performance.**
 
 #### iii. Performance
 There are various articles that have discussed performance on Compose so I won't analyse much here. See [this](https://www.jetpackcompose.app/articles/donut-hole-skipping-in-jetpack-compose) article to know the common downfalls.
@@ -213,7 +233,17 @@ Some important components are missing, though they are easy to replicate or find
 - Built-in image loading from URL
 - System UI controller
 - Smart Text wrapping in TextField
-- 
+- More transition Animations in the official Navigation library (plenty of replacements though)
+- More items in Long-Tap ContextMenu
+- Remove Animations for LazyColumn
+- [Material Motions](https://m2.material.io/design/motion/understanding-motion/)
+- And others that I've probably forgotten
+
+#### vi. Conclusions
+While there might some issues in Jetpack Compose right now I think it's a great step toward native declarive UI in Android.
+I look forward to more features and critical bug fixes on Compose so it can be feature parity with Views/XML. 
+I will still keep using Compose for the right projects because it has made development and custom designs faster for me.
+You'll benefit more from the speed of development in Compose when you define you build block components and use them instead of writing everything over and over.
 
 ### 3. Evaluating Kotlin Multiplatform
 
