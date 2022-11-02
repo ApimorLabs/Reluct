@@ -23,10 +23,11 @@ A clear and concise description of what you expected to happen.
 **Screenshots**
 If applicable, add screenshots to help explain your problem.
 
-**Computer (please complete the following information):**
- - OS: [e.g. Windows 10, macOS 11.2.2]
- - Android Studio Release [e.g. stable, beta]
- - Version [e.g. Arctic Fox 2020.x.x]
+**Device:**
+ - Model: [Samsung S10, Google Pixel 5, Dell XPS 13, etc]
+ - OS: [e.g. Android, Windows, macOS]
+ - Version: [9.0, 10, 11, 12, 13, etc]
+ - App version (in app settings): [1.0.0-alpha04]
 
 **Additional context**
 Add any other context about the problem here.
