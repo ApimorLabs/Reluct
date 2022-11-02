@@ -278,7 +278,7 @@ expect abstract class CommonViewModel() {
     open fun onDestroy()
 }
 
-// Implement in jvmMain
+// Actual in jvmMain
 actual abstract class CommonViewModel actual constructor() {
     actual val vmScope: CoroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
     actual open fun destroy() {
@@ -286,7 +286,7 @@ actual abstract class CommonViewModel actual constructor() {
     }
 }
 
-// Implement in androidMain
+// Actual in androidMain
 actual abstract class CommonViewModel actual constructor() : ViewModel() {
     actual val vmScope: CoroutineScope = viewModelScope
     actual open fun onDestroy() {
