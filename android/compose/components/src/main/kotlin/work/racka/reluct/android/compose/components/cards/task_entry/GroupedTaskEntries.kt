@@ -88,12 +88,16 @@ internal fun GroupedTasksPrev() {
             buttons = {
                 PositiveButton(text = "Ok")
                 NegativeButton(text = "Cancel")
+            },
+            content = {
+
+                DatePicker { dateTime ->
+                    Toast.makeText(context, dateTime.toString(), Toast.LENGTH_SHORT)
+                        .show()
+                }
+
             }
-        ) {
-            DatePicker { dateTime ->
-                Toast.makeText(context, dateTime.toString(), Toast.LENGTH_SHORT)
-                    .show()
-            }
-        }
+        )
+
     }
 }

@@ -130,18 +130,21 @@ internal fun TasksStatisticsUI(
                         selectedDayTasksPending = uiState.dailyTasksState.dailyTasks.pendingTasksCount,
                         totalWeekTaskCount = uiState.weeklyTasksState.totalWeekTasksCount,
                         selectedDayIsoNumber = uiState.selectedDay,
-                        onBarClicked = { onSelectDay(it) }
-                    ) {
-                        ValueOffsetButton(
-                            text = uiState.selectedWeekText,
-                            offsetValue = uiState.weekOffset,
-                            onOffsetValueChange = { onUpdateWeekOffset(it) },
-                            containerColor = MaterialTheme.colorScheme.primary,
-                            contentColor = MaterialTheme.colorScheme.onPrimary,
-                            shape = Shapes.large,
-                            incrementEnabled = uiState.weekOffset < 0
-                        )
-                    }
+                        onBarClicked = { onSelectDay(it) },
+                        weekUpdateButton = {
+
+                            ValueOffsetButton(
+                                text = uiState.selectedWeekText,
+                                offsetValue = uiState.weekOffset,
+                                onOffsetValueChange = { onUpdateWeekOffset(it) },
+                                containerColor = MaterialTheme.colorScheme.primary,
+                                contentColor = MaterialTheme.colorScheme.onPrimary,
+                                shape = Shapes.large,
+                                incrementEnabled = uiState.weekOffset < 0
+                            )
+
+                        }
+                    )
                 }
 
                 // No Tasks Animation

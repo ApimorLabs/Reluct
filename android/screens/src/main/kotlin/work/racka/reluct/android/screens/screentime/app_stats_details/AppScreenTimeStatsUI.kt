@@ -143,18 +143,21 @@ internal fun AppScreenTimeStatsUI(
                             dailyData.usageStat.appUsageInfo.formattedTimeInForeground else "...",
                         weeklyTotalScreenTime = uiState.weeklyData.formattedTotalTime,
                         selectedDayIsoNumber = uiState.selectedInfo.selectedDay,
-                        onBarClicked = { onSelectDay(it) }
-                    ) {
-                        ValueOffsetButton(
-                            text = uiState.selectedInfo.selectedWeekText,
-                            offsetValue = uiState.selectedInfo.weekOffset,
-                            onOffsetValueChange = { onUpdateWeekOffset(it) },
-                            containerColor = MaterialTheme.colorScheme.primary,
-                            contentColor = MaterialTheme.colorScheme.onPrimary,
-                            shape = Shapes.large,
-                            incrementEnabled = uiState.selectedInfo.weekOffset < 0
-                        )
-                    }
+                        onBarClicked = { onSelectDay(it) },
+                        weekUpdateButton = {
+
+                            ValueOffsetButton(
+                                text = uiState.selectedInfo.selectedWeekText,
+                                offsetValue = uiState.selectedInfo.weekOffset,
+                                onOffsetValueChange = { onUpdateWeekOffset(it) },
+                                containerColor = MaterialTheme.colorScheme.primary,
+                                contentColor = MaterialTheme.colorScheme.onPrimary,
+                                shape = Shapes.large,
+                                incrementEnabled = uiState.selectedInfo.weekOffset < 0
+                            )
+
+                        }
+                    )
                 }
 
                 // App Settings Header
