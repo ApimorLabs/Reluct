@@ -29,6 +29,11 @@ class MainActivity : ComponentActivity() {
         // Enable edge-to-edge experience and ProvideWindowInsets to the composable
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
+        lifecycleScope.launch {
+            delay(400)
+            window.setBackgroundDrawableResource(android.R.color.transparent)
+        }
+
         val settings: MultiplatformSettings = get()
 
         setContent {
