@@ -76,6 +76,7 @@ There has been talk and doubt on Jetpack Compose and how production is it. After
 
 #### i. Tooling
 Tooling for Compose varies from easy to annoying.
+
 - With Android Studio Dolphin we have full support for Layout Inspector and can see the number of recompositons happening in the app.
 - We now have better support for Previews in Android Studion Electric Eel with a "hot reload like" feature upon code changes. The feature is called [Live Edit](https://developer.android.com/studio/preview/features#live_edit)
   While its good it doesn't really compare to the convenience of previews in XML since there is not compilation involved there.
@@ -91,7 +92,9 @@ Compose is very flexible and you will get more benefits if you are tasked with c
 I have a `components` [module](https://github.com/ReluctApp/Reluct/tree/main/android/compose/components) that has all the common custom components use throughout the app for easy re-usability and consistent design.
 
 But it's not all rainbows, when you start doing custom things it can become tricky pretty fast.
+
 **1. Making the bottom navigation bar collapsible on scroll or in some destinations was quite tricky**
+
 You need the bottom nav bar to be at the top most `Scaffold` for the best effect, but hiding and showing it is based on the children screen below the top `Scaffold`
 So what can you do to monitor the scroll of the different screens and decide when to hide or show the bar, while still maintaining readable code? 
 Well you need to create something custom to do that for you. So, I had to create [BarsVisibility](https://github.com/ReluctApp/Reluct/blob/main/android/compose/components/src/main/kotlin/work/racka/reluct/android/compose/components/util/BarsVisibility.kt) and [ScrollContext](https://github.com/ReluctApp/Reluct/blob/main/android/compose/components/src/main/kotlin/work/racka/reluct/android/compose/components/util/LazyListUtils.kt)
@@ -173,6 +176,7 @@ size of the parent `Scaffold` which cause re-calculation of its size. If most of
 This is something I'm still exploring to see how I can fix it.
 
 **2. Easily ending up with function having numerous parameters**
+
 See [ScreenTimeStatisticsUI](https://github.com/ReluctApp/Reluct/blob/main/android/screens/src/main/kotlin/work/racka/reluct/android/screens/screentime/statistics/ScreenTimeStatisticsUI.kt) as an example.
 If you really want to make sure you don't break [Unidirectional Data Flow](https://developer.android.com/jetpack/compose/architecture#udf) and don't pollute you all you child composables with `ViewModel` parameter that will cause multiple recompositions you need to State Hoist and end up with this;
 ```kotlin
@@ -193,10 +197,13 @@ internal fun ScreenTimeStatisticsUI(
 
 **There are various other quirks like this that need you to come up with your own solution and make sure your solution doesn't drastically affect performance.**
 
+
 #### iii. Performance
 There are various articles that have discussed performance on Compose so I won't analyse much here. See [this](https://www.jetpackcompose.app/articles/donut-hole-skipping-in-jetpack-compose) article to know the common downfalls.
+
 I can say that ensuring you have great performance on low end devices can become very hard in Jetpack Compose.
 You need to know and use these;
+
 - Using ImmutableList or ImmutableMap from [kotlinx.immutable.collections](https://github.com/Kotlin/kotlinx.collections.immutable)
 - LaunchedEffect, SideEffect, DisposableEffect, remember, rememberSaveable, deriveStateOf, produceState.
 - [State Hoisting](https://developer.android.com/jetpack/compose/state#state-hoisting)
@@ -204,20 +211,28 @@ You need to know and use these;
 [Thinking In Compose](https://developer.android.com/jetpack/compose/mental-model) guide can help you adjust your mental model but some say that this is a lot of caveats just to write UI differently
 When using Compose you need to tread carefully or you might cause a significant performance problem. I even have some of these problems in this project.
 This app performs well on most devices. Anything with the performance of Xiaomi Redmi 10C (SD 680) or Google Pixel 3a(SD 670) and higher should face no major performance issues, but it will struggle on low end devices.
+
+
 **Performance is hard even with Views and XML but it's easier to mess up with Jetpack Compose**
 
 #### iv. Animations
+
 This is an area when I thing Compose excels imo. Most of the animations in this app are done with just;
+
 - `AnimatedVisibility`
 - `AnimatedConten`
 - `animateFloatAsState`
 - `animatedColorAsState`
 - `Animatable`
+
 With no fancy or complicated code but you still get great results.
 
 #### v. Bugs, Experimental & Missing Features
+
 Mostly it has been smooth sailing with very little bugs caused by Compose itself. 
+
 But there are some major bugs that can make it not suitable for production completely. Some notable ones;
+
 - [Keyboard gets closed when Text Field is scrolled slightly off screen](https://issuetracker.google.com/issues/179203700)
   You can reproduce this in this app. Open Tasks, Add New Task, Click the title text field, scroll a bit and the keyboard closes.
 - You can't request focus for a field not in Composition yet (related to the issue above)
@@ -227,6 +242,7 @@ Then there's the issue of having a lot of `@ExperimentalXX` API that may not be 
 Even stable versions of Compose have this problem.
 
 Some important components are missing, though they are easy to replicate or find in the Accompanist library;
+
 - Date & Time Picker
 - Basic Graphs & Charts
 - Dynamic Horizontal and Vertical pages
@@ -242,6 +258,7 @@ Some important components are missing, though they are easy to replicate or find
 #### vi. Conclusions
 While there might some issues in Jetpack Compose right now I think it's a great step toward native declarive UI in Android.
 I look forward to more features and critical bug fixes on Compose so it can be feature parity with Views/XML. 
+
 I will still keep using Compose for the right projects because it has made development and custom designs faster for me.
 You'll benefit more from the speed of development in Compose when you define you build block components and use them instead of writing everything over and over.
 
@@ -249,24 +266,29 @@ You'll benefit more from the speed of development in Compose when you define you
 
 Kotlin Multiplatform is still in alpha stage. While Kotlin Multiplatform Mobile (Android + iOS) has been [announced going beta](https://blog.jetbrains.com/kotlin/2022/10/kmm-beta/#:~:text=Kotlin%20Multiplatform%20Mobile%27s%20promotion%20to,and%20gradually%20adopting%20Multiplatform%20Mobile.)
 core Kotlin Multiplatform (Mobile + JVM + Linux + mingw/Windows + macOS/iOS native) is still very much alpha. There are companies that already embrace this alpha product like [Touchlab](https://touchlab.co/) and [Square/Block](https://kotlinlang.org/lp/mobile/case-studies/cash-app), adopting this will not be compelling to most companies.
+
 I can say that there are some things worth noting before diving into it:
 
 #### i. Tooling
+
 IDE support is great at the moment but there are some major bugs that creep their way into it from time to time. Take the [KT48148](https://youtrack.jetbrains.com/issue/KT-48148/HMPP-Gradle-Unresolved-reference-to-any-class-from-kotlinxcoroutines-package-when-using) bug
 as an example. It pretty much breaks all the smart IDE features and makes doing anything in the common code a hassle.
-Right now (as of Nov-01/2022) we can't use Android Studio (Electric Eel and lower) without facing some variation of the bug mentioned above as it's only fixed in newer versions of the Intellij IDEA but at the same
-time Intellij IDEA doesn't support Android Gradle Plugin 7.3+. This makes it unsuitable for Android targets.
+Right now (as of Nov-01/2022) we can't use Android Studio (Electric Eel and lower) without facing some variation of the bug mentioned above as it's only fixed in newer versions of the Intellij IDEA but at the same time Intellij IDEA doesn't support Android Gradle Plugin 7.3+. This makes it unsuitable for Android targets.
+
 Tooling still has time to mature and I'd expect more collaboration between Jetbrains and Google as seen in this [Slack thread](https://kotlinlang.slack.com/archives/C3PQML5NU/p1652224566469179)
 
 #### ii. Multiplatform UI
+
 Kotlin Multiplatform is not aimed at being the next Flutter or React native and that means it does not force you to use a specific UI toolkit for your entire app.
+
 It emphasizes more on sharing business logic to reduce replication on native code of the target platforms.
 However, there is support for having common UI with [Compose Multiplatform](https://www.jetbrains.com/lp/compose-mpp/) where you share UI components.
 For now we can share some UI components with Android, Desktop (JVM) and macOS/iOS (experimental). There is support for Compose Web but that doesn't share any components with the other platforms since it's based on the Web DOM.
-Personally, I think sticking to just sharing business logic and may presentation logic (ViewModels or Presenters) is the sweet spot. There's still great value in writing the UI using platform specific toolkits. You will be able to
-adhere to platform UI and UX guidelines and still be able to make the app belong to platform. Not everyone want an iOS that looks like an Android one (since Compose Multiplatform use Material design as a base).
+
+Personally, I think sticking to just sharing business logic and may presentation logic (ViewModels or Presenters) is the sweet spot. There's still great value in writing the UI using platform specific toolkits. You will be able to adhere to platform UI and UX guidelines and still be able to make the app belong to platform. Not everyone want an iOS that looks like an Android one (since Compose Multiplatform use Material design as a base).
 
 #### iii. Sharing business logic
+
 The most compelling reason for Kotlin Multiplatform is the sharing of business logic. There are KMP ready libraries like SQLDelight, Multiplatform Settings, [Ktor Networking](https://ktor.io/), [Analytics Kotlin](https://github.com/segmentio/analytics-kotlin) and many more that let you write
 everything in common code without having to make separate implementations. For things that are not supported you can easily make alternatives yourself with `expect/actual` or Interfaces.
 
