@@ -14,9 +14,9 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toPersistentList
-import work.racka.reluct.android.compose.components.bottom_sheet.task_labels.AddEditTaskLabelSheet
-import work.racka.reluct.android.compose.components.bottom_sheet.task_labels.LazyColumnSelectTaskLabelsSheet
-import work.racka.reluct.android.compose.components.cards.task_label_entry.TaskLabelsEntryMode
+import work.racka.reluct.android.compose.components.bottomSheet.taskLabels.AddEditTaskLabelSheet
+import work.racka.reluct.android.compose.components.bottomSheet.taskLabels.LazyColumnSelectTaskLabelsSheet
+import work.racka.reluct.android.compose.components.cards.taskLabelEntry.TaskLabelsEntryMode
 import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.common.model.domain.tasks.TaskLabel
 

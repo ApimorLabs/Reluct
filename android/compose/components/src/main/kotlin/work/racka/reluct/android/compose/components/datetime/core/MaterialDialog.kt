@@ -42,6 +42,7 @@ import kotlin.math.min
 @Composable
 fun MaterialDialog(
     content: @Composable MaterialDialogScope.() -> Unit,
+    modifier: Modifier = Modifier,
     dialogState: MaterialDialogState = rememberMaterialDialogState(),
     properties: DialogProperties = DialogProperties(),
     backgroundColor: Color = MaterialTheme.colorScheme.surface,
@@ -58,7 +59,7 @@ fun MaterialDialog(
         onDispose { }
     }
 
-    BoxWithConstraints {
+    BoxWithConstraints(modifier = modifier) {
         val maxHeight = if (isLargeDevice()) {
             LocalConfiguration.current.screenHeightDp.dp - 96.dp
         } else {

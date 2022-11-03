@@ -23,10 +23,10 @@ import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import work.racka.reluct.android.compose.components.buttons.ReluctButton
-import work.racka.reluct.android.compose.components.cards.card_with_actions.ReluctDescriptionCard
+import work.racka.reluct.android.compose.components.cards.cardWithActions.ReluctDescriptionCard
 import work.racka.reluct.android.compose.components.cards.statistics.BarChartDefaults
 import work.racka.reluct.android.compose.components.cards.statistics.ChartData
-import work.racka.reluct.android.compose.components.cards.statistics.screen_time.ScreenTimeStatisticsCard
+import work.racka.reluct.android.compose.components.cards.statistics.screenTime.ScreenTimeStatisticsCard
 import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.android.compose.theme.Shapes
 import work.racka.reluct.barChart.BarChartData

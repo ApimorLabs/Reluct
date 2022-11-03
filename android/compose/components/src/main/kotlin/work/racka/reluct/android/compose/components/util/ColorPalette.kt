@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.graphics.drawable.Drawable
 import androidx.annotation.ColorInt
 import androidx.palette.graphics.Palette
+import timber.log.Timber
 
 @ColorInt
 fun Drawable.extractColor(@ColorInt defaultColor: Int = Color.GRAY): Int {
@@ -29,5 +30,6 @@ fun Drawable.getBitmap(): Bitmap? =
         bitmap
     } catch (e: OutOfMemoryError) {
         // Handle the error
+        Timber.d("Bitmap Convert Error: ${e.message}")
         null
     }

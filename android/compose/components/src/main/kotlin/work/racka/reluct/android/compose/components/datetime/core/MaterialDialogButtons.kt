@@ -123,8 +123,8 @@ class MaterialDialogButtons(private val scope: MaterialDialogScope) {
     @Composable
     fun Button(
         text: String,
-        onClick: () -> Unit = {},
         modifier: Modifier = Modifier,
+        onClick: () -> Unit = {},
         textStyle: TextStyle = MaterialTheme.typography.labelMedium,
     ) {
         val buttonText = text.uppercase(Locale.getDefault())

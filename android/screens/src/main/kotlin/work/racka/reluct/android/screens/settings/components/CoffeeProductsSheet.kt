@@ -20,9 +20,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import work.racka.reluct.android.compose.components.bottom_sheet.TopSheetSection
+import work.racka.reluct.android.compose.components.bottomSheet.TopSheetSection
 import work.racka.reluct.android.compose.components.buttons.ReluctButton
-import work.racka.reluct.android.compose.components.cards.card_with_actions.ReluctDescriptionCard
+import work.racka.reluct.android.compose.components.cards.cardWithActions.ReluctDescriptionCard
 import work.racka.reluct.android.compose.components.images.LottieAnimationWithDescription
 import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.android.screens.R

@@ -16,11 +16,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import work.racka.reluct.android.compose.components.R
 import work.racka.reluct.android.compose.components.buttons.OutlinedReluctButton
-import work.racka.reluct.android.compose.components.cards.app_usage_entry.AppUsageEntryBase
+import work.racka.reluct.android.compose.components.cards.appUsageEntry.AppUsageEntryBase
 import work.racka.reluct.android.compose.components.cards.headers.ListGroupHeadingHeader
 import work.racka.reluct.android.compose.components.cards.statistics.BarChartDefaults
 import work.racka.reluct.android.compose.components.cards.statistics.ChartData
-import work.racka.reluct.android.compose.components.cards.statistics.screen_time.ScreenTimeStatisticsCard
+import work.racka.reluct.android.compose.components.cards.statistics.screenTime.ScreenTimeStatisticsCard
 import work.racka.reluct.android.compose.components.cards.statistics.tasks.TasksStatisticsCard
 import work.racka.reluct.android.compose.components.dialogs.CircularProgressDialog
 import work.racka.reluct.android.compose.components.util.BarsVisibility

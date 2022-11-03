@@ -37,11 +37,11 @@ import work.racka.reluct.android.compose.theme.Shapes
 
 @Composable
 fun ReluctTextField(
-    modifier: Modifier = Modifier,
     value: String,
     hint: String,
-    textStyle: TextStyle = MaterialTheme.typography.titleMedium,
     onTextChange: (String) -> Unit,
+    modifier: Modifier = Modifier,
+    textStyle: TextStyle = MaterialTheme.typography.titleMedium,
     maxLines: Int = Int.MAX_VALUE,
     singleLine: Boolean = false,
     containerColor: Color = MaterialTheme.colorScheme.surfaceVariant,

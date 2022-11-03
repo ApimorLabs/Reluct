@@ -29,10 +29,10 @@ import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.launch
 import work.racka.reluct.android.compose.components.buttons.OutlinedReluctButton
 import work.racka.reluct.android.compose.components.buttons.ReluctButton
-import work.racka.reluct.android.compose.components.cards.task_entry.TaskDetailsHeading
-import work.racka.reluct.android.compose.components.cards.task_entry.TaskInfoCard
-import work.racka.reluct.android.compose.components.cards.task_label_entry.TaskLabelPill
-import work.racka.reluct.android.compose.components.cards.task_label_entry.TaskLabelsEntryMode
+import work.racka.reluct.android.compose.components.cards.taskEntry.TaskDetailsHeading
+import work.racka.reluct.android.compose.components.cards.taskEntry.TaskInfoCard
+import work.racka.reluct.android.compose.components.cards.taskLabelEntry.TaskLabelPill
+import work.racka.reluct.android.compose.components.cards.taskLabelEntry.TaskLabelsEntryMode
 import work.racka.reluct.android.compose.components.images.LottieAnimationWithDescription
 import work.racka.reluct.android.compose.components.topBar.ReluctSmallTopAppBar
 import work.racka.reluct.android.compose.theme.Dimens

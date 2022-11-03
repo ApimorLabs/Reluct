@@ -21,9 +21,9 @@ import work.racka.reluct.android.compose.theme.ReluctAppTheme
 
 @Composable
 fun TabEntry(
-    modifier: Modifier = Modifier,
     title: String,
     textColor: Color,
+    modifier: Modifier = Modifier,
     onClick: () -> Unit = { }
 ) {
     Box(

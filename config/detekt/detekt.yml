@@ -101,7 +101,7 @@ complexity:
     includePrivateDeclarations: false
     ignoreOverloaded: false
   ComplexMethod:
-    active: true
+    active: false # Because of Jetpack Compose functions
     threshold: 15
     ignoreSingleWhenExpression: true
     ignoreSimpleWhenEntries: true
@@ -127,8 +127,8 @@ complexity:
     threshold: 300
   LongParameterList:
     active: true
-    functionThreshold: 6
-    constructorThreshold: 7
+    functionThreshold: 25 # Because of Jetpack Compose
+    constructorThreshold: 10
     ignoreDefaultParameters: true
     ignoreDataClasses: true
     ignoreAnnotatedParameter: [ 'Composable', 'Preview' ]
@@ -277,7 +277,7 @@ exceptions:
   ThrowingNewInstanceOfSameException:
     active: true
   TooGenericExceptionCaught:
-    active: true
+    active: false
     excludes: ['**/test/**', '**/androidTest/**', '**/commonTest/**', '**/jvmTest/**', '**/jsTest/**', '**/iosTest/**']
     exceptionNames:
       - 'ArrayIndexOutOfBoundsException'
@@ -530,7 +530,7 @@ style:
     values:
       - 'FIXME:'
       - 'STOPSHIP:'
-      - 'TODO:'
+      #- 'TODO:'
     allowedPatterns: ''
     customMessage: ''
   ForbiddenImport:
@@ -560,7 +560,7 @@ style:
     active: true
     maxJumpCount: 1
   MagicNumber:
-    active: true
+    active: false
     excludes: ['**/test/**', '**/androidTest/**', '**/commonTest/**', '**/jvmTest/**', '**/jsTest/**', '**/iosTest/**', '**/*.kts']
     ignoreNumbers:
       - '-2'

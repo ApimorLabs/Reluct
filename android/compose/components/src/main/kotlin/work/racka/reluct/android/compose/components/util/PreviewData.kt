@@ -14,7 +14,10 @@ object PreviewData {
     val task1 = Task(
         id = "1L",
         title = "Task 1 Title Goes Here",
-        description = "This is a long description. This is a long description. This is a long description. This is a long description.",
+        description = """
+            This is a long description. This is a long description. This is a long description. 
+            This is a long description.
+        """.trimIndent(),
         done = false,
         overdue = false,
         dueDate = "Thu, 2 Feb",
@@ -27,7 +30,10 @@ object PreviewData {
     val task2 = Task(
         id = "2L",
         title = "Task 2 Title Goes Here",
-        description = "This is a long description. This is a long description. This is a long description. This is a long description.",
+        description = """
+            This is a long description. This is a long description. This is a long description. 
+            This is a long description.
+        """.trimIndent(),
         done = true,
         overdue = false,
         dueDate = "Thu, 2 Feb",
@@ -40,7 +46,10 @@ object PreviewData {
     val task3 = Task(
         id = "3L",
         title = "Task 3 Title Goes Here",
-        description = "This is a long description. This is a long description. This is a long description. This is a long description.",
+        description = """
+            This is a long description. This is a long description. This is a long description. 
+            This is a long description.
+        """.trimIndent(),
         done = true,
         overdue = true,
         dueDate = "Thu, 2 Feb",
@@ -53,7 +62,10 @@ object PreviewData {
     val task4 = Task(
         id = "4L",
         title = "Task 4 Title Goes Here",
-        description = "This is a long description. This is a long description. This is a long description. This is a long description.",
+        description = """
+            This is a long description. This is a long description. This is a long description. 
+            This is a long description.
+        """.trimIndent(),
         done = false,
         overdue = true,
         dueDate = "Thu, 2 Feb",
@@ -66,7 +78,11 @@ object PreviewData {
     val task5 = Task(
         id = "2L",
         title = "Task 2 Title Goes Here",
-        description = "This is a long description. This is a long description. This is a long description. This is a long description.",
+        description =
+        """
+            This is a long description. This is a long description. This is a long description. 
+            This is a long description.
+        """.trimIndent(),
         done = true,
         overdue = true,
         dueDate = "Thu, 2 Feb",

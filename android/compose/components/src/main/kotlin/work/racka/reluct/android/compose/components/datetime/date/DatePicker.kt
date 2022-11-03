@@ -361,11 +361,11 @@ private fun DayOfWeekHeader(state: DatePickerState) {
         horizontalArrangement = Arrangement.SpaceEvenly
     ) {
         LazyVerticalGrid(columns = GridCells.Fixed(7)) {
-            DatePickerState.dayHeaders.forEach { it ->
+            DatePickerState.dayHeaders.forEach { day ->
                 item {
                     Box(Modifier.size(40.dp)) {
                         Text(
-                            it,
+                            day,
                             modifier = Modifier
                                 .alpha(0.8f)
                                 .fillMaxSize()

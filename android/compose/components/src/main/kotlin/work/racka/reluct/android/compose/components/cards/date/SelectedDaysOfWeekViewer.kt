@@ -12,7 +12,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.collections.immutable.toPersistentList
-import work.racka.reluct.android.compose.components.bottom_sheet.add_edit_goal.ReluctSelectionButton
+import work.racka.reluct.android.compose.components.bottomSheet.addEditGoal.ReluctSelectionButton
 import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.common.model.util.time.Week
 

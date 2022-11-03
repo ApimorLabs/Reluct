@@ -11,8 +11,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import work.racka.reluct.android.compose.components.cards.card_with_actions.ReluctDescriptionCard
-import work.racka.reluct.android.compose.components.cards.card_with_actions.ReluctSwitchCard
+import work.racka.reluct.android.compose.components.cards.cardWithActions.ReluctDescriptionCard
+import work.racka.reluct.android.compose.components.cards.cardWithActions.ReluctSwitchCard
 
 @Composable
 internal fun LimitsSwitchCard(

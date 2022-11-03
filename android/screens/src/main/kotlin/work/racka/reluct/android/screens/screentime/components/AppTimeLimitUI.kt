@@ -15,9 +15,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import work.racka.reluct.android.compose.components.buttons.ReluctButton
-import work.racka.reluct.android.compose.components.number_picker.FullHours
-import work.racka.reluct.android.compose.components.number_picker.Hours
-import work.racka.reluct.android.compose.components.number_picker.HoursNumberPicker
+import work.racka.reluct.android.compose.components.numberPicker.FullHours
+import work.racka.reluct.android.compose.components.numberPicker.Hours
+import work.racka.reluct.android.compose.components.numberPicker.HoursNumberPicker
 import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.android.compose.theme.Shapes
 import work.racka.reluct.android.screens.R

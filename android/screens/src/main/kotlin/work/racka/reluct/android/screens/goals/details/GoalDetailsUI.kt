@@ -18,9 +18,9 @@ import androidx.compose.ui.unit.dp
 import work.racka.reluct.android.compose.components.buttons.OutlinedReluctButton
 import work.racka.reluct.android.compose.components.buttons.ReluctButton
 import work.racka.reluct.android.compose.components.cards.date.SelectedDaysOfWeekViewer
-import work.racka.reluct.android.compose.components.cards.goal_entry.GoalHeadingSwitchCard
-import work.racka.reluct.android.compose.components.cards.goal_entry.GoalTypeAndIntervalLabels
-import work.racka.reluct.android.compose.components.cards.goal_entry.GoalValuesCard
+import work.racka.reluct.android.compose.components.cards.goalEntry.GoalHeadingSwitchCard
+import work.racka.reluct.android.compose.components.cards.goalEntry.GoalTypeAndIntervalLabels
+import work.racka.reluct.android.compose.components.cards.goalEntry.GoalValuesCard
 import work.racka.reluct.android.compose.components.images.LottieAnimationWithDescription
 import work.racka.reluct.android.compose.components.textfields.texts.ListItemTitle
 import work.racka.reluct.android.compose.components.topBar.ReluctSmallTopAppBar
