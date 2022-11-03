@@ -51,7 +51,7 @@ internal fun DashboardStatsUI(
     onViewAllScreenTimeStats: () -> Unit
 ) {
     val listState = rememberLazyListState()
-    val scrollContext = rememberScrollContext(listState = listState)
+    val scrollContext by rememberScrollContext(listState = listState)
 
     SideEffect {
         if (scrollContext.isTop) {

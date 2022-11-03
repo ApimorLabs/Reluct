@@ -61,7 +61,7 @@ internal fun ScreenTimeStatisticsUI(
     onSaveAppTimeLimitSettings: (hours: Int, minutes: Int) -> Unit
 ) {
     val listState = rememberLazyListState()
-    val scrollContext = rememberScrollContext(listState = listState)
+    val scrollContext by rememberScrollContext(listState = listState)
     val scope = rememberCoroutineScope()
 
     SideEffect {

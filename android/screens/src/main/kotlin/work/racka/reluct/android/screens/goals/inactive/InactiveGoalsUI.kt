@@ -50,7 +50,7 @@ internal fun InactiveGoalsUI(
     onGoalClicked: (Goal) -> Unit
 ) {
     val listState = rememberLazyListState()
-    val scrollContext = rememberScrollContext(listState = listState)
+    val scrollContext by rememberScrollContext(listState = listState)
     var showNewGoalDialog by remember { mutableStateOf(false) }
 
     val scope = rememberCoroutineScope()

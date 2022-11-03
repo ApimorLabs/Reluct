@@ -60,7 +60,7 @@ internal fun DashboardOverviewUI(
     onGoalClicked: (Goal) -> Unit
 ) {
     val listState = rememberLazyListState()
-    val scrollContext = rememberScrollContext(listState = listState)
+    val scrollContext by rememberScrollContext(listState = listState)
     val scope = rememberCoroutineScope()
 
     SideEffect {
@@ -68,12 +68,6 @@ internal fun DashboardOverviewUI(
             barsVisibility.bottomBar.show()
         } else {
             barsVisibility.bottomBar.hide()
-        }
-    }
-
-    val pieChartState by remember(uiState.todayScreenTimeState) {
-        derivedStateOf {
-            listState.firstVisibleItemIndex == 0
         }
     }
 
@@ -101,9 +95,9 @@ internal fun DashboardOverviewUI(
         }
     }
 
-    val snackbarModifier = if (scrollContext.isTop) {
+    /*val snackbarModifier = if (scrollContext.isTop) {
         Modifier.padding(bottom = mainScaffoldPadding.calculateBottomPadding())
-    } else Modifier.navigationBarsPadding()
+    } else Modifier.navigationBarsPadding()*/
 
     Scaffold(
         modifier = modifier
@@ -111,7 +105,7 @@ internal fun DashboardOverviewUI(
         snackbarHost = {
             SnackbarHost(hostState = snackbarHostState) { data ->
                 Snackbar(
-                    modifier = snackbarModifier,
+                    modifier = Modifier,
                     shape = RoundedCornerShape(10.dp),
                     snackbarData = data,
                     containerColor = MaterialTheme.colorScheme.inverseSurface,

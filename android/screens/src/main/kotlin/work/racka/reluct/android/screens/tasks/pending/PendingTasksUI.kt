@@ -51,7 +51,7 @@ internal fun PendingTasksUI(
     fetchMoreData: () -> Unit,
 ) {
     val listState = rememberLazyListState()
-    val scrollContext = rememberScrollContext(listState = listState)
+    val scrollContext by rememberScrollContext(listState = listState)
 
     val scope = rememberCoroutineScope()
 
