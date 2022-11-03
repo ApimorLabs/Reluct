@@ -7,8 +7,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.ArrowUpward
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -19,7 +17,7 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import work.racka.reluct.android.compose.components.R
 import work.racka.reluct.android.compose.components.buttons.ReluctButton
-import work.racka.reluct.android.compose.components.buttons.ReluctFloatingActionButton
+import work.racka.reluct.android.compose.components.buttons.ScrollToTop
 import work.racka.reluct.android.compose.components.cards.goalEntry.GoalEntry
 import work.racka.reluct.android.compose.components.cards.headers.ListGroupHeadingHeader
 import work.racka.reluct.android.compose.components.cards.permissions.PermissionsCard
@@ -33,9 +31,8 @@ import work.racka.reluct.android.compose.components.util.rememberScrollContext
 import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.android.compose.theme.Shapes
 import work.racka.reluct.android.screens.dashboard.components.getPieChartSlices
-import work.racka.reluct.android.screens.util.PermissionCheckHandler
-import work.racka.reluct.android.screens.util.checkUsageAccessPermissions
-import work.racka.reluct.android.screens.util.requestUsageAccessPermission
+import work.racka.reluct.android.screens.util.*
+import work.racka.reluct.android.screens.util.getSnackbarModifier
 import work.racka.reluct.common.features.dashboard.overview.states.DashboardOverviewState
 import work.racka.reluct.common.features.dashboard.overview.states.TodayScreenTimeState
 import work.racka.reluct.common.features.dashboard.overview.states.TodayTasksState
@@ -61,16 +58,15 @@ internal fun DashboardOverviewUI(
     modifier: Modifier = Modifier,
 ) {
     val listState = rememberLazyListState()
-    val scrollContext by rememberScrollContext(listState = listState)
+    val scrollContext = rememberScrollContext(listState = listState)
     val scope = rememberCoroutineScope()
 
-    SideEffect {
-        if (scrollContext.isTop) {
-            barsVisibility.bottomBar.show()
-        } else {
-            barsVisibility.bottomBar.hide()
-        }
-    }
+    println("Dashboard Overview UI Composed")
+
+    BottomBarVisibilityHandler(
+        scrollContext = scrollContext,
+        barsVisibility = barsVisibility
+    )
 
     val chartData by produceState(
         initialValue = ChartData(
@@ -96,9 +92,10 @@ internal fun DashboardOverviewUI(
         }
     }
 
-    /*val snackbarModifier = if (scrollContext.isTop) {
-        Modifier.padding(bottom = mainScaffoldPadding.calculateBottomPadding())
-    } else Modifier.navigationBarsPadding()*/
+    val snackbarModifier = getSnackbarModifier(
+        mainPadding = mainScaffoldPadding,
+        scrollContext = scrollContext
+    )
 
     Scaffold(
         modifier = modifier
@@ -106,7 +103,7 @@ internal fun DashboardOverviewUI(
         snackbarHost = {
             SnackbarHost(hostState = snackbarHostState) { data ->
                 Snackbar(
-                    modifier = Modifier,
+                    modifier = snackbarModifier.value,
                     shape = RoundedCornerShape(10.dp),
                     snackbarData = data,
                     containerColor = MaterialTheme.colorScheme.inverseSurface,
@@ -119,6 +116,7 @@ internal fun DashboardOverviewUI(
         contentWindowInsets = WindowInsets(0, 0, 0, 0)
     ) { padding ->
 
+        println("Dashboard Overview Scaffold Composed")
         Box(
             modifier = Modifier
                 .animateContentSize()
@@ -134,6 +132,7 @@ internal fun DashboardOverviewUI(
                 verticalArrangement = Arrangement
                     .spacedBy(Dimens.SmallPadding.size)
             ) {
+                println("Dashboard Overview LazyColumn Composed")
                 // Top Space
                 item {
                     Spacer(modifier = Modifier)
@@ -227,25 +226,12 @@ internal fun DashboardOverviewUI(
             }
 
             // Scroll To Top
-            AnimatedVisibility(
-                modifier = Modifier.align(Alignment.BottomCenter),
-                visible = !scrollContext.isTop,
-                enter = scaleIn(),
-                exit = scaleOut()
-            ) {
-                ReluctFloatingActionButton(
-                    modifier = Modifier
-                        .padding(bottom = Dimens.MediumPadding.size)
-                        .navigationBarsPadding(),
-                    buttonText = "",
-                    contentDescription = stringResource(R.string.scroll_to_top),
-                    icon = Icons.Rounded.ArrowUpward,
-                    onButtonClicked = {
-                        scope.launch { listState.animateScrollToItem(0) }
-                    },
-                    expanded = false
-                )
-            }
+            ScrollToTop(
+                scrollContext = scrollContext,
+                onScrollToTop = {
+                    scope.launch { listState.animateScrollToItem(0) }
+                }
+            )
         }
     }
 
