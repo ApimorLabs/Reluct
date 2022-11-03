@@ -71,10 +71,10 @@ internal fun DashboardOverviewUI(
         }
     }
 
-    println("Screen Recomposed")
-
     val chartData by produceState(
-        initialValue = ChartData(isLoading = uiState.todayScreenTimeState is TodayScreenTimeState.Loading),
+        initialValue = ChartData(
+            isLoading = uiState.todayScreenTimeState is TodayScreenTimeState.Loading
+        ),
         uiState.todayScreenTimeState
     ) {
         value = ChartData(

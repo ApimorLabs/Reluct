@@ -44,7 +44,6 @@ fun DailyScreenTimePieChart(
             .clip(shape),
         onClick = onClick
     ) {
-        println("Pie Chart Recomposed")
         AnimatedContent(
             modifier = Modifier.padding(Dimens.MediumPadding.size),
             targetState = chartData.isLoading,
