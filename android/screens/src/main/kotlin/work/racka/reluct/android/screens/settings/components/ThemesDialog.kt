@@ -18,13 +18,12 @@ import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.android.compose.theme.Shapes
 import work.racka.reluct.android.screens.R
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ThemesDialog(
-    modifier: Modifier = Modifier,
     onDismiss: () -> Unit,
     currentTheme: Int,
-    onSaveTheme: (value: Int) -> Unit
+    onSaveTheme: (value: Int) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     val scrollState = rememberScrollState()
     val bottomButtonHeight = Dimens.ExtraLargePadding.size

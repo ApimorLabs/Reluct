@@ -36,15 +36,15 @@ internal sealed class TaskLabelsPage {
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 internal fun ManageTaskLabelsSheet(
+    labelsState: CurrentTaskLabels,
+    onSaveLabel: (TaskLabel) -> Unit,
+    onDeleteLabel: (TaskLabel) -> Unit,
+    onClose: () -> Unit,
     modifier: Modifier = Modifier,
+    startPage: TaskLabelsPage = TaskLabelsPage.ShowLabels,
     tonalElevation: Dp = 6.dp,
     shape: Shape = RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp),
     entryMode: TaskLabelsEntryMode = TaskLabelsEntryMode.SelectLabels,
-    labelsState: CurrentTaskLabels,
-    startPage: TaskLabelsPage = TaskLabelsPage.ShowLabels,
-    onSaveLabel: (TaskLabel) -> Unit,
-    onDeleteLabel: (TaskLabel) -> Unit,
-    onClose: () -> Unit
 ) {
     val page = remember(startPage) {
         mutableStateOf(startPage)
@@ -71,8 +71,11 @@ internal fun ManageTaskLabelsSheet(
                         onModifyLabel = { page.value = TaskLabelsPage.ModifyLabel(it) },
                         onEditLabels = { isAdd: Boolean, label: TaskLabel ->
                             labelsState.selectedLabels.toPersistentList().builder().apply {
-                                if (isAdd) add(label)
-                                else remove(label)
+                                if (isAdd) {
+                                    add(label)
+                                } else {
+                                    remove(label)
+                                }
                             }.build().also { newList ->
                                 labelsState.onUpdateSelectedLabels(newList)
                             }

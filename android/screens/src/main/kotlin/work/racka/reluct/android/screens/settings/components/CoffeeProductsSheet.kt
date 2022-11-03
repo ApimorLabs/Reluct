@@ -32,13 +32,13 @@ import work.racka.reluct.common.features.settings.states.CoffeeProductsState
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 internal fun CoffeeProductsSheet(
-    modifier: Modifier = Modifier,
-    tonalElevation: Dp = 6.dp,
-    shape: Shape = RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp),
     state: CoffeeProductsState,
     onReloadProducts: () -> Unit,
     onPurchaseProduct: (Product) -> Unit,
-    onClose: () -> Unit
+    onClose: () -> Unit,
+    modifier: Modifier = Modifier,
+    tonalElevation: Dp = 6.dp,
+    shape: Shape = RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp),
 ) {
     Surface(
         modifier = modifier,
@@ -94,12 +94,14 @@ internal fun CoffeeProductsSheet(
                                 description = stringResource(id = R.string.no_products_text)
                             )
                         }
-                    } else items(state.products) { item ->
-                        ProductCard(
-                            product = item,
-                            icon = Icons.Rounded.Coffee,
-                            onClick = { onPurchaseProduct(item) }
-                        )
+                    } else {
+                        items(state.products) { item ->
+                            ProductCard(
+                                product = item,
+                                icon = Icons.Rounded.Coffee,
+                                onClick = { onPurchaseProduct(item) }
+                            )
+                        }
                     }
                 }
                 is CoffeeProductsState.PurchaseSuccess -> {
@@ -162,9 +164,9 @@ internal fun CoffeeProductsSheet(
 
 @Composable
 internal fun ProductCard(
-    modifier: Modifier = Modifier,
     product: Product,
     onClick: () -> Unit,
+    modifier: Modifier = Modifier,
     icon: ImageVector? = null
 ) {
     ReluctDescriptionCard(

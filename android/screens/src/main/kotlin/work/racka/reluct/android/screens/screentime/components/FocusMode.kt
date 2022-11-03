@@ -16,12 +16,12 @@ import work.racka.reluct.android.compose.components.cards.cardWithActions.Reluct
 
 @Composable
 internal fun LimitsSwitchCard(
-    modifier: Modifier = Modifier,
     title: String,
     description: String,
-    icon: ImageVector? = null,
     checked: Boolean,
     onCheckedChange: (Boolean) -> Unit,
+    modifier: Modifier = Modifier,
+    icon: ImageVector? = null,
     onClick: () -> Unit = {},
     containerColor: Color = MaterialTheme.colorScheme.surfaceVariant,
     contentColor: Color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -53,9 +53,9 @@ internal fun LimitsSwitchCard(
 
 @Composable
 fun LimitsDetailsCard(
-    modifier: Modifier = Modifier,
     title: String,
     description: String,
+    modifier: Modifier = Modifier,
     icon: ImageVector? = null,
     onClick: () -> Unit = {},
     bottomContent: @Composable ColumnScope.() -> Unit = {}

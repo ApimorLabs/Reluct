@@ -29,7 +29,6 @@ import work.racka.reluct.android.screens.R
 internal fun WelcomePage(
     modifier: Modifier = Modifier
 ) {
-
     val drawableSize = 400.dp
 
     LazyColumn(

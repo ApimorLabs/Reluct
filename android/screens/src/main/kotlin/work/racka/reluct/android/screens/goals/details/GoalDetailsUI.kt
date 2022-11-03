@@ -37,7 +37,6 @@ import work.racka.reluct.common.model.domain.goals.GoalType
 @OptIn(ExperimentalAnimationApi::class, ExperimentalMaterial3Api::class)
 @Composable
 internal fun GoalDetailsUI(
-    modifier: Modifier = Modifier,
     snackbarState: SnackbarHostState,
     uiState: GoalDetailsState,
     onEditGoal: (goalId: String) -> Unit,
@@ -45,7 +44,8 @@ internal fun GoalDetailsUI(
     onToggleGoalActive: (goalId: String, isActive: Boolean) -> Unit,
     onGoBack: () -> Unit,
     onSyncData: () -> Unit,
-    onUpdateCurrentValue: (goalId: String, value: Long) -> Unit
+    onUpdateCurrentValue: (goalId: String, value: Long) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     val listState = rememberLazyListState()
 
@@ -153,9 +153,11 @@ internal fun GoalDetailsUI(
                             isLoading = uiState.isSyncing,
                             goal = uiState.goal,
                             onUpdateClicked = { type ->
-                                if (type == GoalType.NumeralGoal)
+                                if (type == GoalType.NumeralGoal) {
                                     openUpdateValueDialog = true
-                                else onSyncData()
+                                } else {
+                                    onSyncData()
+                                }
                             }
                         )
                     }
@@ -241,7 +243,6 @@ internal fun GoalDetailsUI(
             }
         )
     }
-
 }
 
 @Composable

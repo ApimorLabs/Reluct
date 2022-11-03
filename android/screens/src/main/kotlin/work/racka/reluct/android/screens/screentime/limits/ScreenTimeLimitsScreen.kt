@@ -13,8 +13,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import work.racka.common.mvvm.koin.compose.getCommonViewModel
 import work.racka.reluct.android.compose.components.util.BarsVisibility
-import work.racka.reluct.common.features.screen_time.limits.ScreenTimeLimitsViewModel
-import work.racka.reluct.common.features.screen_time.limits.states.ScreenTimeLimitsEvents
+import work.racka.reluct.common.features.screenTime.limits.ScreenTimeLimitsViewModel
+import work.racka.reluct.common.features.screenTime.limits.states.ScreenTimeLimitsEvents
 
 @OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
@@ -51,7 +51,6 @@ fun ScreenTimeLimitsScreen(
         makeDistractingApp = viewModel::markAsDistracting,
         removeDistractingApp = viewModel::markAsNonDistracting
     )
-
 }
 
 private fun handleEvents(
@@ -65,7 +64,6 @@ private fun handleEvents(
             navigateToAppUsageInfo(events.packageName)
         }
         is ScreenTimeLimitsEvents.Navigation.OpenAppTimerSettings -> {
-
         }
         is ScreenTimeLimitsEvents.ShowMessageDone -> {
             scope.launch {

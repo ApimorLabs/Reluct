@@ -48,21 +48,21 @@ import work.racka.reluct.common.model.domain.tasks.Task
 import work.racka.reluct.common.model.domain.tasks.TaskLabel
 
 @OptIn(
-    ExperimentalAnimationApi::class, ExperimentalMaterial3Api::class,
+    ExperimentalAnimationApi::class,
+    ExperimentalMaterial3Api::class,
     ExperimentalMaterialApi::class
 )
 @Composable
 internal fun TaskDetailsUI(
-    modifier: Modifier = Modifier,
     snackbarState: SnackbarHostState,
     uiState: TaskDetailsState,
-    onEditTask: (task: Task) -> Unit = { },
+    onEditTask: (task: Task) -> Unit,
     onDeleteTask: (task: Task) -> Unit,
     onToggleTaskDone: (isDone: Boolean, task: Task) -> Unit,
-    onBackClicked: () -> Unit = { },
-    onModifyTaskLabel: (ModifyTaskLabel) -> Unit
+    onBackClicked: () -> Unit,
+    onModifyTaskLabel: (ModifyTaskLabel) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
-
     val modalSheetState = rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)
     val scope = rememberCoroutineScope()
     val listState = rememberLazyListState()
@@ -136,7 +136,6 @@ internal fun TaskDetailsUI(
                     .padding(horizontal = Dimens.MediumPadding.size)
                     .fillMaxSize()
             ) {
-
                 AnimatedContent(
                     targetState = taskState,
                     modifier = Modifier.fillMaxSize(),
@@ -236,7 +235,6 @@ internal fun TaskDetailsUI(
             }
         }
 
-
         // Delete Task Dialog
         if (openDialog.value) {
             AlertDialog(
@@ -273,7 +271,6 @@ internal fun TaskDetailsUI(
             )
         }
     }
-
 }
 
 @Composable

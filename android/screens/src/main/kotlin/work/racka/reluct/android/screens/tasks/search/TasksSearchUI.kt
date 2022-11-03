@@ -34,20 +34,20 @@ import work.racka.reluct.common.model.states.tasks.SearchTasksState
 
 @OptIn(
     ExperimentalComposeUiApi::class,
-    ExperimentalAnimationApi::class, ExperimentalMaterial3Api::class,
+    ExperimentalAnimationApi::class,
+    ExperimentalMaterial3Api::class,
     ExperimentalFoundationApi::class
 )
 @Composable
 internal fun TasksSearchUI(
-    modifier: Modifier = Modifier,
     snackbarState: SnackbarHostState,
     uiState: SearchTasksState,
     fetchMoreData: () -> Unit,
     onSearch: (query: String) -> Unit,
     onTaskClicked: (task: Task) -> Unit,
     onToggleTaskDone: (task: Task, isDone: Boolean) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
-
     val listState = rememberLazyListState()
     val scrollContext by rememberScrollContext(listState = listState)
     val focusRequester = remember {
@@ -57,8 +57,8 @@ internal fun TasksSearchUI(
     val scope = rememberCoroutineScope()
 
     LaunchedEffect(scrollContext.isBottom) {
-        if (scrollContext.isBottom && uiState.shouldUpdateData
-            && uiState.searchData !is SearchData.Loading
+        if (scrollContext.isBottom && uiState.shouldUpdateData &&
+            uiState.searchData !is SearchData.Loading
         ) {
             fetchMoreData()
         }
@@ -118,7 +118,6 @@ internal fun TasksSearchUI(
                     verticalArrangement = Arrangement
                         .spacedBy(Dimens.SmallPadding.size)
                 ) {
-
                     items(
                         items = uiState.searchData.tasksData,
                         key = { it.id }
@@ -176,5 +175,4 @@ internal fun TasksSearchUI(
             }
         }
     }
-
 }

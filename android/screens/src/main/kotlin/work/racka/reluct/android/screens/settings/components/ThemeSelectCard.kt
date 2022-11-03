@@ -16,18 +16,24 @@ import work.racka.reluct.android.screens.R
 
 @Composable
 internal fun ThemeSelectCard(
-    modifier: Modifier = Modifier,
     themeData: ThemeHolder,
     isSelected: Boolean,
-    onSelectTheme: (themeValue: Int) -> Unit
+    onSelectTheme: (themeValue: Int) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     val containerColor by animateColorAsState(
-        targetValue = if (isSelected) MaterialTheme.colorScheme.primary
-        else MaterialTheme.colorScheme.surfaceVariant
+        targetValue = if (isSelected) {
+            MaterialTheme.colorScheme.primary
+        } else {
+            MaterialTheme.colorScheme.surfaceVariant
+        }
     )
     val contentColor by animateColorAsState(
-        targetValue = if (isSelected) MaterialTheme.colorScheme.onPrimary
-        else MaterialTheme.colorScheme.onSurfaceVariant
+        targetValue = if (isSelected) {
+            MaterialTheme.colorScheme.onPrimary
+        } else {
+            MaterialTheme.colorScheme.onSurfaceVariant
+        }
     )
 
     ReluctDescriptionCard(

@@ -13,7 +13,7 @@ import org.koin.android.ext.koin.androidLogger
 import org.koin.core.logger.Level
 import timber.log.Timber
 import work.racka.reluct.common.di.intergration.KoinMain
-import work.racka.reluct.common.features.screen_time.services.ScreenTimeServices
+import work.racka.reluct.common.features.screenTime.services.ScreenTimeServices
 import work.racka.reluct.common.settings.MultiplatformSettings
 
 class ReluctApplication : Application() {

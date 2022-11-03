@@ -34,18 +34,19 @@ import work.racka.reluct.common.model.domain.goals.Goal
 
 @OptIn(
     ExperimentalAnimationApi::class,
-    ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class
+    ExperimentalFoundationApi::class,
+    ExperimentalMaterial3Api::class
 )
 @Composable
 internal fun ActiveGoalsUI(
-    modifier: Modifier = Modifier,
     mainScaffoldPadding: PaddingValues,
     barsVisibility: BarsVisibility,
     snackbarState: SnackbarHostState,
     uiState: ActiveGoalsState,
     fetchMoreData: () -> Unit,
     onAddGoal: (defaultGoalIndex: Int?) -> Unit,
-    onGoalClicked: (Goal) -> Unit
+    onGoalClicked: (Goal) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     val listState = rememberLazyListState()
     val scrollContext by rememberScrollContext(listState = listState)
@@ -55,11 +56,9 @@ internal fun ActiveGoalsUI(
 
     // React to scroll position
     LaunchedEffect(scrollContext.isBottom) {
-        if (scrollContext.isBottom && uiState.goalsListState.shouldUpdateData
-            && uiState.goalsListState !is GoalsListState.Loading && !uiState.isSyncing
-        ) {
-            fetchMoreData()
-        }
+        val canUpdate = scrollContext.isBottom && uiState.goalsListState.shouldUpdateData
+        val isNotLoading = uiState.goalsListState !is GoalsListState.Loading && !uiState.isSyncing
+        if (canUpdate && isNotLoading) fetchMoreData()
     }
 
     SideEffect {
@@ -76,8 +75,11 @@ internal fun ActiveGoalsUI(
         }
     }
 
-    val snackbarModifier = if (scrollContext.isTop) Modifier
-    else Modifier.navigationBarsPadding()
+    val snackbarModifier = if (scrollContext.isTop) {
+        Modifier
+    } else {
+        Modifier.navigationBarsPadding()
+    }
 
     Scaffold(
         modifier = modifier
@@ -139,8 +141,8 @@ internal fun ActiveGoalsUI(
             }
 
             // Empty Goals Indicator
-            if (uiState.goalsListState.goals.isEmpty()
-                && uiState.goalsListState !is GoalsListState.Loading
+            if (uiState.goalsListState.goals.isEmpty() &&
+                uiState.goalsListState !is GoalsListState.Loading
             ) {
                 Box(
                     modifier = Modifier
@@ -237,7 +239,6 @@ internal fun ActiveGoalsUI(
             }
         }
 
-
         if (showNewGoalDialog) {
             Dialog(onDismissRequest = { showNewGoalDialog = false }) {
                 NewGoalSheet(
@@ -246,6 +247,5 @@ internal fun ActiveGoalsUI(
                 )
             }
         }
-
     }
 }

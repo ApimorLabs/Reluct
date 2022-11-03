@@ -32,7 +32,6 @@ import work.racka.reluct.common.features.settings.states.SettingsState
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class)
 @Composable
 internal fun SettingsUI(
-    modifier: Modifier = Modifier,
     snackbarHostState: SnackbarHostState,
     uiState: SettingsState,
     onSaveTheme: (value: Int) -> Unit,
@@ -41,9 +40,9 @@ internal fun SettingsUI(
     onToggleAppBlocking: (value: Boolean) -> Unit,
     onGetCoffeeProducts: () -> Unit,
     onPurchaseCoffee: (Product) -> Unit,
-    onBackClicked: () -> Unit
+    onBackClicked: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
-
     var openThemeDialog by remember { mutableStateOf(false) }
 
     val modalSheetState = rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)

@@ -14,7 +14,7 @@ fun checkUsageAccessPermissions(
     context: Context
 ): Boolean {
     val appOps: AppOpsManager = context.getSystemService(Context.APP_OPS_SERVICE)
-            as AppOpsManager
+        as AppOpsManager
     val mode = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
         appOps.unsafeCheckOpNoThrow(
             AppOpsManager.OPSTR_GET_USAGE_STATS,
@@ -34,15 +34,20 @@ fun checkUsageAccessPermissions(
 
 fun Context.canScheduleAlarms(): Boolean {
     val alarm = getSystemService(Context.ALARM_SERVICE) as AlarmManager
-    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
-        alarm.canScheduleExactAlarms() else true
+    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+        alarm.canScheduleExactAlarms()
+    } else {
+        true
+    }
 }
 
 fun Context.areNotificationsEnabled(): Boolean {
     val manager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
     return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
         manager.areNotificationsEnabled()
-    } else true
+    } else {
+        true
+    }
 }
 
 @RequiresApi(Build.VERSION_CODES.O)

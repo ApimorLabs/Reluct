@@ -25,10 +25,10 @@ import work.racka.reluct.common.model.domain.limits.AppTimeLimit
 
 @Composable
 fun AppTimeLimitDialog(
-    modifier: Modifier = Modifier,
     onDismiss: () -> Unit,
     initialAppTimeLimit: AppTimeLimit,
     onSaveTimeLimit: (hours: Int, minutes: Int) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     val containerColor = MaterialTheme.colorScheme.surface
     val contentColor = MaterialTheme.colorScheme.onSurface
@@ -47,7 +47,6 @@ fun AppTimeLimitDialog(
                 modifier = Modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center
             ) {
-
                 var pickerValue by remember {
                     mutableStateOf<Hours>(
                         FullHours(

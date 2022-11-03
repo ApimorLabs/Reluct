@@ -20,11 +20,11 @@ import work.racka.reluct.android.compose.theme.Dimens
 
 @Composable
 internal fun AppNameEntry(
+    appName: String,
+    icon: Drawable,
     modifier: Modifier = Modifier,
     contentColor: Color = LocalContentColor.current,
     contentPadding: Dp = Dimens.SmallPadding.size,
-    appName: String,
-    icon: Drawable,
     iconSize: Dp = 32.dp,
     textStyle: TextStyle = MaterialTheme.typography.bodyLarge,
     actions: @Composable RowScope.() -> Unit = {}

@@ -16,8 +16,8 @@ import kotlinx.coroutines.launch
 import work.racka.common.mvvm.koin.compose.getCommonViewModel
 import work.racka.reluct.android.compose.components.util.BarsVisibility
 import work.racka.reluct.android.screens.R
-import work.racka.reluct.common.features.screen_time.statistics.ScreenTimeStatsViewModel
-import work.racka.reluct.common.features.screen_time.statistics.states.ScreenTimeStatsEvents
+import work.racka.reluct.common.features.screenTime.statistics.ScreenTimeStatsViewModel
+import work.racka.reluct.common.features.screenTime.statistics.states.ScreenTimeStatsEvents
 
 @OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
@@ -80,7 +80,6 @@ private fun handleEvents(
             navigateToAppUsageInfo(events.packageName)
         }
         is ScreenTimeStatsEvents.Navigation.OpenAppTimerSettings -> {
-
         }
         else -> {}
     }

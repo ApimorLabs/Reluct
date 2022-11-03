@@ -8,7 +8,7 @@ import kotlinx.coroutines.launch
 import work.racka.common.mvvm.viewmodel.CommonViewModel
 import work.racka.reluct.common.billing.products.Product
 import work.racka.reluct.common.domain.usecases.billing.ManageCoffeeProducts
-import work.racka.reluct.common.features.screen_time.services.ScreenTimeServices
+import work.racka.reluct.common.features.screenTime.services.ScreenTimeServices
 import work.racka.reluct.common.features.settings.states.CoffeeProductsState
 import work.racka.reluct.common.features.settings.states.LimitSettings
 import work.racka.reluct.common.features.settings.states.SettingsEvents

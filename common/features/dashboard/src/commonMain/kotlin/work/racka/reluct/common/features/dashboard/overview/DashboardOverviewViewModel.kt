@@ -16,7 +16,7 @@ import work.racka.reluct.common.features.dashboard.overview.states.DashboardEven
 import work.racka.reluct.common.features.dashboard.overview.states.DashboardOverviewState
 import work.racka.reluct.common.features.dashboard.overview.states.TodayScreenTimeState
 import work.racka.reluct.common.features.dashboard.overview.states.TodayTasksState
-import work.racka.reluct.common.features.screen_time.services.ScreenTimeServices
+import work.racka.reluct.common.features.screenTime.services.ScreenTimeServices
 import work.racka.reluct.common.model.domain.goals.Goal
 import work.racka.reluct.common.model.domain.tasks.Task
 import work.racka.reluct.common.model.util.time.WeekUtils

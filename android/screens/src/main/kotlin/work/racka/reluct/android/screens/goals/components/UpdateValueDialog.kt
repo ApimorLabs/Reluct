@@ -27,16 +27,15 @@ import work.racka.reluct.android.compose.theme.Shapes
 
 @Composable
 internal fun UpdateValueDialog(
-    modifier: Modifier = Modifier,
     onDismiss: () -> Unit,
     headingText: String,
     initialValue: Long,
-    onSaveValue: (Long) -> Unit
+    onSaveValue: (Long) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Dialog(
         onDismissRequest = onDismiss
     ) {
-
         var textValue by remember { mutableStateOf(initialValue.toString()) }
 
         Surface(
@@ -47,7 +46,6 @@ internal fun UpdateValueDialog(
             tonalElevation = 6.dp
         ) {
             LazyColumn(
-                modifier = modifier,
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(Dimens.SmallPadding.size),
                 contentPadding = PaddingValues(Dimens.MediumPadding.size)

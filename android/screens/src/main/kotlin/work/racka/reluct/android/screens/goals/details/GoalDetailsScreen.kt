@@ -25,7 +25,6 @@ fun GoalDetailsScreen(
     onExit: () -> Unit,
     onNavigateToEditGoal: (goalId: String) -> Unit
 ) {
-
     val viewModel = getCommonViewModel<GoalDetailsViewModel> { parametersOf(goalId) }
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val events by viewModel.events.collectAsStateWithLifecycle(initialValue = GoalsEvents.Nothing)
@@ -52,7 +51,6 @@ fun GoalDetailsScreen(
         onSyncData = viewModel::syncData,
         onUpdateCurrentValue = viewModel::updateCurrentValue
     )
-
 }
 
 private fun handleEvents(
@@ -64,8 +62,11 @@ private fun handleEvents(
 ) {
     when (events) {
         is GoalsEvents.ChangedGoalState -> {
-            val msg = if (events.isActive) context.getString(R.string.goal_marked_active)
-            else context.getString(R.string.goal_marked_inactive)
+            val msg = if (events.isActive) {
+                context.getString(R.string.goal_marked_active)
+            } else {
+                context.getString(R.string.goal_marked_inactive)
+            }
             scope.launch {
                 snackbarState.showSnackbar(
                     message = msg,

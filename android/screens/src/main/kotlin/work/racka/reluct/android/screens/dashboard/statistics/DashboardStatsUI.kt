@@ -30,9 +30,9 @@ import work.racka.reluct.android.compose.theme.Shapes
 import work.racka.reluct.android.screens.screentime.components.AppTimeLimitDialog
 import work.racka.reluct.android.screens.screentime.components.getWeeklyDeviceScreenTimeChartData
 import work.racka.reluct.android.screens.tasks.components.getTasksBarChartBars
-import work.racka.reluct.common.features.screen_time.limits.states.AppTimeLimitState
-import work.racka.reluct.common.features.screen_time.statistics.states.all_stats.ScreenTimeStatsState
-import work.racka.reluct.common.features.screen_time.statistics.states.all_stats.WeeklyUsageStatsState
+import work.racka.reluct.common.features.screenTime.limits.states.AppTimeLimitState
+import work.racka.reluct.common.features.screenTime.statistics.states.allStats.ScreenTimeStatsState
+import work.racka.reluct.common.features.screenTime.statistics.states.allStats.WeeklyUsageStatsState
 import work.racka.reluct.common.model.domain.usagestats.AppUsageInfo
 import work.racka.reluct.common.model.states.tasks.TasksStatisticsState
 import work.racka.reluct.common.model.states.tasks.WeeklyTasksState
@@ -40,7 +40,6 @@ import work.racka.reluct.common.model.states.tasks.WeeklyTasksState
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
 internal fun DashboardStatsUI(
-    modifier: Modifier = Modifier,
     mainScaffoldPadding: PaddingValues,
     barsVisibility: BarsVisibility,
     snackbarState: SnackbarHostState,
@@ -51,7 +50,8 @@ internal fun DashboardStatsUI(
     onSelectAppTimeLimit: (packageName: String) -> Unit,
     onSaveTimeLimit: (hours: Int, minutes: Int) -> Unit,
     onAppUsageInfoClick: (appInfo: AppUsageInfo) -> Unit,
-    onViewAllScreenTimeStats: () -> Unit
+    onViewAllScreenTimeStats: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     val listState = rememberLazyListState()
     val scrollContext by rememberScrollContext(listState = listState)
@@ -99,7 +99,9 @@ internal fun DashboardStatsUI(
 
     val snackbarModifier = if (scrollContext.isTop) {
         Modifier.padding(bottom = mainScaffoldPadding.calculateBottomPadding())
-    } else Modifier.navigationBarsPadding()
+    } else {
+        Modifier.navigationBarsPadding()
+    }
 
     Scaffold(
         modifier = modifier
@@ -135,7 +137,6 @@ internal fun DashboardStatsUI(
                 verticalArrangement = Arrangement
                     .spacedBy(Dimens.SmallPadding.size)
             ) {
-
                 // Screen Time
                 stickyHeader {
                     ListGroupHeadingHeader(text = stringResource(R.string.screen_time_text))

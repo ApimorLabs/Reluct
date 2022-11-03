@@ -38,19 +38,19 @@ import work.racka.reluct.android.screens.screentime.components.getWeeklyDeviceSc
 import work.racka.reluct.android.screens.util.PermissionCheckHandler
 import work.racka.reluct.android.screens.util.checkUsageAccessPermissions
 import work.racka.reluct.android.screens.util.requestUsageAccessPermission
-import work.racka.reluct.common.features.screen_time.limits.states.AppTimeLimitState
-import work.racka.reluct.common.features.screen_time.statistics.states.all_stats.DailyUsageStatsState
-import work.racka.reluct.common.features.screen_time.statistics.states.all_stats.ScreenTimeStatsState
-import work.racka.reluct.common.features.screen_time.statistics.states.all_stats.WeeklyUsageStatsState
+import work.racka.reluct.common.features.screenTime.limits.states.AppTimeLimitState
+import work.racka.reluct.common.features.screenTime.statistics.states.allStats.DailyUsageStatsState
+import work.racka.reluct.common.features.screenTime.statistics.states.allStats.ScreenTimeStatsState
+import work.racka.reluct.common.features.screenTime.statistics.states.allStats.WeeklyUsageStatsState
 import work.racka.reluct.common.model.domain.usagestats.AppUsageInfo
 
 @OptIn(
-    ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class,
+    ExperimentalFoundationApi::class,
+    ExperimentalMaterial3Api::class,
     ExperimentalAnimationApi::class
 )
 @Composable
 internal fun ScreenTimeStatisticsUI(
-    modifier: Modifier = Modifier,
     mainScaffoldPadding: PaddingValues,
     barsVisibility: BarsVisibility,
     snackbarHostState: SnackbarHostState,
@@ -60,7 +60,8 @@ internal fun ScreenTimeStatisticsUI(
     onUpdateWeekOffset: (weekOffsetValue: Int) -> Unit,
     onAppUsageInfoClick: (app: AppUsageInfo) -> Unit,
     onAppTimeLimitSettingsClicked: (packageName: String) -> Unit,
-    onSaveAppTimeLimitSettings: (hours: Int, minutes: Int) -> Unit
+    onSaveAppTimeLimitSettings: (hours: Int, minutes: Int) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     val listState = rememberLazyListState()
     val scrollContext by rememberScrollContext(listState = listState)
@@ -101,11 +102,13 @@ internal fun ScreenTimeStatisticsUI(
         }
     }
 
-    //LaunchedEffect(usagePermissionGranted) { getUsageData() }
+    // LaunchedEffect(usagePermissionGranted) { getUsageData() }
 
     val snackbarModifier = if (scrollContext.isTop) {
         Modifier.padding(bottom = mainScaffoldPadding.calculateBottomPadding())
-    } else Modifier.navigationBarsPadding()
+    } else {
+        Modifier.navigationBarsPadding()
+    }
 
     Scaffold(
         modifier = modifier
@@ -280,7 +283,6 @@ internal fun ScreenTimeStatisticsUI(
                 )
             }
         }
-
 
         // Go To Usage Access Dialog
         if (openDialog.value) {

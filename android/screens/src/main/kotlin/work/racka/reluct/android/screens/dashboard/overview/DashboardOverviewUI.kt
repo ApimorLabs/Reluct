@@ -43,12 +43,12 @@ import work.racka.reluct.common.model.domain.goals.Goal
 import work.racka.reluct.common.model.domain.tasks.Task
 
 @OptIn(
-    ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class,
+    ExperimentalFoundationApi::class,
+    ExperimentalMaterial3Api::class,
     ExperimentalAnimationApi::class
 )
 @Composable
 internal fun DashboardOverviewUI(
-    modifier: Modifier = Modifier,
     mainScaffoldPadding: PaddingValues,
     barsVisibility: BarsVisibility,
     snackbarHostState: SnackbarHostState,
@@ -57,7 +57,8 @@ internal fun DashboardOverviewUI(
     openScreenTimeStats: () -> Unit,
     openPendingTask: (Task) -> Unit,
     onToggleTaskDone: (isDone: Boolean, task: Task) -> Unit,
-    onGoalClicked: (Goal) -> Unit
+    onGoalClicked: (Goal) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     val listState = rememberLazyListState()
     val scrollContext by rememberScrollContext(listState = listState)

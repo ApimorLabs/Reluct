@@ -41,7 +41,6 @@ import work.racka.reluct.common.model.states.tasks.WeeklyTasksState
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
 internal fun TasksStatisticsUI(
-    modifier: Modifier = Modifier,
     mainScaffoldPadding: PaddingValues,
     barsVisibility: BarsVisibility,
     snackbarState: SnackbarHostState,
@@ -50,6 +49,7 @@ internal fun TasksStatisticsUI(
     onUpdateWeekOffset: (weekOffsetValue: Int) -> Unit,
     onTaskClicked: (task: Task) -> Unit,
     onToggleTaskDone: (task: Task, isDone: Boolean) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     val listState = rememberLazyListState()
     val scrollContext by rememberScrollContext(listState = listState)
@@ -78,7 +78,9 @@ internal fun TasksStatisticsUI(
 
     val snackbarModifier = if (scrollContext.isTop) {
         Modifier.padding(bottom = mainScaffoldPadding.calculateBottomPadding())
-    } else Modifier.navigationBarsPadding()
+    } else {
+        Modifier.navigationBarsPadding()
+    }
 
     Scaffold(
         modifier = modifier.fillMaxSize(),
@@ -216,7 +218,6 @@ internal fun TasksStatisticsUI(
                         }
                     }
                 }
-
 
                 // Bottom Space for spaceBy
                 item {

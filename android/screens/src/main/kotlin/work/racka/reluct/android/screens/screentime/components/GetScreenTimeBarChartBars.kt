@@ -30,7 +30,6 @@ internal suspend inline fun getWeeklyDeviceScreenTimeChartData(
     }.build().toImmutableList()
 }
 
-
 internal suspend inline fun getWeeklyAppScreenTimeChartData(
     weeklyStats: ImmutableMap<Week, AppUsageStats>,
     barColor: Color
