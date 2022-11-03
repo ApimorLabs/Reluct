@@ -23,7 +23,7 @@ import work.racka.reluct.android.compose.components.buttons.ReluctFloatingAction
 import work.racka.reluct.android.compose.components.cards.goal_entry.GoalEntry
 import work.racka.reluct.android.compose.components.cards.headers.ListGroupHeadingHeader
 import work.racka.reluct.android.compose.components.cards.permissions.PermissionsCard
-import work.racka.reluct.android.compose.components.cards.statistics.StatisticsChartState
+import work.racka.reluct.android.compose.components.cards.statistics.ChartData
 import work.racka.reluct.android.compose.components.cards.statistics.piechart.DailyScreenTimePieChart
 import work.racka.reluct.android.compose.components.cards.task_entry.EntryType
 import work.racka.reluct.android.compose.components.cards.task_entry.TaskEntry
@@ -32,6 +32,7 @@ import work.racka.reluct.android.compose.components.util.BarsVisibility
 import work.racka.reluct.android.compose.components.util.rememberScrollContext
 import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.android.compose.theme.Shapes
+import work.racka.reluct.android.screens.dashboard.components.getPieChartSlices
 import work.racka.reluct.android.screens.util.PermissionCheckHandler
 import work.racka.reluct.android.screens.util.checkUsageAccessPermissions
 import work.racka.reluct.android.screens.util.requestUsageAccessPermission
@@ -72,20 +73,20 @@ internal fun DashboardOverviewUI(
 
     val pieChartState by remember(uiState.todayScreenTimeState) {
         derivedStateOf {
-            val result = when (val screenTimeState = uiState.todayScreenTimeState) {
-                is TodayScreenTimeState.Data -> {
-                    StatisticsChartState.Success(screenTimeState.usageStats)
-                }
-                is TodayScreenTimeState.Loading -> {
-                    StatisticsChartState.Loading(screenTimeState.usageStats)
-                }
-                is TodayScreenTimeState.Nothing -> {
-                    StatisticsChartState.Empty(screenTimeState.usageStats)
-                }
-                else -> StatisticsChartState.Empty(screenTimeState.usageStats)
-            }
-            result
+            listState.firstVisibleItemIndex == 0
         }
+    }
+
+    println("Screen Recomposed")
+
+    val chartData by produceState(
+        initialValue = ChartData(isLoading = uiState.todayScreenTimeState is TodayScreenTimeState.Loading),
+        uiState.todayScreenTimeState
+    ) {
+        value = ChartData(
+            data = getPieChartSlices(uiState.todayScreenTimeState.usageStats.appsUsageList),
+            isLoading = uiState.todayScreenTimeState is TodayScreenTimeState.Loading
+        )
     }
 
     var usagePermissionGranted by remember { mutableStateOf(false) }
@@ -164,7 +165,9 @@ internal fun DashboardOverviewUI(
                 // Pie Chart
                 item {
                     DailyScreenTimePieChart(
-                        pieChartState = pieChartState,
+                        chartData = chartData,
+                        unlockCount = uiState.todayScreenTimeState.usageStats.unlockCount,
+                        screenTimeText = uiState.todayScreenTimeState.usageStats.formattedTotalScreenTime,
                         onClick = openScreenTimeStats
                     )
                 }
