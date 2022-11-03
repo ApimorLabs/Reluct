@@ -6,6 +6,7 @@ import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -25,7 +26,7 @@ import work.racka.reluct.pieChart.PieChartData
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
 @Composable
 fun DailyScreenTimePieChart(
-    chartData: ChartData<PieChartData.Slice>,
+    chartData: State<ChartData<PieChartData.Slice>>,
     unlockCount: Long,
     screenTimeText: String,
     onClick: () -> Unit,
@@ -48,7 +49,7 @@ fun DailyScreenTimePieChart(
     ) {
         AnimatedContent(
             modifier = Modifier.padding(Dimens.MediumPadding.size),
-            targetState = chartData.isLoading,
+            targetState = chartData.value.isLoading,
             contentAlignment = Alignment.Center
         ) { isLoading ->
             if (isLoading) {
@@ -69,9 +70,9 @@ fun DailyScreenTimePieChart(
                     // Pie Chart
                     StatisticsPieChartBase(
                         modifier = Modifier,
-                        slices = chartData.data,
+                        slices = chartData.value.data,
                         contentColor = contentColor,
-                        dataLoading = chartData.isLoading,
+                        dataLoading = chartData.value.isLoading,
                         middleText = "",
                         onClick = onClick,
                         chartSize = chartSize
@@ -82,7 +83,7 @@ fun DailyScreenTimePieChart(
                         modifier = Modifier,
                         contentColor = contentColor,
                         screenTimeText = screenTimeText,
-                        unlockCount = if (chartData.isLoading) "..." else unlockCount.toString()
+                        unlockCount = if (chartData.value.isLoading) "..." else unlockCount.toString()
                     )
                 }
             }

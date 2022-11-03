@@ -41,8 +41,7 @@ import work.racka.reluct.common.model.domain.tasks.Task
 
 @OptIn(
     ExperimentalFoundationApi::class,
-    ExperimentalMaterial3Api::class,
-    ExperimentalAnimationApi::class
+    ExperimentalMaterial3Api::class
 )
 @Composable
 internal fun DashboardOverviewUI(
@@ -68,7 +67,7 @@ internal fun DashboardOverviewUI(
         barsVisibility = barsVisibility
     )
 
-    val chartData by produceState(
+    val chartData = produceState(
         initialValue = ChartData(
             isLoading = uiState.todayScreenTimeState is TodayScreenTimeState.Loading
         ),
