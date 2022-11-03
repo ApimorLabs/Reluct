@@ -1,5 +1,8 @@
 package work.racka.reluct.common.domain.usecases.limits.impl
 
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
@@ -10,6 +13,7 @@ import work.racka.reluct.common.domain.usecases.limits.GetDistractingApps
 import work.racka.reluct.common.domain.usecases.limits.ManageDistractingApps
 import work.racka.reluct.common.domain.usecases.limits.ModifyAppLimits
 import work.racka.reluct.common.model.domain.appInfo.AppInfo
+import work.racka.reluct.common.model.util.list.filterPersistentNot
 import work.racka.reluct.common.services.haptics.HapticFeedback
 
 internal class ManageDistractingAppsImpl(
@@ -20,17 +24,18 @@ internal class ManageDistractingAppsImpl(
     private val backgroundDispatcher: CoroutineDispatcher
 ) : ManageDistractingApps {
 
+    private var installedApps: ImmutableList<AppInfo> = persistentListOf()
+
     @OptIn(ExperimentalCoroutinesApi::class)
-    override suspend fun invoke(): Flow<Pair<List<AppInfo>, List<AppInfo>>> {
-        val installedApps = getInstalledApps.invoke()
-        return getDistractingApps.invoke().mapLatest { distractingApps ->
-            val distractingAppsInfo = distractingApps.map { it.appInfo }
-            val nonDistractingApps = installedApps.filterNot { installed ->
+    override fun getApps(): Flow<Pair<ImmutableList<AppInfo>, ImmutableList<AppInfo>>> =
+        getDistractingApps.getApps().mapLatest { distractingApps ->
+            if (installedApps.isEmpty()) installedApps = getInstalledApps.invoke()
+            val distractingAppsInfo = distractingApps.map { it.appInfo }.toImmutableList()
+            val nonDistractingApps = installedApps.filterPersistentNot { installed ->
                 distractingAppsInfo.any { it.packageName == installed.packageName }
             }
             Pair(first = distractingAppsInfo, second = nonDistractingApps)
         }.flowOn(backgroundDispatcher)
-    }
 
     override suspend fun markAsDistracting(packageName: String) {
         modifyAppLimits.makeDistractingApp(packageName = packageName, isDistracting = true)

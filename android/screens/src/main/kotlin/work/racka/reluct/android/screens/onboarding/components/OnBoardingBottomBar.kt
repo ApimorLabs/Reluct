@@ -9,6 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import kotlinx.collections.immutable.persistentListOf
 import work.racka.reluct.android.compose.components.buttons.OutlinedReluctButton
 import work.racka.reluct.android.compose.components.buttons.ReluctButton
 import work.racka.reluct.android.compose.components.textfields.texts.HighlightTextProps
@@ -21,10 +22,10 @@ import work.racka.reluct.common.features.onboarding.states.OnBoardingState
 
 @Composable
 internal fun OnBoardingBottomBar(
-    modifier: Modifier = Modifier,
     uiState: OnBoardingState,
     onUpdatePage: (OnBoardingPages) -> Unit,
-    onCompleted: () -> Unit
+    onCompleted: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     val context = LocalContext.current
     val bottomButtons by remember(
@@ -49,9 +50,11 @@ internal fun OnBoardingBottomBar(
                         positiveText = context.getString(R.string.next_text),
                         isPositiveEnabled = true,
                         positiveAction = {
-                            if (isAndroid13Plus())
+                            if (isAndroid13Plus()) {
                                 onUpdatePage(OnBoardingPages.Notifications)
-                            else onUpdatePage(OnBoardingPages.UsageAccess)
+                            } else {
+                                onUpdatePage(OnBoardingPages.UsageAccess)
+                            }
                         },
                         negativeText = context.getString(R.string.back_text),
                         isNegativeEnabled = true,
@@ -86,17 +89,19 @@ internal fun OnBoardingBottomBar(
                         negativeText = context.getString(R.string.back_text),
                         isNegativeEnabled = true,
                         negativeAction = {
-                            if (isAndroid13Plus())
+                            if (isAndroid13Plus()) {
                                 onUpdatePage(OnBoardingPages.Reminders)
-                            else onUpdatePage(OnBoardingPages.Permissions)
+                            } else {
+                                onUpdatePage(OnBoardingPages.Permissions)
+                            }
                         }
                     )
                 }
                 is OnBoardingPages.Overlay -> {
                     BottomButtonsProperties(
                         positiveText = context.getString(R.string.next_text),
-                        isPositiveEnabled = uiState.permissionsState.overlayGranted
-                                || !uiState.appBlockingEnabled,
+                        isPositiveEnabled = uiState.permissionsState.overlayGranted ||
+                            !uiState.appBlockingEnabled,
                         positiveAction = { onUpdatePage(OnBoardingPages.Themes) },
                         negativeText = context.getString(R.string.back_text),
                         isNegativeEnabled = true,
@@ -138,7 +143,7 @@ internal fun OnBoardingBottomBar(
             HyperlinkText(
                 fullText = stringResource(id = R.string.privacy_policy_terms_text),
                 textAlign = TextAlign.Center,
-                hyperLinks = listOf(
+                hyperLinks = persistentListOf(
                     HighlightTextProps(
                         text = stringResource(id = R.string.privacy_policy_hyperlink_text),
                         url = stringResource(id = R.string.privacy_policy_hyperlink_url),

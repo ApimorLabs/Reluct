@@ -15,8 +15,8 @@ import androidx.compose.ui.unit.sp
 @Composable
 internal fun DialogTitle(
     text: String,
-    modifier: Modifier = Modifier,
     color: Color,
+    modifier: Modifier = Modifier,
 ) {
     Text(
         text,

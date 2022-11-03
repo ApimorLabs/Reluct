@@ -16,10 +16,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import work.racka.reluct.android.compose.components.R
 import work.racka.reluct.android.compose.components.buttons.OutlinedReluctButton
-import work.racka.reluct.android.compose.components.cards.app_usage_entry.AppUsageEntryBase
+import work.racka.reluct.android.compose.components.cards.appUsageEntry.AppUsageEntryBase
 import work.racka.reluct.android.compose.components.cards.headers.ListGroupHeadingHeader
-import work.racka.reluct.android.compose.components.cards.statistics.StatisticsChartState
-import work.racka.reluct.android.compose.components.cards.statistics.screen_time.ScreenTimeStatisticsCard
+import work.racka.reluct.android.compose.components.cards.statistics.BarChartDefaults
+import work.racka.reluct.android.compose.components.cards.statistics.ChartData
+import work.racka.reluct.android.compose.components.cards.statistics.screenTime.ScreenTimeStatisticsCard
 import work.racka.reluct.android.compose.components.cards.statistics.tasks.TasksStatisticsCard
 import work.racka.reluct.android.compose.components.dialogs.CircularProgressDialog
 import work.racka.reluct.android.compose.components.util.BarsVisibility
@@ -27,9 +28,11 @@ import work.racka.reluct.android.compose.components.util.rememberScrollContext
 import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.android.compose.theme.Shapes
 import work.racka.reluct.android.screens.screentime.components.AppTimeLimitDialog
-import work.racka.reluct.common.features.screen_time.limits.states.AppTimeLimitState
-import work.racka.reluct.common.features.screen_time.statistics.states.all_stats.ScreenTimeStatsState
-import work.racka.reluct.common.features.screen_time.statistics.states.all_stats.WeeklyUsageStatsState
+import work.racka.reluct.android.screens.screentime.components.getWeeklyDeviceScreenTimeChartData
+import work.racka.reluct.android.screens.tasks.components.getTasksBarChartBars
+import work.racka.reluct.common.features.screenTime.limits.states.AppTimeLimitState
+import work.racka.reluct.common.features.screenTime.statistics.states.allStats.ScreenTimeStatsState
+import work.racka.reluct.common.features.screenTime.statistics.states.allStats.WeeklyUsageStatsState
 import work.racka.reluct.common.model.domain.usagestats.AppUsageInfo
 import work.racka.reluct.common.model.states.tasks.TasksStatisticsState
 import work.racka.reluct.common.model.states.tasks.WeeklyTasksState
@@ -37,7 +40,6 @@ import work.racka.reluct.common.model.states.tasks.WeeklyTasksState
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
 internal fun DashboardStatsUI(
-    modifier: Modifier = Modifier,
     mainScaffoldPadding: PaddingValues,
     barsVisibility: BarsVisibility,
     snackbarState: SnackbarHostState,
@@ -48,10 +50,11 @@ internal fun DashboardStatsUI(
     onSelectAppTimeLimit: (packageName: String) -> Unit,
     onSaveTimeLimit: (hours: Int, minutes: Int) -> Unit,
     onAppUsageInfoClick: (appInfo: AppUsageInfo) -> Unit,
-    onViewAllScreenTimeStats: () -> Unit
+    onViewAllScreenTimeStats: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     val listState = rememberLazyListState()
-    val scrollContext = rememberScrollContext(listState = listState)
+    val scrollContext by rememberScrollContext(listState = listState)
 
     SideEffect {
         if (scrollContext.isTop) {
@@ -62,53 +65,43 @@ internal fun DashboardStatsUI(
     }
 
     // Bar Charts
+    val barColor = BarChartDefaults.barColor
     // Screen Time Chart
-    val screenTimeChartState = remember(screenTimeUiState.weeklyData) {
-        derivedStateOf {
-            val result = when (val weeklyState = screenTimeUiState.weeklyData) {
-                is WeeklyUsageStatsState.Data -> {
-                    StatisticsChartState.Success(data = weeklyState.usageStats)
-                }
-                is WeeklyUsageStatsState.Loading -> {
-                    StatisticsChartState.Loading(data = weeklyState.usageStats)
-                }
-                is WeeklyUsageStatsState.Empty -> {
-                    StatisticsChartState.Empty(data = weeklyState.usageStats)
-                }
-                else -> {
-                    StatisticsChartState.Empty(data = weeklyState.usageStats)
-                }
-            }
-            result
-        }
+    val screenTimeChartData by produceState(
+        initialValue = ChartData(
+            isLoading = screenTimeUiState.weeklyData is WeeklyUsageStatsState.Loading
+        ),
+        screenTimeUiState.weeklyData
+    ) {
+        value = ChartData(
+            data = getWeeklyDeviceScreenTimeChartData(
+                screenTimeUiState.weeklyData.usageStats,
+                barColor
+            ),
+            isLoading = screenTimeUiState.weeklyData is WeeklyUsageStatsState.Loading
+        )
     }
 
     // Tasks Stats Chart
-    val tasksChartState = remember(tasksStatsUiState.weeklyTasksState) {
-        derivedStateOf {
-            val result = when (val weeklyState = tasksStatsUiState.weeklyTasksState) {
-                is WeeklyTasksState.Data -> {
-                    StatisticsChartState.Success(data = weeklyState.weeklyTasks)
-                }
-                is WeeklyTasksState.Loading -> {
-                    StatisticsChartState.Loading(data = weeklyState.weeklyTasks)
-                }
-                is WeeklyTasksState.Empty -> {
-                    StatisticsChartState.Empty(data = weeklyState.weeklyTasks)
-                }
-                else -> {
-                    StatisticsChartState.Empty(data = weeklyState.weeklyTasks)
-                }
-            }
-            result
-        }
+    val tasksChartData by produceState(
+        initialValue = ChartData(
+            isLoading = tasksStatsUiState.weeklyTasksState is WeeklyTasksState.Loading
+        ),
+        tasksStatsUiState.weeklyTasksState
+    ) {
+        value = ChartData(
+            data = getTasksBarChartBars(tasksStatsUiState.weeklyTasksState.weeklyTasks, barColor),
+            isLoading = tasksStatsUiState.weeklyTasksState is WeeklyTasksState.Loading
+        )
     }
 
     var showAppTimeLimitDialog by remember { mutableStateOf(false) }
 
     val snackbarModifier = if (scrollContext.isTop) {
         Modifier.padding(bottom = mainScaffoldPadding.calculateBottomPadding())
-    } else Modifier.navigationBarsPadding()
+    } else {
+        Modifier.navigationBarsPadding()
+    }
 
     Scaffold(
         modifier = modifier
@@ -144,7 +137,6 @@ internal fun DashboardStatsUI(
                 verticalArrangement = Arrangement
                     .spacedBy(Dimens.SmallPadding.size)
             ) {
-
                 // Screen Time
                 stickyHeader {
                     ListGroupHeadingHeader(text = stringResource(R.string.screen_time_text))
@@ -153,48 +145,49 @@ internal fun DashboardStatsUI(
                 // Screen Time Chart
                 item {
                     ScreenTimeStatisticsCard(
-                        barChartState = screenTimeChartState.value,
+                        chartData = screenTimeChartData,
                         selectedDayText = screenTimeUiState.dailyData.dayText,
                         selectedDayScreenTime = screenTimeUiState.dailyData
                             .usageStat.formattedTotalScreenTime,
                         weeklyTotalScreenTime = screenTimeUiState.weeklyData.formattedTotalTime,
                         selectedDayIsoNumber = screenTimeUiState.selectedInfo.selectedDay,
-                        onBarClicked = { onScreenTimeSelectDay(it) }
-                    ) {
-                        // Show 2 Apps
-                        Column(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                            verticalArrangement = Arrangement.Top
-                        ) {
-                            screenTimeUiState.dailyData.usageStat.appsUsageList.take(3)
-                                .forEach { item ->
-                                    AppUsageEntryBase(
-                                        modifier = Modifier
-                                            .padding(vertical = Dimens.SmallPadding.size)
-                                            .fillMaxWidth()
-                                            .clip(Shapes.large)
-                                            .clickable { onAppUsageInfoClick(item) },
-                                        appUsageInfo = item,
-                                        onTimeSettingsClick = {
-                                            onSelectAppTimeLimit(item.packageName)
-                                            showAppTimeLimitDialog = true
-                                        },
-                                        contentColor = MaterialTheme.colorScheme.onSurfaceVariant
-                                    )
-                                }
+                        onBarClicked = { onScreenTimeSelectDay(it) },
+                        weekUpdateButton = {
+                            // Show 2 Apps
+                            Column(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                                verticalArrangement = Arrangement.Top
+                            ) {
+                                screenTimeUiState.dailyData.usageStat.appsUsageList.take(3)
+                                    .forEach { item ->
+                                        AppUsageEntryBase(
+                                            modifier = Modifier
+                                                .padding(vertical = Dimens.SmallPadding.size)
+                                                .fillMaxWidth()
+                                                .clip(Shapes.large)
+                                                .clickable { onAppUsageInfoClick(item) },
+                                            appUsageInfo = item,
+                                            onTimeSettingsClick = {
+                                                onSelectAppTimeLimit(item.packageName)
+                                                showAppTimeLimitDialog = true
+                                            },
+                                            contentColor = MaterialTheme.colorScheme.onSurfaceVariant
+                                        )
+                                    }
 
-                            OutlinedReluctButton(
-                                modifier = Modifier.padding(vertical = Dimens.SmallPadding.size),
-                                buttonText = stringResource(id = R.string.view_all_text),
-                                icon = null,
-                                onButtonClicked = onViewAllScreenTimeStats,
-                                borderColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                                contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                                buttonTextStyle = MaterialTheme.typography.bodyMedium
-                            )
+                                OutlinedReluctButton(
+                                    modifier = Modifier.padding(vertical = Dimens.SmallPadding.size),
+                                    buttonText = stringResource(id = R.string.view_all_text),
+                                    icon = null,
+                                    onButtonClicked = onViewAllScreenTimeStats,
+                                    borderColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                                    contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                                    buttonTextStyle = MaterialTheme.typography.bodyMedium
+                                )
+                            }
                         }
-                    }
+                    )
                 }
 
                 // Tasks Stats
@@ -205,7 +198,7 @@ internal fun DashboardStatsUI(
                 // Tasks Chart
                 item {
                     TasksStatisticsCard(
-                        barChartState = tasksChartState.value,
+                        chartData = tasksChartData,
                         selectedDayText = tasksStatsUiState.dailyTasksState.dayText,
                         selectedDayTasksDone = tasksStatsUiState.dailyTasksState.dailyTasks.completedTasksCount,
                         selectedDayTasksPending = tasksStatsUiState.dailyTasksState.dailyTasks.pendingTasksCount,

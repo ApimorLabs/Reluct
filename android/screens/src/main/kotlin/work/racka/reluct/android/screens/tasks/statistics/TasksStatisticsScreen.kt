@@ -67,8 +67,11 @@ private fun handleEvents(
 ) {
     when (events) {
         is TasksEvents.ShowMessageDone -> {
-            val msg = if (events.isDone) context.getString(R.string.task_marked_as_done, events.msg)
-            else context.getString(R.string.task_marked_as_not_done, events.msg)
+            val msg = if (events.isDone) {
+                context.getString(R.string.task_marked_as_done, events.msg)
+            } else {
+                context.getString(R.string.task_marked_as_not_done, events.msg)
+            }
             scope.launch {
                 snackbarState.showSnackbar(
                     message = msg,

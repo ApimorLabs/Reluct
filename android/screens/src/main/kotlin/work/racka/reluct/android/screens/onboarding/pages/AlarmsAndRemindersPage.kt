@@ -39,10 +39,10 @@ import work.racka.reluct.android.screens.util.canScheduleAlarms
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 internal fun AlarmsAndRemindersPage(
-    modifier: Modifier = Modifier,
     isGranted: Boolean,
     updatePermissionCheck: (isGranted: Boolean) -> Unit,
-    goBack: () -> Unit
+    goBack: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     BackPressHandler { goBack() } // Handle Back Presses
 

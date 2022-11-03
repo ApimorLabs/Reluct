@@ -1,5 +1,7 @@
 package work.racka.reluct.common.features.tasks.completed_tasks
 
+import kotlinx.collections.immutable.toImmutableList
+import kotlinx.collections.immutable.toImmutableMap
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
@@ -38,6 +40,8 @@ class CompletedTasksViewModel(
         completedTasksJob = vmScope.launch {
             getTasksUseCase.getCompletedTasks(factor = limitFactor).collectLatest { taskList ->
                 val grouped = taskList.groupBy { it.dueDate }
+                    .mapValues { it.value.toImmutableList() }
+                    .toImmutableMap()
                 _uiState.update {
                     newDataPresent = it.tasksData != grouped
                     CompletedTasksState.Data(

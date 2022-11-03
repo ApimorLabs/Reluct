@@ -21,8 +21,8 @@ import work.racka.reluct.android.compose.theme.Shapes
 @Composable
 fun CircularProgressDialog(
     onDismiss: () -> Unit,
-    modifier: Modifier = Modifier,
     loadingText: String,
+    modifier: Modifier = Modifier,
     properties: DialogProperties = DialogProperties(),
     containerColor: Color = MaterialTheme.colorScheme.surface,
     contentColor: Color = MaterialTheme.colorScheme.onSurface

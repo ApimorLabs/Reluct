@@ -24,13 +24,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.launch
 import work.racka.reluct.android.compose.components.buttons.OutlinedReluctButton
 import work.racka.reluct.android.compose.components.buttons.ReluctButton
-import work.racka.reluct.android.compose.components.cards.task_entry.TaskDetailsHeading
-import work.racka.reluct.android.compose.components.cards.task_entry.TaskInfoCard
-import work.racka.reluct.android.compose.components.cards.task_label_entry.TaskLabelPill
-import work.racka.reluct.android.compose.components.cards.task_label_entry.TaskLabelsEntryMode
+import work.racka.reluct.android.compose.components.cards.taskEntry.TaskDetailsHeading
+import work.racka.reluct.android.compose.components.cards.taskEntry.TaskInfoCard
+import work.racka.reluct.android.compose.components.cards.taskLabelEntry.TaskLabelPill
+import work.racka.reluct.android.compose.components.cards.taskLabelEntry.TaskLabelsEntryMode
 import work.racka.reluct.android.compose.components.images.LottieAnimationWithDescription
 import work.racka.reluct.android.compose.components.topBar.ReluctSmallTopAppBar
 import work.racka.reluct.android.compose.theme.Dimens
@@ -46,21 +48,21 @@ import work.racka.reluct.common.model.domain.tasks.Task
 import work.racka.reluct.common.model.domain.tasks.TaskLabel
 
 @OptIn(
-    ExperimentalAnimationApi::class, ExperimentalMaterial3Api::class,
+    ExperimentalAnimationApi::class,
+    ExperimentalMaterial3Api::class,
     ExperimentalMaterialApi::class
 )
 @Composable
 internal fun TaskDetailsUI(
-    modifier: Modifier = Modifier,
     snackbarState: SnackbarHostState,
     uiState: TaskDetailsState,
-    onEditTask: (task: Task) -> Unit = { },
+    onEditTask: (task: Task) -> Unit,
     onDeleteTask: (task: Task) -> Unit,
     onToggleTaskDone: (isDone: Boolean, task: Task) -> Unit,
-    onBackClicked: () -> Unit = { },
-    onModifyTaskLabel: (ModifyTaskLabel) -> Unit
+    onBackClicked: () -> Unit,
+    onModifyTaskLabel: (ModifyTaskLabel) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
-
     val modalSheetState = rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)
     val scope = rememberCoroutineScope()
     val listState = rememberLazyListState()
@@ -134,7 +136,6 @@ internal fun TaskDetailsUI(
                     .padding(horizontal = Dimens.MediumPadding.size)
                     .fillMaxSize()
             ) {
-
                 AnimatedContent(
                     targetState = taskState,
                     modifier = Modifier.fillMaxSize(),
@@ -234,7 +235,6 @@ internal fun TaskDetailsUI(
             }
         }
 
-
         // Delete Task Dialog
         if (openDialog.value) {
             AlertDialog(
@@ -271,7 +271,6 @@ internal fun TaskDetailsUI(
             )
         }
     }
-
 }
 
 @Composable
@@ -311,11 +310,11 @@ private fun DetailsBottomBar(
 }
 
 @Composable
-private fun getLabelState(availableLabels: List<TaskLabel>) = remember(availableLabels) {
+private fun getLabelState(availableLabels: ImmutableList<TaskLabel>) = remember(availableLabels) {
     derivedStateOf {
         CurrentTaskLabels(
             availableLabels = availableLabels,
-            selectedLabels = emptyList(),
+            selectedLabels = persistentListOf(),
             onUpdateSelectedLabels = {}
         )
     }

@@ -17,6 +17,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import kotlinx.collections.immutable.persistentListOf
 import work.racka.reluct.android.compose.components.cards.headers.ListGroupHeadingHeader
 import work.racka.reluct.android.compose.components.textfields.texts.HighlightTextProps
 import work.racka.reluct.android.compose.components.textfields.texts.HighlightedText
@@ -28,7 +29,6 @@ import work.racka.reluct.android.screens.R
 internal fun WelcomePage(
     modifier: Modifier = Modifier
 ) {
-
     val drawableSize = 400.dp
 
     LazyColumn(
@@ -62,7 +62,7 @@ internal fun WelcomePage(
                 fullText = stringResource(id = R.string.welcome_text),
                 textAlign = TextAlign.Center,
                 textStyle = MaterialTheme.typography.titleLarge,
-                highlights = listOf(
+                highlights = persistentListOf(
                     HighlightTextProps(
                         text = stringResource(id = R.string.tasks_highlight_text),
                         color = MaterialTheme.colorScheme.primary

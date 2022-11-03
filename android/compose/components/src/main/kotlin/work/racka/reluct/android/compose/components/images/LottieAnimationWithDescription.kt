@@ -23,11 +23,11 @@ import work.racka.reluct.android.compose.theme.Dimens
 
 @Composable
 fun LottieAnimationWithDescription(
-    modifier: Modifier = Modifier,
     @RawRes lottieResId: Int,
+    description: String?,
+    modifier: Modifier = Modifier,
     imageSize: Dp = 148.dp,
     iterations: Int = 1,
-    description: String?,
     descriptionTextStyle: TextStyle = MaterialTheme.typography.titleLarge,
 ) {
     val composition by rememberLottieComposition(

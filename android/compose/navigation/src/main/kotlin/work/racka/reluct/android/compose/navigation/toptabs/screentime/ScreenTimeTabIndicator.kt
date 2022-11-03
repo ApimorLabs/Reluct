@@ -14,10 +14,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.zIndex
+import kotlinx.collections.immutable.ImmutableList
 
 @Composable
 internal fun ScreenTimeTabIndicator(
-    tabPositions: List<TabPosition>,
+    tabPositions: ImmutableList<TabPosition>,
     tabPage: ScreenTimeTabDestination,
     modifier: Modifier = Modifier,
 ) {

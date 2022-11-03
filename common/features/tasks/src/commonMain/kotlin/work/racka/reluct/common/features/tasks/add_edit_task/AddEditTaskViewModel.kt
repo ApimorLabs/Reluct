@@ -1,5 +1,7 @@
 package work.racka.reluct.common.features.tasks.add_edit_task
 
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.onSuccess
 import kotlinx.coroutines.flow.*
@@ -22,7 +24,8 @@ class AddEditTaskViewModel(
 
     private val modifyTaskState: MutableStateFlow<ModifyTaskState> =
         MutableStateFlow(ModifyTaskState.Loading)
-    private val availableTaskLabels: MutableStateFlow<List<TaskLabel>> = MutableStateFlow(listOf())
+    private val availableTaskLabels: MutableStateFlow<ImmutableList<TaskLabel>> =
+        MutableStateFlow(persistentListOf())
 
     val uiState: StateFlow<AddEditTaskState> = combine(
         modifyTaskState, availableTaskLabels

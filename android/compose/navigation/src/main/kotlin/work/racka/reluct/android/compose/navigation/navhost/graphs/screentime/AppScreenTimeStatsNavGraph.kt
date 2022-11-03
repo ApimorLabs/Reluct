@@ -15,7 +15,7 @@ import work.racka.reluct.android.compose.navigation.transitions.scaleOutExitTran
 import work.racka.reluct.android.compose.navigation.transitions.scaleOutPopExitTransition
 import work.racka.reluct.android.compose.navigation.util.NavHelpers
 import work.racka.reluct.android.compose.navigation.util.NavHelpers.popBackStackOrExitActivity
-import work.racka.reluct.android.screens.screentime.app_stats_details.AppScreenTimeStatsScreen
+import work.racka.reluct.android.screens.screentime.appStatsDetails.AppScreenTimeStatsScreen
 import work.racka.reluct.common.core_navigation.compose_destinations.screentime.AppScreenTimeStatsArgs
 import work.racka.reluct.common.core_navigation.compose_destinations.screentime.AppScreenTimeStatsDestination
 

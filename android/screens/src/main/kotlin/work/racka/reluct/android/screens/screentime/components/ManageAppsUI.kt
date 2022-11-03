@@ -23,6 +23,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import kotlinx.collections.immutable.ImmutableList
 import work.racka.reluct.android.compose.components.buttons.ReluctButton
 import work.racka.reluct.android.compose.components.cards.headers.ListGroupHeadingHeader
 import work.racka.reluct.android.compose.theme.Dimens
@@ -32,15 +33,15 @@ import work.racka.reluct.common.model.domain.appInfo.AppInfo
 
 @Composable
 fun ManageAppsDialog(
-    modifier: Modifier = Modifier,
     onDismiss: () -> Unit,
     isLoading: Boolean,
     topItemsHeading: String,
     bottomItemsHeading: String,
-    topItems: List<AppInfo>,
-    bottomItems: List<AppInfo>,
+    topItems: ImmutableList<AppInfo>,
+    bottomItems: ImmutableList<AppInfo>,
     onTopItemClicked: (app: AppInfo) -> Unit,
-    onBottomItemClicked: (app: AppInfo) -> Unit
+    onBottomItemClicked: (app: AppInfo) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Dialog(
         onDismissRequest = onDismiss
@@ -88,17 +89,17 @@ fun ManageAppsDialog(
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ManageAppsUI(
-    modifier: Modifier = Modifier,
-    listState: LazyListState = rememberLazyListState(),
     isLoading: Boolean,
     topItemsHeading: String,
     bottomItemsHeading: String,
-    topItems: List<AppInfo>,
-    bottomItems: List<AppInfo>,
+    topItems: ImmutableList<AppInfo>,
+    bottomItems: ImmutableList<AppInfo>,
     onTopItemClicked: (app: AppInfo) -> Unit,
     onBottomItemClicked: (app: AppInfo) -> Unit,
+    modifier: Modifier = Modifier,
+    listState: LazyListState = rememberLazyListState(),
     contentColor: Color = LocalContentColor.current,
-    headerTonalElevation: Dp = 0.dp
+    headerTonalElevation: Dp = 0.dp,
 ) {
     LazyColumn(
         modifier = modifier,
@@ -131,7 +132,6 @@ fun ManageAppsUI(
                 )
             }
         } else {
-
             items(items = topItems, key = { it.packageName }) { item ->
                 AppNameEntry(
                     modifier = Modifier

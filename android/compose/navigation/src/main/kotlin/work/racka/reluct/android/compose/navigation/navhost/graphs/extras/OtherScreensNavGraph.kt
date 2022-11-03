@@ -15,7 +15,7 @@ import work.racka.reluct.android.compose.navigation.transitions.scaleOutExitTran
 import work.racka.reluct.android.compose.navigation.transitions.scaleOutPopExitTransition
 import work.racka.reluct.android.compose.navigation.util.NavHelpers
 import work.racka.reluct.android.compose.navigation.util.NavHelpers.popBackStackOrExitActivity
-import work.racka.reluct.android.screens.tasks.add_edit.AddEditTaskScreen
+import work.racka.reluct.android.screens.tasks.addEdit.AddEditTaskScreen
 import work.racka.reluct.android.screens.tasks.details.TaskDetailsScreen
 import work.racka.reluct.android.screens.tasks.search.TasksSearchScreen
 import work.racka.reluct.common.core_navigation.compose_destinations.OtherDestination

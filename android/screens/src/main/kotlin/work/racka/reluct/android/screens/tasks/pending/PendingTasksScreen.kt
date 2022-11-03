@@ -27,7 +27,6 @@ fun PendingTasksScreen(
     onNavigateToAddTask: (taskId: String?) -> Unit,
     onNavigateToTaskDetails: (taskId: String) -> Unit,
 ) {
-
     val snackbarState = remember { SnackbarHostState() }
 
     val viewModel: PendingTasksViewModel = getCommonViewModel()

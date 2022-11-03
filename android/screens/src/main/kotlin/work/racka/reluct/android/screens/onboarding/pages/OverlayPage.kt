@@ -43,12 +43,12 @@ import work.racka.reluct.android.screens.util.PermissionCheckHandler
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 internal fun OverlayPage(
-    modifier: Modifier = Modifier,
     isGranted: Boolean,
     isAppBlockingEnabled: Boolean,
     updatePermissionCheck: (isGranted: Boolean) -> Unit,
     onToggleAppBlocking: (isEnabled: Boolean) -> Unit,
-    goBack: () -> Unit
+    goBack: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     BackPressHandler { goBack() } // Handle Back Presses
 
@@ -168,8 +168,9 @@ private fun Context.createOverlaySettingsIntent() =
         Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
         Uri.parse("package:$packageName")
     ).let { intent ->
-        if (intent.resolveActivity(packageManager) != null) intent
-        else {
+        if (intent.resolveActivity(packageManager) != null) {
+            intent
+        } else {
             Toast.makeText(
                 this,
                 getString(R.string.find_draw_over_apps_text),

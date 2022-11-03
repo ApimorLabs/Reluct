@@ -19,15 +19,14 @@ import work.racka.reluct.common.features.onboarding.states.PermissionType
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
 @Composable
 fun OnBoardingUI(
-    modifier: Modifier = Modifier,
     uiState: OnBoardingState,
     updateCurrentPage: (OnBoardingPages) -> Unit,
     updatePermission: (permissionType: PermissionType, isGranted: Boolean) -> Unit,
     saveTheme: (themeValue: Int) -> Unit,
     onToggleAppBlocking: (isEnabled: Boolean) -> Unit,
-    onBoardingComplete: () -> Unit
+    onBoardingComplete: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
-
     Scaffold(
         modifier = modifier.fillMaxSize(),
         bottomBar = {
@@ -85,9 +84,11 @@ fun OnBoardingUI(
                 is OnBoardingPages.UsageAccess -> {
                     UsageAccessPage(
                         goBack = {
-                            if (isAndroid13Plus())
+                            if (isAndroid13Plus()) {
                                 updateCurrentPage(OnBoardingPages.Reminders)
-                            else updateCurrentPage(OnBoardingPages.Permissions)
+                            } else {
+                                updateCurrentPage(OnBoardingPages.Permissions)
+                            }
                         },
                         isGranted = uiState.permissionsState.usageAccessGranted,
                         updatePermissionCheck = { isGranted ->

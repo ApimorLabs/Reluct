@@ -15,12 +15,12 @@ import work.racka.reluct.android.compose.theme.Dimens
 
 @Composable
 fun ReluctNavigationTopBar(
-    modifier: Modifier = Modifier,
     topContent: @Composable BoxScope.() -> Unit,
     navigationContent: @Composable ColumnScope.() -> Unit,
+    topContentVisible: Boolean,
+    modifier: Modifier = Modifier,
     horizontalAlignment: Alignment.Horizontal = Alignment.CenterHorizontally,
     backgroundColor: Color = MaterialTheme.colorScheme.background,
-    topContentVisible: Boolean
 ) {
     Column(
         modifier = modifier

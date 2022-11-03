@@ -80,8 +80,11 @@ private fun handleEvents(
             }
         }
         is SettingsEvents.DndChanged -> {
-            val msg = if (events.isEnabled) context.getString(R.string.dnd_on_msg)
-            else context.getString(R.string.dnd_off_msg)
+            val msg = if (events.isEnabled) {
+                context.getString(R.string.dnd_on_msg)
+            } else {
+                context.getString(R.string.dnd_off_msg)
+            }
             scope.launch {
                 snackbarHostState.showSnackbar(
                     message = msg,
@@ -90,8 +93,11 @@ private fun handleEvents(
             }
         }
         is SettingsEvents.FocusModeChanged -> {
-            val msg = if (events.isEnabled) context.getString(R.string.focus_mode_on_msg)
-            else context.getString(R.string.focus_mode_off_msg)
+            val msg = if (events.isEnabled) {
+                context.getString(R.string.focus_mode_on_msg)
+            } else {
+                context.getString(R.string.focus_mode_off_msg)
+            }
             scope.launch {
                 snackbarHostState.showSnackbar(
                     message = msg,
@@ -100,8 +106,11 @@ private fun handleEvents(
             }
         }
         is SettingsEvents.AppBlockingChanged -> {
-            val msg = if (events.isEnabled) context.getString(R.string.app_blocking_turned_on_text)
-            else context.getString(R.string.app_blocking_turned_off_text)
+            val msg = if (events.isEnabled) {
+                context.getString(R.string.app_blocking_turned_on_text)
+            } else {
+                context.getString(R.string.app_blocking_turned_off_text)
+            }
             scope.launch {
                 snackbarHostState.showSnackbar(
                     message = msg,

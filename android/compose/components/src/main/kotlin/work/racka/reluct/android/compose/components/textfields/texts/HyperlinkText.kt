@@ -17,12 +17,13 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
+import kotlinx.collections.immutable.ImmutableList
 
 @Composable
 fun HyperlinkText(
-    modifier: Modifier = Modifier,
     fullText: String,
-    hyperLinks: List<HighlightTextProps>,
+    hyperLinks: ImmutableList<HighlightTextProps>,
+    modifier: Modifier = Modifier,
     textAlign: TextAlign = TextAlign.Start,
     fullTextColor: Color = LocalContentColor.current,
     textStyle: TextStyle = LocalTextStyle.current,

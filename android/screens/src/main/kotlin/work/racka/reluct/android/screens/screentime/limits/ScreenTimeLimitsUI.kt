@@ -27,14 +27,13 @@ import work.racka.reluct.android.screens.screentime.components.AppNameEntry
 import work.racka.reluct.android.screens.screentime.components.LimitsDetailsCard
 import work.racka.reluct.android.screens.screentime.components.LimitsSwitchCard
 import work.racka.reluct.android.screens.screentime.components.ManageAppsDialog
-import work.racka.reluct.common.features.screen_time.limits.states.DistractingAppsState
-import work.racka.reluct.common.features.screen_time.limits.states.PausedAppsState
-import work.racka.reluct.common.features.screen_time.limits.states.ScreenTimeLimitState
+import work.racka.reluct.common.features.screenTime.limits.states.DistractingAppsState
+import work.racka.reluct.common.features.screenTime.limits.states.PausedAppsState
+import work.racka.reluct.common.features.screenTime.limits.states.ScreenTimeLimitState
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
 internal fun ScreenTimeLimitsUI(
-    modifier: Modifier = Modifier,
     mainScaffoldPadding: PaddingValues,
     barsVisibility: BarsVisibility,
     snackbarState: SnackbarHostState,
@@ -46,9 +45,10 @@ internal fun ScreenTimeLimitsUI(
     resumeApp: (packageName: String) -> Unit,
     makeDistractingApp: (packageName: String) -> Unit,
     removeDistractingApp: (packageName: String) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     val listState = rememberLazyListState()
-    val scrollContext = rememberScrollContext(listState = listState)
+    val scrollContext by rememberScrollContext(listState = listState)
 
     SideEffect {
         if (scrollContext.isTop) {
@@ -59,13 +59,19 @@ internal fun ScreenTimeLimitsUI(
     }
 
     val focusModeContainerColor by animateColorAsState(
-        targetValue = if (uiState.focusModeState.focusModeOn) Color.Green.copy(alpha = .7f)
-        else MaterialTheme.colorScheme.error.copy(alpha = .8f)
+        targetValue = if (uiState.focusModeState.focusModeOn) {
+            Color.Green.copy(alpha = .7f)
+        } else {
+            MaterialTheme.colorScheme.error.copy(alpha = .8f)
+        }
     )
 
     val focusModeContentColor by animateColorAsState(
-        targetValue = if (uiState.focusModeState.focusModeOn) Color.Black
-        else MaterialTheme.colorScheme.onError
+        targetValue = if (uiState.focusModeState.focusModeOn) {
+            Color.Black
+        } else {
+            MaterialTheme.colorScheme.onError
+        }
     )
 
     // Dialogs Open State
@@ -74,7 +80,9 @@ internal fun ScreenTimeLimitsUI(
 
     val snackbarModifier = if (scrollContext.isTop) {
         Modifier.padding(bottom = mainScaffoldPadding.calculateBottomPadding())
-    } else Modifier.navigationBarsPadding()
+    } else {
+        Modifier.navigationBarsPadding()
+    }
 
     Scaffold(
         modifier = modifier

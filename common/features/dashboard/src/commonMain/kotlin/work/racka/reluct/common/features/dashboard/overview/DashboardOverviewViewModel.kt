@@ -1,5 +1,7 @@
 package work.racka.reluct.common.features.dashboard.overview
 
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
@@ -14,7 +16,7 @@ import work.racka.reluct.common.features.dashboard.overview.states.DashboardEven
 import work.racka.reluct.common.features.dashboard.overview.states.DashboardOverviewState
 import work.racka.reluct.common.features.dashboard.overview.states.TodayScreenTimeState
 import work.racka.reluct.common.features.dashboard.overview.states.TodayTasksState
-import work.racka.reluct.common.features.screen_time.services.ScreenTimeServices
+import work.racka.reluct.common.features.screenTime.services.ScreenTimeServices
 import work.racka.reluct.common.model.domain.goals.Goal
 import work.racka.reluct.common.model.domain.tasks.Task
 import work.racka.reluct.common.model.util.time.WeekUtils
@@ -29,10 +31,10 @@ class DashboardOverviewViewModel(
 ) : CommonViewModel() {
 
     private val todayScreenTimeState: MutableStateFlow<TodayScreenTimeState> =
-        MutableStateFlow(TodayScreenTimeState.Nothing)
+        MutableStateFlow(TodayScreenTimeState.Loading())
     private val todayTasksState: MutableStateFlow<TodayTasksState> =
-        MutableStateFlow(TodayTasksState.Nothing)
-    private val goals: MutableStateFlow<List<Goal>> = MutableStateFlow(listOf())
+        MutableStateFlow(TodayTasksState.Loading())
+    private val goals: MutableStateFlow<ImmutableList<Goal>> = MutableStateFlow(persistentListOf())
 
     val uiState: StateFlow<DashboardOverviewState> = combine(
         todayScreenTimeState, todayTasksState, goals

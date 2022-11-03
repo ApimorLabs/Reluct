@@ -7,7 +7,7 @@ interface ManageAppTimeLimit {
     /**
      * Get the specified app packageName time Limit as a Flow
      */
-    fun invoke(packageName: String): Flow<AppTimeLimit>
+    fun getLimit(packageName: String): Flow<AppTimeLimit>
 
     /**
      * Get the specified app packageName time Limit synchronously

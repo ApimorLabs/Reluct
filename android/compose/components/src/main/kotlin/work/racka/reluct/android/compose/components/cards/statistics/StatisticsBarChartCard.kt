@@ -12,13 +12,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import kotlinx.collections.immutable.ImmutableList
 import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.android.compose.theme.Shapes
 import work.racka.reluct.barChart.BarChartData
 
 @Composable
 internal fun StatisticsBarChartCard(
-    bars: List<BarChartData.Bar>,
+    bars: ImmutableList<BarChartData.Bar>,
     dataLoading: Boolean,
     noDataText: String,
     selectedDayIsoNumber: Int,
@@ -80,7 +81,7 @@ internal fun StatisticsBarChartCard(
                 )
                 if (dataLoading) {
                     LinearProgressIndicator()
-                } else if (sumOfBarsValue.equals(0.0) && !dataLoading) {
+                } else if (sumOfBarsValue.equals(0.0)) {
                     Text(
                         text = noDataText,
                         style = MaterialTheme.typography.titleLarge

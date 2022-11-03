@@ -1,27 +1,23 @@
 package work.racka.reluct.android.compose.components.cards.statistics.tasks
 
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import work.racka.reluct.android.compose.components.R
+import work.racka.reluct.android.compose.components.cards.statistics.ChartData
 import work.racka.reluct.android.compose.components.cards.statistics.StatisticsBarChartCard
-import work.racka.reluct.android.compose.components.cards.statistics.StatisticsChartState
 import work.racka.reluct.barChart.BarChartData
-import work.racka.reluct.common.model.domain.tasks.DailyTasksStats
-import work.racka.reluct.common.model.util.time.Week
 
 @Composable
 fun TasksStatisticsCard(
-    barChartState: StatisticsChartState<Map<Week, DailyTasksStats>>,
+    chartData: ChartData<BarChartData.Bar>,
     selectedDayText: String,
     selectedDayTasksDone: Int,
     selectedDayTasksPending: Int,
@@ -30,31 +26,12 @@ fun TasksStatisticsCard(
     onBarClicked: (Int) -> Unit,
     weekUpdateButton: @Composable () -> Unit,
     modifier: Modifier = Modifier,
-    barColor: Color = MaterialTheme.colorScheme.secondary
-        .copy(alpha = .7f),
 ) {
-    val bars = remember(barChartState) {
-        derivedStateOf {
-            val tempList = mutableListOf<BarChartData.Bar>()
-            barChartState.data.forEach { entry ->
-                tempList.add(
-                    BarChartData.Bar(
-                        value = entry.value.completedTasksCount.toFloat(),
-                        color = barColor,
-                        label = entry.key.dayAcronym,
-                        uniqueId = entry.key.isoDayNumber
-                    )
-                )
-            }
-            tempList.toList()
-        }
-    }
-
     StatisticsBarChartCard(
-        modifier = modifier,
-        bars = bars.value,
+        modifier = modifier.animateContentSize(),
+        bars = chartData.data,
         selectedBarColor = MaterialTheme.colorScheme.primary,
-        dataLoading = barChartState is StatisticsChartState.Loading,
+        dataLoading = chartData.isLoading,
         noDataText = stringResource(id = R.string.no_completed_tasks_text),
         selectedDayIsoNumber = selectedDayIsoNumber,
         onBarClicked = { onBarClicked(it) },

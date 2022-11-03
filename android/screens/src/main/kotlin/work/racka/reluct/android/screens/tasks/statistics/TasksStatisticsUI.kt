@@ -13,24 +13,26 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.produceState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import work.racka.reluct.android.compose.components.buttons.ValueOffsetButton
 import work.racka.reluct.android.compose.components.cards.headers.ListGroupHeadingHeader
-import work.racka.reluct.android.compose.components.cards.statistics.StatisticsChartState
+import work.racka.reluct.android.compose.components.cards.statistics.BarChartDefaults
+import work.racka.reluct.android.compose.components.cards.statistics.ChartData
 import work.racka.reluct.android.compose.components.cards.statistics.tasks.TasksStatisticsCard
-import work.racka.reluct.android.compose.components.cards.task_entry.EntryType
-import work.racka.reluct.android.compose.components.cards.task_entry.TaskEntry
+import work.racka.reluct.android.compose.components.cards.taskEntry.EntryType
+import work.racka.reluct.android.compose.components.cards.taskEntry.TaskEntry
 import work.racka.reluct.android.compose.components.images.LottieAnimationWithDescription
 import work.racka.reluct.android.compose.components.util.BarsVisibility
 import work.racka.reluct.android.compose.components.util.rememberScrollContext
 import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.android.compose.theme.Shapes
 import work.racka.reluct.android.screens.R
+import work.racka.reluct.android.screens.tasks.components.getTasksBarChartBars
 import work.racka.reluct.common.model.domain.tasks.Task
 import work.racka.reluct.common.model.states.tasks.DailyTasksState
 import work.racka.reluct.common.model.states.tasks.TasksStatisticsState
@@ -39,7 +41,6 @@ import work.racka.reluct.common.model.states.tasks.WeeklyTasksState
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
 internal fun TasksStatisticsUI(
-    modifier: Modifier = Modifier,
     mainScaffoldPadding: PaddingValues,
     barsVisibility: BarsVisibility,
     snackbarState: SnackbarHostState,
@@ -48,9 +49,10 @@ internal fun TasksStatisticsUI(
     onUpdateWeekOffset: (weekOffsetValue: Int) -> Unit,
     onTaskClicked: (task: Task) -> Unit,
     onToggleTaskDone: (task: Task, isDone: Boolean) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     val listState = rememberLazyListState()
-    val scrollContext = rememberScrollContext(listState = listState)
+    val scrollContext by rememberScrollContext(listState = listState)
 
     SideEffect {
         if (scrollContext.isTop) {
@@ -60,29 +62,25 @@ internal fun TasksStatisticsUI(
         }
     }
 
-    val barChartState = remember(uiState.weeklyTasksState) {
-        derivedStateOf {
-            val result = when (val weeklyState = uiState.weeklyTasksState) {
-                is WeeklyTasksState.Data -> {
-                    StatisticsChartState.Success(data = weeklyState.weeklyTasks)
-                }
-                is WeeklyTasksState.Loading -> {
-                    StatisticsChartState.Loading(data = weeklyState.weeklyTasks)
-                }
-                is WeeklyTasksState.Empty -> {
-                    StatisticsChartState.Empty(data = weeklyState.weeklyTasks)
-                }
-                else -> {
-                    StatisticsChartState.Empty(data = weeklyState.weeklyTasks)
-                }
-            }
-            result
-        }
+    // Tasks Stats Chart
+    val barColor = BarChartDefaults.barColor
+    val tasksChartData by produceState(
+        initialValue = ChartData(
+            isLoading = uiState.weeklyTasksState is WeeklyTasksState.Loading
+        ),
+        uiState.weeklyTasksState
+    ) {
+        value = ChartData(
+            data = getTasksBarChartBars(uiState.weeklyTasksState.weeklyTasks, barColor),
+            isLoading = uiState.weeklyTasksState is WeeklyTasksState.Loading
+        )
     }
 
     val snackbarModifier = if (scrollContext.isTop) {
         Modifier.padding(bottom = mainScaffoldPadding.calculateBottomPadding())
-    } else Modifier.navigationBarsPadding()
+    } else {
+        Modifier.navigationBarsPadding()
+    }
 
     Scaffold(
         modifier = modifier.fillMaxSize(),
@@ -124,24 +122,25 @@ internal fun TasksStatisticsUI(
                 // Chart
                 item {
                     TasksStatisticsCard(
-                        barChartState = barChartState.value,
+                        chartData = tasksChartData,
                         selectedDayText = uiState.dailyTasksState.dayText,
                         selectedDayTasksDone = uiState.dailyTasksState.dailyTasks.completedTasksCount,
                         selectedDayTasksPending = uiState.dailyTasksState.dailyTasks.pendingTasksCount,
                         totalWeekTaskCount = uiState.weeklyTasksState.totalWeekTasksCount,
                         selectedDayIsoNumber = uiState.selectedDay,
-                        onBarClicked = { onSelectDay(it) }
-                    ) {
-                        ValueOffsetButton(
-                            text = uiState.selectedWeekText,
-                            offsetValue = uiState.weekOffset,
-                            onOffsetValueChange = { onUpdateWeekOffset(it) },
-                            containerColor = MaterialTheme.colorScheme.primary,
-                            contentColor = MaterialTheme.colorScheme.onPrimary,
-                            shape = Shapes.large,
-                            incrementEnabled = uiState.weekOffset < 0
-                        )
-                    }
+                        onBarClicked = { onSelectDay(it) },
+                        weekUpdateButton = {
+                            ValueOffsetButton(
+                                text = uiState.selectedWeekText,
+                                offsetValue = uiState.weekOffset,
+                                onOffsetValueChange = { onUpdateWeekOffset(it) },
+                                containerColor = MaterialTheme.colorScheme.primary,
+                                contentColor = MaterialTheme.colorScheme.onPrimary,
+                                shape = Shapes.large,
+                                incrementEnabled = uiState.weekOffset < 0
+                            )
+                        }
+                    )
                 }
 
                 // No Tasks Animation
@@ -219,7 +218,6 @@ internal fun TasksStatisticsUI(
                         }
                     }
                 }
-
 
                 // Bottom Space for spaceBy
                 item {

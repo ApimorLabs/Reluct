@@ -17,7 +17,7 @@ android.apply {
 
 dependencies {
     // Dependency Modules
-    implementation(project(":android:compose:charts"))
+    api(project(":android:compose:charts"))
     implementation(project(":android:compose:theme"))
     implementation(project(":common:model"))
 

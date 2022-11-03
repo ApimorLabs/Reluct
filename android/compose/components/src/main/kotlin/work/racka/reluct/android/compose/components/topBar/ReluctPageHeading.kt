@@ -19,8 +19,8 @@ import work.racka.reluct.android.compose.theme.Dimens
 
 @Composable
 fun ReluctPageHeading(
-    modifier: Modifier = Modifier,
     title: String,
+    modifier: Modifier = Modifier,
     titleTextStyle: TextStyle = MaterialTheme.typography.headlineMedium,
     containerColor: Color = Color.Transparent,
     contentColor: Color = MaterialTheme.colorScheme.onBackground,

@@ -1,5 +1,8 @@
 package work.racka.reluct.common.features.goals.add_edit_goal
 
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.onSuccess
@@ -16,6 +19,7 @@ import work.racka.reluct.common.features.goals.add_edit_goal.states.GoalAppsStat
 import work.racka.reluct.common.features.goals.add_edit_goal.states.ModifyGoalState
 import work.racka.reluct.common.model.domain.appInfo.AppInfo
 import work.racka.reluct.common.model.domain.goals.Goal
+import work.racka.reluct.common.model.util.list.filterPersistentNot
 
 /**
  * [goalId] is passed when you want to edit a saved Goal and will be null for new goals
@@ -50,7 +54,7 @@ class AddEditGoalViewModel(
     val events: Flow<GoalsEvents> = eventsChannel.receiveAsFlow()
 
 
-    private var installedApps: List<AppInfo> = emptyList()
+    private var installedApps: ImmutableList<AppInfo> = persistentListOf()
 
     private var syncAppsJob: Job? = null
 
@@ -95,7 +99,7 @@ class AddEditGoalViewModel(
             }
             val goalState = modifyGoalState.value
             if (goalState is ModifyGoalState.Data) {
-                val unselected = installedApps.filterNot { installed ->
+                val unselected = installedApps.filterPersistentNot { installed ->
                     goalState.goal.relatedApps.any { it.packageName == installed.packageName }
                 }
                 goalAppsState.update {
@@ -106,7 +110,7 @@ class AddEditGoalViewModel(
                 }
             } else goalAppsState.update {
                 GoalAppsState.Data(
-                    selected = listOf(),
+                    selected = persistentListOf(),
                     unselected = installedApps
                 )
             }
@@ -120,19 +124,19 @@ class AddEditGoalViewModel(
     fun modifyRelatedApps(appInfo: AppInfo, isAdd: Boolean) {
         val goalState = modifyGoalState.value
         if (goalState is ModifyGoalState.Data) {
-            val relatedApps = goalState.goal.relatedApps
-                .toMutableSet()
+            val relatedApps = goalState.goal.relatedApps.toPersistentList().builder()
                 .apply { if (isAdd) add(appInfo) else remove(appInfo) }
-            val unSelectedApps = installedApps.filterNot { installed ->
+                .build()
+            val unSelectedApps = installedApps.filterPersistentNot { installed ->
                 relatedApps.any { it.packageName == installed.packageName }
             }
             goalAppsState.update {
                 GoalAppsState.Data(
-                    selected = relatedApps.toList(),
+                    selected = relatedApps,
                     unselected = unSelectedApps
                 )
             }
-            updateCurrentGoal(goalState.goal.copy(relatedApps = relatedApps.toList()))
+            updateCurrentGoal(goalState.goal.copy(relatedApps = relatedApps))
         }
     }
 

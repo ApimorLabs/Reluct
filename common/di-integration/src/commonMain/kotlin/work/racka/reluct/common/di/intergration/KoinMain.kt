@@ -10,7 +10,7 @@ import work.racka.reluct.common.domain.di.Domain
 import work.racka.reluct.common.features.dashboard.di.Dashboard
 import work.racka.reluct.common.features.goals.di.GoalsDI
 import work.racka.reluct.common.features.onboarding.di.OnBoarding
-import work.racka.reluct.common.features.screen_time.di.ScreenTime
+import work.racka.reluct.common.features.screenTime.di.ScreenTime
 import work.racka.reluct.common.features.settings.di.AppSettings
 import work.racka.reluct.common.features.tasks.di.Tasks
 import work.racka.reluct.common.settings.di.MultiplatformSettings

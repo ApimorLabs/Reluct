@@ -24,8 +24,8 @@ import work.racka.reluct.android.compose.components.animations.slideInVertically
 import work.racka.reluct.android.compose.components.animations.slideOutVerticallyFadeReversed
 import work.racka.reluct.android.compose.components.buttons.ReluctFloatingActionButton
 import work.racka.reluct.android.compose.components.cards.headers.ListGroupHeadingHeader
-import work.racka.reluct.android.compose.components.cards.task_entry.EntryType
-import work.racka.reluct.android.compose.components.cards.task_entry.TaskEntry
+import work.racka.reluct.android.compose.components.cards.taskEntry.EntryType
+import work.racka.reluct.android.compose.components.cards.taskEntry.TaskEntry
 import work.racka.reluct.android.compose.components.images.LottieAnimationWithDescription
 import work.racka.reluct.android.compose.components.util.BarsVisibility
 import work.racka.reluct.android.compose.components.util.rememberScrollContext
@@ -36,11 +36,11 @@ import work.racka.reluct.common.model.states.tasks.PendingTasksState
 
 @OptIn(
     ExperimentalAnimationApi::class,
-    ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class
+    ExperimentalFoundationApi::class,
+    ExperimentalMaterial3Api::class
 )
 @Composable
 internal fun PendingTasksUI(
-    modifier: Modifier = Modifier,
     mainScaffoldPadding: PaddingValues,
     barsVisibility: BarsVisibility,
     snackbarState: SnackbarHostState,
@@ -49,15 +49,16 @@ internal fun PendingTasksUI(
     onAddTaskClicked: (task: Task?) -> Unit,
     onToggleTaskDone: (task: Task, isDone: Boolean) -> Unit,
     fetchMoreData: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     val listState = rememberLazyListState()
-    val scrollContext = rememberScrollContext(listState = listState)
+    val scrollContext by rememberScrollContext(listState = listState)
 
     val scope = rememberCoroutineScope()
 
     LaunchedEffect(scrollContext.isBottom) {
-        if (scrollContext.isBottom && uiState.shouldUpdateData
-            && uiState !is PendingTasksState.Loading
+        if (scrollContext.isBottom && uiState.shouldUpdateData &&
+            uiState !is PendingTasksState.Loading
         ) {
             fetchMoreData()
         }
@@ -77,8 +78,11 @@ internal fun PendingTasksUI(
         }
     }
 
-    val snackbarModifier = if (scrollContext.isTop) Modifier
-    else Modifier.navigationBarsPadding()
+    val snackbarModifier = if (scrollContext.isTop) {
+        Modifier
+    } else {
+        Modifier.navigationBarsPadding()
+    }
 
     Scaffold(
         modifier = modifier.fillMaxSize(),
@@ -125,7 +129,7 @@ internal fun PendingTasksUI(
                 modifier = Modifier
                     .fillMaxSize(),
                 visible = uiState is PendingTasksState.Loading &&
-                        uiState.tasksData.isEmpty() && uiState.overdueTasksData.isEmpty(),
+                    uiState.tasksData.isEmpty() && uiState.overdueTasksData.isEmpty(),
                 enter = scaleIn(),
                 exit = scaleOut()
             ) {
@@ -162,7 +166,6 @@ internal fun PendingTasksUI(
                     verticalArrangement = Arrangement
                         .spacedBy(Dimens.SmallPadding.size)
                 ) {
-
                     if (uiState.overdueTasksData.isNotEmpty()) {
                         stickyHeader {
                             ListGroupHeadingHeader(text = stringResource(R.string.overdue_tasks_header))

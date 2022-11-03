@@ -19,11 +19,10 @@ import work.racka.reluct.android.screens.R
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun PermissionStatusCard(
-    modifier: Modifier = Modifier,
     isGranted: Boolean,
-    onPermissionRequest: () -> Unit
+    modifier: Modifier = Modifier,
+    onPermissionRequest: () -> Unit = {},
 ) {
-
     val containerColor by animateColorAsState(
         targetValue = if (isGranted) Color.Green.copy(alpha = .7f) else Color.Red.copy(alpha = .7f)
     )
@@ -58,7 +57,9 @@ internal fun PermissionStatusCard(
             Text(
                 text = if (isGranted) {
                     stringResource(id = R.string.permission_granted_text)
-                } else stringResource(id = R.string.click_to_grant_text),
+                } else {
+                    stringResource(id = R.string.click_to_grant_text)
+                },
                 style = MaterialTheme.typography.titleLarge,
                 color = contentColor
             )

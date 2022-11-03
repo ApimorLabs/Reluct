@@ -24,10 +24,10 @@ import work.racka.reluct.android.compose.theme.Shapes
 
 @Composable
 fun ProfilePicture(
-    modifier: Modifier = Modifier,
     pictureUrl: String?,
+    modifier: Modifier = Modifier,
     size: Dp = 36.dp,
-    onPictureClicked: () -> Unit = { }
+    onPictureClicked: () -> Unit = { },
 ) {
     var imageLoading by remember {
         mutableStateOf(true)

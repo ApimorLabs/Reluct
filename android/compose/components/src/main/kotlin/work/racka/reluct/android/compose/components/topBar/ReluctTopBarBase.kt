@@ -30,8 +30,9 @@ import work.racka.reluct.android.compose.theme.Shapes
  */
 @Composable
 fun ReluctTopBarBase(
-    modifier: Modifier = Modifier,
     toolbarHeading: String?,
+    content: @Composable BoxScope.() -> Unit,
+    modifier: Modifier = Modifier,
     showBackButton: Boolean = true,
     onBackButtonPressed: () -> Unit = { },
     contentAlignment: Alignment = Alignment.Center,
@@ -40,7 +41,6 @@ fun ReluctTopBarBase(
     contentColor: Color = LocalContentColor.current,
     containerColor: Color = MaterialTheme.colorScheme.background,
     collapsed: Boolean = false,
-    content: @Composable BoxScope.() -> Unit,
 ) {
     val animatedElevation by animateDpAsState(
         targetValue = if (collapsed) 10.dp else 0.dp,
