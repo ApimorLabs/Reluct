@@ -16,6 +16,9 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import kotlinx.collections.immutable.ImmutableMap
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import work.racka.reluct.android.compose.components.buttons.ReluctButton
 import work.racka.reluct.android.compose.components.cards.card_with_actions.ReluctDescriptionCard
 import work.racka.reluct.android.compose.components.cards.statistics.StatisticsChartState
@@ -28,6 +31,8 @@ import work.racka.reluct.common.features.screen_time.statistics.states.app_stats
 import work.racka.reluct.common.features.screen_time.statistics.states.app_stats.DailyAppUsageStatsState
 import work.racka.reluct.common.features.screen_time.statistics.states.app_stats.WeeklyAppUsageStatsState
 import work.racka.reluct.common.features.screen_time.ui.components.AppNameEntry
+import work.racka.reluct.common.model.domain.usagestats.AppUsageStats
+import work.racka.reluct.common.model.util.time.Week
 
 @Composable
 internal fun AppLimitedOverlayUI(
@@ -38,9 +43,12 @@ internal fun AppLimitedOverlayUI(
 
     val uiState by viewModel.uiState.collectAsState()
 
-    val barChartState by remember(uiState.weeklyData) {
-        derivedStateOf {
-            val result = when (val weeklyState = uiState.weeklyData) {
+    val barChartState by produceState<StatisticsChartState<ImmutableMap<Week, AppUsageStats>>>(
+        initialValue = StatisticsChartState.Loading(uiState.weeklyData.usageStats),
+        uiState.weeklyData
+    ) {
+        value = withContext(Dispatchers.IO) {
+            when (val weeklyState = uiState.weeklyData) {
                 is WeeklyAppUsageStatsState.Data -> {
                     StatisticsChartState.Success(data = weeklyState.usageStats)
                 }
@@ -51,7 +59,6 @@ internal fun AppLimitedOverlayUI(
                     StatisticsChartState.Empty(data = weeklyState.usageStats)
                 }
             }
-            result
         }
     }
 

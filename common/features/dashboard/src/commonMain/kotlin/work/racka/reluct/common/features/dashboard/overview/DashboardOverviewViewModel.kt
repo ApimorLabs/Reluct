@@ -31,9 +31,9 @@ class DashboardOverviewViewModel(
 ) : CommonViewModel() {
 
     private val todayScreenTimeState: MutableStateFlow<TodayScreenTimeState> =
-        MutableStateFlow(TodayScreenTimeState.Nothing)
+        MutableStateFlow(TodayScreenTimeState.Loading())
     private val todayTasksState: MutableStateFlow<TodayTasksState> =
-        MutableStateFlow(TodayTasksState.Nothing)
+        MutableStateFlow(TodayTasksState.Loading())
     private val goals: MutableStateFlow<ImmutableList<Goal>> = MutableStateFlow(persistentListOf())
 
     val uiState: StateFlow<DashboardOverviewState> = combine(

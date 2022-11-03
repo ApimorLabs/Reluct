@@ -5,9 +5,8 @@ import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.produceState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
@@ -16,6 +15,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import kotlinx.collections.immutable.ImmutableMap
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import work.racka.reluct.android.compose.components.R
 import work.racka.reluct.android.compose.components.cards.statistics.StatisticsBarChartCard
 import work.racka.reluct.android.compose.components.cards.statistics.StatisticsChartState
@@ -36,8 +37,8 @@ fun AppScreenTimeStatisticsCard(
     barColor: Color = MaterialTheme.colorScheme.secondary
         .copy(alpha = .7f),
 ) {
-    val bars by remember(barChartState.data) {
-        derivedStateOf {
+    val bars by produceState(initialValue = persistentListOf(), barChartState.data) {
+        value = withContext(Dispatchers.IO) {
             persistentListOf<BarChartData.Bar>().builder().apply {
                 barChartState.data.forEach { entry ->
                     add(

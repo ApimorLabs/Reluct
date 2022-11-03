@@ -7,8 +7,8 @@ import work.racka.reluct.common.model.domain.tasks.Task
 import work.racka.reluct.common.model.domain.usagestats.UsageStats
 
 data class DashboardOverviewState(
-    val todayScreenTimeState: TodayScreenTimeState = TodayScreenTimeState.Nothing,
-    val todayTasksState: TodayTasksState = TodayTasksState.Nothing,
+    val todayScreenTimeState: TodayScreenTimeState = TodayScreenTimeState.Loading(),
+    val todayTasksState: TodayTasksState = TodayTasksState.Loading(),
     val goals: ImmutableList<Goal> = persistentListOf()
 )
 
