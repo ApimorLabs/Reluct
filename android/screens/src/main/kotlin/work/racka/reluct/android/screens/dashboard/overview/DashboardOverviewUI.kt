@@ -222,8 +222,7 @@ internal fun DashboardOverviewUI(
                 item {
                     Spacer(
                         modifier = Modifier
-                            .padding(bottom = Dimens.ExtraLargePadding.size)
-                            .navigationBarsPadding()
+                            .padding(mainScaffoldPadding)
                     )
                 }
             }
