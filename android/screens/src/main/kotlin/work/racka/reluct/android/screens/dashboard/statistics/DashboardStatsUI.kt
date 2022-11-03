@@ -28,7 +28,7 @@ import work.racka.reluct.android.compose.components.util.rememberScrollContext
 import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.android.compose.theme.Shapes
 import work.racka.reluct.android.screens.screentime.components.AppTimeLimitDialog
-import work.racka.reluct.android.screens.screentime.components.getWeeklyScreenTimeBarChartBars
+import work.racka.reluct.android.screens.screentime.components.getWeeklyDeviceScreenTimeChartData
 import work.racka.reluct.android.screens.tasks.components.getTasksBarChartBars
 import work.racka.reluct.common.features.screen_time.limits.states.AppTimeLimitState
 import work.racka.reluct.common.features.screen_time.statistics.states.all_stats.ScreenTimeStatsState
@@ -74,7 +74,7 @@ internal fun DashboardStatsUI(
         screenTimeUiState.weeklyData
     ) {
         value = ChartData(
-            data = getWeeklyScreenTimeBarChartBars(
+            data = getWeeklyDeviceScreenTimeChartData(
                 screenTimeUiState.weeklyData.usageStats,
                 barColor
             ),

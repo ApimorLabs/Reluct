@@ -34,7 +34,7 @@ import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.android.compose.theme.Shapes
 import work.racka.reluct.android.screens.R
 import work.racka.reluct.android.screens.screentime.components.AppTimeLimitDialog
-import work.racka.reluct.android.screens.screentime.components.getWeeklyScreenTimeBarChartBars
+import work.racka.reluct.android.screens.screentime.components.getWeeklyDeviceScreenTimeChartData
 import work.racka.reluct.android.screens.util.PermissionCheckHandler
 import work.racka.reluct.android.screens.util.checkUsageAccessPermissions
 import work.racka.reluct.android.screens.util.requestUsageAccessPermission
@@ -83,7 +83,7 @@ internal fun ScreenTimeStatisticsUI(
         uiState.weeklyData
     ) {
         value = ChartData(
-            data = getWeeklyScreenTimeBarChartBars(uiState.weeklyData.usageStats, barColor),
+            data = getWeeklyDeviceScreenTimeChartData(uiState.weeklyData.usageStats, barColor),
             isLoading = uiState.weeklyData is WeeklyUsageStatsState.Loading
         )
     }

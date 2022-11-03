@@ -13,18 +13,23 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import kotlinx.collections.immutable.ImmutableMap
+import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import work.racka.reluct.android.compose.components.buttons.ReluctButton
 import work.racka.reluct.android.compose.components.cards.card_with_actions.ReluctDescriptionCard
-import work.racka.reluct.android.compose.components.cards.statistics.StatisticsChartState
-import work.racka.reluct.android.compose.components.cards.statistics.screen_time.AppScreenTimeStatisticsCard
+import work.racka.reluct.android.compose.components.cards.statistics.BarChartDefaults
+import work.racka.reluct.android.compose.components.cards.statistics.ChartData
+import work.racka.reluct.android.compose.components.cards.statistics.screen_time.ScreenTimeStatisticsCard
 import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.android.compose.theme.Shapes
+import work.racka.reluct.barChart.BarChartData
 import work.racka.reluct.common.features.screen_time.R
 import work.racka.reluct.common.features.screen_time.statistics.AppScreenTimeStatsViewModel
 import work.racka.reluct.common.features.screen_time.statistics.states.app_stats.AppSettingsState
@@ -43,23 +48,17 @@ internal fun AppLimitedOverlayUI(
 
     val uiState by viewModel.uiState.collectAsState()
 
-    val barChartState by produceState<StatisticsChartState<ImmutableMap<Week, AppUsageStats>>>(
-        initialValue = StatisticsChartState.Loading(uiState.weeklyData.usageStats),
+    val barColor = BarChartDefaults.barColor
+    val barChartData by produceState(
+        initialValue = ChartData(
+            isLoading = uiState.weeklyData is WeeklyAppUsageStatsState.Loading
+        ),
         uiState.weeklyData
     ) {
-        value = withContext(Dispatchers.IO) {
-            when (val weeklyState = uiState.weeklyData) {
-                is WeeklyAppUsageStatsState.Data -> {
-                    StatisticsChartState.Success(data = weeklyState.usageStats)
-                }
-                is WeeklyAppUsageStatsState.Loading -> {
-                    StatisticsChartState.Loading(data = weeklyState.usageStats)
-                }
-                is WeeklyAppUsageStatsState.Empty -> {
-                    StatisticsChartState.Empty(data = weeklyState.usageStats)
-                }
-            }
-        }
+        value = ChartData(
+            data = getWeeklyAppScreenTimeChartData(uiState.weeklyData.usageStats, barColor),
+            isLoading = uiState.weeklyData is WeeklyAppUsageStatsState.Loading
+        )
     }
 
     val appSettingsData by remember(uiState.appSettingsState) {
@@ -116,8 +115,8 @@ internal fun AppLimitedOverlayUI(
             // Chart
             val dailyData = uiState.dailyData
             item {
-                AppScreenTimeStatisticsCard(
-                    barChartState = barChartState,
+                ScreenTimeStatisticsCard(
+                    chartData = barChartData,
                     selectedDayText = if (dailyData is DailyAppUsageStatsState.Data)
                         dailyData.dayText else "...",
                     selectedDayScreenTime = if (dailyData is DailyAppUsageStatsState.Data)
@@ -289,4 +288,23 @@ private fun ReasonCard(
             }
         }
     }
+}
+
+private suspend inline fun getWeeklyAppScreenTimeChartData(
+    weeklyStats: ImmutableMap<Week, AppUsageStats>,
+    barColor: Color
+) = withContext(Dispatchers.IO) {
+    persistentListOf<BarChartData.Bar>().builder().apply {
+        for (key in weeklyStats.keys) {
+            val data = weeklyStats.getValue(key)
+            add(
+                BarChartData.Bar(
+                    value = data.appUsageInfo.timeInForeground.toFloat(),
+                    color = barColor,
+                    label = key.dayAcronym,
+                    uniqueId = key.isoDayNumber
+                )
+            )
+        }
+    }.build().toImmutableList()
 }

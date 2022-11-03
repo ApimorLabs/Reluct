@@ -22,16 +22,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import work.racka.reluct.android.compose.components.buttons.ValueOffsetButton
 import work.racka.reluct.android.compose.components.cards.headers.ListGroupHeadingHeader
-import work.racka.reluct.android.compose.components.cards.statistics.StatisticsChartState
-import work.racka.reluct.android.compose.components.cards.statistics.screen_time.AppScreenTimeStatisticsCard
+import work.racka.reluct.android.compose.components.cards.statistics.BarChartDefaults
+import work.racka.reluct.android.compose.components.cards.statistics.ChartData
+import work.racka.reluct.android.compose.components.cards.statistics.screen_time.ScreenTimeStatisticsCard
 import work.racka.reluct.android.compose.components.dialogs.CircularProgressDialog
 import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.android.compose.theme.Shapes
 import work.racka.reluct.android.screens.R
-import work.racka.reluct.android.screens.screentime.components.AppNameEntry
-import work.racka.reluct.android.screens.screentime.components.AppTimeLimitDialog
-import work.racka.reluct.android.screens.screentime.components.LimitsDetailsCard
-import work.racka.reluct.android.screens.screentime.components.LimitsSwitchCard
+import work.racka.reluct.android.screens.screentime.components.*
 import work.racka.reluct.common.features.screen_time.statistics.states.app_stats.AppScreenTimeStatsState
 import work.racka.reluct.common.features.screen_time.statistics.states.app_stats.AppSettingsState
 import work.racka.reluct.common.features.screen_time.statistics.states.app_stats.DailyAppUsageStatsState
@@ -51,24 +49,17 @@ internal fun AppScreenTimeStatsUI(
     goBack: () -> Unit
 ) {
 
-    val barChartState = remember(uiState.weeklyData) {
-        derivedStateOf {
-            val result = when (val weeklyState = uiState.weeklyData) {
-                is WeeklyAppUsageStatsState.Data -> {
-                    StatisticsChartState.Success(data = weeklyState.usageStats)
-                }
-                is WeeklyAppUsageStatsState.Loading -> {
-                    StatisticsChartState.Loading(data = weeklyState.usageStats)
-                }
-                is WeeklyAppUsageStatsState.Empty -> {
-                    StatisticsChartState.Empty(data = weeklyState.usageStats)
-                }
-                else -> {
-                    StatisticsChartState.Empty(data = weeklyState.usageStats)
-                }
-            }
-            result
-        }
+    val barColor = BarChartDefaults.barColor
+    val barChartData by produceState(
+        initialValue = ChartData(
+            isLoading = uiState.weeklyData is WeeklyAppUsageStatsState.Loading
+        ),
+        uiState.weeklyData
+    ) {
+        value = ChartData(
+            data = getWeeklyAppScreenTimeChartData(uiState.weeklyData.usageStats, barColor),
+            isLoading = uiState.weeklyData is WeeklyAppUsageStatsState.Loading
+        )
     }
 
     val listState = rememberLazyListState()
@@ -135,8 +126,8 @@ internal fun AppScreenTimeStatsUI(
                 // Chart
                 val dailyData = uiState.dailyData
                 item {
-                    AppScreenTimeStatisticsCard(
-                        barChartState = barChartState.value,
+                    ScreenTimeStatisticsCard(
+                        chartData = barChartData,
                         selectedDayText = if (dailyData is DailyAppUsageStatsState.Data)
                             dailyData.dayText else "...",
                         selectedDayScreenTime = if (dailyData is DailyAppUsageStatsState.Data)
