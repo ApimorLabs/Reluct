@@ -1,5 +1,6 @@
 package work.racka.reluct.android.compose.components.cards.statistics.tasks
 
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
@@ -27,7 +28,7 @@ fun TasksStatisticsCard(
     modifier: Modifier = Modifier,
 ) {
     StatisticsBarChartCard(
-        modifier = modifier,
+        modifier = modifier.animateContentSize(),
         bars = chartData.data,
         selectedBarColor = MaterialTheme.colorScheme.primary,
         dataLoading = chartData.isLoading,

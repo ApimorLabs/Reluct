@@ -26,7 +26,7 @@ class ScreenTimeStatsViewModel(
     private val selectedInfo: MutableStateFlow<ScreenTimeStatsSelectedInfo> =
         MutableStateFlow(ScreenTimeStatsSelectedInfo())
     private val weeklyUsageStatsState: MutableStateFlow<WeeklyUsageStatsState> =
-        MutableStateFlow(WeeklyUsageStatsState.Empty)
+        MutableStateFlow(WeeklyUsageStatsState.Loading())
     private val dailyUsageStatsState: MutableStateFlow<DailyUsageStatsState> =
         MutableStateFlow(DailyUsageStatsState.Empty)
     private val appTimeLimitState: MutableStateFlow<AppTimeLimitState> =

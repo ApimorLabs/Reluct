@@ -2,6 +2,7 @@ package work.racka.reluct.android.compose.components.cards.statistics.piechart
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -40,6 +41,7 @@ fun DailyScreenTimePieChart(
             contentColor = contentColor
         ),
         modifier = modifier
+            .animateContentSize()
             .fillMaxWidth()
             .clip(shape),
         onClick = onClick

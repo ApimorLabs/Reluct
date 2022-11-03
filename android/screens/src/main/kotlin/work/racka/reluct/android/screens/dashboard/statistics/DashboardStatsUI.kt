@@ -20,7 +20,6 @@ import work.racka.reluct.android.compose.components.cards.app_usage_entry.AppUsa
 import work.racka.reluct.android.compose.components.cards.headers.ListGroupHeadingHeader
 import work.racka.reluct.android.compose.components.cards.statistics.BarChartDefaults
 import work.racka.reluct.android.compose.components.cards.statistics.ChartData
-import work.racka.reluct.android.compose.components.cards.statistics.StatisticsChartState
 import work.racka.reluct.android.compose.components.cards.statistics.screen_time.ScreenTimeStatisticsCard
 import work.racka.reluct.android.compose.components.cards.statistics.tasks.TasksStatisticsCard
 import work.racka.reluct.android.compose.components.dialogs.CircularProgressDialog
@@ -29,6 +28,7 @@ import work.racka.reluct.android.compose.components.util.rememberScrollContext
 import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.android.compose.theme.Shapes
 import work.racka.reluct.android.screens.screentime.components.AppTimeLimitDialog
+import work.racka.reluct.android.screens.screentime.components.getWeeklyScreenTimeBarChartBars
 import work.racka.reluct.android.screens.tasks.components.getTasksBarChartBars
 import work.racka.reluct.common.features.screen_time.limits.states.AppTimeLimitState
 import work.racka.reluct.common.features.screen_time.statistics.states.all_stats.ScreenTimeStatsState
@@ -67,24 +67,19 @@ internal fun DashboardStatsUI(
     // Bar Charts
     val barColor = BarChartDefaults.barColor
     // Screen Time Chart
-    val screenTimeChartState = remember(screenTimeUiState.weeklyData) {
-        derivedStateOf {
-            val result = when (val weeklyState = screenTimeUiState.weeklyData) {
-                is WeeklyUsageStatsState.Data -> {
-                    StatisticsChartState.Success(data = weeklyState.usageStats)
-                }
-                is WeeklyUsageStatsState.Loading -> {
-                    StatisticsChartState.Loading(data = weeklyState.usageStats)
-                }
-                is WeeklyUsageStatsState.Empty -> {
-                    StatisticsChartState.Empty(data = weeklyState.usageStats)
-                }
-                else -> {
-                    StatisticsChartState.Empty(data = weeklyState.usageStats)
-                }
-            }
-            result
-        }
+    val screenTimeChartData by produceState(
+        initialValue = ChartData(
+            isLoading = screenTimeUiState.weeklyData is WeeklyUsageStatsState.Loading
+        ),
+        screenTimeUiState.weeklyData
+    ) {
+        value = ChartData(
+            data = getWeeklyScreenTimeBarChartBars(
+                screenTimeUiState.weeklyData.usageStats,
+                barColor
+            ),
+            isLoading = screenTimeUiState.weeklyData is WeeklyUsageStatsState.Loading
+        )
     }
 
     // Tasks Stats Chart
@@ -149,7 +144,7 @@ internal fun DashboardStatsUI(
                 // Screen Time Chart
                 item {
                     ScreenTimeStatisticsCard(
-                        barChartState = screenTimeChartState.value,
+                        chartData = screenTimeChartData,
                         selectedDayText = screenTimeUiState.dailyData.dayText,
                         selectedDayScreenTime = screenTimeUiState.dailyData
                             .usageStat.formattedTotalScreenTime,

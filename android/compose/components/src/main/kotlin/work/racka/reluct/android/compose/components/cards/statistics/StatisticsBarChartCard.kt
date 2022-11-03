@@ -81,7 +81,7 @@ internal fun StatisticsBarChartCard(
                 )
                 if (dataLoading) {
                     LinearProgressIndicator()
-                } else if (sumOfBarsValue.equals(0.0) && !dataLoading) {
+                } else if (sumOfBarsValue.equals(0.0)) {
                     Text(
                         text = noDataText,
                         style = MaterialTheme.typography.titleLarge

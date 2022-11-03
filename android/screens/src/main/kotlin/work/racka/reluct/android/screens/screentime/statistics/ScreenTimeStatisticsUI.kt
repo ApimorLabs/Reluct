@@ -23,7 +23,8 @@ import work.racka.reluct.android.compose.components.buttons.ValueOffsetButton
 import work.racka.reluct.android.compose.components.cards.app_usage_entry.AppUsageEntry
 import work.racka.reluct.android.compose.components.cards.headers.ListGroupHeadingHeader
 import work.racka.reluct.android.compose.components.cards.permissions.PermissionsCard
-import work.racka.reluct.android.compose.components.cards.statistics.StatisticsChartState
+import work.racka.reluct.android.compose.components.cards.statistics.BarChartDefaults
+import work.racka.reluct.android.compose.components.cards.statistics.ChartData
 import work.racka.reluct.android.compose.components.cards.statistics.screen_time.ScreenTimeStatisticsCard
 import work.racka.reluct.android.compose.components.dialogs.CircularProgressDialog
 import work.racka.reluct.android.compose.components.images.LottieAnimationWithDescription
@@ -33,6 +34,7 @@ import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.android.compose.theme.Shapes
 import work.racka.reluct.android.screens.R
 import work.racka.reluct.android.screens.screentime.components.AppTimeLimitDialog
+import work.racka.reluct.android.screens.screentime.components.getWeeklyScreenTimeBarChartBars
 import work.racka.reluct.android.screens.util.PermissionCheckHandler
 import work.racka.reluct.android.screens.util.checkUsageAccessPermissions
 import work.racka.reluct.android.screens.util.requestUsageAccessPermission
@@ -72,24 +74,18 @@ internal fun ScreenTimeStatisticsUI(
         }
     }
 
-    val barChartState = remember(uiState.weeklyData) {
-        derivedStateOf {
-            val result = when (val weeklyState = uiState.weeklyData) {
-                is WeeklyUsageStatsState.Data -> {
-                    StatisticsChartState.Success(data = weeklyState.usageStats)
-                }
-                is WeeklyUsageStatsState.Loading -> {
-                    StatisticsChartState.Loading(data = weeklyState.usageStats)
-                }
-                is WeeklyUsageStatsState.Empty -> {
-                    StatisticsChartState.Empty(data = weeklyState.usageStats)
-                }
-                else -> {
-                    StatisticsChartState.Empty(data = weeklyState.usageStats)
-                }
-            }
-            result
-        }
+    // Screen Time Chart
+    val barColor = BarChartDefaults.barColor
+    val screenTimeChartData by produceState(
+        initialValue = ChartData(
+            isLoading = uiState.weeklyData is WeeklyUsageStatsState.Loading
+        ),
+        uiState.weeklyData
+    ) {
+        value = ChartData(
+            data = getWeeklyScreenTimeBarChartBars(uiState.weeklyData.usageStats, barColor),
+            isLoading = uiState.weeklyData is WeeklyUsageStatsState.Loading
+        )
     }
 
     var usagePermissionGranted by remember { mutableStateOf(false) }
@@ -171,7 +167,7 @@ internal fun ScreenTimeStatisticsUI(
                 // Chart
                 item {
                     ScreenTimeStatisticsCard(
-                        barChartState = barChartState.value,
+                        chartData = screenTimeChartData,
                         selectedDayText = uiState.dailyData.dayText,
                         selectedDayScreenTime = uiState.dailyData.usageStat.formattedTotalScreenTime,
                         weeklyTotalScreenTime = uiState.weeklyData.formattedTotalTime,

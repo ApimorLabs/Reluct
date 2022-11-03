@@ -9,8 +9,8 @@ import work.racka.reluct.common.model.util.time.Week
 
 data class ScreenTimeStatsState(
     val selectedInfo: ScreenTimeStatsSelectedInfo = ScreenTimeStatsSelectedInfo(),
-    val weeklyData: WeeklyUsageStatsState = WeeklyUsageStatsState.Empty,
-    val dailyData: DailyUsageStatsState = DailyUsageStatsState.Empty,
+    val weeklyData: WeeklyUsageStatsState = WeeklyUsageStatsState.Loading(),
+    val dailyData: DailyUsageStatsState = DailyUsageStatsState.Loading(),
     val appTimeLimit: AppTimeLimitState = AppTimeLimitState.Nothing
 )
 
