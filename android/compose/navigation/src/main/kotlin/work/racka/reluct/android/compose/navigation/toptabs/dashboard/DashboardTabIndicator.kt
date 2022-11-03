@@ -13,10 +13,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
+import kotlinx.collections.immutable.ImmutableList
 
 @Composable
 internal fun DashboardTabIndicator(
-    tabPositions: List<TabPosition>,
+    tabPositions: ImmutableList<TabPosition>,
     tabPage: DashboardTabDestination,
     modifier: Modifier = Modifier,
 ) {
