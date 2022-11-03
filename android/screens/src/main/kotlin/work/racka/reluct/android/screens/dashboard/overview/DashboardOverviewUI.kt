@@ -221,8 +221,7 @@ internal fun DashboardOverviewUI(
                 // Bottom Space for spaceBy
                 item {
                     Spacer(
-                        modifier = Modifier
-                            .padding(mainScaffoldPadding)
+                        modifier = Modifier.padding(mainScaffoldPadding)
                     )
                 }
             }

@@ -207,10 +207,7 @@ internal fun ScreenTimeLimitsUI(
                 // Bottom Space for spaceBy
                 item {
                     Spacer(
-                        modifier = Modifier
-                            .padding(bottom = Dimens.ExtraLargePadding.size)
-                            .padding(bottom = Dimens.ExtraLargePadding.size)
-                            .navigationBarsPadding()
+                        modifier = Modifier.padding(mainScaffoldPadding)
                     )
                 }
             }

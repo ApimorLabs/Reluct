@@ -255,9 +255,7 @@ internal fun ScreenTimeStatisticsUI(
                 // Bottom Space for spaceBy
                 item {
                     Spacer(
-                        modifier = Modifier
-                            .padding(bottom = Dimens.ExtraLargePadding.size)
-                            .navigationBarsPadding()
+                        modifier = Modifier.padding(mainScaffoldPadding)
                     )
                 }
             }

@@ -209,9 +209,7 @@ internal fun ActiveGoalsUI(
                     // Needed so that the load more indicator is shown
                     item {
                         Spacer(
-                            modifier = Modifier
-                                .padding(bottom = Dimens.ExtraLargePadding.size)
-                                .navigationBarsPadding()
+                            modifier = Modifier.padding(mainScaffoldPadding)
                         )
                     }
                 }
