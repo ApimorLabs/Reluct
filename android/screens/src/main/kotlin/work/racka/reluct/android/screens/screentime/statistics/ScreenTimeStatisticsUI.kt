@@ -24,7 +24,6 @@ import work.racka.reluct.android.compose.components.cards.appUsageEntry.AppUsage
 import work.racka.reluct.android.compose.components.cards.headers.ListGroupHeadingHeader
 import work.racka.reluct.android.compose.components.cards.permissions.PermissionsCard
 import work.racka.reluct.android.compose.components.cards.statistics.BarChartDefaults
-import work.racka.reluct.android.compose.components.cards.statistics.ChartData
 import work.racka.reluct.android.compose.components.cards.statistics.screenTime.ScreenTimeStatisticsCard
 import work.racka.reluct.android.compose.components.dialogs.CircularProgressDialog
 import work.racka.reluct.android.compose.components.images.LottieAnimationWithDescription
@@ -77,17 +76,11 @@ internal fun ScreenTimeStatisticsUI(
 
     // Screen Time Chart
     val barColor = BarChartDefaults.barColor
-    val screenTimeChartData = produceState(
-        initialValue = ChartData(
-            isLoading = uiState.weeklyData is WeeklyUsageStatsState.Loading
-        ),
-        uiState.weeklyData
-    ) {
-        value = ChartData(
-            data = getWeeklyDeviceScreenTimeChartData(uiState.weeklyData.usageStats, barColor),
-            isLoading = uiState.weeklyData is WeeklyUsageStatsState.Loading
-        )
-    }
+    val screenTimeChartData = getWeeklyDeviceScreenTimeChartData(
+        weeklyStatsProvider = { uiState.weeklyData.usageStats },
+        isLoadingProvider = { uiState.weeklyData is WeeklyUsageStatsState.Loading },
+        barColor = barColor
+    )
 
     var usagePermissionGranted by remember { mutableStateOf(false) }
     val openDialog = remember { mutableStateOf(false) }

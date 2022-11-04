@@ -23,7 +23,6 @@ import androidx.compose.ui.unit.dp
 import work.racka.reluct.android.compose.components.buttons.ValueOffsetButton
 import work.racka.reluct.android.compose.components.cards.headers.ListGroupHeadingHeader
 import work.racka.reluct.android.compose.components.cards.statistics.BarChartDefaults
-import work.racka.reluct.android.compose.components.cards.statistics.ChartData
 import work.racka.reluct.android.compose.components.cards.statistics.screenTime.ScreenTimeStatisticsCard
 import work.racka.reluct.android.compose.components.dialogs.CircularProgressDialog
 import work.racka.reluct.android.compose.theme.Dimens
@@ -49,17 +48,11 @@ internal fun AppScreenTimeStatsUI(
     modifier: Modifier = Modifier,
 ) {
     val barColor = BarChartDefaults.barColor
-    val barChartData = produceState(
-        initialValue = ChartData(
-            isLoading = uiState.weeklyData is WeeklyAppUsageStatsState.Loading
-        ),
-        uiState.weeklyData
-    ) {
-        value = ChartData(
-            data = getWeeklyAppScreenTimeChartData(uiState.weeklyData.usageStats, barColor),
-            isLoading = uiState.weeklyData is WeeklyAppUsageStatsState.Loading
-        )
-    }
+    val barChartData = getWeeklyAppScreenTimeChartData(
+        weeklyStatsProvider = { uiState.weeklyData.usageStats },
+        isLoadingProvider = { uiState.weeklyData is WeeklyAppUsageStatsState.Loading },
+        barColor = barColor
+    )
 
     val listState = rememberLazyListState()
     var showAppTimeLimitDialog by remember { mutableStateOf(false) }
