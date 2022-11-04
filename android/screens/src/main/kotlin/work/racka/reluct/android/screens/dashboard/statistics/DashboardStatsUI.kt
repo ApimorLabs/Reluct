@@ -95,7 +95,7 @@ internal fun DashboardStatsUI(
         )
     }
 
-    var showAppTimeLimitDialog by remember { mutableStateOf(false) }
+    val showAppTimeLimitDialog = remember { mutableStateOf(false) }
 
     val snackbarModifier = if (scrollContext.isTop) {
         Modifier.padding(bottom = mainScaffoldPadding.calculateBottomPadding())
@@ -170,7 +170,7 @@ internal fun DashboardStatsUI(
                                             appUsageInfo = item,
                                             onTimeSettingsClick = {
                                                 onSelectAppTimeLimit(item.packageName)
-                                                showAppTimeLimitDialog = true
+                                                showAppTimeLimitDialog.value = true
                                             },
                                             contentColor = MaterialTheme.colorScheme.onSurfaceVariant
                                         )
@@ -221,18 +221,33 @@ internal fun DashboardStatsUI(
 
     // Dialogs
     // App Time Limit Dialog
-    if (showAppTimeLimitDialog) {
-        when (val limitState = screenTimeUiState.appTimeLimit) {
+    ShowAppTimeLimitDialog(
+        openDialog = showAppTimeLimitDialog,
+        limitStateProvider = { screenTimeUiState.appTimeLimit },
+        onSaveTimeLimit = onSaveTimeLimit,
+        onClose = { showAppTimeLimitDialog.value = false }
+    )
+}
+
+@Composable
+private fun ShowAppTimeLimitDialog(
+    openDialog: State<Boolean>,
+    limitStateProvider: () -> AppTimeLimitState,
+    onSaveTimeLimit: (hours: Int, minutes: Int) -> Unit,
+    onClose: () -> Unit,
+) {
+    if (openDialog.value) {
+        when (val limitState = limitStateProvider()) {
             is AppTimeLimitState.Data -> {
                 AppTimeLimitDialog(
-                    onDismiss = { showAppTimeLimitDialog = false },
+                    onDismiss = onClose,
                     initialAppTimeLimit = limitState.timeLimit,
                     onSaveTimeLimit = onSaveTimeLimit
                 )
             }
             else -> {
                 CircularProgressDialog(
-                    onDismiss = { showAppTimeLimitDialog = false },
+                    onDismiss = onClose,
                     loadingText = stringResource(id = R.string.loading_text)
                 )
             }

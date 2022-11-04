@@ -31,7 +31,6 @@ fun DashboardOverviewScreen(
     val events =
         viewModel.events.collectAsStateWithLifecycle(initialValue = DashboardEvents.Nothing)
 
-    println("Dashboard Overview Screen Composed")
     val context = LocalContext.current
     HandleEvents(
         context = context,
