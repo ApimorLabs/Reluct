@@ -1,5 +1,6 @@
 package work.racka.reluct.android.screens.goals.addEdit
 
+import android.content.Context
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.*
@@ -12,6 +13,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import work.racka.reluct.android.compose.components.bottomSheet.addEditGoal.LazyColumnAddEditGoal
@@ -34,7 +36,7 @@ import work.racka.reluct.common.model.domain.goals.Goal
 @Composable
 internal fun AddEditGoalUI(
     snackbarState: SnackbarHostState,
-    uiState: AddEditGoalState,
+    uiState: State<AddEditGoalState>,
     onSave: () -> Unit,
     onCreateNewGoal: () -> Unit,
     onSyncRelatedApps: () -> Unit,
@@ -43,26 +45,25 @@ internal fun AddEditGoalUI(
     onGoBack: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val modifyGoalState = uiState.modifyGoalState
+    val modifyGoalState = remember { derivedStateOf { uiState.value.modifyGoalState } }
 
-    val (titleText, closeDialogTitle) = getTitles(modifyGoalState)
+    val context = LocalContext.current
+    val titles = getTitles(
+        modifyGoalStateProvider = { modifyGoalState.value },
+        context = context
+    )
 
-    val canGoBack by remember(modifyGoalState) {
+    val canGoBack by remember {
         derivedStateOf {
-            modifyGoalState !is ModifyGoalState.Data
+            modifyGoalState.value !is ModifyGoalState.Data
         }
     }
-    var openExitDialog by remember { mutableStateOf(false) }
-    var openRelatedAppsDialog by remember { mutableStateOf(false) }
+    val openExitDialog = remember { mutableStateOf(false) }
+    val openRelatedAppsDialog = remember { mutableStateOf(false) }
 
     fun goBackAttempt(canGoBack: Boolean) {
-        if (canGoBack) {
-            onGoBack()
-        } else {
-            openExitDialog = true
-        }
+        if (canGoBack) onGoBack() else openExitDialog.value = true
     }
-
     BackPressHandler { goBackAttempt(canGoBack) }
 
     Scaffold(
@@ -72,7 +73,7 @@ internal fun AddEditGoalUI(
         topBar = {
             ReluctSmallTopAppBar(
                 modifier = Modifier.statusBarsPadding(),
-                title = titleText,
+                title = titles.value.appBarTitle,
                 navigationIcon = {
                     IconButton(onClick = { goBackAttempt(canGoBack) }) {
                         Icon(
@@ -103,7 +104,7 @@ internal fun AddEditGoalUI(
                 .fillMaxSize()
         ) {
             AnimatedContent(
-                targetState = modifyGoalState,
+                targetState = modifyGoalState.value,
                 modifier = Modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center
             ) { targetState ->
@@ -157,42 +158,79 @@ internal fun AddEditGoalUI(
                 }
             }
 
-            if (modifyGoalState is ModifyGoalState.Data) {
-                // Add and Edit Column
-                LazyColumnAddEditGoal(
-                    goal = modifyGoalState.goal,
-                    onUpdateGoal = onUpdateGoal,
-                    onDiscard = { goBackAttempt(canGoBack) },
-                    onSave = { onSave() },
-                    onShowAppPicker = {
-                        openRelatedAppsDialog = true
-                        onSyncRelatedApps()
-                    }
-                )
-            }
+            EditGoalList(
+                getModifyGoalState = { modifyGoalState.value },
+                onUpdateGoal = onUpdateGoal,
+                onGoBack = { goBackAttempt(canGoBack) },
+                onSyncRelatedApps = onSyncRelatedApps,
+                onOpenAppsDialog = { openRelatedAppsDialog.value = true },
+                onSave = onSave
+            )
         }
     }
 
     // Manage Related Apps
-    if (openRelatedAppsDialog) {
-        ManageAppsDialog(
-            onDismiss = { openRelatedAppsDialog = false },
-            isLoading = uiState.appsState is GoalAppsState.Loading,
-            topItemsHeading = stringResource(id = R.string.selected_apps_text),
-            bottomItemsHeading = stringResource(id = R.string.apps_text),
-            topItems = uiState.appsState.selectedApps,
-            bottomItems = uiState.appsState.unselectedApps,
-            onTopItemClicked = { app -> onModifyApps(app, false) },
-            onBottomItemClicked = { app -> onModifyApps(app, true) }
-        )
-    }
+    ManageAppsDialog(
+        openDialog = openRelatedAppsDialog,
+        onDismiss = { openRelatedAppsDialog.value = false },
+        isLoadingProvider = { uiState.value.appsState is GoalAppsState.Loading },
+        topItemsHeading = stringResource(id = R.string.selected_apps_text),
+        bottomItemsHeading = stringResource(id = R.string.apps_text),
+        topItems = { uiState.value.appsState.selectedApps },
+        bottomItems = { uiState.value.appsState.unselectedApps },
+        onTopItemClicked = { app -> onModifyApps(app, false) },
+        onBottomItemClicked = { app -> onModifyApps(app, true) }
+    )
 
     // Discard Dialog
-    if (openExitDialog) {
+    DiscardGoalDialog(
+        dialogTitleProvider = { titles.value.dialogTitle },
+        openDialog = openExitDialog,
+        onClose = { openExitDialog.value = false },
+        onGoBack = onGoBack
+    )
+}
+
+@Composable
+private fun EditGoalList(
+    getModifyGoalState: () -> ModifyGoalState,
+    onUpdateGoal: (goal: Goal) -> Unit,
+    onGoBack: () -> Unit,
+    onSyncRelatedApps: () -> Unit,
+    onOpenAppsDialog: () -> Unit,
+    onSave: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    val goalState = getModifyGoalState()
+
+    if (goalState is ModifyGoalState.Data) {
+        LazyColumnAddEditGoal(
+            modifier = modifier,
+            goal = goalState.goal,
+            onUpdateGoal = onUpdateGoal,
+            onDiscard = onGoBack,
+            onSave = { onSave() },
+            onShowAppPicker = {
+                onOpenAppsDialog()
+                onSyncRelatedApps()
+            }
+        )
+    }
+}
+
+@Composable
+private fun DiscardGoalDialog(
+    dialogTitleProvider: () -> String,
+    openDialog: State<Boolean>,
+    onClose: () -> Unit,
+    onGoBack: () -> Unit
+) {
+    if (openDialog.value) {
+        val title = remember { derivedStateOf(dialogTitleProvider) }
         AlertDialog(
-            onDismissRequest = { openExitDialog = false },
+            onDismissRequest = onClose,
             title = {
-                Text(text = closeDialogTitle)
+                Text(text = title.value)
             },
             text = {
                 Text(text = stringResource(R.string.discard_task_message))
@@ -205,7 +243,7 @@ internal fun AddEditGoalUI(
                     buttonColor = MaterialTheme.colorScheme.primary,
                     contentColor = MaterialTheme.colorScheme.onPrimary,
                     onButtonClicked = {
-                        openExitDialog = false
+                        onClose()
                         onGoBack()
                     }
                 )
@@ -217,7 +255,7 @@ internal fun AddEditGoalUI(
                     shape = Shapes.large,
                     buttonColor = MaterialTheme.colorScheme.surfaceVariant,
                     contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                    onButtonClicked = { openExitDialog = false }
+                    onButtonClicked = onClose
                 )
             }
         )
@@ -225,13 +263,32 @@ internal fun AddEditGoalUI(
 }
 
 @Composable
-private fun getTitles(modifyGoalState: ModifyGoalState) = when (modifyGoalState) {
-    is ModifyGoalState.Data -> {
-        if (modifyGoalState.isEdit) {
-            stringResource(R.string.edit_goal_text) to stringResource(R.string.discard_changes_text)
-        } else {
-            stringResource(R.string.add_goal_text) to stringResource(R.string.discard_goal_text)
+private fun getTitles(modifyGoalStateProvider: () -> ModifyGoalState, context: Context) =
+    remember(context) {
+        derivedStateOf {
+            when (val goalState = modifyGoalStateProvider()) {
+                is ModifyGoalState.Data -> {
+                    if (goalState.isEdit) {
+                        EditTitles(
+                            appBarTitle = context.getString(R.string.edit_goal_text),
+                            dialogTitle = context.getString(R.string.discard_changes_text)
+                        )
+                    } else {
+                        EditTitles(
+                            appBarTitle = context.getString(R.string.add_goal_text),
+                            dialogTitle = context.getString(R.string.discard_goal_text)
+                        )
+                    }
+                }
+                else -> EditTitles(
+                    appBarTitle = "• • •",
+                    dialogTitle = context.getString(R.string.discard_goal_text)
+                )
+            }
         }
     }
-    else -> "• • •" to stringResource(R.string.discard_goal_text)
-}
+
+private data class EditTitles(
+    val appBarTitle: String,
+    val dialogTitle: String
+)

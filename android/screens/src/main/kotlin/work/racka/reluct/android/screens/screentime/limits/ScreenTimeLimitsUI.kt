@@ -215,29 +215,27 @@ internal fun ScreenTimeLimitsUI(
     }
 
     // All Dialogs
-    if (showDistractingAppsDialog.value) {
-        ManageAppsDialog(
-            onDismiss = { showDistractingAppsDialog.value = false },
-            isLoading = uiState.distractingAppsState is DistractingAppsState.Loading,
-            topItemsHeading = stringResource(id = R.string.distracting_apps_text),
-            bottomItemsHeading = stringResource(id = R.string.non_distracting_apps_text),
-            topItems = uiState.distractingAppsState.distractingApps,
-            bottomItems = uiState.distractingAppsState.otherApps,
-            onTopItemClicked = { removeDistractingApp(it.packageName) },
-            onBottomItemClicked = { makeDistractingApp(it.packageName) }
-        )
-    }
+    ManageAppsDialog(
+        openDialog = showDistractingAppsDialog,
+        onDismiss = { showDistractingAppsDialog.value = false },
+        isLoadingProvider = { uiState.distractingAppsState is DistractingAppsState.Loading },
+        topItemsHeading = stringResource(id = R.string.distracting_apps_text),
+        bottomItemsHeading = stringResource(id = R.string.non_distracting_apps_text),
+        topItems = { uiState.distractingAppsState.distractingApps },
+        bottomItems = { uiState.distractingAppsState.otherApps },
+        onTopItemClicked = { removeDistractingApp(it.packageName) },
+        onBottomItemClicked = { makeDistractingApp(it.packageName) }
+    )
 
-    if (showPausedAppsDialog.value) {
-        ManageAppsDialog(
-            onDismiss = { showPausedAppsDialog.value = false },
-            isLoading = uiState.pausedAppsState is PausedAppsState.Loading,
-            topItemsHeading = stringResource(id = R.string.paused_apps_text),
-            bottomItemsHeading = stringResource(id = R.string.apps_text),
-            topItems = uiState.pausedAppsState.pausedApps,
-            bottomItems = uiState.pausedAppsState.unPausedApps,
-            onTopItemClicked = { resumeApp(it.packageName) },
-            onBottomItemClicked = { pauseApp(it.packageName) }
-        )
-    }
+    ManageAppsDialog(
+        openDialog = showPausedAppsDialog,
+        onDismiss = { showPausedAppsDialog.value = false },
+        isLoadingProvider = { uiState.pausedAppsState is PausedAppsState.Loading },
+        topItemsHeading = stringResource(id = R.string.paused_apps_text),
+        bottomItemsHeading = stringResource(id = R.string.apps_text),
+        topItems = { uiState.pausedAppsState.pausedApps },
+        bottomItems = { uiState.pausedAppsState.unPausedApps },
+        onTopItemClicked = { resumeApp(it.packageName) },
+        onBottomItemClicked = { pauseApp(it.packageName) }
+    )
 }

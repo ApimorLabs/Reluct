@@ -14,6 +14,7 @@ import androidx.compose.material.icons.rounded.KeyboardDoubleArrowDown
 import androidx.compose.material.icons.rounded.KeyboardDoubleArrowUp
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -33,52 +34,55 @@ import work.racka.reluct.common.model.domain.appInfo.AppInfo
 
 @Composable
 fun ManageAppsDialog(
+    openDialog: State<Boolean>,
     onDismiss: () -> Unit,
-    isLoading: Boolean,
+    isLoadingProvider: () -> Boolean,
     topItemsHeading: String,
     bottomItemsHeading: String,
-    topItems: ImmutableList<AppInfo>,
-    bottomItems: ImmutableList<AppInfo>,
+    topItems: () -> ImmutableList<AppInfo>,
+    bottomItems: () -> ImmutableList<AppInfo>,
     onTopItemClicked: (app: AppInfo) -> Unit,
     onBottomItemClicked: (app: AppInfo) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    Dialog(
-        onDismissRequest = onDismiss
-    ) {
-        Surface(
-            modifier = modifier,
-            shape = Shapes.large,
-            color = MaterialTheme.colorScheme.surface,
-            contentColor = MaterialTheme.colorScheme.onSurface,
-            tonalElevation = 6.dp
+    if (openDialog.value) {
+        Dialog(
+            onDismissRequest = onDismiss
         ) {
-            Column(
-                modifier = Modifier.padding(Dimens.MediumPadding.size),
-                verticalArrangement = Arrangement.spacedBy(Dimens.SmallPadding.size),
-                horizontalAlignment = Alignment.CenterHorizontally
+            Surface(
+                modifier = modifier,
+                shape = Shapes.large,
+                color = MaterialTheme.colorScheme.surface,
+                contentColor = MaterialTheme.colorScheme.onSurface,
+                tonalElevation = 6.dp
             ) {
-                ManageAppsUI(
-                    modifier = Modifier.height(480.dp),
-                    isLoading = isLoading,
-                    topItemsHeading = topItemsHeading,
-                    bottomItemsHeading = bottomItemsHeading,
-                    topItems = topItems,
-                    bottomItems = bottomItems,
-                    onTopItemClicked = onTopItemClicked,
-                    onBottomItemClicked = onBottomItemClicked,
-                    contentColor = MaterialTheme.colorScheme.onSurface
-                )
-
-                Box(
-                    modifier = Modifier.fillMaxWidth(),
-                    contentAlignment = Alignment.CenterEnd
+                Column(
+                    modifier = Modifier.padding(Dimens.MediumPadding.size),
+                    verticalArrangement = Arrangement.spacedBy(Dimens.SmallPadding.size),
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    ReluctButton(
-                        buttonText = stringResource(id = R.string.ok),
-                        icon = Icons.Rounded.Done,
-                        onButtonClicked = onDismiss
+                    ManageAppsUI(
+                        modifier = Modifier.height(480.dp),
+                        isLoading = isLoadingProvider(),
+                        topItemsHeading = topItemsHeading,
+                        bottomItemsHeading = bottomItemsHeading,
+                        topItems = topItems(),
+                        bottomItems = bottomItems(),
+                        onTopItemClicked = onTopItemClicked,
+                        onBottomItemClicked = onBottomItemClicked,
+                        contentColor = MaterialTheme.colorScheme.onSurface
                     )
+
+                    Box(
+                        modifier = Modifier.fillMaxWidth(),
+                        contentAlignment = Alignment.CenterEnd
+                    ) {
+                        ReluctButton(
+                            buttonText = stringResource(id = R.string.ok),
+                            icon = Icons.Rounded.Done,
+                            onButtonClicked = onDismiss
+                        )
+                    }
                 }
             }
         }
