@@ -87,7 +87,6 @@ internal fun ScreenTimeStatisticsUI(
         scrollContext = scrollContext
     )
 
-    println("App Screen Time UI Composed")
     Scaffold(
         modifier = modifier
             .fillMaxSize(),
@@ -106,7 +105,6 @@ internal fun ScreenTimeStatisticsUI(
         containerColor = MaterialTheme.colorScheme.background,
         contentWindowInsets = WindowInsets(0, 0, 0, 0)
     ) { padding ->
-        println("App Screen Time Scaffold Composed")
         Box(
             modifier = Modifier
                 .animateContentSize()
