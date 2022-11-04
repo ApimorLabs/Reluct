@@ -7,36 +7,32 @@ import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Add
-import androidx.compose.material.icons.rounded.ArrowUpward
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Dialog
 import kotlinx.coroutines.launch
-import work.racka.reluct.android.compose.components.animations.slideInVerticallyFadeReversed
-import work.racka.reluct.android.compose.components.animations.slideOutVerticallyFadeReversed
-import work.racka.reluct.android.compose.components.buttons.ReluctFloatingActionButton
+import work.racka.reluct.android.compose.components.buttons.ScrollToTop
 import work.racka.reluct.android.compose.components.cards.goalEntry.GoalEntry
-import work.racka.reluct.android.compose.components.images.LottieAnimationWithDescription
 import work.racka.reluct.android.compose.components.util.BarsVisibility
 import work.racka.reluct.android.compose.components.util.rememberScrollContext
 import work.racka.reluct.android.compose.theme.Dimens
-import work.racka.reluct.android.screens.R
-import work.racka.reluct.android.screens.goals.components.NewGoalSheet
+import work.racka.reluct.android.screens.goals.active.NewGoalDialog
+import work.racka.reluct.android.screens.goals.components.EmptyGoalsIndicator
+import work.racka.reluct.android.screens.goals.components.NewGoalFloatingButton
+import work.racka.reluct.android.screens.util.BottomBarVisibilityHandler
+import work.racka.reluct.android.screens.util.FetchMoreDataHandler
+import work.racka.reluct.android.screens.util.getSnackbarModifier
 import work.racka.reluct.common.features.goals.active.states.GoalsListState
 import work.racka.reluct.common.model.domain.goals.Goal
 
 @OptIn(
     ExperimentalAnimationApi::class,
-    ExperimentalFoundationApi::class,
     ExperimentalMaterial3Api::class
 )
 @Composable
@@ -44,46 +40,39 @@ internal fun InactiveGoalsUI(
     mainScaffoldPadding: PaddingValues,
     barsVisibility: BarsVisibility,
     snackbarState: SnackbarHostState,
-    uiState: GoalsListState,
+    uiState: State<GoalsListState>,
     fetchMoreData: () -> Unit,
     onAddGoal: (defaultGoalIndex: Int?) -> Unit,
     onGoalClicked: (Goal) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val listState = rememberLazyListState()
-    val scrollContext by rememberScrollContext(listState = listState)
-    var showNewGoalDialog by remember { mutableStateOf(false) }
-
+    val scrollContext = rememberScrollContext(listState = listState)
     val scope = rememberCoroutineScope()
+    val showNewGoalDialog = remember { mutableStateOf(false) }
 
     // React to scroll position
-    LaunchedEffect(scrollContext.isBottom) {
-        if (scrollContext.isBottom && uiState.shouldUpdateData &&
-            uiState !is GoalsListState.Loading
-        ) {
-            fetchMoreData()
-        }
+    FetchMoreDataHandler(
+        scrollContext = scrollContext,
+        isFetchAllowedProvider = {
+            uiState.value.shouldUpdateData && uiState.value !is GoalsListState.Loading
+        },
+        onFetchData = fetchMoreData
+    )
+
+    BottomBarVisibilityHandler(
+        scrollContext = scrollContext,
+        barsVisibility = barsVisibility
+    )
+
+    val showEmptyIndicator = remember {
+        derivedStateOf { uiState.value.goals.isEmpty() && uiState.value !is GoalsListState.Loading }
     }
 
-    SideEffect {
-        if (scrollContext.isTop) {
-            barsVisibility.bottomBar.show()
-        } else {
-            barsVisibility.bottomBar.hide()
-        }
-    }
-
-    val mainScaffoldBottomPadding by remember(mainScaffoldPadding) {
-        derivedStateOf {
-            mainScaffoldPadding.calculateBottomPadding()
-        }
-    }
-
-    val snackbarModifier = if (scrollContext.isTop) {
-        Modifier
-    } else {
-        Modifier.navigationBarsPadding()
-    }
+    val snackbarModifier = getSnackbarModifier(
+        mainPadding = mainScaffoldPadding,
+        scrollContext = scrollContext
+    )
 
     Scaffold(
         modifier = modifier
@@ -91,7 +80,7 @@ internal fun InactiveGoalsUI(
         snackbarHost = {
             SnackbarHost(hostState = snackbarState) { data ->
                 Snackbar(
-                    modifier = snackbarModifier,
+                    modifier = snackbarModifier.value,
                     shape = RoundedCornerShape(10.dp),
                     snackbarData = data,
                     containerColor = MaterialTheme.colorScheme.inverseSurface,
@@ -103,20 +92,11 @@ internal fun InactiveGoalsUI(
         containerColor = MaterialTheme.colorScheme.background,
         contentWindowInsets = WindowInsets(0, 0, 0, 0),
         floatingActionButton = {
-            AnimatedVisibility(
-                visible = scrollContext.isTop,
-                enter = slideInVerticallyFadeReversed(),
-                exit = slideOutVerticallyFadeReversed()
-            ) {
-                ReluctFloatingActionButton(
-                    modifier = Modifier
-                        .padding(bottom = mainScaffoldBottomPadding),
-                    buttonText = stringResource(R.string.new_goal_text),
-                    contentDescription = stringResource(R.string.add_icon),
-                    icon = Icons.Rounded.Add,
-                    onButtonClicked = { showNewGoalDialog = true }
-                )
-            }
+            NewGoalFloatingButton(
+                scrollContextState = scrollContext,
+                mainScaffoldPadding = mainScaffoldPadding,
+                onClick = { showNewGoalDialog.value = true }
+            )
         }
     ) { innerPadding ->
 
@@ -130,13 +110,13 @@ internal fun InactiveGoalsUI(
             AnimatedVisibility(
                 modifier = Modifier
                     .fillMaxSize(),
-                visible = uiState is GoalsListState.Loading,
+                visible = uiState.value is GoalsListState.Loading,
                 enter = scaleIn(),
                 exit = scaleOut()
             ) {
                 Box(
                     modifier = Modifier
-                        .padding(bottom = mainScaffoldBottomPadding)
+                        .padding(mainScaffoldPadding)
                         .fillMaxSize(),
                     contentAlignment = Alignment.Center
                 ) {
@@ -145,51 +125,27 @@ internal fun InactiveGoalsUI(
             }
 
             // Empty Goals Indicator
-            if (uiState.goals.isEmpty() &&
-                uiState !is GoalsListState.Loading
-            ) {
-                Box(
-                    modifier = Modifier
-                        .padding(bottom = mainScaffoldBottomPadding)
-                        .fillMaxSize(),
-                    contentAlignment = Alignment.Center
-                ) {
-                    LottieAnimationWithDescription(
-                        lottieResId = R.raw.no_task_animation,
-                        imageSize = 200.dp,
-                        description = stringResource(R.string.no_goals_text)
-                    )
-                }
-            } else {
+            EmptyGoalsIndicator(
+                showAnimationProvider = { showEmptyIndicator.value },
+                modifier = Modifier.padding(mainScaffoldPadding)
+            )
+
+            if (!showEmptyIndicator.value) {
                 // Show Active Goals
                 LazyColumn(
-                    modifier = Modifier
-                        .fillMaxSize(),
+                    modifier = Modifier.fillMaxSize(),
                     state = listState,
                     horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement
-                        .spacedBy(Dimens.SmallPadding.size)
+                    verticalArrangement = Arrangement.spacedBy(Dimens.SmallPadding.size)
                 ) {
                     // Top Space
                     item { Spacer(modifier = Modifier) }
 
-                    items(
-                        items = uiState.goals,
-                        key = { it.id }
-                    ) { item ->
-                        GoalEntry(
-                            modifier = Modifier.animateItemPlacement(),
-                            goal = item,
-                            onEntryClick = { onGoalClicked(item) }
-                        )
-                    }
-
-                    // Loading when fetching more data
-                    item {
-                        if (uiState is GoalsListState.Loading && uiState.goals.isNotEmpty()) {
-                            LinearProgressIndicator()
-                        }
-                    }
+                    // In Active Goals
+                    showInActiveGoals(
+                        uiStateProvider = { uiState.value },
+                        onGoalClicked = onGoalClicked
+                    )
 
                     // Bottom Space for spaceBy
                     // Needed so that the load more indicator is shown
@@ -202,34 +158,40 @@ internal fun InactiveGoalsUI(
             }
 
             // Scroll To Top
-            AnimatedVisibility(
-                modifier = Modifier.align(Alignment.BottomCenter),
-                visible = !scrollContext.isTop,
-                enter = scaleIn(),
-                exit = scaleOut()
-            ) {
-                ReluctFloatingActionButton(
-                    modifier = Modifier
-                        .padding(bottom = Dimens.MediumPadding.size)
-                        .navigationBarsPadding(),
-                    buttonText = "",
-                    contentDescription = stringResource(R.string.scroll_to_top),
-                    icon = Icons.Rounded.ArrowUpward,
-                    onButtonClicked = {
-                        scope.launch { listState.animateScrollToItem(0) }
-                    },
-                    expanded = false
-                )
-            }
+            ScrollToTop(
+                scrollContext = scrollContext,
+                onScrollToTop = { scope.launch { listState.animateScrollToItem(0) } }
+            )
         }
 
-        if (showNewGoalDialog) {
-            Dialog(onDismissRequest = { showNewGoalDialog = false }) {
-                NewGoalSheet(
-                    modifier = Modifier.height(500.dp),
-                    onAddGoal = onAddGoal
-                )
-            }
+        NewGoalDialog(
+            openDialog = showNewGoalDialog,
+            onClose = { showNewGoalDialog.value = false },
+            onAddGoal = onAddGoal
+        )
+    }
+}
+
+@OptIn(ExperimentalFoundationApi::class)
+private fun LazyListScope.showInActiveGoals(
+    uiStateProvider: () -> GoalsListState,
+    onGoalClicked: (Goal) -> Unit
+) {
+    items(
+        items = uiStateProvider().goals,
+        key = { it.id }
+    ) { item ->
+        GoalEntry(
+            modifier = Modifier.animateItemPlacement(),
+            goal = item,
+            onEntryClick = { onGoalClicked(item) }
+        )
+    }
+
+    // Loading when fetching more data
+    item {
+        if (uiStateProvider() is GoalsListState.Loading && uiStateProvider().goals.isNotEmpty()) {
+            LinearProgressIndicator()
         }
     }
 }
