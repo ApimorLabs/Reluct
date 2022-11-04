@@ -17,7 +17,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import work.racka.reluct.android.compose.components.R
-import work.racka.reluct.android.compose.components.buttons.ReluctButton
 import work.racka.reluct.android.compose.components.buttons.ScrollToTop
 import work.racka.reluct.android.compose.components.cards.goalEntry.GoalEntry
 import work.racka.reluct.android.compose.components.cards.headers.ListGroupHeadingHeader
@@ -29,8 +28,8 @@ import work.racka.reluct.android.compose.components.images.LottieAnimationWithDe
 import work.racka.reluct.android.compose.components.util.BarsVisibility
 import work.racka.reluct.android.compose.components.util.rememberScrollContext
 import work.racka.reluct.android.compose.theme.Dimens
-import work.racka.reluct.android.compose.theme.Shapes
 import work.racka.reluct.android.screens.dashboard.components.getScreenTimePieChartData
+import work.racka.reluct.android.screens.screentime.components.UsagePermissionDialog
 import work.racka.reluct.android.screens.util.*
 import work.racka.reluct.common.features.dashboard.overview.states.DashboardOverviewState
 import work.racka.reluct.common.features.dashboard.overview.states.TodayScreenTimeState
@@ -186,40 +185,7 @@ internal fun DashboardOverviewUI(
 
     // Permission Dialog
     // Go To Usage Access Dialog
-    if (openDialog.value) {
-        AlertDialog(
-            onDismissRequest = { openDialog.value = false },
-            title = {
-                Text(text = stringResource(R.string.open_settings_dialog_title))
-            },
-            text = {
-                Text(text = stringResource(R.string.usage_permissions_rationale_dialog_text))
-            },
-            confirmButton = {
-                ReluctButton(
-                    buttonText = stringResource(R.string.ok),
-                    icon = null,
-                    shape = Shapes.large,
-                    buttonColor = MaterialTheme.colorScheme.primary,
-                    contentColor = MaterialTheme.colorScheme.onPrimary,
-                    onButtonClicked = {
-                        openDialog.value = false
-                        requestUsageAccessPermission(context)
-                    }
-                )
-            },
-            dismissButton = {
-                ReluctButton(
-                    buttonText = stringResource(R.string.cancel),
-                    icon = null,
-                    shape = Shapes.large,
-                    buttonColor = MaterialTheme.colorScheme.surfaceVariant,
-                    contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                    onButtonClicked = { openDialog.value = false }
-                )
-            }
-        )
-    }
+    UsagePermissionDialog(openDialog = openDialog, onClose = { openDialog.value = false })
 }
 
 @OptIn(ExperimentalFoundationApi::class)
