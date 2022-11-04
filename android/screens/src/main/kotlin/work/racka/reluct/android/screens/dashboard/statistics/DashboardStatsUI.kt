@@ -8,7 +8,10 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -19,7 +22,6 @@ import work.racka.reluct.android.compose.components.buttons.OutlinedReluctButton
 import work.racka.reluct.android.compose.components.cards.appUsageEntry.AppUsageEntryBase
 import work.racka.reluct.android.compose.components.cards.headers.ListGroupHeadingHeader
 import work.racka.reluct.android.compose.components.cards.statistics.BarChartDefaults
-import work.racka.reluct.android.compose.components.cards.statistics.ChartData
 import work.racka.reluct.android.compose.components.cards.statistics.screenTime.ScreenTimeStatisticsCard
 import work.racka.reluct.android.compose.components.cards.statistics.tasks.TasksStatisticsCard
 import work.racka.reluct.android.compose.components.dialogs.CircularProgressDialog
@@ -186,12 +188,12 @@ internal fun DashboardStatsUI(
                 // Tasks Chart
                 item {
                     TasksStatisticsCard(
-                        chartData = tasksChartData.value,
-                        selectedDayText = tasksStatsUiState.value.dailyTasksState.dayText,
-                        selectedDayTasksDone = tasksStatsUiState.value.dailyTasksState.dailyTasks.completedTasksCount,
-                        selectedDayTasksPending = tasksStatsUiState.value.dailyTasksState.dailyTasks.pendingTasksCount,
-                        totalWeekTaskCount = tasksStatsUiState.value.weeklyTasksState.totalWeekTasksCount,
-                        selectedDayIsoNumber = tasksStatsUiState.value.selectedDay,
+                        chartData = tasksChartData,
+                        selectedDayText = { tasksStatsUiState.value.dailyTasksState.dayText },
+                        selectedDayTasksDone = { tasksStatsUiState.value.dailyTasksState.dailyTasks.completedTasksCount },
+                        selectedDayTasksPending = { tasksStatsUiState.value.dailyTasksState.dailyTasks.pendingTasksCount },
+                        totalWeekTaskCount = { tasksStatsUiState.value.weeklyTasksState.totalWeekTasksCount },
+                        selectedDayIsoNumber = { tasksStatsUiState.value.selectedDay },
                         onBarClicked = { onTasksSelectDay(it) },
                         weekUpdateButton = {}
                     )

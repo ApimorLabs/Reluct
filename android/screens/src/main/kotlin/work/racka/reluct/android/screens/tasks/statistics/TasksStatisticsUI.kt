@@ -14,7 +14,6 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.produceState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -22,7 +21,6 @@ import androidx.compose.ui.unit.dp
 import work.racka.reluct.android.compose.components.buttons.ValueOffsetButton
 import work.racka.reluct.android.compose.components.cards.headers.ListGroupHeadingHeader
 import work.racka.reluct.android.compose.components.cards.statistics.BarChartDefaults
-import work.racka.reluct.android.compose.components.cards.statistics.ChartData
 import work.racka.reluct.android.compose.components.cards.statistics.tasks.TasksStatisticsCard
 import work.racka.reluct.android.compose.components.cards.taskEntry.EntryType
 import work.racka.reluct.android.compose.components.cards.taskEntry.TaskEntry
@@ -64,17 +62,11 @@ internal fun TasksStatisticsUI(
 
     // Tasks Stats Chart
     val barColor = BarChartDefaults.barColor
-    val tasksChartData by produceState(
-        initialValue = ChartData(
-            isLoading = uiState.weeklyTasksState is WeeklyTasksState.Loading
-        ),
-        uiState.weeklyTasksState
-    ) {
-        value = ChartData(
-            data = getWeeklyTasksBarChartData(uiState.weeklyTasksState.weeklyTasks, barColor),
-            isLoading = uiState.weeklyTasksState is WeeklyTasksState.Loading
-        )
-    }
+    val tasksChartData = getWeeklyTasksBarChartData(
+        weeklyTasksProvider = { uiState.weeklyTasksState.weeklyTasks },
+        isLoadingProvider = { uiState.weeklyTasksState is WeeklyTasksState.Loading },
+        barColor = barColor
+    )
 
     val snackbarModifier = if (scrollContext.isTop) {
         Modifier.padding(bottom = mainScaffoldPadding.calculateBottomPadding())
@@ -123,11 +115,11 @@ internal fun TasksStatisticsUI(
                 item {
                     TasksStatisticsCard(
                         chartData = tasksChartData,
-                        selectedDayText = uiState.dailyTasksState.dayText,
-                        selectedDayTasksDone = uiState.dailyTasksState.dailyTasks.completedTasksCount,
-                        selectedDayTasksPending = uiState.dailyTasksState.dailyTasks.pendingTasksCount,
-                        totalWeekTaskCount = uiState.weeklyTasksState.totalWeekTasksCount,
-                        selectedDayIsoNumber = uiState.selectedDay,
+                        selectedDayText = { uiState.dailyTasksState.dayText },
+                        selectedDayTasksDone = { uiState.dailyTasksState.dailyTasks.completedTasksCount },
+                        selectedDayTasksPending = { uiState.dailyTasksState.dailyTasks.pendingTasksCount },
+                        totalWeekTaskCount = { uiState.weeklyTasksState.totalWeekTasksCount },
+                        selectedDayIsoNumber = { uiState.selectedDay },
                         onBarClicked = { onSelectDay(it) },
                         weekUpdateButton = {
                             ValueOffsetButton(
