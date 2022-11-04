@@ -11,20 +11,20 @@ class ScrollState(
     heightRange: IntRange,
     scrollOffset: Float = 0f
 ) : ScrollFlagState(heightRange) {
-    override var _scrollOffset: Float by mutableStateOf(
+    override var scrollOffsetProtect: Float by mutableStateOf(
         value = scrollOffset.coerceIn(0f, maxHeight.toFloat()),
         policy = structuralEqualityPolicy()
     )
 
     override var scrollOffset: Float
-        get() = _scrollOffset
+        get() = scrollOffsetProtect
         set(value) {
             if (scrollTopLimitReached) {
-                val oldOffset = _scrollOffset
-                _scrollOffset = value.coerceIn(0f, maxHeight.toFloat())
-                _consumed = oldOffset - _scrollOffset
+                val oldOffset = scrollOffsetProtect
+                scrollOffsetProtect = value.coerceIn(0f, maxHeight.toFloat())
+                consumedProtect = oldOffset - scrollOffsetProtect
             } else {
-                _consumed = 0f
+                consumedProtect = 0f
             }
         }
 

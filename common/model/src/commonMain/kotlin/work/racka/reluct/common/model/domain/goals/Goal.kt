@@ -1,5 +1,6 @@
 package work.racka.reluct.common.model.domain.goals
 
+import kotlinx.collections.immutable.ImmutableList
 import work.racka.reluct.common.model.domain.appInfo.AppInfo
 
 data class Goal(
@@ -7,7 +8,7 @@ data class Goal(
     val name: String,
     val description: String,
     val isActive: Boolean,
-    val relatedApps: List<AppInfo>,
+    val relatedApps: ImmutableList<AppInfo>,
     val targetValue: Long,
     val currentValue: Long,
     val goalDuration: GoalDuration,

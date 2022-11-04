@@ -26,7 +26,6 @@ fun TaskDetailsScreen(
     onNavigateToEditTask: (taskId: String) -> Unit,
     onBackClicked: () -> Unit,
 ) {
-
     val snackbarState = remember { SnackbarHostState() }
 
     val viewModel: TaskDetailsViewModel = getCommonViewModel { parametersOf(taskId) }
@@ -46,7 +45,8 @@ fun TaskDetailsScreen(
         )
     }
 
-    TaskDetailsUI(uiState = uiState,
+    TaskDetailsUI(
+        uiState = uiState,
         snackbarState = snackbarState,
         onEditTask = { viewModel.editTask(it.id) },
         onDeleteTask = { viewModel.deleteTask(it.id) },
@@ -73,16 +73,21 @@ private fun handleEvents(
         is TasksEvents.ShowMessage -> {
             scope.launch {
                 snackbarState.showSnackbar(
-                    message = events.msg, duration = SnackbarDuration.Short
+                    message = events.msg,
+                    duration = SnackbarDuration.Short
                 )
             }
         }
         is TasksEvents.ShowMessageDone -> {
-            val msg = if (events.isDone) context.getString(R.string.task_marked_as_done, events.msg)
-            else context.getString(R.string.task_marked_as_not_done, events.msg)
+            val msg = if (events.isDone) {
+                context.getString(R.string.task_marked_as_done, events.msg)
+            } else {
+                context.getString(R.string.task_marked_as_not_done, events.msg)
+            }
             scope.launch {
                 snackbarState.showSnackbar(
-                    message = msg, duration = SnackbarDuration.Short
+                    message = msg,
+                    duration = SnackbarDuration.Short
                 )
             }
         }

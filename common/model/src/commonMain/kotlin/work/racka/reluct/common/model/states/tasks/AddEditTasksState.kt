@@ -1,5 +1,7 @@
 package work.racka.reluct.common.model.states.tasks
 
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 import work.racka.reluct.common.model.domain.tasks.EditTask
 import work.racka.reluct.common.model.domain.tasks.TaskLabel
 
@@ -15,7 +17,7 @@ sealed class AddEditTasksState {
 
 data class AddEditTaskState(
     val modifyTaskState: ModifyTaskState = ModifyTaskState.Loading,
-    val availableTaskLabels: List<TaskLabel> = emptyList()
+    val availableTaskLabels: ImmutableList<TaskLabel> = persistentListOf()
 )
 
 sealed class ModifyTaskState {

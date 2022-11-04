@@ -15,7 +15,7 @@ import work.racka.reluct.android.compose.navigation.transitions.scaleOutExitTran
 import work.racka.reluct.android.compose.navigation.transitions.scaleOutPopExitTransition
 import work.racka.reluct.android.compose.navigation.util.NavHelpers
 import work.racka.reluct.android.compose.navigation.util.NavHelpers.popBackStackOrExitActivity
-import work.racka.reluct.android.screens.goals.add_edit.AddEditGoalScreen
+import work.racka.reluct.android.screens.goals.addEdit.AddEditGoalScreen
 import work.racka.reluct.android.screens.goals.details.GoalDetailsScreen
 import work.racka.reluct.common.core_navigation.compose_destinations.goals.AddEditGoalArgs
 import work.racka.reluct.common.core_navigation.compose_destinations.goals.AddEditGoalDestination

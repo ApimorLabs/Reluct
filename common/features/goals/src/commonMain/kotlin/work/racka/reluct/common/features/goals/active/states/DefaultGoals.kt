@@ -1,5 +1,7 @@
 package work.racka.reluct.common.features.goals.active.states
 
+import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toImmutableList
 import work.racka.reluct.common.model.domain.goals.Goal
 import work.racka.reluct.common.model.domain.goals.GoalDuration
 import work.racka.reluct.common.model.domain.goals.GoalInterval
@@ -14,14 +16,14 @@ object DefaultGoals {
             name = "Reduce Daily Phone Usage",
             description = "Only use my phone for not more than 5 hours everyday",
             isActive = true,
-            relatedApps = emptyList(),
+            relatedApps = persistentListOf(),
             targetValue = (1.8e7).toLong(),
             currentValue = 0,
             goalDuration = GoalDuration(
                 goalInterval = GoalInterval.Daily,
                 timeRangeInMillis = null,
                 formattedTimeRange = null,
-                selectedDaysOfWeek = Week.values().toList()
+                selectedDaysOfWeek = Week.values().toList().toImmutableList()
             ),
             goalType = GoalType.DeviceScreenTimeGoal
         ),
@@ -30,14 +32,14 @@ object DefaultGoals {
             name = "Reduce App Usage",
             description = "Use certain app(s) for a limited time",
             isActive = true,
-            relatedApps = emptyList(),
+            relatedApps = persistentListOf(),
             targetValue = (7.2e6).toLong(),
             currentValue = 0,
             goalDuration = GoalDuration(
                 goalInterval = GoalInterval.Daily,
                 timeRangeInMillis = null,
                 formattedTimeRange = null,
-                selectedDaysOfWeek = Week.values().toList()
+                selectedDaysOfWeek = Week.values().toList().toImmutableList()
             ),
             goalType = GoalType.AppScreenTimeGoal
         ),
@@ -46,14 +48,14 @@ object DefaultGoals {
             name = "Complete Tasks",
             description = "Complete 50 Tasks Every Week",
             isActive = true,
-            relatedApps = emptyList(),
+            relatedApps = persistentListOf(),
             targetValue = 10,
             currentValue = 0,
             goalDuration = GoalDuration(
                 goalInterval = GoalInterval.Weekly,
                 timeRangeInMillis = null,
                 formattedTimeRange = null,
-                selectedDaysOfWeek = Week.values().toList()
+                selectedDaysOfWeek = Week.values().toList().toImmutableList()
             ),
             goalType = GoalType.TasksGoal
         ),
@@ -62,14 +64,14 @@ object DefaultGoals {
             name = "Save Money Weekly",
             description = "Save $50 every week",
             isActive = true,
-            relatedApps = emptyList(),
+            relatedApps = persistentListOf(),
             targetValue = 50,
             currentValue = 0,
             goalDuration = GoalDuration(
                 goalInterval = GoalInterval.Weekly,
                 timeRangeInMillis = null,
                 formattedTimeRange = null,
-                selectedDaysOfWeek = Week.values().toList()
+                selectedDaysOfWeek = Week.values().toList().toImmutableList()
             ),
             goalType = GoalType.NumeralGoal
         )
@@ -80,14 +82,14 @@ object DefaultGoals {
         name = "",
         description = "",
         isActive = true,
-        relatedApps = emptyList(),
+        relatedApps = persistentListOf(),
         targetValue = 0,
         currentValue = 0,
         goalDuration = GoalDuration(
             goalInterval = GoalInterval.Daily,
             timeRangeInMillis = null,
             formattedTimeRange = null,
-            selectedDaysOfWeek = Week.values().toList()
+            selectedDaysOfWeek = Week.values().toList().toImmutableList()
         ),
         goalType = GoalType.NumeralGoal
     )

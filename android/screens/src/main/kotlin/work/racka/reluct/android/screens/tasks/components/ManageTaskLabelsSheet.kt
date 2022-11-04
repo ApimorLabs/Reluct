@@ -12,17 +12,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import work.racka.reluct.android.compose.components.bottom_sheet.task_labels.AddEditTaskLabelSheet
-import work.racka.reluct.android.compose.components.bottom_sheet.task_labels.LazyColumnSelectTaskLabelsSheet
-import work.racka.reluct.android.compose.components.cards.task_label_entry.TaskLabelsEntryMode
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toPersistentList
+import work.racka.reluct.android.compose.components.bottomSheet.taskLabels.AddEditTaskLabelSheet
+import work.racka.reluct.android.compose.components.bottomSheet.taskLabels.LazyColumnSelectTaskLabelsSheet
+import work.racka.reluct.android.compose.components.cards.taskLabelEntry.TaskLabelsEntryMode
 import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.common.model.domain.tasks.TaskLabel
 
 @Stable
 internal data class CurrentTaskLabels(
-    val availableLabels: List<TaskLabel>,
-    val selectedLabels: List<TaskLabel>,
-    val onUpdateSelectedLabels: (List<TaskLabel>) -> Unit
+    val availableLabels: ImmutableList<TaskLabel>,
+    val selectedLabels: ImmutableList<TaskLabel>,
+    val onUpdateSelectedLabels: (ImmutableList<TaskLabel>) -> Unit
 )
 
 @Stable
@@ -34,15 +36,15 @@ internal sealed class TaskLabelsPage {
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 internal fun ManageTaskLabelsSheet(
+    labelsState: CurrentTaskLabels,
+    onSaveLabel: (TaskLabel) -> Unit,
+    onDeleteLabel: (TaskLabel) -> Unit,
+    onClose: () -> Unit,
     modifier: Modifier = Modifier,
+    startPage: TaskLabelsPage = TaskLabelsPage.ShowLabels,
     tonalElevation: Dp = 6.dp,
     shape: Shape = RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp),
     entryMode: TaskLabelsEntryMode = TaskLabelsEntryMode.SelectLabels,
-    labelsState: CurrentTaskLabels,
-    startPage: TaskLabelsPage = TaskLabelsPage.ShowLabels,
-    onSaveLabel: (TaskLabel) -> Unit,
-    onDeleteLabel: (TaskLabel) -> Unit,
-    onClose: () -> Unit
 ) {
     val page = remember(startPage) {
         mutableStateOf(startPage)
@@ -68,11 +70,14 @@ internal fun ManageTaskLabelsSheet(
                         selectedLabels = labelsState.selectedLabels,
                         onModifyLabel = { page.value = TaskLabelsPage.ModifyLabel(it) },
                         onEditLabels = { isAdd: Boolean, label: TaskLabel ->
-                            labelsState.selectedLabels.toMutableList().apply {
-                                if (isAdd) add(label)
-                                else remove(label)
-                            }.also { newList ->
-                                labelsState.onUpdateSelectedLabels(newList.toList())
+                            labelsState.selectedLabels.toPersistentList().builder().apply {
+                                if (isAdd) {
+                                    add(label)
+                                } else {
+                                    remove(label)
+                                }
+                            }.build().also { newList ->
+                                labelsState.onUpdateSelectedLabels(newList)
                             }
                         }
                     )

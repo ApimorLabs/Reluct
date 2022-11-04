@@ -12,8 +12,8 @@ import androidx.compose.ui.text.style.TextOverflow
 
 @Composable
 fun EntryHeading(
-    modifier: Modifier = Modifier,
     text: String,
+    modifier: Modifier = Modifier,
     style: TextStyle = MaterialTheme.typography.titleLarge,
     color: Color = LocalContentColor.current,
     maxLines: Int = 1
@@ -30,8 +30,8 @@ fun EntryHeading(
 
 @Composable
 fun EntryDescription(
-    modifier: Modifier = Modifier,
     text: String,
+    modifier: Modifier = Modifier,
     color: Color = LocalContentColor.current
 ) {
     Text(
@@ -46,8 +46,8 @@ fun EntryDescription(
 
 @Composable
 fun ListItemTitle(
-    modifier: Modifier = Modifier,
     text: String,
+    modifier: Modifier = Modifier,
     color: Color = LocalContentColor.current
 ) {
     Text(

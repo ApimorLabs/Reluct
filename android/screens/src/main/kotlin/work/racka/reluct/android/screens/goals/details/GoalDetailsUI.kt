@@ -18,9 +18,9 @@ import androidx.compose.ui.unit.dp
 import work.racka.reluct.android.compose.components.buttons.OutlinedReluctButton
 import work.racka.reluct.android.compose.components.buttons.ReluctButton
 import work.racka.reluct.android.compose.components.cards.date.SelectedDaysOfWeekViewer
-import work.racka.reluct.android.compose.components.cards.goal_entry.GoalHeadingSwitchCard
-import work.racka.reluct.android.compose.components.cards.goal_entry.GoalTypeAndIntervalLabels
-import work.racka.reluct.android.compose.components.cards.goal_entry.GoalValuesCard
+import work.racka.reluct.android.compose.components.cards.goalEntry.GoalHeadingSwitchCard
+import work.racka.reluct.android.compose.components.cards.goalEntry.GoalTypeAndIntervalLabels
+import work.racka.reluct.android.compose.components.cards.goalEntry.GoalValuesCard
 import work.racka.reluct.android.compose.components.images.LottieAnimationWithDescription
 import work.racka.reluct.android.compose.components.textfields.texts.ListItemTitle
 import work.racka.reluct.android.compose.components.topBar.ReluctSmallTopAppBar
@@ -37,7 +37,6 @@ import work.racka.reluct.common.model.domain.goals.GoalType
 @OptIn(ExperimentalAnimationApi::class, ExperimentalMaterial3Api::class)
 @Composable
 internal fun GoalDetailsUI(
-    modifier: Modifier = Modifier,
     snackbarState: SnackbarHostState,
     uiState: GoalDetailsState,
     onEditGoal: (goalId: String) -> Unit,
@@ -45,7 +44,8 @@ internal fun GoalDetailsUI(
     onToggleGoalActive: (goalId: String, isActive: Boolean) -> Unit,
     onGoBack: () -> Unit,
     onSyncData: () -> Unit,
-    onUpdateCurrentValue: (goalId: String, value: Long) -> Unit
+    onUpdateCurrentValue: (goalId: String, value: Long) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     val listState = rememberLazyListState()
 
@@ -153,9 +153,11 @@ internal fun GoalDetailsUI(
                             isLoading = uiState.isSyncing,
                             goal = uiState.goal,
                             onUpdateClicked = { type ->
-                                if (type == GoalType.NumeralGoal)
+                                if (type == GoalType.NumeralGoal) {
                                     openUpdateValueDialog = true
-                                else onSyncData()
+                                } else {
+                                    onSyncData()
+                                }
                             }
                         )
                     }
@@ -241,7 +243,6 @@ internal fun GoalDetailsUI(
             }
         )
     }
-
 }
 
 @Composable

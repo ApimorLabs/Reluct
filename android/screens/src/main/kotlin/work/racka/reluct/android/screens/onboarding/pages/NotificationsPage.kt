@@ -35,10 +35,10 @@ import work.racka.reluct.android.screens.util.openAppNotificationSettings
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 internal fun NotificationsPage(
-    modifier: Modifier = Modifier,
     isGranted: Boolean,
     updatePermissionCheck: (isGranted: Boolean) -> Unit,
-    goBack: () -> Unit
+    goBack: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     BackPressHandler { goBack() } // Handle Back Presses
 

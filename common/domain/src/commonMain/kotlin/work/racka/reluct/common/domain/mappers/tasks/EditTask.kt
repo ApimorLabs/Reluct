@@ -1,5 +1,6 @@
 package work.racka.reluct.common.domain.mappers.tasks
 
+import kotlinx.collections.immutable.toImmutableList
 import work.racka.reluct.common.database.models.TaskDbObject
 import work.racka.reluct.common.model.domain.tasks.EditTask
 
@@ -32,7 +33,7 @@ fun TaskDbObject.asEditTask(): EditTask =
         description = this.description,
         done = this.done,
         overdue = this.overdue,
-        taskLabels = taskLabels.map { it.asTaskLabel() },
+        taskLabels = taskLabels.map { it.asTaskLabel() }.toImmutableList(),
         dueDateLocalDateTime = this.dueDateLocalDateTime,
         completedLocalDateTime = this.completedLocalDateTime,
         reminderLocalDateTime = this.reminderLocalDateTime,

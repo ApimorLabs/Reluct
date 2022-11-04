@@ -27,7 +27,6 @@ fun InactiveGoalsScreen(
     onNavigateToAddGoal: (defaultGoalIndex: Int?) -> Unit,
     onNavigateToGoalDetails: (goalId: String) -> Unit
 ) {
-
     val snackbarState = remember { SnackbarHostState() }
 
     val viewModel = getCommonViewModel<InActiveGoalsViewModel>()
@@ -64,8 +63,11 @@ private fun handleEvents(
 ) {
     when (events) {
         is GoalsEvents.ChangedGoalState -> {
-            val msg = if (events.isActive) context.getString(R.string.goal_marked_active)
-            else context.getString(R.string.goal_marked_inactive)
+            val msg = if (events.isActive) {
+                context.getString(R.string.goal_marked_active)
+            } else {
+                context.getString(R.string.goal_marked_inactive)
+            }
             scope.launch {
                 snackbarState.showSnackbar(
                     message = msg,

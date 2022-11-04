@@ -38,10 +38,10 @@ import work.racka.reluct.android.screens.util.checkUsageAccessPermissions
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 internal fun UsageAccessPage(
-    modifier: Modifier = Modifier,
     isGranted: Boolean,
     updatePermissionCheck: (isGranted: Boolean) -> Unit,
-    goBack: () -> Unit
+    goBack: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     BackPressHandler { goBack() } // Handle Back Presses
 

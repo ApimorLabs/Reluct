@@ -20,10 +20,10 @@ import work.racka.reluct.android.compose.theme.Dimens
 
 @Composable
 fun ImageWithDescription(
-    modifier: Modifier = Modifier,
     imageVector: ImageVector,
-    imageSize: Dp = 148.dp,
     description: String?,
+    modifier: Modifier = Modifier,
+    imageSize: Dp = 148.dp,
     descriptionTextStyle: TextStyle = MaterialTheme.typography.titleLarge,
 ) {
     Column(
@@ -50,10 +50,10 @@ fun ImageWithDescription(
 
 @Composable
 fun ImageWithDescription(
-    modifier: Modifier = Modifier,
     painter: Painter,
-    imageSize: Dp = 148.dp,
     description: String?,
+    modifier: Modifier = Modifier,
+    imageSize: Dp = 148.dp,
     descriptionTextStyle: TextStyle = MaterialTheme.typography.titleLarge,
 ) {
     Column(

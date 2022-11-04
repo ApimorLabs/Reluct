@@ -25,10 +25,10 @@ import work.racka.reluct.android.screens.util.BackPressHandler
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 internal fun ThemesPage(
-    modifier: Modifier = Modifier,
     selectedTheme: Int,
     onSelectTheme: (themeValue: Int) -> Unit,
-    goBack: () -> Unit
+    goBack: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     BackPressHandler { goBack() } // Handle Back Presses
 

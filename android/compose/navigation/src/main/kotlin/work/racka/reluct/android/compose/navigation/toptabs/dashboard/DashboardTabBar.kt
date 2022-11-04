@@ -9,6 +9,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import kotlinx.collections.immutable.toImmutableList
 import work.racka.reluct.android.compose.components.tab.TabEntry
 import work.racka.reluct.android.compose.navigation.R
 import work.racka.reluct.android.compose.theme.ReluctAppTheme
@@ -25,7 +26,7 @@ fun DashboardTabBar(
         containerColor = Color.Transparent,
         indicator = { tabPositions ->
             DashboardTabIndicator(
-                tabPositions = tabPositions,
+                tabPositions = tabPositions.toImmutableList(),
                 tabPage = tabPage
             )
         },

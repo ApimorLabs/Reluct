@@ -48,11 +48,11 @@ import work.racka.reluct.android.compose.theme.Shapes
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun MaterialSearchBar(
-    modifier: Modifier = Modifier,
     value: String,
+    onSearch: (String) -> Unit,
+    modifier: Modifier = Modifier,
     hint: String = "Search here",
     textStyle: TextStyle = MaterialTheme.typography.titleMedium,
-    onSearch: (String) -> Unit,
     onDismissSearchClicked: () -> Unit = { },
     containerColor: Color = MaterialTheme.colorScheme.surfaceVariant,
     contentColor: Color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -228,10 +228,10 @@ fun MaterialSearchBar(
 
 @Composable
 fun PlaceholderMaterialSearchBar(
+    onClick: () -> Unit,
     modifier: Modifier = Modifier,
     hint: String = "Search here",
     textStyle: TextStyle = MaterialTheme.typography.titleMedium,
-    onClick: () -> Unit,
     containerColor: Color = MaterialTheme.colorScheme.surfaceVariant,
     contentColor: Color = MaterialTheme.colorScheme.onSurfaceVariant,
     shape: Shape = Shapes.large,

@@ -1,13 +1,15 @@
 package work.racka.reluct.common.features.dashboard.overview.states
 
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 import work.racka.reluct.common.model.domain.goals.Goal
 import work.racka.reluct.common.model.domain.tasks.Task
 import work.racka.reluct.common.model.domain.usagestats.UsageStats
 
 data class DashboardOverviewState(
-    val todayScreenTimeState: TodayScreenTimeState = TodayScreenTimeState.Nothing,
-    val todayTasksState: TodayTasksState = TodayTasksState.Nothing,
-    val goals: List<Goal> = listOf()
+    val todayScreenTimeState: TodayScreenTimeState = TodayScreenTimeState.Loading(),
+    val todayTasksState: TodayTasksState = TodayTasksState.Loading(),
+    val goals: ImmutableList<Goal> = persistentListOf()
 )
 
 sealed class TodayScreenTimeState(
@@ -23,9 +25,11 @@ sealed class TodayScreenTimeState(
 }
 
 sealed class TodayTasksState(
-    val pending: List<Task>
+    val pending: ImmutableList<Task>
 ) {
-    data class Data(private val tasks: List<Task>) : TodayTasksState(pending = tasks)
-    class Loading(tasks: List<Task> = emptyList()) : TodayTasksState(pending = tasks)
-    object Nothing : TodayTasksState(pending = emptyList())
+    data class Data(private val tasks: ImmutableList<Task>) : TodayTasksState(pending = tasks)
+    class Loading(tasks: ImmutableList<Task> = persistentListOf()) :
+        TodayTasksState(pending = tasks)
+
+    object Nothing : TodayTasksState(pending = persistentListOf())
 }

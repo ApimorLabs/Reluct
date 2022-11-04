@@ -12,10 +12,7 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowUpward
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -24,8 +21,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import work.racka.reluct.android.compose.components.buttons.ReluctFloatingActionButton
-import work.racka.reluct.android.compose.components.cards.task_entry.EntryType
-import work.racka.reluct.android.compose.components.cards.task_entry.TaskEntry
+import work.racka.reluct.android.compose.components.cards.taskEntry.EntryType
+import work.racka.reluct.android.compose.components.cards.taskEntry.TaskEntry
 import work.racka.reluct.android.compose.components.images.LottieAnimationWithDescription
 import work.racka.reluct.android.compose.components.textfields.search.MaterialSearchBar
 import work.racka.reluct.android.compose.components.util.rememberScrollContext
@@ -37,22 +34,22 @@ import work.racka.reluct.common.model.states.tasks.SearchTasksState
 
 @OptIn(
     ExperimentalComposeUiApi::class,
-    ExperimentalAnimationApi::class, ExperimentalMaterial3Api::class,
+    ExperimentalAnimationApi::class,
+    ExperimentalMaterial3Api::class,
     ExperimentalFoundationApi::class
 )
 @Composable
 internal fun TasksSearchUI(
-    modifier: Modifier = Modifier,
     snackbarState: SnackbarHostState,
     uiState: SearchTasksState,
     fetchMoreData: () -> Unit,
     onSearch: (query: String) -> Unit,
     onTaskClicked: (task: Task) -> Unit,
     onToggleTaskDone: (task: Task, isDone: Boolean) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
-
     val listState = rememberLazyListState()
-    val scrollContext = rememberScrollContext(listState = listState)
+    val scrollContext by rememberScrollContext(listState = listState)
     val focusRequester = remember {
         FocusRequester()
     }
@@ -60,8 +57,8 @@ internal fun TasksSearchUI(
     val scope = rememberCoroutineScope()
 
     LaunchedEffect(scrollContext.isBottom) {
-        if (scrollContext.isBottom && uiState.shouldUpdateData
-            && uiState.searchData !is SearchData.Loading
+        if (scrollContext.isBottom && uiState.shouldUpdateData &&
+            uiState.searchData !is SearchData.Loading
         ) {
             fetchMoreData()
         }
@@ -121,7 +118,6 @@ internal fun TasksSearchUI(
                     verticalArrangement = Arrangement
                         .spacedBy(Dimens.SmallPadding.size)
                 ) {
-
                     items(
                         items = uiState.searchData.tasksData,
                         key = { it.id }
@@ -179,5 +175,4 @@ internal fun TasksSearchUI(
             }
         }
     }
-
 }

@@ -45,19 +45,19 @@ import work.racka.reluct.android.compose.theme.Shapes
  */
 @Composable
 fun CollapsingToolbarBase(
-    modifier: Modifier = Modifier,
     toolbarHeading: String?,
+    toolbarHeight: Dp,
+    toolbarOffset: Float,
+    onCollapsed: (Boolean) -> Unit,
+    content: @Composable BoxScope.() -> Unit,
+    modifier: Modifier = Modifier,
     showBackButton: Boolean = true,
     onBackButtonPressed: () -> Unit = { },
     contentAlignment: Alignment = Alignment.Center,
     shape: Shape = Shapes.large,
     collapsedBackgroundColor: Color = MaterialTheme.colorScheme.background,
     backgroundColor: Color = MaterialTheme.colorScheme.background,
-    toolbarHeight: Dp,
     minShrinkHeight: Dp = 100.dp,
-    toolbarOffset: Float,
-    onCollapsed: (Boolean) -> Unit,
-    content: @Composable BoxScope.() -> Unit,
 ) {
     val scrollDp = toolbarHeight + toolbarOffset.dp
     val collapsed by remember(scrollDp) {

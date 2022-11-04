@@ -20,18 +20,19 @@ import kotlinx.coroutines.launch
 import work.racka.reluct.android.compose.components.R
 import work.racka.reluct.android.compose.components.buttons.ReluctButton
 import work.racka.reluct.android.compose.components.buttons.ReluctFloatingActionButton
-import work.racka.reluct.android.compose.components.cards.goal_entry.GoalEntry
+import work.racka.reluct.android.compose.components.cards.goalEntry.GoalEntry
 import work.racka.reluct.android.compose.components.cards.headers.ListGroupHeadingHeader
 import work.racka.reluct.android.compose.components.cards.permissions.PermissionsCard
-import work.racka.reluct.android.compose.components.cards.statistics.StatisticsChartState
+import work.racka.reluct.android.compose.components.cards.statistics.ChartData
 import work.racka.reluct.android.compose.components.cards.statistics.piechart.DailyScreenTimePieChart
-import work.racka.reluct.android.compose.components.cards.task_entry.EntryType
-import work.racka.reluct.android.compose.components.cards.task_entry.TaskEntry
+import work.racka.reluct.android.compose.components.cards.taskEntry.EntryType
+import work.racka.reluct.android.compose.components.cards.taskEntry.TaskEntry
 import work.racka.reluct.android.compose.components.images.LottieAnimationWithDescription
 import work.racka.reluct.android.compose.components.util.BarsVisibility
 import work.racka.reluct.android.compose.components.util.rememberScrollContext
 import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.android.compose.theme.Shapes
+import work.racka.reluct.android.screens.dashboard.components.getPieChartSlices
 import work.racka.reluct.android.screens.util.PermissionCheckHandler
 import work.racka.reluct.android.screens.util.checkUsageAccessPermissions
 import work.racka.reluct.android.screens.util.requestUsageAccessPermission
@@ -42,12 +43,12 @@ import work.racka.reluct.common.model.domain.goals.Goal
 import work.racka.reluct.common.model.domain.tasks.Task
 
 @OptIn(
-    ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class,
+    ExperimentalFoundationApi::class,
+    ExperimentalMaterial3Api::class,
     ExperimentalAnimationApi::class
 )
 @Composable
 internal fun DashboardOverviewUI(
-    modifier: Modifier = Modifier,
     mainScaffoldPadding: PaddingValues,
     barsVisibility: BarsVisibility,
     snackbarHostState: SnackbarHostState,
@@ -56,10 +57,11 @@ internal fun DashboardOverviewUI(
     openScreenTimeStats: () -> Unit,
     openPendingTask: (Task) -> Unit,
     onToggleTaskDone: (isDone: Boolean, task: Task) -> Unit,
-    onGoalClicked: (Goal) -> Unit
+    onGoalClicked: (Goal) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     val listState = rememberLazyListState()
-    val scrollContext = rememberScrollContext(listState = listState)
+    val scrollContext by rememberScrollContext(listState = listState)
     val scope = rememberCoroutineScope()
 
     SideEffect {
@@ -70,22 +72,16 @@ internal fun DashboardOverviewUI(
         }
     }
 
-    val pieChartState by remember(uiState.todayScreenTimeState) {
-        derivedStateOf {
-            val result = when (val screenTimeState = uiState.todayScreenTimeState) {
-                is TodayScreenTimeState.Data -> {
-                    StatisticsChartState.Success(screenTimeState.usageStats)
-                }
-                is TodayScreenTimeState.Loading -> {
-                    StatisticsChartState.Loading(screenTimeState.usageStats)
-                }
-                is TodayScreenTimeState.Nothing -> {
-                    StatisticsChartState.Empty(screenTimeState.usageStats)
-                }
-                else -> StatisticsChartState.Empty(screenTimeState.usageStats)
-            }
-            result
-        }
+    val chartData by produceState(
+        initialValue = ChartData(
+            isLoading = uiState.todayScreenTimeState is TodayScreenTimeState.Loading
+        ),
+        uiState.todayScreenTimeState
+    ) {
+        value = ChartData(
+            data = getPieChartSlices(uiState.todayScreenTimeState.usageStats.appsUsageList),
+            isLoading = uiState.todayScreenTimeState is TodayScreenTimeState.Loading
+        )
     }
 
     var usagePermissionGranted by remember { mutableStateOf(false) }
@@ -100,9 +96,9 @@ internal fun DashboardOverviewUI(
         }
     }
 
-    val snackbarModifier = if (scrollContext.isTop) {
+    /*val snackbarModifier = if (scrollContext.isTop) {
         Modifier.padding(bottom = mainScaffoldPadding.calculateBottomPadding())
-    } else Modifier.navigationBarsPadding()
+    } else Modifier.navigationBarsPadding()*/
 
     Scaffold(
         modifier = modifier
@@ -110,7 +106,7 @@ internal fun DashboardOverviewUI(
         snackbarHost = {
             SnackbarHost(hostState = snackbarHostState) { data ->
                 Snackbar(
-                    modifier = snackbarModifier,
+                    modifier = Modifier,
                     shape = RoundedCornerShape(10.dp),
                     snackbarData = data,
                     containerColor = MaterialTheme.colorScheme.inverseSurface,
@@ -164,7 +160,9 @@ internal fun DashboardOverviewUI(
                 // Pie Chart
                 item {
                     DailyScreenTimePieChart(
-                        pieChartState = pieChartState,
+                        chartData = chartData,
+                        unlockCount = uiState.todayScreenTimeState.usageStats.unlockCount,
+                        screenTimeText = uiState.todayScreenTimeState.usageStats.formattedTotalScreenTime,
                         onClick = openScreenTimeStats
                     )
                 }

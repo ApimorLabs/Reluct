@@ -24,7 +24,7 @@ import kotlinx.coroutines.launch
 import work.racka.reluct.android.compose.components.animations.slideInVerticallyFadeReversed
 import work.racka.reluct.android.compose.components.animations.slideOutVerticallyFadeReversed
 import work.racka.reluct.android.compose.components.buttons.ReluctFloatingActionButton
-import work.racka.reluct.android.compose.components.cards.goal_entry.GoalEntry
+import work.racka.reluct.android.compose.components.cards.goalEntry.GoalEntry
 import work.racka.reluct.android.compose.components.images.LottieAnimationWithDescription
 import work.racka.reluct.android.compose.components.util.BarsVisibility
 import work.racka.reluct.android.compose.components.util.rememberScrollContext
@@ -36,29 +36,30 @@ import work.racka.reluct.common.model.domain.goals.Goal
 
 @OptIn(
     ExperimentalAnimationApi::class,
-    ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class
+    ExperimentalFoundationApi::class,
+    ExperimentalMaterial3Api::class
 )
 @Composable
 internal fun InactiveGoalsUI(
-    modifier: Modifier = Modifier,
     mainScaffoldPadding: PaddingValues,
     barsVisibility: BarsVisibility,
     snackbarState: SnackbarHostState,
     uiState: GoalsListState,
     fetchMoreData: () -> Unit,
     onAddGoal: (defaultGoalIndex: Int?) -> Unit,
-    onGoalClicked: (Goal) -> Unit
+    onGoalClicked: (Goal) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     val listState = rememberLazyListState()
-    val scrollContext = rememberScrollContext(listState = listState)
+    val scrollContext by rememberScrollContext(listState = listState)
     var showNewGoalDialog by remember { mutableStateOf(false) }
 
     val scope = rememberCoroutineScope()
 
     // React to scroll position
     LaunchedEffect(scrollContext.isBottom) {
-        if (scrollContext.isBottom && uiState.shouldUpdateData
-            && uiState !is GoalsListState.Loading
+        if (scrollContext.isBottom && uiState.shouldUpdateData &&
+            uiState !is GoalsListState.Loading
         ) {
             fetchMoreData()
         }
@@ -78,8 +79,11 @@ internal fun InactiveGoalsUI(
         }
     }
 
-    val snackbarModifier = if (scrollContext.isTop) Modifier
-    else Modifier.navigationBarsPadding()
+    val snackbarModifier = if (scrollContext.isTop) {
+        Modifier
+    } else {
+        Modifier.navigationBarsPadding()
+    }
 
     Scaffold(
         modifier = modifier
@@ -141,8 +145,8 @@ internal fun InactiveGoalsUI(
             }
 
             // Empty Goals Indicator
-            if (uiState.goals.isEmpty()
-                && uiState !is GoalsListState.Loading
+            if (uiState.goals.isEmpty() &&
+                uiState !is GoalsListState.Loading
             ) {
                 Box(
                     modifier = Modifier
@@ -221,7 +225,6 @@ internal fun InactiveGoalsUI(
             }
         }
 
-
         if (showNewGoalDialog) {
             Dialog(onDismissRequest = { showNewGoalDialog = false }) {
                 NewGoalSheet(
@@ -230,6 +233,5 @@ internal fun InactiveGoalsUI(
                 )
             }
         }
-
     }
 }

@@ -1,5 +1,7 @@
 package work.racka.reluct.common.domain.usecases.limits.impl
 
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
@@ -19,15 +21,17 @@ internal class GetDistractingAppsImpl(
 ) : GetDistractingApps {
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    override fun invoke(): Flow<List<AppLimits>> = limitsDao.getDistractingApps()
+    override fun getApps(): Flow<ImmutableList<AppLimits>> = limitsDao.getDistractingApps()
         .mapLatest { list ->
             list.map { dbAppLimits -> dbAppLimits.asAppLimits(getAppInfo) }
                 .sortedBy { appLimits -> appLimits.appInfo.appName }
+                .toImmutableList()
         }.flowOn(backgroundDispatcher)
 
-    override suspend fun getSync(): List<AppLimits> = withContext(backgroundDispatcher) {
+    override suspend fun getSync(): ImmutableList<AppLimits> = withContext(backgroundDispatcher) {
         limitsDao.getDistractingAppsSync().map { list -> list.asAppLimits(getAppInfo) }
             .sortedBy { appLimits -> appLimits.appInfo.appName }
+            .toImmutableList()
     }
 
     override suspend fun isDistractingApp(packageName: String): Boolean =

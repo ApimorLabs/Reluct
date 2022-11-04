@@ -20,9 +20,6 @@ internal fun Float.getOffset(angle: Double): Offset =
 internal val LocalDate.yearMonth: YearMonth
     get() = YearMonth(this.year, this.month)
 
-fun test() {
-}
-
 internal val Month.monthString: String
     get() = this.toMonthShortenedString()
 

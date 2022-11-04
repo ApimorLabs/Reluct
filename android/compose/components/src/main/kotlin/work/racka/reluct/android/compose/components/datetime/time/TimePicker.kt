@@ -90,13 +90,13 @@ fun MaterialDialogScope.Timepicker(
 
 @Composable
 internal fun TimePickerExpandedImpl(
-    modifier: Modifier = Modifier,
     title: String,
     state: TimePickerState,
+    modifier: Modifier = Modifier,
 ) {
     Column(modifier.padding(start = 24.dp, end = 24.dp)) {
         Box(Modifier.align(Alignment.Start)) {
-            TimePickerTitle(Modifier.height(36.dp), title, state)
+            TimePickerTitle(modifier = Modifier.height(36.dp), text = title, state = state)
         }
 
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
@@ -130,9 +130,9 @@ internal fun TimePickerExpandedImpl(
 
 @Composable
 internal fun TimePickerImpl(
-    modifier: Modifier = Modifier,
     title: String,
     state: TimePickerState,
+    modifier: Modifier = Modifier,
 ) {
     Column(
         modifier.padding(start = 24.dp, end = 24.dp),
@@ -140,7 +140,7 @@ internal fun TimePickerImpl(
     ) {
         if (title != "") {
             Box(Modifier.align(Alignment.Start)) {
-                TimePickerTitle(Modifier.height(52.dp), title, state)
+                TimePickerTitle(modifier = Modifier.height(52.dp), text = title, state = state)
             }
         }
 
@@ -244,7 +244,7 @@ private fun ClockMinuteLayout(state: TimePickerState) {
 }
 
 @Composable
-internal fun TimePickerTitle(modifier: Modifier, text: String, state: TimePickerState) {
+internal fun TimePickerTitle(text: String, state: TimePickerState, modifier: Modifier = Modifier) {
     Box(modifier) {
         Text(
             text,
@@ -287,7 +287,7 @@ internal fun ClockLabel(
 }
 
 @Composable
-internal fun TimeLayout(modifier: Modifier = Modifier, state: TimePickerState) {
+internal fun TimeLayout(state: TimePickerState, modifier: Modifier = Modifier) {
     val clockHour: String = remember(
         state.is24Hour,
         state.selectedTime,
@@ -336,6 +336,7 @@ internal fun TimeLayout(modifier: Modifier = Modifier, state: TimePickerState) {
         )
 
         if (!state.is24Hour) {
+            Spacer(modifier = Modifier.width(12.dp))
             VerticalPeriodPicker(state = state)
         }
     }
@@ -354,8 +355,6 @@ private fun VerticalPeriodPicker(
         RoundedCornerShape(20.dp).copy(topStart = CornerSize(0.dp), topEnd = CornerSize(0.dp))
     val isAMEnabled = remember(state.timeRange) { state.timeRange.start.hour <= 12 }
     val isPMEnabled = remember(state.timeRange) { state.timeRange.endInclusive.hour >= 0 }
-
-    Spacer(modifier = Modifier.width(12.dp))
 
     Column(
         Modifier
@@ -442,8 +441,6 @@ private fun HorizontalPeriodPicker(
     val isAMEnabled = remember(state.timeRange) { state.timeRange.start.hour <= 12 }
     val isPMEnabled = remember(state.timeRange) { state.timeRange.endInclusive.hour >= 0 }
 
-    Spacer(modifier = Modifier.width(12.dp))
-
     Row(
         Modifier
             .fillMaxWidth()
@@ -516,13 +513,13 @@ private fun HorizontalPeriodPicker(
 
 @Composable
 private fun ClockLayout(
-    isNamedAnchor: (Int) -> Boolean = { true },
     anchorPoints: Int,
-    innerAnchorPoints: Int = 0,
     label: (Int) -> String,
     startAnchor: Int,
     colors: TimePickerColors,
     isAnchorEnabled: (Int) -> Boolean,
+    isNamedAnchor: (Int) -> Boolean = { true },
+    innerAnchorPoints: Int = 0,
     onAnchorChange: (Int) -> Unit = {},
     onLift: () -> Unit = {},
 ) {

@@ -3,13 +3,15 @@ package work.racka.reluct.android.compose.components.util
 import androidx.compose.ui.graphics.Color
 import androidx.core.graphics.ColorUtils
 import androidx.core.graphics.toColorInt
+import timber.log.Timber
+import java.util.Locale
 import kotlin.random.Random
 
 fun Color.toHexString(): String {
     val red = this.red * 255
     val green = this.green * 255
     val blue = this.blue * 255
-    return String.format("#%02x%02x%02x", red.toInt(), green.toInt(), blue.toInt())
+    return String.format(Locale.US, "#%02x%02x%02x", red.toInt(), green.toInt(), blue.toInt())
 }
 
 fun String.toColor(): Color {
@@ -18,7 +20,7 @@ fun String.toColor(): Color {
     return try {
         Color(colorString.toColorInt())
     } catch (e: Exception) {
-        e.printStackTrace()
+        Timber.d("Color error: ${e.message}")
         Color.White
     }
 }

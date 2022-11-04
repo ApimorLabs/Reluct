@@ -1,5 +1,6 @@
 package work.racka.reluct.common.features.settings
 
+import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
@@ -7,7 +8,7 @@ import kotlinx.coroutines.launch
 import work.racka.common.mvvm.viewmodel.CommonViewModel
 import work.racka.reluct.common.billing.products.Product
 import work.racka.reluct.common.domain.usecases.billing.ManageCoffeeProducts
-import work.racka.reluct.common.features.screen_time.services.ScreenTimeServices
+import work.racka.reluct.common.features.screenTime.services.ScreenTimeServices
 import work.racka.reluct.common.features.settings.states.CoffeeProductsState
 import work.racka.reluct.common.features.settings.states.LimitSettings
 import work.racka.reluct.common.features.settings.states.SettingsEvents
@@ -96,7 +97,9 @@ class AppSettingsViewModel(
                 is Resource.Success -> {
                     result.data?.let { products ->
                         coffeeProductsState.update { CoffeeProductsState.ShowProducts(products) }
-                    } ?: coffeeProductsState.update { CoffeeProductsState.ShowProducts(listOf()) }
+                    } ?: coffeeProductsState.update {
+                        CoffeeProductsState.ShowProducts(persistentListOf())
+                    }
                 }
                 is Resource.Error -> {
                     val message = result.message ?: "Error Occurred"

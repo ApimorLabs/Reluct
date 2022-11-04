@@ -14,10 +14,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.zIndex
+import kotlinx.collections.immutable.ImmutableList
 
 @Composable
 internal fun GoalsTabIndicator(
-    tabPositions: List<TabPosition>,
+    tabPositions: ImmutableList<TabPosition>,
     tabPage: GoalsTabDestination,
     modifier: Modifier = Modifier,
 ) {

@@ -21,8 +21,8 @@ import work.racka.reluct.android.compose.components.animations.slideInVertically
 import work.racka.reluct.android.compose.components.animations.slideOutVerticallyFadeReversed
 import work.racka.reluct.android.compose.components.buttons.ReluctFloatingActionButton
 import work.racka.reluct.android.compose.components.cards.headers.ListGroupHeadingHeader
-import work.racka.reluct.android.compose.components.cards.task_entry.EntryType
-import work.racka.reluct.android.compose.components.cards.task_entry.TaskEntry
+import work.racka.reluct.android.compose.components.cards.taskEntry.EntryType
+import work.racka.reluct.android.compose.components.cards.taskEntry.TaskEntry
 import work.racka.reluct.android.compose.components.images.LottieAnimationWithDescription
 import work.racka.reluct.android.compose.components.util.BarsVisibility
 import work.racka.reluct.android.compose.components.util.rememberScrollContext
@@ -32,12 +32,12 @@ import work.racka.reluct.common.model.domain.tasks.Task
 import work.racka.reluct.common.model.states.tasks.CompletedTasksState
 
 @OptIn(
-    ExperimentalFoundationApi::class, ExperimentalAnimationApi::class,
+    ExperimentalFoundationApi::class,
+    ExperimentalAnimationApi::class,
     ExperimentalMaterial3Api::class
 )
 @Composable
 internal fun CompletedTasksUI(
-    modifier: Modifier = Modifier,
     mainScaffoldPadding: PaddingValues,
     barsVisibility: BarsVisibility,
     snackbarState: SnackbarHostState,
@@ -46,14 +46,15 @@ internal fun CompletedTasksUI(
     onAddTaskClicked: (task: Task?) -> Unit,
     onToggleTaskDone: (task: Task, isDone: Boolean) -> Unit,
     fetchMoreData: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     val listState = rememberLazyListState()
-    val scrollContext = rememberScrollContext(listState = listState)
+    val scrollContext by rememberScrollContext(listState = listState)
     val scope = rememberCoroutineScope()
 
     LaunchedEffect(scrollContext.isBottom) {
-        if (scrollContext.isBottom && uiState.shouldUpdateData
-            && uiState !is CompletedTasksState.Loading
+        if (scrollContext.isBottom && uiState.shouldUpdateData &&
+            uiState !is CompletedTasksState.Loading
         ) {
             fetchMoreData()
         }
@@ -73,8 +74,11 @@ internal fun CompletedTasksUI(
         }
     }
 
-    val snackbarModifier = if (scrollContext.isTop) Modifier
-    else Modifier.navigationBarsPadding()
+    val snackbarModifier = if (scrollContext.isTop) {
+        Modifier
+    } else {
+        Modifier.navigationBarsPadding()
+    }
 
     Scaffold(
         modifier = modifier
@@ -120,7 +124,7 @@ internal fun CompletedTasksUI(
         ) {
             AnimatedVisibility(
                 visible = uiState is CompletedTasksState.Loading &&
-                        uiState.tasksData.isEmpty(),
+                    uiState.tasksData.isEmpty(),
                 enter = fadeIn(),
                 exit = fadeOut()
             ) {
@@ -156,7 +160,6 @@ internal fun CompletedTasksUI(
                     verticalArrangement = Arrangement
                         .spacedBy(Dimens.SmallPadding.size)
                 ) {
-
                     uiState.tasksData.forEach { taskGroup ->
                         stickyHeader {
                             ListGroupHeadingHeader(text = taskGroup.key)

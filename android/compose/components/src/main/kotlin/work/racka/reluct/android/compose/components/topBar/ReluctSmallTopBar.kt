@@ -9,10 +9,10 @@ import androidx.compose.ui.text.TextStyle
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ReluctSmallTopAppBar(
-    modifier: Modifier = Modifier,
     title: String,
-    titleTextStyle: TextStyle = MaterialTheme.typography.headlineSmall,
     navigationIcon: @Composable () -> Unit,
+    modifier: Modifier = Modifier,
+    titleTextStyle: TextStyle = MaterialTheme.typography.headlineSmall,
     actions: @Composable RowScope.() -> Unit = {},
     colors: TopAppBarColors = TopAppBarDefaults
         .smallTopAppBarColors(

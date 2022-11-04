@@ -10,24 +10,30 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import work.racka.reluct.android.compose.components.cards.card_with_actions.ReluctDescriptionCard
+import work.racka.reluct.android.compose.components.cards.cardWithActions.ReluctDescriptionCard
 import work.racka.reluct.android.compose.theme.Theme
 import work.racka.reluct.android.screens.R
 
 @Composable
 internal fun ThemeSelectCard(
-    modifier: Modifier = Modifier,
     themeData: ThemeHolder,
     isSelected: Boolean,
-    onSelectTheme: (themeValue: Int) -> Unit
+    onSelectTheme: (themeValue: Int) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     val containerColor by animateColorAsState(
-        targetValue = if (isSelected) MaterialTheme.colorScheme.primary
-        else MaterialTheme.colorScheme.surfaceVariant
+        targetValue = if (isSelected) {
+            MaterialTheme.colorScheme.primary
+        } else {
+            MaterialTheme.colorScheme.surfaceVariant
+        }
     )
     val contentColor by animateColorAsState(
-        targetValue = if (isSelected) MaterialTheme.colorScheme.onPrimary
-        else MaterialTheme.colorScheme.onSurfaceVariant
+        targetValue = if (isSelected) {
+            MaterialTheme.colorScheme.onPrimary
+        } else {
+            MaterialTheme.colorScheme.onSurfaceVariant
+        }
     )
 
     ReluctDescriptionCard(
