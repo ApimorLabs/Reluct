@@ -88,8 +88,6 @@ internal fun DashboardStatsUI(
         scrollContext = scrollContext
     )
 
-    println("Dashboard Stats UI Composed")
-
     Scaffold(
         modifier = modifier
             .fillMaxSize(),
@@ -108,8 +106,6 @@ internal fun DashboardStatsUI(
         containerColor = MaterialTheme.colorScheme.background,
         contentWindowInsets = WindowInsets(0, 0, 0, 0)
     ) { padding ->
-
-        println("Dashboard Stats Scaffold Composed")
         Box(
             modifier = Modifier
                 .animateContentSize()
@@ -125,7 +121,6 @@ internal fun DashboardStatsUI(
                 verticalArrangement = Arrangement
                     .spacedBy(Dimens.SmallPadding.size)
             ) {
-                println("Dashboard Stats LazyList Composed")
                 // Screen Time
                 stickyHeader {
                     ListGroupHeadingHeader(text = stringResource(R.string.screen_time_text))
