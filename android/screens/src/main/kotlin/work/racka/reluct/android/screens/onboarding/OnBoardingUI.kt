@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import work.racka.reluct.android.compose.theme.Dimens
@@ -19,7 +20,7 @@ import work.racka.reluct.common.features.onboarding.states.PermissionType
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
 @Composable
 fun OnBoardingUI(
-    uiState: OnBoardingState,
+    uiState: State<OnBoardingState>,
     updateCurrentPage: (OnBoardingPages) -> Unit,
     updatePermission: (permissionType: PermissionType, isGranted: Boolean) -> Unit,
     saveTheme: (themeValue: Int) -> Unit,
@@ -34,7 +35,7 @@ fun OnBoardingUI(
                 modifier = Modifier
                     .navigationBarsPadding()
                     .padding(horizontal = Dimens.MediumPadding.size),
-                uiState = uiState,
+                uiStateProvider = { uiState.value },
                 onUpdatePage = updateCurrentPage,
                 onCompleted = onBoardingComplete
             )
@@ -42,7 +43,7 @@ fun OnBoardingUI(
         contentWindowInsets = WindowInsets(0, 0, 0, 0)
     ) { innerPadding ->
         AnimatedContent(
-            targetState = uiState.currentPage,
+            targetState = uiState.value.currentPage,
             modifier = Modifier
                 .statusBarsPadding()
                 .padding(innerPadding)
@@ -60,7 +61,7 @@ fun OnBoardingUI(
                 is OnBoardingPages.Notifications -> {
                     NotificationsPage(
                         goBack = { updateCurrentPage(OnBoardingPages.Permissions) },
-                        isGranted = uiState.permissionsState.notificationGranted,
+                        isGranted = uiState.value.permissionsState.notificationGranted,
                         updatePermissionCheck = { isGranted ->
                             updatePermission(
                                 PermissionType.NOTIFICATION,
@@ -72,7 +73,7 @@ fun OnBoardingUI(
                 is OnBoardingPages.Reminders -> {
                     AlarmsAndRemindersPage(
                         goBack = { updateCurrentPage(OnBoardingPages.Notifications) },
-                        isGranted = uiState.permissionsState.alarmsAndRemindersGranted,
+                        isGranted = uiState.value.permissionsState.alarmsAndRemindersGranted,
                         updatePermissionCheck = { isGranted ->
                             updatePermission(
                                 PermissionType.REMINDERS,
@@ -90,7 +91,7 @@ fun OnBoardingUI(
                                 updateCurrentPage(OnBoardingPages.Permissions)
                             }
                         },
-                        isGranted = uiState.permissionsState.usageAccessGranted,
+                        isGranted = uiState.value.permissionsState.usageAccessGranted,
                         updatePermissionCheck = { isGranted ->
                             updatePermission(
                                 PermissionType.USAGE_ACCESS,
@@ -102,8 +103,8 @@ fun OnBoardingUI(
                 is OnBoardingPages.Overlay -> {
                     OverlayPage(
                         goBack = { updateCurrentPage(OnBoardingPages.UsageAccess) },
-                        isGranted = uiState.permissionsState.overlayGranted,
-                        isAppBlockingEnabled = uiState.appBlockingEnabled,
+                        isGranted = uiState.value.permissionsState.overlayGranted,
+                        isAppBlockingEnabled = uiState.value.appBlockingEnabled,
                         updatePermissionCheck = { isGranted ->
                             updatePermission(
                                 PermissionType.OVERLAY,
@@ -115,7 +116,7 @@ fun OnBoardingUI(
                 }
                 is OnBoardingPages.Themes -> {
                     ThemesPage(
-                        selectedTheme = uiState.currentThemeValue,
+                        selectedTheme = uiState.value.currentThemeValue,
                         onSelectTheme = saveTheme,
                         goBack = { updateCurrentPage(OnBoardingPages.Overlay) }
                     )
