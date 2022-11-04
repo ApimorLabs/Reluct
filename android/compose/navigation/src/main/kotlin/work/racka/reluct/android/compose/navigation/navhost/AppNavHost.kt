@@ -62,7 +62,6 @@ fun AppNavHost(settingsCheck: SettingsCheck?, modifier: Modifier = Modifier) {
         modifier = modifier,
         contentWindowInsets = WindowInsets(0, 0, 0, 0)
     ) { innerPadding ->
-        println("Main Scaffold Composed")
         Box(
             modifier = modifier
                 .padding(innerPadding)
@@ -136,7 +135,6 @@ fun AppNavHost(settingsCheck: SettingsCheck?, modifier: Modifier = Modifier) {
                     popEnterTransition = { scaleInPopEnterTransition() },
                     popExitTransition = { scaleOutPopExitTransition() }
                 ) {
-                    println("Dashboard Screen Recomposed")
                     DashboardNavHost(
                         mainNavController = navController,
                         barsVisibility = barsVisibility,

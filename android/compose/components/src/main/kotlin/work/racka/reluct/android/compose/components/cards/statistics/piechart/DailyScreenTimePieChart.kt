@@ -27,8 +27,8 @@ import work.racka.reluct.pieChart.PieChartData
 @Composable
 fun DailyScreenTimePieChart(
     chartData: State<ChartData<PieChartData.Slice>>,
-    unlockCount: Long,
-    screenTimeText: String,
+    unlockCountProvider: () -> Long,
+    screenTimeTextProvider: () -> String,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     shape: Shape = Shapes.large,
@@ -82,8 +82,8 @@ fun DailyScreenTimePieChart(
                     StatsDetails(
                         modifier = Modifier,
                         contentColor = contentColor,
-                        screenTimeText = screenTimeText,
-                        unlockCount = if (chartData.value.isLoading) "..." else unlockCount.toString()
+                        screenTimeText = screenTimeTextProvider(),
+                        unlockCount = if (chartData.value.isLoading) "..." else unlockCountProvider().toString()
                     )
                 }
             }
