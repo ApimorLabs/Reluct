@@ -10,7 +10,7 @@ import work.racka.reluct.android.compose.components.util.ScrollContext
  * This is defined as separate component to defer state reads and avoid recomposition
  */
 @Composable
-fun BottomBarVisibilityHandler(
+internal fun BottomBarVisibilityHandler(
     scrollContext: State<ScrollContext>,
     barsVisibility: BarsVisibility,
 ) {
