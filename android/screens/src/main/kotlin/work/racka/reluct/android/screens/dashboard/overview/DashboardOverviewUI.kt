@@ -55,8 +55,6 @@ internal fun DashboardOverviewUI(
     val scrollContext = rememberScrollContext(listState = listState)
     val scope = rememberCoroutineScope()
 
-    println("Dashboard Overview UI Composed")
-
     BottomBarVisibilityHandler(
         scrollContext = scrollContext,
         barsVisibility = barsVisibility
@@ -103,7 +101,6 @@ internal fun DashboardOverviewUI(
         contentWindowInsets = WindowInsets(0, 0, 0, 0)
     ) { padding ->
 
-        println("Dashboard Overview Scaffold Composed")
         Box(
             modifier = Modifier
                 .animateContentSize()
@@ -119,7 +116,6 @@ internal fun DashboardOverviewUI(
                 verticalArrangement = Arrangement
                     .spacedBy(Dimens.SmallPadding.size)
             ) {
-                println("Dashboard Overview LazyColumn Composed")
                 // Top Space
                 item {
                     Spacer(modifier = Modifier)
