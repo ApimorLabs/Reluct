@@ -29,10 +29,10 @@ internal fun getWeeklyDeviceScreenTimeChartData(
         val data = withContext(Dispatchers.IO) {
             persistentListOf<BarChartData.Bar>().builder().apply {
                 for (key in weeklyStats.value.keys) {
-                    val data = weeklyStats.value.getValue(key)
+                    val data = weeklyStats.value[key]
                     add(
                         BarChartData.Bar(
-                            value = data.totalScreenTime.toFloat(),
+                            value = data?.totalScreenTime?.toFloat() ?: 0f,
                             color = barColor,
                             label = key.dayAcronym,
                             uniqueId = key.isoDayNumber
@@ -61,10 +61,10 @@ internal fun getWeeklyAppScreenTimeChartData(
         val data = withContext(Dispatchers.IO) {
             persistentListOf<BarChartData.Bar>().builder().apply {
                 for (key in weeklyStats.value.keys) {
-                    val data = weeklyStats.value.getValue(key)
+                    val data = weeklyStats.value[key]
                     add(
                         BarChartData.Bar(
-                            value = data.appUsageInfo.timeInForeground.toFloat(),
+                            value = data?.appUsageInfo?.timeInForeground?.toFloat() ?: 0f,
                             color = barColor,
                             label = key.dayAcronym,
                             uniqueId = key.isoDayNumber

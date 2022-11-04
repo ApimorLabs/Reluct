@@ -28,10 +28,10 @@ internal fun getWeeklyTasksBarChartData(
         val data = withContext(Dispatchers.IO) {
             persistentListOf<BarChartData.Bar>().builder().apply {
                 for (key in weeklyStats.value.keys) {
-                    val data = weeklyStats.value.getValue(key)
+                    val data = weeklyStats.value[key]
                     add(
                         BarChartData.Bar(
-                            value = data.completedTasksCount.toFloat(),
+                            value = data?.completedTasksCount?.toFloat() ?: 0f,
                             color = barColor,
                             label = key.dayAcronym,
                             uniqueId = key.isoDayNumber

@@ -56,7 +56,6 @@ internal fun AppScreenTimeStatsUI(
     val listState = rememberLazyListState()
     val showAppTimeLimitDialog = remember { mutableStateOf(false) }
 
-    println("App Screen Time UI Composed")
     Scaffold(
         modifier = modifier.fillMaxSize(),
         topBar = {
@@ -94,7 +93,6 @@ internal fun AppScreenTimeStatsUI(
         containerColor = MaterialTheme.colorScheme.background,
         contentWindowInsets = WindowInsets(0, 0, 0, 0)
     ) { padding ->
-        println("App Screen Time Scaffold Composed")
         Box(
             modifier = Modifier
                 .animateContentSize()
@@ -136,7 +134,7 @@ internal fun AppScreenTimeStatsUI(
                         selectedDayIsoNumber = { uiState.value.selectedInfo.selectedDay },
                         onBarClicked = { onSelectDay(it) },
                         weekUpdateButton = {
-                            WeekSelectorButton(
+                            ScreenTimeWeekSelectorButton(
                                 selectedInfoProvider = { uiState.value.selectedInfo },
                                 onUpdateWeekOffset = onUpdateWeekOffset
                             )
@@ -225,23 +223,6 @@ private fun LazyListScope.appExtraConfiguration(
             }
         }
     }
-}
-
-@Composable
-private fun WeekSelectorButton(
-    selectedInfoProvider: () -> ScreenTimeStatsSelectedInfo,
-    onUpdateWeekOffset: (offset: Int) -> Unit
-) {
-    val selectedInfo = remember { derivedStateOf { selectedInfoProvider() }}
-    ValueOffsetButton(
-        text = selectedInfo.value.selectedWeekText,
-        offsetValue = selectedInfo.value.weekOffset,
-        onOffsetValueChange = onUpdateWeekOffset,
-        containerColor = MaterialTheme.colorScheme.primary,
-        contentColor = MaterialTheme.colorScheme.onPrimary,
-        shape = Shapes.large,
-        incrementEnabled = selectedInfo.value.weekOffset < 0
-    )
 }
 
 @Composable

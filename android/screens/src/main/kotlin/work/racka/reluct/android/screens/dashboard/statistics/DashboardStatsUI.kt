@@ -30,6 +30,7 @@ import work.racka.reluct.android.compose.components.util.rememberScrollContext
 import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.android.compose.theme.Shapes
 import work.racka.reluct.android.screens.screentime.components.AppTimeLimitDialog
+import work.racka.reluct.android.screens.screentime.components.ShowAppTimeLimitDialog
 import work.racka.reluct.android.screens.screentime.components.getWeeklyDeviceScreenTimeChartData
 import work.racka.reluct.android.screens.tasks.components.getWeeklyTasksBarChartData
 import work.racka.reluct.android.screens.util.BottomBarVisibilityHandler
@@ -212,30 +213,4 @@ internal fun DashboardStatsUI(
         onSaveTimeLimit = onSaveTimeLimit,
         onClose = { showAppTimeLimitDialog.value = false }
     )
-}
-
-@Composable
-private fun ShowAppTimeLimitDialog(
-    openDialog: State<Boolean>,
-    limitStateProvider: () -> AppTimeLimitState,
-    onSaveTimeLimit: (hours: Int, minutes: Int) -> Unit,
-    onClose: () -> Unit,
-) {
-    if (openDialog.value) {
-        when (val limitState = limitStateProvider()) {
-            is AppTimeLimitState.Data -> {
-                AppTimeLimitDialog(
-                    onDismiss = onClose,
-                    initialAppTimeLimit = limitState.timeLimit,
-                    onSaveTimeLimit = onSaveTimeLimit
-                )
-            }
-            else -> {
-                CircularProgressDialog(
-                    onDismiss = onClose,
-                    loadingText = stringResource(id = R.string.loading_text)
-                )
-            }
-        }
-    }
 }

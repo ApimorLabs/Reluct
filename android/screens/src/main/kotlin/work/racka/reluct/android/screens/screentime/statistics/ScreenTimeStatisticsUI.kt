@@ -4,11 +4,10 @@ import androidx.compose.animation.*
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.ArrowUpward
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -17,27 +16,19 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
-import work.racka.reluct.android.compose.components.buttons.ReluctButton
-import work.racka.reluct.android.compose.components.buttons.ReluctFloatingActionButton
-import work.racka.reluct.android.compose.components.buttons.ValueOffsetButton
+import work.racka.reluct.android.compose.components.buttons.ScrollToTop
 import work.racka.reluct.android.compose.components.cards.appUsageEntry.AppUsageEntry
 import work.racka.reluct.android.compose.components.cards.headers.ListGroupHeadingHeader
 import work.racka.reluct.android.compose.components.cards.permissions.PermissionsCard
 import work.racka.reluct.android.compose.components.cards.statistics.BarChartDefaults
 import work.racka.reluct.android.compose.components.cards.statistics.screenTime.ScreenTimeStatisticsCard
-import work.racka.reluct.android.compose.components.dialogs.CircularProgressDialog
 import work.racka.reluct.android.compose.components.images.LottieAnimationWithDescription
 import work.racka.reluct.android.compose.components.util.BarsVisibility
 import work.racka.reluct.android.compose.components.util.rememberScrollContext
 import work.racka.reluct.android.compose.theme.Dimens
-import work.racka.reluct.android.compose.theme.Shapes
 import work.racka.reluct.android.screens.R
-import work.racka.reluct.android.screens.screentime.components.AppTimeLimitDialog
-import work.racka.reluct.android.screens.screentime.components.getWeeklyDeviceScreenTimeChartData
-import work.racka.reluct.android.screens.util.PermissionCheckHandler
-import work.racka.reluct.android.screens.util.checkUsageAccessPermissions
-import work.racka.reluct.android.screens.util.requestUsageAccessPermission
-import work.racka.reluct.common.features.screenTime.limits.states.AppTimeLimitState
+import work.racka.reluct.android.screens.screentime.components.*
+import work.racka.reluct.android.screens.util.*
 import work.racka.reluct.common.features.screenTime.statistics.states.allStats.DailyUsageStatsState
 import work.racka.reluct.common.features.screenTime.statistics.states.allStats.ScreenTimeStatsState
 import work.racka.reluct.common.features.screenTime.statistics.states.allStats.WeeklyUsageStatsState
@@ -45,15 +36,14 @@ import work.racka.reluct.common.model.domain.usagestats.AppUsageInfo
 
 @OptIn(
     ExperimentalFoundationApi::class,
-    ExperimentalMaterial3Api::class,
-    ExperimentalAnimationApi::class
+    ExperimentalMaterial3Api::class
 )
 @Composable
 internal fun ScreenTimeStatisticsUI(
     mainScaffoldPadding: PaddingValues,
     barsVisibility: BarsVisibility,
     snackbarHostState: SnackbarHostState,
-    uiState: ScreenTimeStatsState,
+    uiState: State<ScreenTimeStatsState>,
     getUsageData: (isGranted: Boolean) -> Unit,
     onSelectDay: (dayIsoNumber: Int) -> Unit,
     onUpdateWeekOffset: (weekOffsetValue: Int) -> Unit,
@@ -63,53 +53,48 @@ internal fun ScreenTimeStatisticsUI(
     modifier: Modifier = Modifier,
 ) {
     val listState = rememberLazyListState()
-    val scrollContext by rememberScrollContext(listState = listState)
+    val scrollContext = rememberScrollContext(listState = listState)
     val scope = rememberCoroutineScope()
 
-    SideEffect {
-        if (scrollContext.isTop) {
-            barsVisibility.bottomBar.show()
-        } else {
-            barsVisibility.bottomBar.hide()
-        }
-    }
+    BottomBarVisibilityHandler(
+        scrollContext = scrollContext,
+        barsVisibility = barsVisibility
+    )
 
     // Screen Time Chart
     val barColor = BarChartDefaults.barColor
     val screenTimeChartData = getWeeklyDeviceScreenTimeChartData(
-        weeklyStatsProvider = { uiState.weeklyData.usageStats },
-        isLoadingProvider = { uiState.weeklyData is WeeklyUsageStatsState.Loading },
+        weeklyStatsProvider = { uiState.value.weeklyData.usageStats },
+        isLoadingProvider = { uiState.value.weeklyData is WeeklyUsageStatsState.Loading },
         barColor = barColor
     )
 
-    var usagePermissionGranted by remember { mutableStateOf(false) }
+    val usagePermissionGranted = remember { mutableStateOf(false) }
     val openDialog = remember { mutableStateOf(false) }
-    var showAppTimeLimitDialog by remember { mutableStateOf(false) }
+    val showAppTimeLimitDialog = remember { mutableStateOf(false) }
 
     val context = LocalContext.current
 
     PermissionCheckHandler {
-        if (!usagePermissionGranted) {
-            usagePermissionGranted = checkUsageAccessPermissions(context)
-            getUsageData(usagePermissionGranted)
+        if (!usagePermissionGranted.value) {
+            usagePermissionGranted.value = checkUsageAccessPermissions(context)
+            getUsageData(usagePermissionGranted.value)
         }
     }
 
-    // LaunchedEffect(usagePermissionGranted) { getUsageData() }
+    val snackbarModifier = getSnackbarModifier(
+        mainPadding = mainScaffoldPadding,
+        scrollContext = scrollContext
+    )
 
-    val snackbarModifier = if (scrollContext.isTop) {
-        Modifier.padding(bottom = mainScaffoldPadding.calculateBottomPadding())
-    } else {
-        Modifier.navigationBarsPadding()
-    }
-
+    println("App Screen Time UI Composed")
     Scaffold(
         modifier = modifier
             .fillMaxSize(),
         snackbarHost = {
             SnackbarHost(hostState = snackbarHostState) { data ->
                 Snackbar(
-                    modifier = snackbarModifier,
+                    modifier = snackbarModifier.value,
                     shape = RoundedCornerShape(10.dp),
                     snackbarData = data,
                     containerColor = MaterialTheme.colorScheme.inverseSurface,
@@ -121,7 +106,7 @@ internal fun ScreenTimeStatisticsUI(
         containerColor = MaterialTheme.colorScheme.background,
         contentWindowInsets = WindowInsets(0, 0, 0, 0)
     ) { padding ->
-
+        println("App Screen Time Scaffold Composed")
         Box(
             modifier = Modifier
                 .animateContentSize()
@@ -143,7 +128,7 @@ internal fun ScreenTimeStatisticsUI(
                 }
 
                 // Permission Card
-                if (!usagePermissionGranted) {
+                if (!usagePermissionGranted.value) {
                     item {
                         PermissionsCard(
                             imageSlot = {
@@ -164,20 +149,15 @@ internal fun ScreenTimeStatisticsUI(
                 item {
                     ScreenTimeStatisticsCard(
                         chartData = screenTimeChartData,
-                        selectedDayText = { uiState.dailyData.dayText },
-                        selectedDayScreenTime = { uiState.dailyData.usageStat.formattedTotalScreenTime },
-                        weeklyTotalScreenTime = { uiState.weeklyData.formattedTotalTime },
-                        selectedDayIsoNumber = { uiState.selectedInfo.selectedDay },
+                        selectedDayText = { uiState.value.dailyData.dayText },
+                        selectedDayScreenTime = { uiState.value.dailyData.usageStat.formattedTotalScreenTime },
+                        weeklyTotalScreenTime = { uiState.value.weeklyData.formattedTotalTime },
+                        selectedDayIsoNumber = { uiState.value.selectedInfo.selectedDay },
                         onBarClicked = { onSelectDay(it) },
                         weekUpdateButton = {
-                            ValueOffsetButton(
-                                text = uiState.selectedInfo.selectedWeekText,
-                                offsetValue = uiState.selectedInfo.weekOffset,
-                                onOffsetValueChange = { onUpdateWeekOffset(it) },
-                                containerColor = MaterialTheme.colorScheme.primary,
-                                contentColor = MaterialTheme.colorScheme.onPrimary,
-                                shape = Shapes.large,
-                                incrementEnabled = uiState.selectedInfo.weekOffset < 0
+                            ScreenTimeWeekSelectorButton(
+                                selectedInfoProvider = { uiState.value.selectedInfo },
+                                onUpdateWeekOffset = onUpdateWeekOffset
                             )
                         }
                     )
@@ -188,62 +168,13 @@ internal fun ScreenTimeStatisticsUI(
                     ListGroupHeadingHeader(text = stringResource(R.string.app_list_header))
                 }
 
-                // Daily Data Loading
-                item {
-                    AnimatedVisibility(
-                        modifier = Modifier.fillMaxWidth(),
-                        visible = uiState.dailyData is DailyUsageStatsState.Loading,
-                        enter = fadeIn(),
-                        exit = fadeOut()
-                    ) {
-                        Box(
-                            contentAlignment = Alignment.Center
-                        ) {
-                            LinearProgressIndicator()
-                        }
-                    }
-                }
-
-                // No App Data Animation
-                if (uiState.dailyData is DailyUsageStatsState.Empty) {
-                    item {
-                        AnimatedVisibility(
-                            visible = uiState.dailyData is DailyUsageStatsState.Empty,
-                            enter = fadeIn(),
-                            exit = fadeOut()
-                        ) {
-                            Box(
-                                modifier = Modifier.fillMaxWidth(),
-                                contentAlignment = Alignment.Center
-                            ) {
-                                LottieAnimationWithDescription(
-                                    iterations = 10,
-                                    lottieResId = R.raw.no_data,
-                                    imageSize = 200.dp,
-                                    description = stringResource(R.string.no_usage_data_text)
-                                )
-                            }
-                        }
-                    }
-                }
-
-                if (uiState.dailyData.usageStat.appsUsageList.isNotEmpty()) {
-                    items(
-                        items = uiState.dailyData.usageStat.appsUsageList,
-                        key = { it.packageName }
-                    ) { item ->
-                        AppUsageEntry(
-                            playAnimation = true,
-                            modifier = Modifier.animateItemPlacement(),
-                            appUsageInfo = item,
-                            onEntryClick = { onAppUsageInfoClick(item) },
-                            onTimeSettingsClick = {
-                                onAppTimeLimitSettingsClicked(item.packageName)
-                                showAppTimeLimitDialog = true
-                            }
-                        )
-                    }
-                }
+                dailyAppStatsList(
+                    dailyDataProvider = { uiState.value.dailyData},
+                    isLoadingProvider = { uiState.value.dailyData is DailyUsageStatsState.Loading},
+                    onAppUsageInfoClick = onAppUsageInfoClick,
+                    onAppTimeLimitSettingsClicked = onAppTimeLimitSettingsClicked,
+                    onShowLimitDialog = { showAppTimeLimitDialog.value = true }
+                )
 
                 // Bottom Space for spaceBy
                 item {
@@ -254,80 +185,87 @@ internal fun ScreenTimeStatisticsUI(
             }
 
             // Scroll To Top
-            AnimatedVisibility(
-                modifier = Modifier.align(Alignment.BottomCenter),
-                visible = !scrollContext.isTop,
-                enter = scaleIn(),
-                exit = scaleOut()
-            ) {
-                ReluctFloatingActionButton(
-                    modifier = Modifier
-                        .padding(bottom = Dimens.MediumPadding.size)
-                        .navigationBarsPadding(),
-                    buttonText = "",
-                    contentDescription = stringResource(R.string.scroll_to_top),
-                    icon = Icons.Rounded.ArrowUpward,
-                    onButtonClicked = {
-                        scope.launch { listState.animateScrollToItem(0) }
-                    },
-                    expanded = false
-                )
-            }
-        }
-
-        // Go To Usage Access Dialog
-        if (openDialog.value) {
-            AlertDialog(
-                onDismissRequest = { openDialog.value = false },
-                title = {
-                    Text(text = stringResource(R.string.open_settings_dialog_title))
-                },
-                text = {
-                    Text(text = stringResource(R.string.usage_permissions_rationale_dialog_text))
-                },
-                confirmButton = {
-                    ReluctButton(
-                        buttonText = stringResource(R.string.ok),
-                        icon = null,
-                        shape = Shapes.large,
-                        buttonColor = MaterialTheme.colorScheme.primary,
-                        contentColor = MaterialTheme.colorScheme.onPrimary,
-                        onButtonClicked = {
-                            openDialog.value = false
-                            requestUsageAccessPermission(context)
-                        }
-                    )
-                },
-                dismissButton = {
-                    ReluctButton(
-                        buttonText = stringResource(R.string.cancel),
-                        icon = null,
-                        shape = Shapes.large,
-                        buttonColor = MaterialTheme.colorScheme.surfaceVariant,
-                        contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                        onButtonClicked = { openDialog.value = false }
-                    )
-                }
+            ScrollToTop(
+                scrollContext = scrollContext,
+                onScrollToTop = { scope.launch { listState.animateScrollToItem(0) } }
             )
         }
 
+        // Go To Usage Access Dialog
+        UsagePermissionDialog(openDialog = openDialog, onClose = { openDialog.value = false })
+
         // App Time Limit Dialog
-        if (showAppTimeLimitDialog) {
-            when (val limitState = uiState.appTimeLimit) {
-                is AppTimeLimitState.Data -> {
-                    AppTimeLimitDialog(
-                        onDismiss = { showAppTimeLimitDialog = false },
-                        initialAppTimeLimit = limitState.timeLimit,
-                        onSaveTimeLimit = onSaveAppTimeLimitSettings
-                    )
-                }
-                else -> {
-                    CircularProgressDialog(
-                        onDismiss = { showAppTimeLimitDialog = false },
-                        loadingText = stringResource(id = R.string.loading_text)
-                    )
-                }
+        ShowAppTimeLimitDialog(
+            openDialog = showAppTimeLimitDialog,
+            limitStateProvider = { uiState.value.appTimeLimit },
+            onSaveTimeLimit = onSaveAppTimeLimitSettings,
+            onClose = { showAppTimeLimitDialog.value = false }
+        )
+    }
+}
+
+@OptIn(ExperimentalFoundationApi::class)
+private fun LazyListScope.dailyAppStatsList(
+    dailyDataProvider: () -> DailyUsageStatsState,
+    isLoadingProvider: () -> Boolean,
+    onAppUsageInfoClick: (app: AppUsageInfo) -> Unit,
+    onAppTimeLimitSettingsClicked: (packageName: String) -> Unit,
+    onShowLimitDialog: () -> Unit
+) {
+    // Daily Data Loading
+    item {
+        val isLoading = remember { derivedStateOf { isLoadingProvider() } }
+        AnimatedVisibility(
+            modifier = Modifier.fillMaxWidth(),
+            visible = isLoading.value,
+            enter = fadeIn(),
+            exit = fadeOut()
+        ) {
+            Box(
+                contentAlignment = Alignment.Center
+            ) {
+                LinearProgressIndicator()
             }
         }
+    }
+
+    // No App Data Animation
+    item {
+        val isEmpty = remember {
+            derivedStateOf { dailyDataProvider() is DailyUsageStatsState.Empty }
+        }
+        AnimatedVisibility(
+            visible = isEmpty.value,
+            enter = fadeIn(),
+            exit = fadeOut()
+        ) {
+            Box(
+                modifier = Modifier.fillMaxWidth(),
+                contentAlignment = Alignment.Center
+            ) {
+                LottieAnimationWithDescription(
+                    iterations = 10,
+                    lottieResId = R.raw.no_data,
+                    imageSize = 200.dp,
+                    description = stringResource(R.string.no_usage_data_text)
+                )
+            }
+        }
+    }
+
+    items(
+        items = dailyDataProvider().usageStat.appsUsageList,
+        key = { it.packageName }
+    ) { item ->
+        AppUsageEntry(
+            playAnimation = true,
+            modifier = Modifier.animateItemPlacement(),
+            appUsageInfo = item,
+            onEntryClick = { onAppUsageInfoClick(item) },
+            onTimeSettingsClick = {
+                onAppTimeLimitSettingsClicked(item.packageName)
+                onShowLimitDialog()
+            }
+        )
     }
 }
