@@ -27,6 +27,8 @@ import work.racka.reluct.android.screens.screentime.components.AppNameEntry
 import work.racka.reluct.android.screens.screentime.components.LimitsDetailsCard
 import work.racka.reluct.android.screens.screentime.components.LimitsSwitchCard
 import work.racka.reluct.android.screens.screentime.components.ManageAppsDialog
+import work.racka.reluct.android.screens.util.BottomBarVisibilityHandler
+import work.racka.reluct.android.screens.util.getSnackbarModifier
 import work.racka.reluct.common.features.screenTime.limits.states.DistractingAppsState
 import work.racka.reluct.common.features.screenTime.limits.states.PausedAppsState
 import work.racka.reluct.common.features.screenTime.limits.states.ScreenTimeLimitState
@@ -37,7 +39,7 @@ internal fun ScreenTimeLimitsUI(
     mainScaffoldPadding: PaddingValues,
     barsVisibility: BarsVisibility,
     snackbarState: SnackbarHostState,
-    uiState: ScreenTimeLimitState,
+    uiState: State<ScreenTimeLimitState>,
     toggleFocusMode: (Boolean) -> Unit,
     toggleDnd: (Boolean) -> Unit,
     getDistractingApps: () -> Unit,
@@ -48,18 +50,18 @@ internal fun ScreenTimeLimitsUI(
     modifier: Modifier = Modifier,
 ) {
     val listState = rememberLazyListState()
-    val scrollContext by rememberScrollContext(listState = listState)
+    val scrollContext = rememberScrollContext(listState = listState)
 
-    SideEffect {
-        if (scrollContext.isTop) {
-            barsVisibility.bottomBar.show()
-        } else {
-            barsVisibility.bottomBar.hide()
-        }
-    }
+    BottomBarVisibilityHandler(
+        scrollContext = scrollContext,
+        barsVisibility = barsVisibility
+    )
+
+    val focusModeState = remember { derivedStateOf { uiState.value.focusModeState } }
+    val pausedAppsState = remember { derivedStateOf { uiState.value.pausedAppsState } }
 
     val focusModeContainerColor by animateColorAsState(
-        targetValue = if (uiState.focusModeState.focusModeOn) {
+        targetValue = if (focusModeState.value.focusModeOn) {
             Color.Green.copy(alpha = .7f)
         } else {
             MaterialTheme.colorScheme.error.copy(alpha = .8f)
@@ -67,7 +69,7 @@ internal fun ScreenTimeLimitsUI(
     )
 
     val focusModeContentColor by animateColorAsState(
-        targetValue = if (uiState.focusModeState.focusModeOn) {
+        targetValue = if (focusModeState.value.focusModeOn) {
             Color.Black
         } else {
             MaterialTheme.colorScheme.onError
@@ -78,11 +80,10 @@ internal fun ScreenTimeLimitsUI(
     val showDistractingAppsDialog = remember { mutableStateOf(false) }
     val showPausedAppsDialog = remember { mutableStateOf(false) }
 
-    val snackbarModifier = if (scrollContext.isTop) {
-        Modifier.padding(bottom = mainScaffoldPadding.calculateBottomPadding())
-    } else {
-        Modifier.navigationBarsPadding()
-    }
+    val snackbarModifier = getSnackbarModifier(
+        mainPadding = mainScaffoldPadding,
+        scrollContext = scrollContext
+    )
 
     Scaffold(
         modifier = modifier
@@ -90,7 +91,7 @@ internal fun ScreenTimeLimitsUI(
         snackbarHost = {
             SnackbarHost(hostState = snackbarState) { data ->
                 Snackbar(
-                    modifier = snackbarModifier,
+                    modifier = snackbarModifier.value,
                     shape = RoundedCornerShape(10.dp),
                     snackbarData = data,
                     containerColor = MaterialTheme.colorScheme.inverseSurface,
@@ -126,7 +127,7 @@ internal fun ScreenTimeLimitsUI(
                     LimitsSwitchCard(
                         title = stringResource(R.string.turn_on_focus),
                         description = stringResource(R.string.turn_on_focus_desc),
-                        checked = uiState.focusModeState.focusModeOn,
+                        checked = focusModeState.value.focusModeOn,
                         onCheckedChange = { toggleFocusMode(it) },
                         icon = Icons.Rounded.AppShortcut,
                         containerColor = focusModeContainerColor,
@@ -139,7 +140,7 @@ internal fun ScreenTimeLimitsUI(
                     LimitsSwitchCard(
                         title = stringResource(R.string.turn_on_dnd),
                         description = stringResource(R.string.turn_on_dnd_desc),
-                        checked = uiState.focusModeState.doNotDisturbOn,
+                        checked = focusModeState.value.doNotDisturbOn,
                         onCheckedChange = { toggleDnd(it) },
                         icon = Icons.Rounded.DoNotDisturbOnTotalSilence
                     )
@@ -174,20 +175,20 @@ internal fun ScreenTimeLimitsUI(
                             modifier = Modifier.padding(horizontal = Dimens.MediumPadding.size),
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
-                        uiState.pausedAppsState.pausedApps.take(4).forEach { app ->
+                        pausedAppsState.value.pausedApps.take(4).forEach { app ->
                             AppNameEntry(
                                 modifier = Modifier.padding(horizontal = Dimens.MediumPadding.size),
                                 appName = app.appName,
                                 icon = app.appIcon.icon
                             )
                         }
-                        if (uiState.pausedAppsState is PausedAppsState.Loading) {
+                        if (pausedAppsState.value is PausedAppsState.Loading) {
                             LinearProgressIndicator(
                                 Modifier
                                     .fillMaxSize()
                                     .padding(Dimens.LargePadding.size)
                             )
-                        } else if (uiState.pausedAppsState.pausedApps.isEmpty()) {
+                        } else if (pausedAppsState.value.pausedApps.isEmpty()) {
                             Text(
                                 modifier = Modifier
                                     .fillMaxSize()
@@ -218,11 +219,11 @@ internal fun ScreenTimeLimitsUI(
     ManageAppsDialog(
         openDialog = showDistractingAppsDialog,
         onDismiss = { showDistractingAppsDialog.value = false },
-        isLoadingProvider = { uiState.distractingAppsState is DistractingAppsState.Loading },
+        isLoadingProvider = { uiState.value.distractingAppsState is DistractingAppsState.Loading },
         topItemsHeading = stringResource(id = R.string.distracting_apps_text),
         bottomItemsHeading = stringResource(id = R.string.non_distracting_apps_text),
-        topItems = { uiState.distractingAppsState.distractingApps },
-        bottomItems = { uiState.distractingAppsState.otherApps },
+        topItems = { uiState.value.distractingAppsState.distractingApps },
+        bottomItems = { uiState.value.distractingAppsState.otherApps },
         onTopItemClicked = { removeDistractingApp(it.packageName) },
         onBottomItemClicked = { makeDistractingApp(it.packageName) }
     )
@@ -230,11 +231,11 @@ internal fun ScreenTimeLimitsUI(
     ManageAppsDialog(
         openDialog = showPausedAppsDialog,
         onDismiss = { showPausedAppsDialog.value = false },
-        isLoadingProvider = { uiState.pausedAppsState is PausedAppsState.Loading },
+        isLoadingProvider = { uiState.value.pausedAppsState is PausedAppsState.Loading },
         topItemsHeading = stringResource(id = R.string.paused_apps_text),
         bottomItemsHeading = stringResource(id = R.string.apps_text),
-        topItems = { uiState.pausedAppsState.pausedApps },
-        bottomItems = { uiState.pausedAppsState.unPausedApps },
+        topItems = { uiState.value.pausedAppsState.pausedApps },
+        bottomItems = { uiState.value.pausedAppsState.unPausedApps },
         onTopItemClicked = { resumeApp(it.packageName) },
         onBottomItemClicked = { pauseApp(it.packageName) }
     )
