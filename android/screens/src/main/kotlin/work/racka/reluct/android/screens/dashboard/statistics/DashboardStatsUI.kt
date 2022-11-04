@@ -29,7 +29,7 @@ import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.android.compose.theme.Shapes
 import work.racka.reluct.android.screens.screentime.components.AppTimeLimitDialog
 import work.racka.reluct.android.screens.screentime.components.getWeeklyDeviceScreenTimeChartData
-import work.racka.reluct.android.screens.tasks.components.getTasksBarChartBars
+import work.racka.reluct.android.screens.tasks.components.getWeeklyTasksBarChartData
 import work.racka.reluct.android.screens.util.BottomBarVisibilityHandler
 import work.racka.reluct.android.screens.util.getSnackbarModifier
 import work.racka.reluct.common.features.screenTime.limits.states.AppTimeLimitState
@@ -45,8 +45,8 @@ internal fun DashboardStatsUI(
     mainScaffoldPadding: PaddingValues,
     barsVisibility: BarsVisibility,
     snackbarState: SnackbarHostState,
-    screenTimeUiState: ScreenTimeStatsState,
-    tasksStatsUiState: TasksStatisticsState,
+    screenTimeUiState: State<ScreenTimeStatsState>,
+    tasksStatsUiState: State<TasksStatisticsState>,
     onTasksSelectDay: (day: Int) -> Unit,
     onScreenTimeSelectDay: (day: Int) -> Unit,
     onSelectAppTimeLimit: (packageName: String) -> Unit,
@@ -66,33 +66,18 @@ internal fun DashboardStatsUI(
     // Bar Charts
     val barColor = BarChartDefaults.barColor
     // Screen Time Chart
-    val screenTimeChartData = produceState(
-        initialValue = ChartData(
-            isLoading = screenTimeUiState.weeklyData is WeeklyUsageStatsState.Loading
-        ),
-        screenTimeUiState.weeklyData
-    ) {
-        value = ChartData(
-            data = getWeeklyDeviceScreenTimeChartData(
-                screenTimeUiState.weeklyData.usageStats,
-                barColor
-            ),
-            isLoading = screenTimeUiState.weeklyData is WeeklyUsageStatsState.Loading
-        )
-    }
+    val screenTimeChartData = getWeeklyDeviceScreenTimeChartData(
+        weeklyStatsProvider = { screenTimeUiState.value.weeklyData.usageStats },
+        isLoadingProvider = { screenTimeUiState.value.weeklyData is WeeklyUsageStatsState.Loading },
+        barColor = barColor
+    )
 
     // Tasks Stats Chart
-    val tasksChartData by produceState(
-        initialValue = ChartData(
-            isLoading = tasksStatsUiState.weeklyTasksState is WeeklyTasksState.Loading
-        ),
-        tasksStatsUiState.weeklyTasksState
-    ) {
-        value = ChartData(
-            data = getTasksBarChartBars(tasksStatsUiState.weeklyTasksState.weeklyTasks, barColor),
-            isLoading = tasksStatsUiState.weeklyTasksState is WeeklyTasksState.Loading
-        )
-    }
+    val tasksChartData = getWeeklyTasksBarChartData(
+        weeklyTasksProvider = { tasksStatsUiState.value.weeklyTasksState.weeklyTasks },
+        isLoadingProvider = { tasksStatsUiState.value.weeklyTasksState is WeeklyTasksState.Loading },
+        barColor = barColor
+    )
 
     val showAppTimeLimitDialog = remember { mutableStateOf(false) }
 
@@ -100,6 +85,8 @@ internal fun DashboardStatsUI(
         mainPadding = mainScaffoldPadding,
         scrollContext = scrollContext
     )
+
+    println("Dashboard Stats UI Composed")
 
     Scaffold(
         modifier = modifier
@@ -120,6 +107,7 @@ internal fun DashboardStatsUI(
         contentWindowInsets = WindowInsets(0, 0, 0, 0)
     ) { padding ->
 
+        println("Dashboard Stats Scaffold Composed")
         Box(
             modifier = Modifier
                 .animateContentSize()
@@ -135,6 +123,7 @@ internal fun DashboardStatsUI(
                 verticalArrangement = Arrangement
                     .spacedBy(Dimens.SmallPadding.size)
             ) {
+                println("Dashboard Stats LazyList Composed")
                 // Screen Time
                 stickyHeader {
                     ListGroupHeadingHeader(text = stringResource(R.string.screen_time_text))
@@ -144,12 +133,12 @@ internal fun DashboardStatsUI(
                 item {
                     ScreenTimeStatisticsCard(
                         chartData = screenTimeChartData,
-                        selectedDayText = { screenTimeUiState.dailyData.dayText },
+                        selectedDayText = { screenTimeUiState.value.dailyData.dayText },
                         selectedDayScreenTime = {
-                            screenTimeUiState.dailyData.usageStat.formattedTotalScreenTime
+                            screenTimeUiState.value.dailyData.usageStat.formattedTotalScreenTime
                         },
-                        weeklyTotalScreenTime = { screenTimeUiState.weeklyData.formattedTotalTime },
-                        selectedDayIsoNumber = { screenTimeUiState.selectedInfo.selectedDay },
+                        weeklyTotalScreenTime = { screenTimeUiState.value.weeklyData.formattedTotalTime },
+                        selectedDayIsoNumber = { screenTimeUiState.value.selectedInfo.selectedDay },
                         onBarClicked = { onScreenTimeSelectDay(it) },
                         weekUpdateButton = {
                             // Show 2 Apps
@@ -158,7 +147,7 @@ internal fun DashboardStatsUI(
                                 horizontalAlignment = Alignment.CenterHorizontally,
                                 verticalArrangement = Arrangement.Top
                             ) {
-                                screenTimeUiState.dailyData.usageStat.appsUsageList.take(3)
+                                screenTimeUiState.value.dailyData.usageStat.appsUsageList.take(3)
                                     .forEach { item ->
                                         AppUsageEntryBase(
                                             modifier = Modifier
@@ -197,12 +186,12 @@ internal fun DashboardStatsUI(
                 // Tasks Chart
                 item {
                     TasksStatisticsCard(
-                        chartData = tasksChartData,
-                        selectedDayText = tasksStatsUiState.dailyTasksState.dayText,
-                        selectedDayTasksDone = tasksStatsUiState.dailyTasksState.dailyTasks.completedTasksCount,
-                        selectedDayTasksPending = tasksStatsUiState.dailyTasksState.dailyTasks.pendingTasksCount,
-                        totalWeekTaskCount = tasksStatsUiState.weeklyTasksState.totalWeekTasksCount,
-                        selectedDayIsoNumber = tasksStatsUiState.selectedDay,
+                        chartData = tasksChartData.value,
+                        selectedDayText = tasksStatsUiState.value.dailyTasksState.dayText,
+                        selectedDayTasksDone = tasksStatsUiState.value.dailyTasksState.dailyTasks.completedTasksCount,
+                        selectedDayTasksPending = tasksStatsUiState.value.dailyTasksState.dailyTasks.pendingTasksCount,
+                        totalWeekTaskCount = tasksStatsUiState.value.weeklyTasksState.totalWeekTasksCount,
+                        selectedDayIsoNumber = tasksStatsUiState.value.selectedDay,
                         onBarClicked = { onTasksSelectDay(it) },
                         weekUpdateButton = {}
                     )
@@ -222,7 +211,7 @@ internal fun DashboardStatsUI(
     // App Time Limit Dialog
     ShowAppTimeLimitDialog(
         openDialog = showAppTimeLimitDialog,
-        limitStateProvider = { screenTimeUiState.appTimeLimit },
+        limitStateProvider = { screenTimeUiState.value.appTimeLimit },
         onSaveTimeLimit = onSaveTimeLimit,
         onClose = { showAppTimeLimitDialog.value = false }
     )

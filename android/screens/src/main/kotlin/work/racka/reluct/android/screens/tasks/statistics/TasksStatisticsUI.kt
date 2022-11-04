@@ -32,7 +32,7 @@ import work.racka.reluct.android.compose.components.util.rememberScrollContext
 import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.android.compose.theme.Shapes
 import work.racka.reluct.android.screens.R
-import work.racka.reluct.android.screens.tasks.components.getTasksBarChartBars
+import work.racka.reluct.android.screens.tasks.components.getWeeklyTasksBarChartData
 import work.racka.reluct.common.model.domain.tasks.Task
 import work.racka.reluct.common.model.states.tasks.DailyTasksState
 import work.racka.reluct.common.model.states.tasks.TasksStatisticsState
@@ -71,7 +71,7 @@ internal fun TasksStatisticsUI(
         uiState.weeklyTasksState
     ) {
         value = ChartData(
-            data = getTasksBarChartBars(uiState.weeklyTasksState.weeklyTasks, barColor),
+            data = getWeeklyTasksBarChartData(uiState.weeklyTasksState.weeklyTasks, barColor),
             isLoading = uiState.weeklyTasksState is WeeklyTasksState.Loading
         )
     }
