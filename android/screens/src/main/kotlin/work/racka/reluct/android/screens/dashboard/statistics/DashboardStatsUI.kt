@@ -30,6 +30,8 @@ import work.racka.reluct.android.compose.theme.Shapes
 import work.racka.reluct.android.screens.screentime.components.AppTimeLimitDialog
 import work.racka.reluct.android.screens.screentime.components.getWeeklyDeviceScreenTimeChartData
 import work.racka.reluct.android.screens.tasks.components.getTasksBarChartBars
+import work.racka.reluct.android.screens.util.BottomBarVisibilityHandler
+import work.racka.reluct.android.screens.util.getSnackbarModifier
 import work.racka.reluct.common.features.screenTime.limits.states.AppTimeLimitState
 import work.racka.reluct.common.features.screenTime.statistics.states.allStats.ScreenTimeStatsState
 import work.racka.reluct.common.features.screenTime.statistics.states.allStats.WeeklyUsageStatsState
@@ -54,20 +56,17 @@ internal fun DashboardStatsUI(
     modifier: Modifier = Modifier,
 ) {
     val listState = rememberLazyListState()
-    val scrollContext by rememberScrollContext(listState = listState)
+    val scrollContext = rememberScrollContext(listState = listState)
 
-    SideEffect {
-        if (scrollContext.isTop) {
-            barsVisibility.bottomBar.show()
-        } else {
-            barsVisibility.bottomBar.hide()
-        }
-    }
+    BottomBarVisibilityHandler(
+        scrollContext = scrollContext,
+        barsVisibility = barsVisibility
+    )
 
     // Bar Charts
     val barColor = BarChartDefaults.barColor
     // Screen Time Chart
-    val screenTimeChartData by produceState(
+    val screenTimeChartData = produceState(
         initialValue = ChartData(
             isLoading = screenTimeUiState.weeklyData is WeeklyUsageStatsState.Loading
         ),
@@ -97,11 +96,10 @@ internal fun DashboardStatsUI(
 
     val showAppTimeLimitDialog = remember { mutableStateOf(false) }
 
-    val snackbarModifier = if (scrollContext.isTop) {
-        Modifier.padding(bottom = mainScaffoldPadding.calculateBottomPadding())
-    } else {
-        Modifier.navigationBarsPadding()
-    }
+    val snackbarModifier = getSnackbarModifier(
+        mainPadding = mainScaffoldPadding,
+        scrollContext = scrollContext
+    )
 
     Scaffold(
         modifier = modifier
@@ -109,7 +107,7 @@ internal fun DashboardStatsUI(
         snackbarHost = {
             SnackbarHost(hostState = snackbarState) { data ->
                 Snackbar(
-                    modifier = snackbarModifier,
+                    modifier = snackbarModifier.value,
                     shape = RoundedCornerShape(10.dp),
                     snackbarData = data,
                     containerColor = MaterialTheme.colorScheme.inverseSurface,
@@ -146,11 +144,12 @@ internal fun DashboardStatsUI(
                 item {
                     ScreenTimeStatisticsCard(
                         chartData = screenTimeChartData,
-                        selectedDayText = screenTimeUiState.dailyData.dayText,
-                        selectedDayScreenTime = screenTimeUiState.dailyData
-                            .usageStat.formattedTotalScreenTime,
-                        weeklyTotalScreenTime = screenTimeUiState.weeklyData.formattedTotalTime,
-                        selectedDayIsoNumber = screenTimeUiState.selectedInfo.selectedDay,
+                        selectedDayText = { screenTimeUiState.dailyData.dayText },
+                        selectedDayScreenTime = {
+                            screenTimeUiState.dailyData.usageStat.formattedTotalScreenTime
+                        },
+                        weeklyTotalScreenTime = { screenTimeUiState.weeklyData.formattedTotalTime },
+                        selectedDayIsoNumber = { screenTimeUiState.selectedInfo.selectedDay },
                         onBarClicked = { onScreenTimeSelectDay(it) },
                         weekUpdateButton = {
                             // Show 2 Apps

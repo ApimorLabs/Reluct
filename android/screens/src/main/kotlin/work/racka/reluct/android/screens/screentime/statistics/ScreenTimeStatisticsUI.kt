@@ -77,7 +77,7 @@ internal fun ScreenTimeStatisticsUI(
 
     // Screen Time Chart
     val barColor = BarChartDefaults.barColor
-    val screenTimeChartData by produceState(
+    val screenTimeChartData = produceState(
         initialValue = ChartData(
             isLoading = uiState.weeklyData is WeeklyUsageStatsState.Loading
         ),
@@ -171,10 +171,10 @@ internal fun ScreenTimeStatisticsUI(
                 item {
                     ScreenTimeStatisticsCard(
                         chartData = screenTimeChartData,
-                        selectedDayText = uiState.dailyData.dayText,
-                        selectedDayScreenTime = uiState.dailyData.usageStat.formattedTotalScreenTime,
-                        weeklyTotalScreenTime = uiState.weeklyData.formattedTotalTime,
-                        selectedDayIsoNumber = uiState.selectedInfo.selectedDay,
+                        selectedDayText = { uiState.dailyData.dayText },
+                        selectedDayScreenTime = { uiState.dailyData.usageStat.formattedTotalScreenTime },
+                        weeklyTotalScreenTime = { uiState.weeklyData.formattedTotalTime },
+                        selectedDayIsoNumber = { uiState.selectedInfo.selectedDay },
                         onBarClicked = { onSelectDay(it) },
                         weekUpdateButton = {
                             ValueOffsetButton(

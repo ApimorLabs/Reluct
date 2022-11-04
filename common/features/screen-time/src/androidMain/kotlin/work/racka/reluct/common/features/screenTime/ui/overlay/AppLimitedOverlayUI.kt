@@ -48,7 +48,7 @@ internal fun AppLimitedOverlayUI(
     val uiState by viewModel.uiState.collectAsState()
 
     val barColor = BarChartDefaults.barColor
-    val barChartData by produceState(
+    val barChartData = produceState(
         initialValue = ChartData(
             isLoading = uiState.weeklyData is WeeklyAppUsageStatsState.Loading
         ),
@@ -121,18 +121,18 @@ internal fun AppLimitedOverlayUI(
             item {
                 ScreenTimeStatisticsCard(
                     chartData = barChartData,
-                    selectedDayText = if (dailyData is DailyAppUsageStatsState.Data) {
-                        dailyData.dayText
-                    } else {
-                        "..."
+                    selectedDayText = {
+                        if (dailyData is DailyAppUsageStatsState.Data) {
+                            dailyData.dayText
+                        } else "..."
                     },
-                    selectedDayScreenTime = if (dailyData is DailyAppUsageStatsState.Data) {
-                        dailyData.usageStat.appUsageInfo.formattedTimeInForeground
-                    } else {
-                        "..."
+                    selectedDayScreenTime = {
+                        if (dailyData is DailyAppUsageStatsState.Data) {
+                            dailyData.usageStat.appUsageInfo.formattedTimeInForeground
+                        } else "..."
                     },
-                    weeklyTotalScreenTime = uiState.weeklyData.formattedTotalTime,
-                    selectedDayIsoNumber = uiState.selectedInfo.selectedDay,
+                    weeklyTotalScreenTime = { uiState.weeklyData.formattedTotalTime },
+                    selectedDayIsoNumber = { uiState.selectedInfo.selectedDay },
                     onBarClicked = { viewModel.selectDay(it) },
                     weekUpdateButton = { /** No Button **/ }
                 )
