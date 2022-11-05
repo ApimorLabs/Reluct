@@ -33,7 +33,7 @@ import work.racka.reluct.common.features.settings.states.SettingsState
 @Composable
 internal fun SettingsUI(
     snackbarHostState: SnackbarHostState,
-    uiState: SettingsState,
+    uiState: State<SettingsState>,
     onSaveTheme: (value: Int) -> Unit,
     onToggleDnd: (value: Boolean) -> Unit,
     onToggleFocusMode: (value: Boolean) -> Unit,
@@ -43,7 +43,7 @@ internal fun SettingsUI(
     onBackClicked: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    var openThemeDialog by remember { mutableStateOf(false) }
+    val openThemeDialog = remember { mutableStateOf(false) }
 
     val modalSheetState = rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)
     val scope = rememberCoroutineScope()
@@ -53,7 +53,7 @@ internal fun SettingsUI(
         sheetContent = {
             CoffeeProductsSheet(
                 modifier = Modifier.statusBarsPadding(),
-                state = uiState.coffeeProducts,
+                state = uiState.value.coffeeProducts,
                 onPurchaseProduct = onPurchaseCoffee,
                 onReloadProducts = onGetCoffeeProducts,
                 onClose = {
@@ -133,7 +133,7 @@ internal fun SettingsUI(
                                 contentDescription = "Open"
                             )
                         },
-                        onClick = { openThemeDialog = true }
+                        onClick = { openThemeDialog.value = true }
                     )
                 }
 
@@ -142,7 +142,7 @@ internal fun SettingsUI(
                     LimitsSwitchCard(
                         title = stringResource(R.string.turn_on_focus),
                         description = stringResource(R.string.turn_on_focus_desc),
-                        checked = uiState.limitSettings.focusModeOn,
+                        checked = uiState.value.limitSettings.focusModeOn,
                         onCheckedChange = onToggleFocusMode,
                         icon = Icons.Rounded.AppShortcut
                     )
@@ -153,7 +153,7 @@ internal fun SettingsUI(
                     LimitsSwitchCard(
                         title = stringResource(R.string.app_blocking_text),
                         description = stringResource(R.string.app_blocking_desc_text),
-                        checked = uiState.limitSettings.appBlockingEnabled,
+                        checked = uiState.value.limitSettings.appBlockingEnabled,
                         onCheckedChange = onToggleAppBlocking,
                         icon = Icons.Rounded.AppBlocking
                     )
@@ -164,7 +164,7 @@ internal fun SettingsUI(
                     LimitsSwitchCard(
                         title = stringResource(R.string.turn_on_dnd),
                         description = stringResource(R.string.turn_on_dnd_desc),
-                        checked = uiState.limitSettings.dndOn,
+                        checked = uiState.value.limitSettings.dndOn,
                         onCheckedChange = onToggleDnd,
                         icon = Icons.Rounded.DoNotDisturbOnTotalSilence
                     )
@@ -198,11 +198,10 @@ internal fun SettingsUI(
         }
     }
 
-    if (openThemeDialog) {
-        ThemesDialog(
-            onDismiss = { openThemeDialog = false },
-            currentTheme = uiState.themeValue,
-            onSaveTheme = onSaveTheme
-        )
-    }
+    ThemesDialog(
+        openDialog = openThemeDialog,
+        onDismiss = { openThemeDialog.value = false },
+        currentTheme = uiState.value.themeValue,
+        onSaveTheme = onSaveTheme
+    )
 }

@@ -1,5 +1,6 @@
 package work.racka.reluct.android.screens.tasks.addEdit
 
+import android.content.Context
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.*
@@ -17,6 +18,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import kotlinx.collections.immutable.ImmutableList
@@ -25,8 +27,10 @@ import kotlinx.coroutines.launch
 import work.racka.reluct.android.compose.components.bottomSheet.addEditTask.LazyColumnAddEditTaskFields
 import work.racka.reluct.android.compose.components.buttons.OutlinedReluctButton
 import work.racka.reluct.android.compose.components.buttons.ReluctButton
+import work.racka.reluct.android.compose.components.dialogs.DiscardPromptDialog
 import work.racka.reluct.android.compose.components.images.LottieAnimationWithDescription
 import work.racka.reluct.android.compose.components.topBar.ReluctSmallTopAppBar
+import work.racka.reluct.android.compose.components.util.EditTitles
 import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.android.compose.theme.Shapes
 import work.racka.reluct.android.screens.R
@@ -47,7 +51,7 @@ import work.racka.reluct.common.model.states.tasks.ModifyTaskState
 @Composable
 internal fun AddEditTaskUI(
     snackbarState: SnackbarHostState,
-    uiState: AddEditTaskState,
+    uiState: State<AddEditTaskState>,
     onSaveTask: () -> Unit,
     onAddTaskClicked: () -> Unit,
     onUpdateTask: (task: EditTask) -> Unit,
@@ -58,35 +62,31 @@ internal fun AddEditTaskUI(
     val modalSheetState = rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)
     val scope = rememberCoroutineScope()
 
-    val modifyTaskState = uiState.modifyTaskState
+    val modifyTaskState = remember { derivedStateOf { uiState.value.modifyTaskState } }
 
-    val labelsState by getLabelState(modifyTaskState, uiState.availableTaskLabels, onUpdateTask)
+    val labelsState = getLabelState(
+        modifyTaskStateProvider = { modifyTaskState.value },
+        availableLabelsProvider = { uiState.value.availableTaskLabels },
+        onUpdateTask = onUpdateTask
+    )
 
-    val (titleText, dialogTitle) = getTitles(modifyTaskState = modifyTaskState)
+    val context = LocalContext.current
+    val titles = getTitles(modifyTaskStateProvider = { modifyTaskState.value }, context = context)
 
-    val canGoBack by remember(modifyTaskState) {
-        derivedStateOf {
-            modifyTaskState !is ModifyTaskState.Data
-        }
+    val canGoBack by remember { derivedStateOf { modifyTaskState.value !is ModifyTaskState.Data } }
+    val openDialog = remember { mutableStateOf(false) }
+
+    // Call this when you trying to Go Back safely!
+    fun goBackAttempt(canGoBack: Boolean) {
+        if (canGoBack) onBackClicked() else openDialog.value = true
     }
-    var openDialog by remember { mutableStateOf(false) }
-
-    fun goBackAttempt() {
-        if (canGoBack) {
-            onBackClicked()
-        } else {
-            openDialog = true
-        }
-    }
-
-    BackPressHandler { goBackAttempt() }
-
+    BackPressHandler { goBackAttempt(canGoBack) }
     ModalBottomSheetLayout(
         sheetState = modalSheetState,
         sheetContent = {
             ManageTaskLabelsSheet(
                 modifier = Modifier.statusBarsPadding(),
-                labelsState = labelsState,
+                labelsState = labelsState.value,
                 onSaveLabel = { onModifyTaskLabel(ModifyTaskLabel.SaveLabel(it)) },
                 onDeleteLabel = { onModifyTaskLabel(ModifyTaskLabel.Delete(it)) },
                 onClose = { scope.launch { modalSheetState.hide() } }
@@ -102,9 +102,9 @@ internal fun AddEditTaskUI(
             topBar = {
                 ReluctSmallTopAppBar(
                     modifier = Modifier.statusBarsPadding(),
-                    title = titleText,
+                    title = titles.value.appBarTitle,
                     navigationIcon = {
-                        IconButton(onClick = { goBackAttempt() }) {
+                        IconButton(onClick = { goBackAttempt(canGoBack) }) {
                             Icon(
                                 imageVector = Icons.Rounded.ArrowBack,
                                 contentDescription = null
@@ -133,7 +133,7 @@ internal fun AddEditTaskUI(
                     .fillMaxSize()
             ) {
                 AnimatedContent(
-                    targetState = modifyTaskState,
+                    targetState = modifyTaskState.value,
                     modifier = Modifier.fillMaxSize(),
                     contentAlignment = Alignment.Center
                 ) { targetState ->
@@ -187,68 +187,59 @@ internal fun AddEditTaskUI(
                     }
                 }
 
-                if (modifyTaskState is ModifyTaskState.Data) {
-                    LazyColumnAddEditTaskFields(
-                        task = modifyTaskState.task,
-                        saveButtonText = stringResource(R.string.save_button_text),
-                        discardButtonText = stringResource(R.string.discard_button_text),
-                        onSave = { onSaveTask() },
-                        onUpdateTask = onUpdateTask,
-                        onDiscard = { goBackAttempt() },
-                        onEditLabels = { scope.launch { modalSheetState.show() } }
-                    )
-                }
+                EditTasksList(
+                    getModifyTaskState = { modifyTaskState.value },
+                    onUpdateTask = onUpdateTask,
+                    onSaveTask = onSaveTask,
+                    onGoBack = { goBackAttempt(canGoBack) },
+                    onEditLabels = { scope.launch { modalSheetState.show() } }
+                )
             }
         }
     }
 
     // Discard Dialog
-    if (openDialog) {
-        AlertDialog(
-            onDismissRequest = { openDialog = false },
-            title = {
-                Text(text = dialogTitle)
-            },
-            text = {
-                Text(text = stringResource(R.string.discard_task_message))
-            },
-            confirmButton = {
-                ReluctButton(
-                    buttonText = stringResource(R.string.ok),
-                    icon = null,
-                    shape = Shapes.large,
-                    buttonColor = MaterialTheme.colorScheme.primary,
-                    contentColor = MaterialTheme.colorScheme.onPrimary,
-                    onButtonClicked = {
-                        openDialog = false
-                        onBackClicked()
-                    }
-                )
-            },
-            dismissButton = {
-                ReluctButton(
-                    buttonText = stringResource(R.string.cancel),
-                    icon = null,
-                    shape = Shapes.large,
-                    buttonColor = MaterialTheme.colorScheme.surfaceVariant,
-                    contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                    onButtonClicked = { openDialog = false }
-                )
-            }
+    DiscardPromptDialog(
+        dialogTitleProvider = { titles.value.dialogTitle },
+        openDialog = openDialog,
+        onClose = { openDialog.value = true },
+        onGoBack = onBackClicked
+    )
+}
+
+@Composable
+private fun EditTasksList(
+    getModifyTaskState: () -> ModifyTaskState,
+    onUpdateTask: (task: EditTask) -> Unit,
+    onSaveTask: () -> Unit,
+    onGoBack: () -> Unit,
+    onEditLabels: () -> Unit
+) {
+    val tasksState = getModifyTaskState()
+    if (tasksState is ModifyTaskState.Data) {
+        LazyColumnAddEditTaskFields(
+            task = tasksState.task,
+            saveButtonText = stringResource(R.string.save_button_text),
+            discardButtonText = stringResource(R.string.discard_button_text),
+            onSave = { onSaveTask() },
+            onUpdateTask = onUpdateTask,
+            onDiscard = onGoBack,
+            onEditLabels = onEditLabels
         )
     }
 }
 
 @Composable
 private fun getLabelState(
-    modifyTaskState: ModifyTaskState,
-    availableLabels: ImmutableList<TaskLabel>,
+    modifyTaskStateProvider: () -> ModifyTaskState,
+    availableLabelsProvider: () -> ImmutableList<TaskLabel>,
     onUpdateTask: (task: EditTask) -> Unit
-) = remember(modifyTaskState, availableLabels) {
+) = remember {
     derivedStateOf {
-        val task = if (modifyTaskState is ModifyTaskState.Data) modifyTaskState.task else null
+        val tasksStats = modifyTaskStateProvider()
+        val task = if (tasksStats is ModifyTaskState.Data) tasksStats.task else null
         CurrentTaskLabels(
-            availableLabels = availableLabels,
+            availableLabels = availableLabelsProvider(),
             selectedLabels = task?.taskLabels ?: persistentListOf(),
             onUpdateSelectedLabels = { labels ->
                 task?.copy(taskLabels = labels)?.let(onUpdateTask)
@@ -257,19 +248,30 @@ private fun getLabelState(
     }
 }
 
-typealias ScreenTitle = String
-typealias DialogTitle = String
-
 @Composable
 private fun getTitles(
-    modifyTaskState: ModifyTaskState
-): Pair<ScreenTitle, DialogTitle> = when (modifyTaskState) {
-    is ModifyTaskState.Data -> {
-        if (modifyTaskState.isEdit) {
-            stringResource(R.string.edit_task_text) to stringResource(R.string.discard_changes_text)
-        } else {
-            stringResource(R.string.add_task_text) to stringResource(R.string.discard_task)
+    modifyTaskStateProvider: () -> ModifyTaskState,
+    context: Context
+): State<EditTitles> = remember(context) {
+    derivedStateOf {
+        when (val goalState = modifyTaskStateProvider()) {
+            is ModifyTaskState.Data -> {
+                if (goalState.isEdit) {
+                    EditTitles(
+                        appBarTitle = context.getString(R.string.edit_task_text),
+                        dialogTitle = context.getString(R.string.discard_changes_text)
+                    )
+                } else {
+                    EditTitles(
+                        appBarTitle = context.getString(R.string.add_task_text),
+                        dialogTitle = context.getString(R.string.discard_task)
+                    )
+                }
+            }
+            else -> EditTitles(
+                appBarTitle = "• • •",
+                dialogTitle = context.getString(R.string.discard_task)
+            )
         }
     }
-    else -> "• • •" to stringResource(R.string.discard_task)
 }

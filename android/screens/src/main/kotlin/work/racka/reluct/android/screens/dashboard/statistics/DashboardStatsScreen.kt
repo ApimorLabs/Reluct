@@ -3,7 +3,6 @@ package work.racka.reluct.android.screens.dashboard.statistics
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -22,8 +21,8 @@ fun DashboardStatsScreen(
     val snackbarState = remember { SnackbarHostState() }
 
     val viewModel: DashboardStatisticsViewModel = getCommonViewModel()
-    val screenTimeUiState by viewModel.screenTimeUiState.collectAsStateWithLifecycle()
-    val tasksStatsUiState by viewModel.tasksStatsUiState.collectAsStateWithLifecycle()
+    val screenTimeUiState = viewModel.screenTimeUiState.collectAsStateWithLifecycle()
+    val tasksStatsUiState = viewModel.tasksStatsUiState.collectAsStateWithLifecycle()
 
     DashboardStatsUI(
         mainScaffoldPadding = mainScaffoldPadding,

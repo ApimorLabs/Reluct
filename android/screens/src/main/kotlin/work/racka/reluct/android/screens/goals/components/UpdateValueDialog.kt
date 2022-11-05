@@ -27,69 +27,72 @@ import work.racka.reluct.android.compose.theme.Shapes
 
 @Composable
 internal fun UpdateValueDialog(
+    openDialog: State<Boolean>,
     onDismiss: () -> Unit,
     headingText: String,
-    initialValue: Long,
+    initialValueProvider: () -> Long,
     onSaveValue: (Long) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    Dialog(
-        onDismissRequest = onDismiss
-    ) {
-        var textValue by remember { mutableStateOf(initialValue.toString()) }
-
-        Surface(
-            modifier = modifier,
-            shape = Shapes.large,
-            color = MaterialTheme.colorScheme.surface,
-            contentColor = MaterialTheme.colorScheme.onSurface,
-            tonalElevation = 6.dp
+    if (openDialog.value) {
+        Dialog(
+            onDismissRequest = onDismiss
         ) {
-            LazyColumn(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(Dimens.SmallPadding.size),
-                contentPadding = PaddingValues(Dimens.MediumPadding.size)
+            var textValue by remember { mutableStateOf(initialValueProvider().toString()) }
+
+            Surface(
+                modifier = modifier,
+                shape = Shapes.large,
+                color = MaterialTheme.colorScheme.surface,
+                contentColor = MaterialTheme.colorScheme.onSurface,
+                tonalElevation = 6.dp
             ) {
-                item {
-                    ListItemTitle(text = headingText)
-                }
+                LazyColumn(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.spacedBy(Dimens.SmallPadding.size),
+                    contentPadding = PaddingValues(Dimens.MediumPadding.size)
+                ) {
+                    item {
+                        ListItemTitle(text = headingText)
+                    }
 
-                item {
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.spacedBy(Dimens.MediumPadding.size)
-                    ) {
-                        ReluctTextField(
-                            value = textValue,
-                            isError = textValue.isBlank(),
-                            errorText = "",
-                            singleLine = true,
-                            hint = stringResource(R.string.enter_current_value),
-                            keyboardOptions = KeyboardOptions(
-                                keyboardType = KeyboardType.Number
-                            ),
-                            onTextChange = { text -> textValue = text },
-                            textStyle = MaterialTheme.typography.titleMedium
-                                .copy(textAlign = TextAlign.Center),
-                            modifier = Modifier.fillMaxWidth(.5f)
-                        )
+                    item {
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.spacedBy(Dimens.MediumPadding.size)
+                        ) {
+                            ReluctTextField(
+                                value = textValue,
+                                isError = textValue.isBlank(),
+                                errorText = "",
+                                singleLine = true,
+                                hint = stringResource(R.string.enter_current_value),
+                                keyboardOptions = KeyboardOptions(
+                                    keyboardType = KeyboardType.Number
+                                ),
+                                onTextChange = { text -> textValue = text },
+                                textStyle = MaterialTheme.typography.titleMedium
+                                    .copy(textAlign = TextAlign.Center),
+                                modifier = Modifier.fillMaxWidth(.5f)
+                            )
 
-                        ReluctButton(
-                            modifier = Modifier.weight(1f),
-                            buttonText = stringResource(id = R.string.save_button_text),
-                            icon = Icons.Rounded.Save,
-                            shape = Shapes.large,
-                            buttonColor = MaterialTheme.colorScheme.primary,
-                            contentColor = MaterialTheme.colorScheme.onPrimary,
-                            onButtonClicked = {
-                                if (textValue.isNotBlank()) {
-                                    textValue.toLongOrNull()?.run {
-                                        onSaveValue(this)
-                                        onDismiss()
-                                    } ?: run { textValue = "" }
+                            ReluctButton(
+                                modifier = Modifier.weight(1f),
+                                buttonText = stringResource(id = R.string.save_button_text),
+                                icon = Icons.Rounded.Save,
+                                shape = Shapes.large,
+                                buttonColor = MaterialTheme.colorScheme.primary,
+                                contentColor = MaterialTheme.colorScheme.onPrimary,
+                                onButtonClicked = {
+                                    if (textValue.isNotBlank()) {
+                                        textValue.toLongOrNull()?.run {
+                                            onSaveValue(this)
+                                            onDismiss()
+                                        } ?: run { textValue = "" }
+                                    }
                                 }
-                            }
-                        )
+                            )
+                        }
                     }
                 }
             }
