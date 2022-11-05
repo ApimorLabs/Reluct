@@ -19,8 +19,10 @@ import androidx.compose.ui.unit.dp
 import work.racka.reluct.android.compose.components.bottomSheet.addEditGoal.LazyColumnAddEditGoal
 import work.racka.reluct.android.compose.components.buttons.OutlinedReluctButton
 import work.racka.reluct.android.compose.components.buttons.ReluctButton
+import work.racka.reluct.android.compose.components.dialogs.DiscardPromptDialog
 import work.racka.reluct.android.compose.components.images.LottieAnimationWithDescription
 import work.racka.reluct.android.compose.components.topBar.ReluctSmallTopAppBar
+import work.racka.reluct.android.compose.components.util.EditTitles
 import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.android.compose.theme.Shapes
 import work.racka.reluct.android.screens.R
@@ -60,7 +62,7 @@ internal fun AddEditGoalUI(
     }
     val openExitDialog = remember { mutableStateOf(false) }
     val openRelatedAppsDialog = remember { mutableStateOf(false) }
-
+    // Call this when you trying to Go Back safely!
     fun goBackAttempt(canGoBack: Boolean) {
         if (canGoBack) onGoBack() else openExitDialog.value = true
     }
@@ -183,7 +185,7 @@ internal fun AddEditGoalUI(
     )
 
     // Discard Dialog
-    DiscardGoalDialog(
+    DiscardPromptDialog(
         dialogTitleProvider = { titles.value.dialogTitle },
         openDialog = openExitDialog,
         onClose = { openExitDialog.value = false },
@@ -219,50 +221,6 @@ private fun EditGoalList(
 }
 
 @Composable
-private fun DiscardGoalDialog(
-    dialogTitleProvider: () -> String,
-    openDialog: State<Boolean>,
-    onClose: () -> Unit,
-    onGoBack: () -> Unit
-) {
-    if (openDialog.value) {
-        val title = remember { derivedStateOf(dialogTitleProvider) }
-        AlertDialog(
-            onDismissRequest = onClose,
-            title = {
-                Text(text = title.value)
-            },
-            text = {
-                Text(text = stringResource(R.string.discard_task_message))
-            },
-            confirmButton = {
-                ReluctButton(
-                    buttonText = stringResource(R.string.ok),
-                    icon = null,
-                    shape = Shapes.large,
-                    buttonColor = MaterialTheme.colorScheme.primary,
-                    contentColor = MaterialTheme.colorScheme.onPrimary,
-                    onButtonClicked = {
-                        onClose()
-                        onGoBack()
-                    }
-                )
-            },
-            dismissButton = {
-                ReluctButton(
-                    buttonText = stringResource(R.string.cancel),
-                    icon = null,
-                    shape = Shapes.large,
-                    buttonColor = MaterialTheme.colorScheme.surfaceVariant,
-                    contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                    onButtonClicked = onClose
-                )
-            }
-        )
-    }
-}
-
-@Composable
 private fun getTitles(modifyGoalStateProvider: () -> ModifyGoalState, context: Context) =
     remember(context) {
         derivedStateOf {
@@ -287,8 +245,3 @@ private fun getTitles(modifyGoalStateProvider: () -> ModifyGoalState, context: C
             }
         }
     }
-
-private data class EditTitles(
-    val appBarTitle: String,
-    val dialogTitle: String
-)

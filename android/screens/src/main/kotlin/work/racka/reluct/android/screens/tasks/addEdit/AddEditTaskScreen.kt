@@ -2,16 +2,11 @@ package work.racka.reluct.android.screens.tasks.addEdit
 
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHostState
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import org.koin.core.parameter.parametersOf
-import timber.log.Timber
 import work.racka.common.mvvm.koin.compose.getCommonViewModel
 import work.racka.reluct.android.screens.tasks.components.ModifyTaskLabel
 import work.racka.reluct.common.features.tasks.add_edit_task.AddEditTaskViewModel
@@ -25,18 +20,14 @@ fun AddEditTaskScreen(
 ) {
     val snackbarState = remember { SnackbarHostState() }
     val viewModel: AddEditTaskViewModel = getCommonViewModel { parametersOf(taskId) }
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    val events by viewModel.events.collectAsStateWithLifecycle(TasksEvents.Nothing)
+    val uiState = viewModel.uiState.collectAsStateWithLifecycle()
+    val events = viewModel.events.collectAsStateWithLifecycle(TasksEvents.Nothing)
 
-    LaunchedEffect(events) {
-        Timber.d("Event is : $events")
-        handleEvents(
-            events = events,
-            scope = this,
-            snackbarState = snackbarState,
-            goBack = onBackClicked
-        )
-    }
+    HandleEvents(
+        eventsState = events,
+        snackbarState = snackbarState,
+        goBack = onBackClicked
+    )
 
     AddEditTaskUI(
         snackbarState = snackbarState,
@@ -54,22 +45,24 @@ fun AddEditTaskScreen(
     )
 }
 
-private fun handleEvents(
-    events: TasksEvents,
-    scope: CoroutineScope,
+@Composable
+private fun HandleEvents(
+    eventsState: State<TasksEvents>,
     snackbarState: SnackbarHostState,
     goBack: () -> Unit,
 ) {
-    when (events) {
-        is TasksEvents.ShowMessage -> {
-            scope.launch {
-                snackbarState.showSnackbar(
-                    message = events.msg,
-                    duration = SnackbarDuration.Short
-                )
+    LaunchedEffect(eventsState.value) {
+        when (val events = eventsState.value) {
+            is TasksEvents.ShowMessage -> {
+                launch {
+                    snackbarState.showSnackbar(
+                        message = events.msg,
+                        duration = SnackbarDuration.Short
+                    )
+                }
             }
+            is TasksEvents.Navigation.GoBack -> goBack()
+            else -> {}
         }
-        is TasksEvents.Navigation.GoBack -> goBack()
-        else -> {}
     }
 }
