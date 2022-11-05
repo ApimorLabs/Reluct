@@ -219,8 +219,11 @@ object TimeUtils {
                 val min = timeSuffix(diff.minutes, TimePeriod.MINUTE)
                 "$hrs $min ago"
             }
-            diff.minutes == 0 -> "Ongoing ${diff.days}"
-            else -> "Error"
+            diff.minutes == 0 -> "Now"
+            else -> {
+                val min = timeSuffix(diff.minutes, TimePeriod.MINUTE)
+                "$min ago"
+            }
         }
         return data
     }
