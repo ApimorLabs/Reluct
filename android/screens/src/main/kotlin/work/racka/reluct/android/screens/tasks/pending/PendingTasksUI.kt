@@ -30,7 +30,6 @@ import work.racka.reluct.android.screens.R
 import work.racka.reluct.android.screens.tasks.components.FullEmptyTasksIndicator
 import work.racka.reluct.android.screens.util.BottomBarVisibilityHandler
 import work.racka.reluct.android.screens.util.FetchMoreDataHandler
-import work.racka.reluct.android.screens.util.getSnackbarModifier
 import work.racka.reluct.common.model.domain.tasks.Task
 import work.racka.reluct.common.model.states.tasks.PendingTasksState
 
@@ -65,17 +64,12 @@ internal fun PendingTasksUI(
         barsVisibility = barsVisibility
     )
 
-    val snackbarModifier = getSnackbarModifier(
-        mainPadding = mainScaffoldPadding,
-        scrollContext = scrollContext
-    )
-
     Scaffold(
         modifier = modifier.fillMaxSize(),
         snackbarHost = {
             SnackbarHost(hostState = snackbarState) { data ->
                 Snackbar(
-                    modifier = snackbarModifier.value,
+                    modifier = Modifier.navigationBarsPadding(),
                     shape = RoundedCornerShape(10.dp),
                     snackbarData = data,
                     containerColor = MaterialTheme.colorScheme.inverseSurface,
