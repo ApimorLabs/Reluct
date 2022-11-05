@@ -51,7 +51,7 @@ internal fun DashboardNavHost(
 ) {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
-    val tabPage by remember(currentDestination) {
+    val tabPage = remember(currentDestination) {
         derivedStateOf {
             getCurrentTab(currentDestination)
         }
@@ -135,7 +135,7 @@ internal fun DashboardNavHost(
 
 @Composable
 private fun DashboardScreenTopBar(
-    tabPage: DashboardTabDestination,
+    tabPage: State<DashboardTabDestination>,
     // profilePicUrl: String?,
     updateTabPage: (DashboardTabDestination) -> Unit,
     onSettingsClicked: () -> Unit
@@ -178,8 +178,7 @@ private fun DashboardScreenTopBar(
         LazyRow {
             item {
                 DashboardTabBar(
-                    modifier = Modifier
-                        .padding(horizontal = 16.dp),
+                    modifier = Modifier.padding(horizontal = 16.dp),
                     tabPage = tabPage,
                     onTabSelected = {
                         updateTabPage(it)
