@@ -62,6 +62,7 @@ internal fun AddEditGoalUI(
     }
     val openExitDialog = remember { mutableStateOf(false) }
     val openRelatedAppsDialog = remember { mutableStateOf(false) }
+
     // Call this when you trying to Go Back safely!
     fun goBackAttempt(canGoBack: Boolean) {
         if (canGoBack) onGoBack() else openExitDialog.value = true

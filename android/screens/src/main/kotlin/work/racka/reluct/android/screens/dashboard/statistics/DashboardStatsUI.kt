@@ -183,8 +183,12 @@ internal fun DashboardStatsUI(
                     TasksStatisticsCard(
                         chartData = tasksChartData,
                         selectedDayText = { tasksStatsUiState.value.dailyTasksState.dayText },
-                        selectedDayTasksDone = { tasksStatsUiState.value.dailyTasksState.dailyTasks.completedTasksCount },
-                        selectedDayTasksPending = { tasksStatsUiState.value.dailyTasksState.dailyTasks.pendingTasksCount },
+                        selectedDayTasksDone = {
+                            tasksStatsUiState.value.dailyTasksState.dailyTasks.completedTasksCount
+                        },
+                        selectedDayTasksPending = {
+                            tasksStatsUiState.value.dailyTasksState.dailyTasks.pendingTasksCount
+                        },
                         totalWeekTaskCount = { tasksStatsUiState.value.weeklyTasksState.totalWeekTasksCount },
                         selectedDayIsoNumber = { tasksStatsUiState.value.selectedDay },
                         onBarClicked = { onTasksSelectDay(it) },

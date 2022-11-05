@@ -96,21 +96,20 @@ internal fun PendingTasksUI(
                 .padding(horizontal = Dimens.MediumPadding.size),
             contentAlignment = Alignment.Center
         ) {
-
             FullScreenLoading(
                 modifier = Modifier.padding(bottom = mainScaffoldPadding.calculateBottomPadding()),
                 isLoadingProvider = {
-                    uiState.value is PendingTasksState.Loading && uiState.value.tasksData.isEmpty()
-                            && uiState.value.overdueTasksData.isEmpty()
+                    uiState.value is PendingTasksState.Loading && uiState.value.tasksData.isEmpty() &&
+                        uiState.value.overdueTasksData.isEmpty()
                 }
             )
 
             // Show Empty Graphic
             FullEmptyTasksIndicator(
                 showAnimationProvider = {
-                    uiState.value !is PendingTasksState.Loading
-                            && uiState.value.overdueTasksData.isEmpty()
-                            && uiState.value.tasksData.isEmpty()
+                    uiState.value !is PendingTasksState.Loading &&
+                        uiState.value.overdueTasksData.isEmpty() &&
+                        uiState.value.tasksData.isEmpty()
                 },
                 modifier = Modifier.padding(bottom = mainScaffoldPadding.calculateBottomPadding())
             )
@@ -146,8 +145,8 @@ private fun PendingTasksLazyList(
     val uiState = remember { derivedStateOf { uiStateProvider() } }
     val isLoading = remember {
         derivedStateOf {
-            uiState.value is PendingTasksState.Loading && uiState.value.tasksData.isNotEmpty()
-                    && uiState.value.overdueTasksData.isNotEmpty()
+            uiState.value is PendingTasksState.Loading && uiState.value.tasksData.isNotEmpty() &&
+                uiState.value.overdueTasksData.isNotEmpty()
         }
     }
     val showData = remember {
@@ -173,8 +172,9 @@ private fun PendingTasksLazyList(
                 val isNotEmpty = remember {
                     derivedStateOf { uiState.value.overdueTasksData.isNotEmpty() }
                 }
-                if (isNotEmpty.value)
+                if (isNotEmpty.value) {
                     ListGroupHeadingHeader(text = stringResource(R.string.overdue_tasks_header))
+                }
             }
             items(
                 items = uiState.value.overdueTasksData,

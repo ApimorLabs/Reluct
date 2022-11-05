@@ -167,8 +167,8 @@ internal fun ScreenTimeStatisticsUI(
                 }
 
                 dailyAppStatsList(
-                    dailyDataProvider = { uiState.value.dailyData},
-                    isLoadingProvider = { uiState.value.dailyData is DailyUsageStatsState.Loading},
+                    dailyDataProvider = { uiState.value.dailyData },
+                    isLoadingProvider = { uiState.value.dailyData is DailyUsageStatsState.Loading },
                     onAppUsageInfoClick = onAppUsageInfoClick,
                     onAppTimeLimitSettingsClicked = onAppTimeLimitSettingsClicked,
                     onShowLimitDialog = { showAppTimeLimitDialog.value = true }

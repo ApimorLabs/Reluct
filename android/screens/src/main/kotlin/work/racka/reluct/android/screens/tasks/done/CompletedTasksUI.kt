@@ -99,16 +99,16 @@ internal fun CompletedTasksUI(
             FullScreenLoading(
                 modifier = Modifier.padding(bottom = mainScaffoldPadding.calculateBottomPadding()),
                 isLoadingProvider = {
-                    uiState.value is CompletedTasksState.Loading
-                            && uiState.value.tasksData.isEmpty()
+                    uiState.value is CompletedTasksState.Loading &&
+                        uiState.value.tasksData.isEmpty()
                 }
             )
 
             // Show Empty Graphic
             FullEmptyTasksIndicator(
                 showAnimationProvider = {
-                    uiState.value !is CompletedTasksState.Loading
-                            && uiState.value.tasksData.isEmpty()
+                    uiState.value !is CompletedTasksState.Loading &&
+                        uiState.value.tasksData.isEmpty()
                 },
                 modifier = Modifier.padding(bottom = mainScaffoldPadding.calculateBottomPadding())
             )

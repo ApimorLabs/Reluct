@@ -182,8 +182,9 @@ private fun LazyListScope.tasksList(
         val isNotEmpty = remember {
             derivedStateOf { dailyTasksStateProvider().dailyTasks.pendingTasks.isNotEmpty() }
         }
-        if (isNotEmpty.value)
+        if (isNotEmpty.value) {
             ListGroupHeadingHeader(text = stringResource(R.string.not_done_tasks_header))
+        }
     }
 
     items(
@@ -204,8 +205,9 @@ private fun LazyListScope.tasksList(
         val isNotEmpty = remember {
             derivedStateOf { dailyTasksStateProvider().dailyTasks.completedTasks.isNotEmpty() }
         }
-        if (isNotEmpty.value)
+        if (isNotEmpty.value) {
             ListGroupHeadingHeader(text = stringResource(R.string.done_tasks_header))
+        }
     }
 
     items(

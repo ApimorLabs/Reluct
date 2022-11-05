@@ -16,5 +16,7 @@ internal fun BottomBarVisibilityHandler(
 ) {
     if (scrollContext.value.isTop) {
         barsVisibility.bottomBar.show()
-    } else barsVisibility.bottomBar.hide()
+    } else {
+        barsVisibility.bottomBar.hide()
+    }
 }

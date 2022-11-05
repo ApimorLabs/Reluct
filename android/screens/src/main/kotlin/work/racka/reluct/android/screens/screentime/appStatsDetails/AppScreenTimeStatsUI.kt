@@ -18,16 +18,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import work.racka.reluct.android.compose.components.buttons.ValueOffsetButton
 import work.racka.reluct.android.compose.components.cards.headers.ListGroupHeadingHeader
 import work.racka.reluct.android.compose.components.cards.statistics.BarChartDefaults
 import work.racka.reluct.android.compose.components.cards.statistics.screenTime.ScreenTimeStatisticsCard
 import work.racka.reluct.android.compose.components.dialogs.CircularProgressDialog
 import work.racka.reluct.android.compose.theme.Dimens
-import work.racka.reluct.android.compose.theme.Shapes
 import work.racka.reluct.android.screens.R
 import work.racka.reluct.android.screens.screentime.components.*
-import work.racka.reluct.common.features.screenTime.statistics.states.ScreenTimeStatsSelectedInfo
 import work.racka.reluct.common.features.screenTime.statistics.states.appStats.AppScreenTimeStatsState
 import work.racka.reluct.common.features.screenTime.statistics.states.appStats.AppSettingsState
 import work.racka.reluct.common.features.screenTime.statistics.states.appStats.DailyAppUsageStatsState
@@ -175,7 +172,6 @@ internal fun AppScreenTimeStatsUI(
         onClose = { showAppTimeLimitDialog.value = false }
     )
 }
-
 
 private fun LazyListScope.appExtraConfiguration(
     getAppSettingsState: () -> AppSettingsState,

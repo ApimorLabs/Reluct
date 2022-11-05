@@ -75,7 +75,7 @@ internal fun ActiveGoalsUI(
     val showEmptyIndicator = remember {
         derivedStateOf {
             uiState.value.goalsListState.goals.isEmpty() &&
-                    uiState.value.goalsListState !is GoalsListState.Loading
+                uiState.value.goalsListState !is GoalsListState.Loading
         }
     }
 

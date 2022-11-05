@@ -16,6 +16,8 @@ internal fun getSnackbarModifier(mainPadding: PaddingValues, scrollContext: Stat
         derivedStateOf {
             if (scrollContext.value.isTop) {
                 Modifier.padding(bottom = mainPadding.calculateBottomPadding())
-            } else Modifier.navigationBarsPadding()
+            } else {
+                Modifier.navigationBarsPadding()
+            }
         }
     }
