@@ -1,25 +1,24 @@
-package work.racka.reluct.android.screens.goals.components
+package work.racka.reluct.android.compose.components.buttons
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Add
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.graphics.vector.ImageVector
 import work.racka.reluct.android.compose.components.animations.slideInVerticallyFadeReversed
 import work.racka.reluct.android.compose.components.animations.slideOutVerticallyFadeReversed
-import work.racka.reluct.android.compose.components.buttons.ReluctFloatingActionButton
 import work.racka.reluct.android.compose.components.util.ScrollContext
-import work.racka.reluct.android.screens.R
 
 @Composable
-internal fun NewGoalFloatingButton(
+fun CollapsingFloatingButton(
     scrollContextState: State<ScrollContext>,
     mainScaffoldPadding: PaddingValues,
+    text: String,
+    icon: ImageVector,
     onClick: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     AnimatedVisibility(
         visible = scrollContextState.value.isTop,
@@ -27,11 +26,10 @@ internal fun NewGoalFloatingButton(
         exit = slideOutVerticallyFadeReversed()
     ) {
         ReluctFloatingActionButton(
-            modifier = Modifier
-                .padding(bottom = mainScaffoldPadding.calculateBottomPadding()),
-            buttonText = stringResource(R.string.new_goal_text),
-            contentDescription = stringResource(R.string.add_icon),
-            icon = Icons.Rounded.Add,
+            modifier = modifier.padding(bottom = mainScaffoldPadding.calculateBottomPadding()),
+            buttonText = text,
+            contentDescription = text,
+            icon = icon,
             onButtonClicked = onClick
         )
     }

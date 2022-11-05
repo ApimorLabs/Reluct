@@ -8,20 +8,24 @@ import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import kotlinx.coroutines.launch
+import work.racka.reluct.android.compose.components.buttons.CollapsingFloatingButton
 import work.racka.reluct.android.compose.components.buttons.ScrollToTop
 import work.racka.reluct.android.compose.components.cards.goalEntry.GoalEntry
 import work.racka.reluct.android.compose.components.util.BarsVisibility
 import work.racka.reluct.android.compose.components.util.rememberScrollContext
 import work.racka.reluct.android.compose.theme.Dimens
+import work.racka.reluct.android.screens.R
 import work.racka.reluct.android.screens.goals.components.EmptyGoalsIndicator
-import work.racka.reluct.android.screens.goals.components.NewGoalFloatingButton
 import work.racka.reluct.android.screens.goals.components.NewGoalSheet
 import work.racka.reluct.android.screens.util.BottomBarVisibilityHandler
 import work.racka.reluct.android.screens.util.FetchMoreDataHandler
@@ -98,9 +102,11 @@ internal fun ActiveGoalsUI(
         containerColor = MaterialTheme.colorScheme.background,
         contentWindowInsets = WindowInsets(0, 0, 0, 0),
         floatingActionButton = {
-            NewGoalFloatingButton(
+            CollapsingFloatingButton(
                 scrollContextState = scrollContext,
                 mainScaffoldPadding = mainScaffoldPadding,
+                text = stringResource(R.string.new_goal_text),
+                icon = Icons.Rounded.Add,
                 onClick = { showNewGoalDialog.value = true }
             )
         }
