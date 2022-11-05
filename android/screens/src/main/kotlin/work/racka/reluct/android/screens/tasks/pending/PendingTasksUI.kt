@@ -156,7 +156,7 @@ private fun PendingTasksLazyList(
                     && uiState.value.overdueTasksData.isNotEmpty()
         }
     }
-    val showData = remember(uiState.value) {
+    val showData = remember {
         derivedStateOf {
             uiState.value.tasksData.isNotEmpty() || uiState.value.overdueTasksData.isNotEmpty()
         }

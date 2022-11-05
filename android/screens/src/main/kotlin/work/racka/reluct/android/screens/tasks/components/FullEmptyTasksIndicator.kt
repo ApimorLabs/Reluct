@@ -19,9 +19,14 @@ internal fun FullEmptyTasksIndicator(
     modifier: Modifier = Modifier,
 ) {
     val showAnimation = remember { derivedStateOf(showAnimationProvider) }
-    if (showAnimation.value) {
+    AnimatedVisibility(
+        visible = showAnimation.value,
+        modifier = modifier.fillMaxSize(),
+        enter = fadeIn(),
+        exit = fadeOut()
+    ) {
         Box(
-            modifier = modifier.fillMaxSize(),
+            modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center
         ) {
             LottieAnimationWithDescription(
