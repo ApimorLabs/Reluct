@@ -15,7 +15,7 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.get
 import org.koin.core.component.inject
 import org.koin.core.parameter.parametersOf
-import work.racka.reluct.common.features.screen_time.R
+import work.racka.reluct.common.features.screenTime.R
 import work.racka.reluct.common.features.screenTime.statistics.AppScreenTimeStatsViewModel
 import work.racka.reluct.common.features.screenTime.ui.overlay.AppLimitedOverlayView
 import work.racka.reluct.common.features.screenTime.ui.overlay.LimitsOverlayParams
