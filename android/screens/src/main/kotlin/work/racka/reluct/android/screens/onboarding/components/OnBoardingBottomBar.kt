@@ -22,11 +22,13 @@ import work.racka.reluct.common.features.onboarding.states.OnBoardingState
 
 @Composable
 internal fun OnBoardingBottomBar(
-    uiState: OnBoardingState,
+    uiStateProvider: () -> OnBoardingState,
     onUpdatePage: (OnBoardingPages) -> Unit,
     onCompleted: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val uiState by remember { derivedStateOf { uiStateProvider() } }
+
     val context = LocalContext.current
     val bottomButtons by remember(
         uiState.currentPage,

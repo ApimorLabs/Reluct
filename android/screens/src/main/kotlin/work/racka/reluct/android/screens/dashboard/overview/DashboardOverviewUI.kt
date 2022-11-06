@@ -4,11 +4,10 @@ import androidx.compose.animation.*
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.ArrowUpward
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -18,12 +17,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import work.racka.reluct.android.compose.components.R
-import work.racka.reluct.android.compose.components.buttons.ReluctButton
-import work.racka.reluct.android.compose.components.buttons.ReluctFloatingActionButton
+import work.racka.reluct.android.compose.components.buttons.ScrollToTop
 import work.racka.reluct.android.compose.components.cards.goalEntry.GoalEntry
 import work.racka.reluct.android.compose.components.cards.headers.ListGroupHeadingHeader
 import work.racka.reluct.android.compose.components.cards.permissions.PermissionsCard
-import work.racka.reluct.android.compose.components.cards.statistics.ChartData
 import work.racka.reluct.android.compose.components.cards.statistics.piechart.DailyScreenTimePieChart
 import work.racka.reluct.android.compose.components.cards.taskEntry.EntryType
 import work.racka.reluct.android.compose.components.cards.taskEntry.TaskEntry
@@ -31,28 +28,22 @@ import work.racka.reluct.android.compose.components.images.LottieAnimationWithDe
 import work.racka.reluct.android.compose.components.util.BarsVisibility
 import work.racka.reluct.android.compose.components.util.rememberScrollContext
 import work.racka.reluct.android.compose.theme.Dimens
-import work.racka.reluct.android.compose.theme.Shapes
-import work.racka.reluct.android.screens.dashboard.components.getPieChartSlices
-import work.racka.reluct.android.screens.util.PermissionCheckHandler
-import work.racka.reluct.android.screens.util.checkUsageAccessPermissions
-import work.racka.reluct.android.screens.util.requestUsageAccessPermission
+import work.racka.reluct.android.screens.dashboard.components.getScreenTimePieChartData
+import work.racka.reluct.android.screens.screentime.components.UsagePermissionDialog
+import work.racka.reluct.android.screens.util.*
 import work.racka.reluct.common.features.dashboard.overview.states.DashboardOverviewState
 import work.racka.reluct.common.features.dashboard.overview.states.TodayScreenTimeState
 import work.racka.reluct.common.features.dashboard.overview.states.TodayTasksState
 import work.racka.reluct.common.model.domain.goals.Goal
 import work.racka.reluct.common.model.domain.tasks.Task
 
-@OptIn(
-    ExperimentalFoundationApi::class,
-    ExperimentalMaterial3Api::class,
-    ExperimentalAnimationApi::class
-)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun DashboardOverviewUI(
     mainScaffoldPadding: PaddingValues,
     barsVisibility: BarsVisibility,
     snackbarHostState: SnackbarHostState,
-    uiState: DashboardOverviewState,
+    uiState: State<DashboardOverviewState>,
     getUsageData: (isGranted: Boolean) -> Unit,
     openScreenTimeStats: () -> Unit,
     openPendingTask: (Task) -> Unit,
@@ -61,28 +52,18 @@ internal fun DashboardOverviewUI(
     modifier: Modifier = Modifier,
 ) {
     val listState = rememberLazyListState()
-    val scrollContext by rememberScrollContext(listState = listState)
+    val scrollContext = rememberScrollContext(listState = listState)
     val scope = rememberCoroutineScope()
 
-    SideEffect {
-        if (scrollContext.isTop) {
-            barsVisibility.bottomBar.show()
-        } else {
-            barsVisibility.bottomBar.hide()
-        }
-    }
+    BottomBarVisibilityHandler(
+        scrollContext = scrollContext,
+        barsVisibility = barsVisibility
+    )
 
-    val chartData by produceState(
-        initialValue = ChartData(
-            isLoading = uiState.todayScreenTimeState is TodayScreenTimeState.Loading
-        ),
-        uiState.todayScreenTimeState
-    ) {
-        value = ChartData(
-            data = getPieChartSlices(uiState.todayScreenTimeState.usageStats.appsUsageList),
-            isLoading = uiState.todayScreenTimeState is TodayScreenTimeState.Loading
-        )
-    }
+    val chartData = getScreenTimePieChartData(
+        appsUsageProvider = { uiState.value.todayScreenTimeState.usageStats.appsUsageList },
+        isLoadingProvider = { uiState.value.todayScreenTimeState is TodayScreenTimeState.Loading }
+    )
 
     var usagePermissionGranted by remember { mutableStateOf(false) }
     val openDialog = remember { mutableStateOf(false) }
@@ -96,9 +77,10 @@ internal fun DashboardOverviewUI(
         }
     }
 
-    /*val snackbarModifier = if (scrollContext.isTop) {
-        Modifier.padding(bottom = mainScaffoldPadding.calculateBottomPadding())
-    } else Modifier.navigationBarsPadding()*/
+    val snackbarModifier = getSnackbarModifier(
+        mainPadding = mainScaffoldPadding,
+        scrollContext = scrollContext
+    )
 
     Scaffold(
         modifier = modifier
@@ -106,7 +88,7 @@ internal fun DashboardOverviewUI(
         snackbarHost = {
             SnackbarHost(hostState = snackbarHostState) { data ->
                 Snackbar(
-                    modifier = Modifier,
+                    modifier = snackbarModifier.value,
                     shape = RoundedCornerShape(10.dp),
                     snackbarData = data,
                     containerColor = MaterialTheme.colorScheme.inverseSurface,
@@ -161,130 +143,102 @@ internal fun DashboardOverviewUI(
                 item {
                     DailyScreenTimePieChart(
                         chartData = chartData,
-                        unlockCount = uiState.todayScreenTimeState.usageStats.unlockCount,
-                        screenTimeText = uiState.todayScreenTimeState.usageStats.formattedTotalScreenTime,
+                        unlockCountProvider = {
+                            uiState.value.todayScreenTimeState.usageStats.unlockCount
+                        },
+                        screenTimeTextProvider = {
+                            uiState.value.todayScreenTimeState.usageStats.formattedTotalScreenTime
+                        },
                         onClick = openScreenTimeStats
                     )
                 }
 
-                // Tasks
-                stickyHeader {
-                    ListGroupHeadingHeader(text = stringResource(R.string.upcoming_tasks_text))
-                }
-
-                if (uiState.todayTasksState is TodayTasksState.Loading) {
-                    item { LinearProgressIndicator() }
-                }
-
-                // No Tasks Animation
-                if (uiState.todayTasksState.pending.isEmpty()) {
-                    item {
-                        Box(
-                            modifier = Modifier.fillMaxWidth(),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            LottieAnimationWithDescription(
-                                lottieResId = R.raw.no_task_animation,
-                                imageSize = 200.dp,
-                                description = stringResource(R.string.no_tasks_text)
-                            )
-                        }
-                    }
-                }
-
-                // Upcoming Tasks
-                items(items = uiState.todayTasksState.pending, key = { it.id }) { item ->
-                    TaskEntry(
-                        modifier = Modifier.animateItemPlacement(),
-                        task = item,
-                        entryType = EntryType.TasksWithOverdue,
-                        onEntryClick = { openPendingTask(item) },
-                        onCheckedChange = { onToggleTaskDone(it, item) }
-                    )
-                }
-
-                // Current Active Goals
-                if (uiState.goals.isNotEmpty()) {
-                    stickyHeader {
-                        ListGroupHeadingHeader(text = stringResource(R.string.active_goals_text))
-                    }
-
-                    items(uiState.goals, key = { it.id }) { goal ->
-                        GoalEntry(
-                            modifier = Modifier.animateItemPlacement(),
-                            goal = goal,
-                            onEntryClick = { onGoalClicked(goal) }
-                        )
-                    }
-                }
+                // Tasks and Goals
+                tasksAndGoals(
+                    uiStateProvider = { uiState.value },
+                    onOpenPendingTask = openPendingTask,
+                    onToggleTaskDone = onToggleTaskDone,
+                    onGoalClicked = onGoalClicked
+                )
 
                 // Bottom Space for spaceBy
                 item {
                     Spacer(
-                        modifier = Modifier
-                            .padding(bottom = Dimens.ExtraLargePadding.size)
-                            .navigationBarsPadding()
+                        modifier = Modifier.padding(mainScaffoldPadding)
                     )
                 }
             }
 
             // Scroll To Top
-            AnimatedVisibility(
-                modifier = Modifier.align(Alignment.BottomCenter),
-                visible = !scrollContext.isTop,
-                enter = scaleIn(),
-                exit = scaleOut()
-            ) {
-                ReluctFloatingActionButton(
-                    modifier = Modifier
-                        .padding(bottom = Dimens.MediumPadding.size)
-                        .navigationBarsPadding(),
-                    buttonText = "",
-                    contentDescription = stringResource(R.string.scroll_to_top),
-                    icon = Icons.Rounded.ArrowUpward,
-                    onButtonClicked = {
-                        scope.launch { listState.animateScrollToItem(0) }
-                    },
-                    expanded = false
-                )
-            }
+            ScrollToTop(
+                scrollContext = scrollContext,
+                onScrollToTop = {
+                    scope.launch { listState.animateScrollToItem(0) }
+                }
+            )
         }
     }
 
     // Permission Dialog
     // Go To Usage Access Dialog
-    if (openDialog.value) {
-        AlertDialog(
-            onDismissRequest = { openDialog.value = false },
-            title = {
-                Text(text = stringResource(R.string.open_settings_dialog_title))
-            },
-            text = {
-                Text(text = stringResource(R.string.usage_permissions_rationale_dialog_text))
-            },
-            confirmButton = {
-                ReluctButton(
-                    buttonText = stringResource(R.string.ok),
-                    icon = null,
-                    shape = Shapes.large,
-                    buttonColor = MaterialTheme.colorScheme.primary,
-                    contentColor = MaterialTheme.colorScheme.onPrimary,
-                    onButtonClicked = {
-                        openDialog.value = false
-                        requestUsageAccessPermission(context)
-                    }
-                )
-            },
-            dismissButton = {
-                ReluctButton(
-                    buttonText = stringResource(R.string.cancel),
-                    icon = null,
-                    shape = Shapes.large,
-                    buttonColor = MaterialTheme.colorScheme.surfaceVariant,
-                    contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                    onButtonClicked = { openDialog.value = false }
+    UsagePermissionDialog(openDialog = openDialog, onClose = { openDialog.value = false })
+}
+
+@OptIn(ExperimentalFoundationApi::class)
+private fun LazyListScope.tasksAndGoals(
+    uiStateProvider: () -> DashboardOverviewState,
+    onOpenPendingTask: (Task) -> Unit,
+    onToggleTaskDone: (isDone: Boolean, task: Task) -> Unit,
+    onGoalClicked: (Goal) -> Unit,
+) {
+    // Tasks
+    stickyHeader {
+        ListGroupHeadingHeader(text = stringResource(R.string.upcoming_tasks_text))
+    }
+
+    if (uiStateProvider().todayTasksState is TodayTasksState.Loading) {
+        item { LinearProgressIndicator() }
+    }
+
+    // No Tasks Animation
+    if (uiStateProvider().todayTasksState.pending.isEmpty()) {
+        item {
+            Box(
+                modifier = Modifier.fillMaxWidth(),
+                contentAlignment = Alignment.Center
+            ) {
+                LottieAnimationWithDescription(
+                    lottieResId = R.raw.no_task_animation,
+                    imageSize = 200.dp,
+                    description = stringResource(R.string.no_tasks_text)
                 )
             }
+        }
+    }
+
+    // Upcoming Tasks
+    items(items = uiStateProvider().todayTasksState.pending, key = { it.id }) { item ->
+        TaskEntry(
+            modifier = Modifier.animateItemPlacement(),
+            task = item,
+            entryType = EntryType.TasksWithOverdue,
+            onEntryClick = { onOpenPendingTask(item) },
+            onCheckedChange = { onToggleTaskDone(it, item) }
         )
+    }
+
+    // Current Active Goals
+    if (uiStateProvider().goals.isNotEmpty()) {
+        stickyHeader {
+            ListGroupHeadingHeader(text = stringResource(R.string.active_goals_text))
+        }
+
+        items(uiStateProvider().goals, key = { it.id }) { goal ->
+            GoalEntry(
+                modifier = Modifier.animateItemPlacement(),
+                goal = goal,
+                onEntryClick = { onGoalClicked(goal) }
+            )
+        }
     }
 }

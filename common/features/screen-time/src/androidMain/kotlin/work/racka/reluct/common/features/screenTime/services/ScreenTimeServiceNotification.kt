@@ -8,7 +8,7 @@ import android.net.Uri
 import android.provider.Settings
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import work.racka.reluct.common.features.screen_time.R
+import work.racka.reluct.common.features.screenTime.R
 import work.racka.reluct.common.model.domain.core.Icon
 import work.racka.reluct.common.services.notifications.NotificationChannelInfo
 import work.racka.reluct.common.services.notifications.NotificationData

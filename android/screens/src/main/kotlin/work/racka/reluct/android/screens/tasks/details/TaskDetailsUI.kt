@@ -4,10 +4,7 @@ import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.lazy.*
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ModalBottomSheetLayout
 import androidx.compose.material.ModalBottomSheetValue
@@ -55,7 +52,7 @@ import work.racka.reluct.common.model.domain.tasks.TaskLabel
 @Composable
 internal fun TaskDetailsUI(
     snackbarState: SnackbarHostState,
-    uiState: TaskDetailsState,
+    uiState: State<TaskDetailsState>,
     onEditTask: (task: Task) -> Unit,
     onDeleteTask: (task: Task) -> Unit,
     onToggleTaskDone: (isDone: Boolean, task: Task) -> Unit,
@@ -68,9 +65,9 @@ internal fun TaskDetailsUI(
     val listState = rememberLazyListState()
     val openDialog = remember { mutableStateOf(false) }
 
-    val taskState = uiState.taskState
-    val labelsState by getLabelState(availableLabels = uiState.availableTaskLabels)
-    var taskLabelsPage: TaskLabelsPage by remember { mutableStateOf(TaskLabelsPage.ShowLabels) }
+    val taskState = remember { derivedStateOf { uiState.value.taskState } }
+    val labelsState by getLabelState(availableLabelsProvider = { uiState.value.availableTaskLabels })
+    val taskLabelsPage = remember { mutableStateOf<TaskLabelsPage>(TaskLabelsPage.ShowLabels) }
 
     ModalBottomSheetLayout(
         sheetState = modalSheetState,
@@ -78,7 +75,7 @@ internal fun TaskDetailsUI(
             ManageTaskLabelsSheet(
                 modifier = Modifier.statusBarsPadding(),
                 entryMode = TaskLabelsEntryMode.ViewLabels,
-                startPage = taskLabelsPage,
+                startPage = taskLabelsPage.value,
                 labelsState = labelsState,
                 onSaveLabel = { onModifyTaskLabel(ModifyTaskLabel.SaveLabel(it)) },
                 onDeleteLabel = { onModifyTaskLabel(ModifyTaskLabel.Delete(it)) },
@@ -107,13 +104,16 @@ internal fun TaskDetailsUI(
                 )
             },
             bottomBar = {
-                if (taskState is TaskState.Data) {
-                    Surface(color = MaterialTheme.colorScheme.background) {
-                        DetailsBottomBar(
-                            onEditTaskClicked = { onEditTask(taskState.task) },
-                            onDeleteTaskClicked = { openDialog.value = true }
-                        )
+                when (val state = taskState.value) {
+                    is TaskState.Data -> {
+                        Surface(color = MaterialTheme.colorScheme.background) {
+                            DetailsBottomBar(
+                                onEditTaskClicked = { onEditTask(state.task) },
+                                onDeleteTaskClicked = { openDialog.value = true }
+                            )
+                        }
                     }
+                    else -> {}
                 }
             },
             snackbarHost = {
@@ -137,7 +137,7 @@ internal fun TaskDetailsUI(
                     .fillMaxSize()
             ) {
                 AnimatedContent(
-                    targetState = taskState,
+                    targetState = taskState.value,
                     modifier = Modifier.fillMaxSize(),
                     contentAlignment = Alignment.Center
                 ) { targetState ->
@@ -161,115 +161,111 @@ internal fun TaskDetailsUI(
                     }
                 }
 
-                if (taskState is TaskState.Data) {
-                    LazyColumn(
-                        state = listState,
-                        verticalArrangement = Arrangement
-                            .spacedBy(Dimens.MediumPadding.size)
-                    ) {
-                        item {
-                            TaskDetailsHeading(
-                                modifier = Modifier.fillMaxWidth(),
-                                text = taskState.task.title,
-                                textStyle = MaterialTheme.typography.headlineMedium
-                                    .copy(fontWeight = FontWeight.Medium),
-                                isChecked = taskState.task.done,
-                                onCheckedChange = { isDone ->
-                                    onToggleTaskDone(isDone, taskState.task)
-                                }
-                            )
-                        }
-
-                        item {
-                            Text(
-                                text = taskState.task.description
-                                    .ifBlank { stringResource(R.string.no_description_text) },
-                                style = MaterialTheme.typography.bodyLarge,
-                                color = LocalContentColor.current
-                                    .copy(alpha = .8f)
-                            )
-                        }
-
-                        // Task Labels
-                        if (taskState.task.taskLabels.isNotEmpty()) {
-                            item {
-                                LazyRow(
-                                    verticalAlignment = Alignment.CenterVertically,
-                                    horizontalArrangement = Arrangement
-                                        .spacedBy(Dimens.SmallPadding.size),
-                                    modifier = Modifier.fillMaxWidth()
-                                ) {
-                                    items(
-                                        taskState.task.taskLabels,
-                                        key = { it.id }
-                                    ) { item ->
-                                        TaskLabelPill(
-                                            modifier = Modifier.clickable {
-                                                scope.launch {
-                                                    taskLabelsPage =
-                                                        TaskLabelsPage.ModifyLabel(item)
-                                                    modalSheetState.show()
-                                                }
-                                            },
-                                            name = item.name,
-                                            colorHex = item.colorHexString
-                                        )
-                                    }
-                                }
-                            }
-                        }
-
-                        item {
-                            TaskInfoCard(
-                                task = taskState.task,
-                                shape = Shapes.large
-                            )
-                        }
-
-                        // Bottom Space
-                        item {
-                            Spacer(modifier = Modifier.navigationBarsPadding())
-                        }
-                    }
-                }
+                DetailsLazyColumn(
+                    stateProvider = { taskState.value },
+                    listState = listState,
+                    onToggleTaskDone = onToggleTaskDone,
+                    onUpdateTaskLabelsPage = { taskLabelsPage.value = it },
+                    onShowBottomSheet = { scope.launch { modalSheetState.show() } }
+                )
             }
         }
 
         // Delete Task Dialog
-        if (openDialog.value) {
-            AlertDialog(
-                onDismissRequest = { openDialog.value = false },
-                title = {
-                    Text(text = stringResource(R.string.delete_task))
-                },
-                text = {
-                    Text(text = stringResource(R.string.delete_task_message))
-                },
-                confirmButton = {
-                    ReluctButton(
-                        buttonText = stringResource(R.string.ok),
-                        icon = null,
-                        shape = Shapes.large,
-                        buttonColor = MaterialTheme.colorScheme.primary,
-                        contentColor = MaterialTheme.colorScheme.onPrimary,
-                        onButtonClicked = {
-                            openDialog.value = false
-                            if (taskState is TaskState.Data) taskState.task.run(onDeleteTask)
+        DeleteTaskDialog(
+            openDialog = openDialog,
+            onClose = { openDialog.value = false },
+            getCurrentTask = {
+                when (val state = taskState.value) {
+                    is TaskState.Data -> state.task
+                    else -> null
+                }
+            },
+            onDeleteTask = onDeleteTask
+        )
+    }
+}
+
+@Composable
+private fun DetailsLazyColumn(
+    stateProvider: () -> TaskState,
+    listState: LazyListState,
+    onToggleTaskDone: (isDone: Boolean, task: Task) -> Unit,
+    onUpdateTaskLabelsPage: (TaskLabelsPage) -> Unit,
+    onShowBottomSheet: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    val providedState = remember { derivedStateOf { stateProvider() } }
+    when (val state = providedState.value) {
+        is TaskState.Data ->
+            LazyColumn(
+                modifier = modifier,
+                state = listState,
+                verticalArrangement = Arrangement
+                    .spacedBy(Dimens.MediumPadding.size)
+            ) {
+                item {
+                    TaskDetailsHeading(
+                        modifier = Modifier.fillMaxWidth(),
+                        text = state.task.title,
+                        textStyle = MaterialTheme.typography.headlineMedium
+                            .copy(fontWeight = FontWeight.Medium),
+                        isChecked = state.task.done,
+                        onCheckedChange = { isDone ->
+                            onToggleTaskDone(isDone, state.task)
                         }
                     )
-                },
-                dismissButton = {
-                    ReluctButton(
-                        buttonText = stringResource(R.string.cancel),
-                        icon = null,
-                        shape = Shapes.large,
-                        buttonColor = MaterialTheme.colorScheme.surfaceVariant,
-                        contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                        onButtonClicked = { openDialog.value = false }
+                }
+
+                item {
+                    Text(
+                        text = state.task.description
+                            .ifBlank { stringResource(R.string.no_description_text) },
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = LocalContentColor.current
+                            .copy(alpha = .8f)
                     )
                 }
-            )
-        }
+
+                // Task Labels
+                if (state.task.taskLabels.isNotEmpty()) {
+                    item {
+                        LazyRow(
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement
+                                .spacedBy(Dimens.SmallPadding.size),
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            items(
+                                state.task.taskLabels,
+                                key = { it.id }
+                            ) { item ->
+                                TaskLabelPill(
+                                    modifier = Modifier.clickable {
+                                        onUpdateTaskLabelsPage(TaskLabelsPage.ModifyLabel(item))
+                                        onShowBottomSheet()
+                                    },
+                                    name = item.name,
+                                    colorHex = item.colorHexString
+                                )
+                            }
+                        }
+                    }
+                }
+
+                item {
+                    TaskInfoCard(
+                        task = state.task,
+                        shape = Shapes.large
+                    )
+                }
+
+                // Bottom Space
+                item {
+                    Spacer(modifier = Modifier.navigationBarsPadding())
+                }
+            }
+        else -> {}
     }
 }
 
@@ -310,12 +306,58 @@ private fun DetailsBottomBar(
 }
 
 @Composable
-private fun getLabelState(availableLabels: ImmutableList<TaskLabel>) = remember(availableLabels) {
-    derivedStateOf {
-        CurrentTaskLabels(
-            availableLabels = availableLabels,
-            selectedLabels = persistentListOf(),
-            onUpdateSelectedLabels = {}
+private fun DeleteTaskDialog(
+    openDialog: State<Boolean>,
+    onClose: () -> Unit,
+    getCurrentTask: () -> Task?,
+    onDeleteTask: (task: Task) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    if (openDialog.value) {
+        AlertDialog(
+            modifier = modifier,
+            onDismissRequest = onClose,
+            title = {
+                Text(text = stringResource(R.string.delete_task))
+            },
+            text = {
+                Text(text = stringResource(R.string.delete_task_message))
+            },
+            confirmButton = {
+                ReluctButton(
+                    buttonText = stringResource(R.string.ok),
+                    icon = null,
+                    shape = Shapes.large,
+                    buttonColor = MaterialTheme.colorScheme.primary,
+                    contentColor = MaterialTheme.colorScheme.onPrimary,
+                    onButtonClicked = {
+                        onClose()
+                        getCurrentTask()?.run(onDeleteTask)
+                    }
+                )
+            },
+            dismissButton = {
+                ReluctButton(
+                    buttonText = stringResource(R.string.cancel),
+                    icon = null,
+                    shape = Shapes.large,
+                    buttonColor = MaterialTheme.colorScheme.surfaceVariant,
+                    contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                    onButtonClicked = onClose
+                )
+            }
         )
     }
 }
+
+@Composable
+private fun getLabelState(availableLabelsProvider: () -> ImmutableList<TaskLabel>) =
+    remember {
+        derivedStateOf {
+            CurrentTaskLabels(
+                availableLabels = availableLabelsProvider(),
+                selectedLabels = persistentListOf(),
+                onUpdateSelectedLabels = {}
+            )
+        }
+    }

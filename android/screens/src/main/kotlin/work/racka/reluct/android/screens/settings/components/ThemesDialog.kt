@@ -7,6 +7,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Done
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -20,6 +21,7 @@ import work.racka.reluct.android.screens.R
 
 @Composable
 fun ThemesDialog(
+    openDialog: State<Boolean>,
     onDismiss: () -> Unit,
     currentTheme: Int,
     onSaveTheme: (value: Int) -> Unit,
@@ -27,58 +29,59 @@ fun ThemesDialog(
 ) {
     val scrollState = rememberScrollState()
     val bottomButtonHeight = Dimens.ExtraLargePadding.size
-
-    Dialog(
-        onDismissRequest = onDismiss
-    ) {
-        Surface(
-            modifier = modifier,
-            shape = Shapes.large,
-            color = MaterialTheme.colorScheme.background,
-            contentColor = MaterialTheme.colorScheme.onBackground,
-            tonalElevation = 0.dp
+    if (openDialog.value) {
+        Dialog(
+            onDismissRequest = onDismiss
         ) {
-            Box(
-                modifier = Modifier
-                    .padding(Dimens.MediumPadding.size),
-                contentAlignment = Alignment.TopCenter
+            Surface(
+                modifier = modifier,
+                shape = Shapes.large,
+                color = MaterialTheme.colorScheme.background,
+                contentColor = MaterialTheme.colorScheme.onBackground,
+                tonalElevation = 0.dp
             ) {
-                Column(
+                Box(
                     modifier = Modifier
-                        .padding(bottom = bottomButtonHeight + Dimens.SmallPadding.size)
-                        .verticalScroll(scrollState),
-                    verticalArrangement = Arrangement.spacedBy(Dimens.SmallPadding.size),
-                    horizontalAlignment = Alignment.CenterHorizontally
+                        .padding(Dimens.MediumPadding.size),
+                    contentAlignment = Alignment.TopCenter
                 ) {
-                    ListGroupHeadingHeader(text = stringResource(id = R.string.themes_text))
-
-                    getThemes().forEach { item ->
-                        ThemeSelectCard(
-                            themeData = item,
-                            isSelected = currentTheme == item.theme.themeValue,
-                            onSelectTheme = onSaveTheme
-                        )
-                    }
-                }
-
-                Card(
-                    modifier = Modifier.align(Alignment.BottomCenter),
-                    colors = CardDefaults.cardColors(
-                        containerColor = MaterialTheme.colorScheme.background
-                    )
-                ) {
-                    Box(
+                    Column(
                         modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(top = Dimens.SmallPadding.size)
-                            .height(bottomButtonHeight),
-                        contentAlignment = Alignment.CenterEnd
+                            .padding(bottom = bottomButtonHeight + Dimens.SmallPadding.size)
+                            .verticalScroll(scrollState),
+                        verticalArrangement = Arrangement.spacedBy(Dimens.SmallPadding.size),
+                        horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        ReluctButton(
-                            buttonText = stringResource(id = R.string.ok),
-                            icon = Icons.Rounded.Done,
-                            onButtonClicked = onDismiss
+                        ListGroupHeadingHeader(text = stringResource(id = R.string.themes_text))
+
+                        getThemes().forEach { item ->
+                            ThemeSelectCard(
+                                themeData = item,
+                                isSelected = currentTheme == item.theme.themeValue,
+                                onSelectTheme = onSaveTheme
+                            )
+                        }
+                    }
+
+                    Card(
+                        modifier = Modifier.align(Alignment.BottomCenter),
+                        colors = CardDefaults.cardColors(
+                            containerColor = MaterialTheme.colorScheme.background
                         )
+                    ) {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(top = Dimens.SmallPadding.size)
+                                .height(bottomButtonHeight),
+                            contentAlignment = Alignment.CenterEnd
+                        ) {
+                            ReluctButton(
+                                buttonText = stringResource(id = R.string.ok),
+                                icon = Icons.Rounded.Done,
+                                onButtonClicked = onDismiss
+                            )
+                        }
                     }
                 }
             }

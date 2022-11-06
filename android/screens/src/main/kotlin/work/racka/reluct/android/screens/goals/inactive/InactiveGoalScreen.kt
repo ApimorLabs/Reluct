@@ -4,14 +4,10 @@ import android.content.Context
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHostState
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import work.racka.common.mvvm.koin.compose.getCommonViewModel
 import work.racka.reluct.android.compose.components.util.BarsVisibility
@@ -30,19 +26,15 @@ fun InactiveGoalsScreen(
     val snackbarState = remember { SnackbarHostState() }
 
     val viewModel = getCommonViewModel<InActiveGoalsViewModel>()
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    val events by viewModel.event.collectAsStateWithLifecycle(initialValue = GoalsEvents.Nothing)
+    val uiState = viewModel.uiState.collectAsStateWithLifecycle()
+    val events = viewModel.event.collectAsStateWithLifecycle(initialValue = GoalsEvents.Nothing)
 
     val context = LocalContext.current
-
-    LaunchedEffect(events) {
-        handleEvents(
-            context = context,
-            events = events,
-            scope = this,
-            snackbarState = snackbarState
-        )
-    }
+    HandleEvents(
+        context = context,
+        eventsState = events,
+        snackbarState = snackbarState
+    )
 
     InactiveGoalsUI(
         mainScaffoldPadding = mainScaffoldPadding,
@@ -55,26 +47,28 @@ fun InactiveGoalsScreen(
     )
 }
 
-private fun handleEvents(
+@Composable
+private fun HandleEvents(
     context: Context,
-    events: GoalsEvents,
-    scope: CoroutineScope,
+    eventsState: State<GoalsEvents>,
     snackbarState: SnackbarHostState,
 ) {
-    when (events) {
-        is GoalsEvents.ChangedGoalState -> {
-            val msg = if (events.isActive) {
-                context.getString(R.string.goal_marked_active)
-            } else {
-                context.getString(R.string.goal_marked_inactive)
+    LaunchedEffect(eventsState.value) {
+        when (val events = eventsState.value) {
+            is GoalsEvents.ChangedGoalState -> {
+                val msg = if (events.isActive) {
+                    context.getString(R.string.goal_marked_active)
+                } else {
+                    context.getString(R.string.goal_marked_inactive)
+                }
+                launch {
+                    snackbarState.showSnackbar(
+                        message = msg,
+                        duration = SnackbarDuration.Short
+                    )
+                }
             }
-            scope.launch {
-                snackbarState.showSnackbar(
-                    message = msg,
-                    duration = SnackbarDuration.Short
-                )
-            }
+            else -> {}
         }
-        else -> {}
     }
 }
