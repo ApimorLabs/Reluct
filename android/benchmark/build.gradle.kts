@@ -47,6 +47,7 @@ dependencies {
     implementation(libs.junit.test.ktx)
     implementation(libs.espresso.core)
     implementation(libs.androidx.benchmark.macro)
+    implementation(libs.androidx.profileinstaller)
     implementation(libs.androidx.test.uiautomator)
 }
 
