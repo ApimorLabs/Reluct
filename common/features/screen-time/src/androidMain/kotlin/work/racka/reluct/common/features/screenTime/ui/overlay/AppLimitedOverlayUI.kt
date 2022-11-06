@@ -35,7 +35,7 @@ import work.racka.reluct.common.features.screenTime.statistics.states.appStats.A
 import work.racka.reluct.common.features.screenTime.statistics.states.appStats.DailyAppUsageStatsState
 import work.racka.reluct.common.features.screenTime.statistics.states.appStats.WeeklyAppUsageStatsState
 import work.racka.reluct.common.features.screenTime.ui.components.AppNameEntry
-import work.racka.reluct.common.features.screen_time.R
+import work.racka.reluct.common.features.screenTime.R
 import work.racka.reluct.common.model.domain.usagestats.AppUsageStats
 import work.racka.reluct.common.model.util.time.Week
 

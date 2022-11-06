@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "work.racka.reluct.common.features.screen_time"
+    namespace = "work.racka.reluct.common.features.screenTime"
     buildFeatures { compose = true }
     composeOptions { kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get() }
 }

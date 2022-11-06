@@ -14,7 +14,7 @@ import work.racka.reluct.common.core_navigation.compose_destinations.screentime.
 import work.racka.reluct.common.domain.usecases.app_usage.GetAppUsageInfo
 import work.racka.reluct.common.domain.usecases.limits.GetAppLimits
 import work.racka.reluct.common.domain.usecases.limits.ManageFocusMode
-import work.racka.reluct.common.features.screen_time.R
+import work.racka.reluct.common.features.screenTime.R
 import work.racka.reluct.common.features.screenTime.permissions.UsageAccessPermission
 import work.racka.reluct.common.model.domain.usagestats.AppUsageStats
 

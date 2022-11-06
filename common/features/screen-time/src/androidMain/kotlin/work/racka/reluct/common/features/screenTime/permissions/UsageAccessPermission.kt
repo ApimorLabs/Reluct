@@ -8,7 +8,7 @@ import android.os.Build
 import android.os.Process
 import android.provider.Settings
 import androidx.core.app.NotificationCompat
-import work.racka.reluct.common.features.screen_time.R
+import work.racka.reluct.common.features.screenTime.R
 import work.racka.reluct.common.model.domain.core.Icon
 import work.racka.reluct.common.services.notifications.NotificationData
 import work.racka.reluct.common.services.notifications.SimpleAndroidNotification
