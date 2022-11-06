@@ -12,6 +12,8 @@ android {
         minSdk = libs.versions.config.android.minsdk.get().toInt()
         targetSdk = libs.versions.config.android.targetsdk.get().toInt()
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        // Disable re-installs and recompilations on every benchmark run
+        testInstrumentationRunnerArguments["androidx.benchmark.compilation.enabled"] = "false"
     }
 
     buildTypes {
