@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "work.racka.reluct.common.system_services"
+    namespace = "work.racka.reluct.common.services"
 }
 
 kotlin {
