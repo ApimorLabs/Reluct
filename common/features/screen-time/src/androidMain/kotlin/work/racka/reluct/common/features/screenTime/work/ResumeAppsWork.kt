@@ -2,25 +2,23 @@ package work.racka.reluct.common.features.screenTime.work
 
 import android.app.Notification
 import android.content.Context
-import androidx.work.CoroutineWorker
-import androidx.work.ForegroundInfo
-import androidx.work.PeriodicWorkRequestBuilder
-import androidx.work.WorkerParameters
+import androidx.work.*
 import kotlinx.datetime.*
-import work.racka.reluct.common.domain.usecases.limits.ManagePausedApps
+import work.racka.reluct.common.domain.usecases.limits.ModifyAppLimits
 import work.racka.reluct.common.features.screenTime.R
 import work.racka.reluct.common.features.screenTime.services.ScreenTimeServiceNotification
 import work.racka.reluct.common.model.util.time.TimeConstants
 import java.util.concurrent.TimeUnit
 
 class ResumeAppsWork(
-    private val managePausedApps: ManagePausedApps,
+    private val modifyAppLimits: ModifyAppLimits,
     appContext: Context,
     params: WorkerParameters
 ) : CoroutineWorker(appContext, params) {
 
     override suspend fun doWork(): Result {
-        TODO("Not yet implemented")
+        modifyAppLimits.resumeAllApps()
+        return Result.success()
     }
 
     override suspend fun getForegroundInfo(): ForegroundInfo {
@@ -42,11 +40,7 @@ class ResumeAppsWork(
 
     companion object {
         const val NOTIFICATION_ID = 20221107
-
-        val request = PeriodicWorkRequestBuilder<ResumeAppsWork>(1, TimeUnit.DAYS)
-            .setInitialDelay(getMinutesRemaining(), TimeUnit.MINUTES)
-            .addTag("resume_apps_work")
-            .build()
+        const val WORKER_NAME = "resume_apps_work"
 
         private fun getMinutesRemaining(): Long {
             val timeZone = TimeZone.currentSystemDefault()
@@ -63,6 +57,19 @@ class ResumeAppsWork(
             ).toInstant(timeZone)
             val timeDiff = endOfDay - now
             return timeDiff.inWholeMinutes.let { if (it < 0) 0L else it }
+        }
+
+        private val request = PeriodicWorkRequestBuilder<ResumeAppsWork>(1, TimeUnit.DAYS)
+            .setInitialDelay(getMinutesRemaining(), TimeUnit.MINUTES)
+            .addTag("resume_apps_work")
+            .build()
+
+        fun WorkManager.scheduleWork(): Operation {
+            return enqueueUniquePeriodicWork(WORKER_NAME, ExistingPeriodicWorkPolicy.KEEP, request)
+        }
+
+        fun WorkManager.cancelWork(): Operation {
+            return cancelUniqueWork(WORKER_NAME)
         }
     }
 }
