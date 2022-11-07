@@ -43,17 +43,10 @@ class BaselineProfileGenerator {
                 // Open Statistics and Scroll
                 wait(Until.hasObject(By.text("Statistics")), 10_000)
                 findObject(By.text("Statistics")).click()
-                Thread.sleep(2000)
-                findObject(By.scrollable(true)).run {
-                    fling(Direction.DOWN)
-                    fling(Direction.UP)
-                }
-                Thread.sleep(2000)
 
                 // Open the Tasks Screen and scroll
                 wait(Until.hasObject(By.text("Tasks")), 10_000)
                 findObject(By.text("Tasks")).click()
-                Thread.sleep(2000)
 
                 // Open new Task screen and cancel
                 wait(Until.hasObject(By.text("New Task")), 10_000)
@@ -61,17 +54,16 @@ class BaselineProfileGenerator {
                 Thread.sleep(2000)
                 pressBack()
                 findObject(By.text("OK")).click()
-                Thread.sleep(2000)
 
                 // Open Task Statistics Screen
                 wait(Until.hasObject(By.text("Statistics")), 10_000)
                 findObject(By.text("Statistics")).click()
-                Thread.sleep(2000)
 
                 // Open Screen Time screen and Scroll
                 wait(Until.hasObject(By.text("Screen Time")), 10_000)
                 findObject(By.text("Screen Time")).click()
-                Thread.sleep(5000)
+                Thread.sleep(3000)
+                wait(Until.hasObject(By.scrollable(true)), 10_000)
                 findObject(By.scrollable(true)).run {
                     fling(Direction.DOWN)
                     fling(Direction.UP)
@@ -80,9 +72,9 @@ class BaselineProfileGenerator {
                 // Open Limits Page and wait to load
                 wait(Until.hasObject(By.text("Limits")), 10_000)
                 findObject(By.text("Limits")).click()
-                Thread.sleep(5000)
 
-                // Open Goals Pages
+                // Ignore Goals Pages to reduce size
+                /*// Open Goals Pages
                 wait(Until.hasObject(By.text("Goals")), 10_000)
                 findObject(By.text("Goals")).click()
                 Thread.sleep(2000)
@@ -92,7 +84,7 @@ class BaselineProfileGenerator {
 
                 // Go to start screen
                 pressBack()
-                pressBack()
+                pressBack()*/
                 pressBack()
             }
         }
@@ -143,7 +135,7 @@ private fun UiDevice.setupFlow() {
         delayUi(3000)
         findObject(By.checkable(true)).click()
          */
-        Thread.sleep(20_000) // You have 20 seconds to grant Usage Access permission
+        Thread.sleep(10_000) // You have 20 seconds to grant Usage Access permission
         // After toggling to "Allowed", don't go back, just leave the screen as it is
         pressBack()
         pressBack()
@@ -160,6 +152,6 @@ private fun UiDevice.setupFlow() {
         waitForIdle()
 
         findObject(By.text("Continue")).click()
-        Thread.sleep(5_000)
+        Thread.sleep(3_000)
     }
 }
