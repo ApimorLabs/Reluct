@@ -128,6 +128,7 @@ dependencies {
 
     // Koin DI
     implementation(libs.koin.android)
+    implementation(libs.koin.android.workmanager)
     // Accompanist
     implementation(libs.accompanist.system.ui.controller)
     // Splash Screen
