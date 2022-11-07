@@ -62,16 +62,6 @@ class BaselineProfileGenerator {
                 // Open Screen Time screen and Scroll
                 wait(Until.hasObject(By.text("Screen Time")), 10_000)
                 findObject(By.text("Screen Time")).click()
-                Thread.sleep(3000)
-                wait(Until.hasObject(By.scrollable(true)), 10_000)
-                findObject(By.scrollable(true)).run {
-                    fling(Direction.DOWN)
-                    fling(Direction.UP)
-                }
-
-                // Open Limits Page and wait to load
-                wait(Until.hasObject(By.text("Limits")), 10_000)
-                findObject(By.text("Limits")).click()
 
                 // Ignore Goals Pages to reduce size
                 /*// Open Goals Pages
