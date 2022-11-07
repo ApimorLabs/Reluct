@@ -61,10 +61,12 @@ android_test_core = "1.4.0"
 android_test_arch_core = "2.1.0"
 androidx_benchmark = "1.2.0-alpha06"
 androidx_uiautomator = "2.3.0-alpha01"
+androidx_profileinstaller = "1.3.0-alpha01"
 
 # Helper libs
 coil_image = "2.1.0"
 accompanist = "0.27.0"
+androidx_workmanager = "2.7.1"
 
 # Preference
 multiplatform_settings = "0.9"
@@ -183,9 +185,13 @@ android_test_arch_core = { module = "androidx.arch.core:core-testing", version.r
 espresso_core = { module = "androidx.test.espresso:espresso-core", version.ref = "espresso_test" }
 androidx_benchmark_macro = { module = "androidx.benchmark:benchmark-macro-junit4", version.ref = "androidx_benchmark" }
 androidx_test_uiautomator = { module = "androidx.test.uiautomator:uiautomator", version.ref = "androidx_uiautomator" }
+androidx_profileinstaller = { module = "androidx.profileinstaller:profileinstaller", version.ref = "androidx_profileinstaller" }
 
 # Helpers and Extras
 palette = { module = "androidx.palette:palette-ktx", version.ref = "palette" }
+androidx_workmanager = { module = "androidx.work:work-runtime-ktx", version.ref = "androidx_workmanager" }
+androidx_workmanager_multiprocess = { module = "androidx.work:work-multiprocess", version.ref = "androidx_workmanager" }
+androidx_workmanager_testing = { module = "androidx.work:work-testing", version.ref = "androidx_workmanager" }
 
 # Network (KTOR)
 ktor_client_core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }

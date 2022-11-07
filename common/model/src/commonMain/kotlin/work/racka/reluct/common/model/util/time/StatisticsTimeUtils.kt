@@ -133,7 +133,7 @@ object StatisticsTimeUtils {
     }
 }
 
-internal object TimeConstants {
+object TimeConstants {
     const val DAYS_OF_WEEK = 7
     const val DAILY_HOURS = 24
     const val HOURLY_MINUTES_SECONDS = 60
