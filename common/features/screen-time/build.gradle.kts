@@ -51,6 +51,9 @@ kotlin {
                 implementation(project(":android:compose:components"))
                 implementation(libs.bundles.compose.core)
                 implementation(libs.viewmodel.compose)
+
+                implementation(libs.koin.android.workmanager)
+                implementation(libs.androidx.workmanager)
             }
         }
 
