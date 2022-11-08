@@ -35,7 +35,7 @@ import work.racka.reluct.common.features.screenTime.statistics.states.appStats.A
 import work.racka.reluct.common.features.screenTime.statistics.states.appStats.DailyAppUsageStatsState
 import work.racka.reluct.common.features.screenTime.statistics.states.appStats.WeeklyAppUsageStatsState
 import work.racka.reluct.common.features.screenTime.ui.components.AppNameEntry
-import work.racka.reluct.common.features.screen_time.R
+import work.racka.reluct.common.features.screenTime.R
 import work.racka.reluct.common.model.domain.usagestats.AppUsageStats
 import work.racka.reluct.common.model.util.time.Week
 
@@ -48,17 +48,11 @@ internal fun AppLimitedOverlayUI(
     val uiState by viewModel.uiState.collectAsState()
 
     val barColor = BarChartDefaults.barColor
-    val barChartData by produceState(
-        initialValue = ChartData(
-            isLoading = uiState.weeklyData is WeeklyAppUsageStatsState.Loading
-        ),
-        uiState.weeklyData
-    ) {
-        value = ChartData(
-            data = getWeeklyAppScreenTimeChartData(uiState.weeklyData.usageStats, barColor),
-            isLoading = uiState.weeklyData is WeeklyAppUsageStatsState.Loading
-        )
-    }
+    val barChartData = getWeeklyAppScreenTimeChartData(
+        weeklyStatsProvider = { uiState.weeklyData.usageStats },
+        isLoadingProvider = { uiState.weeklyData is WeeklyAppUsageStatsState.Loading },
+        barColor = barColor
+    )
 
     val appSettingsData by remember(uiState.appSettingsState) {
         derivedStateOf {
@@ -121,18 +115,18 @@ internal fun AppLimitedOverlayUI(
             item {
                 ScreenTimeStatisticsCard(
                     chartData = barChartData,
-                    selectedDayText = if (dailyData is DailyAppUsageStatsState.Data) {
-                        dailyData.dayText
-                    } else {
-                        "..."
+                    selectedDayText = {
+                        if (dailyData is DailyAppUsageStatsState.Data) {
+                            dailyData.dayText
+                        } else "..."
                     },
-                    selectedDayScreenTime = if (dailyData is DailyAppUsageStatsState.Data) {
-                        dailyData.usageStat.appUsageInfo.formattedTimeInForeground
-                    } else {
-                        "..."
+                    selectedDayScreenTime = {
+                        if (dailyData is DailyAppUsageStatsState.Data) {
+                            dailyData.usageStat.appUsageInfo.formattedTimeInForeground
+                        } else "..."
                     },
-                    weeklyTotalScreenTime = uiState.weeklyData.formattedTotalTime,
-                    selectedDayIsoNumber = uiState.selectedInfo.selectedDay,
+                    weeklyTotalScreenTime = { uiState.weeklyData.formattedTotalTime },
+                    selectedDayIsoNumber = { uiState.selectedInfo.selectedDay },
                     onBarClicked = { viewModel.selectDay(it) },
                     weekUpdateButton = { /** No Button **/ }
                 )
@@ -302,21 +296,34 @@ private fun ReasonCard(
     }
 }
 
-private suspend inline fun getWeeklyAppScreenTimeChartData(
-    weeklyStats: ImmutableMap<Week, AppUsageStats>,
-    barColor: Color
-) = withContext(Dispatchers.IO) {
-    persistentListOf<BarChartData.Bar>().builder().apply {
-        for (key in weeklyStats.keys) {
-            val data = weeklyStats.getValue(key)
-            add(
-                BarChartData.Bar(
-                    value = data.appUsageInfo.timeInForeground.toFloat(),
-                    color = barColor,
-                    label = key.dayAcronym,
-                    uniqueId = key.isoDayNumber
-                )
-            )
+@Composable
+private fun getWeeklyAppScreenTimeChartData(
+    weeklyStatsProvider: () -> ImmutableMap<Week, AppUsageStats>,
+    isLoadingProvider: () -> Boolean,
+    barColor: Color,
+): State<ChartData<BarChartData.Bar>> {
+    val isLoading = remember { derivedStateOf { isLoadingProvider() } }
+    val weeklyStats = remember { derivedStateOf { weeklyStatsProvider() } }
+    return produceState(
+        initialValue = ChartData(isLoading = isLoading.value),
+        isLoading.value,
+        weeklyStats.value
+    ) {
+        val data = withContext(Dispatchers.IO) {
+            persistentListOf<BarChartData.Bar>().builder().apply {
+                for (key in weeklyStats.value.keys) {
+                    val data = weeklyStats.value.getValue(key)
+                    add(
+                        BarChartData.Bar(
+                            value = data.appUsageInfo.timeInForeground.toFloat(),
+                            color = barColor,
+                            label = key.dayAcronym,
+                            uniqueId = key.isoDayNumber
+                        )
+                    )
+                }
+            }.build().toImmutableList()
         }
-    }.build().toImmutableList()
+        value = ChartData(data = data, isLoading = isLoading.value)
+    }
 }

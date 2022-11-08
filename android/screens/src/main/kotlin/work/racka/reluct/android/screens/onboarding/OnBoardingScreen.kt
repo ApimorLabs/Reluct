@@ -1,7 +1,6 @@
 package work.racka.reluct.android.screens.onboarding
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import work.racka.common.mvvm.koin.compose.getCommonViewModel
@@ -13,7 +12,7 @@ fun OnBoardingScreen(
     navigateHome: () -> Unit
 ) {
     val viewModel: OnBoardingViewModel = getCommonViewModel()
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val uiState = viewModel.uiState.collectAsStateWithLifecycle()
 
     OnBoardingUI(
         uiState = uiState,

@@ -4,14 +4,10 @@ import android.content.Context
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHostState
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import work.racka.common.mvvm.koin.compose.getCommonViewModel
 import work.racka.reluct.android.compose.components.util.BarsVisibility
@@ -31,18 +27,16 @@ fun DashboardOverviewScreen(
     val snackbarHostState = remember { SnackbarHostState() }
 
     val viewModel: DashboardOverviewViewModel = getCommonViewModel()
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    val events by viewModel.events.collectAsStateWithLifecycle(initialValue = DashboardEvents.Nothing)
+    val uiState = viewModel.uiState.collectAsStateWithLifecycle()
+    val events =
+        viewModel.events.collectAsStateWithLifecycle(initialValue = DashboardEvents.Nothing)
 
     val context = LocalContext.current
-    LaunchedEffect(events) {
-        handleEvents(
-            context = context,
-            scope = this,
-            events = events,
-            snackbarHostState = snackbarHostState
-        )
-    }
+    HandleEvents(
+        context = context,
+        eventsState = events,
+        snackbarHostState = snackbarHostState
+    )
 
     DashboardOverviewUI(
         mainScaffoldPadding = mainScaffoldPadding,
@@ -57,26 +51,28 @@ fun DashboardOverviewScreen(
     )
 }
 
-private fun handleEvents(
+@Composable
+private fun HandleEvents(
     context: Context,
-    events: DashboardEvents,
-    scope: CoroutineScope,
+    eventsState: State<DashboardEvents>,
     snackbarHostState: SnackbarHostState,
 ) {
-    when (events) {
-        is DashboardEvents.ShowMessageDone -> {
-            scope.launch {
-                val msg = if (events.isDone) {
-                    context.getString(R.string.task_marked_as_done, events.msg)
-                } else {
-                    context.getString(R.string.task_marked_as_not_done, events.msg)
+    LaunchedEffect(eventsState.value) {
+        when (val events = eventsState.value) {
+            is DashboardEvents.ShowMessageDone -> {
+                launch {
+                    val msg = if (events.isDone) {
+                        context.getString(R.string.task_marked_as_done, events.msg)
+                    } else {
+                        context.getString(R.string.task_marked_as_not_done, events.msg)
+                    }
+                    snackbarHostState.showSnackbar(
+                        message = msg,
+                        duration = SnackbarDuration.Short
+                    )
                 }
-                snackbarHostState.showSnackbar(
-                    message = msg,
-                    duration = SnackbarDuration.Short
-                )
             }
+            else -> {}
         }
-        else -> {}
     }
 }

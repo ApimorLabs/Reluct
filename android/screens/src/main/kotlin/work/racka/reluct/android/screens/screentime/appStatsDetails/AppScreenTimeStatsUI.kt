@@ -1,12 +1,10 @@
 package work.racka.reluct.android.screens.screentime.appStatsDetails
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.animateContentSize
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
+import androidx.compose.animation.*
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -20,14 +18,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import work.racka.reluct.android.compose.components.buttons.ValueOffsetButton
 import work.racka.reluct.android.compose.components.cards.headers.ListGroupHeadingHeader
 import work.racka.reluct.android.compose.components.cards.statistics.BarChartDefaults
-import work.racka.reluct.android.compose.components.cards.statistics.ChartData
 import work.racka.reluct.android.compose.components.cards.statistics.screenTime.ScreenTimeStatisticsCard
 import work.racka.reluct.android.compose.components.dialogs.CircularProgressDialog
 import work.racka.reluct.android.compose.theme.Dimens
-import work.racka.reluct.android.compose.theme.Shapes
 import work.racka.reluct.android.screens.R
 import work.racka.reluct.android.screens.screentime.components.*
 import work.racka.reluct.common.features.screenTime.statistics.states.appStats.AppScreenTimeStatsState
@@ -39,7 +34,7 @@ import work.racka.reluct.common.features.screenTime.statistics.states.appStats.W
 @Composable
 internal fun AppScreenTimeStatsUI(
     snackbarHostState: SnackbarHostState,
-    uiState: AppScreenTimeStatsState,
+    uiState: State<AppScreenTimeStatsState>,
     toggleDistractingState: (value: Boolean) -> Unit,
     togglePausedState: (value: Boolean) -> Unit,
     saveTimeLimit: (hours: Int, minutes: Int) -> Unit,
@@ -49,30 +44,23 @@ internal fun AppScreenTimeStatsUI(
     modifier: Modifier = Modifier,
 ) {
     val barColor = BarChartDefaults.barColor
-    val barChartData by produceState(
-        initialValue = ChartData(
-            isLoading = uiState.weeklyData is WeeklyAppUsageStatsState.Loading
-        ),
-        uiState.weeklyData
-    ) {
-        value = ChartData(
-            data = getWeeklyAppScreenTimeChartData(uiState.weeklyData.usageStats, barColor),
-            isLoading = uiState.weeklyData is WeeklyAppUsageStatsState.Loading
-        )
-    }
+    val barChartData = getWeeklyAppScreenTimeChartData(
+        weeklyStatsProvider = { uiState.value.weeklyData.usageStats },
+        isLoadingProvider = { uiState.value.weeklyData is WeeklyAppUsageStatsState.Loading },
+        barColor = barColor
+    )
 
     val listState = rememberLazyListState()
-    var showAppTimeLimitDialog by remember { mutableStateOf(false) }
+    val showAppTimeLimitDialog = remember { mutableStateOf(false) }
 
     Scaffold(
-        modifier = modifier
-            .fillMaxSize(),
+        modifier = modifier.fillMaxSize(),
         topBar = {
             TopAppBar(
                 title = {
                     TopAppInfoItem(
                         modifier = Modifier.padding(bottom = Dimens.SmallPadding.size),
-                        dailyData = uiState.dailyData
+                        dailyData = uiState.value.dailyData
                     )
                 },
                 modifier = Modifier.statusBarsPadding(),
@@ -102,7 +90,6 @@ internal fun AppScreenTimeStatsUI(
         containerColor = MaterialTheme.colorScheme.background,
         contentWindowInsets = WindowInsets(0, 0, 0, 0)
     ) { padding ->
-
         Box(
             modifier = Modifier
                 .animateContentSize()
@@ -123,32 +110,30 @@ internal fun AppScreenTimeStatsUI(
                 }
 
                 // Chart
-                val dailyData = uiState.dailyData
                 item {
                     ScreenTimeStatisticsCard(
                         chartData = barChartData,
-                        selectedDayText = if (dailyData is DailyAppUsageStatsState.Data) {
-                            dailyData.dayText
-                        } else {
-                            "..."
+                        selectedDayText = {
+                            when (val data = uiState.value.dailyData) {
+                                is DailyAppUsageStatsState.Data -> data.dayText
+                                else -> "..."
+                            }
                         },
-                        selectedDayScreenTime = if (dailyData is DailyAppUsageStatsState.Data) {
-                            dailyData.usageStat.appUsageInfo.formattedTimeInForeground
-                        } else {
-                            "..."
+                        selectedDayScreenTime = {
+                            when (val data = uiState.value.dailyData) {
+                                is DailyAppUsageStatsState.Data -> {
+                                    data.usageStat.appUsageInfo.formattedTimeInForeground
+                                }
+                                else -> "..."
+                            }
                         },
-                        weeklyTotalScreenTime = uiState.weeklyData.formattedTotalTime,
-                        selectedDayIsoNumber = uiState.selectedInfo.selectedDay,
+                        weeklyTotalScreenTime = { uiState.value.weeklyData.formattedTotalTime },
+                        selectedDayIsoNumber = { uiState.value.selectedInfo.selectedDay },
                         onBarClicked = { onSelectDay(it) },
                         weekUpdateButton = {
-                            ValueOffsetButton(
-                                text = uiState.selectedInfo.selectedWeekText,
-                                offsetValue = uiState.selectedInfo.weekOffset,
-                                onOffsetValueChange = { onUpdateWeekOffset(it) },
-                                containerColor = MaterialTheme.colorScheme.primary,
-                                contentColor = MaterialTheme.colorScheme.onPrimary,
-                                shape = Shapes.large,
-                                incrementEnabled = uiState.selectedInfo.weekOffset < 0
+                            ScreenTimeWeekSelectorButton(
+                                selectedInfoProvider = { uiState.value.selectedInfo },
+                                onUpdateWeekOffset = onUpdateWeekOffset
                             )
                         }
                     )
@@ -159,46 +144,13 @@ internal fun AppScreenTimeStatsUI(
                     ListGroupHeadingHeader(text = stringResource(R.string.app_settings_header))
                 }
 
-                when (val appSettings = uiState.appSettingsState) {
-                    is AppSettingsState.Data -> {
-                        // App Timer
-                        item {
-                            LimitsDetailsCard(
-                                title = stringResource(R.string.app_time_limit),
-                                description = appSettings.appTimeLimit.formattedTime,
-                                onClick = { showAppTimeLimitDialog = true },
-                                icon = Icons.Rounded.HourglassBottom
-                            )
-                        }
-
-                        // Distracting App
-                        item {
-                            LimitsSwitchCard(
-                                title = stringResource(R.string.distracting_app),
-                                description = stringResource(R.string.distracting_app_desc),
-                                checked = appSettings.isDistractingApp,
-                                onCheckedChange = { toggleDistractingState(it) },
-                                icon = Icons.Rounded.AppBlocking
-                            )
-                        }
-
-                        // Pause App
-                        item {
-                            LimitsSwitchCard(
-                                title = stringResource(R.string.manually_pause_app),
-                                description = stringResource(R.string.manually_pause_app_desc),
-                                checked = appSettings.isPaused,
-                                onCheckedChange = { togglePausedState(it) },
-                                icon = Icons.Rounded.PauseCircle
-                            )
-                        }
-                    }
-                    else -> {
-                        item {
-                            LinearProgressIndicator()
-                        }
-                    }
-                }
+                // App Extra Actions
+                appExtraConfiguration(
+                    getAppSettingsState = { uiState.value.appSettingsState },
+                    onShowAppTimeLimitDialog = { showAppTimeLimitDialog.value = true },
+                    onToggleDistractingState = toggleDistractingState,
+                    onTogglePausedState = togglePausedState
+                )
 
                 // Bottom Space
                 item {
@@ -213,18 +165,81 @@ internal fun AppScreenTimeStatsUI(
     }
 
     // App Time Limit Dialog
-    if (showAppTimeLimitDialog) {
-        when (val appSettings = uiState.appSettingsState) {
+    ShowAppTimeLimitDialog(
+        openDialog = showAppTimeLimitDialog,
+        appSettingsStateProvider = { uiState.value.appSettingsState },
+        onSaveTimeLimit = saveTimeLimit,
+        onClose = { showAppTimeLimitDialog.value = false }
+    )
+}
+
+private fun LazyListScope.appExtraConfiguration(
+    getAppSettingsState: () -> AppSettingsState,
+    onShowAppTimeLimitDialog: (Boolean) -> Unit,
+    onToggleDistractingState: (Boolean) -> Unit,
+    onTogglePausedState: (Boolean) -> Unit
+) {
+    when (val appSettings = getAppSettingsState()) {
+        is AppSettingsState.Data -> {
+            // App Timer
+            item {
+                LimitsDetailsCard(
+                    title = stringResource(R.string.app_time_limit),
+                    description = appSettings.appTimeLimit.formattedTime,
+                    onClick = { onShowAppTimeLimitDialog(true) },
+                    icon = Icons.Rounded.HourglassBottom
+                )
+            }
+
+            // Distracting App
+            item {
+                LimitsSwitchCard(
+                    title = stringResource(R.string.distracting_app),
+                    description = stringResource(R.string.distracting_app_desc),
+                    checked = appSettings.isDistractingApp,
+                    onCheckedChange = onToggleDistractingState,
+                    icon = Icons.Rounded.AppBlocking
+                )
+            }
+
+            // Pause App
+            item {
+                LimitsSwitchCard(
+                    title = stringResource(R.string.manually_pause_app),
+                    description = stringResource(R.string.manually_pause_app_desc),
+                    checked = appSettings.isPaused,
+                    onCheckedChange = onTogglePausedState,
+                    icon = Icons.Rounded.PauseCircle
+                )
+            }
+        }
+        else -> {
+            item {
+                LinearProgressIndicator()
+            }
+        }
+    }
+}
+
+@Composable
+private fun ShowAppTimeLimitDialog(
+    openDialog: State<Boolean>,
+    appSettingsStateProvider: () -> AppSettingsState,
+    onSaveTimeLimit: (hours: Int, minutes: Int) -> Unit,
+    onClose: () -> Unit,
+) {
+    if (openDialog.value) {
+        when (val appSettings = appSettingsStateProvider()) {
             is AppSettingsState.Data -> {
                 AppTimeLimitDialog(
-                    onDismiss = { showAppTimeLimitDialog = false },
+                    onDismiss = onClose,
                     initialAppTimeLimit = appSettings.appTimeLimit,
-                    onSaveTimeLimit = saveTimeLimit
+                    onSaveTimeLimit = onSaveTimeLimit
                 )
             }
             else -> {
                 CircularProgressDialog(
-                    onDismiss = { showAppTimeLimitDialog = false },
+                    onDismiss = onClose,
                     loadingText = stringResource(id = R.string.loading_text)
                 )
             }

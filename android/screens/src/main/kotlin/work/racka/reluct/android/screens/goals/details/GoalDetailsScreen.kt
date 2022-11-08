@@ -3,14 +3,10 @@ package work.racka.reluct.android.screens.goals.details
 import android.content.Context
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHostState
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import org.koin.core.parameter.parametersOf
 import work.racka.common.mvvm.koin.compose.getCommonViewModel
@@ -26,20 +22,17 @@ fun GoalDetailsScreen(
     onNavigateToEditGoal: (goalId: String) -> Unit
 ) {
     val viewModel = getCommonViewModel<GoalDetailsViewModel> { parametersOf(goalId) }
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    val events by viewModel.events.collectAsStateWithLifecycle(initialValue = GoalsEvents.Nothing)
+    val uiState = viewModel.uiState.collectAsStateWithLifecycle()
+    val events = viewModel.events.collectAsStateWithLifecycle(initialValue = GoalsEvents.Nothing)
 
     val snackbarState = remember { SnackbarHostState() }
     val context = LocalContext.current
-    LaunchedEffect(events) {
-        handleEvents(
-            context = context,
-            events = events,
-            scope = this,
-            snackbarState = snackbarState,
-            onExit = onExit
-        )
-    }
+    HandleEvents(
+        context = context,
+        eventsState = events,
+        snackbarState = snackbarState,
+        onExit = onExit
+    )
 
     GoalDetailsUI(
         snackbarState = snackbarState,
@@ -53,37 +46,39 @@ fun GoalDetailsScreen(
     )
 }
 
-private fun handleEvents(
+@Composable
+private fun HandleEvents(
     context: Context,
-    events: GoalsEvents,
-    scope: CoroutineScope,
+    eventsState: State<GoalsEvents>,
     snackbarState: SnackbarHostState,
     onExit: () -> Unit
 ) {
-    when (events) {
-        is GoalsEvents.ChangedGoalState -> {
-            val msg = if (events.isActive) {
-                context.getString(R.string.goal_marked_active)
-            } else {
-                context.getString(R.string.goal_marked_inactive)
+    LaunchedEffect(eventsState.value) {
+        when (val events = eventsState.value) {
+            is GoalsEvents.ChangedGoalState -> {
+                val msg = if (events.isActive) {
+                    context.getString(R.string.goal_marked_active)
+                } else {
+                    context.getString(R.string.goal_marked_inactive)
+                }
+                launch {
+                    snackbarState.showSnackbar(
+                        message = msg,
+                        duration = SnackbarDuration.Short
+                    )
+                }
             }
-            scope.launch {
-                snackbarState.showSnackbar(
-                    message = msg,
-                    duration = SnackbarDuration.Short
-                )
+            is GoalsEvents.DeletedGoal -> {
+                val msg = context.getString(R.string.deleted_goal_value, events.goalName)
+                launch {
+                    snackbarState.showSnackbar(
+                        message = msg,
+                        duration = SnackbarDuration.Short
+                    )
+                }
             }
+            is GoalsEvents.Exit -> onExit()
+            else -> {}
         }
-        is GoalsEvents.DeletedGoal -> {
-            val msg = context.getString(R.string.deleted_goal_value, events.goalName)
-            scope.launch {
-                snackbarState.showSnackbar(
-                    message = msg,
-                    duration = SnackbarDuration.Short
-                )
-            }
-        }
-        is GoalsEvents.Exit -> onExit()
-        else -> {}
     }
 }

@@ -1,5 +1,6 @@
 package work.racka.reluct.common.features.screenTime.statistics
 
+import kotlinx.collections.immutable.ImmutableMap
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
@@ -202,8 +203,7 @@ class AppScreenTimeStatsViewModel(
         }
     }
 
-    private fun getDailyData(selectedDayIso: Int, weekData: Map<Week, AppUsageStats>) {
-        println("Selected Day: $selectedDayIso")
+    private fun getDailyData(selectedDayIso: Int, weekData: ImmutableMap<Week, AppUsageStats>) {
         val dayData = weekData.getValue(getWeek(selectedDayIso))
         dailyData.update {
             DailyAppUsageStatsState.Data(

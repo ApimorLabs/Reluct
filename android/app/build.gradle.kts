@@ -105,6 +105,7 @@ dependencies {
     implementation(libs.appCompat)
     implementation(libs.google.material)
     implementation(libs.viewmodel.core)
+    implementation(libs.androidx.profileinstaller)
 
     // Testing
     testImplementation(libs.junit.core)
@@ -127,6 +128,7 @@ dependencies {
 
     // Koin DI
     implementation(libs.koin.android)
+    implementation(libs.koin.android.workmanager)
     // Accompanist
     implementation(libs.accompanist.system.ui.controller)
     // Splash Screen

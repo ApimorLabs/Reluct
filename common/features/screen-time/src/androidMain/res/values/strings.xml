@@ -17,4 +17,6 @@
      This permission is used to show alerts when you exceed the screen time limits or in Focus Mode.
      Click the Notification to Open Settings</string>
     <string name="exit_text">Exit</string>
+    <string name="resume_apps_notif_title">Resume Apps</string>
+    <string name="resume_apps_notif_content">Resuming all previously paused apps</string>
 </resources>

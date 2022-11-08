@@ -7,14 +7,12 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.SideEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.produceState
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -22,7 +20,6 @@ import androidx.compose.ui.unit.dp
 import work.racka.reluct.android.compose.components.buttons.ValueOffsetButton
 import work.racka.reluct.android.compose.components.cards.headers.ListGroupHeadingHeader
 import work.racka.reluct.android.compose.components.cards.statistics.BarChartDefaults
-import work.racka.reluct.android.compose.components.cards.statistics.ChartData
 import work.racka.reluct.android.compose.components.cards.statistics.tasks.TasksStatisticsCard
 import work.racka.reluct.android.compose.components.cards.taskEntry.EntryType
 import work.racka.reluct.android.compose.components.cards.taskEntry.TaskEntry
@@ -32,19 +29,21 @@ import work.racka.reluct.android.compose.components.util.rememberScrollContext
 import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.android.compose.theme.Shapes
 import work.racka.reluct.android.screens.R
-import work.racka.reluct.android.screens.tasks.components.getTasksBarChartBars
+import work.racka.reluct.android.screens.tasks.components.getWeeklyTasksBarChartData
+import work.racka.reluct.android.screens.util.BottomBarVisibilityHandler
+import work.racka.reluct.android.screens.util.getSnackbarModifier
 import work.racka.reluct.common.model.domain.tasks.Task
 import work.racka.reluct.common.model.states.tasks.DailyTasksState
 import work.racka.reluct.common.model.states.tasks.TasksStatisticsState
 import work.racka.reluct.common.model.states.tasks.WeeklyTasksState
 
-@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun TasksStatisticsUI(
     mainScaffoldPadding: PaddingValues,
     barsVisibility: BarsVisibility,
     snackbarState: SnackbarHostState,
-    uiState: TasksStatisticsState,
+    uiState: State<TasksStatisticsState>,
     onSelectDay: (dayIsoNumber: Int) -> Unit,
     onUpdateWeekOffset: (weekOffsetValue: Int) -> Unit,
     onTaskClicked: (task: Task) -> Unit,
@@ -52,42 +51,32 @@ internal fun TasksStatisticsUI(
     modifier: Modifier = Modifier,
 ) {
     val listState = rememberLazyListState()
-    val scrollContext by rememberScrollContext(listState = listState)
+    val scrollContext = rememberScrollContext(listState = listState)
 
-    SideEffect {
-        if (scrollContext.isTop) {
-            barsVisibility.bottomBar.show()
-        } else {
-            barsVisibility.bottomBar.hide()
-        }
-    }
+    BottomBarVisibilityHandler(
+        scrollContext = scrollContext,
+        barsVisibility = barsVisibility
+    )
 
     // Tasks Stats Chart
     val barColor = BarChartDefaults.barColor
-    val tasksChartData by produceState(
-        initialValue = ChartData(
-            isLoading = uiState.weeklyTasksState is WeeklyTasksState.Loading
-        ),
-        uiState.weeklyTasksState
-    ) {
-        value = ChartData(
-            data = getTasksBarChartBars(uiState.weeklyTasksState.weeklyTasks, barColor),
-            isLoading = uiState.weeklyTasksState is WeeklyTasksState.Loading
-        )
-    }
+    val tasksChartData = getWeeklyTasksBarChartData(
+        weeklyTasksProvider = { uiState.value.weeklyTasksState.weeklyTasks },
+        isLoadingProvider = { uiState.value.weeklyTasksState is WeeklyTasksState.Loading },
+        barColor = barColor
+    )
 
-    val snackbarModifier = if (scrollContext.isTop) {
-        Modifier.padding(bottom = mainScaffoldPadding.calculateBottomPadding())
-    } else {
-        Modifier.navigationBarsPadding()
-    }
+    val snackbarModifier = getSnackbarModifier(
+        mainPadding = mainScaffoldPadding,
+        scrollContext = scrollContext
+    )
 
     Scaffold(
         modifier = modifier.fillMaxSize(),
         snackbarHost = {
             SnackbarHost(hostState = snackbarState) { data ->
                 Snackbar(
-                    modifier = snackbarModifier,
+                    modifier = snackbarModifier.value,
                     shape = RoundedCornerShape(10.dp),
                     snackbarData = data,
                     containerColor = MaterialTheme.colorScheme.inverseSurface,
@@ -123,111 +112,155 @@ internal fun TasksStatisticsUI(
                 item {
                     TasksStatisticsCard(
                         chartData = tasksChartData,
-                        selectedDayText = uiState.dailyTasksState.dayText,
-                        selectedDayTasksDone = uiState.dailyTasksState.dailyTasks.completedTasksCount,
-                        selectedDayTasksPending = uiState.dailyTasksState.dailyTasks.pendingTasksCount,
-                        totalWeekTaskCount = uiState.weeklyTasksState.totalWeekTasksCount,
-                        selectedDayIsoNumber = uiState.selectedDay,
+                        selectedDayText = { uiState.value.dailyTasksState.dayText },
+                        selectedDayTasksDone = { uiState.value.dailyTasksState.dailyTasks.completedTasksCount },
+                        selectedDayTasksPending = { uiState.value.dailyTasksState.dailyTasks.pendingTasksCount },
+                        totalWeekTaskCount = { uiState.value.weeklyTasksState.totalWeekTasksCount },
+                        selectedDayIsoNumber = { uiState.value.selectedDay },
                         onBarClicked = { onSelectDay(it) },
                         weekUpdateButton = {
-                            ValueOffsetButton(
-                                text = uiState.selectedWeekText,
-                                offsetValue = uiState.weekOffset,
-                                onOffsetValueChange = { onUpdateWeekOffset(it) },
-                                containerColor = MaterialTheme.colorScheme.primary,
-                                contentColor = MaterialTheme.colorScheme.onPrimary,
-                                shape = Shapes.large,
-                                incrementEnabled = uiState.weekOffset < 0
+                            WeekOffsetButton(
+                                textProvider = { uiState.value.selectedWeekText },
+                                offsetValueProvider = { uiState.value.weekOffset },
+                                isIncrementEnabled = { uiState.value.weekOffset < 0 },
+                                onUpdateWeekOffset = onUpdateWeekOffset
                             )
                         }
                     )
                 }
 
-                // No Tasks Animation
-                if (uiState.dailyTasksState is DailyTasksState.Empty) {
-                    item {
-                        AnimatedVisibility(
-                            visible = true,
-                            enter = fadeIn(),
-                            exit = fadeOut()
-                        ) {
-                            Box(
-                                modifier = Modifier.fillMaxWidth(),
-                                contentAlignment = Alignment.Center
-                            ) {
-                                LottieAnimationWithDescription(
-                                    lottieResId = R.raw.no_task_animation,
-                                    imageSize = 200.dp,
-                                    description = stringResource(R.string.no_tasks_text)
-                                )
-                            }
-                        }
-                    }
-                }
-
-                if (uiState.dailyTasksState.dailyTasks.pendingTasks.isNotEmpty()) {
-                    stickyHeader {
-                        ListGroupHeadingHeader(text = stringResource(R.string.not_done_tasks_header))
-                    }
-
-                    items(
-                        items = uiState.dailyTasksState.dailyTasks.pendingTasks,
-                        key = { it.id }
-                    ) { item ->
-                        TaskEntry(
-                            modifier = Modifier.animateItemPlacement(),
-                            task = item,
-                            entryType = EntryType.TasksWithOverdue,
-                            onEntryClick = { onTaskClicked(item) },
-                            onCheckedChange = { onToggleTaskDone(item, it) },
-                            playAnimation = true
-                        )
-                    }
-                }
-
-                if (uiState.dailyTasksState.dailyTasks.completedTasks.isNotEmpty()) {
-                    stickyHeader {
-                        ListGroupHeadingHeader(text = stringResource(R.string.done_tasks_header))
-                    }
-
-                    items(
-                        items = uiState.dailyTasksState.dailyTasks.completedTasks,
-                        key = { it.id }
-                    ) { item ->
-                        TaskEntry(
-                            modifier = Modifier.animateItemPlacement(),
-                            task = item,
-                            entryType = EntryType.CompletedTask,
-                            onEntryClick = { onTaskClicked(item) },
-                            onCheckedChange = { onToggleTaskDone(item, it) }
-                        )
-                    }
-                }
-
-                item {
-                    AnimatedVisibility(
-                        modifier = Modifier.fillMaxWidth(),
-                        visible = uiState.dailyTasksState is DailyTasksState.Loading,
-                        enter = fadeIn(),
-                        exit = fadeOut()
-                    ) {
-                        Box(
-                            contentAlignment = Alignment.Center
-                        ) {
-                            CircularProgressIndicator()
-                        }
-                    }
-                }
+                // Tasks
+                tasksList(
+                    dailyTasksStateProvider = { uiState.value.dailyTasksState },
+                    isLoadingProvider = { uiState.value.dailyTasksState is DailyTasksState.Loading },
+                    onTaskClicked = onTaskClicked,
+                    onToggleTaskDone = onToggleTaskDone
+                )
 
                 // Bottom Space for spaceBy
                 item {
                     Spacer(
-                        modifier = Modifier
-                            .padding(bottom = Dimens.ExtraLargePadding.size)
-                            .navigationBarsPadding()
+                        modifier = Modifier.padding(mainScaffoldPadding)
                     )
                 }
             }
         }
     }
+}
+
+@OptIn(ExperimentalFoundationApi::class)
+private fun LazyListScope.tasksList(
+    dailyTasksStateProvider: () -> DailyTasksState,
+    isLoadingProvider: () -> Boolean,
+    onTaskClicked: (task: Task) -> Unit,
+    onToggleTaskDone: (task: Task, isDone: Boolean) -> Unit
+) {
+    // No Tasks Animation
+    item {
+        val isEmpty = remember {
+            derivedStateOf { dailyTasksStateProvider() is DailyTasksState.Empty }
+        }
+        AnimatedVisibility(
+            visible = isEmpty.value,
+            enter = fadeIn(),
+            exit = fadeOut()
+        ) {
+            Box(
+                modifier = Modifier.fillMaxWidth(),
+                contentAlignment = Alignment.Center
+            ) {
+                LottieAnimationWithDescription(
+                    lottieResId = R.raw.no_task_animation,
+                    imageSize = 200.dp,
+                    description = stringResource(R.string.no_tasks_text)
+                )
+            }
+        }
+    }
+
+    stickyHeader {
+        val isNotEmpty = remember {
+            derivedStateOf { dailyTasksStateProvider().dailyTasks.pendingTasks.isNotEmpty() }
+        }
+        if (isNotEmpty.value) {
+            ListGroupHeadingHeader(text = stringResource(R.string.not_done_tasks_header))
+        }
+    }
+
+    items(
+        items = dailyTasksStateProvider().dailyTasks.pendingTasks,
+        key = { it.id }
+    ) { item ->
+        TaskEntry(
+            modifier = Modifier.animateItemPlacement(),
+            task = item,
+            entryType = EntryType.TasksWithOverdue,
+            onEntryClick = { onTaskClicked(item) },
+            onCheckedChange = { onToggleTaskDone(item, it) },
+            playAnimation = true
+        )
+    }
+
+    stickyHeader {
+        val isNotEmpty = remember {
+            derivedStateOf { dailyTasksStateProvider().dailyTasks.completedTasks.isNotEmpty() }
+        }
+        if (isNotEmpty.value) {
+            ListGroupHeadingHeader(text = stringResource(R.string.done_tasks_header))
+        }
+    }
+
+    items(
+        items = dailyTasksStateProvider().dailyTasks.completedTasks,
+        key = { it.id }
+    ) { item ->
+        TaskEntry(
+            modifier = Modifier.animateItemPlacement(),
+            task = item,
+            entryType = EntryType.CompletedTask,
+            onEntryClick = { onTaskClicked(item) },
+            onCheckedChange = { onToggleTaskDone(item, it) }
+        )
+    }
+
+    // Daily Data Loading
+    item {
+        val isLoading = remember { derivedStateOf { isLoadingProvider() } }
+        AnimatedVisibility(
+            modifier = Modifier.fillMaxWidth(),
+            visible = isLoading.value,
+            enter = fadeIn(),
+            exit = fadeOut()
+        ) {
+            Box(
+                contentAlignment = Alignment.Center
+            ) {
+                LinearProgressIndicator()
+            }
+        }
+    }
+}
+
+@Composable
+private fun WeekOffsetButton(
+    textProvider: () -> String,
+    offsetValueProvider: () -> Int,
+    isIncrementEnabled: () -> Boolean,
+    onUpdateWeekOffset: (weekOffsetValue: Int) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    val text = remember { derivedStateOf { textProvider() } }
+    val offsetValue = remember { derivedStateOf { offsetValueProvider() } }
+    val incrementEnabled = remember { derivedStateOf { isIncrementEnabled() } }
+
+    ValueOffsetButton(
+        modifier = modifier,
+        text = text.value,
+        offsetValue = offsetValue.value,
+        onOffsetValueChange = onUpdateWeekOffset,
+        containerColor = MaterialTheme.colorScheme.primary,
+        contentColor = MaterialTheme.colorScheme.onPrimary,
+        shape = Shapes.large,
+        incrementEnabled = incrementEnabled.value
+    )
 }

@@ -3,14 +3,10 @@ package work.racka.reluct.android.screens.screentime.appStatsDetails
 import android.content.Context
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHostState
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import org.koin.core.parameter.parametersOf
 import work.racka.common.mvvm.koin.compose.getCommonViewModel
@@ -27,18 +23,16 @@ fun AppScreenTimeStatsScreen(
     val snackbarHostState = remember { SnackbarHostState() }
 
     val viewModel: AppScreenTimeStatsViewModel = getCommonViewModel { parametersOf(packageName) }
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    val events by viewModel.events.collectAsStateWithLifecycle(initialValue = ScreenTimeStatsEvents.Nothing)
+    val uiState = viewModel.uiState.collectAsStateWithLifecycle()
+    val events =
+        viewModel.events.collectAsStateWithLifecycle(initialValue = ScreenTimeStatsEvents.Nothing)
 
     val context = LocalContext.current
-    LaunchedEffect(events) {
-        handleEvents(
-            context = context,
-            events = events,
-            scope = this,
-            snackbarHostState = snackbarHostState
-        )
-    }
+    HandleEvents(
+        context = context,
+        eventsState = events,
+        snackbarHostState = snackbarHostState
+    )
 
     AppScreenTimeStatsUI(
         snackbarHostState = snackbarHostState,
@@ -52,32 +46,34 @@ fun AppScreenTimeStatsScreen(
     )
 }
 
-private fun handleEvents(
-    events: ScreenTimeStatsEvents,
+@Composable
+private fun HandleEvents(
+    eventsState: State<ScreenTimeStatsEvents>,
     context: Context,
-    scope: CoroutineScope,
     snackbarHostState: SnackbarHostState
 ) {
-    when (events) {
-        is ScreenTimeStatsEvents.ShowMessageDone -> {
-            val message = events.msg
-            scope.launch {
-                snackbarHostState.showSnackbar(
-                    message = message,
-                    duration = SnackbarDuration.Short
-                )
+    LaunchedEffect(eventsState.value) {
+        when (val events = eventsState.value) {
+            is ScreenTimeStatsEvents.ShowMessageDone -> {
+                val message = events.msg
+                launch {
+                    snackbarHostState.showSnackbar(
+                        message = message,
+                        duration = SnackbarDuration.Short
+                    )
+                }
             }
-        }
-        is ScreenTimeStatsEvents.TimeLimitChange -> {
-            val message =
-                context.getString(R.string.time_limit_change_arg, events.app.appInfo.appName)
-            scope.launch {
-                snackbarHostState.showSnackbar(
-                    message = message,
-                    duration = SnackbarDuration.Short
-                )
+            is ScreenTimeStatsEvents.TimeLimitChange -> {
+                val message =
+                    context.getString(R.string.time_limit_change_arg, events.app.appInfo.appName)
+                launch {
+                    snackbarHostState.showSnackbar(
+                        message = message,
+                        duration = SnackbarDuration.Short
+                    )
+                }
             }
+            else -> {}
         }
-        else -> {}
     }
 }

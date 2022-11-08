@@ -30,7 +30,7 @@
 
 > ℹ️ Compose Debug apks are sometimes laggy as they contain a lot of debug code.
 >
-> ℹ️ Download the app from Play Store and it will have the expected perfomance.
+> ℹ️ Download the app from Play Store and it will have the expected performance.
 
 ## 🏋 Requirements
 
@@ -59,7 +59,7 @@
 
 ## Issues
 
-If you encounter any issues you simply file them with the relavant details [here](https://github.com/ReluctApp/Reluct/issues/new/choose)
+If you encounter any issues you simply file them with the relevant details [here](https://github.com/ReluctApp/Reluct/issues/new/choose)
 
 ## 📃 Important Analysis
 
@@ -72,19 +72,19 @@ You can checkout a similarly structured project (with Compose Desktop already ru
 
 ### 2. Evaluating Jetpack Compose on Android
 
-There has been talk and doubt on Jetpack Compose and how production is it. After dealing with it in this project (I've used it other projects too). I can say the following;
+There has been a lot of talk and doubt on Jetpack Compose and how production ready is it. After dealing with it in this project (I've used it other projects too). I can say the following;
 
 #### i. Tooling
 Tooling for Compose varies from easy to annoying.
 
-- With Android Studio Dolphin we have full support for Layout Inspector and can see the number of recompositons happening in the app.
-- We now have better support for Previews in Android Studion Electric Eel with a "hot reload like" feature upon code changes. The feature is called [Live Edit](https://developer.android.com/studio/preview/features#live_edit)
-  While its good it doesn't really compare to the convenience of previews in XML since there is not compilation involved there.
+- With Android Studio Dolphin we have full support for Layout Inspector and can see the number of recompositions happening in the app.
+- We now have better support for Previews in Android Studio Electric Eel with a "hot reload like" feature upon code changes. The feature is called [Live Edit](https://developer.android.com/studio/preview/features#live_edit). 
+  While its good it doesn't really compare to the convenience of previews in XML since there is no compilation involved there.
 - Support for Animation Previews is a very big feature that I really enjoy using. But it faces the same issues of slow compilation on code changes as Previews
 - No drag and drop like feature for UI components. It's hard to make such tool for Compose since it's Kotlin code that's adaptive.
-  Some would argue that they never use drag and drop with XML but it's very much a detering reason to some. At least we have [Relay](https://relay.material.io/) that can help you with some of this.
+  Some would argue that they never use drag and drop with XML but it's very much a deterring reason to some. At least we have [Relay](https://relay.material.io/) that can help you with some of this.
 
-Most of the instability issues with the IDE have been fixed and it's very stable now but the slow Preview that can only be fixed by faster machines is still a very big issue to some developers.
+Most of the instability issues with the IDE have been fixed and it's very stable now but the slow Previews that can only be fixed by faster machines are still a very big issue to some developers.
 
 #### ii. Going outside the box
 Implementing designs that are different from the Material Design spec can vary from extremely easy to very hard.
@@ -172,7 +172,7 @@ fun MyApp() {
 }
 ```
 The issue with this is that hiding or showing the Bottom nav bar causes the whole screen to Recompose simply because that also changes the 
-size of the parent `Scaffold` which cause re-calculation of its size. If most of Composables aren't [skippable](https://www.jetpackcompose.app/articles/donut-hole-skipping-in-jetpack-compose) then you are out of luck.
+size of the parent `Scaffold` which causes re-calculation of its size. If most of Composables aren't [skippable](https://www.jetpackcompose.app/articles/donut-hole-skipping-in-jetpack-compose) then you are out of luck.
 This is something I'm still exploring to see how I can fix it.
 
 **2. Easily ending up with function having numerous parameters**
@@ -238,7 +238,7 @@ But there are some major bugs that can make it not suitable for production compl
 - You can't request focus for a field not in Composition yet (related to the issue above)
 - [No full native auto fill support in TextFields](https://issuetracker.google.com/issues/176949051)
 
-Then there's the issue of having a lot of `@ExperimentalXX` API that may not be acceptable in some org and this immediately signals that this code is already technical debt.
+Then there's the issue of having a lot of `@ExperimentalXX` API that may not be acceptable in some companies and this immediately signals that this code is already technical debt.
 Even stable versions of Compose have this problem.
 
 Some important components are missing, though they are easy to replicate or find in the Accompanist library;
@@ -256,7 +256,7 @@ Some important components are missing, though they are easy to replicate or find
 - And others that I've probably forgotten
 
 #### vi. Conclusions
-While there might some issues in Jetpack Compose right now I think it's a great step toward native declarive UI in Android.
+While there might some issues in Jetpack Compose right now I think it's a great step toward native declarative UI in Android.
 I look forward to more features and critical bug fixes on Compose so it can be feature parity with Views/XML. 
 
 I will still keep using Compose for the right projects because it has made development and custom designs faster for me.
@@ -273,7 +273,7 @@ I can say that there are some things worth noting before diving into it:
 
 IDE support is great at the moment but there are some major bugs that creep their way into it from time to time. Take the [KT48148](https://youtrack.jetbrains.com/issue/KT-48148/HMPP-Gradle-Unresolved-reference-to-any-class-from-kotlinxcoroutines-package-when-using) bug
 as an example. It pretty much breaks all the smart IDE features and makes doing anything in the common code a hassle.
-Right now (as of Nov-01/2022) we can't use Android Studio (Electric Eel and lower) without facing some variation of the bug mentioned above as it's only fixed in newer versions of the Intellij IDEA but at the same time Intellij IDEA doesn't support Android Gradle Plugin 7.3+. This makes it unsuitable for Android targets.
+Right now (as of Nov-01/2022) we can't use Android Studio (Electric Eel and lower) without facing some variation of the bug mentioned above as it's only fixed in newer versions of the Intellij IDEA but at the same time Intellij IDEA does't support Android Gradle Plugin 7.3+. This makes it unsuitable for Android targets.
 
 Tooling still has time to mature and I'd expect more collaboration between Jetbrains and Google as seen in this [Slack thread](https://kotlinlang.slack.com/archives/C3PQML5NU/p1652224566469179)
 
@@ -367,8 +367,8 @@ Some of the Unit tests in this project are broken. Why?
 This project first started as an Android only project with some unit tests already written. Upon migration  migration to Kotlin Multiplatform I had
 to rewrite all tests so they can be platform agnostic. This meant replacing all Junit with Kotlin-test, removing Hilt in favor of Koin and avoiding the use of Mockk.
 During the migration refactoring became quite tricky and time consuming for something I was doing on in my spare time.
-Android stuidio and Intellij IDEs became quite unstable with bugs like [KT48148](https://youtrack.jetbrains.com/issue/KT-48148/HMPP-Gradle-Unresolved-reference-to-any-class-from-kotlinxcoroutines-package-when-using) that
-made IDE assisted refactoring impossible I quickly gave up and just YOLOed into feature compeletion. Tooling is still not great and refactoring tests is still tricky but
+Android studio and Intellij IDEs became quite unstable with bugs like [KT48148](https://youtrack.jetbrains.com/issue/KT-48148/HMPP-Gradle-Unresolved-reference-to-any-class-from-kotlinxcoroutines-package-when-using) that
+made IDE assisted refactoring impossible I quickly gave up and just YOLOed into feature completion. Tooling is still not great and refactoring tests is still tricky but
 I am working on it in the [repair-tests](https://youtrack.jetbrains.com/issue/KT-48148/HMPP-Gradle-Unresolved-reference-to-any-class-from-kotlinxcoroutines-package-when-using) branch.
 Any help will be appreciated.
 

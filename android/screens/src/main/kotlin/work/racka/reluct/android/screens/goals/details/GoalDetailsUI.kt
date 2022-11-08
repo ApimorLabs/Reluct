@@ -4,13 +4,17 @@ import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.Edit
 import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -38,7 +42,7 @@ import work.racka.reluct.common.model.domain.goals.GoalType
 @Composable
 internal fun GoalDetailsUI(
     snackbarState: SnackbarHostState,
-    uiState: GoalDetailsState,
+    uiState: State<GoalDetailsState>,
     onEditGoal: (goalId: String) -> Unit,
     onDeleteGoal: (goal: Goal) -> Unit,
     onToggleGoalActive: (goalId: String, isActive: Boolean) -> Unit,
@@ -49,8 +53,8 @@ internal fun GoalDetailsUI(
 ) {
     val listState = rememberLazyListState()
 
-    var openDeleteDialog by remember { mutableStateOf(false) }
-    var openUpdateValueDialog by remember { mutableStateOf(false) }
+    val openDeleteDialog = remember { mutableStateOf(false) }
+    val openUpdateValueDialog = remember { mutableStateOf(false) }
 
     Scaffold(
         modifier = modifier.fillMaxSize(),
@@ -71,13 +75,16 @@ internal fun GoalDetailsUI(
             )
         },
         bottomBar = {
-            if (uiState is GoalDetailsState.Data) {
-                Surface(color = MaterialTheme.colorScheme.background) {
-                    DetailsBottomBar(
-                        onEditGoalClicked = { onEditGoal(uiState.goal.id) },
-                        onDeleteGoalClicked = { openDeleteDialog = true }
-                    )
+            when (val state = uiState.value) {
+                is GoalDetailsState.Data -> {
+                    Surface(color = MaterialTheme.colorScheme.background) {
+                        DetailsBottomBar(
+                            onEditGoalClicked = { onEditGoal(state.goal.id) },
+                            onDeleteGoalClicked = { openDeleteDialog.value = true }
+                        )
+                    }
                 }
+                else -> {}
             }
         },
         snackbarHost = {
@@ -101,7 +108,7 @@ internal fun GoalDetailsUI(
                 .fillMaxSize()
         ) {
             AnimatedContent(
-                targetState = uiState,
+                targetState = uiState.value,
                 modifier = Modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center
             ) { targetState ->
@@ -125,91 +132,127 @@ internal fun GoalDetailsUI(
                 }
             }
 
-            if (uiState is GoalDetailsState.Data) {
-                LazyColumn(
-                    state = listState,
-                    verticalArrangement = Arrangement
-                        .spacedBy(Dimens.MediumPadding.size)
-                ) {
-                    // Title Card
-                    item {
-                        GoalHeadingSwitchCard(
-                            goal = uiState.goal,
-                            onToggleActiveState = onToggleGoalActive,
-                        )
-                    }
+            when (val state = uiState.value) {
+                is GoalDetailsState.Data -> {
+                    DetailsLazyColumn(
+                        uiState = state,
+                        listState = listState,
+                        onOpenValueDialog = { openUpdateValueDialog.value = it },
+                        onSyncData = onSyncData,
+                        onToggleGoalActive = onToggleGoalActive
+                    )
 
-                    // Labels
-                    item {
-                        GoalTypeAndIntervalLabels(
-                            modifier = Modifier.fillMaxWidth(),
-                            goal = uiState.goal
-                        )
-                    }
-
-                    // Target and Current Value
-                    item {
-                        GoalValuesCard(
-                            isLoading = uiState.isSyncing,
-                            goal = uiState.goal,
-                            onUpdateClicked = { type ->
-                                if (type == GoalType.NumeralGoal) {
-                                    openUpdateValueDialog = true
-                                } else {
-                                    onSyncData()
-                                }
-                            }
-                        )
-                    }
-
-                    // Show Current Apps
-                    if (uiState.goal.goalType == GoalType.AppScreenTimeGoal) {
-                        item {
-                            ListItemTitle(text = stringResource(id = R.string.selected_apps_text))
-                        }
-
-                        item {
-                            AppsListCard(apps = uiState.goal.relatedApps)
-                        }
-                    }
-
-                    // Applicable days
-                    if (uiState.goal.goalDuration.goalInterval == GoalInterval.Daily) {
-                        item {
-                            ListItemTitle(text = stringResource(id = R.string.active_days_text))
-                        }
-
-                        item {
-                            SelectedDaysOfWeekViewer(
-                                selectedDays = uiState.goal.goalDuration.selectedDaysOfWeek,
-                                onUpdateDaysOfWeek = {}
-                            )
-                        }
-                    }
-
-                    // Bottom Space
-                    item {
-                        Spacer(modifier = Modifier)
-                    }
-                }
-
-                // Update Current Value Dialog
-                if (openUpdateValueDialog) {
+                    // Update Current Value Dialog
                     UpdateValueDialog(
-                        onDismiss = { openUpdateValueDialog = false },
+                        openDialog = openUpdateValueDialog,
+                        onDismiss = { openUpdateValueDialog.value = false },
                         headingText = stringResource(id = R.string.current_value_txt),
-                        initialValue = uiState.goal.currentValue,
-                        onSaveValue = { onUpdateCurrentValue(uiState.goal.id, it) }
+                        initialValueProvider = { state.goal.currentValue },
+                        onSaveValue = { onUpdateCurrentValue(state.goal.id, it) }
                     )
                 }
+                else -> {}
             }
         }
     }
 
     // Delete Task Dialog
-    if (openDeleteDialog) {
+    DeleteDialog(
+        openDialog = openDeleteDialog,
+        getCurrentGoal = {
+            when (val state = uiState.value) {
+                is GoalDetailsState.Data -> state.goal
+                else -> null
+            }
+        },
+        onClose = { openDeleteDialog.value = false },
+        onDeleteGoal = onDeleteGoal
+    )
+}
+
+@Composable
+private fun DetailsLazyColumn(
+    uiState: GoalDetailsState.Data,
+    listState: LazyListState,
+    onOpenValueDialog: (Boolean) -> Unit,
+    onSyncData: () -> Unit,
+    onToggleGoalActive: (goalId: String, isActive: Boolean) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    LazyColumn(
+        modifier = modifier,
+        state = listState,
+        verticalArrangement = Arrangement.spacedBy(Dimens.MediumPadding.size)
+    ) {
+        // Title Card
+        item {
+            GoalHeadingSwitchCard(
+                goal = uiState.goal,
+                onToggleActiveState = onToggleGoalActive,
+            )
+        }
+
+        // Labels
+        item {
+            GoalTypeAndIntervalLabels(
+                modifier = Modifier.fillMaxWidth(),
+                goal = uiState.goal
+            )
+        }
+
+        // Target and Current Value
+        item {
+            GoalValuesCard(
+                isLoading = uiState.isSyncing,
+                goal = uiState.goal,
+                onUpdateClicked = { type ->
+                    if (type == GoalType.NumeralGoal) onOpenValueDialog(true) else onSyncData()
+                }
+            )
+        }
+
+        // Show Current Apps
+        if (uiState.goal.goalType == GoalType.AppScreenTimeGoal) {
+            item {
+                ListItemTitle(text = stringResource(id = R.string.selected_apps_text))
+            }
+
+            item {
+                AppsListCard(apps = uiState.goal.relatedApps)
+            }
+        }
+
+        // Applicable days
+        if (uiState.goal.goalDuration.goalInterval == GoalInterval.Daily) {
+            item {
+                ListItemTitle(text = stringResource(id = R.string.active_days_text))
+            }
+
+            item {
+                SelectedDaysOfWeekViewer(
+                    selectedDays = uiState.goal.goalDuration.selectedDaysOfWeek,
+                    onUpdateDaysOfWeek = {}
+                )
+            }
+        }
+
+        // Bottom Space
+        item {
+            Spacer(modifier = Modifier)
+        }
+    }
+}
+
+@Composable
+private fun DeleteDialog(
+    openDialog: State<Boolean>,
+    getCurrentGoal: () -> Goal?,
+    onClose: () -> Unit,
+    onDeleteGoal: (Goal) -> Unit
+) {
+    if (openDialog.value) {
         AlertDialog(
-            onDismissRequest = { openDeleteDialog = false },
+            onDismissRequest = onClose,
             title = {
                 Text(text = stringResource(R.string.delete_goal_text))
             },
@@ -224,10 +267,8 @@ internal fun GoalDetailsUI(
                     buttonColor = MaterialTheme.colorScheme.primary,
                     contentColor = MaterialTheme.colorScheme.onPrimary,
                     onButtonClicked = {
-                        openDeleteDialog = false
-                        if (uiState is GoalDetailsState.Data) {
-                            onDeleteGoal(uiState.goal)
-                        }
+                        onClose()
+                        getCurrentGoal()?.let(onDeleteGoal)
                     }
                 )
             },
@@ -238,7 +279,7 @@ internal fun GoalDetailsUI(
                     shape = Shapes.large,
                     buttonColor = MaterialTheme.colorScheme.surfaceVariant,
                     contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                    onButtonClicked = { openDeleteDialog = false }
+                    onButtonClicked = onClose
                 )
             }
         )
