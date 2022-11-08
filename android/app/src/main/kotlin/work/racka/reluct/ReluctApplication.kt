@@ -38,9 +38,7 @@ class ReluctApplication : Application() {
                 val screenTimeServices: ScreenTimeServices = get()
                 screenTimeServices.startLimitsService()
             }
-        }.invokeOnCompletion {
-            scope.cancel()
-        }
+        }.invokeOnCompletion { scope.cancel() }
 
         // Setup Resume Apps worker
         ResumeAppsWork.run {
