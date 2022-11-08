@@ -32,10 +32,7 @@ class MainActivity : ComponentActivity() {
         // Enable edge-to-edge experience and ProvideWindowInsets to the composable
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
-        lifecycleScope.launch {
-            delay(400)
-            window.setBackgroundDrawableResource(android.R.color.transparent)
-        }
+        triggerBackgroundChangeIfNeeded()
 
         val settings: MultiplatformSettings = get()
 
@@ -88,4 +85,49 @@ class MainActivity : ComponentActivity() {
             ReluctMainCompose(themeValue = themeValue, settingsCheck = settingsCheck)
         }
     }
+
+    /**
+     * Function to tackle https://issuetracker.google.com/issues/227926002.
+     * This will trigger the compose NavHost to load the startDestination without having a user input.
+     */
+    private fun triggerBackgroundChangeIfNeeded(){
+
+        if(isMiui()){
+
+            lifecycleScope.launch {
+                delay(400)
+                window.setBackgroundDrawableResource(android.R.color.transparent)
+            }
+
+        }
+
+    }
+
+    /**
+     * Function to determine if the device runs on MIUI by Xiaomi.
+     */
+    private fun isMiui(): Boolean {
+
+        return try {
+
+            Class
+                .forName("android.os.SystemProperties")
+                .getMethod("get", String::class.java)
+                .let{ propertyClass ->
+
+                    propertyClass
+                        .invoke(propertyClass, "ro.miui.ui.version.name")
+                        ?.toString()
+                        ?.isNotEmpty()
+                        ?: false
+
+                }
+
+        } catch ( e : Exception ) {
+            //e.printStackTrace()
+            false
+        }
+
+    }
+
 }
