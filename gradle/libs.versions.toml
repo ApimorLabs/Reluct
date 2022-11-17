@@ -83,7 +83,7 @@ kermit = "1.0.0"
 # Linter
 ktlint_gradle = "11.0.0"
 linter_twitter_compose = "0.0.22"
-detekt = "1.22.0-RC2"
+detekt = "1.22.0-RC3"
 
 # Extras
 lottie = "5.0.3"
