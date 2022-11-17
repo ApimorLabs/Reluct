@@ -1,8 +1,8 @@
 import io.gitlab.arturbosch.detekt.Detekt
 import io.gitlab.arturbosch.detekt.DetektCreateBaselineTask
+import io.gitlab.arturbosch.detekt.report.ReportMergeTask
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
-import org.jetbrains.kotlin.util.profile
 
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
@@ -49,71 +49,22 @@ allprojects {
     }
 }
 
+val sarifReportMerge by tasks.registering(ReportMergeTask::class) {
+    output.set(rootProject.buildDir.resolve("reports/detekt/merged_report.sarif"))
+}
+
 subprojects {
 
-    // Detekt
-    apply(plugin = "io.gitlab.arturbosch.detekt")
-
     /**
-     * Start - Detekt Configuration for All sub projects
+     * Start Configuring Detekt
      */
-    detekt {
-        config = files("$rootDir/config/detekt/detekt.yml")
-        buildUponDefaultConfig = true
-        ignoredBuildTypes = listOf("release")
-        source = files(
-            io.gitlab.arturbosch.detekt.extensions.DetektExtension.DEFAULT_SRC_DIR_JAVA,
-            //io.gitlab.arturbosch.detekt.extensions.DetektExtension.DEFAULT_TEST_SRC_DIR_JAVA,
-            io.gitlab.arturbosch.detekt.extensions.DetektExtension.DEFAULT_SRC_DIR_KOTLIN,
-            //io.gitlab.arturbosch.detekt.extensions.DetektExtension.DEFAULT_TEST_SRC_DIR_KOTLIN,
-            "src/commonMain/kotlin",
-            "src/androidMain/kotlin",
-            "src/desktopMain/kotlin",
-            "src/jsMain/kotlin",
-        )
-    }
-
-    tasks.withType<Detekt>().configureEach detekt@{
-        //include("**/kotlin/**", "**/java/**", "**/*.kt")
-        exclude("**/build/**", "**/generated/**", "**/resources/**")
-        basePath = rootProject.projectDir.absolutePath
-        autoCorrect = true
-        reports {
-            xml.required.set(false)
-            html.required.set(true)
-            txt.required.set(false)
-            sarif.required.set(false)
-            md.required.set(false)
-
-            html {
-                required.set(true)
-                outputLocation.set(
-                    this@subprojects.layout.buildDirectory.file("reports/detekt.html")
-                )
-            }
-        }
-    }
-
-    tasks.withType<DetektCreateBaselineTask>().configureEach detekt@{
-        //include("**/kotlin/**", "**/java/**", "**/*.kt")
-        exclude("**/build/**", "**/generated/**", "**/resources/**")
-        basePath = rootProject.projectDir.absolutePath
-    }
-
+    coreDetektSetup()
     beforeEvaluate {
         dependencies {
             detektPlugins(libs.detekt.formatting)
             detektPlugins(libs.detekt.rule.twitter.compose)
         }
-
-        // Filter out Detekt from check task
-        if (tasks.names.contains("check")) {
-            tasks.named("check").configure {
-                this.setDependsOn(this.dependsOn.filterNot {
-                    it is TaskProvider<*> && it.name == "detekt"
-                })
-            }
-        }
+        filterDetektFromCheckTask()
     }
 
     afterEvaluate {
@@ -185,6 +136,82 @@ subprojects {
                     }
                 }
             }
+        }
+    }
+}
+
+/**
+ * To run detekt simply:
+ * 1. ./gradlew module:detekt for each module
+ * 2. ./gradlew detekt for whole project
+ */
+fun Project.coreDetektSetup() {
+    // Apply Plugin to sub-project
+    apply(plugin = "io.gitlab.arturbosch.detekt")
+
+    // Configure Detekt
+    detekt {
+        config = files("$rootDir/config/detekt/detekt.yml")
+        buildUponDefaultConfig = true
+        ignoredBuildTypes = listOf("release")
+        source = files(
+            io.gitlab.arturbosch.detekt.extensions.DetektExtension.DEFAULT_SRC_DIR_JAVA,
+            io.gitlab.arturbosch.detekt.extensions.DetektExtension.DEFAULT_TEST_SRC_DIR_JAVA,
+            io.gitlab.arturbosch.detekt.extensions.DetektExtension.DEFAULT_SRC_DIR_KOTLIN,
+            io.gitlab.arturbosch.detekt.extensions.DetektExtension.DEFAULT_TEST_SRC_DIR_KOTLIN,
+            // Kotlin Multiplatform
+            "src/commonMain/kotlin",
+            "src/androidMain/kotlin",
+            "src/iosMain/kotlin",
+            "src/jvmMain/kotlin",
+            "src/desktopMain/kotlin",
+            "src/jsMain/kotlin",
+        )
+    }
+
+    tasks.withType<Detekt>().configureEach detekt@{
+        exclude("**/build/**", "**/generated/**", "**/resources/**")
+        basePath = rootProject.projectDir.absolutePath
+        autoCorrect = true // Auto corrects common formatting issues
+        // Configure reports here
+        reports {
+            xml.required.set(false)
+            txt.required.set(false)
+            md.required.set(false)
+
+            html {
+                required.set(true)
+                outputLocation.set(
+                    layout.buildDirectory.file("reports/detekt.html")
+                )
+            }
+
+            sarif.required.set(true)
+        }
+
+        // Merged Report
+        finalizedBy(sarifReportMerge)
+        sarifReportMerge.configure {
+            input.from(this@detekt.sarifReportFile)
+        }
+    }
+
+    tasks.withType<DetektCreateBaselineTask>().configureEach detekt@{
+        exclude("**/build/**", "**/generated/**", "**/resources/**")
+        basePath = rootProject.projectDir.absolutePath
+    }
+}
+
+/**
+ * By default Detekt runs when the Gradle :check task is triggered
+ * It should be disabled for now until everything has been correctly setup (including CI)
+ */
+fun Project.filterDetektFromCheckTask() {
+    if (tasks.names.contains("check")) {
+        tasks.named("check").configure {
+            this.setDependsOn(this.dependsOn.filterNot {
+                it is TaskProvider<*> && it.name == "detekt"
+            })
         }
     }
 }

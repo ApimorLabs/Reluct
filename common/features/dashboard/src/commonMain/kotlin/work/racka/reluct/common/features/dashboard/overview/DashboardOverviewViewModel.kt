@@ -37,7 +37,9 @@ class DashboardOverviewViewModel(
     private val goals: MutableStateFlow<ImmutableList<Goal>> = MutableStateFlow(persistentListOf())
 
     val uiState: StateFlow<DashboardOverviewState> = combine(
-        todayScreenTimeState, todayTasksState, goals
+        todayScreenTimeState,
+        todayTasksState,
+        goals
     ) { todayScreenTimeState, todayTasksState, goals ->
         DashboardOverviewState(
             todayScreenTimeState = todayScreenTimeState,
