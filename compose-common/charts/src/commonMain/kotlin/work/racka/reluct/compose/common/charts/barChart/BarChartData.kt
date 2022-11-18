@@ -1,9 +1,10 @@
-package work.racka.reluct.barChart
+package work.racka.reluct.compose.common.charts.barChart
 
 import androidx.compose.ui.graphics.Color
+import kotlinx.collections.immutable.ImmutableList
 
 data class BarChartData(
-    val bars: List<Bar>,
+    val bars: ImmutableList<Bar>,
     val startAtZero: Boolean = true
 ) {
 

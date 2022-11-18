@@ -1,13 +1,13 @@
-package work.racka.reluct.barChart.renderer.label
+package work.racka.reluct.compose.common.charts.barChart.renderer.label
 
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.graphics.Canvas
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.drawscope.DrawScope
-import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
-import work.racka.reluct.compose.common.charts.common.toLegacyInt
+import work.racka.reluct.compose.common.charts.util.drawTextHelper
 
 class SimpleValueDrawer(
     private val drawLocation: DrawLocation = DrawLocation.XAxis,
@@ -15,9 +15,8 @@ class SimpleValueDrawer(
     private val labelTextColor: Color = Color.Black
 ) : LabelDrawer {
     private val _labelTextArea: Float? = null
-    private val paint = android.graphics.Paint().apply {
-        this.textAlign = android.graphics.Paint.Align.CENTER
-        this.color = labelTextColor.toLegacyInt()
+    private val paint = Paint().apply {
+        this.color = labelTextColor
     }
 
     override fun requiredAboveBarHeight(drawScope: DrawScope): Float = when (drawLocation) {
@@ -47,17 +46,13 @@ class SimpleValueDrawer(
             DrawLocation.XAxis -> barArea.bottom + labelTextHeight(drawScope)
         }
 
-        canvas.nativeCanvas.drawText(label, xCenter, yCenter, paint(drawScope))
+        val labelTextSizeInPx = with(drawScope) { labelTextSize.toPx() }
+        canvas.drawTextHelper(label, xCenter, yCenter, paint, textSize = labelTextSizeInPx)
+        //canvas.nativeCanvas.drawText(label, xCenter, yCenter, paint(drawScope))
     }
 
     private fun labelTextHeight(drawScope: DrawScope) = with(drawScope) {
         _labelTextArea ?: ((3f / 2f) * labelTextSize.toPx())
-    }
-
-    private fun paint(drawScope: DrawScope) = with(drawScope) {
-        paint.apply {
-            this.textSize = labelTextSize.toPx()
-        }
     }
 
     enum class DrawLocation {

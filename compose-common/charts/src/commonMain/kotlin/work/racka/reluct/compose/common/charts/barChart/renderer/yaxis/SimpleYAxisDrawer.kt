@@ -1,14 +1,18 @@
-package work.racka.reluct.barChart.renderer.yaxis
+package work.racka.reluct.compose.common.charts.barChart.renderer.yaxis
 
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
-import androidx.compose.ui.graphics.*
+import androidx.compose.ui.graphics.Canvas
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Paint
+import androidx.compose.ui.graphics.PaintingStyle
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import work.racka.reluct.compose.common.charts.common.toLegacyInt
+import work.racka.reluct.compose.common.charts.util.drawTextHelper
+import work.racka.reluct.compose.common.charts.util.getTextBounds
 import kotlin.math.max
 import kotlin.math.roundToInt
 
@@ -18,7 +22,7 @@ class SimpleYAxisDrawer(
     private val labelTextSize: TextUnit = 12.sp,
     private val labelTextColor: Color = Color.Black,
     private val labelRatio: Int = 3,
-    private val labelValueFormatter: LabelFormatter = { value -> "%.1f".format(value) },
+    private val labelValueFormatter: LabelFormatter = { value -> value.toString() },
     private val axisLineThickness: Dp = 1.dp,
     private val axisLineColor: Color = Color.Black
 ) : YAxisDrawer {
@@ -29,11 +33,11 @@ class SimpleYAxisDrawer(
         style = PaintingStyle.Stroke
     }
 
-    private val textPaint = android.graphics.Paint().apply {
+    private val textPaint = Paint().apply {
         isAntiAlias = true
-        color = labelTextColor.toLegacyInt()
+        color = labelTextColor
     }
-    private val textBounds = android.graphics.Rect()
+    private var textBounds = Rect.Zero
 
     override fun drawAxisLine(
         drawScope: DrawScope,
@@ -65,10 +69,6 @@ class SimpleYAxisDrawer(
         minValue: Float,
         maxValue: Float
     ) = with(drawScope) {
-        val labelPaint = textPaint.apply {
-            textSize = labelTextSize.toPx()
-            textAlign = android.graphics.Paint.Align.RIGHT
-        }
         val minLabelHeight = (labelTextSize.toPx() * labelRatio.toFloat())
         val totalHeight = drawableArea.height
         val labelCount = max((drawableArea.height / minLabelHeight).roundToInt(), 2)
@@ -79,12 +79,12 @@ class SimpleYAxisDrawer(
             val label = labelValueFormatter(value)
             val x = drawableArea.right - (labelTextSize.toPx() / 2f)
 
-            labelPaint.getTextBounds(label, 0, label.length, textBounds)
+            textBounds = textPaint
+                .getTextBounds(label, 0, label.length, textBounds, labelTextSize.toPx())
 
-            val y =
-                drawableArea.bottom - (i * (totalHeight / labelCount)) + (textBounds.height() / 2f)
+            val y = drawableArea.bottom - (i * (totalHeight / labelCount)) + (textBounds.height / 2f)
 
-            canvas.nativeCanvas.drawText(label, x, y, labelPaint)
+            canvas.drawTextHelper(label, x, y, textPaint, labelTextSize.toPx())
         }
     }
 }

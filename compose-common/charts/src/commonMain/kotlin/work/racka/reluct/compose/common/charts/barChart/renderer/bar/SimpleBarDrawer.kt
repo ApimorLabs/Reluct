@@ -1,4 +1,4 @@
-package work.racka.reluct.barChart.renderer.bar
+package work.racka.reluct.compose.common.charts.barChart.renderer.bar
 
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Rect
@@ -8,7 +8,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.DrawScope
-import work.racka.reluct.barChart.BarChartData
+import work.racka.reluct.compose.common.charts.barChart.BarChartData
 
 class SimpleBarDrawer(
     private val cornerRadius: Float = 20f

@@ -1,10 +1,10 @@
-package work.racka.reluct.barChart.renderer.bar
+package work.racka.reluct.compose.common.charts.barChart.renderer.bar
 
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.graphics.Canvas
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.DrawScope
-import work.racka.reluct.barChart.BarChartData
+import work.racka.reluct.compose.common.charts.barChart.BarChartData
 
 interface BarDrawer {
     fun drawBar(

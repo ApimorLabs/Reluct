@@ -1,11 +1,11 @@
-package work.racka.reluct.barChart
+package work.racka.reluct.compose.common.charts.barChart
 
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.unit.dp
-import work.racka.reluct.barChart.renderer.label.LabelDrawer
-import work.racka.reluct.barChart.renderer.xaxis.XAxisDrawer
+import work.racka.reluct.compose.common.charts.barChart.renderer.label.LabelDrawer
+import work.racka.reluct.compose.common.charts.barChart.renderer.xaxis.XAxisDrawer
 
 internal object BarChartUtils {
     fun axisAreas(

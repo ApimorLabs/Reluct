@@ -1,4 +1,4 @@
-package work.racka.reluct.barChart
+package work.racka.reluct.compose.common.charts.barChart
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.AnimationSpec
@@ -15,17 +15,17 @@ import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.input.pointer.pointerInput
-import work.racka.reluct.barChart.BarChartUtils.axisAreas
-import work.racka.reluct.barChart.BarChartUtils.barDrawableArea
-import work.racka.reluct.barChart.BarChartUtils.forEachWithArea
-import work.racka.reluct.barChart.renderer.bar.BarDrawer
-import work.racka.reluct.barChart.renderer.bar.SimpleBarDrawer
-import work.racka.reluct.barChart.renderer.label.LabelDrawer
-import work.racka.reluct.barChart.renderer.label.SimpleValueDrawer
-import work.racka.reluct.barChart.renderer.xaxis.SimpleXAxisDrawer
-import work.racka.reluct.barChart.renderer.xaxis.XAxisDrawer
-import work.racka.reluct.barChart.renderer.yaxis.SimpleYAxisDrawer
-import work.racka.reluct.barChart.renderer.yaxis.YAxisDrawer
+import work.racka.reluct.compose.common.charts.barChart.BarChartUtils.axisAreas
+import work.racka.reluct.compose.common.charts.barChart.BarChartUtils.barDrawableArea
+import work.racka.reluct.compose.common.charts.barChart.BarChartUtils.forEachWithArea
+import work.racka.reluct.compose.common.charts.barChart.renderer.bar.BarDrawer
+import work.racka.reluct.compose.common.charts.barChart.renderer.bar.SimpleBarDrawer
+import work.racka.reluct.compose.common.charts.barChart.renderer.label.LabelDrawer
+import work.racka.reluct.compose.common.charts.barChart.renderer.label.SimpleValueDrawer
+import work.racka.reluct.compose.common.charts.barChart.renderer.xaxis.SimpleXAxisDrawer
+import work.racka.reluct.compose.common.charts.barChart.renderer.xaxis.XAxisDrawer
+import work.racka.reluct.compose.common.charts.barChart.renderer.yaxis.SimpleYAxisDrawer
+import work.racka.reluct.compose.common.charts.barChart.renderer.yaxis.YAxisDrawer
 import work.racka.reluct.compose.common.charts.common.simpleChartAnimation
 
 @Composable

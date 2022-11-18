@@ -1,4 +1,4 @@
-package work.racka.reluct.barChart.renderer.yaxis
+package work.racka.reluct.compose.common.charts.barChart.renderer.yaxis
 
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.graphics.Canvas

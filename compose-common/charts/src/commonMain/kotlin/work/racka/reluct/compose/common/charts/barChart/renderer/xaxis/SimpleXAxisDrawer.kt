@@ -1,5 +1,4 @@
-package work.racka.reluct.barChart.renderer.xaxis
-
+package work.racka.reluct.compose.common.charts.barChart.renderer.xaxis
 
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
@@ -21,7 +20,7 @@ class SimpleXAxisDrawer(
     private val axisLineThickness: Dp = 1.dp,
     private val axisLineColor: Color = Color.Black
 ) : XAxisDrawer {
-    private val bounds = android.graphics.Rect()
+    private val bounds = Rect.Zero
 
     private val axisLinePaint = Paint().apply {
         isAntiAlias = true
@@ -61,9 +60,7 @@ class SimpleXAxisDrawer(
             val lineThickness = axisLineThickness.toPx()
 
             for (i in 1..labelCount) {
-
-                val y =
-                    drawableArea.bottom - (i * (totalHeight / labelCount)) + (bounds.height() / 2f)
+                val y = drawableArea.bottom - (i * (totalHeight / labelCount)) + (bounds.height / 2f)
 
                 canvas.drawLine(
                     p1 = Offset(

@@ -1,4 +1,4 @@
-package work.racka.reluct.barChart
+package work.racka.reluct.compose.common.charts.barChart
 
 data class BarChartOptions(
     var drawXAxisLine: Boolean = true,
