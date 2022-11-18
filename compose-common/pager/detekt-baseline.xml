@@ -1,0 +1,17 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues></ManuallySuppressedIssues>
+  <CurrentIssues>
+    <ID>MaxLineLength:SnapperFlingBehavior.kt$SnapperFlingBehavior$snapIndex: (SnapperLayoutInfo, startIndex: Int, targetIndex: Int) -&gt; Int = SnapperFlingBehaviorDefaults.SnapIndex</ID>
+    <ID>MaxLineLength:SnapperFlingBehavior.kt$SnapperFlingBehaviorDefaults$public</ID>
+    <ID>MaximumLineLength:work.racka.reluct.compose.common.pager.snapper.SnapperFlingBehavior.kt:296</ID>
+    <ID>MaximumLineLength:work.racka.reluct.compose.common.pager.snapper.SnapperFlingBehavior.kt:55</ID>
+    <ID>NestedBlockDepth:PagerState.kt$PagerState$suspend fun animateScrollToPage( @IntRange(from = 0) page: Int, @FloatRange(from = -1.0, to = 1.0) pageOffset: Float = 0f, )</ID>
+    <ID>ReturnCount:LazyList.kt$LazyListSnapperLayoutInfo$override fun determineTargetIndex( velocity: Float, decayAnimationSpec: DecayAnimationSpec&lt;Float&gt;, maximumFlingDistance: Float, ): Int</ID>
+    <ID>ReturnCount:LazyList.kt$LazyListSnapperLayoutInfo$override fun distanceToIndexSnap(index: Int): Int</ID>
+    <ID>ReturnCount:SnapperFlingBehavior.kt$SnapperFlingBehavior$override suspend fun ScrollScope.performFling( initialVelocity: Float ): Float</ID>
+    <ID>ReturnCount:SnapperFlingBehavior.kt$SnapperFlingBehavior$private fun consumeVelocityIfNotAtScrollEdge(velocity: Float): Float</ID>
+    <ID>ReturnCount:SnapperFlingBehavior.kt$SnapperFlingBehavior$private suspend fun ScrollScope.flingToIndex( index: Int, initialVelocity: Float, ): Float</ID>
+    <ID>UnnecessaryAbstractClass:SnapperFlingBehavior.kt$SnapperLayoutInfo$SnapperLayoutInfo</ID>
+  </CurrentIssues>
+</SmellBaseline>

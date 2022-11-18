@@ -26,6 +26,7 @@ include(
     ":common:persistence:settings",
     ":common:system-services",
     ":compose-common:charts",
+    ":compose-common:pager",
 )
 
 pluginManagement {
