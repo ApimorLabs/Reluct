@@ -278,7 +278,6 @@ fun VerticalPager(
 @Composable
 internal fun Pager(
     count: Int,
-    modifier: Modifier,
     state: PagerState,
     reverseLayout: Boolean,
     itemSpacing: Dp,
@@ -287,9 +286,10 @@ internal fun Pager(
     key: ((page: Int) -> Any)?,
     contentPadding: PaddingValues,
     userScrollEnabled: Boolean,
+    content: @Composable PagerScope.(page: Int) -> Unit,
+    modifier: Modifier = Modifier,
     verticalAlignment: Alignment.Vertical = Alignment.CenterVertically,
     horizontalAlignment: Alignment.Horizontal = Alignment.CenterHorizontally,
-    content: @Composable PagerScope.(page: Int) -> Unit,
 ) {
     require(count >= 0) { "pageCount must be >= 0" }
 

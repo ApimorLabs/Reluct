@@ -55,7 +55,6 @@ fun HorizontalPagerIndicator(
     spacing: Dp = indicatorWidth,
     indicatorShape: Shape = CircleShape,
 ) {
-
     val indicatorWidthPx = LocalDensity.current.run { indicatorWidth.roundToPx() }
     val spacingPx = LocalDensity.current.run { spacing.roundToPx() }
 
@@ -92,11 +91,14 @@ fun HorizontalPagerIndicator(
                 }
                 .size(width = indicatorWidth, height = indicatorHeight)
                 .then(
-                    if (pageCount > 0) Modifier.background(
-                        color = activeColor,
-                        shape = indicatorShape,
-                    )
-                    else Modifier
+                    if (pageCount > 0) {
+                        Modifier.background(
+                            color = activeColor,
+                            shape = indicatorShape,
+                        )
+                    } else {
+                        Modifier
+                    }
                 )
         )
     }
@@ -140,7 +142,6 @@ fun VerticalPagerIndicator(
     spacing: Dp = indicatorHeight,
     indicatorShape: Shape = CircleShape,
 ) {
-
     val indicatorHeightPx = LocalDensity.current.run { indicatorHeight.roundToPx() }
     val spacingPx = LocalDensity.current.run { spacing.roundToPx() }
 
@@ -177,11 +178,14 @@ fun VerticalPagerIndicator(
                 }
                 .size(width = indicatorWidth, height = indicatorHeight)
                 .then(
-                    if (pageCount > 0) Modifier.background(
-                        color = activeColor,
-                        shape = indicatorShape,
-                    )
-                    else Modifier
+                    if (pageCount > 0) {
+                        Modifier.background(
+                            color = activeColor,
+                            shape = indicatorShape,
+                        )
+                    } else {
+                        Modifier
+                    }
                 )
         )
     }

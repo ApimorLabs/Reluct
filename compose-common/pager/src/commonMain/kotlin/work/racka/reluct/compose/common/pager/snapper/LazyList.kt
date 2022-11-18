@@ -214,8 +214,8 @@ public class LazyListSnapperLayoutInfo(
         // multiplying distancePerItem by the index delta
         val currentItem = currentItem ?: return 0 // TODO: throw?
         return ((index - currentItem.index) * estimateDistancePerItem()).roundToInt() +
-                currentItem.offset -
-                snapOffsetForItem(this, currentItem)
+            currentItem.offset -
+            snapOffsetForItem(this, currentItem)
     }
 
     override fun canScrollTowardsStart(): Boolean {
@@ -282,13 +282,13 @@ public class LazyListSnapperLayoutInfo(
             .also { result ->
                 SnapperLog.d {
                     "determineTargetIndex. " +
-                            "result: $result, " +
-                            "current item: $curr, " +
-                            "current item offset: ${/*"%.3f".format*/(currentItemOffsetRatio)}, " +
-                            "distancePerItem: $distancePerItem, " +
-                            "maximumFlingDistance: ${/*"%.3f".format*/(maximumFlingDistance)}, " +
-                            "flingDistance: ${/*"%.3f".format*/(flingDistance)}, " +
-                            "flingIndexDelta: ${/*"%.3f".format*/(flingIndexDelta)}"
+                        "result: $result, " +
+                        "current item: $curr, " +
+                        "current item offset: ${/*"%.3f".format*/(currentItemOffsetRatio)}, " +
+                        "distancePerItem: $distancePerItem, " +
+                        "maximumFlingDistance: ${/*"%.3f".format*/(maximumFlingDistance)}, " +
+                        "flingDistance: ${/*"%.3f".format*/(flingDistance)}, " +
+                        "flingIndexDelta: ${/*"%.3f".format*/(flingIndexDelta)}"
                 }
             }
     }
@@ -302,7 +302,9 @@ public class LazyListSnapperLayoutInfo(
             val first = visibleItemsInfo[0]
             val second = visibleItemsInfo[1]
             second.offset - (first.size + first.offset)
-        } else 0
+        } else {
+            0
+        }
     }
 
     /**

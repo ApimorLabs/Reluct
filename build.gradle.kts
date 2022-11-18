@@ -167,6 +167,9 @@ fun Project.coreDetektSetup() {
             "src/desktopMain/kotlin",
             "src/jsMain/kotlin",
         )
+        layout.projectDirectory.file("detekt-baseline.xml").asFile.run {
+            if (exists()) baseline = this
+        }
     }
 
     tasks.withType<Detekt>().configureEach detekt@{
@@ -199,6 +202,7 @@ fun Project.coreDetektSetup() {
     tasks.withType<DetektCreateBaselineTask>().configureEach detekt@{
         exclude("**/build/**", "**/generated/**", "**/resources/**")
         basePath = rootProject.projectDir.absolutePath
+        baseline.set(layout.projectDirectory.file("detekt-baseline.xml").asFile)
     }
 }
 

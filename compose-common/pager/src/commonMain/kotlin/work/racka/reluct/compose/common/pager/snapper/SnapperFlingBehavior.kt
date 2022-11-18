@@ -378,9 +378,9 @@ public class SnapperFlingBehavior private constructor(
         if (initialItem.index == index && layoutInfo.distanceToIndexSnap(initialItem.index) == 0) {
             SnapperLog.d {
                 "flingToIndex. Skipping fling, already at target. " +
-                        "vel:$initialVelocity, " +
-                        "initial item: $initialItem, " +
-                        "target: $index"
+                    "vel:$initialVelocity, " +
+                    "initial item: $initialItem, " +
+                    "target: $index"
             }
             return consumeVelocityIfNotAtScrollEdge(initialVelocity)
         }
@@ -433,18 +433,18 @@ public class SnapperFlingBehavior private constructor(
         if (initialItem.index == targetIndex && layoutInfo.distanceToIndexSnap(initialItem.index) == 0) {
             SnapperLog.d {
                 "performDecayFling. Skipping decay, already at target. " +
-                        "vel:$initialVelocity, " +
-                        "current item: $initialItem, " +
-                        "target: $targetIndex"
+                    "vel:$initialVelocity, " +
+                    "current item: $initialItem, " +
+                    "target: $targetIndex"
             }
             return consumeVelocityIfNotAtScrollEdge(initialVelocity)
         }
 
         SnapperLog.d {
             "Performing decay fling. " +
-                    "vel:$initialVelocity, " +
-                    "current item: $initialItem, " +
-                    "target: $targetIndex"
+                "vel:$initialVelocity, " +
+                "current item: $initialItem, " +
+                "target: $targetIndex"
         }
 
         var velocityLeft = initialVelocity
@@ -513,9 +513,9 @@ public class SnapperFlingBehavior private constructor(
     ): Float {
         SnapperLog.d {
             "performSpringFling. " +
-                    "vel:$initialVelocity, " +
-                    "initial item: $initialItem, " +
-                    "target: $targetIndex"
+                "vel:$initialVelocity, " +
+                "initial item: $initialItem, " +
+                "target: $targetIndex"
         }
 
         var velocityLeft = when {
@@ -578,8 +578,8 @@ public class SnapperFlingBehavior private constructor(
     ): Boolean {
         SnapperLog.d {
             "scroll tick. " +
-                    "vel:$velocity, " +
-                    "current item: $currentItem"
+                "vel:$velocity, " +
+                "current item: $currentItem"
         }
 
         // Calculate the 'snap back'. If the returned value is 0, we don't need to do anything.
@@ -590,9 +590,9 @@ public class SnapperFlingBehavior private constructor(
             // 'snap back' to the item as we may have scrolled past it
             SnapperLog.d {
                 "Scrolled past item. " +
-                        "vel:$velocity, " +
-                        "current item: $currentItem} " +
-                        "target:$targetIndex"
+                    "vel:$velocity, " +
+                    "current item: $currentItem} " +
+                    "target:$targetIndex"
             }
             scrollBy(snapBackAmount.toFloat())
             return true
@@ -612,9 +612,9 @@ public class SnapperFlingBehavior private constructor(
 
         SnapperLog.d {
             "canDecayBeyondCurrentItem. " +
-                    "initialVelocity: $velocity, " +
-                    "flingDistance: $flingDistance, " +
-                    "current item: $currentItem"
+                "initialVelocity: $velocity, " +
+                "flingDistance: $flingDistance, " +
+                "current item: $currentItem"
         }
 
         return if (velocity < 0) {

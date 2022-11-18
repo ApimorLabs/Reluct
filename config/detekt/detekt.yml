@@ -100,7 +100,7 @@ complexity:
     includeStaticDeclarations: false
     includePrivateDeclarations: false
     ignoreOverloaded: false
-  ComplexMethod:
+  CyclomaticComplexMethod:
     active: false # Because of Jetpack Compose functions
     threshold: 15
     ignoreSingleWhenExpression: true
