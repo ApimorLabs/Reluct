@@ -4,7 +4,6 @@ include(
     ":android:app",
     ":android:benchmark",
     ":android:compose:components",
-    ":android:compose:charts",
     ":android:compose:navigation",
     ":android:compose:theme",
     ":android:screens",

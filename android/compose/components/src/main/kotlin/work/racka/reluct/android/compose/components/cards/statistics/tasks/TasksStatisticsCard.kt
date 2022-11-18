@@ -14,7 +14,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import work.racka.reluct.android.compose.components.R
 import work.racka.reluct.android.compose.components.cards.statistics.ChartData
 import work.racka.reluct.android.compose.components.cards.statistics.StatisticsBarChartCard
-import work.racka.reluct.barChart.BarChartData
+import work.racka.reluct.compose.common.charts.barChart.BarChartData
 
 @Composable
 fun TasksStatisticsCard(

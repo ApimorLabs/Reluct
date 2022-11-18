@@ -10,7 +10,7 @@ import kotlinx.coroutines.withContext
 import work.racka.reluct.android.compose.components.cards.statistics.ChartData
 import work.racka.reluct.android.compose.components.util.extractColor
 import work.racka.reluct.common.model.domain.usagestats.AppUsageInfo
-import work.racka.reluct.pieChart.PieChartData
+import work.racka.reluct.compose.common.charts.pieChart.PieChartData
 
 @Composable
 internal fun getScreenTimePieChartData(

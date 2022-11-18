@@ -11,10 +11,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import kotlinx.collections.immutable.ImmutableList
-import work.racka.reluct.pieChart.PieChart
-import work.racka.reluct.pieChart.PieChartData
-import work.racka.reluct.pieChart.renderer.slice.SimpleSliceDrawer
-import work.racka.reluct.pieChart.renderer.text.SimpleTextDrawer
+import work.racka.reluct.compose.common.charts.pieChart.PieChart
+import work.racka.reluct.compose.common.charts.pieChart.PieChartData
+import work.racka.reluct.compose.common.charts.pieChart.renderer.slice.SimpleSliceDrawer
+import work.racka.reluct.compose.common.charts.pieChart.renderer.text.SimpleTextDrawer
 
 @Composable
 fun StatisticsPieChartBase(
