@@ -6,12 +6,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import kotlinx.collections.immutable.ImmutableList
-import work.racka.reluct.barChart.BarChart
-import work.racka.reluct.barChart.BarChartData
-import work.racka.reluct.barChart.BarChartOptions
-import work.racka.reluct.barChart.renderer.label.SimpleValueDrawer
-import work.racka.reluct.barChart.renderer.xaxis.SimpleXAxisDrawer
-import work.racka.reluct.barChart.renderer.yaxis.SimpleYAxisDrawer
+import work.racka.reluct.compose.common.charts.barChart.BarChart
+import work.racka.reluct.compose.common.charts.barChart.BarChartData
+import work.racka.reluct.compose.common.charts.barChart.BarChartOptions
+import work.racka.reluct.compose.common.charts.barChart.renderer.label.SimpleValueDrawer
+import work.racka.reluct.compose.common.charts.barChart.renderer.xaxis.SimpleXAxisDrawer
+import work.racka.reluct.compose.common.charts.barChart.renderer.yaxis.SimpleYAxisDrawer
 
 @Composable
 internal fun StatisticsBarChartBase(

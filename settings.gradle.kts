@@ -4,7 +4,6 @@ include(
     ":android:app",
     ":android:benchmark",
     ":android:compose:components",
-    ":android:compose:charts",
     ":android:compose:navigation",
     ":android:compose:theme",
     ":android:screens",
@@ -26,6 +25,7 @@ include(
     ":common:persistence:database",
     ":common:persistence:settings",
     ":common:system-services",
+    ":compose-common:charts",
 )
 
 pluginManagement {

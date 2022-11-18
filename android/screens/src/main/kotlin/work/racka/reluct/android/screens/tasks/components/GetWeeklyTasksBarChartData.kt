@@ -8,9 +8,9 @@ import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import work.racka.reluct.android.compose.components.cards.statistics.ChartData
-import work.racka.reluct.barChart.BarChartData
 import work.racka.reluct.common.model.domain.tasks.DailyTasksStats
 import work.racka.reluct.common.model.util.time.Week
+import work.racka.reluct.compose.common.charts.barChart.BarChartData
 
 @Composable
 internal fun getWeeklyTasksBarChartData(

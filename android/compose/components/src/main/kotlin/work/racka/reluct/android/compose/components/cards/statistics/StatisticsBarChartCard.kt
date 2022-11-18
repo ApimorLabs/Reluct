@@ -15,7 +15,7 @@ import androidx.compose.ui.unit.dp
 import kotlinx.collections.immutable.ImmutableList
 import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.android.compose.theme.Shapes
-import work.racka.reluct.barChart.BarChartData
+import work.racka.reluct.compose.common.charts.barChart.BarChartData
 
 @Composable
 internal fun StatisticsBarChartCard(
