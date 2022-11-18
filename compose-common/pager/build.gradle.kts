@@ -24,6 +24,7 @@ kotlin {
                 implementation(compose.uiTooling)
                 implementation(compose.foundation)
                 implementation(compose.animation)
+                implementation(compose.material)
                 @OptIn(ExperimentalComposeLibrary::class) implementation(compose.material3)
                 implementation(compose.preview)
 
