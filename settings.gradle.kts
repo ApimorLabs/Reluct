@@ -26,6 +26,7 @@ include(
     ":common:persistence:database",
     ":common:persistence:settings",
     ":common:system-services",
+    ":compose-common:charts",
 )
 
 pluginManagement {
