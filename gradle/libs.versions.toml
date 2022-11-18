@@ -89,6 +89,7 @@ detekt = "1.22.0-RC3"
 lottie = "5.0.3"
 palette = "1.0.0"
 desugaring = "1.1.8"
+jna = "5.12.1"
 
 # Google Services and Firebase
 google_services = "4.3.14"
@@ -238,6 +239,10 @@ detekt_formatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", 
 ktlint_gradle_plugin = { module = "org.jlleitschuh.gradle:ktlint-gradle", version.ref = "ktlint_gradle" }
 ktlint_rule_twitter_compose = { module = "com.twitter.compose.rules:ktlint", version.ref = "linter_twitter_compose" }
 detekt_rule_twitter_compose = { module = "com.twitter.compose.rules:detekt", version.ref = "linter_twitter_compose" }
+
+# Java only
+jna_core = { module = "net.java.dev.jna:jna", version.ref = "jna"}
+jna_platform = { module = "net.java.dev.jna:jna-platform", version.ref = "jna"}
 
 ########### Libraries End ##################
 

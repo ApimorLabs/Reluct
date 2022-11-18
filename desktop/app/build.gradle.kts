@@ -26,6 +26,7 @@ kotlin {
 
                 implementation(libs.kotlinx.date.time)
                 implementation(libs.koin.core)
+                implementation(libs.jna.platform)
             }
         }
         val desktopTest by getting
