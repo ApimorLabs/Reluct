@@ -1,4 +1,4 @@
-package work.racka.reluct.pieChart.renderer.text
+package work.racka.reluct.compose.common.charts.pieChart.renderer.text
 
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.graphics.Canvas

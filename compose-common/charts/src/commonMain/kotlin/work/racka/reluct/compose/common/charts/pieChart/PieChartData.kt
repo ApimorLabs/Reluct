@@ -1,9 +1,11 @@
 package work.racka.reluct.compose.common.charts.pieChart
 
 import androidx.compose.ui.graphics.Color
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 
 data class PieChartData(
-    val slices: List<Slice>,
+    val slices: ImmutableList<Slice>,
     val spacingBy: Float = 0f
 ) {
     init {
@@ -18,16 +20,15 @@ data class PieChartData(
             return total + (emptySliceLength * slices.size)
         }
 
-    internal val slicesWithSpacing: List<Slice>
+    internal val slicesWithSpacing: ImmutableList<Slice>
         get() {
-            val mutableSlices = mutableListOf<Slice>()
             val emptySliceLength = (totalSize / slices.size) * spacingBy
-            slices.forEach {
-                mutableSlices.add(it)
-                mutableSlices.add(
-                    Slice(emptySliceLength, Color.Transparent)
-                )
-            }
+            val mutableSlices = persistentListOf<Slice>().builder().apply {
+                slices.forEach {
+                    add(it)
+                    add(Slice(emptySliceLength, Color.Transparent))
+                }
+            }.build()
             return mutableSlices
         }
 

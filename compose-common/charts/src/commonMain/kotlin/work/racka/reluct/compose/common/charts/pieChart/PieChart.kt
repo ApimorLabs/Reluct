@@ -1,4 +1,4 @@
-package work.racka.reluct.pieChart
+package work.racka.reluct.compose.common.charts.pieChart
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.AnimationSpec
@@ -12,18 +12,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.toRect
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.tooling.preview.Preview
-import timber.log.Timber
 import work.racka.reluct.compose.common.charts.common.simpleChartAnimation
-import work.racka.reluct.compose.common.charts.pieChart.PieChartData
 import work.racka.reluct.compose.common.charts.pieChart.PieChartUtils.calculateAngle
-import work.racka.reluct.pieChart.renderer.slice.SimpleSliceDrawer
-import work.racka.reluct.pieChart.renderer.slice.SliceDrawer
-import work.racka.reluct.pieChart.renderer.text.SimpleTextDrawer
-import work.racka.reluct.pieChart.renderer.text.TextDrawer
+import work.racka.reluct.compose.common.charts.pieChart.renderer.slice.SimpleSliceDrawer
+import work.racka.reluct.compose.common.charts.pieChart.renderer.slice.SliceDrawer
+import work.racka.reluct.compose.common.charts.pieChart.renderer.text.SimpleTextDrawer
+import work.racka.reluct.compose.common.charts.pieChart.renderer.text.TextDrawer
 
 @Composable
 fun PieChart(
@@ -75,7 +71,6 @@ private fun DrawChart(
                 detectTapGestures(
                     onTap = { offset ->
                         if (centerRect.value.contains(offset)) {
-                            Timber.d("Center Rect Clicked")
                             onCenterClick()
                         }
                     }
@@ -114,15 +109,3 @@ private fun DrawChart(
         }
     }
 }
-
-@Preview
-@Composable
-fun PieChartPreview() = PieChart(
-    pieChartData = PieChartData(
-        slices = listOf(
-            PieChartData.Slice(25f, Color.Red),
-            PieChartData.Slice(42f, Color.Blue),
-            PieChartData.Slice(23f, Color.Green)
-        )
-    )
-)

@@ -1,24 +1,23 @@
-package work.racka.reluct.pieChart.renderer.text
+package work.racka.reluct.compose.common.charts.pieChart.renderer.text
 
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.graphics.Canvas
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.drawscope.DrawScope
-import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
-import work.racka.reluct.compose.common.charts.common.toLegacyInt
+import work.racka.reluct.compose.common.charts.util.drawTextHelper
 
 class SimpleTextDrawer(
     private val labelTextSize: TextUnit = 18.sp,
     private val labelTextColor: Color = Color.Black
-): TextDrawer {
+) : TextDrawer {
 
-    private val bounds = android.graphics.Rect()
+    //private val bounds = Rect.Zero
 
-    private val paint = android.graphics.Paint().apply {
-        this.textAlign = android.graphics.Paint.Align.CENTER
-        this.color = labelTextColor.toLegacyInt()
+    private val paint = Paint().apply {
+        this.color = labelTextColor
     }
 
     override fun drawText(
@@ -30,15 +29,12 @@ class SimpleTextDrawer(
         val xCenter = area.left + (area.width / 2)
         val yCenter = (area.top + area.bottom) / 2
 
-        canvas.nativeCanvas.drawText(
+        canvas.drawTextHelper(
             text,
             xCenter,
             yCenter,
-            paint.apply {
-                this.textSize = labelTextSize.toPx()
-            }
+            paint,
+            labelTextSize.toPx()
         )
     }
-
-
 }

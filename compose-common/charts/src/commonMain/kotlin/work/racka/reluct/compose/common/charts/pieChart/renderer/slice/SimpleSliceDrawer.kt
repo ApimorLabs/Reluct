@@ -1,4 +1,4 @@
-package work.racka.reluct.pieChart.renderer.slice
+package work.racka.reluct.compose.common.charts.pieChart.renderer.slice
 
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.Size

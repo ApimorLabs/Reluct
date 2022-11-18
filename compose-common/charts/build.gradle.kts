@@ -26,6 +26,8 @@ kotlin {
                 implementation(compose.animation)
                 @OptIn(ExperimentalComposeLibrary::class) implementation(compose.material3)
                 implementation(compose.preview)
+
+                implementation(libs.kotlinx.collections.immutable)
             }
         }
 
