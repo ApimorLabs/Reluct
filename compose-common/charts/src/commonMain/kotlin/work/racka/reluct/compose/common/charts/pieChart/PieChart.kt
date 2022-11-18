@@ -53,12 +53,12 @@ fun PieChart(
 @Composable
 private fun DrawChart(
     pieChartData: PieChartData,
-    modifier: Modifier,
     progress: Float,
     sliceDrawer: SliceDrawer,
     centerTextDrawer: TextDrawer,
     centerText: String,
-    onCenterClick: () -> Unit
+    onCenterClick: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     val slices = pieChartData.slicesWithSpacing
     val centerRect = remember {

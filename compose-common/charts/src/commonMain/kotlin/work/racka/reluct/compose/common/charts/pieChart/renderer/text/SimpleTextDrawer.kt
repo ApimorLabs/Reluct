@@ -14,7 +14,7 @@ class SimpleTextDrawer(
     private val labelTextColor: Color = Color.Black
 ) : TextDrawer {
 
-    //private val bounds = Rect.Zero
+    // private val bounds = Rect.Zero
 
     private val paint = Paint().apply {
         this.color = labelTextColor

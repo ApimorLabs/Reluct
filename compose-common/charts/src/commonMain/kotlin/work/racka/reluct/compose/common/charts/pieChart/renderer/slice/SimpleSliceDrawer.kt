@@ -58,7 +58,6 @@ class SimpleSliceDrawer(
             sweepAngleDegrees = sweepAngle
         )
 
-
 //        canvas.drawPath(
 //            path = path,
 //            paint = sectionPaint.apply {

@@ -48,7 +48,7 @@ class SimpleValueDrawer(
 
         val labelTextSizeInPx = with(drawScope) { labelTextSize.toPx() }
         canvas.drawTextHelper(label, xCenter, yCenter, paint, textSize = labelTextSizeInPx)
-        //canvas.nativeCanvas.drawText(label, xCenter, yCenter, paint(drawScope))
+        // canvas.nativeCanvas.drawText(label, xCenter, yCenter, paint(drawScope))
     }
 
     private fun labelTextHeight(drawScope: DrawScope) = with(drawScope) {

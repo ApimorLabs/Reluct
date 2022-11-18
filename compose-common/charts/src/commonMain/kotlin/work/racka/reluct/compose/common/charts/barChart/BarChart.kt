@@ -56,78 +56,79 @@ fun BarChart(
 
     val progress = transitionAnimation.value
 
-    Canvas(modifier = modifier
-        .fillMaxSize()
-        .pointerInput(Unit) {
-            detectTapGestures(
-                onTap = { offset ->
-                    bars.forEach { (key, rect) ->
-                        if (rect.contains(offset)) {
-                            selectedBar.value = key
-                            onBarClicked(key)
+    Canvas(
+        modifier = modifier
+            .fillMaxSize()
+            .pointerInput(Unit) {
+                detectTapGestures(
+                    onTap = { offset ->
+                        bars.forEach { (key, rect) ->
+                            if (rect.contains(offset)) {
+                                selectedBar.value = key
+                                onBarClicked(key)
+                            }
                         }
                     }
-                }
-            )
-        }
-        .drawBehind {
-            drawIntoCanvas { canvas ->
-                val (xAxisArea, yAxisArea) = axisAreas(
-                    drawScope = this,
-                    totalSize = size,
-                    withYAxisLabels = barChartOptions.showYAxisLabels,
-                    xAxisDrawer = xAxisDrawer,
-                    labelDrawer = labelDrawer
                 )
-                val barDrawableArea = barDrawableArea(xAxisArea)
-
-                // Draw yAxis line.
-                if (barChartOptions.drawYAxisLine) {
-                    yAxisDrawer.drawAxisLine(
+            }
+            .drawBehind {
+                drawIntoCanvas { canvas ->
+                    val (xAxisArea, yAxisArea) = axisAreas(
                         drawScope = this,
-                        canvas = canvas,
-                        drawableArea = yAxisArea
+                        totalSize = size,
+                        withYAxisLabels = barChartOptions.showYAxisLabels,
+                        xAxisDrawer = xAxisDrawer,
+                        labelDrawer = labelDrawer
                     )
-                }
+                    val barDrawableArea = barDrawableArea(xAxisArea)
 
-                // Draw Interval lines
-                if (barChartOptions.showIntervalLines) {
-                    xAxisDrawer.drawIntervalLines(
-                        drawScope = this,
-                        canvas = canvas,
-                        drawableArea = barDrawableArea
-                    )
-                }
+                    // Draw yAxis line.
+                    if (barChartOptions.drawYAxisLine) {
+                        yAxisDrawer.drawAxisLine(
+                            drawScope = this,
+                            canvas = canvas,
+                            drawableArea = yAxisArea
+                        )
+                    }
 
-                // Draw xAxis line.
-                if (barChartOptions.drawXAxisLine) {
-                    xAxisDrawer.drawAxisLine(
-                        drawScope = this,
-                        canvas = canvas,
-                        drawableArea = xAxisArea
-                    )
-                }
+                    // Draw Interval lines
+                    if (barChartOptions.showIntervalLines) {
+                        xAxisDrawer.drawIntervalLines(
+                            drawScope = this,
+                            canvas = canvas,
+                            drawableArea = barDrawableArea
+                        )
+                    }
 
-                // Draw each bar.
-                barChartData.forEachWithArea(
-                    this,
-                    barDrawableArea,
-                    progress,
-                    labelDrawer,
-                    barChartOptions.barsSpacingFactor
-                ) { barArea, bar ->
-                    bars[bar.uniqueId] = barArea
-                    barDrawer.drawBar(
-                        drawScope = this,
-                        canvas = canvas,
-                        barArea = barArea,
-                        bar = bar,
-                        selected = (bar.uniqueId == selectedUniqueId),
-                        selectedBarColor = selectedBarColor
-                    )
+                    // Draw xAxis line.
+                    if (barChartOptions.drawXAxisLine) {
+                        xAxisDrawer.drawAxisLine(
+                            drawScope = this,
+                            canvas = canvas,
+                            drawableArea = xAxisArea
+                        )
+                    }
+
+                    // Draw each bar.
+                    barChartData.forEachWithArea(
+                        this,
+                        barDrawableArea,
+                        progress,
+                        labelDrawer,
+                        barChartOptions.barsSpacingFactor
+                    ) { barArea, bar ->
+                        bars[bar.uniqueId] = barArea
+                        barDrawer.drawBar(
+                            drawScope = this,
+                            canvas = canvas,
+                            barArea = barArea,
+                            bar = bar,
+                            selected = (bar.uniqueId == selectedUniqueId),
+                            selectedBarColor = selectedBarColor
+                        )
+                    }
                 }
             }
-        }
     ) {
         /**
          *  Typically we could draw everything here, but because of the lack of canvas.drawText
