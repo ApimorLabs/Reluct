@@ -15,9 +15,9 @@ internal actual fun Paint.getTextBounds(
     bounds: Rect,
     textSize: Float
 ): Rect {
-    /*if (start or end or end - start or text.length - end < 0) {
-        throw IndexOutOfBoundsException()
-    }*/
+    if (start or end or end - start or text.length - end < 0) {
+        throw IndexOutOfBoundsException("Text Bounds Incorrect")
+    }
 
     val paint = this
 

@@ -155,6 +155,7 @@ private fun YearPicker(
     val coroutineScope = rememberCoroutineScope()
 
     LazyVerticalGrid(
+        modifier = Modifier.background(state.colors.dialogBackgroundColor),
         columns = GridCells.Fixed(3),
         state = gridState,
     ) {
@@ -258,6 +259,8 @@ private fun CalendarViewHeader(
                 modifier = Modifier
                     .testTag("dialog_date_prev_month")
                     .size(24.dp)
+                    .background(state.colors.headerBackgroundColor, CircleShape)
+                    .clip(CircleShape)
                     .clickable(
                         onClick = {
                             coroutineScope.launch {
@@ -267,7 +270,7 @@ private fun CalendarViewHeader(
                             }
                         }
                     ),
-                tint = state.colors.calendarHeaderTextColor
+                tint = state.colors.headerTextColor
             )
 
             Spacer(modifier = Modifier.width(24.dp))
@@ -278,6 +281,8 @@ private fun CalendarViewHeader(
                 modifier = Modifier
                     .testTag("dialog_date_next_month")
                     .size(24.dp)
+                    .background(state.colors.headerBackgroundColor, CircleShape)
+                    .clip(CircleShape)
                     .clickable(
                         onClick = {
                             coroutineScope.launch {
@@ -287,7 +292,7 @@ private fun CalendarViewHeader(
                             }
                         }
                     ),
-                tint = state.colors.calendarHeaderTextColor
+                tint = state.colors.headerTextColor
             )
         }
     }
