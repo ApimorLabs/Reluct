@@ -28,6 +28,7 @@ include(
     ":compose-common:charts",
     ":compose-common:date-time-picker",
     ":compose-common:pager",
+    ":compose-common:theme",
 )
 
 pluginManagement {
