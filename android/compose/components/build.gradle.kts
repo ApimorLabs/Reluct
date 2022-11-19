@@ -34,9 +34,6 @@ dependencies {
     // DateTime
     implementation(libs.kotlinx.date.time)
 
-    // Accompanist: Keep an eye out for deprecated features
-    implementation(libs.accompanist.pager)
-
     // Palette
     implementation(libs.palette)
     // Lottie - Compose
