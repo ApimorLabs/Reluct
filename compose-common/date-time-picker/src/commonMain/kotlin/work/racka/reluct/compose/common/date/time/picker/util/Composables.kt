@@ -1,4 +1,4 @@
-package work.racka.reluct.android.compose.components.datetime.util
+package work.racka.reluct.compose.common.date.time.picker.util
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.wrapContentWidth
@@ -7,9 +7,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.platform.LocalViewConfiguration
-import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
@@ -32,13 +29,8 @@ internal fun DialogTitle(
 }
 
 @Composable
-internal fun isSmallDevice(): Boolean {
-    return LocalConfiguration.current.screenWidthDp <= 360
-}
+internal expect fun isSmallDevice(): Boolean
 
 @Composable
-internal fun isLargeDevice(): Boolean {
-    val size = LocalWindowInfo.current
-    return LocalConfiguration.current.screenWidthDp <= 600
-}
+internal expect fun isLargeDevice(): Boolean
 

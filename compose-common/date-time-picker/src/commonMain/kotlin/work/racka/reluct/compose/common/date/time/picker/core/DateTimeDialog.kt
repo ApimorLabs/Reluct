@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.DpSize
@@ -43,7 +44,11 @@ internal fun DialogContentHolder(
     negativeButtonText: String? = "CANCEL",
 ) {
     Surface(
-        modifier = modifier,
+        modifier = Modifier
+            .fillMaxWidth()
+            .clipToBounds()
+            .wrapContentHeight()
+                then modifier,
         shape = shape,
         color = containerColor
     ) {

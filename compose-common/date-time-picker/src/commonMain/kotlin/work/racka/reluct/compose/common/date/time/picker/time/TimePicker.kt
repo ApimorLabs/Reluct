@@ -1,6 +1,5 @@
-package work.racka.reluct.android.compose.components.datetime.time
+package work.racka.reluct.compose.common.date.time.picker.time
 
-import android.graphics.Rect
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
@@ -24,7 +23,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.*
+import androidx.compose.ui.geometry.Rect
+import androidx.compose.ui.graphics.Canvas
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Paint
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.input.pointer.PointerInputScope
 import androidx.compose.ui.input.pointer.pointerInput
@@ -33,13 +36,10 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.datetime.LocalDateTime
-import work.racka.reluct.android.compose.components.datetime.core.MaterialDialogScope
-import work.racka.reluct.android.compose.components.datetime.util.*
+import work.racka.reluct.android.compose.components.datetime.time.ClockScreen
+import work.racka.reluct.android.compose.components.datetime.time.TimePickerState
+import work.racka.reluct.compose.common.date.time.picker.core.*
 import work.racka.reluct.compose.common.date.time.picker.util.*
-import work.racka.reluct.compose.common.date.time.picker.util.LocalDateTimeRange
-import work.racka.reluct.compose.common.date.time.picker.util.currentLocalDateTime
-import work.racka.reluct.compose.common.date.time.picker.util.getOffset
-import work.racka.reluct.compose.common.date.time.picker.util.isAM
 import kotlin.math.*
 
 /* Offset of the clock line and selected circle */
@@ -62,11 +62,14 @@ private data class SelectedOffset(
  * @param onTimeChange callback with a LocalTime object when the user completes their input
  */
 @Composable
-fun MaterialDialogScope.Timepicker(
+fun Timepicker(
+    modifier: Modifier = Modifier,
+    dialogState: DateTimeDialogState = rememberDateTimeDialogState(),
     initialTime: LocalDateTime = currentLocalDateTime(),
     title: String = "SELECT TIME",
     colors: TimePickerColors = TimePickerDefaults.colors(),
     waitForPositiveButton: Boolean = true,
+    showExpanded: Boolean = isLargeDevice(),
     timeRange: ClosedRange<LocalDateTime> = LocalDateTimeRange.MIN..LocalDateTimeRange.MAX,
     is24HourClock: Boolean = false,
     onTimeChange: (LocalDateTime) -> Unit = {},
@@ -80,16 +83,31 @@ fun MaterialDialogScope.Timepicker(
         )
     }
 
-    if (waitForPositiveButton) {
-        DialogCallback { onTimeChange(timePickerState.selectedTime) }
-    } else {
+    DateTimeDialog(
+        modifier = modifier,
+        isVisible = dialogState.showing,
+        onCloseDialog = { dialogState.hide() },
+        onPositiveButtonClicked = {
+            if (waitForPositiveButton) onTimeChange(timePickerState.selectedTime)
+        },
+        containerColor = colors.dialogBackgroundColor,
+        shape = dialogState.dialogProperties.shape,
+        positiveButtonText = dialogState.buttonText.positiveText,
+        negativeButtonText = dialogState.buttonText.negativeText
+    ) {
+        if (showExpanded) {
+            TimePickerExpandedImpl(title = title, state = timePickerState)
+        } else {
+            TimePickerImpl(title = title, state = timePickerState)
+        }
+    }
+
+    if (!waitForPositiveButton) {
         DisposableEffect(timePickerState.selectedTime) {
             onTimeChange(timePickerState.selectedTime)
             onDispose { }
         }
     }
-
-    TimePickerImpl(title = title, state = timePickerState)
 }
 
 @Composable
@@ -633,10 +651,10 @@ private fun ClockLayout(
             )
         }
 
-        val inactiveTextColor = colors.textColor(false).value.toArgb()
+        val inactiveTextColor = colors.textColor(false)
         val clockBackgroundColor = colors.backgroundColor(false).value
         val selectorColor = remember { colors.selectorColor() }
-        val selectorTextColor = remember { colors.selectorTextColor().toArgb() }
+        val selectorTextColor = remember { colors.selectorTextColor() }
 
         val enabledAlpha = ContentAlpha.high
         val disabledAlpha = ContentAlpha.disabled
@@ -679,13 +697,13 @@ private fun ClockLayout(
                     textSize: Float,
                     radius: Float,
                     angle: Double,
-                    alpha: Int = 255,
+                    alpha: Float = 1f,
                 ) {
                     val textOuter = label(anchor)
                     val textColor = if (selectedAnchor.value == anchor) {
                         selectorTextColor
                     } else {
-                        inactiveTextColor
+                        inactiveTextColor.value
                     }
 
                     val contentAlpha = if (isAnchorEnabled(anchor)) enabledAlpha else disabledAlpha
@@ -697,7 +715,7 @@ private fun ClockLayout(
                         angle.toFloat(),
                         canvas,
                         radius,
-                        alpha = (255f * contentAlpha).roundToInt().coerceAtMost(alpha),
+                        alpha = contentAlpha.coerceAtMost(alpha),
                         color = textColor
                     )
                 }
@@ -712,7 +730,7 @@ private fun ClockLayout(
                             innerTextSizePx,
                             innerRadiusPx,
                             angle,
-                            alpha = (255 * 0.8f).toInt()
+                            alpha = 0.8f
                         )
                     }
                 }
@@ -728,23 +746,22 @@ private fun drawText(
     angle: Float,
     canvas: Canvas,
     radius: Float,
-    alpha: Int = 255,
-    color: Int = android.graphics.Color.WHITE,
+    alpha: Float = 1f,
+    color: Color = Color.White,
 ) {
-    val outerText = Paint().apply {
+    val outerTextPaint = Paint().apply {
         this.color = color
-        this.textSize = textSize
-        this.textAlign = Paint.Align.CENTER
         this.alpha = alpha
     }
 
-    val r = Rect()
-    outerText.getTextBounds(text, 0, text.length, r)
+    var r = Rect.Zero
+    r = outerTextPaint.getTextBounds(text, 0, text.length, r, textSize)
 
-    canvas.nativeCanvas.drawText(
-        text,
-        center.x + (radius * cos(angle)),
-        center.y + (radius * sin(angle)) + (abs(r.height())) / 2,
-        outerText
+    canvas.drawTextHelper(
+        text = text,
+        x = center.x + (radius * cos(angle)),
+        y = center.y + (radius * sin(angle)) + (abs(r.height)) / 2,
+        paint = outerTextPaint,
+        textSize = textSize
     )
 }

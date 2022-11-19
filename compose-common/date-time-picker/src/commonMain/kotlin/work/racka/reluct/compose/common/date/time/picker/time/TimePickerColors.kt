@@ -1,4 +1,4 @@
-package work.racka.reluct.android.compose.components.datetime.time
+package work.racka.reluct.compose.common.date.time.picker.time
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.runtime.Composable
@@ -14,6 +14,7 @@ import androidx.compose.ui.unit.dp
  */
 interface TimePickerColors {
     val border: BorderStroke
+    val dialogBackgroundColor: Color
 
     /**
      * Gets the background color dependant on if the item is active or not
@@ -57,6 +58,7 @@ internal class DefaultTimePickerColors(
     private val selectorColor: Color,
     private val selectorTextColor: Color,
     private val headerTextColor: Color,
+    override val dialogBackgroundColor: Color,
     borderColor: Color,
 ) : TimePickerColors {
     override val border = BorderStroke(1.dp, borderColor)

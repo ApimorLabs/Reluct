@@ -32,7 +32,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import kotlinx.coroutines.launch
 import kotlinx.datetime.*
-import work.racka.reluct.android.compose.components.datetime.util.isSmallDevice
+import work.racka.reluct.compose.common.date.time.picker.util.isSmallDevice
 import work.racka.reluct.common.model.util.time.TimeUtils.toDayOfWeekShortenedString
 import work.racka.reluct.common.model.util.time.TimeUtils.toMonthShortenedString
 import work.racka.reluct.common.model.util.time.TimeUtils.toMonthString

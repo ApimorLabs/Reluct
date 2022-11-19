@@ -7,10 +7,9 @@ import androidx.compose.runtime.saveable.Saver
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.focus.FocusManager
-import work.racka.reluct.android.compose.components.datetime.core.MaterialDialog
 
 /**
- *  The [DateTimeDialogState] class is used to store the state for a [MaterialDialog]
+ *  The [DateTimeDialogState] class is used to store the state for a [DateTimeDialog]
  *
  * @param initialValue the initial showing state of the dialog
  */

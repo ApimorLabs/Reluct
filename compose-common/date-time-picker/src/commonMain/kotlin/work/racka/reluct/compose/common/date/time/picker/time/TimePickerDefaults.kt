@@ -1,4 +1,4 @@
-package work.racka.reluct.android.compose.components.datetime.time
+package work.racka.reluct.compose.common.date.time.picker.time
 
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -34,6 +34,7 @@ object TimePickerDefaults {
         selectorTextColor: Color = MaterialTheme.colorScheme.onPrimary,
         headerTextColor: Color = MaterialTheme.colorScheme.onBackground,
         borderColor: Color = MaterialTheme.colorScheme.onBackground.copy(0.5f),
+        dialogBackgroundColor: Color = MaterialTheme.colorScheme.surface,
     ): TimePickerColors {
         return DefaultTimePickerColors(
             activeBackgroundColor = activeBackgroundColor,
@@ -44,6 +45,7 @@ object TimePickerDefaults {
             selectorColor = selectorColor,
             selectorTextColor = selectorTextColor,
             headerTextColor = headerTextColor,
+            dialogBackgroundColor = dialogBackgroundColor,
             borderColor = borderColor
         )
     }
