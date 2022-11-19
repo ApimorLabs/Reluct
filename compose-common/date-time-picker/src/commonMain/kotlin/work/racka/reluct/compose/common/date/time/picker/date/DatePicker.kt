@@ -32,7 +32,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import kotlinx.coroutines.launch
 import kotlinx.datetime.*
-import work.racka.reluct.compose.common.date.time.picker.util.isSmallDevice
 import work.racka.reluct.common.model.util.time.TimeUtils.toDayOfWeekShortenedString
 import work.racka.reluct.common.model.util.time.TimeUtils.toMonthShortenedString
 import work.racka.reluct.common.model.util.time.TimeUtils.toMonthString
@@ -40,6 +39,7 @@ import work.racka.reluct.compose.common.date.time.picker.core.DateTimeDialog
 import work.racka.reluct.compose.common.date.time.picker.core.DateTimeDialogState
 import work.racka.reluct.compose.common.date.time.picker.core.rememberDateTimeDialogState
 import work.racka.reluct.compose.common.date.time.picker.util.currentLocalDate
+import work.racka.reluct.compose.common.date.time.picker.util.isSmallDevice
 import work.racka.reluct.compose.common.pager.core.ExperimentalPagerApi
 import work.racka.reluct.compose.common.pager.core.HorizontalPager
 import work.racka.reluct.compose.common.pager.core.PagerState

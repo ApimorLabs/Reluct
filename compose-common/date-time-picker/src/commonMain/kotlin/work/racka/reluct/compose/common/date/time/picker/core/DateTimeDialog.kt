@@ -23,8 +23,8 @@ internal expect fun DateTimeDialog(
     onCloseDialog: () -> Unit,
     onPositiveButtonClicked: () -> Unit,
     isVisible: Boolean,
-    properties: DateTimeDialogProperties = DateTimeDialogProperties(),
     modifier: Modifier = Modifier,
+    properties: DateTimeDialogProperties = DateTimeDialogProperties(),
     containerColor: Color = MaterialTheme.colorScheme.surface,
     shape: Shape = RoundedCornerShape(10.dp),
     positiveButtonText: String? = "OK",
@@ -48,7 +48,7 @@ internal fun DialogContentHolder(
             .fillMaxWidth()
             .clipToBounds()
             .wrapContentHeight()
-                then modifier,
+            then modifier,
         shape = shape,
         color = containerColor
     ) {

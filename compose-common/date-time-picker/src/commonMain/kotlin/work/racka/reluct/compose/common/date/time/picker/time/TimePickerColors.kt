@@ -2,6 +2,7 @@ package work.racka.reluct.compose.common.date.time.picker.time
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.graphics.Color
@@ -49,6 +50,7 @@ interface TimePickerColors {
     fun periodBackgroundColor(active: Boolean): State<Color>
 }
 
+@Stable
 internal class DefaultTimePickerColors(
     private val activeBackgroundColor: Color,
     private val inactiveBackgroundColor: Color,

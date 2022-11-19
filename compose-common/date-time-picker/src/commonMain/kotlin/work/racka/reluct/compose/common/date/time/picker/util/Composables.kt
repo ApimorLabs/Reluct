@@ -33,4 +33,3 @@ internal expect fun isSmallDevice(): Boolean
 
 @Composable
 internal expect fun isLargeDevice(): Boolean
-
