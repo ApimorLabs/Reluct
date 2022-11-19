@@ -3,10 +3,7 @@ package work.racka.reluct.compose.common.date.time.picker.core
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.Alignment
@@ -19,7 +16,7 @@ import androidx.compose.ui.unit.dp
 import java.util.*
 
 @Composable
-internal expect fun DateTimeDialog(
+internal fun DateTimeDialog(
     onCloseDialog: () -> Unit,
     onPositiveButtonClicked: () -> Unit,
     isVisible: Boolean,
@@ -30,7 +27,25 @@ internal expect fun DateTimeDialog(
     positiveButtonText: String? = "OK",
     negativeButtonText: String? = "CANCEL",
     content: @Composable () -> Unit = {},
-)
+) {
+    MultiplatformDialog(
+        onCloseDialog = onCloseDialog,
+        isVisible = isVisible,
+        modifier = modifier,
+        properties = properties,
+        content = {
+            DialogContentHolder(
+                positiveButtonClicked = onPositiveButtonClicked,
+                negativeButtonClicked = onCloseDialog,
+                content = content,
+                containerColor = containerColor,
+                shape = shape,
+                positiveButtonText = positiveButtonText,
+                negativeButtonText = negativeButtonText
+            )
+        }
+    )
+}
 
 @Composable
 internal fun DialogContentHolder(
@@ -55,25 +70,28 @@ internal fun DialogContentHolder(
         LazyColumn(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.SpaceBetween,
-            contentPadding = PaddingValues(16.dp)
         ) {
             item { content() }
 
-            item { Spacer(Modifier.height(16.dp)) }
+            item { Spacer(Modifier.height(8.dp)) }
 
             item {
                 Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp)
+                        .padding(bottom = 16.dp),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.End
                 ) {
                     if (negativeButtonText != null) {
                         val buttonText = negativeButtonText.uppercase(Locale.getDefault())
-                        Button(
+                        OutlinedButton(
                             onClick = negativeButtonClicked
                         ) {
                             Text(buttonText)
                         }
-                        Spacer(Modifier.height(16.dp))
+                        Spacer(Modifier.width(16.dp))
                     }
                     if (positiveButtonText != null) {
                         val buttonText = positiveButtonText.uppercase(Locale.getDefault())
@@ -95,4 +113,13 @@ data class DateTimeDialogProperties(
     val dismissOnBackPress: Boolean = true,
     val dismissOnClickOutside: Boolean = true,
     val shape: Shape = RoundedCornerShape(10.dp)
+)
+
+@Composable
+internal expect fun MultiplatformDialog(
+    onCloseDialog: () -> Unit,
+    isVisible: Boolean,
+    modifier: Modifier = Modifier,
+    properties: DateTimeDialogProperties = DateTimeDialogProperties(),
+    content: @Composable () -> Unit = {},
 )

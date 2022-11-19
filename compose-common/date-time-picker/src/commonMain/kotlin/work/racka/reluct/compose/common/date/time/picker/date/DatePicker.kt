@@ -77,6 +77,7 @@ fun DatePicker(
         isVisible = dialogState.showing,
         onCloseDialog = { dialogState.hide() },
         onPositiveButtonClicked = {
+            dialogState.hide()
             if (waitForPositiveButton) onDateChange(datePickerState.selected)
         },
         containerColor = colors.dialogBackgroundColor,

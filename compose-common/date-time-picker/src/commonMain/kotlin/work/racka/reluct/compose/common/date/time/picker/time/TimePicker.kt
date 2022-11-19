@@ -67,7 +67,7 @@ fun Timepicker(
     title: String = "SELECT TIME",
     colors: TimePickerColors = TimePickerDefaults.colors(),
     waitForPositiveButton: Boolean = true,
-    showExpanded: Boolean = isLargeDevice(),
+    showExpanded: Boolean = false,
     timeRange: ClosedRange<LocalDateTime> = LocalDateTimeRange.MIN..LocalDateTimeRange.MAX,
     is24HourClock: Boolean = false,
     onTimeChange: (LocalDateTime) -> Unit = {},
@@ -86,6 +86,7 @@ fun Timepicker(
         isVisible = dialogState.showing,
         onCloseDialog = { dialogState.hide() },
         onPositiveButtonClicked = {
+            dialogState.hide()
             if (waitForPositiveButton) onTimeChange(timePickerState.selectedTime)
         },
         containerColor = colors.dialogBackgroundColor,
