@@ -30,10 +30,10 @@ import work.racka.reluct.android.compose.components.util.getContentColor
 import work.racka.reluct.android.compose.components.util.getRandomColor
 import work.racka.reluct.android.compose.components.util.toColor
 import work.racka.reluct.android.compose.components.util.toHexString
-import work.racka.reluct.android.compose.theme.Dimens
-import work.racka.reluct.android.compose.theme.Shapes
 import work.racka.reluct.common.model.domain.tasks.TaskLabel
 import work.racka.reluct.common.model.util.UUIDGen
+import work.racka.reluct.compose.common.theme.Dimens
+import work.racka.reluct.compose.common.theme.Shapes
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable

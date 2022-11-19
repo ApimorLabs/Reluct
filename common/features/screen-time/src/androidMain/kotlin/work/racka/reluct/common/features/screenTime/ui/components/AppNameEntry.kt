@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
-import work.racka.reluct.android.compose.theme.Dimens
+import work.racka.reluct.compose.common.theme.Dimens
 
 @Composable
 internal fun AppNameEntry(

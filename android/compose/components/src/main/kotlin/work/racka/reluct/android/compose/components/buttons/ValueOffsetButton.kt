@@ -22,7 +22,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
-import work.racka.reluct.android.compose.theme.Dimens
+import work.racka.reluct.compose.common.theme.Dimens
 
 /**
  * Increments integer values by 1

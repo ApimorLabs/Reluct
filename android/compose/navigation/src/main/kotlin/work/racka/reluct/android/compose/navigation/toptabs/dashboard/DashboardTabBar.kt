@@ -3,7 +3,10 @@ package work.racka.reluct.android.compose.navigation.toptabs.dashboard
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.TabRow
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
@@ -12,7 +15,7 @@ import androidx.compose.ui.unit.dp
 import work.racka.reluct.android.compose.components.tab.ReluctTabIndicator
 import work.racka.reluct.android.compose.components.tab.TabEntry
 import work.racka.reluct.android.compose.navigation.R
-import work.racka.reluct.android.compose.theme.ReluctAppTheme
+import work.racka.reluct.compose.common.theme.ReluctAppTheme
 
 @Composable
 fun DashboardTabBar(

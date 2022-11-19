@@ -22,12 +22,12 @@ import work.racka.reluct.android.compose.components.cards.taskEntry.TaskEntry
 import work.racka.reluct.android.compose.components.images.LottieAnimationWithDescription
 import work.racka.reluct.android.compose.components.textfields.search.MaterialSearchBar
 import work.racka.reluct.android.compose.components.util.rememberScrollContext
-import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.android.screens.R
 import work.racka.reluct.android.screens.util.FetchMoreDataHandler
 import work.racka.reluct.common.model.domain.tasks.Task
 import work.racka.reluct.common.model.states.tasks.SearchData
 import work.racka.reluct.common.model.states.tasks.SearchTasksState
+import work.racka.reluct.compose.common.theme.Dimens
 
 @OptIn(
     ExperimentalComposeUiApi::class,

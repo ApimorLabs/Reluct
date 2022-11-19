@@ -25,13 +25,13 @@ import work.racka.reluct.android.compose.components.cards.taskEntry.TaskEntry
 import work.racka.reluct.android.compose.components.dialogs.FullScreenLoading
 import work.racka.reluct.android.compose.components.util.BarsVisibility
 import work.racka.reluct.android.compose.components.util.rememberScrollContext
-import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.android.screens.R
 import work.racka.reluct.android.screens.tasks.components.FullEmptyTasksIndicator
 import work.racka.reluct.android.screens.util.BottomBarVisibilityHandler
 import work.racka.reluct.android.screens.util.FetchMoreDataHandler
 import work.racka.reluct.common.model.domain.tasks.Task
 import work.racka.reluct.common.model.states.tasks.PendingTasksState
+import work.racka.reluct.compose.common.theme.Dimens
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -100,7 +100,7 @@ internal fun PendingTasksUI(
                 modifier = Modifier.padding(bottom = mainScaffoldPadding.calculateBottomPadding()),
                 isLoadingProvider = {
                     uiState.value is PendingTasksState.Loading && uiState.value.tasksData.isEmpty() &&
-                        uiState.value.overdueTasksData.isEmpty()
+                            uiState.value.overdueTasksData.isEmpty()
                 }
             )
 
@@ -108,8 +108,8 @@ internal fun PendingTasksUI(
             FullEmptyTasksIndicator(
                 showAnimationProvider = {
                     uiState.value !is PendingTasksState.Loading &&
-                        uiState.value.overdueTasksData.isEmpty() &&
-                        uiState.value.tasksData.isEmpty()
+                            uiState.value.overdueTasksData.isEmpty() &&
+                            uiState.value.tasksData.isEmpty()
                 },
                 modifier = Modifier.padding(bottom = mainScaffoldPadding.calculateBottomPadding())
             )
@@ -146,7 +146,7 @@ private fun PendingTasksLazyList(
     val isLoading = remember {
         derivedStateOf {
             uiState.value is PendingTasksState.Loading && uiState.value.tasksData.isNotEmpty() &&
-                uiState.value.overdueTasksData.isNotEmpty()
+                    uiState.value.overdueTasksData.isNotEmpty()
         }
     }
     val showData = remember {

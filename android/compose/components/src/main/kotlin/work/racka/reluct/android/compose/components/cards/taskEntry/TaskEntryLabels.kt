@@ -21,8 +21,8 @@ import work.racka.reluct.android.compose.components.R
 import work.racka.reluct.android.compose.components.checkboxes.RoundCheckbox
 import work.racka.reluct.android.compose.components.textfields.texts.EntryDescription
 import work.racka.reluct.android.compose.components.textfields.texts.EntryHeading
-import work.racka.reluct.android.compose.theme.Dimens
-import work.racka.reluct.android.compose.theme.ReluctAppTheme
+import work.racka.reluct.compose.common.theme.Dimens
+import work.racka.reluct.compose.common.theme.ReluctAppTheme
 
 @Composable
 fun TaskDetailsHeading(

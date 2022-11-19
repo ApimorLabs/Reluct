@@ -11,7 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import work.racka.reluct.android.compose.components.R
 import work.racka.reluct.android.compose.components.buttons.ReluctButton
-import work.racka.reluct.android.compose.theme.Shapes
+import work.racka.reluct.compose.common.theme.Shapes
 
 @Composable
 fun DiscardPromptDialog(

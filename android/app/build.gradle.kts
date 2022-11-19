@@ -94,7 +94,7 @@ dependencies {
 
     // Dependency Modules
     implementation(project(":android:compose:navigation"))
-    implementation(project(":android:compose:theme"))
+    implementation(project(":compose-common:theme"))
     implementation(project(":android:widgets"))
     implementation(project(":common:di-integration"))
     implementation(project(":common:features:screen-time"))

@@ -16,8 +16,8 @@ import androidx.glance.text.FontWeight
 import androidx.glance.text.Text
 import androidx.glance.text.TextAlign
 import androidx.glance.text.TextStyle
-import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.common.core_navigation.compose_destinations.tasks.TaskDetailsDestination
+import work.racka.reluct.compose.common.theme.Dimens
 import work.racka.reluct.widgets.components.tasks.WidgetTaskEntry
 import work.racka.reluct.widgets.core.GlanceTheme
 import work.racka.reluct.widgets.tasks.actions.PendingTasksWidgetParamKeys

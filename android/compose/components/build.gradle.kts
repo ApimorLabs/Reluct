@@ -17,11 +17,11 @@ android.apply {
 
 dependencies {
     // Dependency Modules
-    implementation(project(":android:compose:theme"))
     implementation(project(":common:model"))
     api(project(":compose-common:charts"))
     implementation(project(":compose-common:date-time-picker"))
     implementation(project(":compose-common:pager"))
+    implementation(project(":compose-common:theme"))
 
     // Compose
     // Compose

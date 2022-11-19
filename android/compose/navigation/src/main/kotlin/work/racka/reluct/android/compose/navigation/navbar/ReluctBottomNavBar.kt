@@ -9,7 +9,6 @@ import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import work.racka.reluct.android.compose.navigation.util.NavHelpers.navigateNavBarElements
-import work.racka.reluct.android.compose.theme.Typography
 
 @Composable
 fun ReluctBottomNavBar(
@@ -37,7 +36,7 @@ fun ReluctBottomNavBar(
 
                 NavigationBarItem(
                     label = {
-                        Text(text = item.label, style = Typography.labelMedium)
+                        Text(text = item.label, style = MaterialTheme.typography.labelMedium)
                     },
                     selected = selected,
                     // colors = ,

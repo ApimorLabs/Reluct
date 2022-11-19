@@ -23,9 +23,9 @@ import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import work.racka.reluct.android.compose.components.R
 import work.racka.reluct.android.compose.components.textfields.texts.EntryHeading
-import work.racka.reluct.android.compose.theme.Dimens
-import work.racka.reluct.android.compose.theme.Shapes
 import work.racka.reluct.common.model.domain.usagestats.AppUsageInfo
+import work.racka.reluct.compose.common.theme.Dimens
+import work.racka.reluct.compose.common.theme.Shapes
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

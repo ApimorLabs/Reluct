@@ -5,8 +5,12 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Scaffold
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
@@ -31,12 +35,12 @@ import work.racka.reluct.android.compose.navigation.transitions.scaleInPopEnterT
 import work.racka.reluct.android.compose.navigation.transitions.scaleOutExitTransition
 import work.racka.reluct.android.compose.navigation.transitions.scaleOutPopExitTransition
 import work.racka.reluct.android.compose.navigation.util.SettingsCheck
-import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.android.screens.onboarding.OnBoardingScreen
 import work.racka.reluct.android.screens.settings.SettingsScreen
 import work.racka.reluct.common.core_navigation.compose_destinations.onboarding.OnBoardingDestination
 import work.racka.reluct.common.core_navigation.compose_destinations.settings.SettingsDestination
 import work.racka.reluct.common.core_navigation.compose_destinations.tasks.PendingTasksDestination
+import work.racka.reluct.compose.common.theme.Dimens
 
 @OptIn(ExperimentalAnimationApi::class, ExperimentalMaterial3Api::class)
 @Composable
@@ -49,7 +53,7 @@ fun AppNavHost(settingsCheck: SettingsCheck?, modifier: Modifier = Modifier) {
 
     val mainPadding = PaddingValues(
         bottom = Dimens.ExtraLargePadding.size + Dimens.MediumPadding.size +
-            WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
+                WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
     )
     /**
      * Don't use the bottomBar param of Scaffold for the AppBottomBar

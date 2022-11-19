@@ -21,7 +21,6 @@ import androidx.compose.ui.unit.dp
 import work.racka.reluct.android.compose.components.cards.headers.ListGroupHeadingHeader
 import work.racka.reluct.android.compose.components.util.BarsVisibility
 import work.racka.reluct.android.compose.components.util.rememberScrollContext
-import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.android.screens.R
 import work.racka.reluct.android.screens.screentime.components.AppNameEntry
 import work.racka.reluct.android.screens.screentime.components.LimitsDetailsCard
@@ -32,6 +31,7 @@ import work.racka.reluct.android.screens.util.getSnackbarModifier
 import work.racka.reluct.common.features.screenTime.limits.states.DistractingAppsState
 import work.racka.reluct.common.features.screenTime.limits.states.PausedAppsState
 import work.racka.reluct.common.features.screenTime.limits.states.ScreenTimeLimitState
+import work.racka.reluct.compose.common.theme.Dimens
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable

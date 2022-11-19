@@ -20,12 +20,12 @@ import androidx.compose.ui.text.style.TextOverflow
 import work.racka.reluct.android.compose.components.R
 import work.racka.reluct.android.compose.components.cards.cardWithActions.ReluctDescriptionCard
 import work.racka.reluct.android.compose.components.textfields.texts.EntryDescription
-import work.racka.reluct.android.compose.theme.Dimens
-import work.racka.reluct.android.compose.theme.Shapes
 import work.racka.reluct.common.model.domain.goals.Goal
 import work.racka.reluct.common.model.domain.goals.GoalInterval
 import work.racka.reluct.common.model.domain.goals.GoalType
 import work.racka.reluct.common.model.util.time.TimeUtils
+import work.racka.reluct.compose.common.theme.Dimens
+import work.racka.reluct.compose.common.theme.Shapes
 
 @Composable
 internal fun GoalIntervalLabel(

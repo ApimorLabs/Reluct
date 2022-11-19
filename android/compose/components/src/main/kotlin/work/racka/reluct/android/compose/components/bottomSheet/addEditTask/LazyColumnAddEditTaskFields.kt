@@ -34,11 +34,11 @@ import work.racka.reluct.android.compose.components.bottomSheet.taskLabels.TaskL
 import work.racka.reluct.android.compose.components.buttons.ReluctButton
 import work.racka.reluct.android.compose.components.cards.settings.EntryWithCheckbox
 import work.racka.reluct.android.compose.components.textfields.ReluctTextField
-import work.racka.reluct.android.compose.theme.Dimens
-import work.racka.reluct.android.compose.theme.Shapes
 import work.racka.reluct.common.model.domain.tasks.EditTask
 import work.racka.reluct.common.model.util.time.TimeUtils.getLocalDateTimeWithCorrectTimeZone
 import work.racka.reluct.common.model.util.time.TimeUtils.plus
+import work.racka.reluct.compose.common.theme.Dimens
+import work.racka.reluct.compose.common.theme.Shapes
 
 // This provided here so that it doesn't leak DateTime dependencies to the
 // screens modules.

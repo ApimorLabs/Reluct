@@ -21,8 +21,8 @@ import kotlinx.collections.immutable.persistentListOf
 import work.racka.reluct.android.compose.components.cards.headers.ListGroupHeadingHeader
 import work.racka.reluct.android.compose.components.textfields.texts.HighlightTextProps
 import work.racka.reluct.android.compose.components.textfields.texts.HighlightedText
-import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.android.screens.R
+import work.racka.reluct.compose.common.theme.Dimens
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable

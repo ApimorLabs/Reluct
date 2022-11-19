@@ -9,13 +9,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.android.screens.onboarding.components.OnBoardingBottomBar
 import work.racka.reluct.android.screens.onboarding.pages.*
 import work.racka.reluct.android.screens.util.isAndroid13Plus
 import work.racka.reluct.common.features.onboarding.states.OnBoardingPages
 import work.racka.reluct.common.features.onboarding.states.OnBoardingState
 import work.racka.reluct.common.features.onboarding.states.PermissionType
+import work.racka.reluct.compose.common.theme.Dimens
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
 @Composable

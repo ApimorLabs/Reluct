@@ -28,8 +28,6 @@ import work.racka.reluct.android.compose.components.cards.goalEntry.GoalValuesCa
 import work.racka.reluct.android.compose.components.images.LottieAnimationWithDescription
 import work.racka.reluct.android.compose.components.textfields.texts.ListItemTitle
 import work.racka.reluct.android.compose.components.topBar.ReluctSmallTopAppBar
-import work.racka.reluct.android.compose.theme.Dimens
-import work.racka.reluct.android.compose.theme.Shapes
 import work.racka.reluct.android.screens.R
 import work.racka.reluct.android.screens.goals.components.AppsListCard
 import work.racka.reluct.android.screens.goals.components.UpdateValueDialog
@@ -37,6 +35,8 @@ import work.racka.reluct.common.features.goals.details.states.GoalDetailsState
 import work.racka.reluct.common.model.domain.goals.Goal
 import work.racka.reluct.common.model.domain.goals.GoalInterval
 import work.racka.reluct.common.model.domain.goals.GoalType
+import work.racka.reluct.compose.common.theme.Dimens
+import work.racka.reluct.compose.common.theme.Shapes
 
 @OptIn(ExperimentalAnimationApi::class, ExperimentalMaterial3Api::class)
 @Composable

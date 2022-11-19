@@ -25,7 +25,6 @@ import work.racka.reluct.android.compose.components.cards.statistics.screenTime.
 import work.racka.reluct.android.compose.components.images.LottieAnimationWithDescription
 import work.racka.reluct.android.compose.components.util.BarsVisibility
 import work.racka.reluct.android.compose.components.util.rememberScrollContext
-import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.android.screens.R
 import work.racka.reluct.android.screens.screentime.components.*
 import work.racka.reluct.android.screens.util.*
@@ -33,6 +32,7 @@ import work.racka.reluct.common.features.screenTime.statistics.states.allStats.D
 import work.racka.reluct.common.features.screenTime.statistics.states.allStats.ScreenTimeStatsState
 import work.racka.reluct.common.features.screenTime.statistics.states.allStats.WeeklyUsageStatsState
 import work.racka.reluct.common.model.domain.usagestats.AppUsageInfo
+import work.racka.reluct.compose.common.theme.Dimens
 
 @OptIn(
     ExperimentalFoundationApi::class,

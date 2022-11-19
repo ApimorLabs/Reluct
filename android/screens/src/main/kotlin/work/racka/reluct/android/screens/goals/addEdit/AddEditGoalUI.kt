@@ -23,8 +23,6 @@ import work.racka.reluct.android.compose.components.dialogs.DiscardPromptDialog
 import work.racka.reluct.android.compose.components.images.LottieAnimationWithDescription
 import work.racka.reluct.android.compose.components.topBar.ReluctSmallTopAppBar
 import work.racka.reluct.android.compose.components.util.EditTitles
-import work.racka.reluct.android.compose.theme.Dimens
-import work.racka.reluct.android.compose.theme.Shapes
 import work.racka.reluct.android.screens.R
 import work.racka.reluct.android.screens.screentime.components.ManageAppsDialog
 import work.racka.reluct.android.screens.util.BackPressHandler
@@ -33,6 +31,8 @@ import work.racka.reluct.common.features.goals.add_edit_goal.states.GoalAppsStat
 import work.racka.reluct.common.features.goals.add_edit_goal.states.ModifyGoalState
 import work.racka.reluct.common.model.domain.appInfo.AppInfo
 import work.racka.reluct.common.model.domain.goals.Goal
+import work.racka.reluct.compose.common.theme.Dimens
+import work.racka.reluct.compose.common.theme.Shapes
 
 @OptIn(ExperimentalAnimationApi::class, ExperimentalMaterial3Api::class)
 @Composable

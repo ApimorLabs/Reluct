@@ -5,7 +5,6 @@ include(
     ":android:benchmark",
     ":android:compose:components",
     ":android:compose:navigation",
-    ":android:compose:theme",
     ":android:screens",
     ":android:widgets",
     ":common:app-usage-stats",
@@ -28,6 +27,7 @@ include(
     ":compose-common:charts",
     ":compose-common:date-time-picker",
     ":compose-common:pager",
+    ":compose-common:theme",
 )
 
 pluginManagement {

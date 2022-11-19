@@ -1,4 +1,4 @@
-package work.racka.reluct.android.compose.theme
+package work.racka.reluct.compose.common.theme
 
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
