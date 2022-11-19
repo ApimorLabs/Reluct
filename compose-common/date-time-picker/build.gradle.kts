@@ -19,12 +19,15 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
+                implementation(project(":common:model"))
+                implementation(project(":compose-common:pager"))
                 implementation(compose.runtime)
                 implementation(compose.ui)
                 implementation(compose.uiTooling)
                 implementation(compose.foundation)
                 implementation(compose.animation)
                 implementation(compose.material)
+                implementation(compose.materialIconsExtended)
                 @OptIn(ExperimentalComposeLibrary::class) implementation(compose.material3)
                 implementation(compose.preview)
 

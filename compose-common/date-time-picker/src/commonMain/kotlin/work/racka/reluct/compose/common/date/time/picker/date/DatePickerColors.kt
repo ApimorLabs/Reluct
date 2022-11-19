@@ -1,4 +1,4 @@
-package work.racka.reluct.android.compose.components.datetime.date
+package work.racka.reluct.compose.common.date.time.picker.date
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
@@ -6,7 +6,7 @@ import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.graphics.Color
 
 /**
- * Represents the colors used by a [timepicker] and its parts in different states
+ * Represents the colors used by a [DatePicker] and its parts in different states
  *
  * See [DatePickerDefaults.colors] for the default implementation
  */
@@ -14,6 +14,7 @@ interface DatePickerColors {
     val headerBackgroundColor: Color
     val headerTextColor: Color
     val calendarHeaderTextColor: Color
+    val dialogBackgroundColor: Color
 
     /**
      * Gets the background color dependant on if the item is active or not
@@ -38,6 +39,7 @@ internal class DefaultDatePickerColors(
     override val headerBackgroundColor: Color,
     override val headerTextColor: Color,
     override val calendarHeaderTextColor: Color,
+    override val dialogBackgroundColor: Color,
     private val dateActiveBackgroundColor: Color,
     private val dateInactiveBackgroundColor: Color,
     private val dateActiveTextColor: Color,

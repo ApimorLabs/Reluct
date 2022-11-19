@@ -4,7 +4,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import kotlinx.datetime.LocalDateTime
-import work.racka.reluct.android.compose.components.datetime.util.isAM
+import work.racka.reluct.compose.common.date.time.picker.util.isAM
 
 internal enum class ClockScreen {
     Hour,

@@ -1,8 +1,7 @@
-package work.racka.reluct.android.compose.components.datetime.date
+package work.racka.reluct.compose.common.date.time.picker.date
 
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -31,18 +30,20 @@ import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
-import com.google.accompanist.pager.ExperimentalPagerApi
-import com.google.accompanist.pager.HorizontalPager
-import com.google.accompanist.pager.PagerState
-import com.google.accompanist.pager.rememberPagerState
 import kotlinx.coroutines.launch
 import kotlinx.datetime.*
-import work.racka.reluct.android.compose.components.datetime.core.MaterialDialogScope
-import work.racka.reluct.android.compose.components.datetime.util.currentLocalDate
 import work.racka.reluct.android.compose.components.datetime.util.isSmallDevice
 import work.racka.reluct.common.model.util.time.TimeUtils.toDayOfWeekShortenedString
 import work.racka.reluct.common.model.util.time.TimeUtils.toMonthShortenedString
 import work.racka.reluct.common.model.util.time.TimeUtils.toMonthString
+import work.racka.reluct.compose.common.date.time.picker.core.DateTimeDialog
+import work.racka.reluct.compose.common.date.time.picker.core.DateTimeDialogState
+import work.racka.reluct.compose.common.date.time.picker.core.rememberDateTimeDialogState
+import work.racka.reluct.compose.common.date.time.picker.util.currentLocalDate
+import work.racka.reluct.compose.common.pager.core.ExperimentalPagerApi
+import work.racka.reluct.compose.common.pager.core.HorizontalPager
+import work.racka.reluct.compose.common.pager.core.PagerState
+import work.racka.reluct.compose.common.pager.core.rememberPagerState
 
 /**
  * @brief A date picker body layout
@@ -56,7 +57,9 @@ import work.racka.reluct.common.model.util.time.TimeUtils.toMonthString
  * @param allowedDateValidator when this returns true the date will be selectable otherwise it won't be
  */
 @Composable
-fun MaterialDialogScope.DatePicker(
+fun DatePicker(
+    modifier: Modifier = Modifier,
+    dialogState: DateTimeDialogState = rememberDateTimeDialogState(),
     initialDate: LocalDate = currentLocalDate(),
     title: String = "SELECT DATE",
     colors: DatePickerColors = DatePickerDefaults.colors(),
@@ -66,14 +69,25 @@ fun MaterialDialogScope.DatePicker(
     onDateChange: (LocalDate) -> Unit = {},
 ) {
     val datePickerState = remember {
-        DatePickerState(initialDate, colors, yearRange, dialogState.dialogBackgroundColor!!)
+        DatePickerState(initialDate, colors, yearRange)
     }
 
-    DatePickerImpl(title = title, state = datePickerState, allowedDateValidator)
+    DateTimeDialog(
+        modifier = modifier,
+        isVisible = dialogState.showing,
+        onCloseDialog = { dialogState.hide() },
+        onPositiveButtonClicked = {
+            if (waitForPositiveButton) onDateChange(datePickerState.selected)
+        },
+        containerColor = colors.dialogBackgroundColor,
+        shape = dialogState.dialogProperties.shape,
+        positiveButtonText = dialogState.buttonText.positiveText,
+        negativeButtonText = dialogState.buttonText.negativeText
+    ) {
+        DatePickerImpl(title = title, state = datePickerState, allowedDateValidator)
+    }
 
-    if (waitForPositiveButton) {
-        DialogCallback { onDateChange(datePickerState.selected) }
-    } else {
+    if (!waitForPositiveButton) {
         DisposableEffect(datePickerState.selected) {
             onDateChange(datePickerState.selected)
             onDispose { }
@@ -129,7 +143,7 @@ internal fun DatePickerImpl(
     }
 }
 
-@OptIn(ExperimentalFoundationApi::class, ExperimentalPagerApi::class)
+@OptIn(ExperimentalPagerApi::class)
 @Composable
 private fun YearPicker(
     viewDate: LocalDate,
@@ -142,7 +156,6 @@ private fun YearPicker(
     LazyVerticalGrid(
         columns = GridCells.Fixed(3),
         state = gridState,
-        modifier = Modifier.background(state.dialogBackground)
     ) {
         itemsIndexed(state.yearRange.toList()) { _, item ->
             val selected = remember { item == viewDate.year }
@@ -279,7 +292,6 @@ private fun CalendarViewHeader(
     }
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun CalendarView(
     viewDate: LocalDate,
@@ -350,7 +362,6 @@ private fun DateSelectionBox(
     }
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun DayOfWeekHeader(state: DatePickerState) {
     Row(

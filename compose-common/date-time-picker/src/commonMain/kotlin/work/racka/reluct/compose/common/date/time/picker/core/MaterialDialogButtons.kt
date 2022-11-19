@@ -1,4 +1,4 @@
-package work.racka.reluct.android.compose.components.datetime.core
+package work.racka.reluct.compose.common.date.time.picker.core
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -22,6 +22,7 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
+import work.racka.reluct.android.compose.components.datetime.core.MaterialDialogScope
 import java.util.*
 
 internal enum class MaterialDialogButtonTypes(val testTag: String) {

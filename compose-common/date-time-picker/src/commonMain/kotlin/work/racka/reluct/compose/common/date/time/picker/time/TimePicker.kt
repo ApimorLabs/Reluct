@@ -1,6 +1,5 @@
 package work.racka.reluct.android.compose.components.datetime.time
 
-import android.graphics.Paint
 import android.graphics.Rect
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.Canvas
@@ -36,6 +35,11 @@ import androidx.compose.ui.unit.sp
 import kotlinx.datetime.LocalDateTime
 import work.racka.reluct.android.compose.components.datetime.core.MaterialDialogScope
 import work.racka.reluct.android.compose.components.datetime.util.*
+import work.racka.reluct.compose.common.date.time.picker.util.*
+import work.racka.reluct.compose.common.date.time.picker.util.LocalDateTimeRange
+import work.racka.reluct.compose.common.date.time.picker.util.currentLocalDateTime
+import work.racka.reluct.compose.common.date.time.picker.util.getOffset
+import work.racka.reluct.compose.common.date.time.picker.util.isAM
 import kotlin.math.*
 
 /* Offset of the clock line and selected circle */

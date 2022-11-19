@@ -1,4 +1,4 @@
-package work.racka.reluct.android.compose.components.datetime.date
+package work.racka.reluct.compose.common.date.time.picker.date
 
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -29,6 +29,7 @@ object DatePickerDefaults {
         dateInactiveBackgroundColor: Color = Color.Transparent,
         dateActiveTextColor: Color = MaterialTheme.colorScheme.onPrimary,
         dateInactiveTextColor: Color = MaterialTheme.colorScheme.onBackground,
+        dialogBackgroundColor: Color = MaterialTheme.colorScheme.surface,
     ): DatePickerColors {
         return DefaultDatePickerColors(
             headerBackgroundColor = headerBackgroundColor,
@@ -38,6 +39,7 @@ object DatePickerDefaults {
             dateInactiveBackgroundColor = dateInactiveBackgroundColor,
             dateActiveTextColor = dateActiveTextColor,
             dateInactiveTextColor = dateInactiveTextColor,
+            dialogBackgroundColor = dialogBackgroundColor
         )
     }
 }
