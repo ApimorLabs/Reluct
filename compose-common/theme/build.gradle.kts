@@ -8,6 +8,10 @@ plugins {
 
 android {
     namespace = "work.racka.reluct.compose.common.theme"
+    // Provide resources directory to Android
+    sourceSets["main"].apply {
+        res.srcDirs("src/androidMain/res", "src/commonMain/resources")
+    }
 }
 
 kotlin {
