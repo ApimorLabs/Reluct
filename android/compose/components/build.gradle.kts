@@ -20,6 +20,8 @@ dependencies {
     implementation(project(":android:compose:theme"))
     implementation(project(":common:model"))
     api(project(":compose-common:charts"))
+    implementation(project(":compose-common:date-time-picker"))
+    implementation(project(":compose-common:pager"))
 
     // Compose
     // Compose
@@ -31,9 +33,6 @@ dependencies {
 
     // DateTime
     implementation(libs.kotlinx.date.time)
-
-    // Accompanist: Keep an eye out for deprecated features
-    implementation(libs.accompanist.pager)
 
     // Palette
     implementation(libs.palette)

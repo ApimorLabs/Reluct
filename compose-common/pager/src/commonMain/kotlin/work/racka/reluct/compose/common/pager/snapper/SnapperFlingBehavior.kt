@@ -99,7 +99,7 @@ public fun rememberSnapperFlingBehavior(
  */
 @ExperimentalSnapperApi
 @Composable
-public inline fun rememberSnapperFlingBehavior(
+public fun rememberSnapperFlingBehavior(
     layoutInfo: SnapperLayoutInfo,
     decayAnimationSpec: DecayAnimationSpec<Float> = rememberSplineBasedDecay(),
     springAnimationSpec: AnimationSpec<Float> = SnapperFlingBehaviorDefaults.SpringAnimationSpec,
