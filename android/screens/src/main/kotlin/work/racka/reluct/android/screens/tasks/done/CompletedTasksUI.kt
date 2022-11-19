@@ -25,13 +25,13 @@ import work.racka.reluct.android.compose.components.cards.taskEntry.TaskEntry
 import work.racka.reluct.android.compose.components.dialogs.FullScreenLoading
 import work.racka.reluct.android.compose.components.util.BarsVisibility
 import work.racka.reluct.android.compose.components.util.rememberScrollContext
-import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.android.screens.R
 import work.racka.reluct.android.screens.tasks.components.FullEmptyTasksIndicator
 import work.racka.reluct.android.screens.util.BottomBarVisibilityHandler
 import work.racka.reluct.android.screens.util.FetchMoreDataHandler
 import work.racka.reluct.common.model.domain.tasks.Task
 import work.racka.reluct.common.model.states.tasks.CompletedTasksState
+import work.racka.reluct.compose.common.theme.Dimens
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -100,7 +100,7 @@ internal fun CompletedTasksUI(
                 modifier = Modifier.padding(bottom = mainScaffoldPadding.calculateBottomPadding()),
                 isLoadingProvider = {
                     uiState.value is CompletedTasksState.Loading &&
-                        uiState.value.tasksData.isEmpty()
+                            uiState.value.tasksData.isEmpty()
                 }
             )
 
@@ -108,7 +108,7 @@ internal fun CompletedTasksUI(
             FullEmptyTasksIndicator(
                 showAnimationProvider = {
                     uiState.value !is CompletedTasksState.Loading &&
-                        uiState.value.tasksData.isEmpty()
+                            uiState.value.tasksData.isEmpty()
                 },
                 modifier = Modifier.padding(bottom = mainScaffoldPadding.calculateBottomPadding())
             )

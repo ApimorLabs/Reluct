@@ -22,8 +22,8 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import work.racka.reluct.android.compose.components.R
-import work.racka.reluct.android.compose.theme.Dimens
-import work.racka.reluct.android.compose.theme.Shapes
+import work.racka.reluct.compose.common.theme.Dimens
+import work.racka.reluct.compose.common.theme.Shapes
 
 /**
  * This is the base top bar for the app

@@ -19,8 +19,8 @@ import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import work.racka.reluct.android.compose.components.R
-import work.racka.reluct.android.compose.theme.ReluctAppTheme
-import work.racka.reluct.android.compose.theme.Shapes
+import work.racka.reluct.compose.common.theme.ReluctAppTheme
+import work.racka.reluct.compose.common.theme.Shapes
 
 @Composable
 fun ProfilePicture(

@@ -32,8 +32,8 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import work.racka.reluct.android.compose.theme.Dimens
-import work.racka.reluct.android.compose.theme.Shapes
+import work.racka.reluct.compose.common.theme.Dimens
+import work.racka.reluct.compose.common.theme.Shapes
 
 @Composable
 fun ReluctTextField(

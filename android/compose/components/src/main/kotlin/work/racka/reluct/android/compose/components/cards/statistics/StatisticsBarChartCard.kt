@@ -13,9 +13,9 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import kotlinx.collections.immutable.ImmutableList
-import work.racka.reluct.android.compose.theme.Dimens
-import work.racka.reluct.android.compose.theme.Shapes
 import work.racka.reluct.compose.common.charts.barChart.BarChartData
+import work.racka.reluct.compose.common.theme.Dimens
+import work.racka.reluct.compose.common.theme.Shapes
 
 @Composable
 internal fun StatisticsBarChartCard(

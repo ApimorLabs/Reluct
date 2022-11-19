@@ -26,9 +26,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import work.racka.reluct.android.compose.components.R
-import work.racka.reluct.android.compose.theme.Dimens
-import work.racka.reluct.android.compose.theme.ReluctAppTheme
-import work.racka.reluct.android.compose.theme.Shapes
+import work.racka.reluct.compose.common.theme.Dimens
+import work.racka.reluct.compose.common.theme.ReluctAppTheme
+import work.racka.reluct.compose.common.theme.Shapes
 
 /**
  * Collapsing Toolbar that can be used in a topBar slot of Scaffold.

@@ -22,8 +22,6 @@ import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
 import work.racka.reluct.android.compose.components.R
 import work.racka.reluct.android.compose.components.buttons.ReluctButton
-import work.racka.reluct.android.compose.theme.Dimens
-import work.racka.reluct.android.compose.theme.Shapes
 import work.racka.reluct.common.model.util.time.TimeUtils
 import work.racka.reluct.compose.common.date.time.picker.core.DateTimeDialogButtonText
 import work.racka.reluct.compose.common.date.time.picker.core.DateTimeDialogProperties
@@ -31,6 +29,8 @@ import work.racka.reluct.compose.common.date.time.picker.core.DateTimeDialogStat
 import work.racka.reluct.compose.common.date.time.picker.core.rememberDateTimeDialogState
 import work.racka.reluct.compose.common.date.time.picker.date.DatePicker
 import work.racka.reluct.compose.common.date.time.picker.time.Timepicker
+import work.racka.reluct.compose.common.theme.Dimens
+import work.racka.reluct.compose.common.theme.Shapes
 
 @Composable
 internal fun DateTimePills(

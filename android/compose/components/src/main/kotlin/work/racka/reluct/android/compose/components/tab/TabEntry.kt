@@ -16,8 +16,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.zIndex
-import work.racka.reluct.android.compose.theme.Dimens
-import work.racka.reluct.android.compose.theme.ReluctAppTheme
+import work.racka.reluct.compose.common.theme.Dimens
+import work.racka.reluct.compose.common.theme.ReluctAppTheme
 
 @Composable
 fun TabEntry(

@@ -8,7 +8,7 @@ import androidx.glance.layout.*
 import androidx.glance.text.FontWeight
 import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
-import work.racka.reluct.android.compose.theme.Dimens
+import work.racka.reluct.compose.common.theme.Dimens
 import work.racka.reluct.widgets.core.GlanceTheme
 
 @Composable

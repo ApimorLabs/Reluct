@@ -1,10 +1,10 @@
 package work.racka.reluct.compose.common.theme.util
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.platform.Font
-import androidx.compose.ui.text.font.Font
 
 @Composable
 actual fun fontResources(

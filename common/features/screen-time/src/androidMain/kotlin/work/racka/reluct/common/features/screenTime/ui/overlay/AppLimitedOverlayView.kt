@@ -10,10 +10,10 @@ import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
-import work.racka.reluct.android.compose.theme.ReluctAppTheme
-import work.racka.reluct.android.compose.theme.Theme
 import work.racka.reluct.common.features.screenTime.statistics.AppScreenTimeStatsViewModel
 import work.racka.reluct.common.settings.MultiplatformSettings
+import work.racka.reluct.compose.common.theme.ReluctAppTheme
+import work.racka.reluct.compose.common.theme.Theme
 
 internal class AppLimitedOverlayView(
     private val context: Context,

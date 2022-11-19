@@ -18,10 +18,10 @@ import work.racka.reluct.android.compose.components.buttons.ReluctButton
 import work.racka.reluct.android.compose.components.numberPicker.FullHours
 import work.racka.reluct.android.compose.components.numberPicker.Hours
 import work.racka.reluct.android.compose.components.numberPicker.HoursNumberPicker
-import work.racka.reluct.android.compose.theme.Dimens
-import work.racka.reluct.android.compose.theme.Shapes
 import work.racka.reluct.android.screens.R
 import work.racka.reluct.common.model.domain.limits.AppTimeLimit
+import work.racka.reluct.compose.common.theme.Dimens
+import work.racka.reluct.compose.common.theme.Shapes
 
 @Composable
 fun AppTimeLimitDialog(

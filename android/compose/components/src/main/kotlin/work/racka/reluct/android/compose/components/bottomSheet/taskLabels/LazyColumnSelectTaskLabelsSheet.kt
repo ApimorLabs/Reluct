@@ -22,9 +22,9 @@ import work.racka.reluct.android.compose.components.buttons.ReluctButton
 import work.racka.reluct.android.compose.components.cards.taskLabelEntry.TaskLabelEntry
 import work.racka.reluct.android.compose.components.cards.taskLabelEntry.TaskLabelsEntryMode
 import work.racka.reluct.android.compose.components.images.LottieAnimationWithDescription
-import work.racka.reluct.android.compose.theme.Dimens
-import work.racka.reluct.android.compose.theme.Shapes
 import work.racka.reluct.common.model.domain.tasks.TaskLabel
+import work.racka.reluct.compose.common.theme.Dimens
+import work.racka.reluct.compose.common.theme.Shapes
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable

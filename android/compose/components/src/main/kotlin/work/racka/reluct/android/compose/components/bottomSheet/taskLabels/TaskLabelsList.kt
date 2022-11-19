@@ -17,8 +17,8 @@ import androidx.compose.ui.unit.dp
 import kotlinx.collections.immutable.ImmutableList
 import work.racka.reluct.android.compose.components.R
 import work.racka.reluct.android.compose.components.cards.taskLabelEntry.TaskLabelPill
-import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.common.model.domain.tasks.TaskLabel
+import work.racka.reluct.compose.common.theme.Dimens
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

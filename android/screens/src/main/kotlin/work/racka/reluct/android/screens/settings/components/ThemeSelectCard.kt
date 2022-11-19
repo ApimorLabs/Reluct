@@ -11,8 +11,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import work.racka.reluct.android.compose.components.cards.cardWithActions.ReluctDescriptionCard
-import work.racka.reluct.android.compose.theme.Theme
 import work.racka.reluct.android.screens.R
+import work.racka.reluct.compose.common.theme.Theme
 
 @Composable
 internal fun ThemeSelectCard(

@@ -47,8 +47,8 @@ kotlin {
                 implementation(libs.savedState)
 
                 // Compose
-                implementation(project(":android:compose:theme"))
                 implementation(project(":android:compose:components"))
+                implementation(project(":compose-common:theme"))
                 implementation(libs.bundles.compose.core)
                 implementation(libs.viewmodel.compose)
 

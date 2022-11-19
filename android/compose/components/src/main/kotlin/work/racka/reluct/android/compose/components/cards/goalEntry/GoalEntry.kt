@@ -31,10 +31,10 @@ import work.racka.reluct.android.compose.components.cards.cardWithActions.Reluct
 import work.racka.reluct.android.compose.components.textfields.texts.EntryDescription
 import work.racka.reluct.android.compose.components.textfields.texts.EntryHeading
 import work.racka.reluct.android.compose.components.util.PreviewData
-import work.racka.reluct.android.compose.theme.Dimens
-import work.racka.reluct.android.compose.theme.ReluctAppTheme
-import work.racka.reluct.android.compose.theme.Shapes
 import work.racka.reluct.common.model.domain.goals.Goal
+import work.racka.reluct.compose.common.theme.Dimens
+import work.racka.reluct.compose.common.theme.ReluctAppTheme
+import work.racka.reluct.compose.common.theme.Shapes
 
 @Composable
 fun GoalEntry(
@@ -88,7 +88,7 @@ fun GoalEntry(
         modifier = Modifier
             .clip(shape)
             .background(containerColor)
-            then modifier,
+                then modifier,
         contentAlignment = Alignment.Center
     ) {
         ReluctDescriptionCard(

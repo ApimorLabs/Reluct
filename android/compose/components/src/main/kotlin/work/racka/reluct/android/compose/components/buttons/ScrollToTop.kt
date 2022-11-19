@@ -16,7 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import work.racka.reluct.android.compose.components.R
 import work.racka.reluct.android.compose.components.util.ScrollContext
-import work.racka.reluct.android.compose.theme.Dimens
+import work.racka.reluct.compose.common.theme.Dimens
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable

@@ -27,7 +27,6 @@ import work.racka.reluct.android.compose.components.cards.taskEntry.TaskEntry
 import work.racka.reluct.android.compose.components.images.LottieAnimationWithDescription
 import work.racka.reluct.android.compose.components.util.BarsVisibility
 import work.racka.reluct.android.compose.components.util.rememberScrollContext
-import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.android.screens.dashboard.components.getScreenTimePieChartData
 import work.racka.reluct.android.screens.screentime.components.UsagePermissionDialog
 import work.racka.reluct.android.screens.util.*
@@ -36,6 +35,7 @@ import work.racka.reluct.common.features.dashboard.overview.states.TodayScreenTi
 import work.racka.reluct.common.features.dashboard.overview.states.TodayTasksState
 import work.racka.reluct.common.model.domain.goals.Goal
 import work.racka.reluct.common.model.domain.tasks.Task
+import work.racka.reluct.compose.common.theme.Dimens
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

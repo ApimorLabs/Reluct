@@ -26,8 +26,6 @@ import work.racka.reluct.android.compose.components.cards.statistics.screenTime.
 import work.racka.reluct.android.compose.components.cards.statistics.tasks.TasksStatisticsCard
 import work.racka.reluct.android.compose.components.util.BarsVisibility
 import work.racka.reluct.android.compose.components.util.rememberScrollContext
-import work.racka.reluct.android.compose.theme.Dimens
-import work.racka.reluct.android.compose.theme.Shapes
 import work.racka.reluct.android.screens.screentime.components.ShowAppTimeLimitDialog
 import work.racka.reluct.android.screens.screentime.components.getWeeklyDeviceScreenTimeChartData
 import work.racka.reluct.android.screens.tasks.components.getWeeklyTasksBarChartData
@@ -38,6 +36,8 @@ import work.racka.reluct.common.features.screenTime.statistics.states.allStats.W
 import work.racka.reluct.common.model.domain.usagestats.AppUsageInfo
 import work.racka.reluct.common.model.states.tasks.TasksStatisticsState
 import work.racka.reluct.common.model.states.tasks.WeeklyTasksState
+import work.racka.reluct.compose.common.theme.Dimens
+import work.racka.reluct.compose.common.theme.Shapes
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable

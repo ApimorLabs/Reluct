@@ -22,13 +22,13 @@ import work.racka.reluct.android.compose.components.cards.headers.ListGroupHeadi
 import work.racka.reluct.android.compose.components.cards.statistics.BarChartDefaults
 import work.racka.reluct.android.compose.components.cards.statistics.screenTime.ScreenTimeStatisticsCard
 import work.racka.reluct.android.compose.components.dialogs.CircularProgressDialog
-import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.android.screens.R
 import work.racka.reluct.android.screens.screentime.components.*
 import work.racka.reluct.common.features.screenTime.statistics.states.appStats.AppScreenTimeStatsState
 import work.racka.reluct.common.features.screenTime.statistics.states.appStats.AppSettingsState
 import work.racka.reluct.common.features.screenTime.statistics.states.appStats.DailyAppUsageStatsState
 import work.racka.reluct.common.features.screenTime.statistics.states.appStats.WeeklyAppUsageStatsState
+import work.racka.reluct.compose.common.theme.Dimens
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable

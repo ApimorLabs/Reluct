@@ -19,10 +19,10 @@ android.apply {
 dependencies {
     // Dependency Modules
     implementation(project(":common:model"))
-    implementation(project(":android:compose:theme"))
     implementation(project(":android:compose:components"))
     implementation(project(":android:compose:navigation"))
     implementation(project(":common:domain"))
+    implementation(project(":compose-common:theme"))
 
     // Core Functionality
     implementation(libs.core.ktx)

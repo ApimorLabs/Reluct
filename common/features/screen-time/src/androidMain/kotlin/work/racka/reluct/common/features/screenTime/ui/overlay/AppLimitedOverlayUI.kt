@@ -27,8 +27,6 @@ import work.racka.reluct.android.compose.components.cards.cardWithActions.Reluct
 import work.racka.reluct.android.compose.components.cards.statistics.BarChartDefaults
 import work.racka.reluct.android.compose.components.cards.statistics.ChartData
 import work.racka.reluct.android.compose.components.cards.statistics.screenTime.ScreenTimeStatisticsCard
-import work.racka.reluct.android.compose.theme.Dimens
-import work.racka.reluct.android.compose.theme.Shapes
 import work.racka.reluct.common.features.screenTime.R
 import work.racka.reluct.common.features.screenTime.statistics.AppScreenTimeStatsViewModel
 import work.racka.reluct.common.features.screenTime.statistics.states.appStats.AppSettingsState
@@ -38,6 +36,8 @@ import work.racka.reluct.common.features.screenTime.ui.components.AppNameEntry
 import work.racka.reluct.common.model.domain.usagestats.AppUsageStats
 import work.racka.reluct.common.model.util.time.Week
 import work.racka.reluct.compose.common.charts.barChart.BarChartData
+import work.racka.reluct.compose.common.theme.Dimens
+import work.racka.reluct.compose.common.theme.Shapes
 
 @Composable
 internal fun AppLimitedOverlayUI(

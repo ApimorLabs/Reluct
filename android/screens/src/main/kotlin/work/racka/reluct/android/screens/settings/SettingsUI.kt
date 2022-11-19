@@ -19,7 +19,6 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import work.racka.reluct.android.compose.components.cards.cardWithActions.ReluctDescriptionCard
 import work.racka.reluct.android.compose.components.topBar.ReluctSmallTopAppBar
-import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.android.screens.R
 import work.racka.reluct.android.screens.screentime.components.LimitsDetailsCard
 import work.racka.reluct.android.screens.screentime.components.LimitsSwitchCard
@@ -28,6 +27,7 @@ import work.racka.reluct.android.screens.settings.components.CoffeeProductsSheet
 import work.racka.reluct.android.screens.settings.components.ThemesDialog
 import work.racka.reluct.common.billing.products.Product
 import work.racka.reluct.common.features.settings.states.SettingsState
+import work.racka.reluct.compose.common.theme.Dimens
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class)
 @Composable

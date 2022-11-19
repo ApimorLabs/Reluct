@@ -19,7 +19,7 @@ import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
-import work.racka.reluct.android.compose.theme.Dimens
+import work.racka.reluct.compose.common.theme.Dimens
 
 @Composable
 fun LottieAnimationWithDescription(
