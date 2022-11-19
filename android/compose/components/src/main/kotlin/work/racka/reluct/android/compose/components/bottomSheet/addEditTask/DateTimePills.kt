@@ -22,14 +22,15 @@ import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
 import work.racka.reluct.android.compose.components.R
 import work.racka.reluct.android.compose.components.buttons.ReluctButton
-import work.racka.reluct.android.compose.components.datetime.core.MaterialDialog
-import work.racka.reluct.android.compose.components.datetime.core.MaterialDialogState
-import work.racka.reluct.android.compose.components.datetime.core.rememberMaterialDialogState
-import work.racka.reluct.android.compose.components.datetime.date.DatePicker
-import work.racka.reluct.android.compose.components.datetime.time.Timepicker
 import work.racka.reluct.android.compose.theme.Dimens
 import work.racka.reluct.android.compose.theme.Shapes
 import work.racka.reluct.common.model.util.time.TimeUtils
+import work.racka.reluct.compose.common.date.time.picker.core.DateTimeDialogButtonText
+import work.racka.reluct.compose.common.date.time.picker.core.DateTimeDialogProperties
+import work.racka.reluct.compose.common.date.time.picker.core.DateTimeDialogState
+import work.racka.reluct.compose.common.date.time.picker.core.rememberDateTimeDialogState
+import work.racka.reluct.compose.common.date.time.picker.date.DatePicker
+import work.racka.reluct.compose.common.date.time.picker.time.Timepicker
 
 @Composable
 internal fun DateTimePills(
@@ -40,8 +41,20 @@ internal fun DateTimePills(
     hasError: Boolean = false,
     errorText: String = "",
 ) {
-    val dateDialogState = rememberMaterialDialogState()
-    val timeDialogState = rememberMaterialDialogState()
+    val dateDialogState = rememberDateTimeDialogState(
+        dialogProperties = DateTimeDialogProperties(shape = dialogShape),
+        buttonText = DateTimeDialogButtonText(
+            positiveText = stringResource(id = R.string.positive_dialog_button),
+            negativeText = stringResource(id = R.string.negative_dialog_button)
+        )
+    )
+    val timeDialogState = rememberDateTimeDialogState(
+        dialogProperties = DateTimeDialogProperties(shape = dialogShape),
+        buttonText = DateTimeDialogButtonText(
+            positiveText = stringResource(id = R.string.positive_dialog_button),
+            negativeText = stringResource(id = R.string.negative_dialog_button)
+        )
+    )
 
     val pillContainerColor by animateColorAsState(
         targetValue = if (hasError) {
@@ -77,7 +90,6 @@ internal fun DateTimePills(
     }
 
     DateAndTimeMaterialDialogs(
-        shape = dialogShape,
         initialLocalDateTime = currentLocalDateTime,
         dateDialogState = dateDialogState,
         timeDialogState = timeDialogState,
@@ -129,64 +141,45 @@ internal fun DateTimePills(
 @Composable
 private fun DateAndTimeMaterialDialogs(
     initialLocalDateTime: LocalDateTime,
-    dateDialogState: MaterialDialogState,
-    timeDialogState: MaterialDialogState,
+    dateDialogState: DateTimeDialogState,
+    timeDialogState: DateTimeDialogState,
     onLocalDateTimeChange: (dateChange: LocalDateTime?, timeChange: LocalDateTime?) -> Unit,
-    shape: Shape = Shapes.large,
 ) {
     // Date
-    MaterialDialog(
-        dialogState = dateDialogState,
-        shape = shape,
-        buttons = {
-            PositiveButton(text = stringResource(id = R.string.positive_dialog_button))
-            NegativeButton(text = stringResource(id = R.string.negative_dialog_button))
-        },
-        content = {
-            DatePicker(
-                initialDate = LocalDate(
-                    initialLocalDateTime.year,
-                    initialLocalDateTime.monthNumber,
-                    initialLocalDateTime.dayOfMonth
-                )
-            ) { date ->
-                val dateTime = LocalDateTime(
-                    date.year,
-                    date.monthNumber,
-                    date.dayOfMonth,
-                    initialLocalDateTime.hour,
-                    initialLocalDateTime.minute,
-                    initialLocalDateTime.second,
-                    initialLocalDateTime.nanosecond
-                )
-                onLocalDateTimeChange(dateTime, null)
-            }
-        }
-    )
+    DatePicker(
+        initialDate = LocalDate(
+            initialLocalDateTime.year,
+            initialLocalDateTime.monthNumber,
+            initialLocalDateTime.dayOfMonth
+        ),
+        dialogState = dateDialogState
+    ) { date ->
+        val dateTime = LocalDateTime(
+            date.year,
+            date.monthNumber,
+            date.dayOfMonth,
+            initialLocalDateTime.hour,
+            initialLocalDateTime.minute,
+            initialLocalDateTime.second,
+            initialLocalDateTime.nanosecond
+        )
+        onLocalDateTimeChange(dateTime, null)
+    }
 
     // Time
-    MaterialDialog(
+    Timepicker(
         dialogState = timeDialogState,
-        shape = shape,
-        buttons = {
-            PositiveButton(text = stringResource(id = R.string.positive_dialog_button))
-            NegativeButton(text = stringResource(id = R.string.negative_dialog_button))
-        },
-        content = {
-            Timepicker(
-                initialTime = initialLocalDateTime
-            ) { dateTime ->
-                val newDateTime = LocalDateTime(
-                    initialLocalDateTime.year,
-                    initialLocalDateTime.monthNumber,
-                    initialLocalDateTime.dayOfMonth,
-                    dateTime.hour,
-                    dateTime.minute,
-                    dateTime.second,
-                    dateTime.nanosecond
-                )
-                onLocalDateTimeChange(null, newDateTime)
-            }
-        }
-    )
+        initialTime = initialLocalDateTime
+    ) { dateTime ->
+        val newDateTime = LocalDateTime(
+            initialLocalDateTime.year,
+            initialLocalDateTime.monthNumber,
+            initialLocalDateTime.dayOfMonth,
+            dateTime.hour,
+            dateTime.minute,
+            dateTime.second,
+            dateTime.nanosecond
+        )
+        onLocalDateTimeChange(null, newDateTime)
+    }
 }
