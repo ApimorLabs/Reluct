@@ -1,0 +1,281 @@
+<resources>
+    <string name="app_name">Reluct</string>
+    <string name="developer_name">Racka Apps</string>
+    <string name="copyright_year">© 2022</string>
+    <string name="app_version">App Version: %1$s</string>
+
+    <string name="name_text">Name</string>
+    <string name="name_error_text">Name can not be empty</string>
+    <string name="next_text">Next</string>
+    <string name="back_text">Back</string>
+    <string name="continue_text">Continue</string>
+    <string name="invalid_value_text">Invalid Value</string>
+    <string name="search_icon">Search Icon</string>
+    <string name="option_icon">Options</string>
+    <string name="back_icon">Go Back</string>
+    <string name="clear_icon">Clear Input</string>
+    <string name="add_icon">Add Icon</string>
+    <string name="up_icon">Up Arrow Icon</string>
+    <string name="no_description_text">No Description</string>
+    <string name="time_limit_settings_icon">Time Limit Settings Icon</string>
+    <string name="scroll_to_top">Scroll to the top</string>
+    <string name="external_link">Open External Link</string>
+    <string name="expand_icon">Show More / Show Less</string>
+    <string name="settings_icon">Settings</string>
+    <string name="discard_changes_text">Discard Changes</string>
+    <string name="close_icon">Close</string>
+    <string name="app_logo">Application Logo</string>
+    <string name="profile_picture">Profile Picture</string>
+    <string name="made_with_text">Made with ❤️ from Tanzania 🇹🇿</string>
+
+    <!-- Navigation Destination Names    -->
+    <string name="dashboard_destination_text">Dashboard</string>
+    <string name="tasks_destination_text">Tasks</string>
+    <string name="screen_time_destination_text">Screen Time</string>
+    <string name="goals_destination_text">Goals</string>
+
+    <string name="overdue_text">Overdue</string>
+    <string name="in_time_text">In Time</string>
+
+    <string name="checkbox_checked">Checkbox - Checked</string>
+    <string name="checkbox_unchecked">Checkbox - Unchecked</string>
+
+    <string name="positive_dialog_button">OK</string>
+    <string name="negative_dialog_button">Cancel</string>
+
+    <string name="add_task">Add Task</string>
+    <string name="new_task_label_text">New Task Label</string>
+    <string name="edit_task">Edit Task</string>
+    <string name="task_title_hint">Task name</string>
+    <string name="description_hint">Description</string>
+    <string name="task_title_error_text">Task Name can not be empty</string>
+    <string name="task_to_be_done_at_text">To Be Done At</string>
+    <string name="reminder_at">Remind At</string>
+    <string name="set_reminder">Set a reminder</string>
+    <string name="set_reminder_desc">Remind you about the task at set time</string>
+    <string name="reminder_time_error_text">This date &amp; time can not be smaller than or equal to
+        the set DUE date &amp; time. Changes have been Rejected!</string>
+
+    <string name="turn_on_focus_mode">Turn On Focus Mode</string>
+    <string name="turn_on_focus_mode_desc">Selected apps will be disabled</string>
+
+    <string name="task_info_due_text">Due: %1$s - %2$s</string>
+    <string name="task_info_reminder_text">Reminder: %1$s</string>
+    <string name="task_completed_date_time_text">Completed: %1$s</string>
+
+    <string name="no_completed_tasks_text">No Completed Tasks</string>
+    <string name="weekly_task_count_arg">You have %1s tasks this week</string>
+    <string name="tasks_tally_text_arg">%1s of %2s Tasks Done</string>
+
+    <string name="no_app_usage_data_text">No Usage Data Found</string>
+    <string name="weekly_screen_time_tally">%1s this week</string>
+
+    <string name="loading_text">Loading…</string>
+    <string name="new_task_button_text">New Task</string>
+    <string name="add_task_button_text">Add Task</string>
+    <string name="edit_button_text">Edit</string>
+    <string name="delete_button_text">Delete</string>
+    <string name="go_back_button_text">Go Back</string>
+    <string name="save_button_text">Save</string>
+    <string name="discard_button_text">Discard</string>
+    <string name="edit_task_text">Edit Task</string>
+    <string name="task_details_text">Task Details</string>
+    <string name="tasks_stats_text">Tasks Statistics</string>
+    <string name="tasks_text">Tasks</string>
+    <string name="add_task_text">Add Task</string>
+    <string name="no_tasks_text">No Tasks</string>
+    <string name="search_not_found_text">Nothing to see here…</string>
+    <string name="search_tasks_hint_text">Search Tasks…</string>
+    <string name="task_not_found_text">Task Not Found</string>
+    <string name="task_saved_text">Task Saved</string>
+    <string name="task_saved_success_text">Task Saved Successfully</string>
+
+    <string name="overdue_tasks_header">Overdue</string>
+    <string name="not_done_tasks_header">Not Done</string>
+    <string name="done_tasks_header">Done</string>
+    <string name="app_list_header">Apps</string>
+    <string name="focus_mode_header">Focus Mode</string>
+    <string name="distractions_header">Distractions</string>
+    <string name="app_settings_header">App Settings</string>
+
+    <string name="task_marked_as_done">%1$s Marked As Done</string>
+    <string name="task_marked_as_not_done">%1$s Marked As Pending</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="delete_task_message">This action will permanently delete the current Task</string>
+    <string name="delete_task">Delete Task</string>
+    <string name="discard_task">Discard Task</string>
+    <string name="discard_task_message">This action will discard all the current changes</string>
+    <string name="select_task_labels_text">Select Task Labels</string>
+    <string name="task_label_text">Task Label</string>
+    <string name="task_labels_text">Task Labels</string>
+    <string name="no_saved_label_text">No Saved Labels</string>
+    <string name="no_selected_labels_text">No Selected Labels</string>
+
+    <string name="time_limit_change_arg">Screen Time Limit for %1$s changed</string>
+
+    <string name="screen_time_text">Screen Time</string>
+    <string name="app_time_limit">Screen Time Limit</string>
+    <string name="distracting_app">Distracting App</string>
+    <string name="distracting_app_desc">Set as Distracting App for Focus Mode</string>
+    <string name="turn_on_focus">Turn On Focus Mode</string>
+    <string name="turn_on_focus_desc">Block Distracting Apps from opening</string>
+    <string name="turn_on_dnd">Turn On Do Not Disturb</string>
+    <string name="turn_on_dnd_desc">Enable Do Not Disturb when Focus Mode is ON</string>
+    <string name="dnd_on_msg">Do not Disturb will be turned on with Focus Mode</string>
+    <string name="dnd_off_msg">Do not Disturb will not engage with Focus Mode</string>
+    <string name="focus_mode_on_msg">Focus Mode turned ON</string>
+    <string name="focus_mode_off_msg">Focus Mode turned OFF</string>
+    <string name="manage_distracting_apps">Manage Distracting Apps</string>
+    <string name="manage_distracting_apps_desc">Configure your Distracting Apps</string>
+    <string name="manually_pause_apps">Manually Pause Apps</string>
+    <string name="manually_pause_app">Manually Pause App</string>
+    <string name="manually_pause_app_desc">App will be paused for the whole day</string>
+    <string name="manually_pause_apps_desc">Select Apps to pause for the whole day</string>
+    <string name="app_blocking_turned_on_text">App Blocking Turned ON</string>
+    <string name="app_blocking_turned_off_text">App Blocking Turned OFF</string>
+    <string name="turn_on_app_blocking_text">Turn on App Blocking</string>
+    <string name="app_blocking_text">App Blocking</string>
+    <string name="app_blocking_desc_text">Enabled Blocking Apps defined by the set Screen Time limits
+    and Focus Mode states. This feature may use more battery as it will be running in the background!</string>
+
+    <string name="no_usage_data_text">No Usage Data Found</string>
+    <string name="no_paused_apps_text">No Paused Apps</string>
+    <string name="no_apps_text">No Apps</string>
+
+    <string name="distracting_apps_text">Distracting Apps</string>
+    <string name="non_distracting_apps_text">Non Distracting Apps</string>
+    <string name="paused_apps_text">Paused Apps</string>
+    <string name="apps_text">Apps</string>
+
+    <string name="open_settings_dialog_title">Open Device Settings</string>
+    <string name="usage_permissions_details">This app needs access to your device\'s Usage Statistics to show Screen Time Usage Data.
+        This data is not shared to anyone else! Please review our Privacy Policy regarding this. </string>
+    <string name="usage_permissions_rationale_dialog_text">You are about to be sent to the Usage Access permissions
+    screen. Please select the Reluct app and Allow Usage Access to see your Screen Time</string>
+    <string name="overlay_permissions_rationale_dialog_text">You are about to be sent to the Display Over Other Apps settings
+    screen. Please select the Reluct app and Allow it to Display Over Other Apps to block distracting and paused apps</string>
+    <string name="reminders_permissions_rationale_dialog_text">You are about to be sent to the Alarms &amp; Reminders settings
+    screen. Please select the Reluct app and Allow it to set Alarms &amp; Reminders for your Tasks</string>
+    <string name="find_draw_over_apps_text">Find Display of Other Apps Permission in Settings and enable it for the Reluct App</string>
+    <string name="allow_permission">Allow</string>
+    <string name="click_to_grant_text">Click to Grant Permission</string>
+    <string name="permission_granted_text">Permission Granted</string>
+
+    <string name="unlocks_text">Unlocks</string>
+    <string name="today_tasks_text">Today\'s Tasks</string>
+    <string name="upcoming_tasks_text">Upcoming Tasks</string>
+    <string name="view_all_text">View All</string>
+
+    <!-- Settings  -->
+    <string name="settings_text">Settings</string>
+    <!-- Settings END  -->
+
+    <!--  On Boarding Text  -->
+    <string name="welcome_text">Manage your Tasks and Goals while keeping an eye on your phone usage habits</string>
+    <string name="tasks_highlight_text">Tasks</string>
+    <string name="goals_highlight_text">Goals</string>
+
+    <string name="privacy_policy_terms_text">By continuing you are Agreeing with the Privacy Policy and Terms of Service</string>
+    <string name="privacy_policy_hyperlink_text">Privacy Policy</string>
+    <string name="privacy_policy_hyperlink_url" translatable="false">https://www.racka.work/policies/reluct/privacy-policy</string>
+    <string name="terms_of_service_hyperlink_text">Terms of Service</string>
+    <string name="terms_of_service_hyperlink_url" translatable="false">https://www.racka.work/policies/reluct/terms-of-service</string>
+    <string name="privacy_policy_n_terms_hyperlink_text">Privacy Policy &amp; Terms of Service</string>
+    <string name="reluct_polices_hyperlink_url" translatable="false">https://www.racka.work/policies/reluct</string>
+
+    <string name="permissions_text">Permissions</string>
+    <string name="permissions_desc_text">We need some permissions on this device for the App to function properly.
+        Press Next to continue</string>
+    <string name="notifications_text">Notifications</string>
+    <string name="notifications_desc_text">This App needs Notification Permission to be able to send Task reminders, Service notifications and Important Updates.
+        Allow Notification Permission when prompted</string>
+    <string name="alarms_and_reminders_text">Alarms &amp; Reminders</string>
+    <string name="alarms_and_reminders_desc_text">This App needs the Alarms &amp; Reminders Permission to be able to Schedule Tasks and Goals Reminders.
+        Allow Alarms &amp; Reminders Permission</string>
+    <string name="usage_access_text">Usage Access</string>
+    <string name="usage_access_desc_text">This App needs Usage Access permission to show Device Screen Time usage and it’s statistics.
+        Allow Usage Access Permission in Settings</string>
+    <string name="display_over_apps_text">Display Over Other Apps</string>
+    <string name="display_over_apps_desc_text">Overlay (Display over other Apps) permission needed to block Distracting and Paused Apps so you can focus on your Tasks.
+        Allow Display Over other App Permission</string>
+    <string name="themes_text">Themes</string>
+    <string name="themes_changed_text">Theme has been changed</string>
+    <string name="themes_desc_text">Select Your Preferred Theme Configuration</string>
+    <string name="all_set_text">All Set!</string>
+    <string name="all_set_desc_text">Everything has been set up. You can continue!</string>
+
+    <!--  Theme Names and Description  -->
+    <string name="default_theme_system">Default - Follow System</string>
+    <string name="default_theme_system_desc">Follow Device Settings</string>
+    <string name="material_you_theme_text">Material You</string>
+    <string name="material_you_theme_text_desc">Android 12+ Dynamic Theme</string>
+    <string name="light_theme_text">Light Theme</string>
+    <string name="light_theme_text_desc">See the Light within!</string>
+    <string name="dark_theme_text">Dark Theme</string>
+    <string name="dark_theme_text_desc">Join the Dark side!</string>
+
+    <!--  Goal Types Text  -->
+    <string name="goal_type_text">Goal Type</string>
+    <string name="app_screen_time_goal_type">App(s) Screen Time</string>
+    <string name="device_screen_time_goal_type">Device Screen Time</string>
+    <string name="tasks_goal_type">Task(s)</string>
+    <string name="numeral_goal_type">Value Based</string>
+
+    <!--  Goal Interval Text  -->
+    <string name="interval_text">Interval</string>
+    <string name="daily_interval_text">Daily</string>
+    <string name="weekly_interval_text">Weekly</string>
+    <string name="custom_interval_text">Custom</string>
+
+    <!--  Goal Edit Labels  -->
+    <string name="goal_name_text">Goal Name</string>
+    <string name="goal_name_error_text">Goal Name can not be empty</string>
+    <string name="number_of_tasks_text">Number of Tasks</string>
+    <string name="select_number_of_tasks_txt">Select Number of Tasks</string>
+    <string name="enter_number_of_tasks_txt">Enter Number of Tasks</string>
+    <string name="enter_target_value">Enter Target Value</string>
+    <string name="enter_current_value">Enter Current Value</string>
+    <string name="target_value_txt">Target Value</string>
+    <string name="current_value_txt">Current Value</string>
+    <string name="start_time_txt">Start Time</string>
+    <string name="end_time_txt">End Time</string>
+    <string name="choose_days_txt">Choose Days of Week</string>
+    <string name="no_goals_text">No Goals</string>
+    <string name="new_goal_text">New Goal</string>
+    <string name="edit_goal_text">Edit Goal</string>
+    <string name="add_goal_text">Add Goal</string>
+    <string name="add_your_goal_text">Add Your Goal</string>
+    <string name="goal_time_error_text">END date &amp; time can not be smaller than or equal to
+        the START date &amp; time. Changes have been Rejected!</string>
+
+    <string name="active_days_text">Active Days</string>
+    <string name="active_goals_text">Active Goals</string>
+    <string name="goal_details_text">Goal Details</string>
+    <string name="saved_goal_value">Goal Saved: %1s</string>
+    <string name="deleted_goal_value">%1s Goal Deleted</string>
+    <string name="goal_marked_active">Goal Marked Active</string>
+    <string name="goal_marked_inactive">Goal Marked Inactive</string>
+    <string name="examples_text">Examples</string>
+    <string name="discard_goal_text">Discard Goal</string>
+    <string name="goal_not_found_text">Goal Not Found</string>
+    <string name="selected_apps_text">Selected Apps</string>
+    <string name="delete_goal_text">Delete Goal</string>
+    <string name="delete_goal_message">This action will permanently delete the current Goal</string>
+    <string name="current_value_value_text">Current Value: %1s</string>
+    <string name="target_value_value_text">Target Value: %1s</string>
+    <string name="sync_text">Sync</string>
+
+    <string name="support_development_text">Support Development</string>
+    <string name="support_development_desc_text">Buy me some coffee to support development of this app</string>
+    <string name="buy_me_coffee_text">Buy me Coffee</string>
+    <string name="no_products_text">No Products</string>
+    <string name="retry_text">Retry</string>
+    <string name="thank_you_text">Thank You!</string>
+    <string name="price_text_value">Price: %1s</string>
+
+    <plurals name="tasks_text">
+        <item quantity="one">%1s Task</item>
+        <item quantity="other">%1s Tasks</item>
+    </plurals>
+</resources>

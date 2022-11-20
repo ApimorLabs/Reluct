@@ -17,6 +17,7 @@ kotlin {
             dependencies {
                 implementation(project(":common:model"))
                 implementation(project(":common:di-integration"))
+                implementation(project(":compose-common:components"))
 
                 implementation(compose.desktop.currentOs)
                 implementation(compose.ui)

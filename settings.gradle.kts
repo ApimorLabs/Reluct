@@ -25,6 +25,7 @@ include(
     ":common:persistence:settings",
     ":common:system-services",
     ":compose-common:charts",
+    ":compose-common:components",
     ":compose-common:date-time-picker",
     ":compose-common:pager",
     ":compose-common:theme",
