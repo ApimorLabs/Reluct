@@ -26,6 +26,7 @@ dependencies {
     implementation(project(":common:features:screen-time"))
     implementation(project(":common:features:settings"))
     implementation(project(":common:features:tasks"))
+    implementation(project(":compose-common:components"))
     implementation(project(":compose-common:theme"))
 
     // Core Functionality

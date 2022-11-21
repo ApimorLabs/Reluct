@@ -11,9 +11,13 @@ android {
     namespace = "work.racka.reluct.compose.common.components"
     buildFeatures { compose = true }
     composeOptions { kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get() }
-
     dependencies {
         debugImplementation(libs.compose.tooling)
+    }
+
+    sourceSets["main"].apply {
+        assets.srcDir(File(buildDir, "generated/moko/androidMain/assets"))
+        res.srcDir(File(buildDir, "generated/moko/androidMain/res"))
     }
 }
 
@@ -32,7 +36,9 @@ kotlin {
                 implementation(project(":compose-common:theme"))
 
                 implementation(compose.runtime)
+                implementation(compose.preview)
                 implementation(compose.ui)
+                implementation(compose.uiTooling)
                 implementation(compose.foundation)
                 implementation(compose.animation)
                 implementation(compose.animationGraphics)
@@ -54,6 +60,7 @@ kotlin {
                 // Compose
                 implementation(libs.bundles.compose.core)
                 api(libs.moko.resources.compose)
+                implementation(libs.lottie.compose)
                 // Palette
                 implementation(libs.palette)
             }

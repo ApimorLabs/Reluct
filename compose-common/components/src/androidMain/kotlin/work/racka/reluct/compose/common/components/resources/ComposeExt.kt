@@ -1,29 +1,29 @@
 package work.racka.reluct.compose.common.components.resources
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.ExperimentalComposeUiApi
+import androidx.compose.ui.res.pluralStringResource
+import androidx.compose.ui.res.stringResource
 import dev.icerock.moko.resources.PluralsResource
 import dev.icerock.moko.resources.StringResource
-import dev.icerock.moko.resources.compose.localized
-import dev.icerock.moko.resources.desc.Plural
-import dev.icerock.moko.resources.desc.PluralFormatted
-import dev.icerock.moko.resources.desc.StringDesc
-import dev.icerock.moko.resources.format
 
 @Composable
 actual fun stringResource(resource: StringResource): String =
-    androidx.compose.ui.res.stringResource(id = resource.resourceId)
+    stringResource(id = resource.resourceId)
 
 @Composable
 actual fun stringResource(resource: StringResource, vararg formatArgs: Any): String =
-    resource.format(*formatArgs).localized()
+    stringResource(id = resource.resourceId, *formatArgs)
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 actual fun pluralStringResource(resource: PluralsResource, quantity: Int): String =
-    StringDesc.Plural(resource, quantity).localized()
+    pluralStringResource(id = resource.resourceId, count = quantity)
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 actual fun pluralStringResource(
     resource: PluralsResource,
     quantity: Int,
     vararg formatArgs: Any
-): String = StringDesc.PluralFormatted(resource, quantity, *formatArgs).localized()
+): String = pluralStringResource(id = resource.resourceId, count = quantity, *formatArgs)
