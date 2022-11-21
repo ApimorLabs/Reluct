@@ -57,7 +57,8 @@ fun LazyColumnSelectTaskLabelsSheet(
                 LottieAnimationWithDescription(
                     lottieResource = SharedRes.files.no_task_animation,
                     imageSize = 200.dp,
-                    description = stringResource(SharedRes.strings.no_saved_label_text)
+                    description = stringResource(SharedRes.strings.no_saved_label_text),
+                    descriptionTextStyle = MaterialTheme.typography.titleLarge
                 )
             }
         } else {

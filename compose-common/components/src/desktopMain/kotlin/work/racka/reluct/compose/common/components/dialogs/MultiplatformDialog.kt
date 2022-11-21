@@ -52,11 +52,11 @@ actual fun MultiplatformAlertDialog(
     text: @Composable () -> Unit,
     confirmButton: @Composable () -> Unit,
     dismissButton: @Composable () -> Unit,
+    containerColor: Color,
+    contentColor: Color,
     modifier: Modifier,
     icon: @Composable () -> Unit,
     shape: Shape,
-    containerColor: Color,
-    contentColor: Color,
     properties: MultiplatformDialogProperties
 ) {
     if (isVisible) {

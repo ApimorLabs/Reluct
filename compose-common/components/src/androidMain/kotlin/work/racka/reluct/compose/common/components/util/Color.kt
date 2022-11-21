@@ -1,3 +1,5 @@
+@file:JvmName("ColorAndroidJvm")
+
 package work.racka.reluct.android.compose.components.util
 
 import androidx.compose.ui.graphics.Color

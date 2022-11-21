@@ -1,5 +1,6 @@
 package work.racka.reluct.compose.common.components.dialogs
 
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
@@ -47,6 +48,10 @@ expect fun MultiplatformDialog(
     content: @Composable () -> Unit = {},
 )
 
+/**
+ * Can not provide default values for [contentColor] & [containerColor] from MaterialTheme
+ * Because of: https://github.com/JetBrains/compose-jb/issues/1407
+ */
 @Composable
 expect fun MultiplatformAlertDialog(
     onCloseDialog: () -> Unit,
@@ -55,10 +60,10 @@ expect fun MultiplatformAlertDialog(
     text: @Composable () -> Unit,
     confirmButton: @Composable () -> Unit,
     dismissButton: @Composable () -> Unit,
+    containerColor: Color,
+    contentColor: Color,
     modifier: Modifier = Modifier,
     icon: @Composable () -> Unit = {},
-    shape: Shape = MaterialTheme.shapes.large,
-    containerColor: Color = MaterialTheme.colorScheme.surface,
-    contentColor: Color = contentColorFor(containerColor),
+    shape: Shape = RoundedCornerShape(10.dp),
     properties: MultiplatformDialogProperties = MultiplatformDialogProperties(),
 )

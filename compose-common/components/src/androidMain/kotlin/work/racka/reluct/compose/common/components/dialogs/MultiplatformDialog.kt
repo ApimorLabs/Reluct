@@ -2,7 +2,6 @@
 
 package work.racka.reluct.compose.common.components.dialogs
 
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.material3.AlertDialog
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -39,11 +38,11 @@ actual fun MultiplatformAlertDialog(
     text: @Composable () -> Unit,
     confirmButton: @Composable () -> Unit,
     dismissButton: @Composable () -> Unit,
+    containerColor: Color,
+    contentColor: Color,
     modifier: Modifier,
     icon: @Composable () -> Unit,
     shape: Shape,
-    containerColor: Color,
-    contentColor: Color,
     properties: MultiplatformDialogProperties,
 ) {
     if (isVisible) {

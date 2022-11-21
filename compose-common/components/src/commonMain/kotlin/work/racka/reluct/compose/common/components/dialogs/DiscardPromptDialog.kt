@@ -2,6 +2,7 @@ package work.racka.reluct.android.compose.components.dialogs
 
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.derivedStateOf
@@ -29,6 +30,8 @@ fun DiscardPromptDialog(
         modifier = modifier,
         onCloseDialog = onClose,
         properties = properties,
+        containerColor = MaterialTheme.colorScheme.surface,
+        contentColor = MaterialTheme.colorScheme.onSurface,
         title = {
             Text(text = title.value)
         },
