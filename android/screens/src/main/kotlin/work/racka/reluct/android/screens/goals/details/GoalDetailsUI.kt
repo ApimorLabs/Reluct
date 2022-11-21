@@ -35,6 +35,7 @@ import work.racka.reluct.common.features.goals.details.states.GoalDetailsState
 import work.racka.reluct.common.model.domain.goals.Goal
 import work.racka.reluct.common.model.domain.goals.GoalInterval
 import work.racka.reluct.common.model.domain.goals.GoalType
+import work.racka.reluct.compose.common.components.SharedRes
 import work.racka.reluct.compose.common.theme.Dimens
 import work.racka.reluct.compose.common.theme.Shapes
 
@@ -123,9 +124,10 @@ internal fun GoalDetailsUI(
                     }
                     is GoalDetailsState.NotFound -> {
                         LottieAnimationWithDescription(
-                            lottieResId = R.raw.no_data,
+                            lottieResource = SharedRes.files.no_data,
                             imageSize = 300.dp,
-                            description = stringResource(R.string.goal_not_found_text)
+                            description = stringResource(R.string.goal_not_found_text),
+                            descriptionTextStyle = MaterialTheme.typography.bodyLarge
                         )
                     }
                     is GoalDetailsState.Data -> {}

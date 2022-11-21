@@ -34,6 +34,7 @@ import work.racka.reluct.common.model.domain.tasks.Task
 import work.racka.reluct.common.model.states.tasks.DailyTasksState
 import work.racka.reluct.common.model.states.tasks.TasksStatisticsState
 import work.racka.reluct.common.model.states.tasks.WeeklyTasksState
+import work.racka.reluct.compose.common.components.SharedRes
 import work.racka.reluct.compose.common.theme.Dimens
 import work.racka.reluct.compose.common.theme.Shapes
 
@@ -170,9 +171,10 @@ private fun LazyListScope.tasksList(
                 contentAlignment = Alignment.Center
             ) {
                 LottieAnimationWithDescription(
-                    lottieResId = R.raw.no_task_animation,
+                    lottieResource = SharedRes.files.no_task_animation,
                     imageSize = 200.dp,
-                    description = stringResource(R.string.no_tasks_text)
+                    description = stringResource(R.string.no_tasks_text),
+                    descriptionTextStyle = MaterialTheme.typography.bodyLarge
                 )
             }
         }

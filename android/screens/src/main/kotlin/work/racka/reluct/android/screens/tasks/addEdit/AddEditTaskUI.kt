@@ -40,6 +40,7 @@ import work.racka.reluct.common.model.domain.tasks.EditTask
 import work.racka.reluct.common.model.domain.tasks.TaskLabel
 import work.racka.reluct.common.model.states.tasks.AddEditTaskState
 import work.racka.reluct.common.model.states.tasks.ModifyTaskState
+import work.racka.reluct.compose.common.components.SharedRes
 import work.racka.reluct.compose.common.theme.Dimens
 import work.racka.reluct.compose.common.theme.Shapes
 
@@ -155,9 +156,10 @@ internal fun AddEditTaskUI(
                                     .spacedBy(Dimens.MediumPadding.size)
                             ) {
                                 LottieAnimationWithDescription(
-                                    lottieResId = R.raw.task_saved,
+                                    lottieResource = SharedRes.files.task_saved,
                                     imageSize = 300.dp,
-                                    description = null
+                                    description = null,
+                                    descriptionTextStyle = MaterialTheme.typography.bodyLarge
                                 )
                                 ReluctButton(
                                     buttonText = stringResource(R.string.add_task_button_text),
@@ -178,9 +180,10 @@ internal fun AddEditTaskUI(
                         }
                         is ModifyTaskState.NotFound -> {
                             LottieAnimationWithDescription(
-                                lottieResId = R.raw.no_data,
+                                lottieResource = SharedRes.files.no_data,
                                 imageSize = 300.dp,
-                                description = stringResource(R.string.task_not_found_text)
+                                description = stringResource(R.string.task_not_found_text),
+                                descriptionTextStyle = MaterialTheme.typography.bodyLarge
                             )
                         }
                         else -> {}

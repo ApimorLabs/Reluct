@@ -32,6 +32,7 @@ import work.racka.reluct.common.features.screenTime.statistics.states.allStats.D
 import work.racka.reluct.common.features.screenTime.statistics.states.allStats.ScreenTimeStatsState
 import work.racka.reluct.common.features.screenTime.statistics.states.allStats.WeeklyUsageStatsState
 import work.racka.reluct.common.model.domain.usagestats.AppUsageInfo
+import work.racka.reluct.compose.common.components.SharedRes
 import work.racka.reluct.compose.common.theme.Dimens
 
 @OptIn(
@@ -132,9 +133,10 @@ internal fun ScreenTimeStatisticsUI(
                             imageSlot = {
                                 LottieAnimationWithDescription(
                                     iterations = Int.MAX_VALUE,
-                                    lottieResId = R.raw.no_permission,
+                                    lottieResource = SharedRes.files.no_permission,
                                     imageSize = 200.dp,
-                                    description = null
+                                    description = null,
+                                    descriptionTextStyle = MaterialTheme.typography.bodyLarge
                                 )
                             },
                             permissionDetails = stringResource(R.string.usage_permissions_details),
@@ -243,9 +245,10 @@ private fun LazyListScope.dailyAppStatsList(
             ) {
                 LottieAnimationWithDescription(
                     iterations = 10,
-                    lottieResId = R.raw.no_data,
+                    lottieResource = SharedRes.files.no_data,
                     imageSize = 200.dp,
-                    description = stringResource(R.string.no_usage_data_text)
+                    description = stringResource(R.string.no_usage_data_text),
+                    descriptionTextStyle = MaterialTheme.typography.bodyLarge
                 )
             }
         }

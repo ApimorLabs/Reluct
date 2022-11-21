@@ -27,6 +27,7 @@ import work.racka.reluct.android.screens.util.FetchMoreDataHandler
 import work.racka.reluct.common.model.domain.tasks.Task
 import work.racka.reluct.common.model.states.tasks.SearchData
 import work.racka.reluct.common.model.states.tasks.SearchTasksState
+import work.racka.reluct.compose.common.components.SharedRes
 import work.racka.reluct.compose.common.theme.Dimens
 
 @OptIn(
@@ -104,9 +105,10 @@ internal fun TasksSearchUI(
                     contentAlignment = Alignment.Center
                 ) {
                     LottieAnimationWithDescription(
-                        lottieResId = R.raw.search_animation,
+                        lottieResource = SharedRes.files.search_animation,
                         imageSize = 200.dp,
-                        description = stringResource(R.string.search_not_found_text)
+                        description = stringResource(R.string.search_not_found_text),
+                        descriptionTextStyle = MaterialTheme.typography.bodyLarge
                     )
                 }
             }

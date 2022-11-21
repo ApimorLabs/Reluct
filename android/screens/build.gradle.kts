@@ -19,7 +19,6 @@ dependencies {
     implementation(project(":common:billing"))
     implementation(project(":common:model"))
     implementation(project(":common:mvvm-core"))
-    implementation(project(":android:compose:components"))
     implementation(project(":common:features:dashboard"))
     implementation(project(":common:features:goals"))
     implementation(project(":common:features:onboarding"))

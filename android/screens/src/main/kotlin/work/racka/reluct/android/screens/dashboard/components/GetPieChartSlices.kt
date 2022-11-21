@@ -34,10 +34,9 @@ internal fun getScreenTimePieChartData(
                 )
                 for (i in firstItems.indices) {
                     val data = firstItems[i]
-                    val colorInt = data.appIcon.icon.extractColor()
                     val slice = PieChartData.Slice(
                         value = data.timeInForeground.toFloat(),
-                        color = Color(colorInt)
+                        color = data.appIcon.extractColor()
                     )
                     add(slice)
                 }

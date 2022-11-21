@@ -27,6 +27,7 @@ import work.racka.reluct.android.compose.components.images.LottieAnimationWithDe
 import work.racka.reluct.android.screens.R
 import work.racka.reluct.common.billing.products.Product
 import work.racka.reluct.common.features.settings.states.CoffeeProductsState
+import work.racka.reluct.compose.common.components.SharedRes
 import work.racka.reluct.compose.common.theme.Dimens
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -71,9 +72,10 @@ internal fun CoffeeProductsSheet(
                 is CoffeeProductsState.FetchError -> {
                     item {
                         LottieAnimationWithDescription(
-                            lottieResId = R.raw.error_occurred,
+                            lottieResource = SharedRes.files.error_occurred,
                             imageSize = 150.dp,
-                            description = state.message
+                            description = state.message,
+                            descriptionTextStyle = MaterialTheme.typography.bodyLarge
                         )
                     }
 
@@ -89,9 +91,10 @@ internal fun CoffeeProductsSheet(
                     if (state.products.isEmpty()) {
                         item {
                             LottieAnimationWithDescription(
-                                lottieResId = R.raw.no_data,
+                                lottieResource = SharedRes.files.no_data,
                                 imageSize = 150.dp,
-                                description = stringResource(id = R.string.no_products_text)
+                                description = stringResource(id = R.string.no_products_text),
+                                descriptionTextStyle = MaterialTheme.typography.bodyLarge
                             )
                         }
                     } else {
@@ -107,9 +110,10 @@ internal fun CoffeeProductsSheet(
                 is CoffeeProductsState.PurchaseSuccess -> {
                     item {
                         LottieAnimationWithDescription(
-                            lottieResId = R.raw.pay_success,
+                            lottieResource = SharedRes.files.pay_success,
                             imageSize = 150.dp,
-                            description = stringResource(id = R.string.thank_you_text)
+                            description = stringResource(id = R.string.thank_you_text),
+                            descriptionTextStyle = MaterialTheme.typography.bodyLarge
                         )
                     }
 
@@ -138,9 +142,10 @@ internal fun CoffeeProductsSheet(
                 is CoffeeProductsState.PurchaseError -> {
                     item {
                         LottieAnimationWithDescription(
-                            lottieResId = R.raw.payment_failed,
+                            lottieResource = SharedRes.files.payment_failed,
                             imageSize = 150.dp,
-                            description = state.message
+                            description = state.message,
+                            descriptionTextStyle = MaterialTheme.typography.bodyLarge
                         )
                     }
 

@@ -41,6 +41,7 @@ import work.racka.reluct.common.features.tasks.states.TaskDetailsState
 import work.racka.reluct.common.features.tasks.states.TaskState
 import work.racka.reluct.common.model.domain.tasks.Task
 import work.racka.reluct.common.model.domain.tasks.TaskLabel
+import work.racka.reluct.compose.common.components.SharedRes
 import work.racka.reluct.compose.common.theme.Dimens
 import work.racka.reluct.compose.common.theme.Shapes
 
@@ -153,9 +154,10 @@ internal fun TaskDetailsUI(
                         is TaskState.Data -> {}
                         else -> {
                             LottieAnimationWithDescription(
-                                lottieResId = R.raw.no_data,
+                                lottieResource = SharedRes.files.no_data,
                                 imageSize = 300.dp,
-                                description = stringResource(R.string.task_not_found_text)
+                                description = stringResource(R.string.task_not_found_text),
+                                descriptionTextStyle = MaterialTheme.typography.bodyLarge
                             )
                         }
                     }

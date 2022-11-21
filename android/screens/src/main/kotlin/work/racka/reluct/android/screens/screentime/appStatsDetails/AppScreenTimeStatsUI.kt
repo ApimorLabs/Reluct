@@ -240,7 +240,8 @@ private fun ShowAppTimeLimitDialog(
             else -> {
                 CircularProgressDialog(
                     onDismiss = onClose,
-                    loadingText = stringResource(id = R.string.loading_text)
+                    loadingText = stringResource(id = R.string.loading_text),
+                    isVisible = openDialog
                 )
             }
         }

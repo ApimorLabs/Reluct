@@ -17,7 +17,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import work.racka.reluct.android.compose.components.R
 import work.racka.reluct.android.compose.components.buttons.OutlinedReluctButton
 import work.racka.reluct.android.compose.components.cards.appUsageEntry.AppUsageEntryBase
 import work.racka.reluct.android.compose.components.cards.headers.ListGroupHeadingHeader
@@ -26,6 +25,7 @@ import work.racka.reluct.android.compose.components.cards.statistics.screenTime.
 import work.racka.reluct.android.compose.components.cards.statistics.tasks.TasksStatisticsCard
 import work.racka.reluct.android.compose.components.util.BarsVisibility
 import work.racka.reluct.android.compose.components.util.rememberScrollContext
+import work.racka.reluct.android.screens.R
 import work.racka.reluct.android.screens.screentime.components.ShowAppTimeLimitDialog
 import work.racka.reluct.android.screens.screentime.components.getWeeklyDeviceScreenTimeChartData
 import work.racka.reluct.android.screens.tasks.components.getWeeklyTasksBarChartData
