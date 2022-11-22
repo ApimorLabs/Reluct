@@ -4,7 +4,7 @@ plugins {
 }
 
 android.apply {
-    namespace = "work.racka.reluct.android.compose.navigation"
+    namespace = "work.racka.reluct.android.navigation"
 
     buildFeatures {
         compose = true
@@ -16,7 +16,7 @@ android.apply {
 
 dependencies {
     // Dependency Modules
-    api(project(":common:core-navigation"))
+    implementation(project(":common:core-navigation"))
     implementation(project(":common:model"))
     implementation(project(":android:screens"))
     implementation(project(":compose-common:theme"))

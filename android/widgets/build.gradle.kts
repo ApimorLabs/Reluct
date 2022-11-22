@@ -18,7 +18,7 @@ android.apply {
 
 dependencies {
     // Dependency Modules
-    implementation(project(":android:navigation"))
+    implementation(project(":common:core-navigation"))
     implementation(project(":common:domain"))
     implementation(project(":common:model"))
     implementation(project(":compose-common:components"))
