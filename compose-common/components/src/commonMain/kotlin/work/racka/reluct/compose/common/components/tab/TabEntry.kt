@@ -1,4 +1,4 @@
-package work.racka.reluct.android.compose.components.tab
+package work.racka.reluct.compose.common.components.tab
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -16,7 +16,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.zIndex
 import work.racka.reluct.compose.common.theme.Dimens
-import work.racka.reluct.compose.common.theme.ReluctAppTheme
 
 @Composable
 fun TabEntry(
@@ -50,6 +49,8 @@ fun TabEntry(
     }
 }
 
+/*
+@Preview
 @Composable
 private fun TabEntryPreview() {
     ReluctAppTheme {
@@ -58,4 +59,4 @@ private fun TabEntryPreview() {
             textColor = MaterialTheme.colorScheme.onBackground
         )
     }
-}
+}*/

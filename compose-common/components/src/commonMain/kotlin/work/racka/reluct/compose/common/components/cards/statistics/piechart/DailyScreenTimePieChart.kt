@@ -1,4 +1,4 @@
-package work.racka.reluct.android.compose.components.cards.statistics.piechart
+package work.racka.reluct.compose.common.components.cards.statistics.piechart
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.ExperimentalAnimationApi
@@ -16,9 +16,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import work.racka.reluct.android.compose.components.cards.statistics.ChartData
 import work.racka.reluct.compose.common.charts.pieChart.PieChartData
 import work.racka.reluct.compose.common.components.SharedRes
+import work.racka.reluct.compose.common.components.cards.statistics.ChartData
 import work.racka.reluct.compose.common.components.resources.stringResource
 import work.racka.reluct.compose.common.theme.Dimens
 import work.racka.reluct.compose.common.theme.Shapes

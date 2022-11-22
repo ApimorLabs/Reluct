@@ -1,4 +1,4 @@
-package work.racka.reluct.android.compose.components.animations
+package work.racka.reluct.compose.common.components.animations
 
 import androidx.compose.animation.*
 import androidx.compose.animation.core.FiniteAnimationSpec

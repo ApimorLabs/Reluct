@@ -17,15 +17,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import work.racka.reluct.android.compose.components.buttons.ValueOffsetButton
-import work.racka.reluct.android.compose.components.cards.headers.ListGroupHeadingHeader
-import work.racka.reluct.android.compose.components.cards.statistics.BarChartDefaults
-import work.racka.reluct.android.compose.components.cards.statistics.tasks.TasksStatisticsCard
-import work.racka.reluct.android.compose.components.cards.taskEntry.EntryType
-import work.racka.reluct.android.compose.components.cards.taskEntry.TaskEntry
-import work.racka.reluct.android.compose.components.images.LottieAnimationWithDescription
-import work.racka.reluct.android.compose.components.util.BarsVisibility
-import work.racka.reluct.android.compose.components.util.rememberScrollContext
 import work.racka.reluct.android.screens.R
 import work.racka.reluct.android.screens.tasks.components.getWeeklyTasksBarChartData
 import work.racka.reluct.android.screens.util.BottomBarVisibilityHandler
@@ -35,6 +26,15 @@ import work.racka.reluct.common.model.states.tasks.DailyTasksState
 import work.racka.reluct.common.model.states.tasks.TasksStatisticsState
 import work.racka.reluct.common.model.states.tasks.WeeklyTasksState
 import work.racka.reluct.compose.common.components.SharedRes
+import work.racka.reluct.compose.common.components.buttons.ValueOffsetButton
+import work.racka.reluct.compose.common.components.cards.headers.ListGroupHeadingHeader
+import work.racka.reluct.compose.common.components.cards.statistics.BarChartDefaults
+import work.racka.reluct.compose.common.components.cards.statistics.tasks.TasksStatisticsCard
+import work.racka.reluct.compose.common.components.cards.taskEntry.EntryType
+import work.racka.reluct.compose.common.components.cards.taskEntry.TaskEntry
+import work.racka.reluct.compose.common.components.images.LottieAnimationWithDescription
+import work.racka.reluct.compose.common.components.util.BarsVisibility
+import work.racka.reluct.compose.common.components.util.rememberScrollContext
 import work.racka.reluct.compose.common.theme.Dimens
 import work.racka.reluct.compose.common.theme.Shapes
 

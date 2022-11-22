@@ -1,4 +1,4 @@
-package work.racka.reluct.android.compose.components.numberPicker
+package work.racka.reluct.compose.common.components.numberPicker
 
 import androidx.compose.material.LocalTextStyle
 import androidx.compose.material.MaterialTheme

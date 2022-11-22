@@ -1,4 +1,4 @@
-package work.racka.reluct.android.compose.components.cards.statistics.piechart
+package work.racka.reluct.compose.common.components.cards.statistics.piechart
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size

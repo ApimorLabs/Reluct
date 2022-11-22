@@ -1,4 +1,4 @@
-package work.racka.reluct.android.compose.components.numberPicker
+package work.racka.reluct.compose.common.components.numberPicker
 
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.background

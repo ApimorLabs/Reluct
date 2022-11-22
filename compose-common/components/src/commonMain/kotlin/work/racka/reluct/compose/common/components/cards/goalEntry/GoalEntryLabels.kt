@@ -1,4 +1,4 @@
-package work.racka.reluct.android.compose.components.cards.goalEntry
+package work.racka.reluct.compose.common.components.cards.goalEntry
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -15,15 +15,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
-import work.racka.reluct.android.compose.components.cards.cardWithActions.ReluctDescriptionCard
-import work.racka.reluct.android.compose.components.textfields.texts.EntryDescription
 import work.racka.reluct.common.model.domain.goals.Goal
 import work.racka.reluct.common.model.domain.goals.GoalInterval
 import work.racka.reluct.common.model.domain.goals.GoalType
 import work.racka.reluct.common.model.util.time.TimeUtils
 import work.racka.reluct.compose.common.components.SharedRes
+import work.racka.reluct.compose.common.components.cards.cardWithActions.ReluctDescriptionCard
 import work.racka.reluct.compose.common.components.resources.pluralStringResource
 import work.racka.reluct.compose.common.components.resources.stringResource
+import work.racka.reluct.compose.common.components.textfields.texts.EntryDescription
 import work.racka.reluct.compose.common.theme.Dimens
 import work.racka.reluct.compose.common.theme.Shapes
 

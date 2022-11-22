@@ -1,4 +1,4 @@
-package work.racka.reluct.android.compose.components.cards.settings
+package work.racka.reluct.compose.common.components.cards.settings
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.ContentAlpha
@@ -9,7 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
-import work.racka.reluct.android.compose.components.checkboxes.RoundCheckbox
+import work.racka.reluct.compose.common.components.checkboxes.RoundCheckbox
 import work.racka.reluct.compose.common.theme.Dimens
 
 @Composable

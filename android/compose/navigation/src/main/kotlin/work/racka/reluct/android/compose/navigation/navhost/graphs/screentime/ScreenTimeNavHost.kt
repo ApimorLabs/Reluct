@@ -16,8 +16,8 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
-import work.racka.reluct.android.compose.components.topBar.ReluctPageHeading
-import work.racka.reluct.android.compose.components.util.BarsVisibility
+import work.racka.reluct.compose.common.components.topBar.ReluctPageHeading
+import work.racka.reluct.compose.common.components.util.BarsVisibility
 import work.racka.reluct.android.compose.navigation.R
 import work.racka.reluct.android.compose.navigation.toptabs.screentime.ScreenTimeTabBar
 import work.racka.reluct.android.compose.navigation.toptabs.screentime.ScreenTimeTabDestination

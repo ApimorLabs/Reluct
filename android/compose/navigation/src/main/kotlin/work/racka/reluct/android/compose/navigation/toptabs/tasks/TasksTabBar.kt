@@ -9,8 +9,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import work.racka.reluct.android.compose.components.tab.ReluctTabIndicator
-import work.racka.reluct.android.compose.components.tab.TabEntry
+import work.racka.reluct.compose.common.components.tab.ReluctTabIndicator
+import work.racka.reluct.compose.common.components.tab.TabEntry
 import work.racka.reluct.android.compose.navigation.R
 
 @Composable

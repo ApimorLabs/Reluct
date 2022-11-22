@@ -1,4 +1,4 @@
-package work.racka.reluct.android.compose.components.cards.permissions
+package work.racka.reluct.compose.common.components.cards.permissions
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -14,8 +14,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.style.TextAlign
-import work.racka.reluct.android.compose.components.buttons.ReluctButton
 import work.racka.reluct.compose.common.components.SharedRes
+import work.racka.reluct.compose.common.components.buttons.ReluctButton
 import work.racka.reluct.compose.common.components.resources.stringResource
 import work.racka.reluct.compose.common.theme.Dimens
 import work.racka.reluct.compose.common.theme.Shapes

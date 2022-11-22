@@ -1,4 +1,4 @@
-package work.racka.reluct.android.compose.components.util
+package work.racka.reluct.compose.common.components.util
 
 import androidx.compose.ui.graphics.Color
 import work.racka.reluct.common.model.domain.core.Icon

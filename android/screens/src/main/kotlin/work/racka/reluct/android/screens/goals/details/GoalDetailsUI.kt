@@ -19,15 +19,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import work.racka.reluct.android.compose.components.buttons.OutlinedReluctButton
-import work.racka.reluct.android.compose.components.buttons.ReluctButton
-import work.racka.reluct.android.compose.components.cards.date.SelectedDaysOfWeekViewer
-import work.racka.reluct.android.compose.components.cards.goalEntry.GoalHeadingSwitchCard
-import work.racka.reluct.android.compose.components.cards.goalEntry.GoalTypeAndIntervalLabels
-import work.racka.reluct.android.compose.components.cards.goalEntry.GoalValuesCard
-import work.racka.reluct.android.compose.components.images.LottieAnimationWithDescription
-import work.racka.reluct.android.compose.components.textfields.texts.ListItemTitle
-import work.racka.reluct.android.compose.components.topBar.ReluctSmallTopAppBar
 import work.racka.reluct.android.screens.R
 import work.racka.reluct.android.screens.goals.components.AppsListCard
 import work.racka.reluct.android.screens.goals.components.UpdateValueDialog
@@ -36,6 +27,15 @@ import work.racka.reluct.common.model.domain.goals.Goal
 import work.racka.reluct.common.model.domain.goals.GoalInterval
 import work.racka.reluct.common.model.domain.goals.GoalType
 import work.racka.reluct.compose.common.components.SharedRes
+import work.racka.reluct.compose.common.components.buttons.OutlinedReluctButton
+import work.racka.reluct.compose.common.components.buttons.ReluctButton
+import work.racka.reluct.compose.common.components.cards.date.SelectedDaysOfWeekViewer
+import work.racka.reluct.compose.common.components.cards.goalEntry.GoalHeadingSwitchCard
+import work.racka.reluct.compose.common.components.cards.goalEntry.GoalTypeAndIntervalLabels
+import work.racka.reluct.compose.common.components.cards.goalEntry.GoalValuesCard
+import work.racka.reluct.compose.common.components.images.LottieAnimationWithDescription
+import work.racka.reluct.compose.common.components.textfields.texts.ListItemTitle
+import work.racka.reluct.compose.common.components.topBar.ReluctSmallTopAppBar
 import work.racka.reluct.compose.common.theme.Dimens
 import work.racka.reluct.compose.common.theme.Shapes
 

@@ -10,10 +10,10 @@ import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.coroutines.launch
 import work.racka.common.mvvm.koin.compose.getCommonViewModel
-import work.racka.reluct.android.compose.components.util.BarsVisibility
 import work.racka.reluct.android.screens.R
 import work.racka.reluct.common.features.tasks.pending_tasks.PendingTasksViewModel
 import work.racka.reluct.common.model.states.tasks.TasksEvents
+import work.racka.reluct.compose.common.components.util.BarsVisibility
 
 @OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable

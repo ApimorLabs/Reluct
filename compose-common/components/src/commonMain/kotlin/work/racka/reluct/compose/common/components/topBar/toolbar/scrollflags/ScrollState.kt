@@ -1,11 +1,11 @@
-package work.racka.reluct.android.compose.components.topBar.toolbar.scrollflags
+package work.racka.reluct.compose.common.components.topBar.toolbar.scrollflags
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.mapSaver
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.structuralEqualityPolicy
-import work.racka.reluct.android.compose.components.topBar.toolbar.ScrollFlagState
+import work.racka.reluct.compose.common.components.topBar.toolbar.ScrollFlagState
 
 class ScrollState(
     heightRange: IntRange,

@@ -1,7 +1,6 @@
-package work.racka.reluct.android.compose.components.topBar
+package work.racka.reluct.compose.common.components.topBar
 
 import androidx.compose.animation.animateColorAsState
-import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
@@ -26,7 +25,6 @@ import androidx.compose.ui.unit.dp
 import work.racka.reluct.compose.common.components.SharedRes
 import work.racka.reluct.compose.common.components.resources.stringResource
 import work.racka.reluct.compose.common.theme.Dimens
-import work.racka.reluct.compose.common.theme.ReluctAppTheme
 import work.racka.reluct.compose.common.theme.Shapes
 
 /**
@@ -150,6 +148,8 @@ fun CollapsingToolbarBase(
     }
 }
 
+/*
+@Preview
 @Composable
 fun CollapsingToolbarPrev() {
     ReluctAppTheme {
@@ -175,4 +175,4 @@ fun CollapsingToolbarPrev() {
             }
         )
     }
-}
+}*/

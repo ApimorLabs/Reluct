@@ -1,12 +1,12 @@
-package work.racka.reluct.android.compose.components.util
+package work.racka.reluct.compose.common.components.util
 
-import androidx.compose.ui.graphics.Color
-import work.racka.reluct.common.model.domain.core.Icon
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.drawable.Drawable
+import androidx.compose.ui.graphics.Color
 import androidx.palette.graphics.Palette
 import co.touchlab.kermit.Logger
+import work.racka.reluct.common.model.domain.core.Icon
 
 actual fun Icon.extractColor(defaultColor: Color): Color {
     val bitmap = this.icon.getBitmap()

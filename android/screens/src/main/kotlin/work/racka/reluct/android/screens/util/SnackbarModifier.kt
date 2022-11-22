@@ -8,7 +8,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import work.racka.reluct.android.compose.components.util.ScrollContext
+import work.racka.reluct.compose.common.components.util.ScrollContext
 
 @Composable
 internal fun getSnackbarModifier(mainPadding: PaddingValues, scrollContext: State<ScrollContext>) =

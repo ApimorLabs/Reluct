@@ -1,4 +1,4 @@
-package work.racka.reluct.android.compose.components.textfields.texts
+package work.racka.reluct.compose.common.components.textfields.texts
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.LocalContentColor

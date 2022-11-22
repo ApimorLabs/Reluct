@@ -1,4 +1,4 @@
-package work.racka.reluct.android.compose.components.images
+package work.racka.reluct.compose.common.components.images
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement

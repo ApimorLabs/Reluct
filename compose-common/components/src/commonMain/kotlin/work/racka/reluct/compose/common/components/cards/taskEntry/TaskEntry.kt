@@ -1,4 +1,4 @@
-package work.racka.reluct.android.compose.components.cards.taskEntry
+package work.racka.reluct.compose.common.components.cards.taskEntry
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.Animatable
@@ -17,14 +17,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.text.style.TextOverflow
-import work.racka.reluct.android.compose.components.cards.taskLabelEntry.TaskLabelPill
-import work.racka.reluct.android.compose.components.checkboxes.RoundCheckbox
-import work.racka.reluct.android.compose.components.textfields.texts.EntryDescription
-import work.racka.reluct.android.compose.components.textfields.texts.EntryHeading
-import work.racka.reluct.android.compose.components.util.PreviewData
 import work.racka.reluct.common.model.domain.tasks.Task
 import work.racka.reluct.compose.common.components.SharedRes
+import work.racka.reluct.compose.common.components.cards.taskLabelEntry.TaskLabelPill
+import work.racka.reluct.compose.common.components.checkboxes.RoundCheckbox
 import work.racka.reluct.compose.common.components.resources.stringResource
+import work.racka.reluct.compose.common.components.textfields.texts.EntryDescription
+import work.racka.reluct.compose.common.components.textfields.texts.EntryHeading
 import work.racka.reluct.compose.common.theme.Dimens
 import work.racka.reluct.compose.common.theme.Shapes
 
@@ -158,6 +157,8 @@ private fun TaskEntryData(
     }
 }
 
+/*
+@Preview
 @Composable
 internal fun TaskEntryPrev() {
     Surface(
@@ -199,4 +200,4 @@ internal fun TaskEntryPrev() {
             Spacer(modifier = Modifier.height(Dimens.SmallPadding.size))
         }
     }
-}
+}*/

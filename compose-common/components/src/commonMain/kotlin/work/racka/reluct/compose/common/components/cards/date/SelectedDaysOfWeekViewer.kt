@@ -1,4 +1,4 @@
-package work.racka.reluct.android.compose.components.cards.date
+package work.racka.reluct.compose.common.components.cards.date
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -12,8 +12,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.collections.immutable.toPersistentList
-import work.racka.reluct.android.compose.components.bottomSheet.addEditGoal.ReluctSelectionButton
 import work.racka.reluct.common.model.util.time.Week
+import work.racka.reluct.compose.common.components.bottomSheet.addEditGoal.ReluctSelectionButton
 import work.racka.reluct.compose.common.theme.Dimens
 
 @Composable

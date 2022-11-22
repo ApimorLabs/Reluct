@@ -1,4 +1,4 @@
-package work.racka.reluct.android.compose.components.topBar
+package work.racka.reluct.compose.common.components.topBar
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize

@@ -1,4 +1,4 @@
-package work.racka.reluct.android.compose.components.buttons
+package work.racka.reluct.compose.common.components.buttons
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.PaddingValues
@@ -7,9 +7,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
-import work.racka.reluct.android.compose.components.animations.slideInVerticallyFadeReversed
-import work.racka.reluct.android.compose.components.animations.slideOutVerticallyFadeReversed
-import work.racka.reluct.android.compose.components.util.ScrollContext
+import work.racka.reluct.compose.common.components.animations.slideInVerticallyFadeReversed
+import work.racka.reluct.compose.common.components.animations.slideOutVerticallyFadeReversed
+import work.racka.reluct.compose.common.components.util.ScrollContext
 
 @Composable
 fun CollapsingFloatingButton(

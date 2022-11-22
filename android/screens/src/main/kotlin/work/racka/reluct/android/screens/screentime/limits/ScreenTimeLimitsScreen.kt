@@ -8,9 +8,9 @@ import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.coroutines.launch
 import work.racka.common.mvvm.koin.compose.getCommonViewModel
-import work.racka.reluct.android.compose.components.util.BarsVisibility
 import work.racka.reluct.common.features.screenTime.limits.ScreenTimeLimitsViewModel
 import work.racka.reluct.common.features.screenTime.limits.states.ScreenTimeLimitsEvents
+import work.racka.reluct.compose.common.components.util.BarsVisibility
 
 @OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable

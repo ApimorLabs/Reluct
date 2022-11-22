@@ -1,4 +1,4 @@
-package work.racka.reluct.android.compose.components.dialogs
+package work.racka.reluct.compose.common.components.dialogs
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -14,8 +14,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import work.racka.reluct.compose.common.components.dialogs.MultiplatformDialog
-import work.racka.reluct.compose.common.components.dialogs.MultiplatformDialogProperties
 import work.racka.reluct.compose.common.theme.Dimens
 import work.racka.reluct.compose.common.theme.Shapes
 

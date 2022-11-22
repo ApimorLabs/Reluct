@@ -1,4 +1,4 @@
-package work.racka.reluct.android.compose.components.util
+package work.racka.reluct.compose.common.components.util
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.compositeOver
@@ -69,7 +69,9 @@ fun String.toColorInt(): Int {
         var color = this.substring(1).toLong(16)
         if (this.length == 7) { // Set the alpha value
             color = color or -0x1000000
-        } else require(this.length == 9) { "Unknown color" }
+        } else {
+            require(this.length == 9) { "Unknown color" }
+        }
         return color.toInt()
     }
     throw IllegalArgumentException("Unknown color")

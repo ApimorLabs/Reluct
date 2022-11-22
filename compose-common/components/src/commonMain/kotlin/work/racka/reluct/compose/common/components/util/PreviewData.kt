@@ -1,4 +1,4 @@
-package work.racka.reluct.android.compose.components.util
+package work.racka.reluct.compose.common.components.util
 
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList

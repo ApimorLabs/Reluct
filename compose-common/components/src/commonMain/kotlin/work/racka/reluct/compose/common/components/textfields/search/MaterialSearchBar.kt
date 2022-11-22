@@ -1,4 +1,4 @@
-package work.racka.reluct.android.compose.components.textfields.search
+package work.racka.reluct.compose.common.components.textfields.search
 
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.animateDpAsState

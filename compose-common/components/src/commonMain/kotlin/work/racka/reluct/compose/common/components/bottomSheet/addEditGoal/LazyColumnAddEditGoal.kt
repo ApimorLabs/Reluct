@@ -1,4 +1,4 @@
-package work.racka.reluct.android.compose.components.bottomSheet.addEditGoal
+package work.racka.reluct.compose.common.components.bottomSheet.addEditGoal
 
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -12,7 +12,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.DeleteSweep
 import androidx.compose.material.icons.rounded.Save
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -27,20 +26,18 @@ import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
-import work.racka.reluct.android.compose.components.buttons.ReluctButton
-import work.racka.reluct.android.compose.components.textfields.ReluctTextField
-import work.racka.reluct.android.compose.components.util.PreviewData
 import work.racka.reluct.common.model.domain.goals.Goal
 import work.racka.reluct.common.model.domain.goals.GoalInterval
 import work.racka.reluct.common.model.domain.goals.GoalType
 import work.racka.reluct.common.model.util.time.TimeUtils
 import work.racka.reluct.common.model.util.time.TimeUtils.plus
 import work.racka.reluct.compose.common.components.SharedRes
+import work.racka.reluct.compose.common.components.buttons.ReluctButton
 import work.racka.reluct.compose.common.components.resources.stringResource
+import work.racka.reluct.compose.common.components.textfields.ReluctTextField
 import work.racka.reluct.compose.common.components.util.imePadding
 import work.racka.reluct.compose.common.components.util.navigationBarsPadding
 import work.racka.reluct.compose.common.theme.Dimens
-import work.racka.reluct.compose.common.theme.ReluctAppTheme
 import work.racka.reluct.compose.common.theme.Shapes
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalComposeUiApi::class)
@@ -240,6 +237,8 @@ fun LazyColumnAddEditGoal(
     }
 }
 
+/*
+@Preview
 @Composable
 private fun AddEditGoalPreview() {
     ReluctAppTheme {
@@ -253,4 +252,4 @@ private fun AddEditGoalPreview() {
             )
         }
     }
-}
+}*/

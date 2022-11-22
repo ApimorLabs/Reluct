@@ -1,4 +1,4 @@
-package work.racka.reluct.android.compose.components.cards.taskEntry
+package work.racka.reluct.compose.common.components.cards.taskEntry
 
 enum class EntryType {
     PendingTask,

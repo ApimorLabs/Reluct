@@ -1,4 +1,4 @@
-package work.racka.reluct.android.compose.components.cards.statistics.screenTime
+package work.racka.reluct.compose.common.components.cards.statistics.screenTime
 
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.Spacer
@@ -10,10 +10,10 @@ import androidx.compose.runtime.State
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
-import work.racka.reluct.android.compose.components.cards.statistics.ChartData
-import work.racka.reluct.android.compose.components.cards.statistics.StatisticsBarChartCard
 import work.racka.reluct.compose.common.charts.barChart.BarChartData
 import work.racka.reluct.compose.common.components.SharedRes
+import work.racka.reluct.compose.common.components.cards.statistics.ChartData
+import work.racka.reluct.compose.common.components.cards.statistics.StatisticsBarChartCard
 import work.racka.reluct.compose.common.components.resources.stringResource
 
 @Composable

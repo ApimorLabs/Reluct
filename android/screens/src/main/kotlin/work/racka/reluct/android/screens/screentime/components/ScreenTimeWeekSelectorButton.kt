@@ -4,8 +4,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
-import work.racka.reluct.android.compose.components.buttons.ValueOffsetButton
 import work.racka.reluct.common.features.screenTime.statistics.states.ScreenTimeStatsSelectedInfo
+import work.racka.reluct.compose.common.components.buttons.ValueOffsetButton
 import work.racka.reluct.compose.common.theme.Shapes
 
 @Composable

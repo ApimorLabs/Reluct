@@ -1,4 +1,4 @@
-package work.racka.reluct.android.compose.components.bottomSheet.addEditGoal
+package work.racka.reluct.compose.common.components.bottomSheet.addEditGoal
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
@@ -24,22 +24,22 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.datetime.LocalDateTime
-import work.racka.reluct.android.compose.components.bottomSheet.addEditTask.DateTimePills
-import work.racka.reluct.android.compose.components.buttons.ReluctButton
-import work.racka.reluct.android.compose.components.cards.date.SelectedDaysOfWeekViewer
-import work.racka.reluct.android.compose.components.numberPicker.HoursNumberPicker
-import work.racka.reluct.android.compose.components.numberPicker.NumberPicker
-import work.racka.reluct.android.compose.components.numberPicker.convertMillisToTime
-import work.racka.reluct.android.compose.components.numberPicker.convertTimeToMillis
-import work.racka.reluct.android.compose.components.textfields.ReluctTextField
 import work.racka.reluct.common.model.domain.appInfo.AppInfo
 import work.racka.reluct.common.model.domain.goals.GoalInterval
 import work.racka.reluct.common.model.domain.goals.GoalType
 import work.racka.reluct.common.model.util.time.TimeUtils.plus
 import work.racka.reluct.common.model.util.time.Week
 import work.racka.reluct.compose.common.components.SharedRes
+import work.racka.reluct.compose.common.components.bottomSheet.addEditTask.DateTimePills
+import work.racka.reluct.compose.common.components.buttons.ReluctButton
+import work.racka.reluct.compose.common.components.cards.date.SelectedDaysOfWeekViewer
 import work.racka.reluct.compose.common.components.images.painterResource
+import work.racka.reluct.compose.common.components.numberPicker.HoursNumberPicker
+import work.racka.reluct.compose.common.components.numberPicker.NumberPicker
+import work.racka.reluct.compose.common.components.numberPicker.convertMillisToTime
+import work.racka.reluct.compose.common.components.numberPicker.convertTimeToMillis
 import work.racka.reluct.compose.common.components.resources.stringResource
+import work.racka.reluct.compose.common.components.textfields.ReluctTextField
 import work.racka.reluct.compose.common.theme.Dimens
 import work.racka.reluct.compose.common.theme.Shapes
 
@@ -233,6 +233,7 @@ fun GoalScreenTimePicker(
 
     Card(
         modifier = modifier,
+        shape = MaterialTheme.shapes.large,
         colors = CardDefaults.cardColors(
             containerColor = containerColor,
             contentColor = contentColor

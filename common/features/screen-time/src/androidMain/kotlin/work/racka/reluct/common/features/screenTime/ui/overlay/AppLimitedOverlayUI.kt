@@ -22,11 +22,11 @@ import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import work.racka.reluct.android.compose.components.buttons.ReluctButton
-import work.racka.reluct.android.compose.components.cards.cardWithActions.ReluctDescriptionCard
-import work.racka.reluct.android.compose.components.cards.statistics.BarChartDefaults
-import work.racka.reluct.android.compose.components.cards.statistics.ChartData
-import work.racka.reluct.android.compose.components.cards.statistics.screenTime.ScreenTimeStatisticsCard
+import work.racka.reluct.compose.common.components.buttons.ReluctButton
+import work.racka.reluct.compose.common.components.cards.cardWithActions.ReluctDescriptionCard
+import work.racka.reluct.compose.common.components.cards.statistics.BarChartDefaults
+import work.racka.reluct.compose.common.components.cards.statistics.ChartData
+import work.racka.reluct.compose.common.components.cards.statistics.screenTime.ScreenTimeStatisticsCard
 import work.racka.reluct.common.features.screenTime.R
 import work.racka.reluct.common.features.screenTime.statistics.AppScreenTimeStatsViewModel
 import work.racka.reluct.common.features.screenTime.statistics.states.appStats.AppSettingsState
@@ -113,6 +113,7 @@ internal fun AppLimitedOverlayUI(
             // Chart
             val dailyData = uiState.dailyData
             item {
+                /** No Button **/
                 ScreenTimeStatisticsCard(
                     chartData = barChartData,
                     selectedDayText = {

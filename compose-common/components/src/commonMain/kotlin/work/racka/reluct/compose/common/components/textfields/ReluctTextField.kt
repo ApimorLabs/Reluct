@@ -1,4 +1,4 @@
-package work.racka.reluct.android.compose.components.textfields
+package work.racka.reluct.compose.common.components.textfields
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloatAsState

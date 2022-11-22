@@ -24,14 +24,6 @@ import androidx.compose.ui.unit.dp
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.launch
-import work.racka.reluct.android.compose.components.buttons.OutlinedReluctButton
-import work.racka.reluct.android.compose.components.buttons.ReluctButton
-import work.racka.reluct.android.compose.components.cards.taskEntry.TaskDetailsHeading
-import work.racka.reluct.android.compose.components.cards.taskEntry.TaskInfoCard
-import work.racka.reluct.android.compose.components.cards.taskLabelEntry.TaskLabelPill
-import work.racka.reluct.android.compose.components.cards.taskLabelEntry.TaskLabelsEntryMode
-import work.racka.reluct.android.compose.components.images.LottieAnimationWithDescription
-import work.racka.reluct.android.compose.components.topBar.ReluctSmallTopAppBar
 import work.racka.reluct.android.screens.R
 import work.racka.reluct.android.screens.tasks.components.CurrentTaskLabels
 import work.racka.reluct.android.screens.tasks.components.ManageTaskLabelsSheet
@@ -42,6 +34,14 @@ import work.racka.reluct.common.features.tasks.states.TaskState
 import work.racka.reluct.common.model.domain.tasks.Task
 import work.racka.reluct.common.model.domain.tasks.TaskLabel
 import work.racka.reluct.compose.common.components.SharedRes
+import work.racka.reluct.compose.common.components.buttons.OutlinedReluctButton
+import work.racka.reluct.compose.common.components.buttons.ReluctButton
+import work.racka.reluct.compose.common.components.cards.taskEntry.TaskDetailsHeading
+import work.racka.reluct.compose.common.components.cards.taskEntry.TaskInfoCard
+import work.racka.reluct.compose.common.components.cards.taskLabelEntry.TaskLabelPill
+import work.racka.reluct.compose.common.components.cards.taskLabelEntry.TaskLabelsEntryMode
+import work.racka.reluct.compose.common.components.images.LottieAnimationWithDescription
+import work.racka.reluct.compose.common.components.topBar.ReluctSmallTopAppBar
 import work.racka.reluct.compose.common.theme.Dimens
 import work.racka.reluct.compose.common.theme.Shapes
 

@@ -1,4 +1,4 @@
-package work.racka.reluct.android.compose.components.buttons
+package work.racka.reluct.compose.common.components.buttons
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
@@ -12,9 +12,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import work.racka.reluct.android.compose.components.util.ScrollContext
 import work.racka.reluct.compose.common.components.SharedRes
 import work.racka.reluct.compose.common.components.resources.stringResource
+import work.racka.reluct.compose.common.components.util.ScrollContext
 import work.racka.reluct.compose.common.components.util.navigationBarsPadding
 import work.racka.reluct.compose.common.theme.Dimens
 

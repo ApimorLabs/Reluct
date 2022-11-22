@@ -1,4 +1,4 @@
-package work.racka.reluct.android.compose.components.cards.appUsageEntry
+package work.racka.reluct.compose.common.components.cards.appUsageEntry
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.FastOutSlowInEasing
@@ -17,11 +17,11 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.dp
-import work.racka.reluct.android.compose.components.textfields.texts.EntryHeading
 import work.racka.reluct.common.model.domain.usagestats.AppUsageInfo
 import work.racka.reluct.compose.common.components.SharedRes
 import work.racka.reluct.compose.common.components.images.painterResource
 import work.racka.reluct.compose.common.components.resources.stringResource
+import work.racka.reluct.compose.common.components.textfields.texts.EntryHeading
 import work.racka.reluct.compose.common.theme.Dimens
 import work.racka.reluct.compose.common.theme.Shapes
 

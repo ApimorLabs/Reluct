@@ -1,4 +1,4 @@
-package work.racka.reluct.android.compose.components.cards.statistics
+package work.racka.reluct.compose.common.components.cards.statistics
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*

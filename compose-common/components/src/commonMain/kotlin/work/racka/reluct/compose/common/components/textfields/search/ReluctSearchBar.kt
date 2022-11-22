@@ -1,4 +1,4 @@
-package work.racka.reluct.android.compose.components.textfields.search
+package work.racka.reluct.compose.common.components.textfields.search
 
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.animateDpAsState
@@ -41,7 +41,6 @@ import androidx.compose.ui.unit.Dp
 import work.racka.reluct.compose.common.components.SharedRes
 import work.racka.reluct.compose.common.components.resources.stringResource
 import work.racka.reluct.compose.common.theme.Dimens
-import work.racka.reluct.compose.common.theme.ReluctAppTheme
 import work.racka.reluct.compose.common.theme.Shapes
 
 @OptIn(ExperimentalComposeUiApi::class)
@@ -278,6 +277,8 @@ fun ReluctSearchBar(
     }
 }
 
+/*
+@Preview
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 private fun CustomSearchBarPreview() {
@@ -285,3 +286,4 @@ private fun CustomSearchBarPreview() {
         ReluctSearchBar()
     }
 }
+*/

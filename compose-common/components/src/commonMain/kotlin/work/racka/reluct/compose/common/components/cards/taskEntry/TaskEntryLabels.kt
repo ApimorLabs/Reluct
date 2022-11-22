@@ -1,26 +1,22 @@
-package work.racka.reluct.android.compose.components.cards.taskEntry
+package work.racka.reluct.compose.common.components.cards.taskEntry
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextOverflow
-import co.touchlab.kermit.Logger
-import work.racka.reluct.android.compose.components.checkboxes.RoundCheckbox
-import work.racka.reluct.android.compose.components.textfields.texts.EntryDescription
-import work.racka.reluct.android.compose.components.textfields.texts.EntryHeading
 import work.racka.reluct.compose.common.components.SharedRes
+import work.racka.reluct.compose.common.components.checkboxes.RoundCheckbox
 import work.racka.reluct.compose.common.components.resources.stringResource
 import work.racka.reluct.compose.common.theme.Dimens
-import work.racka.reluct.compose.common.theme.ReluctAppTheme
 
 @Composable
 fun TaskDetailsHeading(
@@ -89,6 +85,8 @@ internal fun TaskTimeInfo(
     }
 }
 
+/*
+@Preview
 @Composable
 internal fun LabelsPreview() {
     ReluctAppTheme {
@@ -101,9 +99,9 @@ internal fun LabelsPreview() {
                 Spacer(modifier = Modifier.height(Dimens.ExtraSmallPadding.size))
                 EntryDescription(
                     text = """
-                        This is a task description and it it really long. This is a task 
-                        description and it it really long. This is a task description and it 
-                        it really long. This is a task description and it it really long. 
+                        This is a task description and it it really long. This is a task
+                        description and it it really long. This is a task description and it
+                        it really long. This is a task description and it it really long.
                         This is a task description and it it really long.
                     """.trimIndent()
                 )
@@ -122,4 +120,4 @@ internal fun LabelsPreview() {
             }
         }
     }
-}
+}*/

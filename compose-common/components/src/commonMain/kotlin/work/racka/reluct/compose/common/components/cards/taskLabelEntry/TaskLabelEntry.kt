@@ -1,4 +1,4 @@
-package work.racka.reluct.android.compose.components.cards.taskLabelEntry
+package work.racka.reluct.compose.common.components.cards.taskLabelEntry
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background
@@ -17,15 +17,15 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import work.racka.reluct.android.compose.components.cards.cardWithActions.ReluctDescriptionCard
-import work.racka.reluct.android.compose.components.checkboxes.RoundCheckbox
-import work.racka.reluct.android.compose.components.textfields.texts.EntryDescription
-import work.racka.reluct.android.compose.components.textfields.texts.EntryHeading
-import work.racka.reluct.android.compose.components.util.getContentColor
-import work.racka.reluct.android.compose.components.util.toColor
 import work.racka.reluct.common.model.domain.tasks.TaskLabel
 import work.racka.reluct.compose.common.components.SharedRes
+import work.racka.reluct.compose.common.components.cards.cardWithActions.ReluctDescriptionCard
+import work.racka.reluct.compose.common.components.checkboxes.RoundCheckbox
 import work.racka.reluct.compose.common.components.resources.stringResource
+import work.racka.reluct.compose.common.components.textfields.texts.EntryDescription
+import work.racka.reluct.compose.common.components.textfields.texts.EntryHeading
+import work.racka.reluct.compose.common.components.util.getContentColor
+import work.racka.reluct.compose.common.components.util.toColor
 
 @Composable
 fun TaskLabelEntry(

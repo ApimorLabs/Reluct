@@ -1,4 +1,4 @@
-package work.racka.reluct.android.compose.components.tab
+package work.racka.reluct.compose.common.components.tab
 
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween

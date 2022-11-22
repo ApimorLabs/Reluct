@@ -1,4 +1,4 @@
-package work.racka.reluct.android.compose.components.cards.goalEntry
+package work.racka.reluct.compose.common.components.cards.goalEntry
 
 import androidx.compose.animation.Animatable
 import androidx.compose.animation.animateColorAsState
@@ -20,9 +20,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.TextStyle
 import kotlinx.coroutines.launch
-import work.racka.reluct.android.compose.components.cards.cardWithActions.ReluctSwitchCard
 import work.racka.reluct.common.model.domain.goals.Goal
 import work.racka.reluct.compose.common.components.SharedRes
+import work.racka.reluct.compose.common.components.cards.cardWithActions.ReluctSwitchCard
 import work.racka.reluct.compose.common.components.resources.stringResource
 import work.racka.reluct.compose.common.theme.Dimens
 import work.racka.reluct.compose.common.theme.Shapes
@@ -80,7 +80,7 @@ fun GoalHeadingSwitchCard(
         modifier = Modifier
             .clip(shape)
             .background(containerColor)
-                then modifier,
+            then modifier,
         contentAlignment = Alignment.Center
     ) {
         ReluctSwitchCard(

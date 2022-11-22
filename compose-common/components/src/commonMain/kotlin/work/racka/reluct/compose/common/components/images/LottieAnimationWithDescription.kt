@@ -1,6 +1,5 @@
-package work.racka.reluct.android.compose.components.images
+package work.racka.reluct.compose.common.components.images
 
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
@@ -16,8 +15,8 @@ import dev.icerock.moko.resources.FileResource
 expect fun LottieAnimationWithDescription(
     lottieResource: FileResource,
     description: String?,
+    descriptionTextStyle: TextStyle,
     modifier: Modifier = Modifier,
     imageSize: Dp = 148.dp,
     iterations: Int = 1,
-    descriptionTextStyle: TextStyle,
 )

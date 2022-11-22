@@ -1,4 +1,4 @@
-package work.racka.reluct.android.compose.components.dialogs
+package work.racka.reluct.compose.common.components.dialogs
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi

@@ -1,4 +1,4 @@
-package work.racka.reluct.android.compose.components.bottomSheet.addEditTask
+package work.racka.reluct.compose.common.components.bottomSheet.addEditTask
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
@@ -28,15 +28,15 @@ import androidx.compose.ui.unit.dp
 import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
-import work.racka.reluct.android.compose.components.bottomSheet.taskLabels.TaskLabelsSelectCard
-import work.racka.reluct.android.compose.components.buttons.ReluctButton
-import work.racka.reluct.android.compose.components.cards.settings.EntryWithCheckbox
-import work.racka.reluct.android.compose.components.textfields.ReluctTextField
 import work.racka.reluct.common.model.domain.tasks.EditTask
 import work.racka.reluct.common.model.util.time.TimeUtils.getLocalDateTimeWithCorrectTimeZone
 import work.racka.reluct.common.model.util.time.TimeUtils.plus
 import work.racka.reluct.compose.common.components.SharedRes
+import work.racka.reluct.compose.common.components.bottomSheet.taskLabels.TaskLabelsSelectCard
+import work.racka.reluct.compose.common.components.buttons.ReluctButton
+import work.racka.reluct.compose.common.components.cards.settings.EntryWithCheckbox
 import work.racka.reluct.compose.common.components.resources.stringResource
+import work.racka.reluct.compose.common.components.textfields.ReluctTextField
 import work.racka.reluct.compose.common.components.util.imePadding
 import work.racka.reluct.compose.common.components.util.navigationBarsPadding
 import work.racka.reluct.compose.common.theme.Dimens
@@ -144,7 +144,7 @@ fun LazyColumnAddEditTaskFields(
             )
         }
 
-        // Task Due Time
+        // Task Labels
         item {
             Text(
                 modifier = Modifier

@@ -1,4 +1,4 @@
-package work.racka.reluct.android.compose.components.cards.taskLabelEntry
+package work.racka.reluct.compose.common.components.cards.taskLabelEntry
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -13,8 +13,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextOverflow
-import work.racka.reluct.android.compose.components.util.getContentColor
-import work.racka.reluct.android.compose.components.util.toColor
+import work.racka.reluct.compose.common.components.util.getContentColor
+import work.racka.reluct.compose.common.components.util.toColor
 import work.racka.reluct.compose.common.theme.Dimens
 import work.racka.reluct.compose.common.theme.Shapes
 

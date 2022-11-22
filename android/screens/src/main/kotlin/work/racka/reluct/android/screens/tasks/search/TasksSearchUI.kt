@@ -16,18 +16,18 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
-import work.racka.reluct.android.compose.components.buttons.ScrollToTop
-import work.racka.reluct.android.compose.components.cards.taskEntry.EntryType
-import work.racka.reluct.android.compose.components.cards.taskEntry.TaskEntry
-import work.racka.reluct.android.compose.components.images.LottieAnimationWithDescription
-import work.racka.reluct.android.compose.components.textfields.search.MaterialSearchBar
-import work.racka.reluct.android.compose.components.util.rememberScrollContext
 import work.racka.reluct.android.screens.R
 import work.racka.reluct.android.screens.util.FetchMoreDataHandler
 import work.racka.reluct.common.model.domain.tasks.Task
 import work.racka.reluct.common.model.states.tasks.SearchData
 import work.racka.reluct.common.model.states.tasks.SearchTasksState
 import work.racka.reluct.compose.common.components.SharedRes
+import work.racka.reluct.compose.common.components.buttons.ScrollToTop
+import work.racka.reluct.compose.common.components.cards.taskEntry.EntryType
+import work.racka.reluct.compose.common.components.cards.taskEntry.TaskEntry
+import work.racka.reluct.compose.common.components.images.LottieAnimationWithDescription
+import work.racka.reluct.compose.common.components.textfields.search.MaterialSearchBar
+import work.racka.reluct.compose.common.components.util.rememberScrollContext
 import work.racka.reluct.compose.common.theme.Dimens
 
 @OptIn(

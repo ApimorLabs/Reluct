@@ -1,18 +1,15 @@
-package work.racka.reluct.android.compose.components.cards.taskEntry
+package work.racka.reluct.compose.common.components.cards.taskEntry
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import kotlinx.collections.immutable.ImmutableList
-import kotlinx.collections.immutable.toImmutableList
-import work.racka.reluct.android.compose.components.util.PreviewData
 import work.racka.reluct.common.model.domain.tasks.Task
 import work.racka.reluct.compose.common.theme.Dimens
 
@@ -54,6 +51,8 @@ fun GroupedTaskEntries(
     }
 }
 
+/*
+@Preview
 @Composable
 internal fun GroupedTasksPrev() {
     Surface(
@@ -76,4 +75,4 @@ internal fun GroupedTasksPrev() {
             )
         }
     }
-}
+}*/

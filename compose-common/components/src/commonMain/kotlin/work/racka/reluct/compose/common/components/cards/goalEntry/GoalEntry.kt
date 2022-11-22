@@ -1,13 +1,11 @@
-package work.racka.reluct.android.compose.components.cards.goalEntry
+package work.racka.reluct.compose.common.components.cards.goalEntry
 
 import androidx.compose.animation.Animatable
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.TweenSpec
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ChevronRight
 import androidx.compose.material3.Icon
@@ -24,15 +22,12 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.unit.LayoutDirection
 import kotlinx.coroutines.launch
-import work.racka.reluct.android.compose.components.cards.cardWithActions.ReluctDescriptionCard
-import work.racka.reluct.android.compose.components.textfields.texts.EntryDescription
-import work.racka.reluct.android.compose.components.textfields.texts.EntryHeading
-import work.racka.reluct.android.compose.components.util.PreviewData
 import work.racka.reluct.common.model.domain.goals.Goal
 import work.racka.reluct.compose.common.components.SharedRes
+import work.racka.reluct.compose.common.components.cards.cardWithActions.ReluctDescriptionCard
 import work.racka.reluct.compose.common.components.resources.stringResource
-import work.racka.reluct.compose.common.theme.Dimens
-import work.racka.reluct.compose.common.theme.ReluctAppTheme
+import work.racka.reluct.compose.common.components.textfields.texts.EntryDescription
+import work.racka.reluct.compose.common.components.textfields.texts.EntryHeading
 import work.racka.reluct.compose.common.theme.Shapes
 
 @Composable
@@ -87,7 +82,7 @@ fun GoalEntry(
         modifier = Modifier
             .clip(shape)
             .background(containerColor)
-                then modifier,
+            then modifier,
         contentAlignment = Alignment.Center
     ) {
         ReluctDescriptionCard(
@@ -136,6 +131,8 @@ internal fun DrawScope.drawLinearIndicator(
     drawLine(color, Offset(barStart, yOffset), Offset(barEnd, yOffset), strokeWidth)
 }
 
+/*
+@Preview
 @Composable
 private fun GoalEntryPreview() {
     ReluctAppTheme {
@@ -145,4 +142,4 @@ private fun GoalEntryPreview() {
             }
         }
     }
-}
+}*/

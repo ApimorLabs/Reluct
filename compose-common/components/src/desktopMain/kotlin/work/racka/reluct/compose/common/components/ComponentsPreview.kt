@@ -1,4 +1,4 @@
-package work.racka.reluct.android.compose.components
+package work.racka.reluct.compose.common.components
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.material3.Surface

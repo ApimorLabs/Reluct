@@ -1,4 +1,4 @@
-package work.racka.reluct.android.compose.components.cards.headers
+package work.racka.reluct.compose.common.components.cards.headers
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth

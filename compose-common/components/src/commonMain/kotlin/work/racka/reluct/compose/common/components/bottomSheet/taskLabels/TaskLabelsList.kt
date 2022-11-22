@@ -1,4 +1,4 @@
-package work.racka.reluct.android.compose.components.bottomSheet.taskLabels
+package work.racka.reluct.compose.common.components.bottomSheet.taskLabels
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
@@ -14,9 +14,9 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import kotlinx.collections.immutable.ImmutableList
-import work.racka.reluct.android.compose.components.cards.taskLabelEntry.TaskLabelPill
 import work.racka.reluct.common.model.domain.tasks.TaskLabel
 import work.racka.reluct.compose.common.components.SharedRes
+import work.racka.reluct.compose.common.components.cards.taskLabelEntry.TaskLabelPill
 import work.racka.reluct.compose.common.components.resources.stringResource
 import work.racka.reluct.compose.common.theme.Dimens
 
@@ -36,6 +36,7 @@ fun TaskLabelsSelectCard(
             containerColor = containerColor,
             contentColor = contentColor
         ),
+        shape = MaterialTheme.shapes.large,
         onClick = onEditLabels
     ) {
         Row(

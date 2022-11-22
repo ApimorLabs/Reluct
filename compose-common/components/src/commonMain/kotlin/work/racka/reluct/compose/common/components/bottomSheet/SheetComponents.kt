@@ -1,4 +1,4 @@
-package work.racka.reluct.android.compose.components.bottomSheet
+package work.racka.reluct.compose.common.components.bottomSheet
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -16,7 +16,6 @@ import androidx.compose.ui.unit.dp
 import work.racka.reluct.compose.common.components.SharedRes
 import work.racka.reluct.compose.common.components.resources.stringResource
 import work.racka.reluct.compose.common.theme.Dimens
-import work.racka.reluct.compose.common.theme.ReluctAppTheme
 
 @Composable
 fun TopSheetSection(
@@ -96,6 +95,8 @@ fun TopSheetSection(
     }
 }
 
+/*
+@Preview
 @Composable
 private fun TopSheetPreview() {
     ReluctAppTheme {
@@ -105,4 +106,4 @@ private fun TopSheetPreview() {
             onCloseClicked = { }
         )
     }
-}
+}*/

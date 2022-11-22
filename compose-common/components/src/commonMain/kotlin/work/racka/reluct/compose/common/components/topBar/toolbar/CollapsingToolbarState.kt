@@ -1,4 +1,4 @@
-package work.racka.reluct.android.compose.components.topBar.toolbar
+package work.racka.reluct.compose.common.components.topBar.toolbar
 
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.runtime.Composable
@@ -9,7 +9,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.unit.dp
-import work.racka.reluct.android.compose.components.topBar.toolbar.scrollflags.ScrollState
+import work.racka.reluct.compose.common.components.topBar.toolbar.scrollflags.ScrollState
 
 val minToolbarHeight = 96.dp
 val maxToolbarHeight = 176.dp

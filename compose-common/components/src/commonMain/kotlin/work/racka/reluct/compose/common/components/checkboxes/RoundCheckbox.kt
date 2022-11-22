@@ -1,4 +1,4 @@
-package work.racka.reluct.android.compose.components.checkboxes
+package work.racka.reluct.compose.common.components.checkboxes
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi

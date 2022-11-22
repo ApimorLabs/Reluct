@@ -1,4 +1,4 @@
-package work.racka.reluct.android.compose.components.bottomSheet.taskLabels
+package work.racka.reluct.compose.common.components.bottomSheet.taskLabels
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -21,19 +21,19 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.unit.dp
-import work.racka.reluct.android.compose.components.bottomSheet.TopSheetSection
-import work.racka.reluct.android.compose.components.buttons.ReluctButton
-import work.racka.reluct.android.compose.components.textfields.ReluctTextField
-import work.racka.reluct.android.compose.components.util.getContentColor
-import work.racka.reluct.android.compose.components.util.getRandomColor
-import work.racka.reluct.android.compose.components.util.toColor
-import work.racka.reluct.android.compose.components.util.toHexString
 import work.racka.reluct.common.model.domain.tasks.TaskLabel
 import work.racka.reluct.common.model.util.UUIDGen
 import work.racka.reluct.compose.common.components.SharedRes
+import work.racka.reluct.compose.common.components.bottomSheet.TopSheetSection
+import work.racka.reluct.compose.common.components.buttons.ReluctButton
 import work.racka.reluct.compose.common.components.resources.stringResource
+import work.racka.reluct.compose.common.components.textfields.ReluctTextField
+import work.racka.reluct.compose.common.components.util.getContentColor
+import work.racka.reluct.compose.common.components.util.getRandomColor
 import work.racka.reluct.compose.common.components.util.imePadding
 import work.racka.reluct.compose.common.components.util.navigationBarsPadding
+import work.racka.reluct.compose.common.components.util.toColor
+import work.racka.reluct.compose.common.components.util.toHexString
 import work.racka.reluct.compose.common.theme.Dimens
 import work.racka.reluct.compose.common.theme.Shapes
 

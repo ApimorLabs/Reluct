@@ -20,11 +20,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
-import work.racka.reluct.android.compose.components.buttons.CollapsingFloatingButton
-import work.racka.reluct.android.compose.components.buttons.ScrollToTop
-import work.racka.reluct.android.compose.components.cards.goalEntry.GoalEntry
-import work.racka.reluct.android.compose.components.util.BarsVisibility
-import work.racka.reluct.android.compose.components.util.rememberScrollContext
 import work.racka.reluct.android.screens.R
 import work.racka.reluct.android.screens.goals.active.NewGoalDialog
 import work.racka.reluct.android.screens.goals.components.EmptyGoalsIndicator
@@ -33,6 +28,11 @@ import work.racka.reluct.android.screens.util.FetchMoreDataHandler
 import work.racka.reluct.android.screens.util.getSnackbarModifier
 import work.racka.reluct.common.features.goals.active.states.GoalsListState
 import work.racka.reluct.common.model.domain.goals.Goal
+import work.racka.reluct.compose.common.components.buttons.CollapsingFloatingButton
+import work.racka.reluct.compose.common.components.buttons.ScrollToTop
+import work.racka.reluct.compose.common.components.cards.goalEntry.GoalEntry
+import work.racka.reluct.compose.common.components.util.BarsVisibility
+import work.racka.reluct.compose.common.components.util.rememberScrollContext
 import work.racka.reluct.compose.common.theme.Dimens
 
 @OptIn(

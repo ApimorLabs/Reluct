@@ -1,4 +1,4 @@
-package work.racka.reluct.android.compose.components.images
+package work.racka.reluct.compose.common.components.images
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -21,13 +21,11 @@ import work.racka.reluct.compose.common.theme.Dimens
 actual fun LottieAnimationWithDescription(
     lottieResource: FileResource,
     description: String?,
+    descriptionTextStyle: TextStyle,
     modifier: Modifier,
     imageSize: Dp,
     iterations: Int,
-    descriptionTextStyle: TextStyle
 ) {
-
-    val fallbackImage = SharedRes.assets.permissions_unlock
     Column(
         modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally,

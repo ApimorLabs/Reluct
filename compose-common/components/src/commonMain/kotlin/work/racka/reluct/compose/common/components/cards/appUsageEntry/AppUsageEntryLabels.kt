@@ -1,4 +1,4 @@
-package work.racka.reluct.android.compose.components.cards.appUsageEntry
+package work.racka.reluct.compose.common.components.cards.appUsageEntry
 
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme

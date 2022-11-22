@@ -1,4 +1,4 @@
-package work.racka.reluct.android.compose.components.bottomSheet.taskLabels
+package work.racka.reluct.compose.common.components.bottomSheet.taskLabels
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
@@ -15,13 +15,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import kotlinx.collections.immutable.ImmutableList
-import work.racka.reluct.android.compose.components.bottomSheet.TopSheetSection
-import work.racka.reluct.android.compose.components.buttons.ReluctButton
-import work.racka.reluct.android.compose.components.cards.taskLabelEntry.TaskLabelEntry
-import work.racka.reluct.android.compose.components.cards.taskLabelEntry.TaskLabelsEntryMode
-import work.racka.reluct.android.compose.components.images.LottieAnimationWithDescription
 import work.racka.reluct.common.model.domain.tasks.TaskLabel
 import work.racka.reluct.compose.common.components.SharedRes
+import work.racka.reluct.compose.common.components.bottomSheet.TopSheetSection
+import work.racka.reluct.compose.common.components.buttons.ReluctButton
+import work.racka.reluct.compose.common.components.cards.taskLabelEntry.TaskLabelEntry
+import work.racka.reluct.compose.common.components.cards.taskLabelEntry.TaskLabelsEntryMode
+import work.racka.reluct.compose.common.components.images.LottieAnimationWithDescription
 import work.racka.reluct.compose.common.components.resources.stringResource
 import work.racka.reluct.compose.common.components.util.navigationBarsPadding
 import work.racka.reluct.compose.common.theme.Dimens
