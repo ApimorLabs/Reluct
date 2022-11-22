@@ -8,7 +8,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.navigation
 import com.google.accompanist.navigation.animation.composable
-import work.racka.reluct.android.compose.components.util.BarsVisibility
+import work.racka.reluct.compose.common.components.util.BarsVisibility
 import work.racka.reluct.android.compose.navigation.transitions.scaleInEnterTransition
 import work.racka.reluct.android.compose.navigation.transitions.scaleInPopEnterTransition
 import work.racka.reluct.android.compose.navigation.transitions.scaleOutExitTransition

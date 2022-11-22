@@ -7,8 +7,8 @@ import androidx.compose.runtime.remember
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import work.racka.common.mvvm.koin.compose.getCommonViewModel
-import work.racka.reluct.android.compose.components.util.BarsVisibility
 import work.racka.reluct.common.features.dashboard.statistics.DashboardStatisticsViewModel
+import work.racka.reluct.compose.common.components.util.BarsVisibility
 
 @OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable

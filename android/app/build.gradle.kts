@@ -121,6 +121,8 @@ dependencies {
     implementation(libs.compose.ui)
     implementation(libs.activity.compose)
     implementation(libs.compose.foundation)
+    implementation(libs.coil.compose)
+    implementation(libs.coil.svg)
 
     // Testing Compose
     androidTestImplementation(libs.compose.junit)

@@ -18,10 +18,10 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import work.racka.reluct.android.compose.components.R
-import work.racka.reluct.android.compose.components.buttons.ReluctButton
-import work.racka.reluct.android.compose.components.textfields.ReluctTextField
-import work.racka.reluct.android.compose.components.textfields.texts.ListItemTitle
+import work.racka.reluct.compose.common.components.R
+import work.racka.reluct.compose.common.components.buttons.ReluctButton
+import work.racka.reluct.compose.common.components.textfields.ReluctTextField
+import work.racka.reluct.compose.common.components.textfields.texts.ListItemTitle
 import work.racka.reluct.compose.common.theme.Dimens
 import work.racka.reluct.compose.common.theme.Shapes
 

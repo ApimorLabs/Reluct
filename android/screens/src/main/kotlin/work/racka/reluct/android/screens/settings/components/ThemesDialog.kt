@@ -16,9 +16,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import work.racka.reluct.android.compose.components.buttons.ReluctButton
-import work.racka.reluct.android.compose.components.cards.headers.ListGroupHeadingHeader
 import work.racka.reluct.android.screens.R
+import work.racka.reluct.compose.common.components.buttons.ReluctButton
+import work.racka.reluct.compose.common.components.cards.headers.ListGroupHeadingHeader
 import work.racka.reluct.compose.common.theme.Dimens
 import work.racka.reluct.compose.common.theme.Shapes
 

@@ -7,10 +7,10 @@ import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import work.racka.reluct.android.compose.components.cards.statistics.ChartData
-import work.racka.reluct.android.compose.components.util.extractColor
 import work.racka.reluct.common.model.domain.usagestats.AppUsageInfo
 import work.racka.reluct.compose.common.charts.pieChart.PieChartData
+import work.racka.reluct.compose.common.components.cards.statistics.ChartData
+import work.racka.reluct.compose.common.components.util.extractColor
 
 @Composable
 internal fun getScreenTimePieChartData(
@@ -34,10 +34,9 @@ internal fun getScreenTimePieChartData(
                 )
                 for (i in firstItems.indices) {
                     val data = firstItems[i]
-                    val colorInt = data.appIcon.icon.extractColor()
                     val slice = PieChartData.Slice(
                         value = data.timeInForeground.toFloat(),
-                        color = Color(colorInt)
+                        color = data.appIcon.extractColor()
                     )
                     add(slice)
                 }

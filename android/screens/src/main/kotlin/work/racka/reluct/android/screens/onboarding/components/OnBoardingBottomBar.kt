@@ -10,14 +10,14 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import kotlinx.collections.immutable.persistentListOf
-import work.racka.reluct.android.compose.components.buttons.OutlinedReluctButton
-import work.racka.reluct.android.compose.components.buttons.ReluctButton
-import work.racka.reluct.android.compose.components.textfields.texts.HighlightTextProps
-import work.racka.reluct.android.compose.components.textfields.texts.HyperlinkText
 import work.racka.reluct.android.screens.R
 import work.racka.reluct.android.screens.util.isAndroid13Plus
 import work.racka.reluct.common.features.onboarding.states.OnBoardingPages
 import work.racka.reluct.common.features.onboarding.states.OnBoardingState
+import work.racka.reluct.compose.common.components.buttons.OutlinedReluctButton
+import work.racka.reluct.compose.common.components.buttons.ReluctButton
+import work.racka.reluct.compose.common.components.textfields.texts.HighlightTextProps
+import work.racka.reluct.compose.common.components.textfields.texts.HyperlinkText
 import work.racka.reluct.compose.common.theme.Dimens
 
 @Composable
@@ -103,7 +103,7 @@ internal fun OnBoardingBottomBar(
                     BottomButtonsProperties(
                         positiveText = context.getString(R.string.next_text),
                         isPositiveEnabled = uiState.permissionsState.overlayGranted ||
-                                !uiState.appBlockingEnabled,
+                            !uiState.appBlockingEnabled,
                         positiveAction = { onUpdatePage(OnBoardingPages.Themes) },
                         negativeText = context.getString(R.string.back_text),
                         isNegativeEnabled = true,

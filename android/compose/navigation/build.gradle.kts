@@ -18,9 +18,9 @@ dependencies {
     // Dependency Modules
     api(project(":common:core-navigation"))
     implementation(project(":common:model"))
-    implementation(project(":android:compose:components"))
     implementation(project(":android:screens"))
     implementation(project(":compose-common:theme"))
+    implementation(project(":compose-common:components"))
 
     // Core Functionality
     /*

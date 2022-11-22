@@ -14,6 +14,7 @@ config_desktop_packageName = "work.racka.reluct"
 kotlin = "1.7.20"
 android_gradle_plugin = "7.3.1"
 compose_multiplatform = "1.2.0"
+moko_resources = "0.20.1"
 
 # Kotlin Helpers
 kotlinx_date_time = "0.4.0"
@@ -110,6 +111,8 @@ compose_multiplatform_plugin = { module = "org.jetbrains.compose:compose-gradle-
 sqldelight_plugin = { module = "com.squareup.sqldelight:gradle-plugin", version.ref = "sqlDelight" }
 google_services_plugin = { module = "com.google.gms:google-services", version.ref = "google_services" }
 firebase_crashlytics_plugin = { module = "com.google.firebase:firebase-crashlytics-gradle", version.ref = "crashlytics_gradle" }
+# Apply with "dev.icerock.mobile.multiplatform-resources"
+moko_resources_plugin = { module = "dev.icerock.moko:resources-generator", version.ref = "moko_resources" }
 
 # Kotlin
 kotlinx_serialization_core = { module = "org.jetbrains.kotlinx:kotlinx-serialization-core", version.ref = "kotlinx_serialization" }
@@ -129,6 +132,9 @@ core_ktx = { module = "androidx.core:core-ktx", version.ref = "core_ktx" }
 appCompat = { module = "androidx.appcompat:appcompat", version.ref = "appCompat" }
 google_material = { module = "com.google.android.material:material", version.ref = "google_material" }
 splash_screen_core = { module = "androidx.core:core-splashscreen", version.ref = "splash_screen" }
+moko_resources_core = { module = "dev.icerock.moko:resources", version.ref = "moko_resources" }
+moko_resources_compose = { module = "dev.icerock.moko:resources-compose", version.ref = "moko_resources" }
+moko_resources_test = { module = "dev.icerock.moko:resources-test", version.ref = "moko_resources" }
 
 # Lifecycle
 lifecycle_compose_runtime = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycle" }
@@ -189,6 +195,7 @@ androidx_test_uiautomator = { module = "androidx.test.uiautomator:uiautomator", 
 androidx_profileinstaller = { module = "androidx.profileinstaller:profileinstaller", version.ref = "androidx_profileinstaller" }
 
 # Helpers and Extras
+coil_svg = { module = "io.coil-kt:coil-svg", version.ref = "coil_image" }
 palette = { module = "androidx.palette:palette-ktx", version.ref = "palette" }
 androidx_workmanager = { module = "androidx.work:work-runtime-ktx", version.ref = "androidx_workmanager" }
 androidx_workmanager_multiprocess = { module = "androidx.work:work-multiprocess", version.ref = "androidx_workmanager" }

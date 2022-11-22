@@ -19,11 +19,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import work.racka.reluct.android.compose.components.buttons.ReluctButton
-import work.racka.reluct.android.compose.components.cards.goalEntry.GoalEntry
-import work.racka.reluct.android.compose.components.cards.headers.ListGroupHeadingHeader
 import work.racka.reluct.android.screens.R
 import work.racka.reluct.common.features.goals.active.states.DefaultGoals
+import work.racka.reluct.compose.common.components.buttons.ReluctButton
+import work.racka.reluct.compose.common.components.cards.goalEntry.GoalEntry
+import work.racka.reluct.compose.common.components.cards.headers.ListGroupHeadingHeader
 import work.racka.reluct.compose.common.theme.Dimens
 import work.racka.reluct.compose.common.theme.Shapes
 

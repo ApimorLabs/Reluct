@@ -1,3 +1,5 @@
+@file:JvmName("ComposablesDesktopJvm")
+
 package work.racka.reluct.compose.common.date.time.picker.util
 
 import androidx.compose.runtime.Composable

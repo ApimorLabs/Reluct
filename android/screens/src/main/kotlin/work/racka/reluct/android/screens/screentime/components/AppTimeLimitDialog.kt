@@ -3,9 +3,9 @@ package work.racka.reluct.android.screens.screentime.components
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.ui.res.stringResource
-import work.racka.reluct.android.compose.components.R
-import work.racka.reluct.android.compose.components.dialogs.CircularProgressDialog
+import work.racka.reluct.android.screens.R
 import work.racka.reluct.common.features.screenTime.limits.states.AppTimeLimitState
+import work.racka.reluct.compose.common.components.dialogs.CircularProgressDialog
 
 @Composable
 internal fun ShowAppTimeLimitDialog(
@@ -26,7 +26,8 @@ internal fun ShowAppTimeLimitDialog(
             else -> {
                 CircularProgressDialog(
                     onDismiss = onClose,
-                    loadingText = stringResource(id = R.string.loading_text)
+                    loadingText = stringResource(id = R.string.loading_text),
+                    isVisible = openDialog
                 )
             }
         }

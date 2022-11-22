@@ -12,14 +12,15 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import work.racka.reluct.android.compose.components.cards.headers.ListGroupHeadingHeader
 import work.racka.reluct.android.screens.R
 import work.racka.reluct.android.screens.util.BackPressHandler
+import work.racka.reluct.compose.common.components.SharedRes
+import work.racka.reluct.compose.common.components.cards.headers.ListGroupHeadingHeader
+import work.racka.reluct.compose.common.components.resources.painterResource
 import work.racka.reluct.compose.common.theme.Dimens
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -52,7 +53,7 @@ internal fun PermissionsPage(
             Image(
                 modifier = Modifier
                     .size(drawableSize),
-                painter = painterResource(id = R.drawable.permissions_unlock),
+                painter = painterResource(SharedRes.assets.permissions_unlock),
                 contentDescription = null
             )
         }

@@ -20,9 +20,9 @@ import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import timber.log.Timber
-import work.racka.reluct.android.compose.components.R
-import work.racka.reluct.android.compose.components.topBar.ReluctPageHeading
-import work.racka.reluct.android.compose.components.util.BarsVisibility
+import work.racka.reluct.compose.common.components.topBar.ReluctPageHeading
+import work.racka.reluct.compose.common.components.util.BarsVisibility
+import work.racka.reluct.android.compose.navigation.R
 import work.racka.reluct.android.compose.navigation.navbar.NavbarDestinations
 import work.racka.reluct.android.compose.navigation.toptabs.dashboard.DashboardTabBar
 import work.racka.reluct.android.compose.navigation.toptabs.dashboard.DashboardTabDestination

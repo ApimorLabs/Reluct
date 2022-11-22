@@ -16,17 +16,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
-import work.racka.reluct.android.compose.components.R
-import work.racka.reluct.android.compose.components.buttons.ScrollToTop
-import work.racka.reluct.android.compose.components.cards.goalEntry.GoalEntry
-import work.racka.reluct.android.compose.components.cards.headers.ListGroupHeadingHeader
-import work.racka.reluct.android.compose.components.cards.permissions.PermissionsCard
-import work.racka.reluct.android.compose.components.cards.statistics.piechart.DailyScreenTimePieChart
-import work.racka.reluct.android.compose.components.cards.taskEntry.EntryType
-import work.racka.reluct.android.compose.components.cards.taskEntry.TaskEntry
-import work.racka.reluct.android.compose.components.images.LottieAnimationWithDescription
-import work.racka.reluct.android.compose.components.util.BarsVisibility
-import work.racka.reluct.android.compose.components.util.rememberScrollContext
+import work.racka.reluct.android.screens.R
 import work.racka.reluct.android.screens.dashboard.components.getScreenTimePieChartData
 import work.racka.reluct.android.screens.screentime.components.UsagePermissionDialog
 import work.racka.reluct.android.screens.util.*
@@ -35,6 +25,17 @@ import work.racka.reluct.common.features.dashboard.overview.states.TodayScreenTi
 import work.racka.reluct.common.features.dashboard.overview.states.TodayTasksState
 import work.racka.reluct.common.model.domain.goals.Goal
 import work.racka.reluct.common.model.domain.tasks.Task
+import work.racka.reluct.compose.common.components.SharedRes
+import work.racka.reluct.compose.common.components.buttons.ScrollToTop
+import work.racka.reluct.compose.common.components.cards.goalEntry.GoalEntry
+import work.racka.reluct.compose.common.components.cards.headers.ListGroupHeadingHeader
+import work.racka.reluct.compose.common.components.cards.permissions.PermissionsCard
+import work.racka.reluct.compose.common.components.cards.statistics.piechart.DailyScreenTimePieChart
+import work.racka.reluct.compose.common.components.cards.taskEntry.EntryType
+import work.racka.reluct.compose.common.components.cards.taskEntry.TaskEntry
+import work.racka.reluct.compose.common.components.images.LottieAnimationWithDescription
+import work.racka.reluct.compose.common.components.util.BarsVisibility
+import work.racka.reluct.compose.common.components.util.rememberScrollContext
 import work.racka.reluct.compose.common.theme.Dimens
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -128,9 +129,10 @@ internal fun DashboardOverviewUI(
                             imageSlot = {
                                 LottieAnimationWithDescription(
                                     iterations = Int.MAX_VALUE,
-                                    lottieResId = R.raw.no_permission,
+                                    lottieResource = SharedRes.files.no_permission,
                                     imageSize = 200.dp,
-                                    description = null
+                                    description = null,
+                                    descriptionTextStyle = MaterialTheme.typography.bodyLarge
                                 )
                             },
                             permissionDetails = stringResource(R.string.usage_permissions_details),
@@ -208,9 +210,10 @@ private fun LazyListScope.tasksAndGoals(
                 contentAlignment = Alignment.Center
             ) {
                 LottieAnimationWithDescription(
-                    lottieResId = R.raw.no_task_animation,
+                    lottieResource = SharedRes.files.no_task_animation,
                     imageSize = 200.dp,
-                    description = stringResource(R.string.no_tasks_text)
+                    description = stringResource(R.string.no_tasks_text),
+                    descriptionTextStyle = MaterialTheme.typography.bodyLarge
                 )
             }
         }

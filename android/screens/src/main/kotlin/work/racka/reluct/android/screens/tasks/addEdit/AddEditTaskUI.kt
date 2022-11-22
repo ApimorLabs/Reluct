@@ -24,13 +24,6 @@ import androidx.compose.ui.unit.dp
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.launch
-import work.racka.reluct.android.compose.components.bottomSheet.addEditTask.LazyColumnAddEditTaskFields
-import work.racka.reluct.android.compose.components.buttons.OutlinedReluctButton
-import work.racka.reluct.android.compose.components.buttons.ReluctButton
-import work.racka.reluct.android.compose.components.dialogs.DiscardPromptDialog
-import work.racka.reluct.android.compose.components.images.LottieAnimationWithDescription
-import work.racka.reluct.android.compose.components.topBar.ReluctSmallTopAppBar
-import work.racka.reluct.android.compose.components.util.EditTitles
 import work.racka.reluct.android.screens.R
 import work.racka.reluct.android.screens.tasks.components.CurrentTaskLabels
 import work.racka.reluct.android.screens.tasks.components.ManageTaskLabelsSheet
@@ -40,6 +33,14 @@ import work.racka.reluct.common.model.domain.tasks.EditTask
 import work.racka.reluct.common.model.domain.tasks.TaskLabel
 import work.racka.reluct.common.model.states.tasks.AddEditTaskState
 import work.racka.reluct.common.model.states.tasks.ModifyTaskState
+import work.racka.reluct.compose.common.components.SharedRes
+import work.racka.reluct.compose.common.components.bottomSheet.addEditTask.LazyColumnAddEditTaskFields
+import work.racka.reluct.compose.common.components.buttons.OutlinedReluctButton
+import work.racka.reluct.compose.common.components.buttons.ReluctButton
+import work.racka.reluct.compose.common.components.dialogs.DiscardPromptDialog
+import work.racka.reluct.compose.common.components.images.LottieAnimationWithDescription
+import work.racka.reluct.compose.common.components.topBar.ReluctSmallTopAppBar
+import work.racka.reluct.compose.common.components.util.EditTitles
 import work.racka.reluct.compose.common.theme.Dimens
 import work.racka.reluct.compose.common.theme.Shapes
 
@@ -155,9 +156,10 @@ internal fun AddEditTaskUI(
                                     .spacedBy(Dimens.MediumPadding.size)
                             ) {
                                 LottieAnimationWithDescription(
-                                    lottieResId = R.raw.task_saved,
+                                    lottieResource = SharedRes.files.task_saved,
                                     imageSize = 300.dp,
-                                    description = null
+                                    description = null,
+                                    descriptionTextStyle = MaterialTheme.typography.bodyLarge
                                 )
                                 ReluctButton(
                                     buttonText = stringResource(R.string.add_task_button_text),
@@ -178,9 +180,10 @@ internal fun AddEditTaskUI(
                         }
                         is ModifyTaskState.NotFound -> {
                             LottieAnimationWithDescription(
-                                lottieResId = R.raw.no_data,
+                                lottieResource = SharedRes.files.no_data,
                                 imageSize = 300.dp,
-                                description = stringResource(R.string.task_not_found_text)
+                                description = stringResource(R.string.task_not_found_text),
+                                descriptionTextStyle = MaterialTheme.typography.bodyLarge
                             )
                         }
                         else -> {}
@@ -202,7 +205,7 @@ internal fun AddEditTaskUI(
     DiscardPromptDialog(
         dialogTitleProvider = { titles.value.dialogTitle },
         openDialog = openDialog,
-        onClose = { openDialog.value = true },
+        onClose = { openDialog.value = false },
         onGoBack = onBackClicked
     )
 }

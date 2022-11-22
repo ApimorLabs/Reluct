@@ -18,16 +18,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import work.racka.reluct.android.compose.components.cards.headers.ListGroupHeadingHeader
-import work.racka.reluct.android.compose.components.cards.statistics.BarChartDefaults
-import work.racka.reluct.android.compose.components.cards.statistics.screenTime.ScreenTimeStatisticsCard
-import work.racka.reluct.android.compose.components.dialogs.CircularProgressDialog
 import work.racka.reluct.android.screens.R
 import work.racka.reluct.android.screens.screentime.components.*
 import work.racka.reluct.common.features.screenTime.statistics.states.appStats.AppScreenTimeStatsState
 import work.racka.reluct.common.features.screenTime.statistics.states.appStats.AppSettingsState
 import work.racka.reluct.common.features.screenTime.statistics.states.appStats.DailyAppUsageStatsState
 import work.racka.reluct.common.features.screenTime.statistics.states.appStats.WeeklyAppUsageStatsState
+import work.racka.reluct.compose.common.components.cards.headers.ListGroupHeadingHeader
+import work.racka.reluct.compose.common.components.cards.statistics.BarChartDefaults
+import work.racka.reluct.compose.common.components.cards.statistics.screenTime.ScreenTimeStatisticsCard
+import work.racka.reluct.compose.common.components.dialogs.CircularProgressDialog
 import work.racka.reluct.compose.common.theme.Dimens
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
@@ -240,7 +240,8 @@ private fun ShowAppTimeLimitDialog(
             else -> {
                 CircularProgressDialog(
                     onDismiss = onClose,
-                    loadingText = stringResource(id = R.string.loading_text)
+                    loadingText = stringResource(id = R.string.loading_text),
+                    isVisible = openDialog
                 )
             }
         }

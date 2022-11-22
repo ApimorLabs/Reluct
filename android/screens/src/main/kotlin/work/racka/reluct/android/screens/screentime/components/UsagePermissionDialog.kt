@@ -7,9 +7,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import work.racka.reluct.android.compose.components.R
-import work.racka.reluct.android.compose.components.buttons.ReluctButton
+import work.racka.reluct.android.screens.R
 import work.racka.reluct.android.screens.util.requestUsageAccessPermission
+import work.racka.reluct.compose.common.components.buttons.ReluctButton
 import work.racka.reluct.compose.common.theme.Shapes
 
 @Composable

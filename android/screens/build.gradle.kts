@@ -19,13 +19,13 @@ dependencies {
     implementation(project(":common:billing"))
     implementation(project(":common:model"))
     implementation(project(":common:mvvm-core"))
-    implementation(project(":android:compose:components"))
     implementation(project(":common:features:dashboard"))
     implementation(project(":common:features:goals"))
     implementation(project(":common:features:onboarding"))
     implementation(project(":common:features:screen-time"))
     implementation(project(":common:features:settings"))
     implementation(project(":common:features:tasks"))
+    implementation(project(":compose-common:components"))
     implementation(project(":compose-common:theme"))
 
     // Core Functionality

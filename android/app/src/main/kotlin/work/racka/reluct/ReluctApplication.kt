@@ -2,6 +2,8 @@ package work.racka.reluct
 
 import android.app.Application
 import androidx.work.WorkManager
+import coil.ImageLoader
+import coil.ImageLoaderFactory
 import com.revenuecat.purchases.Purchases
 import com.revenuecat.purchases.PurchasesConfiguration
 import kotlinx.coroutines.MainScope
@@ -19,7 +21,7 @@ import work.racka.reluct.common.features.screenTime.services.ScreenTimeServices
 import work.racka.reluct.common.features.screenTime.work.ResumeAppsWork
 import work.racka.reluct.common.settings.MultiplatformSettings
 
-class ReluctApplication : Application() {
+class ReluctApplication : Application(), ImageLoaderFactory {
     override fun onCreate() {
         super.onCreate()
 
@@ -58,5 +60,9 @@ class ReluctApplication : Application() {
                 ).build()
             )
         }
+    }
+
+    override fun newImageLoader(): ImageLoader {
+        return customCoilImageLoader()
     }
 }

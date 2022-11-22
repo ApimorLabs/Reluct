@@ -1,6 +1,7 @@
 package work.racka.reluct
 
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -21,10 +22,17 @@ import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import kotlinx.datetime.TimeZone
 import work.racka.reluct.common.model.util.time.TimeUtils
+import work.racka.reluct.compose.common.components.SharedRes
+import work.racka.reluct.compose.common.components.resources.painterResource
+import work.racka.reluct.compose.common.components.resources.stringResource
 import kotlin.jvm.optionals.getOrNull
 
 fun main() = application {
-    Window(onCloseRequest = ::exitApplication) {
+    Window(
+        onCloseRequest = ::exitApplication,
+        title = stringResource(SharedRes.strings.app_name),
+        icon = androidx.compose.ui.res.painterResource("icons/window_icon.svg")
+    ) {
         MaterialTheme {
             ProcessesScreen()
         }
@@ -45,6 +53,23 @@ private fun ProcessesScreen() {
     ) {
         stickyHeader {
             Text(text = "Processes")
+        }
+
+        item {
+            Image(
+                painter = painterResource(resource = SharedRes.assets.welcome_mobile),
+                contentDescription = "Test Image",
+                modifier = Modifier.size(160.dp)
+            )
+        }
+
+        item {
+            Text(
+                text = stringResource(
+                    resource = SharedRes.strings.task_info_reminder_text,
+                    "Hello"
+                )
+            )
         }
 
         item {
@@ -92,9 +117,9 @@ fun TestScreen() {
                 .onPreviewKeyEvent {
                     when {
                         (
-                            it.isCtrlPressed && it.key == Key.Enter &&
-                                it.type == KeyEventType.KeyDown
-                            )
+                                it.isCtrlPressed && it.key == Key.Enter &&
+                                        it.type == KeyEventType.KeyDown
+                                )
                         -> {
                             click()
                             true

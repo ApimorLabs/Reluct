@@ -12,16 +12,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.collections.immutable.persistentListOf
-import work.racka.reluct.android.compose.components.cards.headers.ListGroupHeadingHeader
-import work.racka.reluct.android.compose.components.textfields.texts.HighlightTextProps
-import work.racka.reluct.android.compose.components.textfields.texts.HighlightedText
 import work.racka.reluct.android.screens.R
+import work.racka.reluct.compose.common.components.SharedRes
+import work.racka.reluct.compose.common.components.cards.headers.ListGroupHeadingHeader
+import work.racka.reluct.compose.common.components.resources.painterResource
+import work.racka.reluct.compose.common.components.textfields.texts.HighlightTextProps
+import work.racka.reluct.compose.common.components.textfields.texts.HighlightedText
 import work.racka.reluct.compose.common.theme.Dimens
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -52,7 +53,7 @@ internal fun WelcomePage(
                 modifier = Modifier
                     .size(drawableSize)
                     .padding(Dimens.MediumPadding.size),
-                painter = painterResource(id = R.drawable.welcome_mobile),
+                painter = painterResource(SharedRes.assets.welcome_mobile),
                 contentDescription = null
             )
         }

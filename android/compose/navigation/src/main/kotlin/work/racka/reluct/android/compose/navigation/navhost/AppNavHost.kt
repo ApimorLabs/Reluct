@@ -17,10 +17,10 @@ import androidx.navigation.NavHostController
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
-import work.racka.reluct.android.compose.components.animations.slideInVerticallyFadeReversed
-import work.racka.reluct.android.compose.components.animations.slideOutVerticallyFadeReversed
-import work.racka.reluct.android.compose.components.util.BarsVisibility
-import work.racka.reluct.android.compose.components.util.rememberBarVisibility
+import work.racka.reluct.compose.common.components.animations.slideInVerticallyFadeReversed
+import work.racka.reluct.compose.common.components.animations.slideOutVerticallyFadeReversed
+import work.racka.reluct.compose.common.components.util.BarsVisibility
+import work.racka.reluct.compose.common.components.util.rememberBarVisibility
 import work.racka.reluct.android.compose.navigation.navbar.NavbarDestinations
 import work.racka.reluct.android.compose.navigation.navbar.ReluctBottomNavBar
 import work.racka.reluct.android.compose.navigation.navhost.graphs.dashboard.DashboardNavHost

@@ -16,13 +16,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import work.racka.reluct.android.compose.components.bottomSheet.addEditGoal.LazyColumnAddEditGoal
-import work.racka.reluct.android.compose.components.buttons.OutlinedReluctButton
-import work.racka.reluct.android.compose.components.buttons.ReluctButton
-import work.racka.reluct.android.compose.components.dialogs.DiscardPromptDialog
-import work.racka.reluct.android.compose.components.images.LottieAnimationWithDescription
-import work.racka.reluct.android.compose.components.topBar.ReluctSmallTopAppBar
-import work.racka.reluct.android.compose.components.util.EditTitles
 import work.racka.reluct.android.screens.R
 import work.racka.reluct.android.screens.screentime.components.ManageAppsDialog
 import work.racka.reluct.android.screens.util.BackPressHandler
@@ -31,6 +24,14 @@ import work.racka.reluct.common.features.goals.add_edit_goal.states.GoalAppsStat
 import work.racka.reluct.common.features.goals.add_edit_goal.states.ModifyGoalState
 import work.racka.reluct.common.model.domain.appInfo.AppInfo
 import work.racka.reluct.common.model.domain.goals.Goal
+import work.racka.reluct.compose.common.components.SharedRes
+import work.racka.reluct.compose.common.components.bottomSheet.addEditGoal.LazyColumnAddEditGoal
+import work.racka.reluct.compose.common.components.buttons.OutlinedReluctButton
+import work.racka.reluct.compose.common.components.buttons.ReluctButton
+import work.racka.reluct.compose.common.components.dialogs.DiscardPromptDialog
+import work.racka.reluct.compose.common.components.images.LottieAnimationWithDescription
+import work.racka.reluct.compose.common.components.topBar.ReluctSmallTopAppBar
+import work.racka.reluct.compose.common.components.util.EditTitles
 import work.racka.reluct.compose.common.theme.Dimens
 import work.racka.reluct.compose.common.theme.Shapes
 
@@ -122,9 +123,10 @@ internal fun AddEditGoalUI(
                     }
                     is ModifyGoalState.NotFound -> {
                         LottieAnimationWithDescription(
-                            lottieResId = R.raw.no_data,
+                            lottieResource = SharedRes.files.no_data,
                             imageSize = 300.dp,
-                            description = stringResource(R.string.goal_not_found_text)
+                            description = stringResource(R.string.goal_not_found_text),
+                            descriptionTextStyle = MaterialTheme.typography.bodyLarge
                         )
                     }
                     is ModifyGoalState.Saved -> {
@@ -136,9 +138,10 @@ internal fun AddEditGoalUI(
                                 .spacedBy(Dimens.MediumPadding.size)
                         ) {
                             LottieAnimationWithDescription(
-                                lottieResId = R.raw.task_saved,
+                                lottieResource = SharedRes.files.task_saved,
                                 imageSize = 300.dp,
-                                description = null
+                                description = null,
+                                descriptionTextStyle = MaterialTheme.typography.bodyLarge
                             )
                             ReluctButton(
                                 buttonText = stringResource(R.string.new_goal_text),

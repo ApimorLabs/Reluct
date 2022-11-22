@@ -10,10 +10,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import kotlinx.collections.immutable.persistentListOf
-import work.racka.reluct.android.compose.components.textfields.texts.HighlightTextProps
-import work.racka.reluct.android.compose.components.textfields.texts.HyperlinkText
 import work.racka.reluct.android.screens.BuildConfig
 import work.racka.reluct.android.screens.R
+import work.racka.reluct.compose.common.components.textfields.texts.HighlightTextProps
+import work.racka.reluct.compose.common.components.textfields.texts.HyperlinkText
 import work.racka.reluct.compose.common.theme.Dimens
 
 @Composable

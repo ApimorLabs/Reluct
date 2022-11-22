@@ -20,18 +20,19 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import work.racka.reluct.android.compose.components.buttons.ReluctButton
-import work.racka.reluct.android.compose.components.cards.headers.ListGroupHeadingHeader
 import work.racka.reluct.android.screens.R
 import work.racka.reluct.android.screens.onboarding.components.PermissionStatusCard
 import work.racka.reluct.android.screens.util.BackPressHandler
 import work.racka.reluct.android.screens.util.PermissionCheckHandler
 import work.racka.reluct.android.screens.util.checkUsageAccessPermissions
+import work.racka.reluct.compose.common.components.SharedRes
+import work.racka.reluct.compose.common.components.buttons.ReluctButton
+import work.racka.reluct.compose.common.components.cards.headers.ListGroupHeadingHeader
+import work.racka.reluct.compose.common.components.resources.painterResource
 import work.racka.reluct.compose.common.theme.Dimens
 import work.racka.reluct.compose.common.theme.Shapes
 
@@ -83,7 +84,7 @@ internal fun UsageAccessPage(
             Image(
                 modifier = Modifier
                     .size(drawableSize),
-                painter = painterResource(id = R.drawable.stats_pie_chart),
+                painter = painterResource(SharedRes.assets.stats_pie_chart),
                 contentDescription = null
             )
         }

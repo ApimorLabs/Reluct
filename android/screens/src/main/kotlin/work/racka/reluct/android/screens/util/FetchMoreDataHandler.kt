@@ -1,7 +1,7 @@
 package work.racka.reluct.android.screens.util
 
 import androidx.compose.runtime.*
-import work.racka.reluct.android.compose.components.util.ScrollContext
+import work.racka.reluct.compose.common.components.util.ScrollContext
 
 /**
  * Triggers [onFetchData] when [isFetchAllowedProvider] provides true. State that trigger fetching
