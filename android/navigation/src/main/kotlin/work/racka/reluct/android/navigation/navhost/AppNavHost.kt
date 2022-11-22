@@ -93,7 +93,7 @@ fun AppNavHost(settingsCheck: SettingsCheck?, modifier: Modifier = Modifier) {
                                     popUpTo(checkingRoute) { inclusive = true }
                                 }
                             } else {
-                                navController.navigate(work.racka.reluct.common.core.navigation.composeDestinations.onboarding.OnBoardingDestination.route) {
+                                navController.navigate(OnBoardingDestination.route) {
                                     popUpTo(checkingRoute) { inclusive = true }
                                 }
                             }
@@ -114,7 +114,7 @@ fun AppNavHost(settingsCheck: SettingsCheck?, modifier: Modifier = Modifier) {
 
                 // OnBoarding
                 composable(
-                    route = work.racka.reluct.common.core.navigation.composeDestinations.onboarding.OnBoardingDestination.route,
+                    route = OnBoardingDestination.route,
                     enterTransition = { scaleInEnterTransition() },
                     exitTransition = { scaleOutExitTransition() },
                     popEnterTransition = { scaleInPopEnterTransition() },
@@ -123,7 +123,9 @@ fun AppNavHost(settingsCheck: SettingsCheck?, modifier: Modifier = Modifier) {
                     OnBoardingScreen(
                         navigateHome = {
                             navController.navigate(NavbarDestinations.Dashboard.route) {
-                                popUpTo(work.racka.reluct.common.core.navigation.composeDestinations.onboarding.OnBoardingDestination.route) { inclusive = true }
+                                popUpTo(
+                                    OnBoardingDestination.route
+                                ) { inclusive = true }
                             }
                         }
                     )
@@ -149,7 +151,7 @@ fun AppNavHost(settingsCheck: SettingsCheck?, modifier: Modifier = Modifier) {
                 // Tasks
                 composable(
                     route = NavbarDestinations.Tasks.route,
-                    deepLinks = work.racka.reluct.common.core.navigation.composeDestinations.tasks.PendingTasksDestination.deepLinks,
+                    deepLinks = PendingTasksDestination.deepLinks,
                     enterTransition = { scaleInEnterTransition() },
                     exitTransition = { scaleOutExitTransition() },
                     popEnterTransition = { scaleInPopEnterTransition() },
@@ -200,7 +202,7 @@ fun AppNavHost(settingsCheck: SettingsCheck?, modifier: Modifier = Modifier) {
 
                 // Settings
                 composable(
-                    route = work.racka.reluct.common.core.navigation.composeDestinations.settings.SettingsDestination.route,
+                    route = SettingsDestination.route,
                     enterTransition = { scaleInEnterTransition() },
                     exitTransition = { scaleOutExitTransition() },
                     popEnterTransition = { scaleInPopEnterTransition() },

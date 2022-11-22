@@ -64,12 +64,12 @@ internal fun GoalsNavHost(
         AnimatedNavHost(
             modifier = Modifier.padding(innerPadding),
             navController = navController,
-            route = work.racka.reluct.common.core.navigation.composeDestinations.goals.ActiveGoalsDestination.destination,
-            startDestination = work.racka.reluct.common.core.navigation.composeDestinations.goals.ActiveGoalsDestination.route
+            route = ActiveGoalsDestination.destination,
+            startDestination = ActiveGoalsDestination.route
         ) {
             // Active
             composable(
-                route = work.racka.reluct.common.core.navigation.composeDestinations.goals.ActiveGoalsDestination.route,
+                route = ActiveGoalsDestination.route,
                 // Transition animations
                 enterTransition = { scaleInEnterTransition() },
                 exitTransition = { scaleOutExitTransition() },
@@ -81,21 +81,25 @@ internal fun GoalsNavHost(
                     barsVisibility = barsVisibility,
                     onNavigateToAddGoal = { defaultGoalIndex: Int? ->
                         mainNavController.navigate(
-                            work.racka.reluct.common.core.navigation.composeDestinations.goals.AddEditGoalDestination.argsRoute(
+                            AddEditGoalDestination.argsRoute(
                                 goalId = null,
                                 defaultGoalIndex = defaultGoalIndex
                             )
                         )
                     },
                     onNavigateToGoalDetails = { goalId: String? ->
-                        mainNavController.navigate(work.racka.reluct.common.core.navigation.composeDestinations.goals.GoalDetailsDestination.argsRoute(goalId))
+                        mainNavController.navigate(
+                            GoalDetailsDestination.argsRoute(
+                                goalId
+                            )
+                        )
                     }
                 )
             }
 
             // Inactive
             composable(
-                route = work.racka.reluct.common.core.navigation.composeDestinations.goals.InactiveGoalsDestination.route,
+                route = InactiveGoalsDestination.route,
                 // Transition animations
                 enterTransition = { scaleInEnterTransition() },
                 exitTransition = { scaleOutExitTransition() },
@@ -107,14 +111,18 @@ internal fun GoalsNavHost(
                     barsVisibility = barsVisibility,
                     onNavigateToAddGoal = { defaultGoalIndex: Int? ->
                         mainNavController.navigate(
-                            work.racka.reluct.common.core.navigation.composeDestinations.goals.AddEditGoalDestination.argsRoute(
+                            AddEditGoalDestination.argsRoute(
                                 goalId = null,
                                 defaultGoalIndex = defaultGoalIndex
                             )
                         )
                     },
                     onNavigateToGoalDetails = { goalId: String? ->
-                        mainNavController.navigate(work.racka.reluct.common.core.navigation.composeDestinations.goals.GoalDetailsDestination.argsRoute(goalId))
+                        mainNavController.navigate(
+                            GoalDetailsDestination.argsRoute(
+                                goalId
+                            )
+                        )
                     }
                 )
             }

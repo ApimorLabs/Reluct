@@ -128,9 +128,9 @@ class PagerState(
      */
     @Deprecated(
         "targetPage is deprecated in favor of currentPage as currentPage property is" +
-                "now being updated right after we over scrolled the half of the previous current page." +
-                "If you still think that you need targetPage, not currentPage please file a bug as " +
-                "we are planning to remove this property in future.",
+            "now being updated right after we over scrolled the half of the previous current page." +
+            "If you still think that you need targetPage, not currentPage please file a bug as " +
+            "we are planning to remove this property in future.",
         ReplaceWith("currentPage")
     )
     val targetPage: Int
@@ -300,10 +300,10 @@ class PagerState(
         get() = lazyListState.isScrollInProgress
 
     override fun toString(): String = "PagerState(" +
-            "pageCount=$pageCount, " +
-            "currentPage=$currentPage, " +
-            "currentPageOffset=$currentPageOffset" +
-            ")"
+        "pageCount=$pageCount, " +
+        "currentPage=$currentPage, " +
+        "currentPageOffset=$currentPageOffset" +
+        ")"
 
     private fun requireCurrentPage(value: Int, name: String) {
         require(value >= 0) { "$name[$value] must be >= 0" }

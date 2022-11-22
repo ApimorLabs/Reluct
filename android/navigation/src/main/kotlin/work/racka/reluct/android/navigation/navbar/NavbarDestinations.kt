@@ -23,28 +23,28 @@ enum class NavbarDestinations(
     val description: String? = null,
 ) {
     Dashboard(
-        route = work.racka.reluct.common.core.navigation.composeDestinations.dashboard.DashboardOverviewDestination.destination,
+        route = DashboardOverviewDestination.destination,
         iconActive = Icons.Rounded.GridView,
         iconInactive = Icons.Outlined.GridView,
         label = "Dashboard",
         description = "Open Dashboard"
     ),
     Tasks(
-        route = work.racka.reluct.common.core.navigation.composeDestinations.tasks.PendingTasksDestination.destination,
+        route = PendingTasksDestination.destination,
         iconActive = Icons.Rounded.FactCheck,
         iconInactive = Icons.Outlined.FactCheck,
         label = "Tasks",
         description = "Open Tasks"
     ),
     ScreenTime(
-        route = work.racka.reluct.common.core.navigation.composeDestinations.screentime.ScreenTimeStatsDestination.destination,
+        route = ScreenTimeStatsDestination.destination,
         iconActive = Icons.Rounded.Aod,
         iconInactive = Icons.Outlined.Aod,
         label = "Screen Time",
         description = "Open Screen Time"
     ),
     Goals(
-        route = work.racka.reluct.common.core.navigation.composeDestinations.goals.ActiveGoalsDestination.destination,
+        route = ActiveGoalsDestination.destination,
         iconActive = Icons.Rounded.TaskAlt,
         iconInactive = Icons.Outlined.TaskAlt,
         label = "Goals",

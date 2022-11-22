@@ -64,7 +64,11 @@ internal fun DashboardNavHost(
                 updateTabPage = {
                     navController.navigateNavBarElements(it.route)
                 },
-                onSettingsClicked = { mainNavController.navigate(work.racka.reluct.common.core.navigation.composeDestinations.settings.SettingsDestination.route) }
+                onSettingsClicked = {
+                    mainNavController.navigate(
+                        SettingsDestination.route
+                    )
+                }
             )
         },
         contentWindowInsets = WindowInsets(0, 0, 0, 0)
@@ -72,12 +76,12 @@ internal fun DashboardNavHost(
         AnimatedNavHost(
             modifier = Modifier.padding(innerPadding),
             navController = navController,
-            route = work.racka.reluct.common.core.navigation.composeDestinations.dashboard.DashboardOverviewDestination.destination,
-            startDestination = work.racka.reluct.common.core.navigation.composeDestinations.dashboard.DashboardOverviewDestination.route
+            route = DashboardOverviewDestination.destination,
+            startDestination = DashboardOverviewDestination.route
         ) {
             // Overview
             composable(
-                route = work.racka.reluct.common.core.navigation.composeDestinations.dashboard.DashboardOverviewDestination.route,
+                route = DashboardOverviewDestination.route,
                 // Transition animations
                 enterTransition = { scaleInEnterTransition() },
                 exitTransition = { scaleOutExitTransition() },
@@ -95,18 +99,24 @@ internal fun DashboardNavHost(
                     },
                     onNavigateToTaskDetails = {
                         mainNavController.navigate(
-                            work.racka.reluct.common.core.navigation.composeDestinations.tasks.TaskDetailsDestination.argsRoute(it)
+                            TaskDetailsDestination.argsRoute(
+                                it
+                            )
                         )
                     },
                     onNavigateToGoalDetails = { goalId: String? ->
-                        mainNavController.navigate(work.racka.reluct.common.core.navigation.composeDestinations.goals.GoalDetailsDestination.argsRoute(goalId))
+                        mainNavController.navigate(
+                            GoalDetailsDestination.argsRoute(
+                                goalId
+                            )
+                        )
                     }
                 )
             }
 
             // Dashboard Stats
             composable(
-                route = work.racka.reluct.common.core.navigation.composeDestinations.dashboard.DashboardStatsDestination.route,
+                route = DashboardStatsDestination.route,
                 // Transition animations
                 enterTransition = { scaleInEnterTransition() },
                 exitTransition = { scaleOutExitTransition() },
@@ -118,7 +128,7 @@ internal fun DashboardNavHost(
                     barsVisibility = barsVisibility,
                     onNavigateToAppUsageInfo = { packageName ->
                         mainNavController.navigate(
-                            work.racka.reluct.common.core.navigation.composeDestinations.screentime.AppScreenTimeStatsDestination.argsRoute(packageName)
+                            AppScreenTimeStatsDestination.argsRoute(packageName)
                         )
                     },
                     onNavigateToScreenTimeStats = {

@@ -53,7 +53,7 @@ class PendingTasksWidget : GlanceAppWidget() {
                             onClick = actionStartActivity(
                                 Intent(
                                     Intent.ACTION_VIEW,
-                                    work.racka.reluct.common.core.navigation.composeDestinations.tasks.PendingTasksDestination.pendingTasksDeeplink().toUri()
+                                    PendingTasksDestination.pendingTasksDeeplink().toUri()
                                 )
                             )
                         ),

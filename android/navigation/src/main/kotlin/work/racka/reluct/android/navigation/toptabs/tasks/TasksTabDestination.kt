@@ -4,16 +4,8 @@ import work.racka.reluct.common.core.navigation.composeDestinations.tasks.Comple
 import work.racka.reluct.common.core.navigation.composeDestinations.tasks.PendingTasksDestination
 import work.racka.reluct.common.core.navigation.composeDestinations.tasks.TasksStatisticsDestination
 
-enum class TasksTabDestination(
-    val route: String
-) {
-    Tasks(
-        route = work.racka.reluct.common.core.navigation.composeDestinations.tasks.PendingTasksDestination.route,
-    ),
-    Done(
-        route = work.racka.reluct.common.core.navigation.composeDestinations.tasks.CompletedTasksDestination.route,
-    ),
-    Statistics(
-        route = work.racka.reluct.common.core.navigation.composeDestinations.tasks.TasksStatisticsDestination.route,
-    );
+enum class TasksTabDestination(val route: String) {
+    Tasks(route = PendingTasksDestination.route),
+    Done(route = CompletedTasksDestination.route),
+    Statistics(route = TasksStatisticsDestination.route);
 }

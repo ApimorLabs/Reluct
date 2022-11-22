@@ -25,14 +25,14 @@ fun NavGraphBuilder.appScreenTimeStatsNavGraph(
     barsVisibility: BarsVisibility
 ) {
     navigation(
-        route = work.racka.reluct.common.core.navigation.composeDestinations.screentime.AppScreenTimeStatsDestination.destination,
-        startDestination = work.racka.reluct.common.core.navigation.composeDestinations.screentime.AppScreenTimeStatsDestination.route
+        route = AppScreenTimeStatsDestination.destination,
+        startDestination = AppScreenTimeStatsDestination.route
     ) {
         // App Screen Time Stats
         composable(
-            route = work.racka.reluct.common.core.navigation.composeDestinations.screentime.AppScreenTimeStatsDestination.route,
-            arguments = work.racka.reluct.common.core.navigation.composeDestinations.screentime.AppScreenTimeStatsDestination.args,
-            deepLinks = work.racka.reluct.common.core.navigation.composeDestinations.screentime.AppScreenTimeStatsDestination.deepLinks,
+            route = AppScreenTimeStatsDestination.route,
+            arguments = AppScreenTimeStatsDestination.args,
+            deepLinks = AppScreenTimeStatsDestination.deepLinks,
             enterTransition = { scaleInEnterTransition() },
             exitTransition = { scaleOutExitTransition() },
             popEnterTransition = { scaleInPopEnterTransition() },
@@ -43,7 +43,10 @@ fun NavGraphBuilder.appScreenTimeStatsNavGraph(
 
             AppScreenTimeStatsScreen(
                 packageName = NavHelpers
-                    .getStringArgs(backStackEntry, work.racka.reluct.common.core.navigation.composeDestinations.screentime.AppScreenTimeStatsArgs.PackageName.name) ?: "",
+                    .getStringArgs(
+                        backStackEntry,
+                        AppScreenTimeStatsArgs.PackageName.name
+                    ) ?: "",
                 onBackClicked = { navController.popBackStackOrExitActivity(activity) }
             )
 

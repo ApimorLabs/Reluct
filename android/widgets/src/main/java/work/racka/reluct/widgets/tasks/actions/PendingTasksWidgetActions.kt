@@ -52,7 +52,7 @@ internal class OpenTaskDetailsAction : ActionCallback {
         parameters: ActionParameters
     ) {
         val taskId = parameters[PendingTasksWidgetParamKeys.TASK_ID_KEY]
-        val uriString = work.racka.reluct.common.core.navigation.composeDestinations.tasks.TaskDetailsDestination.taskDetailsDeepLink(taskId)
+        val uriString = TaskDetailsDestination.taskDetailsDeepLink(taskId)
         val pendingIntent = openDeepLinkPendingIntent(context, uriString)
         println("Pending Intent is present: $pendingIntent")
         pendingIntent?.send()

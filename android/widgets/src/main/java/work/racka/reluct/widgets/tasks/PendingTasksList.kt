@@ -84,7 +84,7 @@ internal fun PendingTasksList(pendingTasks: Map<String, List<WidgetTaskParcel>>)
                             onEntryClick = actionStartActivity(
                                 Intent(
                                     Intent.ACTION_VIEW,
-                                    work.racka.reluct.common.core.navigation.composeDestinations.tasks.TaskDetailsDestination.taskDetailsDeepLink(item.id).toUri()
+                                    TaskDetailsDestination.taskDetailsDeepLink(item.id).toUri()
                                 )
                             )
                         )
