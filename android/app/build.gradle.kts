@@ -93,7 +93,7 @@ dependencies {
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:$desugaringVersion")
 
     // Dependency Modules
-    implementation(project(":android:compose:navigation"))
+    implementation(project(":android:navigation"))
     implementation(project(":compose-common:theme"))
     implementation(project(":android:widgets"))
     implementation(project(":common:di-integration"))

@@ -17,7 +17,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.koin.android.ext.android.get
 import work.racka.reluct.BuildConfig
-import work.racka.reluct.android.compose.navigation.util.SettingsCheck
+import work.racka.reluct.android.navigation.util.SettingsCheck
 import work.racka.reluct.common.settings.MultiplatformSettings
 import work.racka.reluct.compose.common.theme.Theme
 
