@@ -63,9 +63,9 @@ jobs:
           cache: gradle
 
       - name: Provide RevenueCat Key
-          env:
-            REVENUECAT_KEY: ${{ secrets.REVENUECAT_KEY }}
-          run: echo revenuecat_key=\"$REVENUECAT_KEY\" > ./local.properties
+        env:
+          REVENUECAT_KEY: ${{ secrets.REVENUECAT_KEY }}
+        run: echo revenuecat_key=\"$REVENUECAT_KEY\" > ./local.properties
 
       - uses: maxim-lobanov/setup-xcode@v1
         if: ${{ matrix.config.target == 'ios' }}
