@@ -17,7 +17,7 @@ internal fun getAppIcon(context: Context, packageName: String): Icon {
             context.createPackageContext(packageName, Context.CONTEXT_IGNORE_SECURITY)
         appIcon = newContext.packageManager.getApplicationIcon(packageName)
     } catch (e: PackageManager.NameNotFoundException) {
-        Timber.d("Package Name not found")
+        Timber.d("Package Name not found: ${e.message}")
     } catch (e: Exception) {
         Timber.d("Error: ${e.message}")
     }
@@ -45,7 +45,7 @@ internal fun getAppName(context: Context, packageName: String): String {
         }
         appName = packageManager.getApplicationLabel(appInfo).toString()
     } catch (e: PackageManager.NameNotFoundException) {
-        Timber.d("Package Name not found")
+        Timber.d("Package Name not found: ${e.message}")
     } catch (e: Exception) {
         Timber.d("Error: ${e.message}")
     }

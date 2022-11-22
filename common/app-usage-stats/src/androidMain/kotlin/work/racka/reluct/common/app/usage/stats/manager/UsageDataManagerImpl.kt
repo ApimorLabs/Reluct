@@ -32,8 +32,12 @@ internal class UsageDataManagerImpl(
         var unlockCount = 0L
 
         val keyguardManager = context.getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
-        val usageEvents = if (!keyguardManager.isKeyguardLocked) usageStats
-            .queryEvents(startTimeMillis, endTimeMillis) else null
+        val usageEvents = if (!keyguardManager.isKeyguardLocked) {
+            usageStats
+                .queryEvents(startTimeMillis, endTimeMillis)
+        } else {
+            null
+        }
 
         while (usageEvents?.hasNextEvent() == true) {
             val currentEvent = UsageEvents.Event()
@@ -63,17 +67,20 @@ internal class UsageDataManagerImpl(
             // Generating Checks
             val currentTime = Clock.System.now().toEpochMilliseconds()
             val eventsFromSameApp = e0.eventType == UsageEvents.Event.ACTIVITY_RESUMED &&
-                    e1.eventType == UsageEvents.Event.ACTIVITY_PAUSED &&
-                    e0.className == e1.className
-            val appActive = (i + 1 == allEvents.lastIndex)
-                    && (e1.eventType == UsageEvents.Event.ACTIVITY_RESUMED) &&
-                    (startTimeMillis..endTimeMillis).contains(currentTime)
+                e1.eventType == UsageEvents.Event.ACTIVITY_PAUSED &&
+                e0.className == e1.className
+            val appActive = (i + 1 == allEvents.lastIndex) &&
+                (e1.eventType == UsageEvents.Event.ACTIVITY_RESUMED) &&
+                (startTimeMillis..endTimeMillis).contains(currentTime)
 
             // Foreground UsageTime of apps in time range
             if (eventsFromSameApp || appActive) {
                 UsageEvents.Event.USER_INTERACTION
-                val diff = if (appActive) currentTime - e1.timeStamp
-                else e1.timeStamp - e0.timeStamp
+                val diff = if (appActive) {
+                    currentTime - e1.timeStamp
+                } else {
+                    e1.timeStamp - e0.timeStamp
+                }
                 appUsageInfoMap[e1.packageName]!!.timeInForeground += diff
             }
 
