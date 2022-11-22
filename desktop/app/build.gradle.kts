@@ -37,10 +37,24 @@ kotlin {
 compose.desktop {
     application {
         mainClass = "work.racka.reluct.MainKt"
+
+        val iconsRoot = project.file("src/desktopMain/resources/icons/launcher")
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
             packageName = libs.versions.config.desktop.packageName.get()
             packageVersion = libs.versions.config.desktop.current.get()
+
+            linux {
+                iconFile.set(iconsRoot.resolve("linux.png"))
+            }
+
+            windows {
+                iconFile.set(iconsRoot.resolve("windows.ico"))
+            }
+
+            macOS {
+                iconFile.set(iconsRoot.resolve("macos.icns"))
+            }
         }
     }
 }

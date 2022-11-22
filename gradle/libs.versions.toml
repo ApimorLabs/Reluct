@@ -195,6 +195,7 @@ androidx_test_uiautomator = { module = "androidx.test.uiautomator:uiautomator", 
 androidx_profileinstaller = { module = "androidx.profileinstaller:profileinstaller", version.ref = "androidx_profileinstaller" }
 
 # Helpers and Extras
+coil_svg = { module = "io.coil-kt:coil-svg", version.ref = "coil_image" }
 palette = { module = "androidx.palette:palette-ktx", version.ref = "palette" }
 androidx_workmanager = { module = "androidx.work:work-runtime-ktx", version.ref = "androidx_workmanager" }
 androidx_workmanager_multiprocess = { module = "androidx.work:work-multiprocess", version.ref = "androidx_workmanager" }

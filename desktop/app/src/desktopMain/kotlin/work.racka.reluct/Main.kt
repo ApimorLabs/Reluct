@@ -28,7 +28,11 @@ import work.racka.reluct.compose.common.components.resources.stringResource
 import kotlin.jvm.optionals.getOrNull
 
 fun main() = application {
-    Window(onCloseRequest = ::exitApplication) {
+    Window(
+        onCloseRequest = ::exitApplication,
+        title = stringResource(SharedRes.strings.app_name),
+        icon = androidx.compose.ui.res.painterResource("icons/window_icon.svg")
+    ) {
         MaterialTheme {
             ProcessesScreen()
         }
