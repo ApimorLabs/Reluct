@@ -1,15 +1,15 @@
 package work.racka.reluct.android.navigation.toptabs.screentime
 
-import work.racka.reluct.common.core_navigation.compose_destinations.screentime.ScreenTimeLimitsDestination
-import work.racka.reluct.common.core_navigation.compose_destinations.screentime.ScreenTimeStatsDestination
+import work.racka.reluct.common.core.navigation.composeDestinations.screentime.ScreenTimeLimitsDestination
+import work.racka.reluct.common.core.navigation.composeDestinations.screentime.ScreenTimeStatsDestination
 
 enum class ScreenTimeTabDestination(
     val route: String
 ) {
     Statistics(
-        route = ScreenTimeStatsDestination.route
+        route = work.racka.reluct.common.core.navigation.composeDestinations.screentime.ScreenTimeStatsDestination.route
     ),
     Limits(
-        route = ScreenTimeLimitsDestination.route
+        route = work.racka.reluct.common.core.navigation.composeDestinations.screentime.ScreenTimeLimitsDestination.route
     );
 }

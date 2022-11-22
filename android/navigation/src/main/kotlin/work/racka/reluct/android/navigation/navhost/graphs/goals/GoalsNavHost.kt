@@ -26,10 +26,10 @@ import work.racka.reluct.android.navigation.transitions.scaleOutPopExitTransitio
 import work.racka.reluct.android.navigation.util.NavHelpers.navigateNavBarElements
 import work.racka.reluct.android.screens.goals.active.ActiveGoalsScreen
 import work.racka.reluct.android.screens.goals.inactive.InactiveGoalsScreen
-import work.racka.reluct.common.core_navigation.compose_destinations.goals.ActiveGoalsDestination
-import work.racka.reluct.common.core_navigation.compose_destinations.goals.AddEditGoalDestination
-import work.racka.reluct.common.core_navigation.compose_destinations.goals.GoalDetailsDestination
-import work.racka.reluct.common.core_navigation.compose_destinations.goals.InactiveGoalsDestination
+import work.racka.reluct.common.core.navigation.composeDestinations.goals.ActiveGoalsDestination
+import work.racka.reluct.common.core.navigation.composeDestinations.goals.AddEditGoalDestination
+import work.racka.reluct.common.core.navigation.composeDestinations.goals.GoalDetailsDestination
+import work.racka.reluct.common.core.navigation.composeDestinations.goals.InactiveGoalsDestination
 import work.racka.reluct.compose.common.components.topBar.ReluctPageHeading
 import work.racka.reluct.compose.common.components.util.BarsVisibility
 
@@ -64,12 +64,12 @@ internal fun GoalsNavHost(
         AnimatedNavHost(
             modifier = Modifier.padding(innerPadding),
             navController = navController,
-            route = ActiveGoalsDestination.destination,
-            startDestination = ActiveGoalsDestination.route
+            route = work.racka.reluct.common.core.navigation.composeDestinations.goals.ActiveGoalsDestination.destination,
+            startDestination = work.racka.reluct.common.core.navigation.composeDestinations.goals.ActiveGoalsDestination.route
         ) {
             // Active
             composable(
-                route = ActiveGoalsDestination.route,
+                route = work.racka.reluct.common.core.navigation.composeDestinations.goals.ActiveGoalsDestination.route,
                 // Transition animations
                 enterTransition = { scaleInEnterTransition() },
                 exitTransition = { scaleOutExitTransition() },
@@ -81,21 +81,21 @@ internal fun GoalsNavHost(
                     barsVisibility = barsVisibility,
                     onNavigateToAddGoal = { defaultGoalIndex: Int? ->
                         mainNavController.navigate(
-                            AddEditGoalDestination.argsRoute(
+                            work.racka.reluct.common.core.navigation.composeDestinations.goals.AddEditGoalDestination.argsRoute(
                                 goalId = null,
                                 defaultGoalIndex = defaultGoalIndex
                             )
                         )
                     },
                     onNavigateToGoalDetails = { goalId: String? ->
-                        mainNavController.navigate(GoalDetailsDestination.argsRoute(goalId))
+                        mainNavController.navigate(work.racka.reluct.common.core.navigation.composeDestinations.goals.GoalDetailsDestination.argsRoute(goalId))
                     }
                 )
             }
 
             // Inactive
             composable(
-                route = InactiveGoalsDestination.route,
+                route = work.racka.reluct.common.core.navigation.composeDestinations.goals.InactiveGoalsDestination.route,
                 // Transition animations
                 enterTransition = { scaleInEnterTransition() },
                 exitTransition = { scaleOutExitTransition() },
@@ -107,14 +107,14 @@ internal fun GoalsNavHost(
                     barsVisibility = barsVisibility,
                     onNavigateToAddGoal = { defaultGoalIndex: Int? ->
                         mainNavController.navigate(
-                            AddEditGoalDestination.argsRoute(
+                            work.racka.reluct.common.core.navigation.composeDestinations.goals.AddEditGoalDestination.argsRoute(
                                 goalId = null,
                                 defaultGoalIndex = defaultGoalIndex
                             )
                         )
                     },
                     onNavigateToGoalDetails = { goalId: String? ->
-                        mainNavController.navigate(GoalDetailsDestination.argsRoute(goalId))
+                        mainNavController.navigate(work.racka.reluct.common.core.navigation.composeDestinations.goals.GoalDetailsDestination.argsRoute(goalId))
                     }
                 )
             }

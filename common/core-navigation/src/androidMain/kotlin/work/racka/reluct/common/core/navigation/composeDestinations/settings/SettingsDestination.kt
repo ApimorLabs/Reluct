@@ -1,6 +1,6 @@
-package work.racka.reluct.common.core_navigation.compose_destinations.settings
+package work.racka.reluct.common.core.navigation.composeDestinations.settings
 
-import work.racka.reluct.common.core_navigation.destination.NavDestination
+import work.racka.reluct.common.core.navigation.destination.NavDestination
 
 object SettingsDestination : NavDestination {
     private const val BASE_URI = "settings"

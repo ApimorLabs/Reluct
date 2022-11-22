@@ -1,6 +1,6 @@
-package work.racka.reluct.common.core_navigation.compose_destinations
+package work.racka.reluct.common.core.navigation.composeDestinations
 
-import work.racka.reluct.common.core_navigation.destination.NavDestination
+import work.racka.reluct.common.core.navigation.destination.NavDestination
 
 object OtherDestination : NavDestination {
     private const val BASE_URI = "other_graph"

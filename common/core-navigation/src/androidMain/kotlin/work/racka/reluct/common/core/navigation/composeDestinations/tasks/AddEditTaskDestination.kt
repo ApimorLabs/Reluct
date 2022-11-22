@@ -1,11 +1,12 @@
-package work.racka.reluct.common.core_navigation.compose_destinations.tasks
+package work.racka.reluct.common.core.navigation.composeDestinations.tasks
 
 import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
-import work.racka.reluct.common.core_navigation.destination.NavDestination
+import work.racka.reluct.common.core.navigation.destination.NavDestination
 
-object AddEditTaskDestination : NavDestination {
+object AddEditTaskDestination :
+    NavDestination {
     private const val BASE_URI = "add_edit_task"
     override val route: String = "$BASE_URI-route/{${AddEditTaskArgs.TaskId.name}}"
     override val destination: String = "$BASE_URI-destination"

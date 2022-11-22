@@ -26,9 +26,9 @@ import work.racka.reluct.android.navigation.transitions.scaleOutPopExitTransitio
 import work.racka.reluct.android.navigation.util.NavHelpers.navigateNavBarElements
 import work.racka.reluct.android.screens.screentime.limits.ScreenTimeLimitsScreen
 import work.racka.reluct.android.screens.screentime.statistics.ScreenTimeStatisticsScreen
-import work.racka.reluct.common.core_navigation.compose_destinations.screentime.AppScreenTimeStatsDestination
-import work.racka.reluct.common.core_navigation.compose_destinations.screentime.ScreenTimeLimitsDestination
-import work.racka.reluct.common.core_navigation.compose_destinations.screentime.ScreenTimeStatsDestination
+import work.racka.reluct.common.core.navigation.composeDestinations.screentime.AppScreenTimeStatsDestination
+import work.racka.reluct.common.core.navigation.composeDestinations.screentime.ScreenTimeLimitsDestination
+import work.racka.reluct.common.core.navigation.composeDestinations.screentime.ScreenTimeStatsDestination
 import work.racka.reluct.compose.common.components.topBar.ReluctPageHeading
 import work.racka.reluct.compose.common.components.util.BarsVisibility
 
@@ -63,12 +63,12 @@ internal fun ScreenTimeNavHost(
         AnimatedNavHost(
             modifier = Modifier.padding(innerPadding),
             navController = navController,
-            route = ScreenTimeStatsDestination.destination,
-            startDestination = ScreenTimeStatsDestination.route
+            route = work.racka.reluct.common.core.navigation.composeDestinations.screentime.ScreenTimeStatsDestination.destination,
+            startDestination = work.racka.reluct.common.core.navigation.composeDestinations.screentime.ScreenTimeStatsDestination.route
         ) {
             // Statistics
             composable(
-                route = ScreenTimeStatsDestination.route,
+                route = work.racka.reluct.common.core.navigation.composeDestinations.screentime.ScreenTimeStatsDestination.route,
                 // Transition animations
                 enterTransition = { scaleInEnterTransition() },
                 exitTransition = { scaleOutExitTransition() },
@@ -80,7 +80,7 @@ internal fun ScreenTimeNavHost(
                     barsVisibility = barsVisibility,
                     onNavigateToAppUsageInfo = { packageName ->
                         mainNavController.navigate(
-                            AppScreenTimeStatsDestination.argsRoute(packageName)
+                            work.racka.reluct.common.core.navigation.composeDestinations.screentime.AppScreenTimeStatsDestination.argsRoute(packageName)
                         )
                     }
                 )
@@ -88,7 +88,7 @@ internal fun ScreenTimeNavHost(
 
             // Limits
             composable(
-                route = ScreenTimeLimitsDestination.route,
+                route = work.racka.reluct.common.core.navigation.composeDestinations.screentime.ScreenTimeLimitsDestination.route,
                 // Transition animations
                 enterTransition = { scaleInEnterTransition() },
                 exitTransition = { scaleOutExitTransition() },
@@ -100,7 +100,7 @@ internal fun ScreenTimeNavHost(
                     barsVisibility = barsVisibility,
                     onNavigateToAppUsageInfo = { packageName ->
                         mainNavController.navigate(
-                            AppScreenTimeStatsDestination.argsRoute(packageName)
+                            work.racka.reluct.common.core.navigation.composeDestinations.screentime.AppScreenTimeStatsDestination.argsRoute(packageName)
                         )
                     }
                 )

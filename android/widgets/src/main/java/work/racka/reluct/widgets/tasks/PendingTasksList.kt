@@ -16,7 +16,7 @@ import androidx.glance.text.FontWeight
 import androidx.glance.text.Text
 import androidx.glance.text.TextAlign
 import androidx.glance.text.TextStyle
-import work.racka.reluct.common.core_navigation.compose_destinations.tasks.TaskDetailsDestination
+import work.racka.reluct.common.core.navigation.composeDestinations.tasks.TaskDetailsDestination
 import work.racka.reluct.compose.common.theme.Dimens
 import work.racka.reluct.widgets.components.tasks.WidgetTaskEntry
 import work.racka.reluct.widgets.core.GlanceTheme
@@ -84,7 +84,7 @@ internal fun PendingTasksList(pendingTasks: Map<String, List<WidgetTaskParcel>>)
                             onEntryClick = actionStartActivity(
                                 Intent(
                                     Intent.ACTION_VIEW,
-                                    TaskDetailsDestination.taskDetailsDeepLink(item.id).toUri()
+                                    work.racka.reluct.common.core.navigation.composeDestinations.tasks.TaskDetailsDestination.taskDetailsDeepLink(item.id).toUri()
                                 )
                             )
                         )

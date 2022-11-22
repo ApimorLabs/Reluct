@@ -16,10 +16,10 @@ import work.racka.reluct.android.navigation.util.NavHelpers
 import work.racka.reluct.android.navigation.util.NavHelpers.popBackStackOrExitActivity
 import work.racka.reluct.android.screens.goals.addEdit.AddEditGoalScreen
 import work.racka.reluct.android.screens.goals.details.GoalDetailsScreen
-import work.racka.reluct.common.core_navigation.compose_destinations.goals.AddEditGoalArgs
-import work.racka.reluct.common.core_navigation.compose_destinations.goals.AddEditGoalDestination
-import work.racka.reluct.common.core_navigation.compose_destinations.goals.GoalDetailsArgs
-import work.racka.reluct.common.core_navigation.compose_destinations.goals.GoalDetailsDestination
+import work.racka.reluct.common.core.navigation.composeDestinations.goals.AddEditGoalArgs
+import work.racka.reluct.common.core.navigation.composeDestinations.goals.AddEditGoalDestination
+import work.racka.reluct.common.core.navigation.composeDestinations.goals.GoalDetailsArgs
+import work.racka.reluct.common.core.navigation.composeDestinations.goals.GoalDetailsDestination
 import work.racka.reluct.compose.common.components.util.BarsVisibility
 
 @ExperimentalAnimationApi
@@ -28,14 +28,14 @@ fun NavGraphBuilder.goalDataNavGraph(
     barsVisibility: BarsVisibility
 ) {
     navigation(
-        route = GoalDetailsDestination.destination,
-        startDestination = GoalDetailsDestination.route
+        route = work.racka.reluct.common.core.navigation.composeDestinations.goals.GoalDetailsDestination.destination,
+        startDestination = work.racka.reluct.common.core.navigation.composeDestinations.goals.GoalDetailsDestination.route
     ) {
         // Goal Details
         composable(
-            route = GoalDetailsDestination.route,
-            arguments = GoalDetailsDestination.args,
-            deepLinks = GoalDetailsDestination.deepLinks,
+            route = work.racka.reluct.common.core.navigation.composeDestinations.goals.GoalDetailsDestination.route,
+            arguments = work.racka.reluct.common.core.navigation.composeDestinations.goals.GoalDetailsDestination.args,
+            deepLinks = work.racka.reluct.common.core.navigation.composeDestinations.goals.GoalDetailsDestination.deepLinks,
             enterTransition = { scaleInEnterTransition() },
             exitTransition = { scaleOutExitTransition() },
             popEnterTransition = { scaleInPopEnterTransition() },
@@ -45,10 +45,10 @@ fun NavGraphBuilder.goalDataNavGraph(
             val activity = LocalContext.current as Activity
 
             GoalDetailsScreen(
-                goalId = NavHelpers.getStringArgs(backStackEntry, GoalDetailsArgs.GoalId.name),
+                goalId = NavHelpers.getStringArgs(backStackEntry, work.racka.reluct.common.core.navigation.composeDestinations.goals.GoalDetailsArgs.GoalId.name),
                 onExit = { navController.popBackStackOrExitActivity(activity) },
                 onNavigateToEditGoal = { goalId ->
-                    navController.navigate(AddEditGoalDestination.argsRoute(goalId, null))
+                    navController.navigate(work.racka.reluct.common.core.navigation.composeDestinations.goals.AddEditGoalDestination.argsRoute(goalId, null))
                 }
             )
 
@@ -57,9 +57,9 @@ fun NavGraphBuilder.goalDataNavGraph(
 
         // Add or Edit Goal
         composable(
-            route = AddEditGoalDestination.route,
-            arguments = AddEditGoalDestination.args,
-            deepLinks = AddEditGoalDestination.deepLinks,
+            route = work.racka.reluct.common.core.navigation.composeDestinations.goals.AddEditGoalDestination.route,
+            arguments = work.racka.reluct.common.core.navigation.composeDestinations.goals.AddEditGoalDestination.args,
+            deepLinks = work.racka.reluct.common.core.navigation.composeDestinations.goals.AddEditGoalDestination.deepLinks,
             enterTransition = { scaleInEnterTransition() },
             exitTransition = { scaleOutExitTransition() },
             popEnterTransition = { scaleInPopEnterTransition() },
@@ -69,10 +69,10 @@ fun NavGraphBuilder.goalDataNavGraph(
             val activity = LocalContext.current as Activity
 
             val goalIndex = backStackEntry.arguments
-                ?.getInt(AddEditGoalArgs.DefaultGoalIndex.name)
+                ?.getInt(work.racka.reluct.common.core.navigation.composeDestinations.goals.AddEditGoalArgs.DefaultGoalIndex.name)
 
             AddEditGoalScreen(
-                goalId = NavHelpers.getStringArgs(backStackEntry, AddEditGoalArgs.GoalId.name),
+                goalId = NavHelpers.getStringArgs(backStackEntry, work.racka.reluct.common.core.navigation.composeDestinations.goals.AddEditGoalArgs.GoalId.name),
                 defaultGoalIndex = goalIndex?.let { i -> if (i < 0) null else i },
                 onExit = { navController.popBackStackOrExitActivity(activity) }
             )

@@ -6,7 +6,7 @@ import androidx.glance.action.ActionParameters
 import androidx.glance.appwidget.action.ActionCallback
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
-import work.racka.reluct.common.core_navigation.compose_destinations.tasks.TaskDetailsDestination
+import work.racka.reluct.common.core.navigation.composeDestinations.tasks.TaskDetailsDestination
 import work.racka.reluct.common.domain.usecases.tasks.ModifyTaskUseCase
 import work.racka.reluct.widgets.core.openDeepLinkPendingIntent
 import work.racka.reluct.widgets.tasks.state.WidgetTaskParcel
@@ -52,7 +52,7 @@ internal class OpenTaskDetailsAction : ActionCallback {
         parameters: ActionParameters
     ) {
         val taskId = parameters[PendingTasksWidgetParamKeys.TASK_ID_KEY]
-        val uriString = TaskDetailsDestination.taskDetailsDeepLink(taskId)
+        val uriString = work.racka.reluct.common.core.navigation.composeDestinations.tasks.TaskDetailsDestination.taskDetailsDeepLink(taskId)
         val pendingIntent = openDeepLinkPendingIntent(context, uriString)
         println("Pending Intent is present: $pendingIntent")
         pendingIntent?.send()

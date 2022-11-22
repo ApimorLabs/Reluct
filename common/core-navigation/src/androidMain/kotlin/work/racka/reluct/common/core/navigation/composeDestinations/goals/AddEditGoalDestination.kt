@@ -1,10 +1,11 @@
-package work.racka.reluct.common.core_navigation.compose_destinations.goals
+package work.racka.reluct.common.core.navigation.composeDestinations.goals
 
 import androidx.navigation.*
-import work.racka.reluct.common.core_navigation.destination.NavDefaults
-import work.racka.reluct.common.core_navigation.destination.NavDestination
+import work.racka.reluct.common.core.navigation.destination.NavDefaults
+import work.racka.reluct.common.core.navigation.destination.NavDestination
 
-object AddEditGoalDestination : NavDestination {
+object AddEditGoalDestination :
+    NavDestination {
     private const val APP_URI = NavDefaults.APP_DESTINATION_URI
     private const val BASE_LINK = "add_edit_goal"
 
@@ -18,7 +19,9 @@ object AddEditGoalDestination : NavDestination {
                 type = NavType.StringType
                 nullable = true
             },
-            navArgument(AddEditGoalArgs.DefaultGoalIndex.name) {
+            navArgument(
+                AddEditGoalArgs.DefaultGoalIndex.name
+            ) {
                 type = NavType.IntType
                 defaultValue = -1
             }

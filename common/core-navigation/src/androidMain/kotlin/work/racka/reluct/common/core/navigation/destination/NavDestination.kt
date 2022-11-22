@@ -1,4 +1,4 @@
-package work.racka.reluct.common.core_navigation.destination
+package work.racka.reluct.common.core.navigation.destination
 
 import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavDeepLink

@@ -10,7 +10,7 @@ import androidx.core.net.toUri
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
-import work.racka.reluct.common.core_navigation.compose_destinations.screentime.AppScreenTimeStatsDestination
+import work.racka.reluct.common.core.navigation.composeDestinations.screentime.AppScreenTimeStatsDestination
 import work.racka.reluct.common.domain.usecases.app_usage.GetAppUsageInfo
 import work.racka.reluct.common.domain.usecases.limits.GetAppLimits
 import work.racka.reluct.common.domain.usecases.limits.ManageFocusMode
@@ -78,7 +78,7 @@ internal class AndroidScreenTimeServices(
     }
 
     private fun appStatsNotification(context: Context, app: AppUsageStats): Notification {
-        val uriString = AppScreenTimeStatsDestination
+        val uriString = work.racka.reluct.common.core.navigation.composeDestinations.screentime.AppScreenTimeStatsDestination
             .appScreenTimeDeepLink(app.appUsageInfo.packageName)
         val intent = Intent(
             Intent.ACTION_VIEW,
