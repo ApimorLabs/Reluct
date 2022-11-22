@@ -18,5 +18,3 @@ sealed class GoalsListState(
         private val newDataPresent: Boolean = true
     ) : GoalsListState(goals = goalsData, shouldUpdateData = newDataPresent)
 }
-
-

@@ -1,4 +1,4 @@
-package work.racka.reluct.common.features.goals.add_edit_goal
+package work.racka.reluct.common.features.goals.addEditGoal
 
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
@@ -14,9 +14,9 @@ import work.racka.reluct.common.domain.usecases.goals.GetGoals
 import work.racka.reluct.common.domain.usecases.goals.ModifyGoals
 import work.racka.reluct.common.features.goals.active.states.DefaultGoals
 import work.racka.reluct.common.features.goals.active.states.GoalsEvents
-import work.racka.reluct.common.features.goals.add_edit_goal.states.AddEditGoalState
-import work.racka.reluct.common.features.goals.add_edit_goal.states.GoalAppsState
-import work.racka.reluct.common.features.goals.add_edit_goal.states.ModifyGoalState
+import work.racka.reluct.common.features.goals.addEditGoal.states.AddEditGoalState
+import work.racka.reluct.common.features.goals.addEditGoal.states.GoalAppsState
+import work.racka.reluct.common.features.goals.addEditGoal.states.ModifyGoalState
 import work.racka.reluct.common.model.domain.appInfo.AppInfo
 import work.racka.reluct.common.model.domain.goals.Goal
 import work.racka.reluct.common.model.util.list.filterPersistentNot
@@ -38,7 +38,8 @@ class AddEditGoalViewModel(
     private val modifyGoalState: MutableStateFlow<ModifyGoalState> =
         MutableStateFlow(ModifyGoalState.Loading)
     val uiState: StateFlow<AddEditGoalState> = combine(
-        modifyGoalState, goalAppsState
+        modifyGoalState,
+        goalAppsState
     ) { modifyGoalState, goalAppsState ->
         AddEditGoalState(
             modifyGoalState = modifyGoalState,
@@ -52,7 +53,6 @@ class AddEditGoalViewModel(
 
     private val eventsChannel = Channel<GoalsEvents>(Channel.UNLIMITED)
     val events: Flow<GoalsEvents> = eventsChannel.receiveAsFlow()
-
 
     private var installedApps: ImmutableList<AppInfo> = persistentListOf()
 
@@ -108,11 +108,13 @@ class AddEditGoalViewModel(
                         unselected = unselected
                     )
                 }
-            } else goalAppsState.update {
-                GoalAppsState.Data(
-                    selected = persistentListOf(),
-                    unselected = installedApps
-                )
+            } else {
+                goalAppsState.update {
+                    GoalAppsState.Data(
+                        selected = persistentListOf(),
+                        unselected = installedApps
+                    )
+                }
             }
         }
     }
@@ -142,12 +144,14 @@ class AddEditGoalViewModel(
 
     private fun getGoal(id: String?) {
         vmScope.launch {
-            if (defaultGoalIndex != null) getPredefinedGoal(defaultGoalIndex)
-            else
+            if (defaultGoalIndex != null) {
+                getPredefinedGoal(defaultGoalIndex)
+            } else {
                 when (id) {
                     null -> modifyGoalState.update {
                         ModifyGoalState.Data(
-                            isEdit = false, goal = DefaultGoals.emptyGoal()
+                            isEdit = false,
+                            goal = DefaultGoals.emptyGoal()
                         )
                     }
                     else -> {
@@ -162,6 +166,7 @@ class AddEditGoalViewModel(
                         }
                     }
                 }
+            }
         }
     }
 

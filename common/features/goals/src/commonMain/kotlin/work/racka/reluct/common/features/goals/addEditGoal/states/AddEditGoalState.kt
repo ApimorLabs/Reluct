@@ -1,4 +1,4 @@
-package work.racka.reluct.common.features.goals.add_edit_goal.states
+package work.racka.reluct.common.features.goals.addEditGoal.states
 
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
