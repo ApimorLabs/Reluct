@@ -11,7 +11,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.coroutines.launch
 import work.racka.common.mvvm.koin.compose.getCommonViewModel
 import work.racka.reluct.android.screens.R
-import work.racka.reluct.common.billing.revenue_cat.PurchaseAction
+import work.racka.reluct.common.billing.revenuecat.PurchaseAction
 import work.racka.reluct.common.features.settings.AppSettingsViewModel
 import work.racka.reluct.common.features.settings.states.SettingsEvents
 import work.racka.reluct.common.model.util.Resource

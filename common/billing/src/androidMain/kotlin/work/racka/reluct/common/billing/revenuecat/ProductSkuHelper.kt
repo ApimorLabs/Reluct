@@ -1,4 +1,4 @@
-package work.racka.reluct.common.billing.revenue_cat
+package work.racka.reluct.common.billing.revenuecat
 
 import com.revenuecat.purchases.PackageType
 import work.racka.reluct.common.billing.products.Sku

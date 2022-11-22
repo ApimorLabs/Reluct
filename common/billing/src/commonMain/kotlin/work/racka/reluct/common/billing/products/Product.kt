@@ -15,12 +15,12 @@ data class Product(
      */
     override fun equals(other: Any?): Boolean {
         return other?.let { otherItem ->
-            otherItem is Product && otherItem.name == this.name
-                    && otherItem.description == this.description
-                    && otherItem.price == this.price
-                    && otherItem.currencyCode == this.currencyCode
-                    && otherItem.productOffered == this.productOffered
-                    && otherItem.productInfo == this.productInfo
+            otherItem is Product && otherItem.name == this.name &&
+                otherItem.description == this.description &&
+                otherItem.price == this.price &&
+                otherItem.currencyCode == this.currencyCode &&
+                otherItem.productOffered == this.productOffered &&
+                otherItem.productInfo == this.productInfo
         } ?: false
     }
 

@@ -1,4 +1,4 @@
-package work.racka.reluct.common.billing.revenue_cat
+package work.racka.reluct.common.billing.revenuecat
 
 import android.app.Activity
 import com.revenuecat.purchases.Package
