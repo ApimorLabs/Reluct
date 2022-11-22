@@ -1,4 +1,4 @@
-package work.racka.reluct.common.features.tasks.add_edit_task
+package work.racka.reluct.common.features.tasks.addEditTask
 
 import app.cash.turbine.test
 import io.mockk.*

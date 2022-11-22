@@ -1,4 +1,4 @@
-package work.racka.reluct.common.features.tasks.pending_tasks
+package work.racka.reluct.common.features.tasks.pendingTasks
 
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.collections.immutable.toImmutableMap

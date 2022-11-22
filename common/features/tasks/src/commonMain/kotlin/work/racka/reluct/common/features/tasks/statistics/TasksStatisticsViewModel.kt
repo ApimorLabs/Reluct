@@ -33,9 +33,12 @@ class TasksStatisticsViewModel(
     private lateinit var collectDailyTasksJob: Job
     private lateinit var collectWeeklyTasksJob: Job
 
-
     val uiState: StateFlow<TasksStatisticsState> = combine(
-        weekOffset, selectedWeekText, selectedDay, weeklyTasksState, dailyTasksState
+        weekOffset,
+        selectedWeekText,
+        selectedDay,
+        weeklyTasksState,
+        dailyTasksState
     ) { weekOffset, selectedWeekText, selectedDay, weeklyTasksState, dailyTasksState ->
         TasksStatisticsState(
             weekOffset = weekOffset,
@@ -73,8 +76,10 @@ class TasksStatisticsViewModel(
                     dailyTasksState.update {
                         DailyTasksState.Data(tasks = tasks, dayTextValue = tasks.dateFormatted)
                     }
-                } else dailyTasksState.update {
-                    DailyTasksState.Empty(dayTextValue = tasks.dateFormatted)
+                } else {
+                    dailyTasksState.update {
+                        DailyTasksState.Empty(dayTextValue = tasks.dateFormatted)
+                    }
                 }
             }
         }
@@ -97,7 +102,9 @@ class TasksStatisticsViewModel(
                                 totalTaskCount = totalTasksCount
                             )
                         }
-                    } else weeklyTasksState.update { WeeklyTasksState.Empty }
+                    } else {
+                        weeklyTasksState.update { WeeklyTasksState.Empty }
+                    }
                 }
         }
     }

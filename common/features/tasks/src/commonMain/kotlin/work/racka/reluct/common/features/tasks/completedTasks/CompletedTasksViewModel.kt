@@ -1,4 +1,4 @@
-package work.racka.reluct.common.features.tasks.completed_tasks
+package work.racka.reluct.common.features.tasks.completedTasks
 
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.collections.immutable.toImmutableMap

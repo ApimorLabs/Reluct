@@ -12,7 +12,7 @@ import org.koin.core.parameter.parametersOf
 import work.racka.common.mvvm.koin.compose.getCommonViewModel
 import work.racka.reluct.android.screens.R
 import work.racka.reluct.android.screens.tasks.components.ModifyTaskLabel
-import work.racka.reluct.common.features.tasks.task_details.TaskDetailsViewModel
+import work.racka.reluct.common.features.tasks.taskDetails.TaskDetailsViewModel
 import work.racka.reluct.common.model.states.tasks.TasksEvents
 
 @OptIn(ExperimentalLifecycleComposeApi::class)

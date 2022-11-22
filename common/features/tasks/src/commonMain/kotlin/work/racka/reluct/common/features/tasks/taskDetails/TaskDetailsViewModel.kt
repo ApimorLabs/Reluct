@@ -1,4 +1,4 @@
-package work.racka.reluct.common.features.tasks.task_details
+package work.racka.reluct.common.features.tasks.taskDetails
 
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
@@ -32,7 +32,8 @@ class TaskDetailsViewModel(
     private val eventsChannel: Channel<TasksEvents> = Channel()
 
     val uiState: StateFlow<TaskDetailsState> = combine(
-        taskState, availableTaskLabels
+        taskState,
+        availableTaskLabels
     ) { taskState, availableTaskLabels ->
         TaskDetailsState(
             taskState = taskState,

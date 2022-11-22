@@ -1,4 +1,4 @@
-package work.racka.reluct.common.features.tasks.add_edit_task
+package work.racka.reluct.common.features.tasks.addEditTask
 
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
@@ -28,7 +28,8 @@ class AddEditTaskViewModel(
         MutableStateFlow(persistentListOf())
 
     val uiState: StateFlow<AddEditTaskState> = combine(
-        modifyTaskState, availableTaskLabels
+        modifyTaskState,
+        availableTaskLabels
     ) { modifyTaskState, availableTaskLabels ->
         AddEditTaskState(
             modifyTaskState = modifyTaskState,

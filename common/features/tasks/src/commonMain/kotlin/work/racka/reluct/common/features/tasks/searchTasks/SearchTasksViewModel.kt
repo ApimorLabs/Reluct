@@ -1,4 +1,4 @@
-package work.racka.reluct.common.features.tasks.search_tasks
+package work.racka.reluct.common.features.tasks.searchTasks
 
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
@@ -22,7 +22,9 @@ class SearchTasksViewModel(
     private val shouldUpdateData: MutableStateFlow<Boolean> = MutableStateFlow(true)
 
     val uiState: StateFlow<SearchTasksState> = combine(
-        searchData, searchQuery, shouldUpdateData
+        searchData,
+        searchQuery,
+        shouldUpdateData
     ) { searchData, searchQuery, shouldUpdateData ->
         SearchTasksState(
             searchData = searchData,

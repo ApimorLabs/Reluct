@@ -1,4 +1,4 @@
-package work.racka.reluct.common.features.tasks.add_edit_task
+package work.racka.reluct.common.features.tasks.addEditTask
 
 import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone

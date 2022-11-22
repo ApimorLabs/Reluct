@@ -9,7 +9,7 @@ import kotlinx.coroutines.launch
 import org.koin.core.parameter.parametersOf
 import work.racka.common.mvvm.koin.compose.getCommonViewModel
 import work.racka.reluct.android.screens.tasks.components.ModifyTaskLabel
-import work.racka.reluct.common.features.tasks.add_edit_task.AddEditTaskViewModel
+import work.racka.reluct.common.features.tasks.addEditTask.AddEditTaskViewModel
 import work.racka.reluct.common.model.states.tasks.TasksEvents
 
 @OptIn(ExperimentalLifecycleComposeApi::class)

@@ -1,4 +1,4 @@
-package work.racka.reluct.common.features.tasks.task_details
+package work.racka.reluct.common.features.tasks.taskDetails
 
 import io.mockk.MockKAnnotations
 import io.mockk.unmockkAll
