@@ -81,6 +81,7 @@ internal class AndroidFirebaseUserAuthentication(
                 auth.sendPasswordResetEmail(email).await()
                 Resource.Success(email)
             } catch (e: Exception) {
+                println(e)
                 Resource.Error(message = Messages.EMAIL_SEND_FAILED)
             }
         }

@@ -15,8 +15,8 @@ import work.racka.reluct.android.navigation.transitions.scaleOutPopExitTransitio
 import work.racka.reluct.android.navigation.util.NavHelpers
 import work.racka.reluct.android.navigation.util.NavHelpers.popBackStackOrExitActivity
 import work.racka.reluct.android.screens.screentime.appStatsDetails.AppScreenTimeStatsScreen
-import work.racka.reluct.common.core_navigation.compose_destinations.screentime.AppScreenTimeStatsArgs
-import work.racka.reluct.common.core_navigation.compose_destinations.screentime.AppScreenTimeStatsDestination
+import work.racka.reluct.common.core.navigation.composeDestinations.screentime.AppScreenTimeStatsArgs
+import work.racka.reluct.common.core.navigation.composeDestinations.screentime.AppScreenTimeStatsDestination
 import work.racka.reluct.compose.common.components.util.BarsVisibility
 
 @ExperimentalAnimationApi
@@ -43,7 +43,10 @@ fun NavGraphBuilder.appScreenTimeStatsNavGraph(
 
             AppScreenTimeStatsScreen(
                 packageName = NavHelpers
-                    .getStringArgs(backStackEntry, AppScreenTimeStatsArgs.PackageName.name) ?: "",
+                    .getStringArgs(
+                        backStackEntry,
+                        AppScreenTimeStatsArgs.PackageName.name
+                    ) ?: "",
                 onBackClicked = { navController.popBackStackOrExitActivity(activity) }
             )
 

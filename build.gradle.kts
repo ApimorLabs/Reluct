@@ -65,7 +65,6 @@ subprojects {
             detektPlugins(libs.detekt.formatting)
             detektPlugins(libs.detekt.rule.twitter.compose)
         }
-        filterDetektFromCheckTask()
     }
 
     afterEvaluate {
@@ -204,19 +203,5 @@ fun Project.coreDetektSetup() {
         exclude("**/build/**", "**/generated/**", "**/resources/**")
         basePath = rootProject.projectDir.absolutePath
         baseline.set(layout.projectDirectory.file("detekt-baseline.xml").asFile)
-    }
-}
-
-/**
- * By default Detekt runs when the Gradle :check task is triggered
- * It should be disabled for now until everything has been correctly setup (including CI)
- */
-fun Project.filterDetektFromCheckTask() {
-    if (tasks.names.contains("check")) {
-        tasks.named("check").configure {
-            this.setDependsOn(this.dependsOn.filterNot {
-                it is TaskProvider<*> && it.name == "detekt"
-            })
-        }
     }
 }

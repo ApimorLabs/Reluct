@@ -1,7 +1,7 @@
 package work.racka.reluct.common.domain.mappers.usagestats
 
 import work.racka.reluct.common.app.usage.stats.model.DataAppUsageInfo
-import work.racka.reluct.common.domain.usecases.app_info.GetAppInfo
+import work.racka.reluct.common.domain.usecases.appInfo.GetAppInfo
 import work.racka.reluct.common.model.domain.usagestats.AppUsageStats
 import work.racka.reluct.common.model.util.time.StatisticsTimeUtils
 import work.racka.reluct.common.model.util.time.TimeUtils

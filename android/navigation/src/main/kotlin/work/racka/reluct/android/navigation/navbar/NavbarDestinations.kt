@@ -10,10 +10,10 @@ import androidx.compose.material.icons.rounded.FactCheck
 import androidx.compose.material.icons.rounded.GridView
 import androidx.compose.material.icons.rounded.TaskAlt
 import androidx.compose.ui.graphics.vector.ImageVector
-import work.racka.reluct.common.core_navigation.compose_destinations.dashboard.DashboardOverviewDestination
-import work.racka.reluct.common.core_navigation.compose_destinations.goals.ActiveGoalsDestination
-import work.racka.reluct.common.core_navigation.compose_destinations.screentime.ScreenTimeStatsDestination
-import work.racka.reluct.common.core_navigation.compose_destinations.tasks.PendingTasksDestination
+import work.racka.reluct.common.core.navigation.composeDestinations.dashboard.DashboardOverviewDestination
+import work.racka.reluct.common.core.navigation.composeDestinations.goals.ActiveGoalsDestination
+import work.racka.reluct.common.core.navigation.composeDestinations.screentime.ScreenTimeStatsDestination
+import work.racka.reluct.common.core.navigation.composeDestinations.tasks.PendingTasksDestination
 
 enum class NavbarDestinations(
     val route: String,

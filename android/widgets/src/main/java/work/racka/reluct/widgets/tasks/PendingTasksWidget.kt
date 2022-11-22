@@ -17,7 +17,7 @@ import androidx.glance.text.Text
 import androidx.glance.text.TextAlign
 import androidx.glance.text.TextStyle
 import work.racka.reluct.android.widgets.R
-import work.racka.reluct.common.core_navigation.compose_destinations.tasks.PendingTasksDestination
+import work.racka.reluct.common.core.navigation.composeDestinations.tasks.PendingTasksDestination
 import work.racka.reluct.compose.common.theme.Dimens
 import work.racka.reluct.widgets.components.common.WidgetIconButton
 import work.racka.reluct.widgets.components.common.WidgetTopBar
@@ -63,12 +63,15 @@ class PendingTasksWidget : GlanceAppWidget() {
                     WidgetTopBar(
                         title = "Tasks",
                         actionButton = {
-                            WidgetIconButton(onClick = actionRunCallback<ReloadTasksAction>()) {
-                                Image(
-                                    provider = ImageProvider(R.drawable.ic_round_refresh_24),
-                                    contentDescription = "Refresh"
-                                )
-                            }
+                            WidgetIconButton(
+                                onClick = actionRunCallback<ReloadTasksAction>(),
+                                icon = {
+                                    Image(
+                                        provider = ImageProvider(R.drawable.ic_round_refresh_24),
+                                        contentDescription = "Refresh"
+                                    )
+                                }
+                            )
                         }
                     )
 

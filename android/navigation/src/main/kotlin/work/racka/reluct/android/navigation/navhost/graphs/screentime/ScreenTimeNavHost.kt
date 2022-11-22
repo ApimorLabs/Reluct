@@ -26,9 +26,9 @@ import work.racka.reluct.android.navigation.transitions.scaleOutPopExitTransitio
 import work.racka.reluct.android.navigation.util.NavHelpers.navigateNavBarElements
 import work.racka.reluct.android.screens.screentime.limits.ScreenTimeLimitsScreen
 import work.racka.reluct.android.screens.screentime.statistics.ScreenTimeStatisticsScreen
-import work.racka.reluct.common.core_navigation.compose_destinations.screentime.AppScreenTimeStatsDestination
-import work.racka.reluct.common.core_navigation.compose_destinations.screentime.ScreenTimeLimitsDestination
-import work.racka.reluct.common.core_navigation.compose_destinations.screentime.ScreenTimeStatsDestination
+import work.racka.reluct.common.core.navigation.composeDestinations.screentime.AppScreenTimeStatsDestination
+import work.racka.reluct.common.core.navigation.composeDestinations.screentime.ScreenTimeLimitsDestination
+import work.racka.reluct.common.core.navigation.composeDestinations.screentime.ScreenTimeStatsDestination
 import work.racka.reluct.compose.common.components.topBar.ReluctPageHeading
 import work.racka.reluct.compose.common.components.util.BarsVisibility
 
@@ -80,7 +80,9 @@ internal fun ScreenTimeNavHost(
                     barsVisibility = barsVisibility,
                     onNavigateToAppUsageInfo = { packageName ->
                         mainNavController.navigate(
-                            AppScreenTimeStatsDestination.argsRoute(packageName)
+                            AppScreenTimeStatsDestination.argsRoute(
+                                packageName
+                            )
                         )
                     }
                 )
@@ -100,7 +102,9 @@ internal fun ScreenTimeNavHost(
                     barsVisibility = barsVisibility,
                     onNavigateToAppUsageInfo = { packageName ->
                         mainNavController.navigate(
-                            AppScreenTimeStatsDestination.argsRoute(packageName)
+                            AppScreenTimeStatsDestination.argsRoute(
+                                packageName
+                            )
                         )
                     }
                 )

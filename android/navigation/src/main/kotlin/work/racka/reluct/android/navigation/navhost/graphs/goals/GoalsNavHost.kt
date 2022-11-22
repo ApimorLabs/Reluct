@@ -26,10 +26,10 @@ import work.racka.reluct.android.navigation.transitions.scaleOutPopExitTransitio
 import work.racka.reluct.android.navigation.util.NavHelpers.navigateNavBarElements
 import work.racka.reluct.android.screens.goals.active.ActiveGoalsScreen
 import work.racka.reluct.android.screens.goals.inactive.InactiveGoalsScreen
-import work.racka.reluct.common.core_navigation.compose_destinations.goals.ActiveGoalsDestination
-import work.racka.reluct.common.core_navigation.compose_destinations.goals.AddEditGoalDestination
-import work.racka.reluct.common.core_navigation.compose_destinations.goals.GoalDetailsDestination
-import work.racka.reluct.common.core_navigation.compose_destinations.goals.InactiveGoalsDestination
+import work.racka.reluct.common.core.navigation.composeDestinations.goals.ActiveGoalsDestination
+import work.racka.reluct.common.core.navigation.composeDestinations.goals.AddEditGoalDestination
+import work.racka.reluct.common.core.navigation.composeDestinations.goals.GoalDetailsDestination
+import work.racka.reluct.common.core.navigation.composeDestinations.goals.InactiveGoalsDestination
 import work.racka.reluct.compose.common.components.topBar.ReluctPageHeading
 import work.racka.reluct.compose.common.components.util.BarsVisibility
 
@@ -88,7 +88,11 @@ internal fun GoalsNavHost(
                         )
                     },
                     onNavigateToGoalDetails = { goalId: String? ->
-                        mainNavController.navigate(GoalDetailsDestination.argsRoute(goalId))
+                        mainNavController.navigate(
+                            GoalDetailsDestination.argsRoute(
+                                goalId
+                            )
+                        )
                     }
                 )
             }
@@ -114,7 +118,11 @@ internal fun GoalsNavHost(
                         )
                     },
                     onNavigateToGoalDetails = { goalId: String? ->
-                        mainNavController.navigate(GoalDetailsDestination.argsRoute(goalId))
+                        mainNavController.navigate(
+                            GoalDetailsDestination.argsRoute(
+                                goalId
+                            )
+                        )
                     }
                 )
             }

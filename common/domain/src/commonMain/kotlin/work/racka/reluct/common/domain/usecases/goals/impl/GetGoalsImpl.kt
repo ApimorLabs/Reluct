@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.mapLatest
 import work.racka.reluct.common.database.dao.goals.GoalsDao
 import work.racka.reluct.common.domain.mappers.goals.asGoal
-import work.racka.reluct.common.domain.usecases.app_info.GetAppInfo
+import work.racka.reluct.common.domain.usecases.appInfo.GetAppInfo
 import work.racka.reluct.common.domain.usecases.goals.GetGoals
 import work.racka.reluct.common.model.domain.goals.Goal
 

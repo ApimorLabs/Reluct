@@ -18,7 +18,10 @@ class OnBoardingViewModel(
     private val permissionsState = MutableStateFlow(PermissionsState())
 
     val uiState: StateFlow<OnBoardingState> = combine(
-        currentPage, permissionsState, settings.theme, settings.appBlockingEnabled
+        currentPage,
+        permissionsState,
+        settings.theme,
+        settings.appBlockingEnabled
     ) { currentPage, permissionsState, currentThemeValue, appBlockingEnabled ->
         OnBoardingState(
             currentPage = currentPage,

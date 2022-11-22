@@ -42,7 +42,9 @@ internal class AndroidFirebaseManageUser(
                     auth.currentUser?.updatePassword(newPassword)?.await()
                     getAuthUser()?.let { Resource.Success(it) }
                         ?: Resource.Error(Messages.NOT_LOGGED_IN)
-                } else Resource.Error(Messages.EMAIL_INVALID)
+                } else {
+                    Resource.Error(Messages.EMAIL_INVALID)
+                }
             } ?: Resource.Error(Messages.NOT_LOGGED_IN)
         } catch (e: Exception) {
             Resource.Error(message = e.localizedMessage ?: Messages.UNKNOWN_ERROR)

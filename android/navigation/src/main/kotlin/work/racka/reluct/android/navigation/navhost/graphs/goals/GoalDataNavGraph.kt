@@ -16,10 +16,10 @@ import work.racka.reluct.android.navigation.util.NavHelpers
 import work.racka.reluct.android.navigation.util.NavHelpers.popBackStackOrExitActivity
 import work.racka.reluct.android.screens.goals.addEdit.AddEditGoalScreen
 import work.racka.reluct.android.screens.goals.details.GoalDetailsScreen
-import work.racka.reluct.common.core_navigation.compose_destinations.goals.AddEditGoalArgs
-import work.racka.reluct.common.core_navigation.compose_destinations.goals.AddEditGoalDestination
-import work.racka.reluct.common.core_navigation.compose_destinations.goals.GoalDetailsArgs
-import work.racka.reluct.common.core_navigation.compose_destinations.goals.GoalDetailsDestination
+import work.racka.reluct.common.core.navigation.composeDestinations.goals.AddEditGoalArgs
+import work.racka.reluct.common.core.navigation.composeDestinations.goals.AddEditGoalDestination
+import work.racka.reluct.common.core.navigation.composeDestinations.goals.GoalDetailsArgs
+import work.racka.reluct.common.core.navigation.composeDestinations.goals.GoalDetailsDestination
 import work.racka.reluct.compose.common.components.util.BarsVisibility
 
 @ExperimentalAnimationApi
@@ -45,10 +45,18 @@ fun NavGraphBuilder.goalDataNavGraph(
             val activity = LocalContext.current as Activity
 
             GoalDetailsScreen(
-                goalId = NavHelpers.getStringArgs(backStackEntry, GoalDetailsArgs.GoalId.name),
+                goalId = NavHelpers.getStringArgs(
+                    backStackEntry,
+                    GoalDetailsArgs.GoalId.name
+                ),
                 onExit = { navController.popBackStackOrExitActivity(activity) },
                 onNavigateToEditGoal = { goalId ->
-                    navController.navigate(AddEditGoalDestination.argsRoute(goalId, null))
+                    navController.navigate(
+                        AddEditGoalDestination.argsRoute(
+                            goalId,
+                            null
+                        )
+                    )
                 }
             )
 
@@ -69,10 +77,15 @@ fun NavGraphBuilder.goalDataNavGraph(
             val activity = LocalContext.current as Activity
 
             val goalIndex = backStackEntry.arguments
-                ?.getInt(AddEditGoalArgs.DefaultGoalIndex.name)
+                ?.getInt(
+                    AddEditGoalArgs.DefaultGoalIndex.name
+                )
 
             AddEditGoalScreen(
-                goalId = NavHelpers.getStringArgs(backStackEntry, AddEditGoalArgs.GoalId.name),
+                goalId = NavHelpers.getStringArgs(
+                    backStackEntry,
+                    AddEditGoalArgs.GoalId.name
+                ),
                 defaultGoalIndex = goalIndex?.let { i -> if (i < 0) null else i },
                 onExit = { navController.popBackStackOrExitActivity(activity) }
             )

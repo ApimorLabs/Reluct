@@ -10,7 +10,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.coroutines.launch
 import work.racka.common.mvvm.koin.compose.getCommonViewModel
 import work.racka.reluct.android.screens.R
-import work.racka.reluct.common.features.tasks.search_tasks.SearchTasksViewModel
+import work.racka.reluct.common.features.tasks.searchTasks.SearchTasksViewModel
 import work.racka.reluct.common.model.states.tasks.TasksEvents
 
 @OptIn(ExperimentalLifecycleComposeApi::class)

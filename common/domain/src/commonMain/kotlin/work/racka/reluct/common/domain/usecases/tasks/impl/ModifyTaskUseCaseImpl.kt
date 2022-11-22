@@ -58,8 +58,9 @@ internal class ModifyTaskUseCaseImpl(
             val completedLocalDateTime = if (isDone) TimeUtils.currentLocalDateTime() else null
             dao.toggleTaskDone(task.id, isDone, task.overdue, completedLocalDateTime)
             haptics.tick()
-            if (isDone) manageTasksAlarms.removeAlarm(task.id)
-            else {
+            if (isDone) {
+                manageTasksAlarms.removeAlarm(task.id)
+            } else {
                 task.reminderDateAndTime?.let { dateTimeString ->
                     manageTasksAlarms
                         .setAlarm(taskId = task.id, dateTime = dateTimeString.toLocalDateTime())

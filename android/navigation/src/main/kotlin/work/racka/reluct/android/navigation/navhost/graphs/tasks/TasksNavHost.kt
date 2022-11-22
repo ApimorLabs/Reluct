@@ -27,7 +27,7 @@ import work.racka.reluct.android.navigation.util.NavHelpers.navigateNavBarElemen
 import work.racka.reluct.android.screens.tasks.done.CompletedTasksScreen
 import work.racka.reluct.android.screens.tasks.pending.PendingTasksScreen
 import work.racka.reluct.android.screens.tasks.statistics.TasksStatisticsScreen
-import work.racka.reluct.common.core_navigation.compose_destinations.tasks.*
+import work.racka.reluct.common.core.navigation.composeDestinations.tasks.*
 import work.racka.reluct.compose.common.components.textfields.search.PlaceholderMaterialSearchBar
 import work.racka.reluct.compose.common.components.util.BarsVisibility
 

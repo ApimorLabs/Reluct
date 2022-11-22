@@ -20,10 +20,10 @@ import work.racka.reluct.widgets.core.GlanceTheme
 
 @Composable
 fun WidgetTaskEntry(
-    modifier: GlanceModifier = GlanceModifier,
     task: Task,
     onCheckedChange: Action,
-    onEntryClick: Action
+    onEntryClick: Action,
+    modifier: GlanceModifier = GlanceModifier,
 ) {
     Box(
         contentAlignment = Alignment.Center,
@@ -32,7 +32,7 @@ fun WidgetTaskEntry(
             .cornerRadius(15.dp)
             .clickable(onEntryClick)
             .background(if (task.overdue) GlanceTheme.colors.error else GlanceTheme.colors.surfaceVariant)
-                then modifier
+            then modifier
     ) {
         Row(
             modifier = GlanceModifier
@@ -56,8 +56,8 @@ fun WidgetTaskEntry(
 
 @Composable
 private fun WidgetTaskEntryText(
-    modifier: GlanceModifier = GlanceModifier,
     task: Task,
+    modifier: GlanceModifier = GlanceModifier,
     showOverDueLabel: Boolean = false
 ) {
     Column(
@@ -76,11 +76,13 @@ private fun WidgetTaskEntryText(
             )
             Spacer(modifier = GlanceModifier.width(Dimens.ExtraSmallPadding.size))
             Text(
-                modifier = modifier,
                 text = task.dueTime,
                 style = TextStyle(
-                    color = if (task.overdue) GlanceTheme.colors.onError
-                    else GlanceTheme.colors.onSurface,
+                    color = if (task.overdue) {
+                        GlanceTheme.colors.onError
+                    } else {
+                        GlanceTheme.colors.onSurface
+                    },
                     fontSize = 12.sp,
                 ),
                 maxLines = 1

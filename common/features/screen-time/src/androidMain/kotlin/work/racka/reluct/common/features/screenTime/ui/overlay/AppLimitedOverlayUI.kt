@@ -22,11 +22,6 @@ import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import work.racka.reluct.compose.common.components.buttons.ReluctButton
-import work.racka.reluct.compose.common.components.cards.cardWithActions.ReluctDescriptionCard
-import work.racka.reluct.compose.common.components.cards.statistics.BarChartDefaults
-import work.racka.reluct.compose.common.components.cards.statistics.ChartData
-import work.racka.reluct.compose.common.components.cards.statistics.screenTime.ScreenTimeStatisticsCard
 import work.racka.reluct.common.features.screenTime.R
 import work.racka.reluct.common.features.screenTime.statistics.AppScreenTimeStatsViewModel
 import work.racka.reluct.common.features.screenTime.statistics.states.appStats.AppSettingsState
@@ -36,6 +31,11 @@ import work.racka.reluct.common.features.screenTime.ui.components.AppNameEntry
 import work.racka.reluct.common.model.domain.usagestats.AppUsageStats
 import work.racka.reluct.common.model.util.time.Week
 import work.racka.reluct.compose.common.charts.barChart.BarChartData
+import work.racka.reluct.compose.common.components.buttons.ReluctButton
+import work.racka.reluct.compose.common.components.cards.cardWithActions.ReluctDescriptionCard
+import work.racka.reluct.compose.common.components.cards.statistics.BarChartDefaults
+import work.racka.reluct.compose.common.components.cards.statistics.ChartData
+import work.racka.reluct.compose.common.components.cards.statistics.screenTime.ScreenTimeStatisticsCard
 import work.racka.reluct.compose.common.theme.Dimens
 import work.racka.reluct.compose.common.theme.Shapes
 
@@ -119,12 +119,16 @@ internal fun AppLimitedOverlayUI(
                     selectedDayText = {
                         if (dailyData is DailyAppUsageStatsState.Data) {
                             dailyData.dayText
-                        } else "..."
+                        } else {
+                            "..."
+                        }
                     },
                     selectedDayScreenTime = {
                         if (dailyData is DailyAppUsageStatsState.Data) {
                             dailyData.usageStat.appUsageInfo.formattedTimeInForeground
-                        } else "..."
+                        } else {
+                            "..."
+                        }
                     },
                     weeklyTotalScreenTime = { uiState.weeklyData.formattedTotalTime },
                     selectedDayIsoNumber = { uiState.selectedInfo.selectedDay },

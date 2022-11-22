@@ -71,7 +71,9 @@ internal class ModifyGoalsImpl(
                 if (checkToday || goal.daysOfWeekSelected.isEmpty()) {
                     val todayTasks = getGroupedTasksStats.dailyTasks(dayIsoNumber = today).first()
                     goal.copy(currentValue = todayTasks.completedTasksCount.toLong())
-                } else goal
+                } else {
+                    goal
+                }
             }
             GoalInterval.Weekly -> {
                 val weeklyTasks = getGroupedTasksStats.weeklyTasks().first()
@@ -94,7 +96,9 @@ internal class ModifyGoalsImpl(
                         if (!TimeUtils.isDateTimeOverdue(dateTime = endLdt, overdueHours = 0)) {
                             val tasks = getGroupedTasksStats.timeRangeTasks(timeInterval).first()
                             goal.copy(currentValue = tasks.completedTasksCount.toLong())
-                        } else goal.copy(isActive = false)
+                        } else {
+                            goal.copy(isActive = false)
+                        }
                     }
                 }
             }
@@ -115,7 +119,9 @@ internal class ModifyGoalsImpl(
                         endTimeMillis = selectedDayTimeRange.last
                     )
                     goal.copy(currentValue = stats.appsUsageList.sumOf { it.timeInForeground })
-                } else goal
+                } else {
+                    goal
+                }
             }
             GoalInterval.Weekly -> {
                 val weekTimeRange = StatisticsTimeUtils.weekTimeInMillisRange()
@@ -143,7 +149,9 @@ internal class ModifyGoalsImpl(
                             goal.copy(
                                 currentValue = stats.appsUsageList.sumOf { it.timeInForeground }
                             )
-                        } else goal.copy(isActive = false)
+                        } else {
+                            goal.copy(isActive = false)
+                        }
                     }
                 }
             }
@@ -168,7 +176,9 @@ internal class ModifyGoalsImpl(
                         ).timeInForeground
                     }
                     goal.copy(currentValue = screenTime)
-                } else goal
+                } else {
+                    goal
+                }
             }
             GoalInterval.Weekly -> {
                 val weekTimeRange = StatisticsTimeUtils.weekTimeInMillisRange()
@@ -202,7 +212,9 @@ internal class ModifyGoalsImpl(
                                 ).timeInForeground
                             }
                             goal.copy(currentValue = screenTime)
-                        } else goal.copy(isActive = false)
+                        } else {
+                            goal.copy(isActive = false)
+                        }
                     }
                 }
             }

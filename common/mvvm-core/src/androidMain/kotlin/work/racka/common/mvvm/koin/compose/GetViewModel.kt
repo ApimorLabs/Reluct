@@ -35,7 +35,11 @@ inline fun <reified T : CommonViewModel> getCommonViewModel(
     return remember(qualifier, parameters) {
         val vmClazz = T::class
         val factory = getViewModelFactory(
-            owner, vmClazz, qualifier, parameters, scope = scope
+            owner,
+            vmClazz,
+            qualifier,
+            parameters,
+            scope = scope
         )
         ViewModelProvider(owner, factory)[vmClazz.java]
     }

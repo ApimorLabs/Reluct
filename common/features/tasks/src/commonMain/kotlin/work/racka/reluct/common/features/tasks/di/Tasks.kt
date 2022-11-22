@@ -3,12 +3,12 @@ package work.racka.reluct.common.features.tasks.di
 import org.koin.core.KoinApplication
 import org.koin.dsl.module
 import work.racka.common.mvvm.koin.vm.commonViewModel
-import work.racka.reluct.common.features.tasks.add_edit_task.AddEditTaskViewModel
-import work.racka.reluct.common.features.tasks.completed_tasks.CompletedTasksViewModel
-import work.racka.reluct.common.features.tasks.pending_tasks.PendingTasksViewModel
-import work.racka.reluct.common.features.tasks.search_tasks.SearchTasksViewModel
+import work.racka.reluct.common.features.tasks.addEditTask.AddEditTaskViewModel
+import work.racka.reluct.common.features.tasks.completedTasks.CompletedTasksViewModel
+import work.racka.reluct.common.features.tasks.pendingTasks.PendingTasksViewModel
+import work.racka.reluct.common.features.tasks.searchTasks.SearchTasksViewModel
 import work.racka.reluct.common.features.tasks.statistics.TasksStatisticsViewModel
-import work.racka.reluct.common.features.tasks.task_details.TaskDetailsViewModel
+import work.racka.reluct.common.features.tasks.taskDetails.TaskDetailsViewModel
 
 object Tasks {
 

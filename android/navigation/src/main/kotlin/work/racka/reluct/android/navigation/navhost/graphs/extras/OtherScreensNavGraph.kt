@@ -17,8 +17,12 @@ import work.racka.reluct.android.navigation.util.NavHelpers.popBackStackOrExitAc
 import work.racka.reluct.android.screens.tasks.addEdit.AddEditTaskScreen
 import work.racka.reluct.android.screens.tasks.details.TaskDetailsScreen
 import work.racka.reluct.android.screens.tasks.search.TasksSearchScreen
-import work.racka.reluct.common.core_navigation.compose_destinations.OtherDestination
-import work.racka.reluct.common.core_navigation.compose_destinations.tasks.*
+import work.racka.reluct.common.core.navigation.composeDestinations.OtherDestination
+import work.racka.reluct.common.core.navigation.composeDestinations.tasks.AddEditTaskArgs.TaskId
+import work.racka.reluct.common.core.navigation.composeDestinations.tasks.AddEditTaskDestination
+import work.racka.reluct.common.core.navigation.composeDestinations.tasks.SearchTasksDestination
+import work.racka.reluct.common.core.navigation.composeDestinations.tasks.TaskDetailsArgs
+import work.racka.reluct.common.core.navigation.composeDestinations.tasks.TaskDetailsDestination
 import work.racka.reluct.compose.common.components.util.BarsVisibility
 
 @ExperimentalAnimationApi
@@ -69,7 +73,7 @@ fun NavGraphBuilder.otherScreenNavGraph(
             val activity = LocalContext.current as Activity
 
             AddEditTaskScreen(
-                taskId = NavHelpers.getStringArgs(navBackStackEntry, AddEditTaskArgs.TaskId.name),
+                taskId = NavHelpers.getStringArgs(navBackStackEntry, TaskId.name),
                 onBackClicked = { navController.popBackStackOrExitActivity(activity) }
             )
 

@@ -10,7 +10,7 @@ import kotlinx.coroutines.withContext
 import work.racka.reluct.common.database.dao.screentime.LimitsDao
 import work.racka.reluct.common.domain.mappers.limits.asTimeLimit
 import work.racka.reluct.common.domain.mappers.limits.convertTimeToMillis
-import work.racka.reluct.common.domain.usecases.app_info.GetAppInfo
+import work.racka.reluct.common.domain.usecases.appInfo.GetAppInfo
 import work.racka.reluct.common.domain.usecases.limits.ManageAppTimeLimit
 import work.racka.reluct.common.model.domain.limits.AppTimeLimit
 import work.racka.reluct.common.services.haptics.HapticFeedback

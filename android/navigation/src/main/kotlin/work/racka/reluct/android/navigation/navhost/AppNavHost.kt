@@ -33,9 +33,9 @@ import work.racka.reluct.android.navigation.transitions.scaleOutPopExitTransitio
 import work.racka.reluct.android.navigation.util.SettingsCheck
 import work.racka.reluct.android.screens.onboarding.OnBoardingScreen
 import work.racka.reluct.android.screens.settings.SettingsScreen
-import work.racka.reluct.common.core_navigation.compose_destinations.onboarding.OnBoardingDestination
-import work.racka.reluct.common.core_navigation.compose_destinations.settings.SettingsDestination
-import work.racka.reluct.common.core_navigation.compose_destinations.tasks.PendingTasksDestination
+import work.racka.reluct.common.core.navigation.composeDestinations.onboarding.OnBoardingDestination
+import work.racka.reluct.common.core.navigation.composeDestinations.settings.SettingsDestination
+import work.racka.reluct.common.core.navigation.composeDestinations.tasks.PendingTasksDestination
 import work.racka.reluct.compose.common.components.animations.slideInVerticallyFadeReversed
 import work.racka.reluct.compose.common.components.animations.slideOutVerticallyFadeReversed
 import work.racka.reluct.compose.common.components.util.BarsVisibility
@@ -123,7 +123,9 @@ fun AppNavHost(settingsCheck: SettingsCheck?, modifier: Modifier = Modifier) {
                     OnBoardingScreen(
                         navigateHome = {
                             navController.navigate(NavbarDestinations.Dashboard.route) {
-                                popUpTo(OnBoardingDestination.route) { inclusive = true }
+                                popUpTo(
+                                    OnBoardingDestination.route
+                                ) { inclusive = true }
                             }
                         }
                     )

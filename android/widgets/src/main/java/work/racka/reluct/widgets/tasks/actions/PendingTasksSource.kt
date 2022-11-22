@@ -42,8 +42,11 @@ object PendingTasksSource : KoinComponent {
                 val newList = sourceMap.value.map { it.asWidgetTaskParcel() }
                 Pair(sourceMap.key, newList)
             }.toMap()
-        if (pending.isEmpty()) setWidgetState(glanceIds, PendingTasksInfo.Nothing)
-        else setWidgetState(glanceIds, PendingTasksInfo.Data(pending))
+        if (pending.isEmpty()) {
+            setWidgetState(glanceIds, PendingTasksInfo.Nothing)
+        } else {
+            setWidgetState(glanceIds, PendingTasksInfo.Data(pending))
+        }
     }
 
     private suspend fun setWidgetState(glanceIds: List<GlanceId>, newState: PendingTasksInfo) {

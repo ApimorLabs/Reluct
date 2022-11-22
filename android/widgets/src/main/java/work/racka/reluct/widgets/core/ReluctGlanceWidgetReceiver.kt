@@ -4,7 +4,8 @@ import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.GlanceAppWidgetReceiver
 import org.koin.core.component.KoinComponent
 
-abstract class ReluctGlanceWidgetReceiver<T : ReluctGlanceWidget<*>> : GlanceAppWidgetReceiver(),
+abstract class ReluctGlanceWidgetReceiver<T : ReluctGlanceWidget<*>> :
+    GlanceAppWidgetReceiver(),
     KoinComponent {
 
     override val glanceAppWidget: GlanceAppWidget
@@ -13,6 +14,4 @@ abstract class ReluctGlanceWidgetReceiver<T : ReluctGlanceWidget<*>> : GlanceApp
         }
 
     abstract fun createWidget(): T
-
-
 }

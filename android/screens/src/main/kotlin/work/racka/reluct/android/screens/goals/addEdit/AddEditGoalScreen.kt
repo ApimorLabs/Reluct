@@ -12,7 +12,7 @@ import org.koin.core.parameter.parametersOf
 import work.racka.common.mvvm.koin.compose.getCommonViewModel
 import work.racka.reluct.android.screens.R
 import work.racka.reluct.common.features.goals.active.states.GoalsEvents
-import work.racka.reluct.common.features.goals.add_edit_goal.AddEditGoalViewModel
+import work.racka.reluct.common.features.goals.addEditGoal.AddEditGoalViewModel
 
 @OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable

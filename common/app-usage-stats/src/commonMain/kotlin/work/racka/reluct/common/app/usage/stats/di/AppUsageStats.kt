@@ -14,6 +14,5 @@ object AppUsageStats {
         }
 
     private fun commonModule() = module {
-
     }
 }

@@ -12,7 +12,7 @@ import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
 import work.racka.reluct.common.billing.products.Product
 import work.racka.reluct.common.billing.products.ProductOffered
-import work.racka.reluct.common.billing.revenue_cat.asProduct
+import work.racka.reluct.common.billing.revenuecat.asProduct
 import work.racka.reluct.common.model.util.Resource
 import kotlin.coroutines.resume
 
@@ -39,6 +39,7 @@ internal class RevenueCatAndroid(
                                 try {
                                     currentOfferings?.getPackage(item.id)?.asProduct()
                                 } catch (e: Exception) {
+                                    println(e.message)
                                     null
                                 }
                             }.toImmutableList()

@@ -38,7 +38,9 @@ class AppSettingsViewModel(
         MutableStateFlow(CoffeeProductsState.Loading)
 
     val uiState: StateFlow<SettingsState> = combine(
-        settings.theme, limitSettings, coffeeProductsState
+        settings.theme,
+        limitSettings,
+        coffeeProductsState
     ) { themeSelected, limitSettings, coffeeProducts ->
         SettingsState(
             themeValue = themeSelected,
@@ -83,8 +85,11 @@ class AppSettingsViewModel(
         vmScope.launch {
             if (settings.saveAppBlocking(value)) {
                 eventsChannel.send(SettingsEvents.AppBlockingChanged(value))
-                if (value) screenTimeServices.startLimitsService()
-                else screenTimeServices.stopLimitsService()
+                if (value) {
+                    screenTimeServices.startLimitsService()
+                } else {
+                    screenTimeServices.stopLimitsService()
+                }
             }
         }
     }
@@ -144,8 +149,9 @@ class AppSettingsViewModel(
                         ?: coffeeProductsState
                             .update { CoffeeProductsState.FetchError("Internal Error") }
                 }
-                else -> coffeeProductsState
-                    .update { CoffeeProductsState.FetchError("Internal Error") }
+                else ->
+                    coffeeProductsState
+                        .update { CoffeeProductsState.FetchError("Internal Error") }
             }
             currentProduct = null
         }

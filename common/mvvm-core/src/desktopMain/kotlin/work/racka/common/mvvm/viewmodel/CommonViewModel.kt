@@ -5,6 +5,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
 
+@Suppress("UnnecessaryAbstractClass")
 actual abstract class CommonViewModel actual constructor() {
     actual val vmScope: CoroutineScope
         get() = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)

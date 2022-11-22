@@ -19,9 +19,9 @@ import androidx.compose.ui.unit.dp
 import work.racka.reluct.android.screens.R
 import work.racka.reluct.android.screens.screentime.components.ManageAppsDialog
 import work.racka.reluct.android.screens.util.BackPressHandler
-import work.racka.reluct.common.features.goals.add_edit_goal.states.AddEditGoalState
-import work.racka.reluct.common.features.goals.add_edit_goal.states.GoalAppsState
-import work.racka.reluct.common.features.goals.add_edit_goal.states.ModifyGoalState
+import work.racka.reluct.common.features.goals.addEditGoal.states.AddEditGoalState
+import work.racka.reluct.common.features.goals.addEditGoal.states.GoalAppsState
+import work.racka.reluct.common.features.goals.addEditGoal.states.ModifyGoalState
 import work.racka.reluct.common.model.domain.appInfo.AppInfo
 import work.racka.reluct.common.model.domain.goals.Goal
 import work.racka.reluct.compose.common.components.SharedRes

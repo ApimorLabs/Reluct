@@ -6,7 +6,7 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import work.racka.common.mvvm.viewmodel.CommonViewModel
-import work.racka.reluct.common.domain.usecases.app_usage.GetAppUsageInfo
+import work.racka.reluct.common.domain.usecases.appUsage.GetAppUsageInfo
 import work.racka.reluct.common.domain.usecases.limits.ManageAppTimeLimit
 import work.racka.reluct.common.domain.usecases.limits.ManageDistractingApps
 import work.racka.reluct.common.domain.usecases.limits.ManagePausedApps

@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
-import work.racka.reluct.common.core_navigation.compose_destinations.tasks.TaskDetailsDestination
+import work.racka.reluct.common.core.navigation.composeDestinations.tasks.TaskDetailsDestination
 import work.racka.reluct.common.domain.R
 import work.racka.reluct.common.domain.alarms.AlarmReminderNotifications.getTaskReminderNotificationInfo
 import work.racka.reluct.common.domain.usecases.tasks.GetTasksUseCase
