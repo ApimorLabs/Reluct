@@ -13,13 +13,13 @@ import work.racka.reluct.common.features.onboarding.di.OnBoarding
 import work.racka.reluct.common.features.screenTime.di.ScreenTime
 import work.racka.reluct.common.features.settings.di.AppSettings
 import work.racka.reluct.common.features.tasks.di.Tasks
-import work.racka.reluct.common.settings.di.MultiplatformSettings
 import work.racka.reluct.common.services.di.SystemServices
+import work.racka.reluct.common.settings.di.MultiplatformSettings
 
 object KoinMain {
     // This should be used in every platform target as a starting point for Koin
     fun initKoin(
-        //enableNetworkLogs: Boolean = false,
+        // enableNetworkLogs: Boolean = false,
         appDeclaration: KoinAppDeclaration = {}
     ) = startKoin {
         appDeclaration()
