@@ -3,7 +3,6 @@ include(
     ":desktop:app",
     ":android:app",
     ":android:benchmark",
-    ":android:compose:components",
     ":android:compose:navigation",
     ":android:screens",
     ":android:widgets",
