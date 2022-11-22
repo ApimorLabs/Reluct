@@ -1,4 +1,4 @@
-package work.racka.reluct.common.domain.usecases.app_usage.impl
+package work.racka.reluct.common.domain.usecases.appUsage.impl
 
 import kotlinx.collections.immutable.ImmutableMap
 import kotlinx.collections.immutable.persistentMapOf
@@ -7,8 +7,8 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import work.racka.reluct.common.app.usage.stats.manager.UsageDataManager
 import work.racka.reluct.common.domain.mappers.usagestats.asAppUsageStats
-import work.racka.reluct.common.domain.usecases.app_info.GetAppInfo
-import work.racka.reluct.common.domain.usecases.app_usage.GetAppUsageInfo
+import work.racka.reluct.common.domain.usecases.appInfo.GetAppInfo
+import work.racka.reluct.common.domain.usecases.appUsage.GetAppUsageInfo
 import work.racka.reluct.common.model.domain.usagestats.AppUsageStats
 import work.racka.reluct.common.model.util.time.StatisticsTimeUtils
 import work.racka.reluct.common.model.util.time.Week

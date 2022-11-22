@@ -32,7 +32,6 @@ internal class GetGroupedTasksStatsImpl(
     private fun dayDateTimeStringRange(weekOffset: Int, dayIsoNumber: Int) = StatisticsTimeUtils
         .selectedDayDateTimeStringRange(weekOffset = weekOffset, dayIsoNumber = dayIsoNumber)
 
-
     override fun dailyTasks(weekOffset: Int, dayIsoNumber: Int): Flow<DailyTasksStats> {
         val dayRange = dayDateTimeStringRange(weekOffset, dayIsoNumber)
         return dao.getTasksBetweenDateTime(
@@ -57,7 +56,6 @@ internal class GetGroupedTasksStatsImpl(
             }
             .flowOn(backgroundDispatcher)
     }
-
 
     /**
      * We need to return a map with each item containing the day of the [Week] as key and the
@@ -114,8 +112,9 @@ internal class GetGroupedTasksStatsImpl(
 
     override fun timeRangeTasks(timeRangeMillis: LongRange): Flow<DailyTasksStats> {
         val dateTimeRange = TimeUtils.run {
-            epochMillisToLocalDateTime(timeRangeMillis.first).toString()..
-                    epochMillisToLocalDateTime(timeRangeMillis.last).toString()
+            epochMillisToLocalDateTime(timeRangeMillis.first).toString()..epochMillisToLocalDateTime(
+                timeRangeMillis.last
+            ).toString()
         }
         return dao.getTasksBetweenDateTime(
             startLocalDateTime = dateTimeRange.start,

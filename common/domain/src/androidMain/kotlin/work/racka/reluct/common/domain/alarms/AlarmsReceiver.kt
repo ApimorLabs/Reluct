@@ -52,7 +52,7 @@ internal class AlarmsReceiver : BroadcastReceiver(), KoinComponent {
                             category = NotificationCompat.CATEGORY_REMINDER
                         )
                         val channelInfo = context.getTaskReminderNotificationInfo()
-                        val uriString = work.racka.reluct.common.core.navigation.composeDestinations.tasks.TaskDetailsDestination.taskDetailsDeepLink(data.id)
+                        val uriString = TaskDetailsDestination.taskDetailsDeepLink(data.id)
                         val pendingIntent = AlarmReminderNotifications
                             .openNotificationPendingIntent(context, uriString)
                         val notification = SimpleAndroidNotification(

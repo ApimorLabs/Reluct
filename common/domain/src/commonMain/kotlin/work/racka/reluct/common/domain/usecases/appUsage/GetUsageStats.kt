@@ -1,4 +1,4 @@
-package work.racka.reluct.common.domain.usecases.app_usage
+package work.racka.reluct.common.domain.usecases.appUsage
 
 import kotlinx.collections.immutable.ImmutableMap
 import work.racka.reluct.common.model.domain.usagestats.UsageStats

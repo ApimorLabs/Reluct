@@ -5,8 +5,8 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.withContext
 import work.racka.reluct.common.domain.usecases.limits.ManageFocusMode
-import work.racka.reluct.common.settings.MultiplatformSettings
 import work.racka.reluct.common.services.haptics.HapticFeedback
+import work.racka.reluct.common.settings.MultiplatformSettings
 
 internal class ManageFocusModeImpl(
     private val settings: MultiplatformSettings,

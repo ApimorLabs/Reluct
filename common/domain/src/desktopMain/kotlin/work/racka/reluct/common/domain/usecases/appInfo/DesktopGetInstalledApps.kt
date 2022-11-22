@@ -1,4 +1,4 @@
-package work.racka.reluct.common.domain.usecases.app_info
+package work.racka.reluct.common.domain.usecases.appInfo
 
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf

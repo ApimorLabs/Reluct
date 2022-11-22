@@ -3,10 +3,10 @@ package work.racka.reluct.common.domain.di
 import kotlinx.coroutines.Dispatchers
 import org.koin.core.KoinApplication
 import org.koin.dsl.module
-import work.racka.reluct.common.domain.usecases.app_usage.GetAppUsageInfo
-import work.racka.reluct.common.domain.usecases.app_usage.GetUsageStats
-import work.racka.reluct.common.domain.usecases.app_usage.impl.GetAppUsageInfoImpl
-import work.racka.reluct.common.domain.usecases.app_usage.impl.GetUsageStatsImpl
+import work.racka.reluct.common.domain.usecases.appUsage.GetAppUsageInfo
+import work.racka.reluct.common.domain.usecases.appUsage.GetUsageStats
+import work.racka.reluct.common.domain.usecases.appUsage.impl.GetAppUsageInfoImpl
+import work.racka.reluct.common.domain.usecases.appUsage.impl.GetUsageStatsImpl
 import work.racka.reluct.common.domain.usecases.billing.ManageCoffeeProducts
 import work.racka.reluct.common.domain.usecases.billing.impl.ManageCoffeeProductsImpl
 import work.racka.reluct.common.domain.usecases.goals.GetGoals
@@ -37,7 +37,6 @@ object Domain {
         }
 
     private fun commonModule() = module {
-
         /** UseCases **/
         // Tasks
         factory<GetTasksUseCase> {

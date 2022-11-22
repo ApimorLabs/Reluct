@@ -15,8 +15,9 @@ internal class GetWeekRangeFromOffsetImpl(
         val weeklyTimeRange = StatisticsTimeUtils
             .weekLocalDateTimeStringRange(weekOffset = weekOffset)
 
-        if (weekOffset == 0) "This Week"
-        else {
+        if (weekOffset == 0) {
+            "This Week"
+        } else {
             val start = TimeUtils.getFormattedDateString(
                 dateTime = weeklyTimeRange.start,
                 showShortIntervalAsDay = false

@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.withContext
 import work.racka.reluct.common.database.dao.screentime.LimitsDao
 import work.racka.reluct.common.domain.mappers.limits.asAppLimits
-import work.racka.reluct.common.domain.usecases.app_info.GetAppInfo
+import work.racka.reluct.common.domain.usecases.appInfo.GetAppInfo
 import work.racka.reluct.common.domain.usecases.limits.GetPausedApps
 import work.racka.reluct.common.model.domain.limits.AppLimits
 

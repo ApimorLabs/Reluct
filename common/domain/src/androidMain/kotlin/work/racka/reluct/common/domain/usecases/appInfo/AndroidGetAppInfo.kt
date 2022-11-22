@@ -1,4 +1,4 @@
-package work.racka.reluct.common.domain.usecases.app_info
+package work.racka.reluct.common.domain.usecases.appInfo
 
 import android.content.Context
 import android.content.pm.PackageManager
@@ -22,7 +22,7 @@ internal class AndroidGetAppInfo(
                 context.createPackageContext(packageName, Context.CONTEXT_IGNORE_SECURITY)
             appIcon = newContext.packageManager.getApplicationIcon(packageName)
         } catch (e: PackageManager.NameNotFoundException) {
-            println("Package Name not found: $packageName")
+            println("Package Name not found: $packageName. Message: ${e.message}")
         } catch (e: Exception) {
             println("Error: ${e.message}")
         }
@@ -46,7 +46,7 @@ internal class AndroidGetAppInfo(
             }
             appName = packageManager.getApplicationLabel(appInfo).toString()
         } catch (e: PackageManager.NameNotFoundException) {
-            println("Package Name not found: $packageName")
+            println("Package Name not found: $packageName. Message: ${e.message}")
         } catch (e: Exception) {
             println("Error: ${e.message}")
         }

@@ -19,17 +19,23 @@ fun TaskDbObject.asTask(showShortIntervalAsDay: Boolean = true): Task {
             showShortIntervalAsDay = showShortIntervalAsDay,
             timeZoneId = this.timeZoneId
         )
-    } else "--/--"
+    } else {
+        "--/--"
+    }
 
     return Task(
         id = this.id,
         title = this.title,
         description = this.description ?: "No Description",
         done = this.done,
-        overdue = if (this.done) this.overdue else TimeUtils.isDateTimeOverdue(
-            this.dueDateLocalDateTime,
-            this.timeZoneId
-        ),
+        overdue = if (this.done) {
+            this.overdue
+        } else {
+            TimeUtils.isDateTimeOverdue(
+                this.dueDateLocalDateTime,
+                this.timeZoneId
+            )
+        },
         taskLabels = taskLabels.map { it.asTaskLabel() }.toImmutableList(),
         dueDate = TimeUtils.getFormattedDateString(
             dateTime = this.dueDateLocalDateTime,

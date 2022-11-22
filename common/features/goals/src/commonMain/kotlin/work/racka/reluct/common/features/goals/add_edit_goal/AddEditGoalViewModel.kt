@@ -9,7 +9,7 @@ import kotlinx.coroutines.channels.onSuccess
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import work.racka.common.mvvm.viewmodel.CommonViewModel
-import work.racka.reluct.common.domain.usecases.app_info.GetInstalledApps
+import work.racka.reluct.common.domain.usecases.appInfo.GetInstalledApps
 import work.racka.reluct.common.domain.usecases.goals.GetGoals
 import work.racka.reluct.common.domain.usecases.goals.ModifyGoals
 import work.racka.reluct.common.features.goals.active.states.DefaultGoals

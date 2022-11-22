@@ -1,4 +1,4 @@
-package work.racka.reluct.common.domain.usecases.app_info
+package work.racka.reluct.common.domain.usecases.appInfo
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -13,7 +13,8 @@ import work.racka.reluct.common.domain.util.hasMainActivity
 import work.racka.reluct.common.model.domain.appInfo.AppInfo
 
 internal class AndroidGetInstalledApps(
-    private val context: Context, private val getAppInfo: GetAppInfo,
+    private val context: Context,
+    private val getAppInfo: GetAppInfo,
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : GetInstalledApps {
     private val packageManager = context.packageManager
