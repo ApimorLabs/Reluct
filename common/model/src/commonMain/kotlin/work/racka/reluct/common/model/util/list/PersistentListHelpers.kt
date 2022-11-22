@@ -13,7 +13,8 @@ inline fun <T> ImmutableList<T>.filterPersistentNot(predicate: (T) -> Boolean): 
 }
 
 /*
-inline fun <T, K> ImmutableList<T>.groupByPersistent(keySelector: (T) -> K, valueTrans: (T) -> M ): ImmutableMap<K, ImmutableList<T>> {
+inline fun <T, K> ImmutableList<T>.groupByPersistent(keySelector: (T) -> K, valueTrans: (T) -> M )
+: ImmutableMap<K, ImmutableList<T>> {
     val builder = persistentMapOf<K, ImmutableList<T>>().builder()
     return groupByTo(builder, keySelector).build().toImmutableMap()
 }*/
