@@ -16,7 +16,6 @@ inline fun <reified T : CommonViewModel> Fragment.getCommonViewModel(
     noinline parameters: ParametersDefinition? = null
 ): T = commonViewModel<T>(qualifier, owner, parameters).value
 
-
 @OptIn(KoinInternalApi::class)
 inline fun <reified T : CommonViewModel> Fragment.commonViewModel(
     qualifier: Qualifier? = null,
