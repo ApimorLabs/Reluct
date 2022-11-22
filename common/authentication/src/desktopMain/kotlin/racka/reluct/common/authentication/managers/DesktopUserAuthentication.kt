@@ -14,7 +14,9 @@ internal class DesktopUserAuthentication : UserAuthentication {
         return Resource.Error(message = "Not Implemented")
     }
 
-    override suspend fun sendVerificationEmail(user: AuthUser) {}
+    override suspend fun sendVerificationEmail(user: AuthUser) {
+        // Not Implemented yet
+    }
 
     override suspend fun checkEmailVerification(): Resource<IsVerified> {
         return Resource.Error(message = "Not Implemented")
