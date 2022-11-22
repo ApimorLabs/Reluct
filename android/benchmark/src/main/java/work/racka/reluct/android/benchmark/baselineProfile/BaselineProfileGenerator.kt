@@ -2,12 +2,10 @@ package work.racka.reluct.android.benchmark.baselineProfile
 
 import androidx.benchmark.macro.junit4.BaselineProfileRule
 import androidx.test.uiautomator.By
-import androidx.test.uiautomator.Direction
 import androidx.test.uiautomator.UiDevice
 import androidx.test.uiautomator.Until
 import org.junit.Rule
 import org.junit.Test
-import work.racka.reluct.android.benchmark.util.delayUi
 
 class BaselineProfileGenerator {
 
@@ -133,7 +131,7 @@ private fun UiDevice.setupFlow() {
 
         findObject(By.text("Next")).click()
 
-        //findObject(By.checkable(true)).click() // Toggle it yourself
+        // findObject(By.checkable(true)).click() // Toggle it yourself
         Thread.sleep(3000)
         findObject(By.text("Next")).click()
         waitForIdle()
