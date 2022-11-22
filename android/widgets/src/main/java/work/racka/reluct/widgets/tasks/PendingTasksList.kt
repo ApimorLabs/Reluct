@@ -25,6 +25,7 @@ import work.racka.reluct.widgets.tasks.actions.ToggleTaskDoneAction
 import work.racka.reluct.widgets.tasks.state.WidgetTaskParcel
 import work.racka.reluct.widgets.tasks.state.asTask
 
+@Suppress("UnstableCollections")
 @Composable
 internal fun PendingTasksList(pendingTasks: Map<String, List<WidgetTaskParcel>>) {
     LazyColumn(

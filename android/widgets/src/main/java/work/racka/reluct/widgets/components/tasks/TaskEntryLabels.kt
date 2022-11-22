@@ -14,9 +14,9 @@ import work.racka.reluct.widgets.core.GlanceTheme
 
 @Composable
 internal fun TaskHeading(
-    modifier: GlanceModifier = GlanceModifier,
     text: String,
-    isOverdue: Boolean
+    isOverdue: Boolean,
+    modifier: GlanceModifier = GlanceModifier,
 ) {
     Text(
         modifier = modifier,
@@ -32,9 +32,9 @@ internal fun TaskHeading(
 
 @Composable
 internal fun TaskDescription(
-    modifier: GlanceModifier = GlanceModifier,
     text: String,
-    isOverdue: Boolean
+    isOverdue: Boolean,
+    modifier: GlanceModifier = GlanceModifier,
 ) {
     Text(
         modifier = modifier,
@@ -49,12 +49,11 @@ internal fun TaskDescription(
 
 @Composable
 internal fun TaskTimeInfo(
-    modifier: GlanceModifier = GlanceModifier,
     timeText: String,
+    modifier: GlanceModifier = GlanceModifier,
     showOverdueLabel: Boolean = false,
     overdue: Boolean = false,
 ) {
-
     Row(modifier = modifier) {
         Text(
             text = timeText,
@@ -76,8 +75,11 @@ internal fun TaskTimeInfo(
             )
             Spacer(modifier = GlanceModifier.width(Dimens.ExtraSmallPadding.size))
             Text(
-                text = if (overdue) "Overdue"
-                else "In Time",
+                text = if (overdue) {
+                    "Overdue"
+                } else {
+                    "In Time"
+                },
                 style = TextStyle(
                     color = if (overdue) GlanceTheme.colors.onError else GlanceTheme.colors.onSurface,
                     fontSize = 12.sp,

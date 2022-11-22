@@ -12,11 +12,10 @@ import androidx.glance.layout.Box
 
 @Composable
 internal fun RoundCheckbox(
-    modifier: GlanceModifier = GlanceModifier,
     isChecked: Boolean,
     clickCheckBoxAction: Action,
+    modifier: GlanceModifier = GlanceModifier,
 ) {
-
     Box(
         modifier = modifier.cornerRadius(15.dp)
             .clickable(onClick = clickCheckBoxAction),

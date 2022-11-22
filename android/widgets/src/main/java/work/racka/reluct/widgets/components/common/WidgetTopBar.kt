@@ -13,8 +13,8 @@ import work.racka.reluct.widgets.core.GlanceTheme
 
 @Composable
 fun WidgetTopBar(
-    modifier: GlanceModifier = GlanceModifier,
     title: String,
+    modifier: GlanceModifier = GlanceModifier,
     actionButton: @Composable () -> Unit = {}
 ) {
     Box(

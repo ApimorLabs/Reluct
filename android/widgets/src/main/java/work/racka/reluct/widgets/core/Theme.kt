@@ -19,6 +19,7 @@ object GlanceTheme {
         get() = LocalColorProviders.current
 }
 
+@Suppress("CompositionLocalAllowlist")
 internal val LocalColorProviders = staticCompositionLocalOf { dynamicThemeColorProviders() }
 
 /**

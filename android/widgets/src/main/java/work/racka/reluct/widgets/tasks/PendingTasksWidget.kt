@@ -63,12 +63,15 @@ class PendingTasksWidget : GlanceAppWidget() {
                     WidgetTopBar(
                         title = "Tasks",
                         actionButton = {
-                            WidgetIconButton(onClick = actionRunCallback<ReloadTasksAction>()) {
-                                Image(
-                                    provider = ImageProvider(R.drawable.ic_round_refresh_24),
-                                    contentDescription = "Refresh"
-                                )
-                            }
+                            WidgetIconButton(
+                                onClick = actionRunCallback<ReloadTasksAction>(),
+                                icon = {
+                                    Image(
+                                        provider = ImageProvider(R.drawable.ic_round_refresh_24),
+                                        contentDescription = "Refresh"
+                                    )
+                                }
+                            )
                         }
                     )
 

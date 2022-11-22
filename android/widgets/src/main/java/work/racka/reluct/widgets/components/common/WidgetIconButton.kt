@@ -9,9 +9,9 @@ import androidx.glance.layout.Box
 
 @Composable
 fun WidgetIconButton(
-    modifier: GlanceModifier = GlanceModifier,
     onClick: Action,
-    icon: @Composable () -> Unit
+    icon: @Composable () -> Unit,
+    modifier: GlanceModifier = GlanceModifier,
 ) {
     Box(
         modifier = GlanceModifier.clickable(onClick) then modifier,
