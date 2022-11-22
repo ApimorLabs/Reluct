@@ -53,7 +53,7 @@ fun AppNavHost(settingsCheck: SettingsCheck?, modifier: Modifier = Modifier) {
 
     val mainPadding = PaddingValues(
         bottom = Dimens.ExtraLargePadding.size + Dimens.MediumPadding.size +
-                WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
+            WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
     )
     /**
      * Don't use the bottomBar param of Scaffold for the AppBottomBar
