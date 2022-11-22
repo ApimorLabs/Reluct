@@ -23,9 +23,9 @@ import kotlin.math.sqrt
 private const val POINT_RADIUS = 40f
 
 @Composable
-fun SpringStringDemo() {
+fun SpringStringDemo(modifier: Modifier = Modifier) {
     Box(
-        Modifier.fillMaxSize()
+        modifier.fillMaxSize()
     ) {
         var firstPointOffset by remember { mutableStateOf(Offset(50f, 100f)) }
         var secondPointOffset by remember { mutableStateOf(Offset(250f, 150f)) }

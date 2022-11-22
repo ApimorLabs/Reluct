@@ -11,7 +11,6 @@ import kotlin.jvm.optionals.getOrNull
 
 class ProcessesProvider {
 
-
     init {
         val scope = CoroutineScope(Dispatchers.IO)
         scope.launch {
@@ -23,7 +22,7 @@ class ProcessesProvider {
                     delay(2000L)
                     run++
                 }
-            }.collectLatest {  }
+            }.collectLatest { }
         }.invokeOnCompletion {
             scope.cancel()
         }

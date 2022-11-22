@@ -39,7 +39,6 @@ fun main() = application {
     }
 }
 
-
 @OptIn(ExperimentalFoundationApi::class, ExperimentalStdlibApi::class)
 @Composable
 private fun ProcessesScreen() {
@@ -94,7 +93,7 @@ private fun ProcessesScreen() {
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun TestScreen() {
+fun TestScreen(modifier: Modifier = Modifier) {
     val text = remember {
         mutableStateOf("2010-06-01T22:08:01")
     }
@@ -107,7 +106,7 @@ fun TestScreen() {
             )
     }
 
-    Column {
+    Column(modifier = modifier) {
         TextField(
             value = text.value,
             onValueChange = {
@@ -117,9 +116,9 @@ fun TestScreen() {
                 .onPreviewKeyEvent {
                     when {
                         (
-                                it.isCtrlPressed && it.key == Key.Enter &&
-                                        it.type == KeyEventType.KeyDown
-                                )
+                            it.isCtrlPressed && it.key == Key.Enter &&
+                                it.type == KeyEventType.KeyDown
+                            )
                         -> {
                             click()
                             true
