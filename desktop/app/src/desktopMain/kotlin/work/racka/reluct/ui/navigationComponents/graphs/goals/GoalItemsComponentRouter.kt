@@ -18,7 +18,8 @@ class GoalItemsComponentRouter(
         componentContext.childStack(
             source = navigation,
             initialStack = { (listOf(GoalsExtrasConfig.None) + initialStack).distinct() },
-            childFactory = ::createChild
+            childFactory = ::createChild,
+            key = "GoalsItemsChild"
         )
 
     private fun createChild(config: GoalsExtrasConfig, context: ComponentContext) = when (config) {

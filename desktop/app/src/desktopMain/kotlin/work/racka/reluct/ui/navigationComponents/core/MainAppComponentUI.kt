@@ -33,7 +33,7 @@ fun MainAppComponentUI(
     modifier: Modifier = Modifier
 ) {
     val stack = rootComponent.childStack.subscribeAsState()
-    val activeConfiguration = remember {
+    val activeConfiguration = remember(stack.value.active) {
         derivedStateOf {
             stack.value.active.configuration
         }
@@ -112,12 +112,12 @@ fun MainAppComponentRootChildren(
     ) { child ->
         when (val childInstance = child.instance) {
             is MainAppComponent.Child.Checking -> FullScreenLoading(isLoadingProvider = { true })
-            is MainAppComponent.Child.OnBoarding -> childInstance.component.Render()
-            is MainAppComponent.Child.Dashboard -> childInstance.component.Render()
-            is MainAppComponent.Child.Tasks -> childInstance.component.Render()
-            is MainAppComponent.Child.ScreenTime -> childInstance.component.Render()
-            is MainAppComponent.Child.Goals -> childInstance.component.Render()
-            is MainAppComponent.Child.Settings -> childInstance.component.Render()
+            is MainAppComponent.Child.OnBoarding -> childInstance.component.Render(Modifier)
+            is MainAppComponent.Child.Dashboard -> childInstance.component.Render(Modifier)
+            is MainAppComponent.Child.Tasks -> childInstance.component.Render(Modifier)
+            is MainAppComponent.Child.ScreenTime -> childInstance.component.Render(Modifier)
+            is MainAppComponent.Child.Goals -> childInstance.component.Render(Modifier)
+            is MainAppComponent.Child.Settings -> childInstance.component.Render(Modifier)
         }
     }
 }

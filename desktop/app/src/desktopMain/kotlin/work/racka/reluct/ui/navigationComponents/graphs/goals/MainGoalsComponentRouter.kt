@@ -22,6 +22,7 @@ internal class MainGoalsComponentRouter(
             source = navigation,
             initialStack = { initialStack.ifEmpty { listOf(GoalsConfig.Active) } },
             childFactory = ::createChild,
+            key = "GoalsMainChild"
         )
 
     private fun createChild(config: GoalsConfig, context: ComponentContext) = when (config) {

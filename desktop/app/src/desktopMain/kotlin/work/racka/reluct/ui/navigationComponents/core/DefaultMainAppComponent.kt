@@ -89,6 +89,7 @@ class DefaultMainAppComponent(
     override fun openDashboard() = navigation.navigate { stack ->
         stack.dropWhile { it !is AppNavConfig.Dashboard }
             .ifEmpty { listOf(AppNavConfig.Dashboard) }
+        TODO("Fix this bug")
     }
 
     override fun openSettings() = navigation.bringToFront(AppNavConfig.Settings)

@@ -23,7 +23,8 @@ class MainTasksComponentRouter(
         .childStack(
             source = navigation,
             initialStack = { initialStack.ifEmpty { listOf(TasksConfig.Pending) } },
-            childFactory = ::createChild
+            childFactory = ::createChild,
+            key = "TasksMainChild"
         )
 
     private fun createChild(config: TasksConfig, context: ComponentContext) = when (config) {

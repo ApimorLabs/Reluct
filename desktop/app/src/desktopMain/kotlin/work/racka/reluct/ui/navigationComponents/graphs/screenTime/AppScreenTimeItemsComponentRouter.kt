@@ -18,7 +18,8 @@ class AppScreenTimeItemsComponentRouter(
         componentContext.childStack(
             source = navigation,
             initialStack = { (listOf(AppScreenTimeConfig.None) + initialStack).distinct() },
-            childFactory = ::createChild
+            childFactory = ::createChild,
+            key = "ScreenTimeItemsChild"
         )
 
     private fun createChild(config: AppScreenTimeConfig, context: ComponentContext) =

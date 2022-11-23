@@ -21,7 +21,8 @@ class MainScreenTimeComponentRouter(
         .childStack(
             source = navigation,
             initialStack = { listOf(ScreenTimeConfig.StatsAndLimits) },
-            childFactory = ::createChild
+            childFactory = ::createChild,
+            key = "ScreenTimeMainChild"
         )
 
     private fun createChild(config: ScreenTimeConfig, context: ComponentContext) = when (config) {

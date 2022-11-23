@@ -18,7 +18,8 @@ class TaskItemsComponentsRouter(
         .childStack(
             source = navigation,
             initialStack = { (listOf(TasksExtraConfig.None) + initialStack).distinct() },
-            childFactory = ::createChild
+            childFactory = ::createChild,
+            key = "TasksItemsChild"
         )
 
     private fun createChild(config: TasksExtraConfig, context: ComponentContext) = when (config) {

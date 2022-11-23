@@ -1,5 +1,9 @@
 package work.racka.reluct.ui.navigationComponents.navrail
 
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Aod
 import androidx.compose.material.icons.outlined.FactCheck
@@ -12,11 +16,13 @@ import androidx.compose.material.icons.rounded.TaskAlt
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import work.racka.reluct.common.core.navigation.destination.AppNavConfig
+import work.racka.reluct.compose.common.theme.Dimens
 
-private const val NAV_RAIL_ELEVATION_L3 = 3.0
+private const val NAV_RAIL_ELEVATION = 2.0
 
 @Composable
 fun ReluctNavigationRail(
@@ -28,16 +34,21 @@ fun ReluctNavigationRail(
 
     Surface(
         color = MaterialTheme.colorScheme.surface,
-        tonalElevation = NAV_RAIL_ELEVATION_L3.dp
+        tonalElevation = NAV_RAIL_ELEVATION.dp
     ) {
         NavigationRail(
-            modifier = modifier
+            modifier = modifier.padding(Dimens.SmallPadding.size)
         ) {
             pages.forEach { page ->
-                val selected by remember { derivedStateOf { page.config == currentConfig.value } }
+                val selected by remember {
+                    derivedStateOf { currentConfig.value::class == page.config::class }
+                }
                 NavigationRailItem(
+                    modifier = Modifier.clip(RoundedCornerShape(6.dp)),
                     selected = selected,
-                    // colors = ,
+                    label = {
+                        Text(text = page.label, style = MaterialTheme.typography.labelMedium)
+                    },
                     icon = {
                         Icon(
                             imageVector = if (selected) page.iconActive else page.iconInactive,
@@ -46,6 +57,8 @@ fun ReluctNavigationRail(
                     },
                     onClick = { onUpdateConfig(page.config) }
                 )
+
+                Spacer(Modifier.height(Dimens.SmallPadding.size))
             }
         }
     }

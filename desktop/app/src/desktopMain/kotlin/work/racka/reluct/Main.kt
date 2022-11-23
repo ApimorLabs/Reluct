@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Button
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.runtime.Composable
@@ -17,26 +16,67 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.key.*
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Window
-import androidx.compose.ui.window.application
+import androidx.compose.ui.window.*
+import com.arkivanov.decompose.DefaultComponentContext
+import com.arkivanov.decompose.value.MutableValue
+import com.arkivanov.essenty.lifecycle.LifecycleRegistry
 import kotlinx.datetime.TimeZone
+import work.racka.reluct.common.core.navigation.checks.InitialNavCheck
+import work.racka.reluct.common.di.intergration.KoinMain
 import work.racka.reluct.common.model.util.time.TimeUtils
 import work.racka.reluct.compose.common.components.SharedRes
 import work.racka.reluct.compose.common.components.resources.painterResource
 import work.racka.reluct.compose.common.components.resources.stringResource
+import work.racka.reluct.compose.common.theme.Theme
+import work.racka.reluct.ui.navigationComponents.core.DefaultMainAppComponent
+import work.racka.reluct.ui.navigationComponents.core.MainAppComponentUI
+import java.awt.Dimension
 import kotlin.jvm.optionals.getOrNull
 
 fun main() = application {
+    // Start Koin
+    KoinMain.initKoin()
+
+    val lifecycle = LifecycleRegistry()
+    val initialNavCheck = remember {
+        MutableValue(
+            InitialNavCheck(
+                isChecking = false,
+                isOnBoardingDone = true,
+                showChangeLog = false
+            )
+        )
+    }
+    val rootComponent = DefaultMainAppComponent(
+        componentContext = DefaultComponentContext(lifecycle),
+        initialCheck = initialNavCheck
+    )
+
+    val windowState = rememberWindowState(
+        size = DpSize(width = 1100.dp, height = 600.dp),
+        placement = WindowPlacement.Floating,
+        position = WindowPosition.Aligned(Alignment.Center)
+    )
+
     Window(
         onCloseRequest = ::exitApplication,
+        state = windowState,
         title = stringResource(SharedRes.strings.app_name),
         icon = androidx.compose.ui.res.painterResource("icons/window_icon.svg")
     ) {
-        MaterialTheme {
-            ProcessesScreen()
-        }
+        setWindowMinSize(800, 500)
+
+        MainAppComponentUI(
+            rootComponent = rootComponent,
+            themeValue = mutableStateOf(Theme.FOLLOW_SYSTEM.themeValue)
+        )
     }
+}
+
+fun FrameWindowScope.setWindowMinSize(width: Int, height: Int) {
+    window.minimumSize = Dimension(width, height)
 }
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalStdlibApi::class)
@@ -116,9 +156,9 @@ fun TestScreen(modifier: Modifier = Modifier) {
                 .onPreviewKeyEvent {
                     when {
                         (
-                            it.isCtrlPressed && it.key == Key.Enter &&
-                                it.type == KeyEventType.KeyDown
-                            )
+                                it.isCtrlPressed && it.key == Key.Enter &&
+                                        it.type == KeyEventType.KeyDown
+                                )
                         -> {
                             click()
                             true
