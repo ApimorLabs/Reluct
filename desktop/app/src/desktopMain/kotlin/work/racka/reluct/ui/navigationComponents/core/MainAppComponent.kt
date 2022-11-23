@@ -1,6 +1,7 @@
-package work.racka.reluct.ui.navigationComponents
+package work.racka.reluct.ui.navigationComponents.core
 
 import com.arkivanov.decompose.router.stack.ChildStack
+import com.arkivanov.decompose.value.Value
 import work.racka.reluct.common.core.navigation.destination.AppNavConfig
 import work.racka.reluct.common.core.navigation.destination.graphs.*
 import work.racka.reluct.ui.navigationComponents.graphs.GoalsComponent
@@ -12,7 +13,7 @@ import work.racka.reluct.ui.screens.settings.SettingsComponent
 
 interface MainAppComponent {
 
-    val childStack: ChildStack<AppNavConfig, Child>
+    val childStack: Value<ChildStack<AppNavConfig, Child>>
 
     /**
      * Provide destinations if you try to launch a specific sub-destination of the Tasks Component
@@ -42,7 +43,10 @@ interface MainAppComponent {
      */
     fun openSettings()
 
+    fun goBack()
+
     sealed class Child {
+        object Checking : Child() // Used as initial screen while verifying checks
         class OnBoarding(val component: OnBoardingComponent) : Child()
         class Dashboard(val component: DashboardComponent) : Child()
         class Tasks(val component: TasksComponent) : Child()
