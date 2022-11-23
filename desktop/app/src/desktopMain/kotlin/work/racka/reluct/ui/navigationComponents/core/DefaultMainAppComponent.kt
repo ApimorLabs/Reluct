@@ -7,6 +7,9 @@ import work.racka.reluct.common.core.navigation.checks.InitialNavCheck
 import work.racka.reluct.common.core.navigation.destination.AppNavConfig
 import work.racka.reluct.common.core.navigation.destination.graphs.*
 import work.racka.reluct.ui.navigationComponents.core.MainAppComponent.Child
+import work.racka.reluct.ui.navigationComponents.graphs.goals.DefaultGoalsComponent
+import work.racka.reluct.ui.navigationComponents.graphs.screenTime.DefaultScreenTimeComponent
+import work.racka.reluct.ui.navigationComponents.graphs.tasks.DefaultTasksComponent
 import work.racka.reluct.ui.screens.dashboard.DashboardComponent
 import work.racka.reluct.ui.screens.onBoarding.OnBoardingComponent
 import work.racka.reluct.ui.screens.settings.SettingsComponent
@@ -27,16 +30,39 @@ class DefaultMainAppComponent(
 
     private fun createChild(
         config: AppNavConfig,
-        componentContext: ComponentContext
+        context: ComponentContext
     ): Child = when (config) {
         is AppNavConfig.Checking -> Child.Checking
-        is AppNavConfig.OnBoarding -> Child.OnBoarding(OnBoardingComponent(componentContext))
-        is AppNavConfig.Dashboard -> Child.Dashboard(DashboardComponent(componentContext))
-        is AppNavConfig.Tasks -> Child.Tasks()
-        is AppNavConfig.ScreenTime -> Child.ScreenTime()
-        is AppNavConfig.Goals -> Child.Goals()
-        is AppNavConfig.Settings -> Child.Settings(SettingsComponent(componentContext))
+        is AppNavConfig.OnBoarding -> Child.OnBoarding(OnBoardingComponent(context))
+        is AppNavConfig.Dashboard -> Child.Dashboard(DashboardComponent(context))
+        is AppNavConfig.Tasks -> Child.Tasks(createTasks(context, config))
+        is AppNavConfig.ScreenTime -> Child.ScreenTime(createScreenTime(context, config))
+        is AppNavConfig.Goals -> Child.Goals(createGoals(context, config))
+        is AppNavConfig.Settings -> Child.Settings(SettingsComponent(context))
     }
+
+    private fun createTasks(context: ComponentContext, config: AppNavConfig.Tasks) =
+        DefaultTasksComponent(
+            componentContext = context,
+            initialMainStack = { config.initialTasksConfig },
+            initialItemsStack = { config.initialTasksExtraConfig },
+            onExit = ::goBack
+        )
+
+    private fun createGoals(context: ComponentContext, config: AppNavConfig.Goals) =
+        DefaultGoalsComponent(
+            componentContext = context,
+            initialMainStack = { config.initialGoalsConfig },
+            initialItemsStack = { config.initialGoalsExtrasConfig },
+            onExit = ::goBack
+        )
+
+    private fun createScreenTime(context: ComponentContext, config: AppNavConfig.ScreenTime) =
+        DefaultScreenTimeComponent(
+            componentContext = context,
+            initialItemsStack = { config.initialAppScreenTimeConfig },
+            onExit = ::goBack
+        )
 
     override fun openTasks(mainConfig: TasksConfig?, itemsConfig: TasksExtraConfig?) =
         navigation.bringToFront(
@@ -67,7 +93,7 @@ class DefaultMainAppComponent(
 
     override fun openSettings() = navigation.bringToFront(AppNavConfig.Settings)
 
-    override fun goBack() = navigation.pop()
+    override fun goBack() = openDashboard()
 
     init {
         // Update Current Destination depending on the checks
