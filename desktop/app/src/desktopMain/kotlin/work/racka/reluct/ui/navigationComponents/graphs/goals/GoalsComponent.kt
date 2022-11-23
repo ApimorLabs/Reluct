@@ -1,6 +1,7 @@
-package work.racka.reluct.ui.navigationComponents.graphs
+package work.racka.reluct.ui.navigationComponents.graphs.goals
 
 import com.arkivanov.decompose.router.stack.ChildStack
+import com.arkivanov.decompose.value.Value
 import work.racka.reluct.common.core.navigation.destination.graphs.GoalsConfig
 import work.racka.reluct.common.core.navigation.destination.graphs.GoalsExtrasConfig
 import work.racka.reluct.ui.screens.ComposeRenderer
@@ -11,11 +12,8 @@ import work.racka.reluct.ui.screens.goals.inactive.InactiveGoalsComponent
 
 interface GoalsComponent : ComposeRenderer {
 
-    val mainChildStack: ChildStack<GoalsConfig, MainChild>
-    val itemsChildStack: ChildStack<GoalsExtrasConfig, ItemsChild>
-
-    fun openGoalDetails(goalId: String?)
-    fun addEditGoal(goalId: String?, defaultGoalIndex: Int?)
+    val mainChildStack: Value<ChildStack<GoalsConfig, MainChild>>
+    val itemsChildStack: Value<ChildStack<GoalsExtrasConfig, ItemsChild>>
 
     sealed class MainChild {
         class ActiveGoal(val component: ActiveGoalsComponent) : MainChild()

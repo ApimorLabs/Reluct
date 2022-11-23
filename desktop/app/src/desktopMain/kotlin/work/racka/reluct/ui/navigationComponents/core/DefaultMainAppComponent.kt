@@ -80,13 +80,15 @@ class DefaultMainAppComponent(
      */
     private fun navCheck() {
         initialCheck.subscribe { check ->
-            if (check.isOnBoardingDone) {
-                navigation.navigate { stack ->
-                    stack.drop(stack.size).plus(AppNavConfig.Dashboard)
-                }
-            } else {
-                navigation.navigate { stack ->
-                    stack.drop(stack.size).plus(AppNavConfig.OnBoarding)
+            if (!check.isChecking) {
+                if (check.isOnBoardingDone) {
+                    navigation.navigate { stack ->
+                        stack.drop(stack.size).plus(AppNavConfig.Dashboard)
+                    }
+                } else {
+                    navigation.navigate { stack ->
+                        stack.drop(stack.size).plus(AppNavConfig.OnBoarding)
+                    }
                 }
             }
         }

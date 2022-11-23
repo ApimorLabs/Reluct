@@ -10,7 +10,10 @@ import com.arkivanov.decompose.ComponentContext
 import work.racka.reluct.ui.screens.ComposeRenderer
 
 class AddEditGoalComponent(
-    componentContext: ComponentContext
+    componentContext: ComponentContext,
+    private val goalId: String?,
+    private val defaultGoalIndex: Int?,
+    private val onClose: () -> Unit
 ) : ComponentContext by componentContext, ComposeRenderer {
 
     @Composable

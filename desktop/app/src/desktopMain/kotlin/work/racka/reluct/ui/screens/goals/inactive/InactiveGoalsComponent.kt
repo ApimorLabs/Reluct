@@ -10,7 +10,10 @@ import com.arkivanov.decompose.ComponentContext
 import work.racka.reluct.ui.screens.ComposeRenderer
 
 class InactiveGoalsComponent(
-    componentContext: ComponentContext
+    componentContext: ComponentContext,
+    private val onShowDetails: (goalId: String) -> Unit,
+    private val onAddGoal: (defaultGoalIndex: Int?) -> Unit,
+    private val onGoBack: () -> Unit
 ) : ComponentContext by componentContext, ComposeRenderer {
 
     @Composable

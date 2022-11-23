@@ -4,9 +4,9 @@ import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.value.Value
 import work.racka.reluct.common.core.navigation.destination.AppNavConfig
 import work.racka.reluct.common.core.navigation.destination.graphs.*
-import work.racka.reluct.ui.navigationComponents.graphs.GoalsComponent
 import work.racka.reluct.ui.navigationComponents.graphs.ScreenTimeComponent
 import work.racka.reluct.ui.navigationComponents.graphs.TasksComponent
+import work.racka.reluct.ui.navigationComponents.graphs.goals.GoalsComponent
 import work.racka.reluct.ui.screens.dashboard.DashboardComponent
 import work.racka.reluct.ui.screens.onBoarding.OnBoardingComponent
 import work.racka.reluct.ui.screens.settings.SettingsComponent
