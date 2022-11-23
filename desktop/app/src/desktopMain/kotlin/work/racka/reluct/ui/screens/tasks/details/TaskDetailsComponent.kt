@@ -10,7 +10,10 @@ import com.arkivanov.decompose.ComponentContext
 import work.racka.reluct.ui.screens.ComposeRenderer
 
 class TaskDetailsComponent(
-    componentContext: ComponentContext
+    componentContext: ComponentContext,
+    private val taskId: String?,
+    private val onEdit: (taskId: String?) -> Unit,
+    private val onClose: () -> Unit
 ) : ComponentContext by componentContext, ComposeRenderer {
 
     @Composable

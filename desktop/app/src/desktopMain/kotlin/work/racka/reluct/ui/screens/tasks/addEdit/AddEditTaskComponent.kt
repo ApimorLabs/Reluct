@@ -10,7 +10,9 @@ import com.arkivanov.decompose.ComponentContext
 import work.racka.reluct.ui.screens.ComposeRenderer
 
 class AddEditTaskComponent(
-    componentContext: ComponentContext
+    componentContext: ComponentContext,
+    private val taskId: String?,
+    private val onClose: () -> Unit
 ) : ComponentContext by componentContext, ComposeRenderer {
 
     @Composable

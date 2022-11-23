@@ -12,7 +12,9 @@ import work.racka.reluct.ui.screens.ComposeRenderer
 
 class ScreenTimeStatsLimitsComponent(
     componentContext: ComponentContext,
-    val isMultipane: Value<Boolean>
+    private val isShowingAppStats: Value<Boolean>,
+    private val onShowAppStats: (packageName: String?) -> Unit,
+    private val onExit: () -> Unit
 ) : ComponentContext by componentContext, ComposeRenderer {
 
     @Composable

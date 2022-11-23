@@ -12,7 +12,8 @@ import work.racka.reluct.ui.screens.ComposeRenderer
 
 class AppScreenTimeComponent(
     componentContext: ComponentContext,
-    val isMultipane: Value<Boolean>
+    private val isShowingAppStats: Value<Boolean>,
+    private val onClose: () -> Unit
 ) : ComponentContext by componentContext, ComposeRenderer {
 
     @Composable

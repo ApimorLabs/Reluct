@@ -1,4 +1,4 @@
-package work.racka.reluct.ui.navigationComponents.graphs
+package work.racka.reluct.ui.navigationComponents.graphs.screenTime
 
 import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.value.Value
@@ -14,8 +14,6 @@ interface ScreenTimeComponent : ComposeRenderer {
     val itemsChildStack: Value<ChildStack<AppScreenTimeConfig, ItemsChild>>
 
     val isMultipane: Value<Boolean>
-
-    fun openAppDetails(packageName: String?)
 
     sealed class MainChild {
         class ScreenTimeStatsLimits(val component: ScreenTimeStatsLimitsComponent) : MainChild()

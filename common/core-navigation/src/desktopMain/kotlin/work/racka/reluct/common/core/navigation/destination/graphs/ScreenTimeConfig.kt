@@ -8,5 +8,5 @@ sealed class ScreenTimeConfig : Parcelable {
 
 sealed class AppScreenTimeConfig : Parcelable {
     object None : AppScreenTimeConfig()
-    data class App(val packageName: String) : AppScreenTimeConfig()
+    data class App(val packageName: String?) : AppScreenTimeConfig()
 }

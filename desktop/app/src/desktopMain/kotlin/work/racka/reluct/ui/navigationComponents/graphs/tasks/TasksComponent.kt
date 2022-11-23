@@ -1,4 +1,4 @@
-package work.racka.reluct.ui.navigationComponents.graphs
+package work.racka.reluct.ui.navigationComponents.graphs.tasks
 
 import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.value.Value
@@ -16,9 +16,6 @@ interface TasksComponent : ComposeRenderer {
 
     val mainChildStack: Value<ChildStack<TasksConfig, MainChild>>
     val itemsChildStack: Value<ChildStack<TasksExtraConfig, ItemsChild>>
-
-    fun openTaskDetails(taskId: String?)
-    fun openAddEditTask(taskId: String?)
 
     sealed class MainChild {
         class Completed(val component: CompletedTasksComponent) : MainChild()
