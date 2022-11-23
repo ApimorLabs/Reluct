@@ -16,6 +16,7 @@ kotlin {
         val desktopMain by getting {
             dependencies {
                 // Project modules
+                implementation(project(":common:core-navigation"))
                 implementation(project(":common:di-integration"))
                 implementation(project(":common:features:dashboard"))
                 implementation(project(":common:features:goals"))
