@@ -33,13 +33,18 @@ class DefaultMainAppComponent(
         context: ComponentContext
     ): Child = when (config) {
         is AppNavConfig.Checking -> Child.Checking
-        is AppNavConfig.OnBoarding -> Child.OnBoarding(OnBoardingComponent(context))
+        is AppNavConfig.OnBoarding -> Child.OnBoarding(createOnBoarding(context))
         is AppNavConfig.Dashboard -> Child.Dashboard(DashboardComponent(context))
         is AppNavConfig.Tasks -> Child.Tasks(createTasks(context, config))
         is AppNavConfig.ScreenTime -> Child.ScreenTime(createScreenTime(context, config))
         is AppNavConfig.Goals -> Child.Goals(createGoals(context, config))
         is AppNavConfig.Settings -> Child.Settings(SettingsComponent(context))
     }
+
+    private fun createOnBoarding(context: ComponentContext) = OnBoardingComponent(
+        componentContext = context,
+        onOpenDashboard = ::openDashboard
+    )
 
     private fun createTasks(context: ComponentContext, config: AppNavConfig.Tasks) =
         DefaultTasksComponent(
@@ -87,9 +92,8 @@ class DefaultMainAppComponent(
         )
 
     override fun openDashboard() = navigation.navigate { stack ->
-        stack.dropWhile { it !is AppNavConfig.Dashboard }
+        stack.toMutableList().filterIsInstance<AppNavConfig.Dashboard>()
             .ifEmpty { listOf(AppNavConfig.Dashboard) }
-        TODO("Fix this bug")
     }
 
     override fun openSettings() = navigation.bringToFront(AppNavConfig.Settings)

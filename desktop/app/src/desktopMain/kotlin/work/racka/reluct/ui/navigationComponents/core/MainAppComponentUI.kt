@@ -1,10 +1,7 @@
 package work.racka.reluct.ui.navigationComponents.core
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.RowScope
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.*
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.*
@@ -18,10 +15,9 @@ import com.arkivanov.decompose.extensions.compose.jetbrains.stack.animation.scal
 import com.arkivanov.decompose.extensions.compose.jetbrains.stack.animation.stackAnimation
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import work.racka.reluct.common.core.navigation.destination.AppNavConfig
-import work.racka.reluct.compose.common.components.animations.slideInVerticallyFadeReversed
-import work.racka.reluct.compose.common.components.animations.slideOutVerticallyFadeReversed
+import work.racka.reluct.compose.common.components.animations.slideInHorizontallyFadeReversed
+import work.racka.reluct.compose.common.components.animations.slideOutHorizontallyFadeReversed
 import work.racka.reluct.compose.common.components.dialogs.FullScreenLoading
-import work.racka.reluct.compose.common.theme.Dimens
 import work.racka.reluct.compose.common.theme.ReluctAppTheme
 import work.racka.reluct.ui.navigationComponents.navrail.ReluctNavigationRail
 
@@ -45,7 +41,7 @@ fun MainAppComponentUI(
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(Dimens.MediumPadding.size)
+                horizontalArrangement = Arrangement.Start
             ) {
                 AppNavRail(
                     currentConfig = activeConfiguration,
@@ -62,7 +58,7 @@ fun MainAppComponentUI(
 }
 
 @Composable
-private fun RowScope.AppNavRail(
+private fun AppNavRail(
     currentConfig: State<AppNavConfig>,
     onOpenDashboard: () -> Unit,
     onOpenTasks: () -> Unit,
@@ -70,19 +66,19 @@ private fun RowScope.AppNavRail(
     onOpenGoals: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val barsVisible by remember {
+    /*val barsVisible by remember {
         derivedStateOf {
-            currentConfig.value !is AppNavConfig.Checking ||
-                    currentConfig.value !is AppNavConfig.OnBoarding ||
+            currentConfig.value !is AppNavConfig.Checking &&
+                    currentConfig.value !is AppNavConfig.OnBoarding &&
                     currentConfig.value !is AppNavConfig.Settings
         }
-    }
+    }*/
 
     AnimatedVisibility(
-        modifier = modifier.align(Alignment.CenterVertically),
-        visible = barsVisible,
-        enter = slideInVerticallyFadeReversed(),
-        exit = slideOutVerticallyFadeReversed()
+        modifier = modifier,
+        visible = true,
+        enter = slideInHorizontallyFadeReversed(),
+        exit = slideOutHorizontallyFadeReversed()
     ) {
         ReluctNavigationRail(
             currentConfig = currentConfig,
@@ -121,3 +117,51 @@ fun MainAppComponentRootChildren(
         }
     }
 }
+
+/*@OptIn(ExperimentalSplitPaneApi::class)
+@Composable
+private fun MainSpiltPane(
+    rootComponent: MainAppComponent,
+    navRailWidth: Dp,
+    modifier: Modifier = Modifier
+) {
+
+    val splitPaneState = rememberSplitPaneState(moveEnabled = false)
+
+    val stack = rootComponent.childStack.subscribeAsState()
+    val activeConfiguration = remember(stack.value.active) {
+        derivedStateOf {
+            stack.value.active.configuration
+        }
+    }
+
+    val barsVisible by remember {
+        derivedStateOf {
+            activeConfiguration.value !is AppNavConfig.Checking &&
+                    activeConfiguration.value !is AppNavConfig.OnBoarding &&
+                    activeConfiguration.value !is AppNavConfig.Settings
+        }
+    }
+
+    LaunchedEffect(barsVisible) {
+        println("Is bar visible: $barsVisible")
+        if (barsVisible) splitPaneState.dispatchRawMovement(1f)
+        else splitPaneState.dispatchRawMovement(0f)
+    }
+
+    HorizontalSplitPane(
+        modifier = modifier,
+        splitPaneState = splitPaneState
+    ) {
+        first(minSize = navRailWidth) {
+            AppNavRail(
+                currentConfig = activeConfiguration,
+                onOpenDashboard = rootComponent::openDashboard,
+                onOpenTasks = rootComponent::openTasks,
+                onOpenScreenTime = rootComponent::openScreenTime,
+                onOpenGoals = rootComponent::openGoals,
+            )
+        }
+    }
+
+}*/

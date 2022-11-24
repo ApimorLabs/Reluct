@@ -44,7 +44,7 @@ fun main() = application {
         MutableValue(
             InitialNavCheck(
                 isChecking = false,
-                isOnBoardingDone = true,
+                isOnBoardingDone = false,
                 showChangeLog = false
             )
         )
