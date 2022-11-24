@@ -6,6 +6,7 @@
 
     <string name="name_text">Name</string>
     <string name="name_error_text">Name can not be empty</string>
+    <string name="exit_text">Exit</string>
     <string name="next_text">Next</string>
     <string name="back_text">Back</string>
     <string name="continue_text">Continue</string>
