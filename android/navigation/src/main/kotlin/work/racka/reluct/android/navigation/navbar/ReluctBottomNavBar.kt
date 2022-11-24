@@ -16,7 +16,7 @@ fun ReluctBottomNavBar(
     graphStartDestination: String,
     modifier: Modifier = Modifier,
 ) {
-    val items = work.racka.reluct.android.navigation.navbar.NavbarDestinations.values()
+    val items = NavbarDestinations.values()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
 

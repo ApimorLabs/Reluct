@@ -43,6 +43,18 @@ fun slideInVerticallyFadeReversed(
 ) + fadeIn()
 
 @Stable
+fun slideInHorizontallyFadeReversed(
+    animationSpec: FiniteAnimationSpec<IntOffset> = spring(
+        stiffness = Spring.StiffnessMediumLow,
+        visibilityThreshold = IntOffset.VisibilityThreshold
+    ),
+    initialScale: Float = 1f
+): EnterTransition = slideInHorizontally(
+    animationSpec = animationSpec,
+    initialOffsetX = { fullHeight -> -(initialScale * fullHeight).toInt() }
+) + fadeIn()
+
+@Stable
 fun slideOutVerticallyFadeReversed(
     animationSpec: FiniteAnimationSpec<IntOffset> = spring(
         stiffness = Spring.StiffnessMediumLow,
@@ -52,4 +64,16 @@ fun slideOutVerticallyFadeReversed(
 ): ExitTransition = slideOutVertically(
     animationSpec = animationSpec,
     targetOffsetY = { fullHeight -> (targetScale * fullHeight).toInt() }
+) + fadeOut()
+
+@Stable
+fun slideOutHorizontallyFadeReversed(
+    animationSpec: FiniteAnimationSpec<IntOffset> = spring(
+        stiffness = Spring.StiffnessMediumLow,
+        visibilityThreshold = IntOffset.VisibilityThreshold
+    ),
+    targetScale: Float = 1f
+): ExitTransition = slideOutHorizontally(
+    animationSpec = animationSpec,
+    targetOffsetX = { fullHeight -> -(targetScale * fullHeight).toInt() }
 ) + fadeOut()

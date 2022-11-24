@@ -44,7 +44,7 @@ saveState = "1.2.0"
 
 # Navigation
 androidx_navigation = "2.5.3"
-decompose = "0.3.1"
+decompose = "1.0.0-beta-01"
 
 # DI
 koin = "3.2.2"
