@@ -38,14 +38,12 @@ class MainTasksComponentRouter(
         componentContext = context,
         onShowDetails = onShowDetails,
         onAddTask = onAddTask,
-        onExit = onExit,
     )
 
     private fun createCompleted(context: ComponentContext) = CompletedTasksComponent(
         componentContext = context,
         onShowDetails = onShowDetails,
         onAddTask = onAddTask,
-        onExit = ::pop,
     )
 
     private fun createSearch(context: ComponentContext) = SearchTasksComponent(
@@ -57,7 +55,6 @@ class MainTasksComponentRouter(
     private fun createStats(context: ComponentContext) = TasksStatisticsComponent(
         componentContext = context,
         onShowDetails = onShowDetails,
-        onExit = ::pop,
     )
 
     private fun pop() = navigation.pop { isSuccess -> if (!isSuccess) onExit() }
