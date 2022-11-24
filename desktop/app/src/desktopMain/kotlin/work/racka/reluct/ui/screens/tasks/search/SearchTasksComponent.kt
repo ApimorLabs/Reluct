@@ -41,7 +41,8 @@ class SearchTasksComponent(
             fetchMoreData = viewModel::fetchMoreData,
             onSearch = viewModel::search,
             onTaskClicked = { viewModel.navigateToTaskDetails(it.id) },
-            onToggleTaskDone = viewModel::toggleDone
+            onToggleTaskDone = viewModel::toggleDone,
+            onClose = viewModel::goBack
         )
     }
 

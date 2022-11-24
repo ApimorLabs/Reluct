@@ -7,6 +7,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -42,6 +44,7 @@ internal fun TasksSearchUI(
     onSearch: (query: String) -> Unit,
     onTaskClicked: (task: Task) -> Unit,
     onToggleTaskDone: (task: Task, isDone: Boolean) -> Unit,
+    onClose: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val listState = rememberLazyListState()
@@ -63,13 +66,20 @@ internal fun TasksSearchUI(
     Scaffold(
         modifier = modifier.fillMaxSize(),
         topBar = {
-            MaterialSearchBar(
+            Column(
                 modifier = Modifier.padding(vertical = Dimens.SmallPadding.size),
-                value = uiState.value.searchQuery,
-                onSearch = { onSearch(it) },
-                onDismissSearchClicked = { onSearch("") },
-                focusRequester = focusRequester
-            )
+                horizontalAlignment = Alignment.End
+            ) {
+                IconButton(onClick = onClose) {
+                    Icon(Icons.Rounded.Close, "Close")
+                }
+                MaterialSearchBar(
+                    value = uiState.value.searchQuery,
+                    onSearch = { onSearch(it) },
+                    onDismissSearchClicked = { onSearch("") },
+                    focusRequester = focusRequester
+                )
+            }
         },
         snackbarHost = {
             SnackbarHost(hostState = snackbarState) { data ->

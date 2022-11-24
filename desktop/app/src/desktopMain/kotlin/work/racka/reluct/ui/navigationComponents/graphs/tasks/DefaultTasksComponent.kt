@@ -1,10 +1,6 @@
 package work.racka.reluct.ui.navigationComponents.graphs.tasks
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.router.stack.ChildStack
@@ -39,8 +35,17 @@ class DefaultTasksComponent(
 
     @Composable
     override fun Render(modifier: Modifier) {
-        Box(modifier = modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-            Text(text = "Tasks Component")
-        }
+        TasksRootChildren(
+            mainChildStack = mainChildStack,
+            itemsChildStack = itemsChildStack,
+            onUpdateConfig = { config ->
+                when (config) {
+                    is TasksConfig.Pending -> mainChildRouter::openPendingTasks
+                    is TasksConfig.Completed -> mainChildRouter::openCompletedTasks
+                    is TasksConfig.Search -> mainChildRouter::openSearchTasks
+                    is TasksConfig.Statistics -> mainChildRouter::openTasksStatistics
+                }
+            }
+        )
     }
 }

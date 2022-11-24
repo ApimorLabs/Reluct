@@ -275,8 +275,17 @@
     <string name="thank_you_text">Thank You!</string>
     <string name="price_text_value">Price: %1s</string>
 
-    <plurals name="tasks_text">
-        <item quantity="one">%1s Task</item>
-        <item quantity="other">%1s Tasks</item>
-    </plurals>
+    <!--  Tab Destination  -->
+    <string name="tasks_done">Done</string>
+    <string name="tasks_pending">Tasks</string>
+    <string name="tasks_stats">Statistics</string>
+
+    <string name="screen_time_stats">Statistics</string>
+    <string name="screen_time_limit">Limits</string>
+
+    <string name="goals_active">Active</string>
+    <string name="goals_inactive">Inactive</string>
+
+    <string name="dashboard_overview">Overview</string>
+    <string name="dashboard_statistics">Statistics</string>
 </resources>
