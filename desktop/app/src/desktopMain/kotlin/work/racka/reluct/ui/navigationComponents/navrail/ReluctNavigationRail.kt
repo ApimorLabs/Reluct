@@ -34,7 +34,7 @@ fun ReluctNavigationRail(
     val isActive by remember {
         derivedStateOf {
             currentConfig.value !is AppNavConfig.Checking &&
-                    currentConfig.value !is AppNavConfig.OnBoarding
+                currentConfig.value !is AppNavConfig.OnBoarding
             // && currentConfig.value !is AppNavConfig.Settings
         }
     }
