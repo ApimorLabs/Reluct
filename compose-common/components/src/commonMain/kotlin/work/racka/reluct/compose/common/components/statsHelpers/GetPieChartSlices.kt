@@ -5,7 +5,6 @@ import androidx.compose.ui.graphics.Color
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import work.racka.reluct.common.model.domain.usagestats.AppUsageInfo
 import work.racka.reluct.compose.common.charts.pieChart.PieChartData
@@ -24,7 +23,7 @@ internal fun getScreenTimePieChartData(
         isLoading.value,
         appsUsage.value,
     ) {
-        val data = withContext(Dispatchers.IO) {
+        val data = withContext(StatsDispatcher.Dispatcher) {
             persistentListOf<PieChartData.Slice>().builder().apply {
                 val firstItems = appsUsage.value.take(4)
                 val otherItems = appsUsage.value - firstItems.toSet()

@@ -7,8 +7,8 @@ import kotlinx.coroutines.cancel
 
 @Suppress("UnnecessaryAbstractClass")
 actual abstract class CommonViewModel actual constructor() {
-    actual val vmScope: CoroutineScope
-        get() = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
+    actual val vmScope: CoroutineScope =
+        CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
 
     actual open fun destroy() {
         vmScope.cancel()

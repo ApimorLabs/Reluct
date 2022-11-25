@@ -47,11 +47,11 @@ interface MainAppComponent {
 
     sealed class Child {
         object Checking : Child() // Used as initial screen while verifying checks
-        class OnBoarding(val component: OnBoardingComponent) : Child()
-        class Dashboard(val component: DashboardComponent) : Child()
-        class Tasks(val component: TasksComponent) : Child()
-        class ScreenTime(val component: ScreenTimeComponent) : Child()
-        class Goals(val component: GoalsComponent) : Child()
-        class Settings(val component: SettingsComponent) : Child()
+        data class OnBoarding(val component: OnBoardingComponent) : Child()
+        data class Dashboard(val component: DashboardComponent) : Child()
+        data class Tasks(val component: TasksComponent) : Child()
+        data class ScreenTime(val component: ScreenTimeComponent) : Child()
+        data class Goals(val component: GoalsComponent) : Child()
+        data class Settings(val component: SettingsComponent) : Child()
     }
 }

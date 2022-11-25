@@ -47,6 +47,7 @@ kotlin {
                 @OptIn(ExperimentalComposeLibrary::class) implementation(compose.material3)
 
                 api(libs.moko.resources.core)
+                implementation(libs.coroutines.core)
                 implementation(libs.kotlinx.collections.immutable)
                 implementation(libs.kotlinx.date.time)
                 implementation(libs.kermit.log)
@@ -71,6 +72,7 @@ kotlin {
         val desktopMain by getting {
             dependencies {
                 api(libs.moko.resources.compose)
+                implementation(libs.coroutines.swing)
             }
         }
 

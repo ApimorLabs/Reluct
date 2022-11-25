@@ -28,16 +28,13 @@ class CompletedTasksComponent(
         val uiState = viewModel.uiState.collectAsState()
         val events = viewModel.events.collectAsState(initial = TasksEvents.Nothing)
 
-        HandleEvents(
-            eventsState = events,
-            snackbarState = snackbarState,
-            navigateToTaskDetails = { taskId -> onShowDetails(taskId) }
-        )
+        HandleEvents(eventsState = events, snackbarState = snackbarState)
 
         CompletedTasksUI(
+            modifier = modifier,
             uiState = uiState,
             snackbarState = snackbarState,
-            onTaskClicked = { viewModel.navigateToTaskDetails(it.id) },
+            onTaskClicked = { onShowDetails(it.id) },
             onAddTaskClicked = { onAddTask() },
             onToggleTaskDone = viewModel::toggleDone,
             fetchMoreData = viewModel::fetchMoreData
@@ -47,8 +44,7 @@ class CompletedTasksComponent(
     @Composable
     private fun HandleEvents(
         eventsState: State<TasksEvents>,
-        snackbarState: SnackbarHostState,
-        navigateToTaskDetails: (taskId: String) -> Unit,
+        snackbarState: SnackbarHostState
     ) {
         LaunchedEffect(eventsState.value) {
             when (val events = eventsState.value) {
@@ -62,9 +58,6 @@ class CompletedTasksComponent(
                             duration = SnackbarDuration.Short
                         )
                     }
-                }
-                is TasksEvents.Navigation.NavigateToTaskDetails -> {
-                    navigateToTaskDetails(events.taskId)
                 }
                 else -> {}
             }

@@ -15,13 +15,15 @@ import work.racka.reluct.compose.common.theme.Shapes
 @Composable
 fun DiscardPromptDialog(
     dialogTitleProvider: () -> String,
+    dialogTextProvider: () -> String,
     openDialog: State<Boolean>,
     onClose: () -> Unit,
-    onGoBack: () -> Unit,
+    onPositiveClick: () -> Unit,
     modifier: Modifier = Modifier,
     properties: MultiplatformDialogProperties = MultiplatformDialogProperties()
 ) {
     val title = remember { derivedStateOf(dialogTitleProvider) }
+    val text = remember { derivedStateOf(dialogTextProvider) }
     MultiplatformAlertDialog(
         isVisible = openDialog.value,
         modifier = modifier,
@@ -30,12 +32,8 @@ fun DiscardPromptDialog(
         properties = properties,
         containerColor = MaterialTheme.colorScheme.surface,
         contentColor = MaterialTheme.colorScheme.onSurface,
-        title = {
-            Text(text = title.value)
-        },
-        text = {
-            Text(text = stringResource(SharedRes.strings.discard_task_message))
-        },
+        title = { Text(text = title.value, style = MaterialTheme.typography.titleMedium) },
+        text = { Text(text = text.value, style = MaterialTheme.typography.bodyMedium) },
         confirmButton = {
             ReluctButton(
                 buttonText = stringResource(SharedRes.strings.ok),
@@ -45,7 +43,7 @@ fun DiscardPromptDialog(
                 contentColor = MaterialTheme.colorScheme.onPrimary,
                 onButtonClicked = {
                     onClose()
-                    onGoBack()
+                    onPositiveClick()
                 }
             )
         },

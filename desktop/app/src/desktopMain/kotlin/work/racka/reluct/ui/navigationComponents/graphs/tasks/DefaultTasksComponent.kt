@@ -40,10 +40,10 @@ class DefaultTasksComponent(
             itemsChildStack = itemsChildStack,
             onUpdateConfig = { config ->
                 when (config) {
-                    is TasksConfig.Pending -> mainChildRouter::openPendingTasks
-                    is TasksConfig.Completed -> mainChildRouter::openCompletedTasks
-                    is TasksConfig.Search -> mainChildRouter::openSearchTasks
-                    is TasksConfig.Statistics -> mainChildRouter::openTasksStatistics
+                    is TasksConfig.Pending -> mainChildRouter.openPendingTasks()
+                    is TasksConfig.Completed -> mainChildRouter.openCompletedTasks()
+                    is TasksConfig.Search -> mainChildRouter.openSearchTasks()
+                    is TasksConfig.Statistics -> mainChildRouter.openTasksStatistics()
                 }
             }
         )

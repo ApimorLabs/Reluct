@@ -27,13 +27,10 @@ class TasksStatisticsComponent(
         val uiState = viewModel.uiState.collectAsState()
         val events = viewModel.events.collectAsState(initial = TasksEvents.Nothing)
 
-        HandleEvents(
-            eventsState = events,
-            snackbarState = snackbarState,
-            navigateToTaskDetails = { taskId -> onShowDetails(taskId) }
-        )
+        HandleEvents(eventsState = events, snackbarState = snackbarState)
 
         TasksStatisticsUI(
+            modifier = modifier,
             snackbarState = snackbarState,
             uiState = uiState,
             onSelectDay = viewModel::selectDay,
@@ -47,7 +44,6 @@ class TasksStatisticsComponent(
     private fun HandleEvents(
         eventsState: State<TasksEvents>,
         snackbarState: SnackbarHostState,
-        navigateToTaskDetails: (taskId: String) -> Unit,
     ) {
         LaunchedEffect(eventsState.value) {
             when (val events = eventsState.value) {
@@ -69,9 +65,6 @@ class TasksStatisticsComponent(
                             duration = SnackbarDuration.Short
                         )
                     }
-                }
-                is TasksEvents.Navigation.NavigateToTaskDetails -> {
-                    navigateToTaskDetails(events.taskId)
                 }
                 else -> {}
             }

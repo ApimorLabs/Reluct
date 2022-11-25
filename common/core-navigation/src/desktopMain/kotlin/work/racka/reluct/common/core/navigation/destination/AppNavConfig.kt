@@ -7,16 +7,16 @@ sealed class AppNavConfig : Parcelable {
     object Checking : AppNavConfig() // Should hide the nav rail
     object OnBoarding : AppNavConfig() // Should hide the nav rail
     object Dashboard : AppNavConfig()
-    class Tasks(
+    data class Tasks(
         val initialTasksConfig: List<TasksConfig> = listOf(),
         val initialTasksExtraConfig: List<TasksExtraConfig> = listOf()
     ) : AppNavConfig() // Multipane - 2nd pane always active
 
-    class ScreenTime(
+    data class ScreenTime(
         val initialAppScreenTimeConfig: List<AppScreenTimeConfig> = listOf()
     ) : AppNavConfig() // Multipane - adaptive
 
-    class Goals(
+    data class Goals(
         val initialGoalsConfig: List<GoalsConfig> = listOf(),
         val initialGoalsExtrasConfig: List<GoalsExtrasConfig> = listOf()
     ) : AppNavConfig() // Multipane - 2nd pane always active

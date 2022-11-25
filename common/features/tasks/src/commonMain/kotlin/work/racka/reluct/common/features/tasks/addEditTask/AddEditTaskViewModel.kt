@@ -61,11 +61,13 @@ class AddEditTaskViewModel(
                      * Go back after saving if you are just editing a Task and the [taskId]
                      * is not null else just show the TaskSaved State for adding more tasks
                      */
-                    if (taskId != null) {
+                    /*if (taskId != null) {
                         eventsChannel.send(TasksEvents.Navigation.GoBack)
                     } else {
                         modifyTaskState.update { ModifyTaskState.Saved }
-                    }
+                    }*/
+                    // Just exit the page
+                    eventsChannel.send(TasksEvents.Navigation.GoBack)
                 }
             }
         }

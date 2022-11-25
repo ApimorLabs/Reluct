@@ -204,9 +204,10 @@ internal fun AddEditTaskUI(
     // Discard Dialog
     DiscardPromptDialog(
         dialogTitleProvider = { titles.value.dialogTitle },
+        dialogTextProvider = { context.getString(SharedRes.strings.discard_task_message.resourceId) },
         openDialog = openDialog,
         onClose = { openDialog.value = false },
-        onGoBack = onBackClicked
+        onPositiveClick = onBackClicked
     )
 }
 

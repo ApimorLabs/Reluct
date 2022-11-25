@@ -66,18 +66,21 @@ internal fun TasksSearchUI(
     Scaffold(
         modifier = modifier.fillMaxSize(),
         topBar = {
-            Column(
+            Row(
                 modifier = Modifier.padding(vertical = Dimens.SmallPadding.size),
-                horizontalAlignment = Alignment.End
+                verticalAlignment = Alignment.CenterVertically,
             ) {
-                IconButton(onClick = onClose) {
-                    Icon(Icons.Rounded.Close, "Close")
-                }
                 MaterialSearchBar(
+                    modifier = Modifier.weight(1f),
                     value = uiState.value.searchQuery,
                     onSearch = { onSearch(it) },
                     onDismissSearchClicked = { onSearch("") },
-                    focusRequester = focusRequester
+                    focusRequester = focusRequester,
+                    extraButton = {
+                        IconButton(onClick = onClose) {
+                            Icon(Icons.Rounded.Close, "Close")
+                        }
+                    }
                 )
             }
         },

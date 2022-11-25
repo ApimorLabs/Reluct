@@ -34,17 +34,17 @@ class TaskDetailsComponent(
         HandleEvents(
             eventsState = events,
             snackbarState = snackbarState,
-            navigateToEditTask = { id -> onEdit(id) },
             goBack = onClose
         )
 
         TaskDetailsUI(
+            modifier = modifier,
             uiState = uiState,
             snackbarState = snackbarState,
-            onEditTask = { viewModel.editTask(it.id) },
+            onEditTask = { onEdit(it.id) },
             onDeleteTask = { viewModel.deleteTask(it.id) },
             onToggleTaskDone = { isDone, task -> viewModel.toggleDone(task, isDone) },
-            onBackClicked = { viewModel.goBack() },
+            onBackClicked = onClose,
             onModifyTaskLabel = { modifyLabel ->
                 when (modifyLabel) {
                     is ModifyTaskLabel.SaveLabel -> modifyLabel.label.run(viewModel::saveLabel)
@@ -58,7 +58,6 @@ class TaskDetailsComponent(
     private fun HandleEvents(
         eventsState: State<TasksEvents>,
         snackbarState: SnackbarHostState,
-        navigateToEditTask: (taskId: String) -> Unit,
         goBack: () -> Unit,
     ) {
         LaunchedEffect(eventsState.value) {
@@ -90,7 +89,6 @@ class TaskDetailsComponent(
                         )
                     }
                 }
-                is TasksEvents.Navigation.NavigateToEdit -> navigateToEditTask(events.taskId)
                 is TasksEvents.Navigation.GoBack -> goBack()
                 else -> {}
             }

@@ -34,7 +34,7 @@ import work.racka.reluct.compose.common.components.cards.taskEntry.TaskDetailsHe
 import work.racka.reluct.compose.common.components.cards.taskEntry.TaskInfoCard
 import work.racka.reluct.compose.common.components.cards.taskLabelEntry.TaskLabelPill
 import work.racka.reluct.compose.common.components.cards.taskLabelEntry.TaskLabelsEntryMode
-import work.racka.reluct.compose.common.components.dialogs.MultiplatformAlertDialog
+import work.racka.reluct.compose.common.components.dialogs.DiscardPromptDialog
 import work.racka.reluct.compose.common.components.images.LottieAnimationWithDescription
 import work.racka.reluct.compose.common.components.resources.stringResource
 import work.racka.reluct.compose.common.components.topBar.ReluctSmallTopAppBar
@@ -304,40 +304,15 @@ private fun DeleteTaskDialog(
     onDeleteTask: (task: Task) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    MultiplatformAlertDialog(
-        isVisible = openDialog.value,
+    DiscardPromptDialog(
         modifier = modifier,
-        onCloseDialog = onClose,
-        contentColor = MaterialTheme.colorScheme.surface,
-        containerColor = MaterialTheme.colorScheme.onSurface,
-        title = {
-            Text(text = stringResource(SharedRes.strings.delete_task))
-        },
-        text = {
-            Text(text = stringResource(SharedRes.strings.delete_task_message))
-        },
-        confirmButton = {
-            ReluctButton(
-                buttonText = stringResource(SharedRes.strings.ok),
-                icon = null,
-                shape = Shapes.large,
-                buttonColor = MaterialTheme.colorScheme.primary,
-                contentColor = MaterialTheme.colorScheme.onPrimary,
-                onButtonClicked = {
-                    onClose()
-                    getCurrentTask()?.run(onDeleteTask)
-                }
-            )
-        },
-        dismissButton = {
-            ReluctButton(
-                buttonText = stringResource(SharedRes.strings.cancel),
-                icon = null,
-                shape = Shapes.large,
-                buttonColor = MaterialTheme.colorScheme.surfaceVariant,
-                contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                onButtonClicked = onClose
-            )
+        dialogTitleProvider = { SharedRes.strings.delete_task.localized() },
+        dialogTextProvider = { SharedRes.strings.delete_task_message.localized() },
+        openDialog = openDialog,
+        onClose = onClose,
+        onPositiveClick = {
+            onClose()
+            getCurrentTask()?.run(onDeleteTask)
         }
     )
 }

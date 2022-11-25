@@ -34,6 +34,7 @@ class AddEditTaskComponent(
         )
 
         AddEditTaskUI(
+            modifier = modifier,
             snackbarState = snackbarState,
             uiState = uiState,
             onSaveTask = viewModel::saveCurrentTask,

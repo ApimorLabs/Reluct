@@ -5,7 +5,6 @@ import androidx.compose.ui.graphics.Color
 import kotlinx.collections.immutable.ImmutableMap
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import work.racka.reluct.common.model.domain.usagestats.AppUsageStats
 import work.racka.reluct.common.model.domain.usagestats.UsageStats
@@ -26,7 +25,7 @@ fun getWeeklyDeviceScreenTimeChartData(
         isLoading.value,
         weeklyStats.value
     ) {
-        val data = withContext(Dispatchers.IO) {
+        val data = withContext(StatsDispatcher.Dispatcher) {
             persistentListOf<BarChartData.Bar>().builder().apply {
                 for (key in weeklyStats.value.keys) {
                     val data = weeklyStats.value[key]
@@ -58,7 +57,7 @@ fun getWeeklyAppScreenTimeChartData(
         isLoading.value,
         weeklyStats.value
     ) {
-        val data = withContext(Dispatchers.IO) {
+        val data = withContext(StatsDispatcher.Dispatcher) {
             persistentListOf<BarChartData.Bar>().builder().apply {
                 for (key in weeklyStats.value.keys) {
                     val data = weeklyStats.value[key]

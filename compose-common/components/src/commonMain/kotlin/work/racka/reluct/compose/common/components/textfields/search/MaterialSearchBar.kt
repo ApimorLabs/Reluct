@@ -13,8 +13,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text.selection.LocalTextSelectionColors
 import androidx.compose.foundation.text.selection.TextSelectionColors
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.ArrowBack
-import androidx.compose.material.icons.rounded.Search
+import androidx.compose.material.icons.rounded.*
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -120,7 +119,7 @@ fun MaterialSearchBar(
             horizontalArrangement = Arrangement.Start,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            // Arrow/Search - Left
+            // Close/Search - Left
             Box(
                 contentAlignment = Alignment.Center
             ) {
@@ -145,8 +144,8 @@ fun MaterialSearchBar(
                         }
                     ) {
                         Icon(
-                            imageVector = Icons.Rounded.ArrowBack,
-                            contentDescription = stringResource(SharedRes.strings.back_icon),
+                            imageVector = Icons.Rounded.DeleteOutline,
+                            contentDescription = stringResource(SharedRes.strings.clear_icon),
                             tint = contentColor,
                             modifier = Modifier.rotate(angle)
                         )

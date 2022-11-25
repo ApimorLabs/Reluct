@@ -28,30 +28,24 @@ class SearchTasksComponent(
         val uiState = viewModel.uiState.collectAsState()
         val events = viewModel.events.collectAsState(initial = TasksEvents.Nothing)
 
-        HandleEvents(
-            eventsState = events,
-            snackbarState = snackbarState,
-            navigateToTaskDetails = { id -> onShowDetails(id) },
-            goBack = onExit
-        )
+        HandleEvents(eventsState = events, snackbarState = snackbarState)
 
         TasksSearchUI(
+            modifier = modifier,
             snackbarState = snackbarState,
             uiState = uiState,
             fetchMoreData = viewModel::fetchMoreData,
             onSearch = viewModel::search,
-            onTaskClicked = { viewModel.navigateToTaskDetails(it.id) },
+            onTaskClicked = { onShowDetails(it.id) },
             onToggleTaskDone = viewModel::toggleDone,
-            onClose = viewModel::goBack
+            onClose = onExit
         )
     }
 
     @Composable
     private fun HandleEvents(
         eventsState: State<TasksEvents>,
-        snackbarState: SnackbarHostState,
-        navigateToTaskDetails: (taskId: String) -> Unit,
-        goBack: () -> Unit,
+        snackbarState: SnackbarHostState
     ) {
         LaunchedEffect(eventsState.value) {
             when (val events = eventsState.value) {
@@ -82,8 +76,6 @@ class SearchTasksComponent(
                         )
                     }
                 }
-                is TasksEvents.Navigation.NavigateToTaskDetails -> navigateToTaskDetails(events.taskId)
-                is TasksEvents.Navigation.GoBack -> goBack()
                 else -> {}
             }
         }
