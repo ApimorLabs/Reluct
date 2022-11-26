@@ -21,7 +21,8 @@ import work.racka.reluct.compose.common.components.bottomSheet.TopSheetSection
 import work.racka.reluct.compose.common.components.buttons.ReluctButton
 import work.racka.reluct.compose.common.components.cards.taskLabelEntry.TaskLabelEntry
 import work.racka.reluct.compose.common.components.cards.taskLabelEntry.TaskLabelsEntryMode
-import work.racka.reluct.compose.common.components.images.LottieAnimationWithDescription
+import work.racka.reluct.compose.common.components.images.ImageWithDescription
+import work.racka.reluct.compose.common.components.resources.painterResource
 import work.racka.reluct.compose.common.components.resources.stringResource
 import work.racka.reluct.compose.common.components.util.navigationBarsPadding
 import work.racka.reluct.compose.common.theme.Dimens
@@ -54,11 +55,10 @@ fun LazyColumnSelectTaskLabelsSheet(
 
         if (availableLabels.isEmpty()) {
             item {
-                LottieAnimationWithDescription(
-                    lottieResource = SharedRes.files.no_task_animation,
+                ImageWithDescription(
+                    painter = painterResource(SharedRes.assets.add_files),
                     imageSize = 200.dp,
                     description = stringResource(SharedRes.strings.no_saved_label_text),
-                    descriptionTextStyle = MaterialTheme.typography.titleLarge
                 )
             }
         } else {

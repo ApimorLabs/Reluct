@@ -187,7 +187,9 @@ internal fun AddEditTaskUI(
                     onUpdateTask = onUpdateTask,
                     onSaveTask = onSaveTask,
                     onGoBack = { goBackAttempt(canGoBack) },
-                    onEditLabels = { scope.launch { modalSheetState.show() } }
+                    onEditLabels = {
+                        scope.launch { modalSheetState.animateTo(ModalBottomSheetValue.Expanded) }
+                    }
                 )
             }
         }

@@ -145,7 +145,7 @@ private fun LazyListScope.tasksList(
                 contentAlignment = Alignment.Center
             ) {
                 ImageWithDescription(
-                    painter = painterResource(SharedRes.assets.no_tasks),
+                    painter = painterResource(SharedRes.assets.empty),
                     imageSize = 200.dp,
                     description = stringResource(SharedRes.strings.no_tasks_text),
                     descriptionTextStyle = MaterialTheme.typography.bodyLarge

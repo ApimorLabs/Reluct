@@ -33,7 +33,7 @@ internal fun FullEmptyTasksIndicator(
             contentAlignment = Alignment.Center
         ) {
             ImageWithDescription(
-                painter = painterResource(SharedRes.assets.no_tasks),
+                painter = painterResource(SharedRes.assets.empty),
                 description = stringResource(SharedRes.strings.no_tasks_text),
                 imageSize = 200.dp,
             )
