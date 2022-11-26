@@ -24,7 +24,7 @@ fun ImageWithDescription(
     description: String?,
     modifier: Modifier = Modifier,
     imageSize: Dp = 148.dp,
-    descriptionTextStyle: TextStyle = MaterialTheme.typography.titleLarge,
+    descriptionTextStyle: TextStyle = MaterialTheme.typography.bodyLarge,
 ) {
     Column(
         modifier = modifier,
@@ -54,7 +54,7 @@ fun ImageWithDescription(
     description: String?,
     modifier: Modifier = Modifier,
     imageSize: Dp = 148.dp,
-    descriptionTextStyle: TextStyle = MaterialTheme.typography.titleLarge,
+    descriptionTextStyle: TextStyle = MaterialTheme.typography.bodyLarge,
 ) {
     Column(
         modifier = modifier,

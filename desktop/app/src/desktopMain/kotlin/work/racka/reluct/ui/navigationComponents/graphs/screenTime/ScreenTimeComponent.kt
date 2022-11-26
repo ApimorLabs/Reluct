@@ -16,11 +16,11 @@ interface ScreenTimeComponent : ComposeRenderer {
     val isMultipane: Value<Boolean>
 
     sealed class MainChild {
-        class ScreenTimeStatsLimits(val component: ScreenTimeStatsLimitsComponent) : MainChild()
+        data class ScreenTimeStatsLimits(val component: ScreenTimeStatsLimitsComponent) : MainChild()
     }
 
     sealed class ItemsChild {
-        class AppScreenTime(val component: AppScreenTimeComponent) : ItemsChild()
+        data class AppScreenTime(val component: AppScreenTimeComponent) : ItemsChild()
         object None : ItemsChild()
     }
 }

@@ -55,6 +55,7 @@ kotlin {
         val desktopMain by getting {
             dependencies {
                 implementation(compose.desktop.common)
+                implementation(libs.coroutines.swing)
             }
         }
 

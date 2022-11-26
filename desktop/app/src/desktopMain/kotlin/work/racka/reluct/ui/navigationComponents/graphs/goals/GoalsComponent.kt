@@ -16,13 +16,13 @@ interface GoalsComponent : ComposeRenderer {
     val itemsChildStack: Value<ChildStack<GoalsExtrasConfig, ItemsChild>>
 
     sealed class MainChild {
-        class ActiveGoal(val component: ActiveGoalsComponent) : MainChild()
-        class InactiveGoal(val component: InactiveGoalsComponent) : MainChild()
+        data class ActiveGoal(val component: ActiveGoalsComponent) : MainChild()
+        data class InactiveGoal(val component: InactiveGoalsComponent) : MainChild()
     }
 
     sealed class ItemsChild {
-        class AddEdit(val component: AddEditGoalComponent) : ItemsChild()
-        class Details(val component: GoalDetailsComponent) : ItemsChild()
+        data class AddEdit(val component: AddEditGoalComponent) : ItemsChild()
+        data class Details(val component: GoalDetailsComponent) : ItemsChild()
         object None : ItemsChild()
     }
 }

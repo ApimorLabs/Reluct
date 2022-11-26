@@ -52,17 +52,17 @@ class TaskItemsComponentsRouter(
     )
 
     fun addTask() = navigation.navigate { stack ->
-        stack.dropWhile { it is TasksExtraConfig.AddEdit }
+        stack.dropLastWhile { it is TasksExtraConfig.AddEdit }
             .plus(TasksExtraConfig.AddEdit(taskId = null))
     }
 
     fun editTask(taskId: String?) = navigation.navigate { stack ->
-        stack.dropWhile { it is TasksExtraConfig.AddEdit }
+        stack.dropLastWhile { it is TasksExtraConfig.AddEdit }
             .plus(TasksExtraConfig.AddEdit(taskId = taskId))
     }
 
     fun openDetails(taskId: String?) = navigation.navigate { stack ->
-        stack.dropWhile { it is TasksExtraConfig.Details }
+        stack.dropLastWhile { it is TasksExtraConfig.Details }
             .plus(TasksExtraConfig.Details(taskId = taskId))
     }
 }

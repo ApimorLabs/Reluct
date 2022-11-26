@@ -45,6 +45,8 @@ kotlin {
                 implementation(libs.decompose.compose.jb)
 
                 // Other Dependencies
+                implementation(libs.coroutines.core)
+                implementation(libs.coroutines.swing)
                 implementation(libs.kotlinx.collections.immutable)
                 implementation(libs.kotlinx.date.time)
                 implementation(libs.koin.core)
