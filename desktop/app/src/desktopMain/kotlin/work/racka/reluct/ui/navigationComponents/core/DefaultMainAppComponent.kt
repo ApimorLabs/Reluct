@@ -59,7 +59,6 @@ class DefaultMainAppComponent(
             componentContext = context,
             initialMainStack = { config.initialGoalsConfig },
             initialItemsStack = { config.initialGoalsExtrasConfig },
-            onExit = ::goBack
         )
 
     private fun createScreenTime(context: ComponentContext, config: AppNavConfig.ScreenTime) =

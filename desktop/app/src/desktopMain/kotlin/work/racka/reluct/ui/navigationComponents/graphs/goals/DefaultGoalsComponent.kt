@@ -16,7 +16,6 @@ class DefaultGoalsComponent(
     componentContext: ComponentContext,
     initialMainStack: () -> List<GoalsConfig>,
     initialItemsStack: () -> List<GoalsExtrasConfig>,
-    onExit: () -> Unit
 ) : GoalsComponent, ComponentContext by componentContext {
 
     private val itemsChildRouter = GoalItemsComponentRouter(
@@ -29,7 +28,6 @@ class DefaultGoalsComponent(
         initialStack = initialMainStack(),
         onShowDetails = itemsChildRouter::openDetails,
         onAddGoal = { itemsChildRouter.openAddEdit(defaultGoalIndex = it, goalId = null) },
-        onExit = onExit
     )
 
     override val mainChildStack: Value<ChildStack<GoalsConfig, GoalsComponent.MainChild>> =

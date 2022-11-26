@@ -45,7 +45,7 @@ class GoalItemsComponentRouter(
         defaultGoalIndex: Int?
     ) = AddEditGoalComponent(
         componentContext = componentContext,
-        onClose = navigation::pop,
+        onExit = navigation::pop,
         defaultGoalIndex = defaultGoalIndex,
         goalId = goalId
     )
@@ -55,7 +55,7 @@ class GoalItemsComponentRouter(
             componentContext = componentContext,
             goalId = goalId,
             onEdit = { openAddEdit(goalId = it, defaultGoalIndex = null) },
-            onClose = navigation::pop
+            onExit = navigation::pop
         )
 
     fun openAddEdit(goalId: String?, defaultGoalIndex: Int?) = navigation.navigate { stack ->
