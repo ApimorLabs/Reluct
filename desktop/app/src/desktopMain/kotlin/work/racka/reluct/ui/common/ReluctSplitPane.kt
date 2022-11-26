@@ -29,17 +29,17 @@ fun ReluctSplitPane(
         modifier = modifier,
         splitPaneState = splitPaneState
     ) {
-        first(minSize = 500.dp, content = firstSlot)
+        first(minSize = 400.dp, content = firstSlot)
         second(minSize = 500.dp, content = secondSlot)
 
         splitter {
             visiblePart {
-                Box(
+                /*Box(
                     Modifier
                         .width(4.dp)
                         .fillMaxHeight()
                         .background(MaterialTheme.colorScheme.background)
-                )
+                )*/
             }
             handle {
                 Box(

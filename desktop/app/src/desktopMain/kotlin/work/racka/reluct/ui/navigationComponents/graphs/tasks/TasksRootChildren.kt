@@ -27,7 +27,8 @@ import work.racka.reluct.compose.common.components.resources.stringResource
 import work.racka.reluct.compose.common.components.textfields.search.PlaceholderMaterialSearchBar
 import work.racka.reluct.ui.common.ReluctSplitPane
 import work.racka.reluct.ui.navigationComponents.graphs.tasks.TasksComponent.MainChild.*
-import work.racka.reluct.ui.navigationComponents.tabs.TasksTabBar
+import work.racka.reluct.ui.navigationComponents.tabs.ReluctTabBar
+import work.racka.reluct.ui.navigationComponents.tabs.tasksTabs
 
 @OptIn(ExperimentalSplitPaneApi::class)
 @Composable
@@ -115,10 +116,10 @@ private fun TasksScreenTopBar(
             )
             LazyRow {
                 item {
-                    TasksTabBar(
-                        modifier = Modifier
-                            .padding(horizontal = 16.dp),
+                    ReluctTabBar(
+                        modifier = Modifier.padding(horizontal = 16.dp),
                         currentTab = config,
+                        tabs = tasksTabs,
                         onTabSelected = updateConfig
                     )
                 }
