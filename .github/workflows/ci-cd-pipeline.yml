@@ -1,4 +1,4 @@
-name: Code Check Pipeline
+name: Build Pipeline
 # This is responsible for the whole delivery pipeline (build, integrate, test and release)
 
 on:
