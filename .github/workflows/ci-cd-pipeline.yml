@@ -2,6 +2,7 @@ name: Build Pipeline
 # This is responsible for the whole delivery pipeline (build, integrate, test and release)
 
 on:
+  workflow_dispatch:
   pull_request:
     types: [ opened, synchronize, reopened ]
     branches:
@@ -52,7 +53,7 @@ jobs:
 
       - name: Build all
         run: |
-          ./gradlew --console=plain build --stacktrace
+          ./gradlew --console=plain build --info
 
       - if: ${{ matrix.config.target == 'Android' }}
         name: Sign Android AAB

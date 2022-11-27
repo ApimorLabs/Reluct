@@ -2,6 +2,7 @@ name: Code Check Pipeline
 # This is responsible for checking code guidelines with Detekt & Lint
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
