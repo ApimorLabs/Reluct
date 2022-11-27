@@ -7,6 +7,10 @@ on:
     types: [ opened, synchronize, reopened ]
     branches:
       - deploy
+      
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 jobs:
 
@@ -37,8 +41,7 @@ jobs:
           REVENUECAT_KEY: ${{ secrets.REVENUECAT_KEY }}
         run: echo revenuecat_key=\"$REVENUECAT_KEY\" > ./local.properties
 
-      - if: ${{ matrix.config.target == 'Android' }}
-        name: Decode Service Account Key JSON File
+      - name: Decode Service Account Key JSON File
         uses: timheuer/base64-to-file@v1.2
         id: service_account_json_file
         with:
@@ -51,9 +54,9 @@ jobs:
         with:
           xcode-version: latest-stable
 
-      - name: Build all
+      - name: Build Targets
         run: |
-          ./gradlew --console=plain build --info
+          ./gradlew --console=plain ${{ matrix.config.tasks }} --info
 
       - if: ${{ matrix.config.target == 'Android' }}
         name: Sign Android AAB
