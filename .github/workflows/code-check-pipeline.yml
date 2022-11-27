@@ -1,5 +1,5 @@
 name: Code Check Pipeline
-# This is responsible for the whole delivery pipeline (build, integrate, test and release)
+# This is responsible for checking code guidelines with Detekt & Lint
 
 on:
   push:
