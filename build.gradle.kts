@@ -48,6 +48,13 @@ allprojects {
         kotlinOptions.freeCompilerArgs += "-opt-in=kotlin.RequiresOptIn"
         kotlinOptions.jvmTarget = JavaVersion.VERSION_11.majorVersion
     }
+
+    afterEvaluate {
+        dependencies {
+            detektPlugins(libs.detekt.formatting)
+            detektPlugins(libs.detekt.rule.twitter.compose)
+        }
+    }
 }
 
 val sarifReportMerge by tasks.registering(ReportMergeTask::class) {
@@ -60,12 +67,6 @@ subprojects {
      * Start Configuring Detekt
      */
     coreDetektSetup()
-    beforeEvaluate {
-        dependencies {
-            detektPlugins(libs.detekt.formatting)
-            detektPlugins(libs.detekt.rule.twitter.compose)
-        }
-    }
 
     afterEvaluate {
 
@@ -141,6 +142,22 @@ subprojects {
 }
 
 /**
+ * Custom Task for creating a baseline file.
+ */
+val detektProjectBaseline by tasks.registering(DetektCreateBaselineTask::class) {
+    description = "Overrides current baseline. Used project wide."
+    buildUponDefaultConfig.set(true)
+    ignoreFailures.set(true)
+    parallel.set(true)
+    setSource(files(rootDir))
+    config.setFrom(files("$rootDir/config/detekt/detekt.yml"))
+    baseline.set(file("$rootDir/config/detekt/baseline.xml"))
+    include("**/*.kt")
+    include("**/*.kts")
+    exclude("**/build/**", "**/generated/**", "**/resources/**")
+}
+
+/**
  * To run detekt simply:
  * 1. ./gradlew module:detekt for each module
  * 2. ./gradlew detekt for whole project
@@ -152,6 +169,7 @@ fun Project.coreDetektSetup() {
     // Configure Detekt
     detekt {
         config = files("$rootDir/config/detekt/detekt.yml")
+        baseline = file("${rootProject.projectDir}/config/detekt/baseline.xml")
         buildUponDefaultConfig = true
         ignoredBuildTypes = listOf("release")
         source = files(
@@ -167,9 +185,6 @@ fun Project.coreDetektSetup() {
             "src/desktopMain/kotlin",
             "src/jsMain/kotlin",
         )
-        layout.projectDirectory.file("detekt-baseline.xml").asFile.run {
-            if (exists()) baseline = this
-        }
     }
 
     tasks.withType<Detekt>().configureEach detekt@{
@@ -197,11 +212,5 @@ fun Project.coreDetektSetup() {
         sarifReportMerge.configure {
             input.from(this@detekt.sarifReportFile)
         }
-    }
-
-    tasks.withType<DetektCreateBaselineTask>().configureEach detekt@{
-        exclude("**/build/**", "**/generated/**", "**/resources/**")
-        basePath = rootProject.projectDir.absolutePath
-        baseline.set(layout.projectDirectory.file("detekt-baseline.xml").asFile)
     }
 }

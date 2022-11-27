@@ -1,0 +1,107 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+    <ManuallySuppressedIssues></ManuallySuppressedIssues>
+    <CurrentIssues>
+        <ID>UnusedPrivateMember:ActiveGoalsComponent.kt$ActiveGoalsComponent$private val onAddGoal:
+            (defaultGoalIndex: Int?) -&gt; Unit
+        </ID>
+        <ID>UnusedPrivateMember:ActiveGoalsComponent.kt$ActiveGoalsComponent$private val onExit: ()
+            -&gt; Unit
+        </ID>
+        <ID>UnusedPrivateMember:ActiveGoalsComponent.kt$ActiveGoalsComponent$private val
+            onShowDetails: (goalId: String) -&gt; Unit
+        </ID>
+        <ID>UnusedPrivateMember:AddEditGoalComponent.kt$AddEditGoalComponent$private val
+            defaultGoalIndex: Int?
+        </ID>
+        <ID>UnusedPrivateMember:AddEditGoalComponent.kt$AddEditGoalComponent$private val goalId:
+            String?
+        </ID>
+        <ID>UnusedPrivateMember:AddEditGoalComponent.kt$AddEditGoalComponent$private val onClose: ()
+            -&gt; Unit
+        </ID>
+        <ID>UnusedPrivateMember:AddEditTaskComponent.kt$AddEditTaskComponent$private val onClose: ()
+            -&gt; Unit
+        </ID>
+        <ID>UnusedPrivateMember:AddEditTaskComponent.kt$AddEditTaskComponent$private val taskId:
+            String?
+        </ID>
+        <ID>UnusedPrivateMember:AppScreenTimeComponent.kt$AppScreenTimeComponent$private val
+            isShowingAppStats: Value&lt;Boolean&gt;
+        </ID>
+        <ID>UnusedPrivateMember:AppScreenTimeComponent.kt$AppScreenTimeComponent$private val
+            onClose: () -&gt; Unit
+        </ID>
+        <ID>UnusedPrivateMember:CompletedTasksComponent.kt$CompletedTasksComponent$private val
+            onAddTask: () -&gt; Unit
+        </ID>
+        <ID>UnusedPrivateMember:CompletedTasksComponent.kt$CompletedTasksComponent$private val
+            onExit: () -&gt; Unit
+        </ID>
+        <ID>UnusedPrivateMember:CompletedTasksComponent.kt$CompletedTasksComponent$private val
+            onShowDetails: (taskId: String) -&gt; Unit
+        </ID>
+        <ID>UnusedPrivateMember:GoalDetailsComponent.kt$GoalDetailsComponent$private val goalId:
+            String?
+        </ID>
+        <ID>UnusedPrivateMember:GoalDetailsComponent.kt$GoalDetailsComponent$private val onClose: ()
+            -&gt; Unit
+        </ID>
+        <ID>UnusedPrivateMember:GoalDetailsComponent.kt$GoalDetailsComponent$private val onEdit:
+            (goalId: String) -&gt; Unit
+        </ID>
+        <ID>UnusedPrivateMember:InactiveGoalsComponent.kt$InactiveGoalsComponent$private val
+            onAddGoal: (defaultGoalIndex: Int?) -&gt; Unit
+        </ID>
+        <ID>UnusedPrivateMember:InactiveGoalsComponent.kt$InactiveGoalsComponent$private val
+            onGoBack: () -&gt; Unit
+        </ID>
+        <ID>UnusedPrivateMember:InactiveGoalsComponent.kt$InactiveGoalsComponent$private val
+            onShowDetails: (goalId: String) -&gt; Unit
+        </ID>
+        <ID>UnusedPrivateMember:PendingTasksComponent.kt$PendingTasksComponent$private val
+            onAddTask: () -&gt; Unit
+        </ID>
+        <ID>UnusedPrivateMember:PendingTasksComponent.kt$PendingTasksComponent$private val onExit:
+            () -&gt; Unit
+        </ID>
+        <ID>UnusedPrivateMember:PendingTasksComponent.kt$PendingTasksComponent$private val
+            onShowDetails: (taskId: String) -&gt; Unit
+        </ID>
+        <ID>UnusedPrivateMember:ReluctNavigationRail.kt$private const val NAV_RAIL_ELEVATION = 2.0
+        </ID>
+        <ID>
+            UnusedPrivateMember:ScreenTimeStatsLimitsComponent.kt$ScreenTimeStatsLimitsComponent$private
+            val isShowingAppStats: Value&lt;Boolean&gt;
+        </ID>
+        <ID>
+            UnusedPrivateMember:ScreenTimeStatsLimitsComponent.kt$ScreenTimeStatsLimitsComponent$private
+            val onExit: () -&gt; Unit
+        </ID>
+        <ID>
+            UnusedPrivateMember:ScreenTimeStatsLimitsComponent.kt$ScreenTimeStatsLimitsComponent$private
+            val onShowAppStats: (packageName: String?) -&gt; Unit
+        </ID>
+        <ID>UnusedPrivateMember:SearchTasksComponent.kt$SearchTasksComponent$private val onExit: ()
+            -&gt; Unit
+        </ID>
+        <ID>UnusedPrivateMember:SearchTasksComponent.kt$SearchTasksComponent$private val
+            onShowDetails: (taskId: String) -&gt; Unit
+        </ID>
+        <ID>UnusedPrivateMember:TaskDetailsComponent.kt$TaskDetailsComponent$private val onClose: ()
+            -&gt; Unit
+        </ID>
+        <ID>UnusedPrivateMember:TaskDetailsComponent.kt$TaskDetailsComponent$private val onEdit:
+            (taskId: String?) -&gt; Unit
+        </ID>
+        <ID>UnusedPrivateMember:TaskDetailsComponent.kt$TaskDetailsComponent$private val taskId:
+            String?
+        </ID>
+        <ID>UnusedPrivateMember:TasksStatisticsComponent.kt$TasksStatisticsComponent$private val
+            onExit: () -&gt; Unit
+        </ID>
+        <ID>UnusedPrivateMember:TasksStatisticsComponent.kt$TasksStatisticsComponent$private val
+            onShowDetails: (taskId: String) -&gt; Unit
+        </ID>
+    </CurrentIssues>
+</SmellBaseline>

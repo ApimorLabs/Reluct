@@ -44,7 +44,7 @@ saveState = "1.2.0"
 
 # Navigation
 androidx_navigation = "2.5.3"
-decompose = "0.3.1"
+decompose = "1.0.0-beta-01"
 
 # DI
 koin = "3.2.2"
@@ -123,6 +123,7 @@ kotlin_junit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref 
 
 coroutines_core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx_coroutines" }
 coroutines_android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinx_coroutines" }
+coroutines_swing = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-swing", version.ref = "kotlinx_coroutines" }
 coroutines_playservices = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services", version.ref = "kotlinx_coroutines" }
 coroutines_test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinx_coroutines" }
 

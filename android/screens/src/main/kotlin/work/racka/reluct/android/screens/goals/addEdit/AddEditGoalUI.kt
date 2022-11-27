@@ -191,9 +191,10 @@ internal fun AddEditGoalUI(
     // Discard Dialog
     DiscardPromptDialog(
         dialogTitleProvider = { titles.value.dialogTitle },
+        dialogTextProvider = { context.getString(SharedRes.strings.delete_goal_message.resourceId) },
         openDialog = openExitDialog,
         onClose = { openExitDialog.value = false },
-        onGoBack = onGoBack
+        onPositiveClick = onGoBack
     )
 }
 

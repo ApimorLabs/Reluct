@@ -33,7 +33,7 @@ actual fun LottieAnimationWithDescription(
     ) {
         Image(
             modifier = Modifier.size(imageSize),
-            painter = painterResource(SharedRes.assets.permissions_unlock),
+            painter = painterResource(SharedRes.assets.add_files),
             contentDescription = description
         )
         description?.let {

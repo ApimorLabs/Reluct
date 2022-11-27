@@ -6,8 +6,7 @@ import kotlinx.coroutines.CoroutineScope
 import java.io.Closeable
 
 actual abstract class CommonViewModel actual constructor() : ViewModel() {
-    actual val vmScope: CoroutineScope
-        get() = viewModelScope
+    actual val vmScope: CoroutineScope = viewModelScope
 
     actual open fun destroy() {
         if (vmScope is Closeable) {

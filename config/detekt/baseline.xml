@@ -1,0 +1,211 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues></ManuallySuppressedIssues>
+  <CurrentIssues>
+    <ID>AnnotationOnSeparateLine:build.gradle.kts:27</ID>
+    <ID>AnnotationOnSeparateLine:build.gradle.kts:28</ID>
+    <ID>AnnotationOnSeparateLine:build.gradle.kts:30</ID>
+    <ID>AnnotationOnSeparateLine:build.gradle.kts:31</ID>
+    <ID>AnnotationOnSeparateLine:build.gradle.kts:47</ID>
+    <ID>CommentSpacing:build.gradle.kts:16</ID>
+    <ID>EmptyFunctionBlock:GoalsDaoImplTest.kt$GoalsDaoImplTest${ }</ID>
+    <ID>EmptyFunctionBlock:MultiplatformSettingsImplTest.kt$MultiplatformSettingsImplTest${ }</ID>
+    <ID>EmptyFunctionBlock:TasksDaoImplTest.kt$TasksDaoImplTest${ }</ID>
+    <ID>Filename:work.racka.reluct.common.database.di.getDatabaseWrapper.kt:1</ID>
+    <ID>FinalNewline:build.gradle.kts:1</ID>
+    <ID>FinalNewline:detekt.gradle.kts:1</ID>
+    <ID>FinalNewline:extensions.VersionCatalogExtensions.kt:1</ID>
+    <ID>FinalNewline:quality.SetDetekt.kt:1</ID>
+    <ID>FinalNewline:settings.gradle.kts:1</ID>
+    <ID>FinalNewline:work.racka.reluct.ExampleInstrumentedTest.kt:1</ID>
+    <ID>FinalNewline:work.racka.reluct.common.app.usage.stats.util.TestData.kt:1</ID>
+    <ID>FinalNewline:work.racka.reluct.common.database.dao.goals.FakeGoalsDao.kt:1</ID>
+    <ID>FinalNewline:work.racka.reluct.common.database.dao.goals.GoalsDaoImplTest.kt:1</ID>
+    <ID>FinalNewline:work.racka.reluct.common.database.dao.tasks.FakeTasksDao.kt:1</ID>
+    <ID>FinalNewline:work.racka.reluct.common.database.dao.tasks.TasksDaoImplTest.kt:1</ID>
+    <ID>FinalNewline:work.racka.reluct.common.database.di.GetDatabaseWrapper.kt:1</ID>
+    <ID>FinalNewline:work.racka.reluct.common.database.di.getDatabaseWrapper.kt:1</ID>
+    <ID>FinalNewline:work.racka.reluct.common.database.util.GoalsTestData.kt:1</ID>
+    <ID>FinalNewline:work.racka.reluct.common.database.util.TasksTestData.kt:1</ID>
+    <ID>FinalNewline:work.racka.reluct.common.domain.usecases.GetTasksUseCaseTest.kt:1</ID>
+    <ID>FinalNewline:work.racka.reluct.common.domain.usecases.ModifyTaskUseCaseTest.kt:1</ID>
+    <ID>FinalNewline:work.racka.reluct.common.domain.util.TestData.kt:1</ID>
+    <ID>FinalNewline:work.racka.reluct.common.features.tasks.addEditTask.AddEditTaskTest.kt:1</ID>
+    <ID>FinalNewline:work.racka.reluct.common.features.tasks.completedTasks.CompletedTasksTest.kt:1</ID>
+    <ID>FinalNewline:work.racka.reluct.common.features.tasks.pendingTasks.PendingTasksTest.kt:1</ID>
+    <ID>FinalNewline:work.racka.reluct.common.features.tasks.statistics.TasksStatisticsTest.kt:1</ID>
+    <ID>FinalNewline:work.racka.reluct.common.features.tasks.taskDetails.TaskDetailsTest.kt:1</ID>
+    <ID>FinalNewline:work.racka.reluct.common.settings.FakeMultiplatformSettings.kt:1</ID>
+    <ID>FinalNewline:work.racka.reluct.common.settings.MultiplatformSettingsImplTest.kt:1</ID>
+    <ID>FinalNewline:work.racka.reluct.widgets.ExampleInstrumentedTest.kt:1</ID>
+    <ID>InvalidPackageDeclaration:AddEditTaskTest.kt$package work.racka.reluct.common.features.tasks.addEditTask</ID>
+    <ID>InvalidPackageDeclaration:CompletedTasksTest.kt$package work.racka.reluct.common.features.tasks.completedTasks</ID>
+    <ID>InvalidPackageDeclaration:FakeMultiplatformSettings.kt$package work.racka.reluct.common.settings</ID>
+    <ID>InvalidPackageDeclaration:MultiplatformSettingsImplTest.kt$package work.racka.reluct.common.settings</ID>
+    <ID>InvalidPackageDeclaration:PendingTasksTest.kt$package work.racka.reluct.common.features.tasks.pendingTasks</ID>
+    <ID>InvalidPackageDeclaration:TaskDetailsTest.kt$package work.racka.reluct.common.features.tasks.taskDetails</ID>
+    <ID>InvalidPackageDeclaration:TasksStatisticsTest.kt$package work.racka.reluct.common.features.tasks.statistics</ID>
+    <ID>InvalidPackageDeclaration:TestData.kt$package work.racka.reluct.common.features.tasks.util</ID>
+    <ID>MaxLineLength:AddEditTaskTest.kt$AddEditTaskTest$fun</ID>
+    <ID>MaxLineLength:SnapperFlingBehavior.kt$SnapperFlingBehavior$snapIndex: (SnapperLayoutInfo, startIndex: Int, targetIndex: Int) -&gt; Int = SnapperFlingBehaviorDefaults.SnapIndex</ID>
+    <ID>MaxLineLength:SnapperFlingBehavior.kt$SnapperFlingBehaviorDefaults$public</ID>
+    <ID>MaximumLineLength:work.racka.reluct.common.features.tasks.addEditTask.AddEditTaskTest.kt:129</ID>
+    <ID>MaximumLineLength:work.racka.reluct.common.features.tasks.addEditTask.AddEditTaskTest.kt:169</ID>
+    <ID>MaximumLineLength:work.racka.reluct.compose.common.pager.snapper.SnapperFlingBehavior.kt:296</ID>
+    <ID>MaximumLineLength:work.racka.reluct.compose.common.pager.snapper.SnapperFlingBehavior.kt:55</ID>
+    <ID>NewLineAtEndOfFile:AddEditTaskTest.kt$work.racka.reluct.common.features.tasks.addEditTask.AddEditTaskTest.kt</ID>
+    <ID>NewLineAtEndOfFile:CompletedTasksTest.kt$work.racka.reluct.common.features.tasks.completedTasks.CompletedTasksTest.kt</ID>
+    <ID>NewLineAtEndOfFile:ExampleInstrumentedTest.kt$work.racka.reluct.ExampleInstrumentedTest.kt</ID>
+    <ID>NewLineAtEndOfFile:ExampleInstrumentedTest.kt$work.racka.reluct.widgets.ExampleInstrumentedTest.kt</ID>
+    <ID>NewLineAtEndOfFile:FakeGoalsDao.kt$work.racka.reluct.common.database.dao.goals.FakeGoalsDao.kt</ID>
+    <ID>NewLineAtEndOfFile:FakeMultiplatformSettings.kt$work.racka.reluct.common.settings.FakeMultiplatformSettings.kt</ID>
+    <ID>NewLineAtEndOfFile:FakeTasksDao.kt$work.racka.reluct.common.database.dao.tasks.FakeTasksDao.kt</ID>
+    <ID>NewLineAtEndOfFile:GetDatabaseWrapper.kt$work.racka.reluct.common.database.di.GetDatabaseWrapper.kt</ID>
+    <ID>NewLineAtEndOfFile:GetTasksUseCaseTest.kt$work.racka.reluct.common.domain.usecases.GetTasksUseCaseTest.kt</ID>
+    <ID>NewLineAtEndOfFile:GoalsDaoImplTest.kt$work.racka.reluct.common.database.dao.goals.GoalsDaoImplTest.kt</ID>
+    <ID>NewLineAtEndOfFile:GoalsTestData.kt$work.racka.reluct.common.database.util.GoalsTestData.kt</ID>
+    <ID>NewLineAtEndOfFile:ModifyTaskUseCaseTest.kt$work.racka.reluct.common.domain.usecases.ModifyTaskUseCaseTest.kt</ID>
+    <ID>NewLineAtEndOfFile:MultiplatformSettingsImplTest.kt$work.racka.reluct.common.settings.MultiplatformSettingsImplTest.kt</ID>
+    <ID>NewLineAtEndOfFile:PendingTasksTest.kt$work.racka.reluct.common.features.tasks.pendingTasks.PendingTasksTest.kt</ID>
+    <ID>NewLineAtEndOfFile:SetDetekt.kt$quality.SetDetekt.kt</ID>
+    <ID>NewLineAtEndOfFile:TaskDetailsTest.kt$work.racka.reluct.common.features.tasks.taskDetails.TaskDetailsTest.kt</ID>
+    <ID>NewLineAtEndOfFile:TasksDaoImplTest.kt$work.racka.reluct.common.database.dao.tasks.TasksDaoImplTest.kt</ID>
+    <ID>NewLineAtEndOfFile:TasksStatisticsTest.kt$work.racka.reluct.common.features.tasks.statistics.TasksStatisticsTest.kt</ID>
+    <ID>NewLineAtEndOfFile:TasksTestData.kt$work.racka.reluct.common.database.util.TasksTestData.kt</ID>
+    <ID>NewLineAtEndOfFile:TestData.kt$work.racka.reluct.common.app.usage.stats.util.TestData.kt</ID>
+    <ID>NewLineAtEndOfFile:TestData.kt$work.racka.reluct.common.domain.util.TestData.kt</ID>
+    <ID>NewLineAtEndOfFile:VersionCatalogExtensions.kt$extensions.VersionCatalogExtensions.kt</ID>
+    <ID>NewLineAtEndOfFile:build.gradle.kts$.build.gradle.kts</ID>
+    <ID>NewLineAtEndOfFile:detekt.gradle.kts$.detekt.gradle.kts</ID>
+    <ID>NewLineAtEndOfFile:getDatabaseWrapper.kt$work.racka.reluct.common.database.di.getDatabaseWrapper.kt</ID>
+    <ID>NewLineAtEndOfFile:settings.gradle.kts$.settings.gradle.kts</ID>
+    <ID>NoBlankLineBeforeRbrace:build.gradle.kts:109</ID>
+    <ID>NoBlankLineBeforeRbrace:build.gradle.kts:24</ID>
+    <ID>NoBlankLineBeforeRbrace:build.gradle.kts:28</ID>
+    <ID>NoBlankLineBeforeRbrace:build.gradle.kts:48</ID>
+    <ID>NoBlankLineBeforeRbrace:build.gradle.kts:65</ID>
+    <ID>NoBlankLineBeforeRbrace:detekt.gradle.kts:24</ID>
+    <ID>NoBlankLineBeforeRbrace:work.racka.reluct.common.features.tasks.statistics.TasksStatisticsTest.kt:26</ID>
+    <ID>NoBlankLineBeforeRbrace:work.racka.reluct.common.features.tasks.taskDetails.TaskDetailsTest.kt:26</ID>
+    <ID>NoConsecutiveBlankLines:work.racka.reluct.common.features.tasks.addEditTask.AddEditTaskTest.kt:105</ID>
+    <ID>NoConsecutiveBlankLines:work.racka.reluct.common.features.tasks.addEditTask.AddEditTaskTest.kt:127</ID>
+    <ID>NoConsecutiveBlankLines:work.racka.reluct.common.features.tasks.addEditTask.AddEditTaskTest.kt:142</ID>
+    <ID>NoConsecutiveBlankLines:work.racka.reluct.common.features.tasks.addEditTask.AddEditTaskTest.kt:175</ID>
+    <ID>NoConsecutiveBlankLines:work.racka.reluct.common.features.tasks.completedTasks.CompletedTasksTest.kt:123</ID>
+    <ID>NoConsecutiveBlankLines:work.racka.reluct.common.features.tasks.pendingTasks.PendingTasksTest.kt:128</ID>
+    <ID>NoEmptyFirstLineInMethodBlock:work.racka.reluct.common.features.tasks.statistics.TasksStatisticsTest.kt:26</ID>
+    <ID>NoEmptyFirstLineInMethodBlock:work.racka.reluct.common.features.tasks.taskDetails.TaskDetailsTest.kt:26</ID>
+    <ID>NoUnusedImports:detekt.gradle.kts:3</ID>
+    <ID>NoUnusedImports:quality.DetektSetup.kt:12</ID>
+    <ID>NoUnusedImports:quality.DetektSetup.kt:13</ID>
+    <ID>NoUnusedImports:quality.DetektSetup.kt:16</ID>
+    <ID>NoUnusedImports:quality.DetektSetup.kt:17</ID>
+    <ID>NoUnusedImports:quality.DetektSetup.kt:3</ID>
+    <ID>NoUnusedImports:quality.DetektSetup.kt:4</ID>
+    <ID>NoUnusedImports:quality.DetektSetup.kt:5</ID>
+    <ID>NoUnusedImports:quality.DetektSetup.kt:9</ID>
+    <ID>ReturnCount:LazyList.kt$LazyListSnapperLayoutInfo$override fun determineTargetIndex( velocity: Float, decayAnimationSpec: DecayAnimationSpec&lt;Float&gt;, maximumFlingDistance: Float, ): Int</ID>
+    <ID>ReturnCount:LazyList.kt$LazyListSnapperLayoutInfo$override fun distanceToIndexSnap(index: Int): Int</ID>
+    <ID>ReturnCount:SnapperFlingBehavior.kt$SnapperFlingBehavior$override suspend fun ScrollScope.performFling( initialVelocity: Float ): Float</ID>
+    <ID>ReturnCount:SnapperFlingBehavior.kt$SnapperFlingBehavior$private fun consumeVelocityIfNotAtScrollEdge(velocity: Float): Float</ID>
+    <ID>ReturnCount:SnapperFlingBehavior.kt$SnapperFlingBehavior$private suspend fun ScrollScope.flingToIndex( index: Int, initialVelocity: Float, ): Float</ID>
+    <ID>UnnecessaryAbstractClass:SnapperFlingBehavior.kt$SnapperLayoutInfo$SnapperLayoutInfo</ID>
+    <ID>UnusedPrivateMember:ActiveGoalsComponent.kt$ActiveGoalsComponent$private val onAddGoal: (defaultGoalIndex: Int?) -&gt; Unit</ID>
+    <ID>UnusedPrivateMember:ActiveGoalsComponent.kt$ActiveGoalsComponent$private val onExit: () -&gt; Unit</ID>
+    <ID>UnusedPrivateMember:ActiveGoalsComponent.kt$ActiveGoalsComponent$private val onShowDetails: (goalId: String) -&gt; Unit</ID>
+    <ID>UnusedPrivateMember:AddEditGoalComponent.kt$AddEditGoalComponent$private val defaultGoalIndex: Int?</ID>
+    <ID>UnusedPrivateMember:AddEditGoalComponent.kt$AddEditGoalComponent$private val goalId: String?</ID>
+    <ID>UnusedPrivateMember:AddEditGoalComponent.kt$AddEditGoalComponent$private val onClose: () -&gt; Unit</ID>
+    <ID>UnusedPrivateMember:AddEditTaskComponent.kt$AddEditTaskComponent$private val onClose: () -&gt; Unit</ID>
+    <ID>UnusedPrivateMember:AddEditTaskComponent.kt$AddEditTaskComponent$private val taskId: String?</ID>
+    <ID>UnusedPrivateMember:AppScreenTimeComponent.kt$AppScreenTimeComponent$private val isShowingAppStats: Value&lt;Boolean&gt;</ID>
+    <ID>UnusedPrivateMember:AppScreenTimeComponent.kt$AppScreenTimeComponent$private val onClose: () -&gt; Unit</ID>
+    <ID>UnusedPrivateMember:CompletedTasksComponent.kt$CompletedTasksComponent$private val onAddTask: () -&gt; Unit</ID>
+    <ID>UnusedPrivateMember:CompletedTasksComponent.kt$CompletedTasksComponent$private val onExit: () -&gt; Unit</ID>
+    <ID>UnusedPrivateMember:CompletedTasksComponent.kt$CompletedTasksComponent$private val onShowDetails: (taskId: String) -&gt; Unit</ID>
+    <ID>UnusedPrivateMember:GoalDetailsComponent.kt$GoalDetailsComponent$private val goalId: String?</ID>
+    <ID>UnusedPrivateMember:GoalDetailsComponent.kt$GoalDetailsComponent$private val onClose: () -&gt; Unit</ID>
+    <ID>UnusedPrivateMember:GoalDetailsComponent.kt$GoalDetailsComponent$private val onEdit: (goalId: String) -&gt; Unit</ID>
+    <ID>UnusedPrivateMember:InactiveGoalsComponent.kt$InactiveGoalsComponent$private val onAddGoal: (defaultGoalIndex: Int?) -&gt; Unit</ID>
+    <ID>UnusedPrivateMember:InactiveGoalsComponent.kt$InactiveGoalsComponent$private val onGoBack: () -&gt; Unit</ID>
+    <ID>UnusedPrivateMember:InactiveGoalsComponent.kt$InactiveGoalsComponent$private val onShowDetails: (goalId: String) -&gt; Unit</ID>
+    <ID>UnusedPrivateMember:PendingTasksComponent.kt$PendingTasksComponent$private val onAddTask: () -&gt; Unit</ID>
+    <ID>UnusedPrivateMember:PendingTasksComponent.kt$PendingTasksComponent$private val onExit: () -&gt; Unit</ID>
+    <ID>UnusedPrivateMember:PendingTasksComponent.kt$PendingTasksComponent$private val onShowDetails: (taskId: String) -&gt; Unit</ID>
+    <ID>UnusedPrivateMember:ReluctNavigationRail.kt$private const val NAV_RAIL_ELEVATION = 2.0</ID>
+    <ID>UnusedPrivateMember:ScreenTimeStatsLimitsComponent.kt$ScreenTimeStatsLimitsComponent$private val isShowingAppStats: Value&lt;Boolean&gt;</ID>
+    <ID>UnusedPrivateMember:ScreenTimeStatsLimitsComponent.kt$ScreenTimeStatsLimitsComponent$private val onExit: () -&gt; Unit</ID>
+    <ID>UnusedPrivateMember:ScreenTimeStatsLimitsComponent.kt$ScreenTimeStatsLimitsComponent$private val onShowAppStats: (packageName: String?) -&gt; Unit</ID>
+    <ID>UnusedPrivateMember:SearchTasksComponent.kt$SearchTasksComponent$private val onExit: () -&gt; Unit</ID>
+    <ID>UnusedPrivateMember:SearchTasksComponent.kt$SearchTasksComponent$private val onShowDetails: (taskId: String) -&gt; Unit</ID>
+    <ID>UnusedPrivateMember:TaskDetailsComponent.kt$TaskDetailsComponent$private val onClose: () -&gt; Unit</ID>
+    <ID>UnusedPrivateMember:TaskDetailsComponent.kt$TaskDetailsComponent$private val onEdit: (taskId: String?) -&gt; Unit</ID>
+    <ID>UnusedPrivateMember:TaskDetailsComponent.kt$TaskDetailsComponent$private val taskId: String?</ID>
+    <ID>UnusedPrivateMember:TasksStatisticsComponent.kt$TasksStatisticsComponent$private val onExit: () -&gt; Unit</ID>
+    <ID>UnusedPrivateMember:TasksStatisticsComponent.kt$TasksStatisticsComponent$private val onShowDetails: (taskId: String) -&gt; Unit</ID>
+    <ID>UnusedPrivateMember:VersionCatalogExtensions.kt$private fun VersionCatalog.getBundle(bundle: String)</ID>
+    <ID>UnusedPrivateMember:build.gradle.kts$val androidMain by getting</ID>
+    <ID>UnusedPrivateMember:build.gradle.kts$val androidMain by getting { dependencies { // Compose implementation(libs.bundles.compose.core) api(libs.moko.resources.compose) implementation(libs.lottie.compose) // Palette implementation(libs.palette) } }</ID>
+    <ID>UnusedPrivateMember:build.gradle.kts$val androidMain by getting { dependencies { // Compose implementation(libs.compose.material.icons.core) implementation(libs.compose.material.icons.extended) implementation(libs.navigation.compose) } }</ID>
+    <ID>UnusedPrivateMember:build.gradle.kts$val androidMain by getting { dependencies { // Compose implementation(libs.compose.ui) implementation(libs.compose.material.icons.core) implementation(libs.compose.material.icons.extended) implementation(libs.compose.foundation) implementation(libs.compose.material3) } }</ID>
+    <ID>UnusedPrivateMember:build.gradle.kts$val androidMain by getting { dependencies { // Defined as API deps - Don't add again in modules that use this module api(libs.koin.android) api(libs.viewmodel.core) api(libs.viewmodel.compose) } }</ID>
+    <ID>UnusedPrivateMember:build.gradle.kts$val androidMain by getting { dependencies { implementation(libs.compose.ui) implementation(libs.compose.animation) implementation(libs.compose.material) implementation(libs.compose.material3) implementation(libs.compose.preview) implementation(libs.compose.foundation) implementation(libs.compose.foundation.layout) } }</ID>
+    <ID>UnusedPrivateMember:build.gradle.kts$val androidMain by getting { dependencies { implementation(libs.core.ktx) implementation(libs.appCompat) implementation(libs.revenueCat.android) // RevenueCat - Billing implementation(libs.timber.log) } }</ID>
+    <ID>UnusedPrivateMember:build.gradle.kts$val androidMain by getting { dependencies { implementation(libs.core.ktx) implementation(libs.koin.android) } }</ID>
+    <ID>UnusedPrivateMember:build.gradle.kts$val androidMain by getting { dependencies { implementation(libs.core.ktx) implementation(libs.savedState) // Compose implementation(project(":compose-common:components")) implementation(project(":compose-common:theme")) implementation(libs.bundles.compose.core) implementation(libs.viewmodel.compose) implementation(libs.koin.android.workmanager) implementation(libs.androidx.workmanager) } }</ID>
+    <ID>UnusedPrivateMember:build.gradle.kts$val androidMain by getting { dependencies { implementation(libs.core.ktx) } }</ID>
+    <ID>UnusedPrivateMember:build.gradle.kts$val androidMain by getting { dependencies { implementation(libs.koin.android) implementation(libs.core.ktx) implementation(libs.coroutines.playservices) implementation(project.dependencies.platform(libs.firebase.bom)) implementation(libs.firebase.auth) implementation(libs.firebase.analytics) } }</ID>
+    <ID>UnusedPrivateMember:build.gradle.kts$val androidMain by getting { dependencies { implementation(libs.koin.android) } }</ID>
+    <ID>UnusedPrivateMember:build.gradle.kts$val androidMain by getting { dependencies { implementation(libs.palette) implementation(libs.timber.log) implementation(libs.koin.android) } }</ID>
+    <ID>UnusedPrivateMember:build.gradle.kts$val androidMain by getting { dependencies { implementation(libs.sqldelight.android.driver) } }</ID>
+    <ID>UnusedPrivateMember:build.gradle.kts$val androidMain by getting { dependencies { } }</ID>
+    <ID>UnusedPrivateMember:build.gradle.kts$val androidTest by getting</ID>
+    <ID>UnusedPrivateMember:build.gradle.kts$val androidTest by getting { dependencies { implementation(libs.sqldelight.sqlite.driver) } }</ID>
+    <ID>UnusedPrivateMember:build.gradle.kts$val commonMain by getting { dependencies { // Dependency Modules implementation(project(":common:model")) api(project(":compose-common:charts")) implementation(project(":compose-common:date-time-picker")) implementation(project(":compose-common:pager")) implementation(project(":compose-common:theme")) implementation(compose.runtime) implementation(compose.preview) implementation(compose.ui) implementation(compose.uiTooling) implementation(compose.foundation) implementation(compose.animation) implementation(compose.animationGraphics) implementation(compose.materialIconsExtended) implementation(compose.material) @OptIn(ExperimentalComposeLibrary::class) implementation(compose.material3) api(libs.moko.resources.core) implementation(libs.kotlinx.collections.immutable) implementation(libs.kotlinx.date.time) implementation(libs.kermit.log) } }</ID>
+    <ID>UnusedPrivateMember:build.gradle.kts$val commonMain by getting { dependencies { implementation(compose.runtime) implementation(compose.ui) implementation(compose.foundation) implementation(compose.materialIconsExtended) @OptIn(ExperimentalComposeLibrary::class) implementation(compose.material3) } }</ID>
+    <ID>UnusedPrivateMember:build.gradle.kts$val commonMain by getting { dependencies { implementation(compose.runtime) implementation(compose.ui) implementation(compose.uiTooling) implementation(compose.foundation) implementation(compose.animation) @OptIn(ExperimentalComposeLibrary::class) implementation(compose.material3) implementation(compose.preview) implementation(libs.kotlinx.collections.immutable) } }</ID>
+    <ID>UnusedPrivateMember:build.gradle.kts$val commonMain by getting { dependencies { implementation(compose.runtime) implementation(compose.ui) implementation(compose.uiTooling) implementation(compose.foundation) implementation(compose.animation) implementation(compose.material) @OptIn(ExperimentalComposeLibrary::class) implementation(compose.material3) implementation(compose.preview) implementation(libs.kotlinx.collections.immutable) } }</ID>
+    <ID>UnusedPrivateMember:build.gradle.kts$val commonMain by getting { dependencies { implementation(libs.koin.core) implementation(libs.coroutines.core) implementation(libs.decompose.core) } }</ID>
+    <ID>UnusedPrivateMember:build.gradle.kts$val commonMain by getting { dependencies { implementation(libs.kotlinx.serialization.core) api(libs.kotlinx.date.time) api(libs.kotlinx.collections.immutable) } }</ID>
+    <ID>UnusedPrivateMember:build.gradle.kts$val commonMain by getting { dependencies { implementation(libs.kotlinx.serialization.core) implementation(libs.kotlinx.date.time) implementation(libs.coroutines.core) implementation(libs.koin.core) implementation(libs.kermit.log) implementation(libs.multiplatform.settings.core) implementation(libs.multiplatform.settings.noArg) } }</ID>
+    <ID>UnusedPrivateMember:build.gradle.kts$val commonMain by getting { dependencies { implementation(project(":common:app-usage-stats")) api(project(":common:billing")) // We have important classes to expose implementation(project(":common:core-navigation")) implementation(project(":common:model")) implementation(project(":common:persistence:database")) implementation(project(":common:persistence:settings")) implementation(project(":common:system-services")) implementation(libs.coroutines.core) implementation(libs.koin.core) implementation(libs.kermit.log) } }</ID>
+    <ID>UnusedPrivateMember:build.gradle.kts$val commonMain by getting { dependencies { implementation(project(":common:app-usage-stats")) implementation(project(":common:authentication")) implementation(project(":common:billing")) implementation(project(":common:domain")) implementation(project(":common:features:dashboard")) implementation(project(":common:features:goals")) implementation(project(":common:features:onboarding")) implementation(project(":common:features:screen-time")) implementation(project(":common:features:settings")) implementation(project(":common:features:tasks")) implementation(project(":common:model")) implementation(project(":common:persistence:database")) implementation(project(":common:persistence:settings")) implementation(project(":common:system-services")) implementation(libs.koin.core) } }</ID>
+    <ID>UnusedPrivateMember:build.gradle.kts$val commonMain by getting { dependencies { implementation(project(":common:core-navigation")) implementation(project(":common:domain")) implementation(project(":common:model")) implementation(project(":common:mvvm-core")) implementation(project(":common:persistence:settings")) implementation(project(":common:system-services")) implementation(compose.runtime) implementation(libs.coroutines.core) implementation(libs.koin.core) implementation(libs.kermit.log) } }</ID>
+    <ID>UnusedPrivateMember:build.gradle.kts$val commonMain by getting { dependencies { implementation(project(":common:domain")) implementation(project(":common:model")) implementation(project(":common:mvvm-core")) implementation(libs.coroutines.core) implementation(libs.koin.core) implementation(libs.kermit.log) } }</ID>
+    <ID>UnusedPrivateMember:build.gradle.kts$val commonMain by getting { dependencies { implementation(project(":common:domain")) implementation(project(":common:model")) implementation(project(":common:mvvm-core")) implementation(project(":common:persistence:settings")) // Features imported implementation(project(":common:features:screen-time")) implementation(project(":common:features:tasks")) implementation(libs.coroutines.core) implementation(libs.koin.core) implementation(libs.kermit.log) } }</ID>
+    <ID>UnusedPrivateMember:build.gradle.kts$val commonMain by getting { dependencies { implementation(project(":common:domain")) implementation(project(":common:model")) implementation(project(":common:mvvm-core")) implementation(project(":common:persistence:settings")) implementation(libs.coroutines.core) implementation(libs.koin.core) implementation(libs.kermit.log) } }</ID>
+    <ID>UnusedPrivateMember:build.gradle.kts$val commonMain by getting { dependencies { implementation(project(":common:model")) implementation(libs.coroutines.core) implementation(libs.koin.core) implementation(libs.kermit.log) } }</ID>
+    <ID>UnusedPrivateMember:build.gradle.kts$val commonMain by getting { dependencies { implementation(project(":common:model")) implementation(libs.koin.core) implementation(libs.kermit.log) implementation(libs.kotlinx.serialization.core) implementation(libs.kotlinx.date.time) implementation(libs.coroutines.core) } }</ID>
+    <ID>UnusedPrivateMember:build.gradle.kts$val commonMain by getting { dependencies { implementation(project(":common:model")) implementation(libs.koin.core) implementation(libs.kermit.log) implementation(libs.sqldelight.runtime) implementation(libs.sqldelight.coroutines) } }</ID>
+    <ID>UnusedPrivateMember:build.gradle.kts$val commonMain by getting { dependencies { implementation(project(":common:model")) implementation(libs.koin.core) implementation(libs.kermit.log) } }</ID>
+    <ID>UnusedPrivateMember:build.gradle.kts$val commonMain by getting { dependencies { implementation(project(":common:model")) implementation(project(":common:domain")) implementation(project(":common:mvvm-core")) implementation(libs.coroutines.core) implementation(libs.koin.core) implementation(libs.kermit.log) } }</ID>
+    <ID>UnusedPrivateMember:build.gradle.kts$val commonMain by getting { dependencies { implementation(project(":common:model")) implementation(project(":common:domain")) implementation(project(":common:mvvm-core")) implementation(project(":common:persistence:settings")) // Features imported implementation(project(":common:features:screen-time")) implementation(libs.coroutines.core) implementation(libs.koin.core) } }</ID>
+    <ID>UnusedPrivateMember:build.gradle.kts$val commonMain by getting { dependencies { implementation(project(":common:model")) implementation(project(":common:persistence:settings")) implementation(libs.coroutines.core) implementation(libs.koin.core) implementation(libs.kermit.log) } }</ID>
+    <ID>UnusedPrivateMember:build.gradle.kts$val commonMain by getting { dependencies { implementation(project(":common:model")) implementation(project(":compose-common:pager")) implementation(compose.runtime) implementation(compose.ui) implementation(compose.uiTooling) implementation(compose.foundation) implementation(compose.animation) implementation(compose.material) implementation(compose.materialIconsExtended) @OptIn(ExperimentalComposeLibrary::class) implementation(compose.material3) implementation(compose.preview) implementation(libs.kotlinx.collections.immutable) implementation(libs.kotlinx.date.time) } }</ID>
+    <ID>UnusedPrivateMember:build.gradle.kts$val commonMain by getting { dependencies { } }</ID>
+    <ID>UnusedPrivateMember:build.gradle.kts$val commonTest by getting</ID>
+    <ID>UnusedPrivateMember:build.gradle.kts$val commonTest by getting { dependencies { implementation(libs.koin.test) implementation(kotlin("test-common")) implementation(kotlin("test-annotations-common")) } }</ID>
+    <ID>UnusedPrivateMember:build.gradle.kts$val commonTest by getting { dependencies { implementation(libs.koin.test) implementation(libs.coroutines.test) implementation(kotlin("test-common")) implementation(kotlin("test-annotations-common")) } }</ID>
+    <ID>UnusedPrivateMember:build.gradle.kts$val commonTest by getting { dependencies { implementation(libs.koin.test) implementation(libs.coroutines.test) implementation(libs.turbine.test) implementation(kotlin("test-common")) implementation(kotlin("test-annotations-common")) } }</ID>
+    <ID>UnusedPrivateMember:build.gradle.kts$val commonTest by getting { dependencies { implementation(libs.kotlinx.date.time) implementation(libs.koin.test) implementation(kotlin("test-common")) implementation(kotlin("test-annotations-common")) } }</ID>
+    <ID>UnusedPrivateMember:build.gradle.kts$val commonTest by getting { dependencies { implementation(libs.kotlinx.date.time) implementation(libs.koin.test) implementation(libs.coroutines.test) implementation(libs.turbine.test) implementation(kotlin("test-common")) implementation(kotlin("test-annotations-common")) } }</ID>
+    <ID>UnusedPrivateMember:build.gradle.kts$val commonTest by getting { dependencies { implementation(libs.multiplatform.settings.test) implementation(libs.koin.test) implementation(libs.coroutines.test) implementation(libs.turbine.test) implementation(kotlin("test-common")) implementation(kotlin("test-annotations-common")) } }</ID>
+    <ID>UnusedPrivateMember:build.gradle.kts$val desktopMain by getting</ID>
+    <ID>UnusedPrivateMember:build.gradle.kts$val desktopMain by getting { dependencies { // Project modules implementation(project(":common:core-navigation")) implementation(project(":common:di-integration")) implementation(project(":common:features:dashboard")) implementation(project(":common:features:goals")) implementation(project(":common:features:onboarding")) implementation(project(":common:features:screen-time")) implementation(project(":common:features:settings")) implementation(project(":common:features:tasks")) implementation(project(":common:model")) implementation(project(":common:mvvm-core")) implementation(project(":compose-common:components")) implementation(project(":compose-common:theme")) // Compose implementation(compose.desktop.currentOs) implementation(compose.ui) @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class) implementation(compose.desktop.components.splitPane) @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class) implementation(compose.material3) implementation(compose.materialIconsExtended) implementation(compose.animation) implementation(compose.animationGraphics) // Navigation implementation(libs.decompose.core) implementation(libs.decompose.compose.jb) // Other Dependencies implementation(libs.kotlinx.collections.immutable) implementation(libs.kotlinx.date.time) implementation(libs.koin.core) implementation(libs.jna.platform) implementation(libs.kermit.log) } }</ID>
+    <ID>UnusedPrivateMember:build.gradle.kts$val desktopMain by getting { dependencies { api(libs.moko.resources.compose) } }</ID>
+    <ID>UnusedPrivateMember:build.gradle.kts$val desktopMain by getting { dependencies { implementation(compose.desktop.common) } }</ID>
+    <ID>UnusedPrivateMember:build.gradle.kts$val desktopMain by getting { dependencies { implementation(libs.decompose.core) } }</ID>
+    <ID>UnusedPrivateMember:build.gradle.kts$val desktopMain by getting { dependencies { implementation(libs.slf4j.simple) } }</ID>
+    <ID>UnusedPrivateMember:build.gradle.kts$val desktopMain by getting { dependencies { implementation(libs.sqldelight.sqlite.driver) implementation(libs.slf4j.simple) } }</ID>
+    <ID>UnusedPrivateMember:build.gradle.kts$val desktopMain by getting { dependencies { } }</ID>
+    <ID>UnusedPrivateMember:build.gradle.kts$val desktopMain by getting { dependencies {} }</ID>
+    <ID>UnusedPrivateMember:build.gradle.kts$val desktopTest by getting</ID>
+    <ID>UnusedPrivateMember:build.gradle.kts$val jsMain by getting { dependencies { } }</ID>
+    <ID>UnusedPrivateMember:build.gradle.kts$val jvmMain by getting</ID>
+    <ID>UnusedPrivateMember:build.gradle.kts$val jvmTest by getting</ID>
+    <ID>Wrapping:quality.DetektSetup.kt:101</ID>
+    <ID>Wrapping:quality.DetektSetup.kt:99</ID>
+    <ID>Wrapping:quality.SetDetekt.kt:80</ID>
+    <ID>Wrapping:quality.SetDetekt.kt:82</ID>
+  </CurrentIssues>
+</SmellBaseline>
