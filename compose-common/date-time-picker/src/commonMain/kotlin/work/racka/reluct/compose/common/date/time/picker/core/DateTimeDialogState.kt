@@ -41,9 +41,12 @@ class DateTimeDialogState(
         /**
          * The default [saver] implementation for [DateTimeDialogState].
          */
-        fun saver(): Saver<DateTimeDialogState, *> = Saver(
+        fun saver(
+            dialogProperties: DateTimeDialogProperties = DateTimeDialogProperties(),
+            buttonText: DateTimeDialogButtonText = DateTimeDialogButtonText()
+        ): Saver<DateTimeDialogState, *> = Saver(
             save = { it.showing },
-            restore = { DateTimeDialogState(it) }
+            restore = { DateTimeDialogState(it, dialogProperties, buttonText) }
         )
     }
 }
@@ -59,7 +62,11 @@ fun rememberDateTimeDialogState(
     dialogProperties: DateTimeDialogProperties = DateTimeDialogProperties(),
     buttonText: DateTimeDialogButtonText = DateTimeDialogButtonText()
 ): DateTimeDialogState {
-    return rememberSaveable(saver = DateTimeDialogState.saver()) {
+    return rememberSaveable(
+        dialogProperties,
+        buttonText,
+        saver = DateTimeDialogState.saver(dialogProperties, buttonText)
+    ) {
         DateTimeDialogState(initialValue, dialogProperties, buttonText)
     }
 }

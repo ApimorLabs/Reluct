@@ -33,6 +33,7 @@ import androidx.compose.ui.input.pointer.PointerInputScope
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.input.pointer.positionChange
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.datetime.LocalDateTime
@@ -62,12 +63,14 @@ private data class SelectedOffset(
 @Composable
 fun Timepicker(
     modifier: Modifier = Modifier,
-    dialogState: DateTimeDialogState = rememberDateTimeDialogState(),
+    dialogState: DateTimeDialogState = rememberDateTimeDialogState(
+        dialogProperties = DateTimeDialogProperties(DpSize(600.dp, 400.dp))
+    ),
     initialTime: LocalDateTime = currentLocalDateTime(),
     title: String = "SELECT TIME",
     colors: TimePickerColors = TimePickerDefaults.colors(),
     waitForPositiveButton: Boolean = true,
-    showExpanded: Boolean = false,
+    showExpanded: Boolean = isLargeDevice(),
     timeRange: ClosedRange<LocalDateTime> = LocalDateTimeRange.MIN..LocalDateTimeRange.MAX,
     is24HourClock: Boolean = false,
     onTimeChange: (LocalDateTime) -> Unit = {},
@@ -92,7 +95,8 @@ fun Timepicker(
         containerColor = colors.dialogBackgroundColor,
         shape = dialogState.dialogProperties.shape,
         positiveButtonText = dialogState.buttonText.positiveText,
-        negativeButtonText = dialogState.buttonText.negativeText
+        negativeButtonText = dialogState.buttonText.negativeText,
+        properties = dialogState.dialogProperties
     ) {
         if (showExpanded) {
             TimePickerExpandedImpl(title = title, state = timePickerState)
@@ -544,7 +548,7 @@ private fun ClockLayout(
     onAnchorChange: (Int) -> Unit = {},
     onLift: () -> Unit = {},
 ) {
-    BoxWithConstraints {
+    BoxWithConstraints(contentAlignment = Alignment.Center) {
         val faceDiameter = min(maxHeight.value, maxWidth.value).coerceAtMost(256f).dp
         val faceDiameterPx = with(LocalDensity.current) { faceDiameter.toPx() }
 
