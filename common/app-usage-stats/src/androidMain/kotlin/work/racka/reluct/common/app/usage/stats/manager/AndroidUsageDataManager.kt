@@ -10,7 +10,7 @@ import work.racka.reluct.common.app.usage.stats.model.DataAppUsageInfo
 import work.racka.reluct.common.app.usage.stats.model.DataUsageStats
 import work.racka.reluct.common.app.usage.stats.util.sortByHighestForegroundTime
 
-internal class UsageDataManagerImpl(
+internal class AndroidUsageDataManager(
     private val context: Context,
     private val usageStats: UsageStatsManager
 ) : UsageDataManager {

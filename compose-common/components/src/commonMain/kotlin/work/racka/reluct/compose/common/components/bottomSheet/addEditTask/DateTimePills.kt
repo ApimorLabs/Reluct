@@ -16,6 +16,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.unit.DpSize
+import androidx.compose.ui.unit.dp
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
@@ -49,7 +51,10 @@ internal fun DateTimePills(
         )
     )
     val timeDialogState = rememberDateTimeDialogState(
-        dialogProperties = DateTimeDialogProperties(shape = dialogShape),
+        dialogProperties = DateTimeDialogProperties(
+            desktopWindowSize = DpSize(600.dp, 400.dp),
+            shape = dialogShape
+        ),
         buttonText = DateTimeDialogButtonText(
             positiveText = stringResource(SharedRes.strings.positive_dialog_button),
             negativeText = stringResource(SharedRes.strings.negative_dialog_button)

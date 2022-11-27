@@ -109,7 +109,7 @@ internal fun DialogContentHolder(
 
 @Stable
 data class DateTimeDialogProperties(
-    val desktopWindowSize: DpSize = DpSize(400.dp, 500.dp),
+    val desktopWindowSize: DpSize = DpSize(600.dp, 550.dp),
     val dismissOnBackPress: Boolean = true,
     val dismissOnClickOutside: Boolean = true,
     val shape: Shape = RoundedCornerShape(10.dp)

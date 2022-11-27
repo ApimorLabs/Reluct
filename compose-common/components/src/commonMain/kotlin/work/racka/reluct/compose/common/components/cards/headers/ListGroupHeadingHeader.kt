@@ -1,8 +1,6 @@
 package work.racka.reluct.compose.common.components.cards.headers
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -23,6 +21,8 @@ import work.racka.reluct.compose.common.theme.Dimens
 fun ListGroupHeadingHeader(
     text: String,
     modifier: Modifier = Modifier,
+    leadingIcon: @Composable RowScope.() -> Unit = {},
+    trailingIcon: @Composable RowScope.() -> Unit = {},
     textStyle: TextStyle = MaterialTheme.typography.headlineSmall,
     textAlign: TextAlign = TextAlign.Start,
     containerColor: Color = MaterialTheme.colorScheme.background,
@@ -37,16 +37,26 @@ fun ListGroupHeadingHeader(
         tonalElevation = tonalElevation
     ) {
         Box(contentAlignment = Alignment.Center) {
-            Text(
-                modifier = modifier
-                    .fillMaxWidth()
-                    .padding(Dimens.SmallPadding.size),
-                text = text,
-                style = textStyle,
-                textAlign = textAlign,
-                overflow = TextOverflow.Ellipsis,
-                color = contentColor
-            )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                leadingIcon()
+
+                Text(
+                    modifier = modifier
+                        .weight(1f)
+                        .padding(Dimens.SmallPadding.size),
+                    text = text,
+                    style = textStyle,
+                    textAlign = textAlign,
+                    overflow = TextOverflow.Ellipsis,
+                    color = contentColor
+                )
+
+                trailingIcon()
+            }
         }
     }
 }

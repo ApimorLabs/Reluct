@@ -1,10 +1,6 @@
 package work.racka.reluct.ui.navigationComponents.graphs.goals
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.router.stack.ChildStack
@@ -16,7 +12,6 @@ class DefaultGoalsComponent(
     componentContext: ComponentContext,
     initialMainStack: () -> List<GoalsConfig>,
     initialItemsStack: () -> List<GoalsExtrasConfig>,
-    onExit: () -> Unit
 ) : GoalsComponent, ComponentContext by componentContext {
 
     private val itemsChildRouter = GoalItemsComponentRouter(
@@ -29,7 +24,6 @@ class DefaultGoalsComponent(
         initialStack = initialMainStack(),
         onShowDetails = itemsChildRouter::openDetails,
         onAddGoal = { itemsChildRouter.openAddEdit(defaultGoalIndex = it, goalId = null) },
-        onExit = onExit
     )
 
     override val mainChildStack: Value<ChildStack<GoalsConfig, GoalsComponent.MainChild>> =
@@ -41,8 +35,15 @@ class DefaultGoalsComponent(
     // Render the combined components here.
     @Composable
     override fun Render(modifier: Modifier) {
-        Box(modifier = modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-            Text(text = "Goals Component")
-        }
+        GoalsRootChildren(
+            mainChildStack = mainChildStack,
+            itemsChildStack = itemsChildStack,
+            onUpdateConfig = { config ->
+                when (config) {
+                    is GoalsConfig.Active -> mainChildRouter.openActiveGoals()
+                    is GoalsConfig.Inactive -> mainChildRouter.openInactiveGoals()
+                }
+            }
+        )
     }
 }

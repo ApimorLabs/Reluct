@@ -9,4 +9,4 @@ import androidx.compose.ui.platform.LocalConfiguration
 internal actual fun isSmallDevice(): Boolean = LocalConfiguration.current.screenWidthDp <= 360
 
 @Composable
-internal actual fun isLargeDevice(): Boolean = LocalConfiguration.current.screenWidthDp <= 600
+internal actual fun isLargeDevice(): Boolean = LocalConfiguration.current.screenWidthDp >= 600
