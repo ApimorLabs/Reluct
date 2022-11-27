@@ -60,43 +60,41 @@ jobs:
 
       - if: ${{ matrix.config.target == 'Android' }}
         name: Sign Android AAB
-        uses: r0adkll/sign-android-release@v1
+        uses: ilharp/sign-android-release@v1
         id: sign_aab
         with:
-          releaseDirectory: android/app/build/outputs/bundle/release
-          signingKeyBase64: ${{ secrets.KEYSTORE_FILE }}
-          alias: ${{ secrets.KEY_ALIAS }}
+          releaseDir: android/app/build/outputs/bundle/release
+          signingKey: ${{ secrets.KEYSTORE_FILE }}
+          keyAlias: ${{ secrets.KEY_ALIAS }}
           keyStorePassword: ${{ secrets.KEYSTORE_PASSWORD }}
           keyPassword: ${{ secrets.KEY_PASSWORD }}
-        env:
-          BUILD_TOOLS_VERSION: "33.0.2"
+          buildToolsVersion: 33.0.0
 
       - if: ${{ matrix.config.target == 'Android' }}
         name: Sign Android APK
-        uses: r0adkll/sign-android-release@v1
+        uses: ilharp/sign-android-release@v1
         id: sign_apk
         with:
-          releaseDirectory: android/app/build/outputs/apk/release
-          signingKeyBase64: ${{ secrets.KEYSTORE_FILE }}
-          alias: ${{ secrets.KEY_ALIAS }}
+          releaseDir: android/app/build/outputs/apk/release
+          signingKey: ${{ secrets.KEYSTORE_FILE }}
+          keyAlias: ${{ secrets.KEY_ALIAS }}
           keyStorePassword: ${{ secrets.KEYSTORE_PASSWORD }}
           keyPassword: ${{ secrets.KEY_PASSWORD }}
-        env:
-          BUILD_TOOLS_VERSION: "33.0.2"
+          buildToolsVersion: 33.0.0
 
       - if: ${{ matrix.config.target == 'Android' }}
         name: Upload Android AAB
         uses: actions/upload-artifact@master
         with:
           name: android-release.aab
-          path: ${{steps.sign_aab.outputs.signedReleaseFile}}
+          path: ${{steps.sign_aab.outputs.signedFiles}}
 
       - if: ${{ matrix.config.target == 'Android' }}
         name: Upload Android APK
         uses: actions/upload-artifact@master
         with:
           name: android-release.apk
-          path: ${{steps.sign_apk.outputs.signedReleaseFile}}
+          path: ${{steps.sign_apk.outputs.signedFiles}}
 
       - if: ${{ matrix.config.target == 'Android' }}
         name: Upload Android Debug APK
