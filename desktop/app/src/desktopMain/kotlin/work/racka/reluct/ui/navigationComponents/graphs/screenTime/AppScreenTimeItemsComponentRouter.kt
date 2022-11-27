@@ -35,7 +35,7 @@ class AppScreenTimeItemsComponentRouter(
         }
 
     fun openAppStats(packageName: String?) = navigation.navigate { stack ->
-        stack.dropWhile { it is AppScreenTimeConfig.App }
+        stack.dropLastWhile { it is AppScreenTimeConfig.App }
             .plus(AppScreenTimeConfig.App(packageName = packageName))
     }
 }

@@ -59,12 +59,12 @@ class GoalItemsComponentRouter(
         )
 
     fun openAddEdit(goalId: String?, defaultGoalIndex: Int?) = navigation.navigate { stack ->
-        stack.dropWhile { it is GoalsExtrasConfig.AddEdit }
+        stack.dropLastWhile { it is GoalsExtrasConfig.AddEdit }
             .plus(GoalsExtrasConfig.AddEdit(goalId = goalId, defaultGoalIndex = defaultGoalIndex))
     }
 
     fun openDetails(goalId: String?) = navigation.navigate { stack ->
-        stack.dropWhile { it is GoalsExtrasConfig.Details }
+        stack.dropLastWhile { it is GoalsExtrasConfig.Details }
             .plus(GoalsExtrasConfig.Details(goalId = goalId))
     }
 }
