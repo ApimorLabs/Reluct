@@ -42,7 +42,7 @@ jobs:
         uses: timheuer/base64-to-file@v1.2
         id: service_account_json_file
         with:
-          fileName: 'google_services.json'
+          fileName: 'google-services.json'
           fileDir: './android/app/'
           encodedString: ${{ secrets.GOOGLE_SERVICES }}
 
