@@ -1,5 +1,7 @@
 # ⌛ Reluct
 
+![Code Checks](https://github.com/ReluctApp/Reluct/actions/workflows/code-check-pipeline.yml/badge.svg) ![Build Pipeline](https://github.com/ReluctApp/Reluct/actions/workflows/ci-cd-pipeline.yml/badge.svg)
+
 ![](https://imgur.com/z4lc8oX)
 
 <a href="https://twitter.com/rackadev" target="_blank">
