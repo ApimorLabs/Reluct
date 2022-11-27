@@ -159,7 +159,9 @@ internal fun ActiveGoalsUI(
         NewGoalDialog(
             openDialog = showNewGoalDialog,
             onClose = { showNewGoalDialog.value = false },
-            onAddGoal = onAddGoal
+            onAddGoal = { index ->
+                onAddGoal(index)
+            }
         )
     }
 }
@@ -185,7 +187,8 @@ internal fun NewGoalDialog(
     ) {
         NewGoalSheet(
             modifier = Modifier.height(500.dp),
-            onAddGoal = onAddGoal
+            onAddGoal = onAddGoal,
+            onClose = onClose
         )
     }
 }

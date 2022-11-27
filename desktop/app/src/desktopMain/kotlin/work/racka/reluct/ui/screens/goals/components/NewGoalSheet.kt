@@ -8,9 +8,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
+import androidx.compose.material.icons.rounded.Close
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -31,6 +30,7 @@ import work.racka.reluct.compose.common.theme.Shapes
 @Composable
 internal fun NewGoalSheet(
     onAddGoal: (defaultGoalIndex: Int?) -> Unit,
+    onClose: () -> Unit,
     modifier: Modifier = Modifier,
     tonalElevation: Dp = 6.dp,
 ) {
@@ -52,7 +52,12 @@ internal fun NewGoalSheet(
                     text = stringResource(SharedRes.strings.new_goal_text),
                     contentColor = MaterialTheme.colorScheme.onSurface,
                     containerColor = MaterialTheme.colorScheme.surface,
-                    textAlign = TextAlign.Center
+                    textAlign = TextAlign.Center,
+                    leadingIcon = {
+                        IconButton(onClick = onClose) {
+                            Icon(Icons.Rounded.Close, "Close")
+                        }
+                    }
                 )
             }
 
@@ -62,7 +67,10 @@ internal fun NewGoalSheet(
                     shape = Shapes.large,
                     buttonText = stringResource(SharedRes.strings.add_your_goal_text),
                     icon = Icons.Rounded.Add,
-                    onButtonClicked = { onAddGoal(null) }
+                    onButtonClicked = {
+                        onClose()
+                        onAddGoal(null)
+                    }
                 )
             }
 
@@ -80,7 +88,7 @@ internal fun NewGoalSheet(
             // NOTE: Using the LazyList itemsIndexed won't give you the correct index from the list
             DefaultGoals.predefined().forEachIndexed { index, goal ->
                 item {
-                    GoalEntry(goal = goal, onEntryClick = { onAddGoal(index) })
+                    GoalEntry(goal = goal, onEntryClick = { onClose(); onAddGoal(index); })
                 }
             }
 
