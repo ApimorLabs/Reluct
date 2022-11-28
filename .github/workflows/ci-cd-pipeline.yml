@@ -7,7 +7,7 @@ on:
     types: [ opened, synchronize, reopened ]
     branches:
       - deploy
-      
+
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
@@ -20,7 +20,8 @@ jobs:
         config: [
           { target: Android, os: ubuntu-latest, tasks: ":android:app:assembleDebug :android:app:assembleRelease :android:app:bundleRelease", continueOnError: false },
           # { target: ios, os: macos-12, tasks: "iosX64Test iosSimulatorArm64Test", continueOnError: false },
-          { target: Desktop, os: windows-latest, tasks: ":desktop:app:packageDistributionForCurrentOS", continueOnError: false },
+          { target: Windows, os: windows-latest, tasks: ":desktop:app:packageReleaseMsi", continueOnError: false },
+          { target: Linux, os: ubuntu-latest, tasks: ":desktop:app:packageReleaseDeb", continueOnError: false },
         ]
     runs-on: ${{ matrix.config.os }}
     name: Build ${{ matrix.config.target }}
@@ -103,10 +104,24 @@ jobs:
           name: android-debug.apk
           path: ./android/app/build/outputs/apk/debug/app-debug.apk
 
-      - if: ${{ matrix.config.target == 'Android' }}
-        name: Upload Mapping File
+      - if: ${{ matrix.config.target == 'Windows' }}
+        name: Upload Windows MSI Package
         uses: actions/upload-artifact@master
         with:
-          name: android-mapping.txt
-          path:
-            android/app/build/outputs/mapping/release/mapping.txt
+          name: windows-x64.msi
+          path: ./desktop/app/build/compose/binaries/main-release/msi/*.msi
+
+      - if: ${{ matrix.config.target == 'Linux' }}
+        name: Upload Linux DEB Package
+        uses: actions/upload-artifact@master
+        with:
+          name: linux-x64.deb
+          path: ./desktop/app/build/compose/binaries/main-release/deb/*.deb
+
+#      - if: ${{ matrix.config.target == 'Android' }}
+#        name: Upload Mapping File
+#        uses: actions/upload-artifact@master
+#        with:
+#          name: android-mapping.txt
+#          path:
+#            android/app/build/outputs/mapping/release/mapping.txt
