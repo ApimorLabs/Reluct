@@ -2,13 +2,41 @@
     public static void main(java.lang.String[]);
 }
 
+# Skia
+-keep class org.jetbrains.skia.** { *; }
+-keep class org.jetbrains.skiko.** { *; }
+
+# Coroutines
 -dontwarn kotlinx.coroutines.debug.*
 
+-keep class work.racka.reluct.common.model.util.** { *; }
+-keep class work.racka.reluct.compose.common.** { *; }
 -keep class kotlin.** { *; }
 -keep class kotlinx.** { *; }
 -keep class kotlinx.coroutines.** { *; }
 -keep class org.jetbrains.skia.** { *; }
 -keep class org.jetbrains.skiko.** { *; }
+
+# Most of volatile fields are updated with AFU and should not be mangled
+-keepclassmembers class kotlinx.coroutines.** {
+    volatile <fields>;
+}
+
+# Same story for the standard library's SafeContinuation that also uses AtomicReferenceFieldUpdater
+-keepclassmembers class kotlin.coroutines.SafeContinuation {
+    volatile <fields>;
+}
+
+# These classes are only required by kotlinx.coroutines.debug.AgentPremain, which is only loaded when
+# kotlinx-coroutines-core is used as a Java agent, so these are not needed in contexts where ProGuard is used.
+-dontwarn java.lang.instrument.ClassFileTransformer
+-dontwarn sun.misc.SignalHandler
+-dontwarn java.lang.instrument.Instrumentation
+-dontwarn sun.misc.Signal
+
+# Only used in `kotlinx.coroutines.internal.ExceptionsConstructor`.
+# The case when it is not available is hidden in a `try`-`catch`, as well as a check for Android.
+-dontwarn java.lang.ClassValue
 
 -assumenosideeffects public class androidx.compose.runtime.ComposerKt {
     void sourceInformation(androidx.compose.runtime.Composer,java.lang.String);
@@ -94,10 +122,17 @@
 -dontwarn org.bouncycastle.**
 -dontwarn org.openjsse.**
 #################################### SLF4J #####################################
+-keep class org.slf4j.** { *; }
 -dontwarn org.slf4j.**
+
+# SQLite
+-keep class org.sqlite.** { *; }
 
 # Prevent runtime crashes from use of class.java.getName()
 -dontwarn javax.naming.**
+
+# JSR 305 annotations are for embedding nullability information.
+-dontwarn javax.annotation.**
 
 # Don't touch third party libraries
 # Not usefull, as it doesn't shrink the jar by much.
