@@ -21,8 +21,6 @@ import androidx.compose.ui.unit.dp
 import work.racka.reluct.common.core.navigation.destination.AppNavConfig
 import work.racka.reluct.compose.common.theme.Dimens
 
-private const val NAV_RAIL_ELEVATION = 2.0
-
 @Composable
 fun ReluctNavigationRail(
     currentConfig: State<AppNavConfig>,
