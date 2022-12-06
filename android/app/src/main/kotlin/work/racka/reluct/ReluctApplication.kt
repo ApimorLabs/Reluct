@@ -4,6 +4,8 @@ import android.app.Application
 import androidx.work.WorkManager
 import coil.ImageLoader
 import coil.ImageLoaderFactory
+import com.google.firebase.appcheck.FirebaseAppCheck
+import com.google.firebase.appcheck.playintegrity.PlayIntegrityAppCheckProviderFactory
 import com.revenuecat.purchases.Purchases
 import com.revenuecat.purchases.PurchasesConfiguration
 import kotlinx.coroutines.MainScope
@@ -42,6 +44,9 @@ class ReluctApplication : Application(), ImageLoaderFactory {
             }
         }.invokeOnCompletion { scope.cancel() }
 
+        // Configure Firebase Integrity
+        configureFirebase()
+
         // Setup Resume Apps worker
         ResumeAppsWork.run {
             WorkManager.getInstance(this@ReluctApplication).scheduleWork()
@@ -64,5 +69,12 @@ class ReluctApplication : Application(), ImageLoaderFactory {
 
     override fun newImageLoader(): ImageLoader {
         return customCoilImageLoader()
+    }
+
+    private fun configureFirebase() {
+        val firebaseAppCheck = FirebaseAppCheck.getInstance()
+        firebaseAppCheck.installAppCheckProviderFactory(
+            PlayIntegrityAppCheckProviderFactory.getInstance()
+        )
     }
 }
