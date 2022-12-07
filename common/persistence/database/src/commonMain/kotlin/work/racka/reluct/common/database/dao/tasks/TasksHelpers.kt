@@ -10,6 +10,7 @@ import work.racka.reluct.common.database.tables.TasksTableQueries
 internal object TasksHelpers {
 
     fun TasksTableQueries.replaceTasksInDb(tasks: List<TaskDbObject>) = transactionWithResult {
+        deleteAll()
         for (i in tasks.indices) {
             val task = tasks[i]
             insertTask(

@@ -24,6 +24,9 @@ internal class TasksDaoImpl(
     private val tasksQueries = databaseWrapper.instance?.tasksTableQueries
     private val labelQueries = databaseWrapper.instance?.taskLabelsTableQueries
 
+    /**
+     * Delete all tasks in the Database then adds the provided ones
+     */
     override fun replaceTasks(tasks: List<TaskDbObject>): Boolean =
         tasksQueries?.replaceTasksInDb(tasks) ?: false
 

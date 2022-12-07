@@ -1,28 +1,26 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
+    kotlin("plugin.serialization")
 }
 
 android {
-    namespace = "work.racka.reluct.common.domain"
+    namespace = "work.racka.reluct.common.network"
 }
 
 kotlin {
-    android()
     jvm("desktop")
+    android()
 
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation(project(":common:app-usage-stats"))
-                api(project(":common:billing")) // We have important classes to expose
-                implementation(project(":common:core-navigation"))
-                implementation(project(":common:model"))
-                implementation(project(":common:network"))
                 implementation(project(":common:persistence:database"))
                 implementation(project(":common:persistence:settings"))
-                implementation(project(":common:system-services"))
-
+                implementation(libs.kotlinx.serialization.core)
+                implementation(libs.kotlinx.date.time)
                 implementation(libs.coroutines.core)
                 implementation(libs.koin.core)
                 implementation(libs.kermit.log)
@@ -31,7 +29,6 @@ kotlin {
 
         val commonTest by getting {
             dependencies {
-                implementation(libs.kotlinx.date.time)
                 implementation(libs.koin.test)
                 implementation(libs.coroutines.test)
                 implementation(libs.turbine.test)
@@ -42,8 +39,8 @@ kotlin {
 
         val androidMain by getting {
             dependencies {
-                implementation(libs.core.ktx)
-                implementation(libs.koin.android)
+                implementation(project.dependencies.platform(libs.firebase.bom))
+                implementation(libs.firebase.database)
             }
         }
 
@@ -53,4 +50,8 @@ kotlin {
 
         val desktopTest by getting
     }
+}
+
+tasks.withType<KotlinCompile> {
+    kotlinOptions.freeCompilerArgs += "-opt-in=kotlin.RequiresOptIn"
 }

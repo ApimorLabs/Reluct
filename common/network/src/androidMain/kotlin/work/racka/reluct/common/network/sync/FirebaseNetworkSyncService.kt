@@ -1,4 +1,4 @@
-package work.racka.reluct.common.database.sync
+package work.racka.reluct.common.network.sync
 
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -8,6 +8,7 @@ import com.google.firebase.database.ktx.getValue
 import work.racka.reluct.common.database.dao.tasks.TasksDao
 import work.racka.reluct.common.database.models.TaskDbObject
 import work.racka.reluct.common.database.models.TaskLabelDbObject
+import work.racka.reluct.common.network.util.Constants
 
 internal class FirebaseNetworkSyncService(
     database: FirebaseDatabase,
@@ -15,8 +16,8 @@ internal class FirebaseNetworkSyncService(
 ) : DbNetworkSync {
 
     private var currentUserId: String? = null
-    private val tasksRef = database.reference.child("tasks")
-    private val tasksLabelsRef = database.reference.child("tasks_labels")
+    private val tasksRef = database.reference.child(Constants.FB_TASKS)
+    private val tasksLabelsRef = database.reference.child(Constants.FB_TASKS_LABELS)
 
     private val tasksListener = object : ValueEventListener {
         override fun onDataChange(snapshot: DataSnapshot) {
@@ -50,11 +51,11 @@ internal class FirebaseNetworkSyncService(
 
     override fun syncTasksData(userId: String) {
         currentUserId = userId
-        currentUserId?.let { id ->
+        currentUserId?.let { user ->
             // Sync Tasks from Network
-            tasksRef.child(id).addValueEventListener(tasksListener)
+            tasksRef.child(user).addValueEventListener(tasksListener)
             // Sync Tasks Labels from Network
-            tasksLabelsRef.child(id).addValueEventListener(tasksLabelsListener)
+            tasksLabelsRef.child(user).addValueEventListener(tasksLabelsListener)
         }
     }
 

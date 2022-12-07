@@ -1,4 +1,4 @@
-package work.racka.reluct.common.database.sync
+package work.racka.reluct.common.network.sync
 
 interface DbNetworkSync {
     // Tasks
