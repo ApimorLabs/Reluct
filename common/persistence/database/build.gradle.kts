@@ -52,6 +52,8 @@ kotlin {
         val androidMain by getting {
             dependencies {
                 implementation(libs.sqldelight.android.driver)
+                implementation(project.dependencies.platform(libs.firebase.bom))
+                implementation(libs.firebase.database)
             }
         }
 

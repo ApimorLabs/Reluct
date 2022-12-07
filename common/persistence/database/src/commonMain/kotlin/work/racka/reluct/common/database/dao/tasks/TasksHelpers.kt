@@ -9,6 +9,27 @@ import work.racka.reluct.common.database.tables.TasksTableQueries
 
 internal object TasksHelpers {
 
+    fun TasksTableQueries.replaceTasksInDb(tasks: List<TaskDbObject>) = transactionWithResult {
+        for (i in tasks.indices) {
+            val task = tasks[i]
+            insertTask(
+                TasksTable(
+                    id = task.id,
+                    title = task.title,
+                    description = task.description,
+                    done = task.done,
+                    overdue = task.overdue,
+                    taskLabelsId = task.taskLabels.map { it.id },
+                    dueDateLocalDateTime = task.dueDateLocalDateTime,
+                    completedLocalDateTime = task.completedLocalDateTime,
+                    reminderLocalDateTime = task.reminderLocalDateTime,
+                    timeZoneId = task.timeZoneId
+                )
+            )
+        }
+        true
+    }
+
     fun TasksTableQueries.insertTaskToDb(task: TaskDbObject) {
         transaction {
             insertTask(

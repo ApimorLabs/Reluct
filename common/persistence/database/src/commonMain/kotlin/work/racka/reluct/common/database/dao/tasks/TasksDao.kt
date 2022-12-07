@@ -5,6 +5,8 @@ import work.racka.reluct.common.database.models.TaskDbObject
 import work.racka.reluct.common.database.models.TaskLabelDbObject
 
 interface TasksDao {
+
+    fun replaceTasks(tasks: List<TaskDbObject>): Boolean
     fun insertTask(task: TaskDbObject)
     fun getAllTasks(): Flow<List<TaskDbObject>>
     fun getTask(id: String): Flow<TaskDbObject?>

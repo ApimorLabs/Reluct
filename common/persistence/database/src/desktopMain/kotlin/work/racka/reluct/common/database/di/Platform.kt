@@ -6,6 +6,8 @@ import work.racka.reluct.common.database.ReluctDatabase
 import work.racka.reluct.common.database.adapters.GoalsTableAdapter
 import work.racka.reluct.common.database.adapters.TasksTableAdapter
 import work.racka.reluct.common.database.dao.DatabaseWrapper
+import work.racka.reluct.common.database.sync.DbNetworkSync
+import work.racka.reluct.common.database.sync.DesktopNetworkSync
 import work.racka.reluct.common.database.util.Constants
 import java.io.File
 
@@ -23,5 +25,7 @@ internal actual object Platform {
                 )
             )
         }
+
+        single<DbNetworkSync> { DesktopNetworkSync() }
     }
 }

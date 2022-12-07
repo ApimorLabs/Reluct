@@ -12,6 +12,7 @@ import work.racka.reluct.common.database.dao.tasks.TasksHelpers.asDbObject
 import work.racka.reluct.common.database.dao.tasks.TasksHelpers.insertAllLabelsToDb
 import work.racka.reluct.common.database.dao.tasks.TasksHelpers.insertLabelToDb
 import work.racka.reluct.common.database.dao.tasks.TasksHelpers.insertTaskToDb
+import work.racka.reluct.common.database.dao.tasks.TasksHelpers.replaceTasksInDb
 import work.racka.reluct.common.database.models.TaskDbObject
 import work.racka.reluct.common.database.models.TaskLabelDbObject
 
@@ -22,6 +23,9 @@ internal class TasksDaoImpl(
 
     private val tasksQueries = databaseWrapper.instance?.tasksTableQueries
     private val labelQueries = databaseWrapper.instance?.taskLabelsTableQueries
+
+    override fun replaceTasks(tasks: List<TaskDbObject>): Boolean =
+        tasksQueries?.replaceTasksInDb(tasks) ?: false
 
     override fun insertTask(task: TaskDbObject) {
         tasksQueries?.insertTaskToDb(task)
