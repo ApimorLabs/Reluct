@@ -1,5 +1,8 @@
 package work.racka.reluct.common.domain.usecases.authentication
 
+import work.racka.reluct.common.model.domain.authentication.EmailResult
+import work.racka.reluct.common.model.domain.authentication.PasswordResult
+
 class AuthVerifications {
 
     fun validateEmail(email: String): EmailResult {
@@ -19,12 +22,4 @@ class AuthVerifications {
     companion object {
         const val EMAIL_REGEX = "^[A-Za-z](.*)([@]{1})(.{1,})(\\.)(.{1,})"
     }
-}
-
-enum class EmailResult {
-    VALID, BLANK, INVALID;
-}
-
-enum class PasswordResult {
-    VALID, DIGITS_LETTERS_ABSENT, INCORRECT_LENGTH
 }

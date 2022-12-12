@@ -1,8 +1,8 @@
 package work.racka.reluct.common.domain.usecases
 
 import work.racka.reluct.common.domain.usecases.authentication.AuthVerifications
-import work.racka.reluct.common.domain.usecases.authentication.EmailResult
-import work.racka.reluct.common.domain.usecases.authentication.PasswordResult
+import work.racka.reluct.common.model.domain.authentication.EmailResult
+import work.racka.reluct.common.model.domain.authentication.PasswordResult
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

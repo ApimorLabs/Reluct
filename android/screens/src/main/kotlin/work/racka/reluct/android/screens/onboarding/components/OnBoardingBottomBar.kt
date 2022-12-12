@@ -12,8 +12,8 @@ import androidx.compose.ui.text.style.TextAlign
 import kotlinx.collections.immutable.persistentListOf
 import work.racka.reluct.android.screens.R
 import work.racka.reluct.android.screens.util.isAndroid13Plus
-import work.racka.reluct.common.features.onboarding.states.OnBoardingPages
-import work.racka.reluct.common.features.onboarding.states.OnBoardingState
+import work.racka.reluct.common.features.onboarding.states.onBoarding.OnBoardingPages
+import work.racka.reluct.common.features.onboarding.states.onBoarding.OnBoardingState
 import work.racka.reluct.compose.common.components.buttons.OutlinedReluctButton
 import work.racka.reluct.compose.common.components.buttons.ReluctButton
 import work.racka.reluct.compose.common.components.textfields.texts.HighlightTextProps

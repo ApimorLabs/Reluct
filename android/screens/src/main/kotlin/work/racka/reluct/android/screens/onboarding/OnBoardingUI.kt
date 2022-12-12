@@ -12,9 +12,9 @@ import androidx.compose.ui.Modifier
 import work.racka.reluct.android.screens.onboarding.components.OnBoardingBottomBar
 import work.racka.reluct.android.screens.onboarding.pages.*
 import work.racka.reluct.android.screens.util.isAndroid13Plus
-import work.racka.reluct.common.features.onboarding.states.OnBoardingPages
-import work.racka.reluct.common.features.onboarding.states.OnBoardingState
-import work.racka.reluct.common.features.onboarding.states.PermissionType
+import work.racka.reluct.common.features.onboarding.states.onBoarding.OnBoardingPages
+import work.racka.reluct.common.features.onboarding.states.onBoarding.OnBoardingState
+import work.racka.reluct.common.features.onboarding.states.onBoarding.PermissionType
 import work.racka.reluct.compose.common.theme.Dimens
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)

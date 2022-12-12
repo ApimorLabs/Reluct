@@ -1,4 +1,4 @@
-package work.racka.reluct.common.features.onboarding.states
+package work.racka.reluct.common.features.onboarding.states.onBoarding
 
 import work.racka.reluct.common.settings.Keys
 
