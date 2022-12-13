@@ -15,6 +15,8 @@ import androidx.compose.runtime.State
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import work.racka.reluct.android.screens.authentication.pages.LoginPage
+import work.racka.reluct.android.screens.authentication.pages.SignupPage
 import work.racka.reluct.common.features.onboarding.states.auth.CurrentAuthState
 import work.racka.reluct.common.features.onboarding.states.auth.LoginSignupState
 import work.racka.reluct.common.model.domain.authentication.EmailUserLogin
@@ -71,10 +73,24 @@ internal fun AuthenticationScreenUI(
             ) { state ->
                 when (state) {
                     is CurrentAuthState.Login -> {
-                        // Login
+                        LoginPage(
+                            stateProvider = { state },
+                            credVerificationState = { uiState.value.credVerificationState },
+                            isLoadingProvider = { uiState.value.screenLoading },
+                            onUpdateUser = { onUpdateUser(UpdateUser.EmailLogin(it)) },
+                            onLogin = { onLoginOrSignup(AuthType.LOGIN) },
+                            onOpenSignup = { onChooseAuth(AuthType.SIGNUP) }
+                        )
                     }
                     is CurrentAuthState.Signup -> {
-                        // Signup
+                        SignupPage(
+                            stateProvider = { state },
+                            credVerificationState = { uiState.value.credVerificationState },
+                            isLoadingProvider = { uiState.value.screenLoading },
+                            onUpdateUser = { onUpdateUser(UpdateUser.EmailRegister(it)) },
+                            onSignup = { onLoginOrSignup(AuthType.SIGNUP) },
+                            onOpenLogin = { onChooseAuth(AuthType.LOGIN) }
+                        )
                     }
                     is CurrentAuthState.Authenticated -> {
                         // Authenticated
