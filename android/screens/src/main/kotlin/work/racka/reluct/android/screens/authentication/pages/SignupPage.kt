@@ -10,6 +10,7 @@ import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.*
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
@@ -20,6 +21,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
@@ -37,6 +39,7 @@ import work.racka.reluct.compose.common.components.buttons.ReluctButton
 import work.racka.reluct.compose.common.components.cards.headers.ListGroupHeadingHeader
 import work.racka.reluct.compose.common.components.resources.painterResource
 import work.racka.reluct.compose.common.components.textfields.ReluctTextField
+import work.racka.reluct.compose.common.components.util.imePadding
 import work.racka.reluct.compose.common.theme.Dimens
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -83,6 +86,10 @@ internal fun SignupPage(
         verticalArrangement = Arrangement.spacedBy(Dimens.MediumPadding.size),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        item {
+            Spacer(modifier = Modifier.padding(top = Dimens.ExtraLargePadding.size))
+        }
+
         stickyHeader {
             ListGroupHeadingHeader(
                 text = stringResource(id = R.string.signup_text),
@@ -104,7 +111,7 @@ internal fun SignupPage(
         // Display Name
         item {
             ReluctTextField(
-                value = state.user.email,
+                value = state.user.displayName,
                 hint = stringResource(id = R.string.display_name_text),
                 onTextChange = { onUpdateUser(state.user.copy(displayName = it)) },
                 isError = state.user.displayName.isBlank(),
@@ -113,7 +120,8 @@ internal fun SignupPage(
                 leadingIcon = {
                     Icon(
                         imageVector = Icons.Rounded.Badge,
-                        contentDescription = stringResource(R.string.display_name_text)
+                        contentDescription = stringResource(R.string.display_name_text),
+                        tint = LocalContentColor.current
                     )
                 },
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
@@ -135,10 +143,14 @@ internal fun SignupPage(
                 leadingIcon = {
                     Icon(
                         imageVector = Icons.Rounded.Email,
-                        contentDescription = stringResource(R.string.email_text)
+                        contentDescription = stringResource(R.string.email_text),
+                        tint = LocalContentColor.current
                     )
                 },
-                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Email,
+                    imeAction = ImeAction.Next
+                ),
                 keyboardActions = KeyboardActions(
                     onNext = { focusManager.moveFocus(FocusDirection.Down) }
                 )
@@ -157,7 +169,8 @@ internal fun SignupPage(
                 leadingIcon = {
                     Icon(
                         imageVector = Icons.Rounded.Password,
-                        contentDescription = stringResource(R.string.password_text)
+                        contentDescription = stringResource(R.string.password_text),
+                        tint = LocalContentColor.current
                     )
                 },
                 trailingIcon = {
@@ -165,18 +178,21 @@ internal fun SignupPage(
                         if (showPassword) {
                             Icon(
                                 imageVector = Icons.Rounded.VisibilityOff,
-                                contentDescription = stringResource(R.string.password_text)
+                                contentDescription = stringResource(R.string.password_text),
+                                tint = LocalContentColor.current
                             )
                         } else {
                             Icon(
                                 imageVector = Icons.Rounded.Visibility,
-                                contentDescription = stringResource(R.string.password_text)
+                                contentDescription = stringResource(R.string.password_text),
+                                tint = LocalContentColor.current
                             )
                         }
                     }
                 },
                 keyboardOptions = KeyboardOptions(
                     autoCorrect = false,
+                    keyboardType = KeyboardType.Password,
                     imeAction = ImeAction.Next
                 ),
                 keyboardActions = KeyboardActions(
@@ -199,7 +215,8 @@ internal fun SignupPage(
                 leadingIcon = {
                     Icon(
                         imageVector = Icons.Rounded.Password,
-                        contentDescription = stringResource(R.string.repeat_password_text)
+                        contentDescription = stringResource(R.string.repeat_password_text),
+                        tint = LocalContentColor.current
                     )
                 },
                 trailingIcon = {
@@ -207,18 +224,21 @@ internal fun SignupPage(
                         if (showPassword) {
                             Icon(
                                 imageVector = Icons.Rounded.VisibilityOff,
-                                contentDescription = stringResource(R.string.repeat_password_text)
+                                contentDescription = stringResource(R.string.repeat_password_text),
+                                tint = LocalContentColor.current
                             )
                         } else {
                             Icon(
                                 imageVector = Icons.Rounded.Visibility,
-                                contentDescription = stringResource(R.string.repeat_password_text)
+                                contentDescription = stringResource(R.string.repeat_password_text),
+                                tint = LocalContentColor.current
                             )
                         }
                     }
                 },
                 keyboardOptions = KeyboardOptions(
                     autoCorrect = false,
+                    keyboardType = KeyboardType.Password,
                     imeAction = ImeAction.Done
                 ),
                 keyboardActions = KeyboardActions(
@@ -244,15 +264,21 @@ internal fun SignupPage(
                     focusManager.clearFocus()
                     onSignup()
                 },
-                showLoading = isLoading
+                showLoading = isLoading,
+                modifier = Modifier.fillMaxSize(.5f)
             )
             Spacer(modifier = Modifier.height(Dimens.SmallPadding.size))
             OutlinedReluctButton(
                 buttonText = stringResource(R.string.login_text),
                 icon = Icons.Rounded.Login,
                 onButtonClicked = onOpenLogin,
-                enabled = !isLoading
+                enabled = !isLoading,
+                modifier = Modifier.fillMaxSize(.5f)
             )
         }
+
+        item { Spacer(modifier = Modifier
+            .imePadding()
+            .navigationBarsPadding()) }
     }
 }

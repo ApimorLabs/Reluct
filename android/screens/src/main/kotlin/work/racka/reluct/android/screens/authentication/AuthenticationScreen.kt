@@ -48,7 +48,8 @@ fun AuthenticationScreen(
             }
         },
         onRefreshUser = viewModel::refreshUser,
-        onSkip = onContinue,
+        onResendEmail = viewModel::resendVerificationEmail,
+        onContinue = onContinue,
         modifier = modifier
     )
 }

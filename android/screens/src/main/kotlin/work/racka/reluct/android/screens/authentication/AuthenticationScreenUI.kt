@@ -4,10 +4,7 @@ import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.updateTransition
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -23,6 +20,8 @@ import work.racka.reluct.common.features.onboarding.states.auth.CurrentAuthState
 import work.racka.reluct.common.features.onboarding.states.auth.LoginSignupState
 import work.racka.reluct.common.model.domain.authentication.EmailUserLogin
 import work.racka.reluct.common.model.domain.authentication.RegisterUser
+import work.racka.reluct.common.model.domain.authentication.User
+import work.racka.reluct.compose.common.components.buttons.ReluctButton
 import work.racka.reluct.compose.common.components.dialogs.FullScreenLoading
 import work.racka.reluct.compose.common.theme.Dimens
 
@@ -35,7 +34,8 @@ internal fun AuthenticationScreenUI(
     onUpdateUser: (UpdateUser) -> Unit,
     onLoginOrSignup: (AuthType) -> Unit,
     onRefreshUser: () -> Unit,
-    onSkip: () -> Unit,
+    onResendEmail: (User) -> Unit,
+    onContinue: () -> Unit,
     modifier: Modifier = Modifier
 ) {
 
@@ -51,6 +51,7 @@ internal fun AuthenticationScreenUI(
         snackbarHost = {
             SnackbarHost(hostState = snackbarState) { data ->
                 Snackbar(
+                    modifier = Modifier.navigationBarsPadding(),
                     shape = RoundedCornerShape(10.dp),
                     snackbarData = data,
                     containerColor = MaterialTheme.colorScheme.inverseSurface,
@@ -97,6 +98,30 @@ internal fun AuthenticationScreenUI(
                     }
                     is CurrentAuthState.Authenticated -> {
                         // Authenticated
+                        Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                            Text(text = "Current Email: ${state.user.email}")
+                            Text(text = "Is Email Verified: ${state.user.isEmailVerified}")
+                            ReluctButton(
+                                buttonText = "Refresh",
+                                icon = null,
+                                onButtonClicked = onRefreshUser,
+                                showLoading = uiState.value.screenLoading
+                            )
+                            if (state.user.isEmailVerified) {
+                                ReluctButton(
+                                    buttonText = "Continue",
+                                    icon = null,
+                                    onButtonClicked = onContinue,
+                                )
+                            } else {
+                                ReluctButton(
+                                    buttonText = "Resend Email",
+                                    icon = null,
+                                    onButtonClicked = { onResendEmail(state.user) },
+                                    enabled = !uiState.value.screenLoading
+                                )
+                            }
+                        }
                     }
                     is CurrentAuthState.None -> {
                         FullScreenLoading(isLoadingProvider = { true })

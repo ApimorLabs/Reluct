@@ -13,6 +13,7 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text.selection.LocalTextSelectionColors
 import androidx.compose.foundation.text.selection.TextSelectionColors
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
@@ -40,8 +41,8 @@ fun ReluctTextField(
     hint: String,
     onTextChange: (String) -> Unit,
     modifier: Modifier = Modifier,
-    leadingIcon: @Composable (RowScope.() -> Unit)? = null,
-    trailingIcon: @Composable (RowScope.() -> Unit)? = null,
+    leadingIcon: @Composable (() -> Unit)? = null,
+    trailingIcon: @Composable (() -> Unit)? = null,
     textStyle: TextStyle = MaterialTheme.typography.titleMedium,
     maxLines: Int = Int.MAX_VALUE,
     singleLine: Boolean = false,
@@ -86,21 +87,31 @@ fun ReluctTextField(
                     focusRequester.requestFocus()
                 } then modifier,
             horizontalArrangement = Arrangement.Start,
-            verticalAlignment = Alignment.Top
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            Spacer(
-                modifier = Modifier
-                    .width(Dimens.MediumPadding.size)
-                    .height(48.dp)
-            )
-            leadingIcon?.let {
-                it()
-                Spacer(modifier = Modifier.width(Dimens.MediumPadding.size))
+            CompositionLocalProvider(LocalContentColor.provides(contentColor)) {
+                leadingIcon?.let {
+                    Box(
+                        modifier = Modifier.size(48.dp),
+                        contentAlignment = Alignment.Center,
+                        content = { it() }
+                    )
+                }
             }
 
             Box(
                 contentAlignment = Alignment.CenterStart,
-                modifier = Modifier.weight(1f)
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(
+                        start = if (leadingIcon == null) Dimens.MediumPadding.size
+                        else Dimens.ExtraSmallPadding.size
+                    )
+                    .padding(
+                        end = if (trailingIcon == null) Dimens.MediumPadding.size
+                        else Dimens.ExtraSmallPadding.size
+                    )
+                    .align(Alignment.Top)
             ) {
                 if (!isTyping) {
                     Text(
@@ -145,15 +156,15 @@ fun ReluctTextField(
                 }
             }
 
-            trailingIcon?.let {
-                Spacer(modifier = Modifier.width(Dimens.MediumPadding.size))
-                it()
+            CompositionLocalProvider(LocalContentColor.provides(contentColor)) {
+                trailingIcon?.let {
+                    Box(
+                        modifier = Modifier.size(48.dp),
+                        contentAlignment = Alignment.Center,
+                        content = { it() }
+                    )
+                }
             }
-            Spacer(
-                modifier = Modifier
-                    .width(Dimens.MediumPadding.size)
-                    .height(48.dp)
-            )
         }
 
         AnimatedVisibility(

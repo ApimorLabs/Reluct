@@ -10,6 +10,7 @@ import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.*
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
@@ -20,6 +21,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
@@ -84,6 +86,10 @@ internal fun LoginPage(
         verticalArrangement = Arrangement.spacedBy(Dimens.MediumPadding.size),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        item {
+            Spacer(modifier = Modifier.padding(top = Dimens.ExtraLargePadding.size))
+        }
+
         stickyHeader {
             ListGroupHeadingHeader(
                 text = stringResource(id = R.string.login_text),
@@ -114,10 +120,14 @@ internal fun LoginPage(
                 leadingIcon = {
                     Icon(
                         imageVector = Icons.Rounded.Email,
-                        contentDescription = stringResource(R.string.email_text)
+                        contentDescription = stringResource(R.string.email_text),
+                        tint = LocalContentColor.current
                     )
                 },
-                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Email,
+                    imeAction = ImeAction.Next
+                ),
                 keyboardActions = KeyboardActions(
                     onNext = { focusManager.moveFocus(FocusDirection.Down) }
                 )
@@ -136,7 +146,8 @@ internal fun LoginPage(
                 leadingIcon = {
                     Icon(
                         imageVector = Icons.Rounded.Password,
-                        contentDescription = stringResource(R.string.password_text)
+                        contentDescription = stringResource(R.string.password_text),
+                        tint = LocalContentColor.current
                     )
                 },
                 trailingIcon = {
@@ -144,18 +155,21 @@ internal fun LoginPage(
                         if (showPassword) {
                             Icon(
                                 imageVector = Icons.Rounded.VisibilityOff,
-                                contentDescription = stringResource(R.string.password_text)
+                                contentDescription = stringResource(R.string.password_text),
+                                tint = LocalContentColor.current
                             )
                         } else {
                             Icon(
                                 imageVector = Icons.Rounded.Visibility,
-                                contentDescription = stringResource(R.string.password_text)
+                                contentDescription = stringResource(R.string.password_text),
+                                tint = LocalContentColor.current
                             )
                         }
                     }
                 },
                 keyboardOptions = KeyboardOptions(
                     autoCorrect = false,
+                    keyboardType = KeyboardType.Password,
                     imeAction = ImeAction.Done
                 ),
                 keyboardActions = KeyboardActions(
@@ -181,17 +195,21 @@ internal fun LoginPage(
                     focusManager.clearFocus()
                     onLogin()
                 },
-                showLoading = isLoading
+                showLoading = isLoading,
+                modifier = Modifier.fillMaxSize(.5f)
             )
             Spacer(modifier = Modifier.height(Dimens.SmallPadding.size))
             OutlinedReluctButton(
                 buttonText = stringResource(R.string.signup_text),
                 icon = Icons.Rounded.PersonAdd,
                 onButtonClicked = onOpenSignup,
-                enabled = !isLoading
+                enabled = !isLoading,
+                modifier = Modifier.fillMaxSize(.5f)
             )
         }
 
-        item { Spacer(modifier = Modifier.imePadding()) }
+        item { Spacer(modifier = Modifier
+            .imePadding()
+            .navigationBarsPadding()) }
     }
 }

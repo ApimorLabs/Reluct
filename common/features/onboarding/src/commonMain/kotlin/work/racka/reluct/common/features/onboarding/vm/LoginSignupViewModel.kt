@@ -11,10 +11,7 @@ import work.racka.reluct.common.features.onboarding.states.auth.CredVerification
 import work.racka.reluct.common.features.onboarding.states.auth.CurrentAuthState
 import work.racka.reluct.common.features.onboarding.states.auth.LoginSignupEvent
 import work.racka.reluct.common.features.onboarding.states.auth.LoginSignupState
-import work.racka.reluct.common.model.domain.authentication.EmailResult
-import work.racka.reluct.common.model.domain.authentication.EmailUserLogin
-import work.racka.reluct.common.model.domain.authentication.PasswordResult
-import work.racka.reluct.common.model.domain.authentication.RegisterUser
+import work.racka.reluct.common.model.domain.authentication.*
 import work.racka.reluct.common.model.util.Resource
 
 class LoginSignupViewModel(
@@ -150,6 +147,14 @@ class LoginSignupViewModel(
                 is Resource.Error -> eventsChannel.send(LoginSignupEvent.Error(res.message))
                 else -> eventsChannel.send(LoginSignupEvent.Error("Refresh Error!"))
             }
+            screenLoading.update { false }
+        }
+    }
+
+    fun resendVerificationEmail(user: User) {
+        vmScope.launch {
+            screenLoading.update { true }
+            auth.sendVerificationEmail(user)
             screenLoading.update { false }
         }
     }

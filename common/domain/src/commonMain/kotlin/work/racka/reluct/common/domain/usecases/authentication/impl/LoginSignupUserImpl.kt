@@ -37,7 +37,6 @@ internal class LoginSignupUserImpl(
                     else -> Resource.Error(message = "Unknown Error!")
                 }
             }
-            TODO()
         }
 
     override suspend fun checkEmailVerification(): Boolean = withContext(dispatcher) {
