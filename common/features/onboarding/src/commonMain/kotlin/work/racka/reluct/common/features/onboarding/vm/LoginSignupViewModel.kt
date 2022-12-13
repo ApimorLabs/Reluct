@@ -6,6 +6,7 @@ import kotlinx.coroutines.launch
 import work.racka.common.mvvm.viewmodel.CommonViewModel
 import work.racka.reluct.common.domain.usecases.authentication.AuthVerifications
 import work.racka.reluct.common.domain.usecases.authentication.LoginSignupUser
+import work.racka.reluct.common.domain.usecases.authentication.UserAccountManagement
 import work.racka.reluct.common.features.onboarding.states.auth.CredVerificationState
 import work.racka.reluct.common.features.onboarding.states.auth.CurrentAuthState
 import work.racka.reluct.common.features.onboarding.states.auth.LoginSignupEvent
@@ -18,19 +19,22 @@ import work.racka.reluct.common.model.util.Resource
 
 class LoginSignupViewModel(
     private val auth: LoginSignupUser,
+    private val manageUser: UserAccountManagement,
     private val verifications: AuthVerifications
 ) : CommonViewModel() {
 
     private val authState: MutableStateFlow<CurrentAuthState> =
-        MutableStateFlow(CurrentAuthState.Login())
+        MutableStateFlow(CurrentAuthState.None)
     private val credVerificationState = MutableStateFlow(CredVerificationState())
+    private val screenLoading = MutableStateFlow(false)
 
     val uiState: StateFlow<LoginSignupState> = combine(
-        authState, credVerificationState
-    ) { authState, credVerificationState ->
+        authState, credVerificationState, screenLoading
+    ) { authState, credVerificationState, screenLoading ->
         LoginSignupState(
             authState = authState,
-            credVerificationState = credVerificationState
+            credVerificationState = credVerificationState,
+            screenLoading = screenLoading
         )
     }.stateIn(
         scope = vmScope,
@@ -42,6 +46,10 @@ class LoginSignupViewModel(
     val events: Flow<LoginSignupEvent> = eventsChannel.receiveAsFlow()
 
     private var loginAttempts = 0
+
+    init {
+        initialize()
+    }
 
     fun updateLoginUser(user: EmailUserLogin) {
         authState.update { CurrentAuthState.Login(user) }
@@ -71,11 +79,13 @@ class LoginSignupViewModel(
     fun login() {
         vmScope.launch {
             val currentAuthState = authState.value
-            if (currentAuthState is CurrentAuthState.Login) {
+            if (currentAuthState is CurrentAuthState.Login) { // TODO: Check Attempts
+                screenLoading.update { true }
                 loginAttempts++
                 when (val res = auth.emailLogin(currentAuthState.user)) {
-                    is Resource.Success -> authState.update {
-                        CurrentAuthState.Authenticated(res.data)
+                    is Resource.Success -> {
+                        authState.update { CurrentAuthState.Authenticated(res.data) }
+                        if (!res.data.isEmailVerified) auth.sendVerificationEmail(res.data)
                     }
                     is Resource.Error -> eventsChannel.send(
                         LoginSignupEvent.LoginError(loginAttempts, res.message)
@@ -84,6 +94,7 @@ class LoginSignupViewModel(
                         LoginSignupEvent.Error("Unknown Error! Attempt $loginAttempts")
                     )
                 }
+                screenLoading.update { false }
             } else {
                 eventsChannel.send(
                     LoginSignupEvent.Error("Invalid Application State! Try again!")
@@ -96,23 +107,45 @@ class LoginSignupViewModel(
         vmScope.launch {
             val currentAuthState = authState.value
             if (currentAuthState is CurrentAuthState.Signup) {
-                loginAttempts++
+                screenLoading.update { true }
                 when (val res = auth.emailSignup(currentAuthState.user)) {
-                    is Resource.Success -> authState.update {
-                        CurrentAuthState.Authenticated(res.data)
+                    is Resource.Success -> {
+                        authState.update { CurrentAuthState.Authenticated(res.data) }
+                        if (!res.data.isEmailVerified) auth.sendVerificationEmail(res.data)
                     }
                     is Resource.Error -> eventsChannel.send(
-                        LoginSignupEvent.LoginError(loginAttempts, res.message)
+                        LoginSignupEvent.SignupError(
+                            email = currentAuthState.user.email,
+                            message = res.message
+                        )
                     )
-                    else -> eventsChannel.send(
-                        LoginSignupEvent.Error("Unknown Error! Attempt $loginAttempts")
-                    )
+                    else -> eventsChannel.send(LoginSignupEvent.Error("Unknown Error! Try again!"))
                 }
+                screenLoading.update { false }
             } else {
                 eventsChannel.send(
                     LoginSignupEvent.Error("Invalid Application State! Try again!")
                 )
             }
+        }
+    }
+
+    fun refreshUser() {
+        vmScope.launch {
+            screenLoading.update { true }
+            when (val res = manageUser.refreshUser()) {
+                is Resource.Success -> authState.update { CurrentAuthState.Authenticated(res.data) }
+                is Resource.Error -> eventsChannel.send(LoginSignupEvent.Error(res.message))
+                else -> eventsChannel.send(LoginSignupEvent.Error("Refresh Error!"))
+            }
+            screenLoading.update { false }
+        }
+    }
+
+    private fun initialize() {
+        when (val user = manageUser.getUser()) {
+            null -> authState.update { CurrentAuthState.Login() }
+            else -> authState.update { CurrentAuthState.Authenticated(user) }
         }
     }
 

@@ -3,8 +3,9 @@ package work.racka.reluct.common.features.onboarding.states.auth
 import work.racka.reluct.common.model.domain.authentication.*
 
 data class LoginSignupState(
-    val authState: CurrentAuthState = CurrentAuthState.Login(),
-    val credVerificationState: CredVerificationState = CredVerificationState()
+    val authState: CurrentAuthState = CurrentAuthState.None,
+    val credVerificationState: CredVerificationState = CredVerificationState(),
+    val screenLoading: Boolean = false
 )
 
 sealed class CurrentAuthState {
@@ -24,6 +25,8 @@ sealed class CurrentAuthState {
     ) : CurrentAuthState()
 
     data class Authenticated(val user: User) : CurrentAuthState()
+
+    object None : CurrentAuthState()
 }
 
 data class CredVerificationState(
