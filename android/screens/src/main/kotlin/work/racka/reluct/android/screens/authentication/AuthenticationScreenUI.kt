@@ -12,6 +12,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -37,8 +39,9 @@ internal fun AuthenticationScreenUI(
     modifier: Modifier = Modifier
 ) {
 
+    val authState = remember { derivedStateOf { uiState.value.authState } }
     val screenTransition = updateTransition(
-        targetState = uiState.value.authState,
+        targetState = authState.value,
         label = "AuthScreenTransition"
     )
 
@@ -69,14 +72,14 @@ internal fun AuthenticationScreenUI(
             contentAlignment = Alignment.Center
         ) {
             screenTransition.AnimatedContent(
-                contentKey = { state -> state }
+                contentKey = { state -> state::class }
             ) { state ->
                 when (state) {
                     is CurrentAuthState.Login -> {
                         LoginPage(
-                            stateProvider = { state },
-                            credVerificationState = { uiState.value.credVerificationState },
-                            isLoadingProvider = { uiState.value.screenLoading },
+                            state = state,
+                            verificationState = uiState.value.credVerificationState,
+                            isLoading = uiState.value.screenLoading,
                             onUpdateUser = { onUpdateUser(UpdateUser.EmailLogin(it)) },
                             onLogin = { onLoginOrSignup(AuthType.LOGIN) },
                             onOpenSignup = { onChooseAuth(AuthType.SIGNUP) }
@@ -84,9 +87,9 @@ internal fun AuthenticationScreenUI(
                     }
                     is CurrentAuthState.Signup -> {
                         SignupPage(
-                            stateProvider = { state },
-                            credVerificationState = { uiState.value.credVerificationState },
-                            isLoadingProvider = { uiState.value.screenLoading },
+                            state = state,
+                            verificationState = uiState.value.credVerificationState,
+                            isLoading = uiState.value.screenLoading,
                             onUpdateUser = { onUpdateUser(UpdateUser.EmailRegister(it)) },
                             onSignup = { onLoginOrSignup(AuthType.SIGNUP) },
                             onOpenLogin = { onChooseAuth(AuthType.LOGIN) }

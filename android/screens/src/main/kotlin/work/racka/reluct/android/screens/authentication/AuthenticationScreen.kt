@@ -32,7 +32,7 @@ fun AuthenticationScreen(
         onChooseAuth = { type ->
             when (type) {
                 AuthType.LOGIN -> run(viewModel::openLogin)
-                AuthType.SIGNUP -> run(viewModel::openLogin)
+                AuthType.SIGNUP -> run(viewModel::openSignup)
             }
         },
         onUpdateUser = { update ->

@@ -14,12 +14,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -39,28 +37,25 @@ import work.racka.reluct.compose.common.components.buttons.ReluctButton
 import work.racka.reluct.compose.common.components.cards.headers.ListGroupHeadingHeader
 import work.racka.reluct.compose.common.components.resources.painterResource
 import work.racka.reluct.compose.common.components.textfields.ReluctTextField
+import work.racka.reluct.compose.common.components.util.imePadding
 import work.racka.reluct.compose.common.theme.Dimens
 
-@OptIn(ExperimentalFoundationApi::class, ExperimentalComposeUiApi::class)
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 internal fun LoginPage(
-    stateProvider: () -> CurrentAuthState.Login,
-    credVerificationState: () -> CredVerificationState,
-    isLoadingProvider: () -> Boolean,
+    state: CurrentAuthState.Login,
+    verificationState: CredVerificationState,
+    isLoading: Boolean,
     onUpdateUser: (EmailUserLogin) -> Unit,
     onLogin: () -> Unit,
     onOpenSignup: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val state by remember { derivedStateOf { stateProvider() } }
-    val verificationState by remember { derivedStateOf { credVerificationState() } }
-    val isLoading by remember { derivedStateOf { isLoadingProvider() } }
     val focusManager = LocalFocusManager.current
-    val keyboard = LocalSoftwareKeyboardController.current
     val context = LocalContext.current
-    val drawableSize = 100.dp
+    val drawableSize = 200.dp
 
-    val emailErrorText by remember {
+    val emailErrorText by remember(verificationState.email) {
         derivedStateOf {
             when (verificationState.email) {
                 EmailResult.BLANK -> context.getString(R.string.email_error_blank)
@@ -69,7 +64,7 @@ internal fun LoginPage(
             }
         }
     }
-    val passwordErrorText by remember {
+    val passwordErrorText by remember(verificationState.password) {
         derivedStateOf {
             when (verificationState.password) {
                 PasswordResult.INCORRECT_LENGTH -> context.getString(R.string.password_error_length)
@@ -122,10 +117,7 @@ internal fun LoginPage(
                         contentDescription = stringResource(R.string.email_text)
                     )
                 },
-                keyboardOptions = KeyboardOptions(
-                    autoCorrect = false,
-                    imeAction = ImeAction.Next
-                ),
+                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
                 keyboardActions = KeyboardActions(
                     onNext = { focusManager.moveFocus(FocusDirection.Down) }
                 )
@@ -167,7 +159,7 @@ internal fun LoginPage(
                     imeAction = ImeAction.Done
                 ),
                 keyboardActions = KeyboardActions(
-                    onDone = { keyboard?.hide() }
+                    onDone = { focusManager.clearFocus() }
                 ),
                 visualTransformation = if (showPassword) VisualTransformation.None
                 else PasswordVisualTransformation()
@@ -185,10 +177,13 @@ internal fun LoginPage(
                 enabled = verificationState.canLoginOrSignup,
                 buttonText = stringResource(R.string.login_text),
                 icon = Icons.Rounded.Login,
-                onButtonClicked = onLogin,
+                onButtonClicked = {
+                    focusManager.clearFocus()
+                    onLogin()
+                },
                 showLoading = isLoading
             )
-            Spacer(modifier = Modifier.height(Dimens.ExtraSmallPadding.size))
+            Spacer(modifier = Modifier.height(Dimens.SmallPadding.size))
             OutlinedReluctButton(
                 buttonText = stringResource(R.string.signup_text),
                 icon = Icons.Rounded.PersonAdd,
@@ -196,5 +191,7 @@ internal fun LoginPage(
                 enabled = !isLoading
             )
         }
+
+        item { Spacer(modifier = Modifier.imePadding()) }
     }
 }
