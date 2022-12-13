@@ -79,13 +79,17 @@ class LoginSignupViewModel(
     fun login() {
         vmScope.launch {
             val currentAuthState = authState.value
-            if (currentAuthState is CurrentAuthState.Login) { // TODO: Check Attempts
+            if (currentAuthState is CurrentAuthState.Login && loginAttempts <= 5) {
                 screenLoading.update { true }
                 loginAttempts++
                 when (val res = auth.emailLogin(currentAuthState.user)) {
                     is Resource.Success -> {
+                        if (res.data.isEmailVerified) {
+                            eventsChannel.send(LoginSignupEvent.Continue)
+                        } else {
+                            auth.sendVerificationEmail(res.data)
+                        }
                         authState.update { CurrentAuthState.Authenticated(res.data) }
-                        if (!res.data.isEmailVerified) auth.sendVerificationEmail(res.data)
                     }
                     is Resource.Error -> eventsChannel.send(
                         LoginSignupEvent.LoginError(loginAttempts, res.message)
@@ -95,6 +99,10 @@ class LoginSignupViewModel(
                     )
                 }
                 screenLoading.update { false }
+            } else if (loginAttempts > 5){
+                eventsChannel.send(
+                    LoginSignupEvent.LoginError(loginAttempts, "Too Many Login Attempts!")
+                )
             } else {
                 eventsChannel.send(
                     LoginSignupEvent.Error("Invalid Application State! Try again!")
@@ -110,8 +118,12 @@ class LoginSignupViewModel(
                 screenLoading.update { true }
                 when (val res = auth.emailSignup(currentAuthState.user)) {
                     is Resource.Success -> {
+                        if (res.data.isEmailVerified) {
+                            eventsChannel.send(LoginSignupEvent.Continue)
+                        } else {
+                            auth.sendVerificationEmail(res.data)
+                        }
                         authState.update { CurrentAuthState.Authenticated(res.data) }
-                        if (!res.data.isEmailVerified) auth.sendVerificationEmail(res.data)
                     }
                     is Resource.Error -> eventsChannel.send(
                         LoginSignupEvent.SignupError(

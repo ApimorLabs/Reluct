@@ -20,6 +20,7 @@ object OnBoarding {
         commonViewModel {
             LoginSignupViewModel(
                 auth = get(),
+                manageUser = get(),
                 verifications = AuthVerifications()
             )
         }
