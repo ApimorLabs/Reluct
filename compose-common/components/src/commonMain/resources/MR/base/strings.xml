@@ -288,4 +288,25 @@
 
     <string name="dashboard_overview">Overview</string>
     <string name="dashboard_statistics">Statistics</string>
+
+    <!--  Login & Signup  -->
+    <string name="login_text">Login</string>
+    <string name="signup_text">Signup</string>
+    <string name="email_text">Email</string>
+    <string name="password_text">Password</string>
+    <string name="enter_password_text">Enter your Password</string>
+    <string name="repeat_password_text">Repeat Password</string>
+    <string name="display_name_text">Display Name</string>
+    <string name="display_name_hint">Name that appears for your account</string>
+    <string name="display_name_error">Enter a name that should appear for your account</string>
+    <string name="already_have_account_text">Already have an account? Login instead</string>
+    <string name="do_not_have_account_text">No account? Signup instead</string>
+    <string name="password_hint">Must be 8 characters or more, contain numbers &amp; letters</string>
+    <string name="password_error_length">Must be 8 characters or more</string>
+    <string name="password_error_digits_letter">Must contain both letters &amp; numbers</string>
+    <string name="password_error_digits">Must contain numbers</string>
+    <string name="password_error_letter">Must contain letters</string>
+    <string name="password_error_match">Passwords must match</string>
+    <string name="email_error_invalid">Enter a correct email</string>
+    <string name="email_error_blank">Email cannot be blank</string>
 </resources>

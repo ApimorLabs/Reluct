@@ -27,6 +27,7 @@ fun ReluctButton(
     contentColor: Color = MaterialTheme.colorScheme.onPrimary,
     shape: Shape = CircleShape,
     enabled: Boolean = true,
+    showLoading: Boolean = false
 ) {
     Button(
         onClick = onButtonClicked,
@@ -41,6 +42,13 @@ fun ReluctButton(
         modifier = modifier,
         enabled = enabled
     ) {
+        if (showLoading) {
+            CircularProgressIndicator()
+            Spacer(
+                modifier = Modifier
+                    .width(Dimens.SmallPadding.size),
+            )
+        }
         icon?.let {
             Icon(
                 imageVector = icon,

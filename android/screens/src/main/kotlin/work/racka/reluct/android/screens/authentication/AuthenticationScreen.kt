@@ -28,6 +28,7 @@ fun AuthenticationScreen(
 
     AuthenticationScreenUI(
         uiState = uiState,
+        snackbarState = snackbarState,
         onChooseAuth = { type ->
             when (type) {
                 AuthType.LOGIN -> run(viewModel::openLogin)

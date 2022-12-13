@@ -183,7 +183,8 @@ class LoginSignupViewModel(
                 password = passwordResult,
                 canLoginOrSignup = emailResult == EmailResult.VALID &&
                         passwordResult == PasswordResult.VALID &&
-                        user.password == user.repeatPassword
+                        user.password == user.repeatPassword &&
+                        user.displayName.isNotBlank()
             )
         }
     }

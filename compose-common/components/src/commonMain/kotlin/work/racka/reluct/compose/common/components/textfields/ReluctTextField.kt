@@ -41,6 +41,8 @@ fun ReluctTextField(
     hint: String,
     onTextChange: (String) -> Unit,
     modifier: Modifier = Modifier,
+    leadingIcon: @Composable (RowScope.() -> Unit)? = null,
+    trailingIcon: @Composable (RowScope.() -> Unit)? = null,
     textStyle: TextStyle = MaterialTheme.typography.titleMedium,
     maxLines: Int = Int.MAX_VALUE,
     singleLine: Boolean = false,
@@ -96,8 +98,14 @@ fun ReluctTextField(
                     .width(Dimens.MediumPadding.size)
                     .height(48.dp)
             )
+            leadingIcon?.let {
+                it()
+                Spacer(modifier = Modifier.width(Dimens.MediumPadding.size))
+            }
+
             Box(
-                contentAlignment = Alignment.CenterStart
+                contentAlignment = Alignment.CenterStart,
+                modifier = Modifier.weight(1f)
             ) {
                 if (!isTyping) {
                     Text(
@@ -137,7 +145,6 @@ fun ReluctTextField(
                         keyboardActions = keyboardActions,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(end = Dimens.MediumPadding.size)
                             .padding(vertical = Dimens.MediumPadding.size)
                             .focusRequester(focusRequester)
                             .onFocusChanged {
@@ -146,6 +153,16 @@ fun ReluctTextField(
                     )
                 }
             }
+
+            trailingIcon?.let {
+                Spacer(modifier = Modifier.width(Dimens.MediumPadding.size))
+                it()
+            }
+            Spacer(
+                modifier = Modifier
+                    .width(Dimens.MediumPadding.size)
+                    .height(48.dp)
+            )
         }
 
         AnimatedVisibility(
