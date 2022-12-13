@@ -134,12 +134,11 @@ fun AppNavHost(settingsCheck: State<SettingsCheck?>, modifier: Modifier = Modifi
                 ) {
                     AuthenticationScreen(
                         onContinue = {
-                            /*navController.navigate(NavbarDestinations.Dashboard.route) {
+                            navController.navigate(NavbarDestinations.Dashboard.route) {
                                 popUpTo(
                                     AuthenticationDestination.route
                                 ) { inclusive = true }
-                            }*/
-                            println("Authentication Done!")
+                            }
                         }
                     )
                     SideEffect { barsVisibility.bottomBar.hide() }

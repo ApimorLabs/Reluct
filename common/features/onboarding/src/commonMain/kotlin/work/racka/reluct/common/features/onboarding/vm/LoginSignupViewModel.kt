@@ -85,8 +85,8 @@ class LoginSignupViewModel(
                             eventsChannel.send(LoginSignupEvent.Continue)
                         } else {
                             auth.sendVerificationEmail(res.data)
+                            authState.update { CurrentAuthState.Authenticated(res.data) }
                         }
-                        authState.update { CurrentAuthState.Authenticated(res.data) }
                     }
                     is Resource.Error -> eventsChannel.send(
                         LoginSignupEvent.LoginError(loginAttempts, res.message)
@@ -96,7 +96,7 @@ class LoginSignupViewModel(
                     )
                 }
                 screenLoading.update { false }
-            } else if (loginAttempts > 5){
+            } else if (loginAttempts > 5) {
                 eventsChannel.send(
                     LoginSignupEvent.LoginError(loginAttempts, "Too Many Login Attempts!")
                 )
@@ -119,8 +119,8 @@ class LoginSignupViewModel(
                             eventsChannel.send(LoginSignupEvent.Continue)
                         } else {
                             auth.sendVerificationEmail(res.data)
+                            authState.update { CurrentAuthState.Authenticated(res.data) }
                         }
-                        authState.update { CurrentAuthState.Authenticated(res.data) }
                     }
                     is Resource.Error -> eventsChannel.send(
                         LoginSignupEvent.SignupError(
