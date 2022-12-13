@@ -9,7 +9,7 @@ import work.racka.reluct.common.features.onboarding.vm.OnBoardingViewModel
 @OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
 fun OnBoardingScreen(
-    navigateHome: () -> Unit
+    onNavigateToAuth: () -> Unit
 ) {
     val viewModel: OnBoardingViewModel = getCommonViewModel()
     val uiState = viewModel.uiState.collectAsStateWithLifecycle()
@@ -22,7 +22,7 @@ fun OnBoardingScreen(
         onToggleAppBlocking = viewModel::toggleAppBlocking,
         onBoardingComplete = {
             viewModel.onBoardingComplete()
-            navigateHome()
+            onNavigateToAuth()
         }
     )
 }

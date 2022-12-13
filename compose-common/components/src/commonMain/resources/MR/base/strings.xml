@@ -293,6 +293,7 @@
     <string name="login_text">Login</string>
     <string name="signup_text">Signup</string>
     <string name="email_text">Email</string>
+    <string name="continue_no_acc_text">Continue without Account</string>
     <string name="password_text">Password</string>
     <string name="enter_password_text">Enter your Password</string>
     <string name="repeat_password_text">Repeat Password</string>
