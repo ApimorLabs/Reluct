@@ -38,7 +38,6 @@ internal fun AuthenticationScreenUI(
     onContinue: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-
     val authState = remember { derivedStateOf { uiState.value.authState } }
     val screenTransition = updateTransition(
         targetState = authState.value,

@@ -30,8 +30,10 @@ internal class UserAccountManagementImpl(
 
     override suspend fun updatePassword(oldPassword: String, newPassword: String): Resource<User> =
         withContext(dispatcher) {
-            when (val res =
-                manageUser.updatePassword(oldPassword = oldPassword, newPassword = newPassword)) {
+            when (
+                val res =
+                    manageUser.updatePassword(oldPassword = oldPassword, newPassword = newPassword)
+            ) {
                 is Resource.Success -> Resource.Success(res.data.toUser())
                 is Resource.Error -> Resource.Error(message = res.message)
                 else -> Resource.Error(message = "Unknown Error!")

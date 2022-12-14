@@ -44,8 +44,7 @@ internal fun VerifyEmailPage(
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
-            .padding(top = Dimens.LargePadding.size)
-                then modifier,
+            .padding(top = Dimens.LargePadding.size) then modifier,
         verticalArrangement = Arrangement.spacedBy(Dimens.MediumPadding.size),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {

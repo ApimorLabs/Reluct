@@ -46,7 +46,8 @@ fun ReluctButton(
         if (showLoading) {
             CircularProgressIndicator(
                 modifier = Modifier.size(32.dp),
-                color = if (enabled) contentColor else buttonColor)
+                color = if (enabled) contentColor else buttonColor
+            )
             Spacer(
                 modifier = Modifier
                     .width(Dimens.SmallPadding.size),

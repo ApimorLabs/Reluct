@@ -7,16 +7,18 @@ class AuthVerifications {
 
     fun validateEmail(email: String): EmailResult {
         if (email.isBlank()) return EmailResult.BLANK
-        if (!EMAIL_REGEX.toRegex().matches(email)) return EmailResult.INVALID
-        return EmailResult.VALID
+        return if (!EMAIL_REGEX.toRegex().matches(email)) EmailResult.INVALID else EmailResult.VALID
     }
 
     fun validatePassword(password: String): PasswordResult {
         if (password.length < 8) return PasswordResult.INCORRECT_LENGTH
         val containsDigitsAndLetters = password.any { it.isDigit() } &&
             password.any { it.isLetter() }
-        if (!containsDigitsAndLetters) return PasswordResult.DIGITS_LETTERS_ABSENT
-        return PasswordResult.VALID
+        return if (!containsDigitsAndLetters) {
+            PasswordResult.DIGITS_LETTERS_ABSENT
+        } else {
+            PasswordResult.VALID
+        }
     }
 
     companion object {

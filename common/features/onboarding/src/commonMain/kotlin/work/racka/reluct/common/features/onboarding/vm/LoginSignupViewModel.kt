@@ -26,7 +26,9 @@ class LoginSignupViewModel(
     private val screenLoading = MutableStateFlow(false)
 
     val uiState: StateFlow<LoginSignupState> = combine(
-        authState, credVerificationState, screenLoading
+        authState,
+        credVerificationState,
+        screenLoading
     ) { authState, credVerificationState, screenLoading ->
         LoginSignupState(
             authState = authState,
@@ -174,7 +176,7 @@ class LoginSignupViewModel(
                 email = emailResult,
                 password = passwordResult,
                 canLoginOrSignup = emailResult == EmailResult.VALID &&
-                        passwordResult == PasswordResult.VALID
+                    passwordResult == PasswordResult.VALID
             )
         }
     }
@@ -187,9 +189,9 @@ class LoginSignupViewModel(
                 email = emailResult,
                 password = passwordResult,
                 canLoginOrSignup = emailResult == EmailResult.VALID &&
-                        passwordResult == PasswordResult.VALID &&
-                        user.password == user.repeatPassword &&
-                        user.displayName.isNotBlank()
+                    passwordResult == PasswordResult.VALID &&
+                    user.password == user.repeatPassword &&
+                    user.displayName.isNotBlank()
             )
         }
     }

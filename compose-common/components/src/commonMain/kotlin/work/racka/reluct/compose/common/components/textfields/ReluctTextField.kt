@@ -104,12 +104,18 @@ fun ReluctTextField(
                 modifier = Modifier
                     .weight(1f)
                     .padding(
-                        start = if (leadingIcon == null) Dimens.MediumPadding.size
-                        else Dimens.ExtraSmallPadding.size
+                        start = if (leadingIcon == null) {
+                            Dimens.MediumPadding.size
+                        } else {
+                            Dimens.ExtraSmallPadding.size
+                        }
                     )
                     .padding(
-                        end = if (trailingIcon == null) Dimens.MediumPadding.size
-                        else Dimens.ExtraSmallPadding.size
+                        end = if (trailingIcon == null) {
+                            Dimens.MediumPadding.size
+                        } else {
+                            Dimens.ExtraSmallPadding.size
+                        }
                     )
                     .align(Alignment.Top)
             ) {

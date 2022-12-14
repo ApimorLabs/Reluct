@@ -82,8 +82,7 @@ internal fun SignupPage(
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
-            .padding(top = Dimens.LargePadding.size)
-                then modifier,
+            .padding(top = Dimens.LargePadding.size) then modifier,
         verticalArrangement = Arrangement.spacedBy(Dimens.MediumPadding.size),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -199,8 +198,11 @@ internal fun SignupPage(
                 keyboardActions = KeyboardActions(
                     onNext = { focusManager.moveFocus(FocusDirection.Down) }
                 ),
-                visualTransformation = if (showPassword) VisualTransformation.None
-                else PasswordVisualTransformation()
+                visualTransformation = if (showPassword) {
+                    VisualTransformation.None
+                } else {
+                    PasswordVisualTransformation()
+                }
             )
         }
 
@@ -245,8 +247,11 @@ internal fun SignupPage(
                 keyboardActions = KeyboardActions(
                     onDone = { focusManager.clearFocus() }
                 ),
-                visualTransformation = if (showPassword) VisualTransformation.None
-                else PasswordVisualTransformation()
+                visualTransformation = if (showPassword) {
+                    VisualTransformation.None
+                } else {
+                    PasswordVisualTransformation()
+                }
             )
         }
 
@@ -278,8 +283,12 @@ internal fun SignupPage(
             )
         }
 
-        item { Spacer(modifier = Modifier
-            .imePadding()
-            .navigationBarsPadding()) }
+        item {
+            Spacer(
+                modifier = Modifier
+                    .imePadding()
+                    .navigationBarsPadding()
+            )
+        }
     }
 }
