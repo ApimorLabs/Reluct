@@ -55,7 +55,8 @@
     <string name="set_reminder">Set a reminder</string>
     <string name="set_reminder_desc">Remind you about the task at set time</string>
     <string name="reminder_time_error_text">This date &amp; time can not be smaller than or equal to
-        the set DUE date &amp; time. Changes have been Rejected!</string>
+        the set DUE date &amp; time. Changes have been Rejected!
+    </string>
 
     <string name="turn_on_focus_mode">Turn On Focus Mode</string>
     <string name="turn_on_focus_mode_desc">Selected apps will be disabled</string>
@@ -137,8 +138,11 @@
     <string name="app_blocking_turned_off_text">App Blocking Turned OFF</string>
     <string name="turn_on_app_blocking_text">Turn on App Blocking</string>
     <string name="app_blocking_text">App Blocking</string>
-    <string name="app_blocking_desc_text">Enabled Blocking Apps defined by the set Screen Time limits
-    and Focus Mode states. This feature may use more battery as it will be running in the background!</string>
+    <string name="app_blocking_desc_text">Enabled Blocking Apps defined by the set Screen Time
+        limits
+        and Focus Mode states. This feature may use more battery as it will be running in the
+        background!
+    </string>
 
     <string name="no_usage_data_text">No Usage Data Found</string>
     <string name="no_paused_apps_text">No Paused Apps</string>
@@ -150,15 +154,27 @@
     <string name="apps_text">Apps</string>
 
     <string name="open_settings_dialog_title">Open Device Settings</string>
-    <string name="usage_permissions_details">This app needs access to your device\'s Usage Statistics to show Screen Time Usage Data.
-        This data is not shared to anyone else! Please review our Privacy Policy regarding this. </string>
-    <string name="usage_permissions_rationale_dialog_text">You are about to be sent to the Usage Access permissions
-    screen. Please select the Reluct app and Allow Usage Access to see your Screen Time</string>
-    <string name="overlay_permissions_rationale_dialog_text">You are about to be sent to the Display Over Other Apps settings
-    screen. Please select the Reluct app and Allow it to Display Over Other Apps to block distracting and paused apps</string>
-    <string name="reminders_permissions_rationale_dialog_text">You are about to be sent to the Alarms &amp; Reminders settings
-    screen. Please select the Reluct app and Allow it to set Alarms &amp; Reminders for your Tasks</string>
-    <string name="find_draw_over_apps_text">Find Display of Other Apps Permission in Settings and enable it for the Reluct App</string>
+    <string name="usage_permissions_details">This app needs access to your device\'s Usage
+        Statistics to show Screen Time Usage Data.
+        This data is not shared to anyone else! Please review our Privacy Policy regarding this.
+    </string>
+    <string name="usage_permissions_rationale_dialog_text">You are about to be sent to the Usage
+        Access permissions
+        screen. Please select the Reluct app and Allow Usage Access to see your Screen Time
+    </string>
+    <string name="overlay_permissions_rationale_dialog_text">You are about to be sent to the Display
+        Over Other Apps settings
+        screen. Please select the Reluct app and Allow it to Display Over Other Apps to block
+        distracting and paused apps
+    </string>
+    <string name="reminders_permissions_rationale_dialog_text">You are about to be sent to the
+        Alarms &amp; Reminders settings
+        screen. Please select the Reluct app and Allow it to set Alarms &amp; Reminders for your
+        Tasks
+    </string>
+    <string name="find_draw_over_apps_text">Find Display of Other Apps Permission in Settings and
+        enable it for the Reluct App
+    </string>
     <string name="allow_permission">Allow</string>
     <string name="click_to_grant_text">Click to Grant Permission</string>
     <string name="permission_granted_text">Permission Granted</string>
@@ -173,33 +189,54 @@
     <!-- Settings END  -->
 
     <!--  On Boarding Text  -->
-    <string name="welcome_text">Manage your Tasks and Goals while keeping an eye on your phone usage habits</string>
+    <string name="welcome_text">Manage your Tasks and Goals while keeping an eye on your phone usage
+        habits
+    </string>
     <string name="tasks_highlight_text">Tasks</string>
     <string name="goals_highlight_text">Goals</string>
 
-    <string name="privacy_policy_terms_text">By continuing you are Agreeing with the Privacy Policy and Terms of Service</string>
+    <string name="privacy_policy_terms_text">By continuing you are Agreeing with the Privacy Policy
+        and Terms of Service
+    </string>
     <string name="privacy_policy_hyperlink_text">Privacy Policy</string>
-    <string name="privacy_policy_hyperlink_url" translatable="false">https://www.racka.work/policies/reluct/privacy-policy</string>
+    <string name="privacy_policy_hyperlink_url" translatable="false">
+        https://www.racka.work/policies/reluct/privacy-policy
+    </string>
     <string name="terms_of_service_hyperlink_text">Terms of Service</string>
-    <string name="terms_of_service_hyperlink_url" translatable="false">https://www.racka.work/policies/reluct/terms-of-service</string>
-    <string name="privacy_policy_n_terms_hyperlink_text">Privacy Policy &amp; Terms of Service</string>
-    <string name="reluct_polices_hyperlink_url" translatable="false">https://www.racka.work/policies/reluct</string>
+    <string name="terms_of_service_hyperlink_url" translatable="false">
+        https://www.racka.work/policies/reluct/terms-of-service
+    </string>
+    <string name="privacy_policy_n_terms_hyperlink_text">Privacy Policy &amp; Terms of Service
+    </string>
+    <string name="reluct_polices_hyperlink_url" translatable="false">
+        https://www.racka.work/policies/reluct
+    </string>
 
     <string name="permissions_text">Permissions</string>
-    <string name="permissions_desc_text">We need some permissions on this device for the App to function properly.
-        Press Next to continue</string>
+    <string name="permissions_desc_text">We need some permissions on this device for the App to
+        function properly.
+        Press Next to continue
+    </string>
     <string name="notifications_text">Notifications</string>
-    <string name="notifications_desc_text">This App needs Notification Permission to be able to send Task reminders, Service notifications and Important Updates.
-        Allow Notification Permission when prompted</string>
+    <string name="notifications_desc_text">This App needs Notification Permission to be able to send
+        Task reminders, Service notifications and Important Updates.
+        Allow Notification Permission when prompted
+    </string>
     <string name="alarms_and_reminders_text">Alarms &amp; Reminders</string>
-    <string name="alarms_and_reminders_desc_text">This App needs the Alarms &amp; Reminders Permission to be able to Schedule Tasks and Goals Reminders.
-        Allow Alarms &amp; Reminders Permission</string>
+    <string name="alarms_and_reminders_desc_text">This App needs the Alarms &amp; Reminders
+        Permission to be able to Schedule Tasks and Goals Reminders.
+        Allow Alarms &amp; Reminders Permission
+    </string>
     <string name="usage_access_text">Usage Access</string>
-    <string name="usage_access_desc_text">This App needs Usage Access permission to show Device Screen Time usage and it’s statistics.
-        Allow Usage Access Permission in Settings</string>
+    <string name="usage_access_desc_text">This App needs Usage Access permission to show Device
+        Screen Time usage and it’s statistics.
+        Allow Usage Access Permission in Settings
+    </string>
     <string name="display_over_apps_text">Display Over Other Apps</string>
-    <string name="display_over_apps_desc_text">Overlay (Display over other Apps) permission needed to block Distracting and Paused Apps so you can focus on your Tasks.
-        Allow Display Over other App Permission</string>
+    <string name="display_over_apps_desc_text">Overlay (Display over other Apps) permission needed
+        to block Distracting and Paused Apps so you can focus on your Tasks.
+        Allow Display Over other App Permission
+    </string>
     <string name="themes_text">Themes</string>
     <string name="themes_changed_text">Theme has been changed</string>
     <string name="themes_desc_text">Select Your Preferred Theme Configuration</string>
@@ -248,7 +285,8 @@
     <string name="add_goal_text">Add Goal</string>
     <string name="add_your_goal_text">Add Your Goal</string>
     <string name="goal_time_error_text">END date &amp; time can not be smaller than or equal to
-        the START date &amp; time. Changes have been Rejected!</string>
+        the START date &amp; time. Changes have been Rejected!
+    </string>
 
     <string name="active_days_text">Active Days</string>
     <string name="active_goals_text">Active Goals</string>
@@ -268,7 +306,9 @@
     <string name="sync_text">Sync</string>
 
     <string name="support_development_text">Support Development</string>
-    <string name="support_development_desc_text">Buy me some coffee to support development of this app</string>
+    <string name="support_development_desc_text">Buy me some coffee to support development of this
+        app
+    </string>
     <string name="buy_me_coffee_text">Buy me Coffee</string>
     <string name="no_products_text">No Products</string>
     <string name="retry_text">Retry</string>
@@ -302,7 +342,8 @@
     <string name="display_name_error">Enter a name that should appear for your account</string>
     <string name="already_have_account_text">Already have an account? Login instead</string>
     <string name="do_not_have_account_text">No account? Signup instead</string>
-    <string name="password_hint">Must be 8 characters or more, contain numbers &amp; letters</string>
+    <string name="password_hint">Must be 8 characters or more, contain numbers &amp; letters
+    </string>
     <string name="password_error_length">Must be 8 characters or more</string>
     <string name="password_error_digits_letter">Must contain both letters &amp; numbers</string>
     <string name="password_error_digits">Must contain numbers</string>
@@ -310,4 +351,20 @@
     <string name="password_error_match">Passwords must match</string>
     <string name="email_error_invalid">Enter a correct email</string>
     <string name="email_error_blank">Email cannot be blank</string>
+    <string name="verify_email_text">Verify Email</string>
+    <string name="verify_email_done_text">Email Verified!</string>
+    <string name="verify_email_description">Verification email sent to your email from Reluct App.
+        Open the email and click the verification link. If you can\'t find the email in you main
+        folder look in the Spam folder. After verification click the &quot;Recheck Verification&quot;
+        button and continue.
+    </string>
+    <string name="verify_email_done_description">Successfully Verified your email. You can Continue.
+    </string>
+    <string name="find_gmail_spam">Where is Spam in Gmail?</string>
+    <string name="find_gmail_spam_link" translatable="false">
+        https://www.androidauthority.com/find-gmail-spam-folder-3064474/
+    </string>
+    <string name="resend_email_text">Resend Email</string>
+    <string name="refresh_verification_text">Recheck Verification</string>
+    <string name="skip_text">Skip</string>
 </resources>

@@ -56,6 +56,7 @@ internal fun LoginPage(
     val focusManager = LocalFocusManager.current
     val context = LocalContext.current
     val drawableSize = 200.dp
+    val buttonRatio = .7f // 70%
 
     val emailErrorText by remember(verificationState.email) {
         derivedStateOf {
@@ -188,7 +189,7 @@ internal fun LoginPage(
         // Login & Signup Buttons
         item {
             ReluctButton(
-                enabled = verificationState.canLoginOrSignup,
+                enabled = verificationState.canLoginOrSignup && !isLoading,
                 buttonText = stringResource(R.string.login_text),
                 icon = Icons.Rounded.Login,
                 onButtonClicked = {
@@ -196,7 +197,7 @@ internal fun LoginPage(
                     onLogin()
                 },
                 showLoading = isLoading,
-                modifier = Modifier.fillMaxSize(.5f)
+                modifier = Modifier.fillMaxSize(buttonRatio)
             )
             Spacer(modifier = Modifier.height(Dimens.SmallPadding.size))
             OutlinedReluctButton(
@@ -204,7 +205,7 @@ internal fun LoginPage(
                 icon = Icons.Rounded.PersonAdd,
                 onButtonClicked = onOpenSignup,
                 enabled = !isLoading,
-                modifier = Modifier.fillMaxSize(.5f)
+                modifier = Modifier.fillMaxSize(buttonRatio)
             )
         }
 

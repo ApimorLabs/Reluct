@@ -16,12 +16,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import work.racka.reluct.android.screens.authentication.pages.LoginPage
 import work.racka.reluct.android.screens.authentication.pages.SignupPage
+import work.racka.reluct.android.screens.authentication.pages.VerifyEmailPage
 import work.racka.reluct.common.features.onboarding.states.auth.CurrentAuthState
 import work.racka.reluct.common.features.onboarding.states.auth.LoginSignupState
 import work.racka.reluct.common.model.domain.authentication.EmailUserLogin
 import work.racka.reluct.common.model.domain.authentication.RegisterUser
 import work.racka.reluct.common.model.domain.authentication.User
-import work.racka.reluct.compose.common.components.buttons.ReluctButton
 import work.racka.reluct.compose.common.components.dialogs.FullScreenLoading
 import work.racka.reluct.compose.common.theme.Dimens
 
@@ -97,31 +97,14 @@ internal fun AuthenticationScreenUI(
                         )
                     }
                     is CurrentAuthState.Authenticated -> {
-                        // Authenticated
-                        Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                            Text(text = "Current Email: ${state.user.email}")
-                            Text(text = "Is Email Verified: ${state.user.isEmailVerified}")
-                            ReluctButton(
-                                buttonText = "Refresh",
-                                icon = null,
-                                onButtonClicked = onRefreshUser,
-                                showLoading = uiState.value.screenLoading
-                            )
-                            if (state.user.isEmailVerified) {
-                                ReluctButton(
-                                    buttonText = "Continue",
-                                    icon = null,
-                                    onButtonClicked = onContinue,
-                                )
-                            } else {
-                                ReluctButton(
-                                    buttonText = "Resend Email",
-                                    icon = null,
-                                    onButtonClicked = { onResendEmail(state.user) },
-                                    enabled = !uiState.value.screenLoading
-                                )
-                            }
-                        }
+                        VerifyEmailPage(
+                            userEmail = state.user.email,
+                            isEmailVerified = state.user.isEmailVerified,
+                            isLoading = uiState.value.screenLoading,
+                            onRefresh = onRefreshUser,
+                            onResendEmail = { onResendEmail(state.user) },
+                            onContinue = onContinue
+                        )
                     }
                     is CurrentAuthState.None -> {
                         FullScreenLoading(isLoadingProvider = { true })
