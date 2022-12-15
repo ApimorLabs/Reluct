@@ -4,24 +4,12 @@
 
 package work.racka.reluct.compose.common.pager.snapper
 
-import androidx.compose.animation.core.AnimationScope
-import androidx.compose.animation.core.AnimationSpec
-import androidx.compose.animation.core.AnimationState
-import androidx.compose.animation.core.AnimationVector1D
-import androidx.compose.animation.core.DecayAnimationSpec
-import androidx.compose.animation.core.animateDecay
-import androidx.compose.animation.core.animateTo
-import androidx.compose.animation.core.calculateTargetValue
-import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.*
 import androidx.compose.animation.rememberSplineBasedDecay
 import androidx.compose.foundation.gestures.FlingBehavior
 import androidx.compose.foundation.gestures.ScrollScope
 import androidx.compose.foundation.lazy.LazyListState
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
 import kotlin.math.abs
 import kotlin.math.absoluteValue
 
@@ -52,7 +40,8 @@ public object SnapperFlingBehaviorDefaults {
      * The default implementation for the `snapIndex` parameter of
      * [rememberSnapperFlingBehavior] and [SnapperFlingBehavior].
      */
-    public val SnapIndex: (SnapperLayoutInfo, startIndex: Int, targetIndex: Int) -> Int = { _, _, targetIndex -> targetIndex }
+    public val SnapIndex: (SnapperLayoutInfo, startIndex: Int, targetIndex: Int) -> Int =
+        { _, _, targetIndex -> targetIndex }
 }
 
 /**
@@ -293,14 +282,16 @@ public class SnapperFlingBehavior private constructor(
         layoutInfo: SnapperLayoutInfo,
         decayAnimationSpec: DecayAnimationSpec<Float>,
         springAnimationSpec: AnimationSpec<Float> = SnapperFlingBehaviorDefaults.SpringAnimationSpec,
-        snapIndex: (SnapperLayoutInfo, startIndex: Int, targetIndex: Int) -> Int = SnapperFlingBehaviorDefaults.SnapIndex,
+        snapIndex: (SnapperLayoutInfo, startIndex: Int, targetIndex: Int) -> Int =
+            SnapperFlingBehaviorDefaults.SnapIndex,
     ) : this(
         layoutInfo = layoutInfo,
         decayAnimationSpec = decayAnimationSpec,
         springAnimationSpec = springAnimationSpec,
         snapIndex = snapIndex,
         // We still need to pass in a maximumFlingDistance value
-        maximumFlingDistance = @Suppress("DEPRECATION") SnapperFlingBehaviorDefaults.MaximumFlingDistance,
+        maximumFlingDistance = @Suppress("DEPRECATION")
+        SnapperFlingBehaviorDefaults.MaximumFlingDistance,
     )
 
     /**
