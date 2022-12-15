@@ -36,7 +36,7 @@
 
 ## 🏋 Requirements
 
-- Java 11 or above
+- Java 17 or above
 - Android Studio Dolphin | 2021.3+
 
 ## 🏗️️ Built with
