@@ -20,21 +20,21 @@ object Database {
         }
 
     private fun commonModule() = module {
-        factory<TasksDao> {
+        single<TasksDao> {
             TasksDaoImpl(
                 dispatcher = CoroutineDispatchers.backgroundDispatcher,
                 databaseWrapper = get()
             )
         }
 
-        factory<LimitsDao> {
+        single<LimitsDao> {
             LimitsDaoImpl(
                 dispatcher = CoroutineDispatchers.backgroundDispatcher,
                 databaseWrapper = get()
             )
         }
 
-        factory<GoalsDao> {
+        single<GoalsDao> {
             GoalsDaoImpl(
                 dispatcher = CoroutineDispatchers.backgroundDispatcher,
                 databaseWrapper = get()

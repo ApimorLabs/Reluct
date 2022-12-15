@@ -13,10 +13,10 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text.selection.LocalTextSelectionColors
 import androidx.compose.foundation.text.selection.TextSelectionColors
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -41,6 +41,8 @@ fun ReluctTextField(
     hint: String,
     onTextChange: (String) -> Unit,
     modifier: Modifier = Modifier,
+    leadingIcon: @Composable (() -> Unit)? = null,
+    trailingIcon: @Composable (() -> Unit)? = null,
     textStyle: TextStyle = MaterialTheme.typography.titleMedium,
     maxLines: Int = Int.MAX_VALUE,
     singleLine: Boolean = false,
@@ -56,10 +58,6 @@ fun ReluctTextField(
     shape: Shape = Shapes.large,
 ) {
     val focusRequester = remember { FocusRequester() }
-
-    val isErrorActive = rememberSaveable(isError) {
-        mutableStateOf(isError)
-    }
 
     var isHintActive by remember {
         mutableStateOf(hint.isNotEmpty())
@@ -81,29 +79,51 @@ fun ReluctTextField(
                 .clip(shape)
                 .background(color = containerColor)
                 .border(
-                    width = if (isErrorActive.value) 2.dp else 0.dp,
-                    color = if (isErrorActive.value) errorColor else Color.Transparent,
+                    width = if (isError) 2.dp else 0.dp,
+                    color = if (isError) errorColor else Color.Transparent,
                     shape = shape
                 )
                 .clickable {
                     focusRequester.requestFocus()
                 } then modifier,
             horizontalArrangement = Arrangement.Start,
-            verticalAlignment = Alignment.Top
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            Spacer(
-                modifier = Modifier
-                    .width(Dimens.MediumPadding.size)
-                    .height(48.dp)
-            )
+            CompositionLocalProvider(LocalContentColor.provides(contentColor)) {
+                leadingIcon?.let {
+                    Box(
+                        modifier = Modifier.size(48.dp),
+                        contentAlignment = Alignment.Center,
+                        content = { it() }
+                    )
+                }
+            }
+
             Box(
-                contentAlignment = Alignment.CenterStart
+                contentAlignment = Alignment.CenterStart,
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(
+                        start = if (leadingIcon == null) {
+                            Dimens.MediumPadding.size
+                        } else {
+                            Dimens.ExtraSmallPadding.size
+                        }
+                    )
+                    .padding(
+                        end = if (trailingIcon == null) {
+                            Dimens.MediumPadding.size
+                        } else {
+                            Dimens.ExtraSmallPadding.size
+                        }
+                    )
+                    .align(Alignment.Top)
             ) {
                 if (!isTyping) {
                     Text(
                         modifier = Modifier.fillMaxWidth(),
                         text = hint,
-                        color = (if (isErrorActive.value) errorColor else contentColor)
+                        color = (if (isError) errorColor else contentColor)
                             .copy(alpha = hintAlpha),
                         style = textStyle,
                         maxLines = 1,
@@ -122,22 +142,17 @@ fun ReluctTextField(
                         onValueChange = {
                             onTextChange(it)
                             isTyping = value.isNotEmpty()
-
-                            if (isErrorActive.value) {
-                                isErrorActive.value = false
-                            }
                         },
                         visualTransformation = visualTransformation,
                         maxLines = maxLines,
                         cursorBrush = cursorBrush,
                         singleLine = singleLine,
                         textStyle = textStyle
-                            .copy(color = if (isErrorActive.value) errorColor else contentColor),
+                            .copy(color = if (isError) errorColor else contentColor),
                         keyboardOptions = keyboardOptions,
                         keyboardActions = keyboardActions,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(end = Dimens.MediumPadding.size)
                             .padding(vertical = Dimens.MediumPadding.size)
                             .focusRequester(focusRequester)
                             .onFocusChanged {
@@ -146,12 +161,22 @@ fun ReluctTextField(
                     )
                 }
             }
+
+            CompositionLocalProvider(LocalContentColor.provides(contentColor)) {
+                trailingIcon?.let {
+                    Box(
+                        modifier = Modifier.size(48.dp),
+                        contentAlignment = Alignment.Center,
+                        content = { it() }
+                    )
+                }
+            }
         }
 
         AnimatedVisibility(
             modifier = Modifier
                 .padding(horizontal = Dimens.MediumPadding.size),
-            visible = isErrorActive.value,
+            visible = isError,
             enter = fadeIn(),
             exit = fadeOut()
         ) {

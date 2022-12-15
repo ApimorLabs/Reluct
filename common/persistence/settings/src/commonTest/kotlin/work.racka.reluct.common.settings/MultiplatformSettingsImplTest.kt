@@ -136,4 +136,20 @@ class MultiplatformSettingsImplTest {
             }
         }
     }
+
+    @Test
+    fun saveAndReadLoginSkipped_ShouldReturnSameValueOnRead() = runTest {
+        println("Testing Login Skipped")
+        val expect = true
+        repo.saveLoginSkipped(expect)
+        val data = repo.appBlockingEnabled
+        launch {
+            data.test {
+                val actual = expectMostRecentItem()
+                println(actual)
+                assertEquals(expect, actual)
+                cancelAndIgnoreRemainingEvents()
+            }
+        }
+    }
 }

@@ -1,6 +1,5 @@
 package work.racka.reluct.common.features.settings
 
-import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
@@ -100,14 +99,10 @@ class AppSettingsViewModel(
             coffeeProductsState.update { CoffeeProductsState.Loading }
             when (val result = manageCoffeeProducts.getAllProducts()) {
                 is Resource.Success -> {
-                    result.data?.let { products ->
-                        coffeeProductsState.update { CoffeeProductsState.ShowProducts(products) }
-                    } ?: coffeeProductsState.update {
-                        CoffeeProductsState.ShowProducts(persistentListOf())
-                    }
+                    coffeeProductsState.update { CoffeeProductsState.ShowProducts(result.data) }
                 }
                 is Resource.Error -> {
-                    val message = result.message ?: "Error Occurred"
+                    val message = result.message
                     coffeeProductsState.update { CoffeeProductsState.FetchError(message) }
                 }
                 else -> {}
@@ -142,7 +137,7 @@ class AppSettingsViewModel(
                         coffeeProductsState.update {
                             CoffeeProductsState.PurchaseError(
                                 product = product,
-                                message = result.message ?: "Error Occurred"
+                                message = result.message
                             )
                         }
                     }

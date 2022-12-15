@@ -15,9 +15,11 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation(project(":common:app-usage-stats"))
+                implementation(project(":common:authentication"))
                 api(project(":common:billing")) // We have important classes to expose
                 implementation(project(":common:core-navigation"))
                 implementation(project(":common:model"))
+                implementation(project(":common:network"))
                 implementation(project(":common:persistence:database"))
                 implementation(project(":common:persistence:settings"))
                 implementation(project(":common:system-services"))

@@ -11,6 +11,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.State
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
@@ -31,8 +32,10 @@ import work.racka.reluct.android.navigation.transitions.scaleInPopEnterTransitio
 import work.racka.reluct.android.navigation.transitions.scaleOutExitTransition
 import work.racka.reluct.android.navigation.transitions.scaleOutPopExitTransition
 import work.racka.reluct.android.navigation.util.SettingsCheck
+import work.racka.reluct.android.screens.authentication.AuthenticationScreen
 import work.racka.reluct.android.screens.onboarding.OnBoardingScreen
 import work.racka.reluct.android.screens.settings.SettingsScreen
+import work.racka.reluct.common.core.navigation.composeDestinations.onboarding.AuthenticationDestination
 import work.racka.reluct.common.core.navigation.composeDestinations.onboarding.OnBoardingDestination
 import work.racka.reluct.common.core.navigation.composeDestinations.settings.SettingsDestination
 import work.racka.reluct.common.core.navigation.composeDestinations.tasks.PendingTasksDestination
@@ -42,14 +45,14 @@ import work.racka.reluct.compose.common.components.util.BarsVisibility
 import work.racka.reluct.compose.common.components.util.rememberBarVisibility
 import work.racka.reluct.compose.common.theme.Dimens
 
+// Route used specifically for checking if the On Boarding flow was shown and User Signed In
+private const val CHECKING_ROUTE = "dummy_checking_route"
+
 @OptIn(ExperimentalAnimationApi::class, ExperimentalMaterial3Api::class)
 @Composable
-fun AppNavHost(settingsCheck: SettingsCheck?, modifier: Modifier = Modifier) {
+fun AppNavHost(settingsCheck: State<SettingsCheck?>, modifier: Modifier = Modifier) {
     val navController = rememberAnimatedNavController()
     val barsVisibility = rememberBarVisibility(defaultBottomBar = false)
-
-    // Route used specifically for checking if the On Boarding flow was shown and Signed In
-    val checkingRoute = "dummy_route"
 
     val mainPadding = PaddingValues(
         bottom = Dimens.ExtraLargePadding.size + Dimens.MediumPadding.size +
@@ -75,30 +78,18 @@ fun AppNavHost(settingsCheck: SettingsCheck?, modifier: Modifier = Modifier) {
             AnimatedNavHost(
                 modifier = Modifier,
                 navController = navController,
-                startDestination = checkingRoute,
+                startDestination = CHECKING_ROUTE,
                 route = "root"
             ) {
                 // Checking Route
                 composable(
-                    route = checkingRoute,
+                    route = CHECKING_ROUTE,
                     enterTransition = { fadeIn() },
                     exitTransition = { fadeOut() },
                     popEnterTransition = { fadeIn() },
                     popExitTransition = { fadeOut() }
                 ) {
-                    LaunchedEffect(Unit, settingsCheck) {
-                        settingsCheck?.let { check ->
-                            if (check.isOnBoardingDone) {
-                                navController.navigate(NavbarDestinations.Dashboard.route) {
-                                    popUpTo(checkingRoute) { inclusive = true }
-                                }
-                            } else {
-                                navController.navigate(OnBoardingDestination.route) {
-                                    popUpTo(checkingRoute) { inclusive = true }
-                                }
-                            }
-                        }
-                    }
+                    HandleRouteChecks(settingsCheck, navController)
 
                     Box(
                         modifier = Modifier
@@ -121,8 +112,8 @@ fun AppNavHost(settingsCheck: SettingsCheck?, modifier: Modifier = Modifier) {
                     popExitTransition = { scaleOutPopExitTransition() }
                 ) {
                     OnBoardingScreen(
-                        navigateHome = {
-                            navController.navigate(NavbarDestinations.Dashboard.route) {
+                        onNavigateToAuth = {
+                            navController.navigate(AuthenticationDestination.route) {
                                 popUpTo(
                                     OnBoardingDestination.route
                                 ) { inclusive = true }
@@ -130,6 +121,26 @@ fun AppNavHost(settingsCheck: SettingsCheck?, modifier: Modifier = Modifier) {
                         }
                     )
 
+                    SideEffect { barsVisibility.bottomBar.hide() }
+                }
+
+                // Authentication
+                composable(
+                    route = AuthenticationDestination.route,
+                    enterTransition = { scaleInEnterTransition() },
+                    exitTransition = { scaleOutExitTransition() },
+                    popEnterTransition = { scaleInPopEnterTransition() },
+                    popExitTransition = { scaleOutPopExitTransition() }
+                ) {
+                    AuthenticationScreen(
+                        onContinue = {
+                            navController.navigate(NavbarDestinations.Dashboard.route) {
+                                popUpTo(
+                                    AuthenticationDestination.route
+                                ) { inclusive = true }
+                            }
+                        }
+                    )
                     SideEffect { barsVisibility.bottomBar.hide() }
                 }
 
@@ -251,5 +262,35 @@ private fun BoxScope.AppBottomBar(
             navController = navController,
             graphStartDestination = NavbarDestinations.Dashboard.route
         )
+    }
+}
+
+@Composable
+private fun HandleRouteChecks(
+    settingsCheck: State<SettingsCheck?>,
+    navController: NavHostController
+) {
+    LaunchedEffect(settingsCheck.value) {
+        settingsCheck.value?.let { check ->
+            val accountChecked =
+                (check.accountCheck != null && check.accountCheck.isEmailVerified) ||
+                    check.loginSkipped
+            if (check.isOnBoardingDone && accountChecked) {
+                // Everything is ok. Go to Dashboard
+                navController.navigate(NavbarDestinations.Dashboard.route) {
+                    popUpTo(CHECKING_ROUTE) { inclusive = true }
+                }
+            } else if (!check.isOnBoardingDone) {
+                // Show On boarding flow
+                navController.navigate(OnBoardingDestination.route) {
+                    popUpTo(CHECKING_ROUTE) { inclusive = true }
+                }
+            } else if (check.accountCheck?.isEmailVerified != true) {
+                // Email not verified or user not logged in. Go to Auth screen
+                navController.navigate(AuthenticationDestination.route) {
+                    popUpTo(CHECKING_ROUTE) { inclusive = true }
+                }
+            }
+        }
     }
 }

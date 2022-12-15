@@ -227,6 +227,8 @@ firebase_bom = { module = "com.google.firebase:firebase-bom", version.ref = "fir
 firebase_analytics = { module = "com.google.firebase:firebase-analytics-ktx" }
 firebase_crashlytics = { module = "com.google.firebase:firebase-crashlytics-ktx" }
 firebase_auth = { module = "com.google.firebase:firebase-auth-ktx" }
+firebase_database = { module = "com.google.firebase:firebase-database-ktx" }
+firebase_appcheck_integrity = { module = "com.google.firebase:firebase-appcheck-playintegrity" }
 playservices_auth = { module = "com.google.android.gms:play-services-auth", version.ref = "play_services_auth" }
 
 # Square (Block)

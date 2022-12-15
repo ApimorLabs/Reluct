@@ -10,19 +10,24 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.lifecycleScope
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import org.koin.android.ext.android.get
+import org.koin.android.ext.android.inject
 import work.racka.reluct.BuildConfig
+import work.racka.reluct.android.navigation.util.AccountCheck
 import work.racka.reluct.android.navigation.util.SettingsCheck
 import work.racka.reluct.common.settings.MultiplatformSettings
 import work.racka.reluct.compose.common.theme.Theme
 
 class MainActivity : ComponentActivity() {
 
+    private val settings: MultiplatformSettings by inject()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // Enable support for Splash Screen API for
@@ -34,8 +39,7 @@ class MainActivity : ComponentActivity() {
 
         triggerBackgroundChangeIfNeeded()
 
-        val settings: MultiplatformSettings = get()
-
+        val auth = Firebase.auth
         setContent {
             // Theming Stuff
             val themeValue by settings.theme.collectAsState(
@@ -69,22 +73,35 @@ class MainActivity : ComponentActivity() {
             }
 
             // Settings for determining start destinations
-            var settingsCheck: SettingsCheck? by remember { mutableStateOf(null) }
-            LaunchedEffect(Unit) {
-                val onBoardingShown = settings.onBoardingShown.firstOrNull()
-                val savedVersionCode = settings.savedVersionCode.firstOrNull()
-                    ?: (BuildConfig.VERSION_CODE)
-                withContext(Dispatchers.IO) { settings.saveVersionCode(BuildConfig.VERSION_CODE) }
-                settingsCheck = SettingsCheck(
-                    isOnBoardingDone = onBoardingShown ?: false,
-                    showChangeLog = BuildConfig.VERSION_CODE > savedVersionCode
-                )
+            val settingsCheck = produceState<SettingsCheck?>(initialValue = null) {
+                value = getSettingsCheck(auth)
             }
 
             // Root Compose Entry
             ReluctMainCompose(themeValue = themeValue, settingsCheck = settingsCheck)
         }
     }
+
+    /**
+     * Provide Settings check
+     */
+    private suspend fun getSettingsCheck(auth: FirebaseAuth): SettingsCheck =
+        withContext(Dispatchers.IO) {
+            val accountCheck = auth.currentUser?.let { user ->
+                AccountCheck(user.isEmailVerified, user.email ?: "NO_EMAIL")
+            }
+            val loginSkipped = settings.loginSkipped.firstOrNull()
+            val onBoardingShown = settings.onBoardingShown.firstOrNull()
+            val savedVersionCode = settings.savedVersionCode.firstOrNull()
+                ?: (BuildConfig.VERSION_CODE)
+            settings.saveVersionCode(BuildConfig.VERSION_CODE)
+            SettingsCheck(
+                isOnBoardingDone = onBoardingShown ?: false,
+                showChangeLog = BuildConfig.VERSION_CODE > savedVersionCode,
+                accountCheck = accountCheck,
+                loginSkipped = loginSkipped ?: false
+            )
+        }
 
     /**
      * Function to tackle https://issuetracker.google.com/issues/227926002.

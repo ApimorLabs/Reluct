@@ -3,10 +3,10 @@ package work.racka.reluct.common.features.onboarding.vm
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import work.racka.common.mvvm.viewmodel.CommonViewModel
-import work.racka.reluct.common.features.onboarding.states.OnBoardingPages
-import work.racka.reluct.common.features.onboarding.states.OnBoardingState
-import work.racka.reluct.common.features.onboarding.states.PermissionType
-import work.racka.reluct.common.features.onboarding.states.PermissionsState
+import work.racka.reluct.common.features.onboarding.states.onBoarding.OnBoardingPages
+import work.racka.reluct.common.features.onboarding.states.onBoarding.OnBoardingState
+import work.racka.reluct.common.features.onboarding.states.onBoarding.PermissionType
+import work.racka.reluct.common.features.onboarding.states.onBoarding.PermissionsState
 import work.racka.reluct.common.settings.MultiplatformSettings
 
 class OnBoardingViewModel(
@@ -69,6 +69,4 @@ class OnBoardingViewModel(
     fun onBoardingComplete() {
         settings.saveOnBoardingShown(true)
     }
-
-    // TODO: Add Authentication Methods and States
 }

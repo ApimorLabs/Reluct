@@ -7,6 +7,10 @@ import work.racka.reluct.common.domain.usecases.appUsage.GetAppUsageInfo
 import work.racka.reluct.common.domain.usecases.appUsage.GetUsageStats
 import work.racka.reluct.common.domain.usecases.appUsage.impl.GetAppUsageInfoImpl
 import work.racka.reluct.common.domain.usecases.appUsage.impl.GetUsageStatsImpl
+import work.racka.reluct.common.domain.usecases.authentication.LoginSignupUser
+import work.racka.reluct.common.domain.usecases.authentication.UserAccountManagement
+import work.racka.reluct.common.domain.usecases.authentication.impl.LoginSignupUserImpl
+import work.racka.reluct.common.domain.usecases.authentication.impl.UserAccountManagementImpl
 import work.racka.reluct.common.domain.usecases.billing.ManageCoffeeProducts
 import work.racka.reluct.common.domain.usecases.billing.impl.ManageCoffeeProductsImpl
 import work.racka.reluct.common.domain.usecases.goals.GetGoals
@@ -182,5 +186,21 @@ object Domain {
 
         /** Billing **/
         factory<ManageCoffeeProducts> { ManageCoffeeProductsImpl(billingApi = get()) }
+
+        /** Authentication **/
+        factory<LoginSignupUser> {
+            LoginSignupUserImpl(
+                userAuth = get(),
+                dispatcher = Dispatchers.IO
+            )
+        }
+
+        factory<UserAccountManagement> {
+            UserAccountManagementImpl(
+                manageUser = get(),
+                userAuth = get(),
+                dispatcher = Dispatchers.IO
+            )
+        }
     }
 }

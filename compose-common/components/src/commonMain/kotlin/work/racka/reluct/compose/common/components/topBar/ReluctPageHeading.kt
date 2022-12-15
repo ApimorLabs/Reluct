@@ -22,6 +22,7 @@ fun ReluctPageHeading(
     title: String,
     modifier: Modifier = Modifier,
     titleTextStyle: TextStyle = MaterialTheme.typography.headlineMedium,
+    textAlign: TextAlign = TextAlign.Start,
     containerColor: Color = Color.Transparent,
     contentColor: Color = MaterialTheme.colorScheme.onBackground,
     shape: Shape = RectangleShape,
@@ -49,7 +50,7 @@ fun ReluctPageHeading(
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
                 color = contentColor,
-                textAlign = TextAlign.Start
+                textAlign = textAlign
             )
 
             extraItems()

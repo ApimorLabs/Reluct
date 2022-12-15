@@ -8,7 +8,7 @@ git stash -q --keep-index
 
 # ./gradlew spotlessApply - To be enabled later
 # ./gradlew check - To be enabled later
-./gradlew detekt
+#./gradlew detekt - To be enabled later
 
 status=$?
 

@@ -20,6 +20,7 @@ include(
     ":common:features:tasks",
     ":common:model",
     ":common:mvvm-core",
+    ":common:network",
     ":common:persistence:database",
     ":common:persistence:settings",
     ":common:system-services",
