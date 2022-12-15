@@ -56,7 +56,7 @@ fun AppNavHost(settingsCheck: State<SettingsCheck?>, modifier: Modifier = Modifi
 
     val mainPadding = PaddingValues(
         bottom = Dimens.ExtraLargePadding.size + Dimens.MediumPadding.size +
-                WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
+            WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
     )
     /**
      * Don't use the bottomBar param of Scaffold for the AppBottomBar
@@ -274,7 +274,7 @@ private fun HandleRouteChecks(
         settingsCheck.value?.let { check ->
             val accountChecked =
                 (check.accountCheck != null && check.accountCheck.isEmailVerified) ||
-                        check.loginSkipped
+                    check.loginSkipped
             if (check.isOnBoardingDone && accountChecked) {
                 // Everything is ok. Go to Dashboard
                 navController.navigate(NavbarDestinations.Dashboard.route) {
