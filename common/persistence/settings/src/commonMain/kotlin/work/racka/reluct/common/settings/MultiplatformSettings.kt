@@ -15,4 +15,7 @@ interface MultiplatformSettings {
     val onBoardingShown: Flow<Boolean>
     fun saveAppBlocking(value: Boolean): Boolean
     val appBlockingEnabled: Flow<Boolean>
+
+    fun saveLoginSkipped(value: Boolean): Boolean
+    val loginSkipped: Flow<Boolean>
 }

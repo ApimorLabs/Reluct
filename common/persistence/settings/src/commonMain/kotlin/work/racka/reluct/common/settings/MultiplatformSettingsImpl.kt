@@ -15,6 +15,7 @@ internal class MultiplatformSettingsImpl(
     private val _savedVersionCode = MutableSharedFlow<Int>(replay = 1)
     private val _onBoardingShown = MutableSharedFlow<Boolean>(replay = 1)
     private val _appBlockingEnabled = MutableSharedFlow<Boolean>(replay = 1)
+    private val _loginSkipped = MutableSharedFlow<Boolean>(replay = 1)
 
     override val theme: Flow<Int> = _themeFlow.asSharedFlow()
     override val focusMode: Flow<Boolean> = _focusMode.asSharedFlow()
@@ -22,6 +23,7 @@ internal class MultiplatformSettingsImpl(
     override val savedVersionCode: Flow<Int> = _savedVersionCode.asSharedFlow()
     override val onBoardingShown: Flow<Boolean> = _onBoardingShown.asSharedFlow()
     override val appBlockingEnabled: Flow<Boolean> = _appBlockingEnabled.asSharedFlow()
+    override val loginSkipped: Flow<Boolean> = _loginSkipped.asSharedFlow()
 
     init {
         initializeSettings()
@@ -66,6 +68,11 @@ internal class MultiplatformSettingsImpl(
         return _appBlockingEnabled.tryEmit(readAppBlocking())
     }
 
+    override fun saveLoginSkipped(value: Boolean): Boolean {
+        settings.putBoolean(key = Keys.LOGIN_SKIPPED, value = value)
+        return _loginSkipped.tryEmit(readLoginSkipped())
+    }
+
     // Private Read methods
     private fun readThemeSettings(): Int =
         settings.getInt(key = Keys.THEME_OPTION, defaultValue = Keys.Defaults.THEME)
@@ -84,4 +91,7 @@ internal class MultiplatformSettingsImpl(
 
     private fun readAppBlocking(): Boolean =
         settings.getBoolean(key = Keys.APP_BLOCKING, defaultValue = true)
+
+    private fun readLoginSkipped(): Boolean =
+        settings.getBoolean(key = Keys.LOGIN_SKIPPED, defaultValue = false)
 }
