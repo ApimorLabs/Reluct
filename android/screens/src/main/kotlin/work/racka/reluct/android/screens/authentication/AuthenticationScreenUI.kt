@@ -7,13 +7,12 @@ import androidx.compose.animation.core.updateTransition
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import work.racka.reluct.android.screens.R
 import work.racka.reluct.android.screens.authentication.pages.LoginPage
 import work.racka.reluct.android.screens.authentication.pages.SignupPage
 import work.racka.reluct.android.screens.authentication.pages.VerifyEmailPage
@@ -22,6 +21,7 @@ import work.racka.reluct.common.features.onboarding.states.auth.LoginSignupState
 import work.racka.reluct.common.model.domain.authentication.EmailUserLogin
 import work.racka.reluct.common.model.domain.authentication.RegisterUser
 import work.racka.reluct.common.model.domain.authentication.User
+import work.racka.reluct.compose.common.components.dialogs.DiscardPromptDialog
 import work.racka.reluct.compose.common.components.dialogs.FullScreenLoading
 import work.racka.reluct.compose.common.theme.Dimens
 
@@ -32,10 +32,11 @@ internal fun AuthenticationScreenUI(
     snackbarState: SnackbarHostState,
     onChooseAuth: (AuthType) -> Unit,
     onUpdateUser: (UpdateUser) -> Unit,
-    onLoginOrSignup: (AuthType) -> Unit,
+    onAuthAction: (AuthType) -> Unit,
     onRefreshUser: () -> Unit,
     onResendEmail: (User) -> Unit,
     onContinue: () -> Unit,
+    onMarkSkipped: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val authState = remember { derivedStateOf { uiState.value.authState } }
@@ -43,6 +44,7 @@ internal fun AuthenticationScreenUI(
         targetState = authState.value,
         label = "AuthScreenTransition"
     )
+    val openDialog = remember { mutableStateOf(false) }
 
     Scaffold(
         modifier = modifier
@@ -81,8 +83,9 @@ internal fun AuthenticationScreenUI(
                             verificationState = uiState.value.credVerificationState,
                             isLoading = uiState.value.screenLoading,
                             onUpdateUser = { onUpdateUser(UpdateUser.EmailLogin(it)) },
-                            onLogin = { onLoginOrSignup(AuthType.LOGIN) },
-                            onOpenSignup = { onChooseAuth(AuthType.SIGNUP) }
+                            onLogin = { onAuthAction(AuthType.LOGIN) },
+                            onOpenSignup = { onChooseAuth(AuthType.SIGNUP) },
+                            onSkip = { openDialog.value = true }
                         )
                     }
                     is CurrentAuthState.Signup -> {
@@ -91,8 +94,9 @@ internal fun AuthenticationScreenUI(
                             verificationState = uiState.value.credVerificationState,
                             isLoading = uiState.value.screenLoading,
                             onUpdateUser = { onUpdateUser(UpdateUser.EmailRegister(it)) },
-                            onSignup = { onLoginOrSignup(AuthType.SIGNUP) },
-                            onOpenLogin = { onChooseAuth(AuthType.LOGIN) }
+                            onSignup = { onAuthAction(AuthType.SIGNUP) },
+                            onOpenLogin = { onChooseAuth(AuthType.LOGIN) },
+                            onSkip = { openDialog.value = true }
                         )
                     }
                     is CurrentAuthState.Authenticated -> {
@@ -102,7 +106,8 @@ internal fun AuthenticationScreenUI(
                             isLoading = uiState.value.screenLoading,
                             onRefresh = onRefreshUser,
                             onResendEmail = { onResendEmail(state.user) },
-                            onContinue = onContinue
+                            onContinue = onContinue,
+                            onLogout = { onAuthAction(AuthType.LOGOUT) }
                         )
                     }
                     is CurrentAuthState.None -> {
@@ -112,10 +117,19 @@ internal fun AuthenticationScreenUI(
             }
         }
     }
+
+    val context = LocalContext.current
+    DiscardPromptDialog(
+        dialogTitleProvider = { context.getString(R.string.continue_no_acc_text) },
+        dialogTextProvider = { context.getString(R.string.continue_no_acc_desc) },
+        openDialog = openDialog,
+        onClose = { openDialog.value = false },
+        onPositiveClick = { openDialog.value = false; onMarkSkipped(); onContinue(); }
+    )
 }
 
 internal enum class AuthType {
-    LOGIN, SIGNUP;
+    LOGIN, SIGNUP, LOGOUT;
 }
 
 internal sealed class UpdateUser {

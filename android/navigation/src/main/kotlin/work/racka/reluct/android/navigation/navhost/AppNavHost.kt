@@ -56,7 +56,7 @@ fun AppNavHost(settingsCheck: State<SettingsCheck?>, modifier: Modifier = Modifi
 
     val mainPadding = PaddingValues(
         bottom = Dimens.ExtraLargePadding.size + Dimens.MediumPadding.size +
-            WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
+                WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
     )
     /**
      * Don't use the bottomBar param of Scaffold for the AppBottomBar
@@ -272,9 +272,10 @@ private fun HandleRouteChecks(
 ) {
     LaunchedEffect(settingsCheck.value) {
         settingsCheck.value?.let { check ->
-            if (check.isOnBoardingDone && check.accountCheck != null &&
-                check.accountCheck.isEmailVerified
-            ) {
+            val accountChecked =
+                (check.accountCheck != null && check.accountCheck.isEmailVerified) ||
+                        check.loginSkipped
+            if (check.isOnBoardingDone && accountChecked) {
                 // Everything is ok. Go to Dashboard
                 navController.navigate(NavbarDestinations.Dashboard.route) {
                     popUpTo(CHECKING_ROUTE) { inclusive = true }
@@ -284,7 +285,7 @@ private fun HandleRouteChecks(
                 navController.navigate(OnBoardingDestination.route) {
                     popUpTo(CHECKING_ROUTE) { inclusive = true }
                 }
-            } else if (check.accountCheck?.isEmailVerified != true && !check.loginSkipped) {
+            } else if (check.accountCheck?.isEmailVerified != true) {
                 // Email not verified or user not logged in. Go to Auth screen
                 navController.navigate(AuthenticationDestination.route) {
                     popUpTo(CHECKING_ROUTE) { inclusive = true }

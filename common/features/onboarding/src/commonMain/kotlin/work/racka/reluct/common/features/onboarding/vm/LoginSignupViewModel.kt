@@ -13,11 +13,13 @@ import work.racka.reluct.common.features.onboarding.states.auth.LoginSignupEvent
 import work.racka.reluct.common.features.onboarding.states.auth.LoginSignupState
 import work.racka.reluct.common.model.domain.authentication.*
 import work.racka.reluct.common.model.util.Resource
+import work.racka.reluct.common.settings.MultiplatformSettings
 
 class LoginSignupViewModel(
     private val auth: LoginSignupUser,
     private val manageUser: UserAccountManagement,
-    private val verifications: AuthVerifications
+    private val verifications: AuthVerifications,
+    private val settings: MultiplatformSettings
 ) : CommonViewModel() {
 
     private val authState: MutableStateFlow<CurrentAuthState> =
@@ -161,6 +163,15 @@ class LoginSignupViewModel(
         }
     }
 
+    fun markLoginSkipped() {
+        settings.saveLoginSkipped(true)
+    }
+
+    fun logout() {
+        manageUser.logout()
+        openLogin()
+    }
+
     private fun initialize() {
         when (val user = manageUser.getUser()) {
             null -> authState.update { CurrentAuthState.Login() }
@@ -176,7 +187,7 @@ class LoginSignupViewModel(
                 email = emailResult,
                 password = passwordResult,
                 canLoginOrSignup = emailResult == EmailResult.VALID &&
-                    passwordResult == PasswordResult.VALID
+                        passwordResult == PasswordResult.VALID
             )
         }
     }
@@ -189,9 +200,9 @@ class LoginSignupViewModel(
                 email = emailResult,
                 password = passwordResult,
                 canLoginOrSignup = emailResult == EmailResult.VALID &&
-                    passwordResult == PasswordResult.VALID &&
-                    user.password == user.repeatPassword &&
-                    user.displayName.isNotBlank()
+                        passwordResult == PasswordResult.VALID &&
+                        user.password == user.repeatPassword &&
+                        user.displayName.isNotBlank()
             )
         }
     }

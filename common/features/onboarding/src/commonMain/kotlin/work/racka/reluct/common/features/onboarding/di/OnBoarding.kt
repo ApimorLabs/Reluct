@@ -21,7 +21,8 @@ object OnBoarding {
             LoginSignupViewModel(
                 auth = get(),
                 manageUser = get(),
-                verifications = AuthVerifications()
+                verifications = AuthVerifications(),
+                settings = get()
             )
         }
     }

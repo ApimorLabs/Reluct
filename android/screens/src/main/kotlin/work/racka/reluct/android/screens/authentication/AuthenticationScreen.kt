@@ -33,6 +33,7 @@ fun AuthenticationScreen(
             when (type) {
                 AuthType.LOGIN -> run(viewModel::openLogin)
                 AuthType.SIGNUP -> run(viewModel::openSignup)
+                else -> {}
             }
         },
         onUpdateUser = { update ->
@@ -41,15 +42,17 @@ fun AuthenticationScreen(
                 is UpdateUser.EmailRegister -> update.user.run(viewModel::updateRegisterUser)
             }
         },
-        onLoginOrSignup = { type ->
+        onAuthAction = { type ->
             when (type) {
                 AuthType.LOGIN -> run(viewModel::login)
                 AuthType.SIGNUP -> run(viewModel::signup)
+                AuthType.LOGOUT -> run(viewModel::logout)
             }
         },
         onRefreshUser = viewModel::refreshUser,
         onResendEmail = viewModel::resendVerificationEmail,
         onContinue = onContinue,
+        onMarkSkipped = viewModel::markLoginSkipped,
         modifier = modifier
     )
 }

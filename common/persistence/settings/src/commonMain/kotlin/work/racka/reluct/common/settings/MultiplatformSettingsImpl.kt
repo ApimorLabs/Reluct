@@ -36,6 +36,7 @@ internal class MultiplatformSettingsImpl(
         _onBoardingShown.tryEmit(readOnBoardingShown())
         _savedVersionCode.tryEmit(readSavedVersionCode())
         _appBlockingEnabled.tryEmit(readAppBlocking())
+        _loginSkipped.tryEmit(readLoginSkipped())
     }
 
     override fun saveThemeSettings(value: Int): Boolean {

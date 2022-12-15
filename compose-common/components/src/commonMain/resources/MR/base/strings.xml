@@ -331,6 +331,7 @@
 
     <!--  Login & Signup  -->
     <string name="login_text">Login</string>
+    <string name="logout_text">Logout</string>
     <string name="signup_text">Signup</string>
     <string name="email_text">Email</string>
     <string name="continue_no_acc_text">Continue without Account</string>
@@ -367,4 +368,8 @@
     <string name="resend_email_text">Resend Email</string>
     <string name="refresh_verification_text">Recheck Verification</string>
     <string name="skip_text">Skip</string>
+    <string name="continue_no_acc_text">Continue without Account</string>
+    <string name="continue_no_acc_desc">You won\'t be able to sync and backup your data across
+        devices. You can still use all local functionality without an account.
+    </string>
 </resources>

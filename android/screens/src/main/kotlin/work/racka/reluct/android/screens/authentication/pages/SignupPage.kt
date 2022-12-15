@@ -51,6 +51,7 @@ internal fun SignupPage(
     onUpdateUser: (RegisterUser) -> Unit,
     onSignup: () -> Unit,
     onOpenLogin: () -> Unit,
+    onSkip: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val focusManager = LocalFocusManager.current
@@ -278,6 +279,14 @@ internal fun SignupPage(
                 buttonText = stringResource(R.string.login_text),
                 icon = Icons.Rounded.Login,
                 onButtonClicked = onOpenLogin,
+                enabled = !isLoading,
+                modifier = Modifier.fillMaxSize(buttonRatio)
+            )
+            Spacer(modifier = Modifier.height(Dimens.SmallPadding.size))
+            OutlinedReluctButton(
+                buttonText = stringResource(R.string.skip_text),
+                icon = Icons.Rounded.NextPlan,
+                onButtonClicked = onSkip,
                 enabled = !isLoading,
                 modifier = Modifier.fillMaxSize(buttonRatio)
             )

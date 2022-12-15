@@ -90,6 +90,7 @@ class MainActivity : ComponentActivity() {
             val accountCheck = auth.currentUser?.let { user ->
                 AccountCheck(user.isEmailVerified, user.email ?: "NO_EMAIL")
             }
+            val loginSkipped = settings.loginSkipped.firstOrNull()
             val onBoardingShown = settings.onBoardingShown.firstOrNull()
             val savedVersionCode = settings.savedVersionCode.firstOrNull()
                 ?: (BuildConfig.VERSION_CODE)
@@ -98,7 +99,7 @@ class MainActivity : ComponentActivity() {
                 isOnBoardingDone = onBoardingShown ?: false,
                 showChangeLog = BuildConfig.VERSION_CODE > savedVersionCode,
                 accountCheck = accountCheck,
-                loginSkipped = false
+                loginSkipped = loginSkipped ?: false
             )
         }
 

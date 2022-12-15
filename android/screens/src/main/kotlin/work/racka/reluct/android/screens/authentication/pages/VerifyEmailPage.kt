@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.CheckCircle
+import androidx.compose.material.icons.rounded.Logout
 import androidx.compose.material.icons.rounded.ReplayCircleFilled
 import androidx.compose.material.icons.rounded.Send
 import androidx.compose.material3.LocalContentColor
@@ -36,6 +37,7 @@ internal fun VerifyEmailPage(
     onRefresh: () -> Unit,
     onResendEmail: () -> Unit,
     onContinue: () -> Unit,
+    onLogout: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val drawableSize = 200.dp
@@ -148,6 +150,15 @@ internal fun VerifyEmailPage(
                     modifier = Modifier.fillMaxSize(buttonRatio)
                 )
             }
+            Spacer(modifier = Modifier.height(Dimens.SmallPadding.size))
+            // Logout
+            OutlinedReluctButton(
+                buttonText = stringResource(R.string.logout_text),
+                icon = Icons.Rounded.Logout,
+                onButtonClicked = onLogout,
+                enabled = !isLoading,
+                modifier = Modifier.fillMaxSize(buttonRatio)
+            )
         }
 
         item { Spacer(modifier = Modifier.navigationBarsPadding()) }
