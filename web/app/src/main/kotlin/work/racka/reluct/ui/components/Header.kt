@@ -15,6 +15,7 @@ import react.dom.aria.AriaHasPopup
 import react.dom.aria.ariaHasPopup
 import react.dom.aria.ariaLabel
 import react.dom.html.ReactHTML.div
+import react.dom.html.ReactHTML.img
 import react.router.useLocation
 import work.racka.reluct.ui.common.Area
 import work.racka.reluct.ui.common.Themes
@@ -31,13 +32,18 @@ val Header = FC<Props> {
         }
 
         Toolbar {
+            div {
+                img {
+                    src = "app_icon_alt.svg"
+                }
+            }
             Typography {
                 sx { flexGrow = number(1.0) }
                 variant = TypographyVariant.h6
                 noWrap = true
                 component = div
 
-                +"Kotlin MUI Showcase"
+                +"Reluct"
             }
 
             Tooltip {
@@ -89,7 +95,7 @@ val Header = FC<Props> {
 
                         window.location.href =
                             "https://github.com/karakum-team/kotlin-mui-showcase/blob/main/" +
-                            "src/main/kotlin/team/karakum/components/showcases/$name"
+                                    "src/main/kotlin/team/karakum/components/showcases/$name"
                     }
 
                     GitHub()
