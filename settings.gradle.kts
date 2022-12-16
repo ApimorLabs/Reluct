@@ -1,5 +1,6 @@
 rootProject.name = "Reluct"
 include(
+    ":web:app",
     ":desktop:app",
     ":android:app",
     ":android:benchmark",
