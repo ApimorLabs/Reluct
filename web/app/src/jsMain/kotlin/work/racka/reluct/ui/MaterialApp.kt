@@ -27,11 +27,14 @@ val MaterialApp = FC<Props> {
                         gridTemplateColumns = array(Sizes.Sidebar.Width, Auto.auto)
                         gridTemplateAreas = GridTemplateAreas(
                             array(Area.Header, Area.Header),
-                            if (mobileNode) array(Area.Content, Area.Content)
-                            else array(Area.Sidebar, Area.Content)
+                            if (mobileNode) {
+                                array(Area.Content, Area.Content)
+                            } else {
+                                array(Area.Sidebar, Area.Content)
+                            }
                         )
                     }
-                    
+
                     Header()
                     if (mobileNode) Menu() else Sidebar()
                     Content()

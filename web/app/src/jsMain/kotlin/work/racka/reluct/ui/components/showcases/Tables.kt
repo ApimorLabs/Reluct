@@ -141,7 +141,6 @@ val TablesShowcase = FC<Props> {
                             }
                         }
                     }
-
                 }
 
                 TableBody {

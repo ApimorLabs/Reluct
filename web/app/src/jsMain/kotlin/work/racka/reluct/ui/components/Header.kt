@@ -63,7 +63,7 @@ val Header = FC<Props> {
                     ariaHasPopup = AriaHasPopup.`false`
                     size = Size.large
                     color = IconButtonColor.inherit
-                    onClick = { window.location.href = "https://mui.com/components/$lastPathname"}
+                    onClick = { window.location.href = "https://mui.com/components/$lastPathname" }
 
                     MenuBook()
                 }
@@ -88,7 +88,8 @@ val Header = FC<Props> {
                         }
 
                         window.location.href =
-                            "https://github.com/karakum-team/kotlin-mui-showcase/blob/main/src/main/kotlin/team/karakum/components/showcases/$name"
+                            "https://github.com/karakum-team/kotlin-mui-showcase/blob/main/" +
+                            "src/main/kotlin/team/karakum/components/showcases/$name"
                     }
 
                     GitHub()

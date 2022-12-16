@@ -28,7 +28,6 @@ val Sidebar = FC<Props> {
             variant = DrawerVariant.permanent
             anchor = DrawerAnchor.left
 
-
             Box {
                 Toolbar()
 
