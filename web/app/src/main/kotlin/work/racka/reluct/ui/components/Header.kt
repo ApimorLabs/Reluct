@@ -2,6 +2,8 @@ package work.racka.reluct.ui.components
 
 import csstype.integer
 import csstype.number
+import csstype.px
+import csstype.rgba
 import kotlinx.browser.window
 import mui.icons.material.Brightness4
 import mui.icons.material.Brightness7
@@ -15,7 +17,6 @@ import react.dom.aria.AriaHasPopup
 import react.dom.aria.ariaHasPopup
 import react.dom.aria.ariaLabel
 import react.dom.html.ReactHTML.div
-import react.dom.html.ReactHTML.img
 import react.router.useLocation
 import work.racka.reluct.ui.common.Area
 import work.racka.reluct.ui.common.Themes
@@ -32,9 +33,12 @@ val Header = FC<Props> {
         }
 
         Toolbar {
-            div {
-                img {
-                    src = "app_icon_alt.svg"
+            Avatar {
+                src = "app_icon_alt.svg"
+                variant = AvatarVariant.square
+                sx {
+                    backgroundColor = rgba(0, 0, 0, 0.0)
+                    marginRight = 16.px
                 }
             }
             Typography {

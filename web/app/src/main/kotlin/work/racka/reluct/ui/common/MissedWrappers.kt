@@ -9,6 +9,18 @@ inline var GridProps.xs: Int
         asDynamic().xs = value
     }
 
+inline var GridProps.sm: Int
+    get() = TODO("Prop is write-only!")
+    set(value) {
+        asDynamic().sm = value
+    }
+
+inline var GridProps.md: Int
+    get() = TODO("Prop is write-only!")
+    set(value) {
+        asDynamic().md = value
+    }
+
 inline var TypographyProps.color: String
     get() = TODO("Prop is write-only!")
     set(value) {
