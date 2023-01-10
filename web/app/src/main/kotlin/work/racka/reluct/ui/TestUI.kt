@@ -25,7 +25,7 @@ val TestUi = FC<Props> {
         main {
             div {
                 Container {
-                    //maxWidth = "sm".asDynamic()
+                    // maxWidth = "sm".asDynamic()
 
                     Typography {
                         variant = TypographyVariant.h2
