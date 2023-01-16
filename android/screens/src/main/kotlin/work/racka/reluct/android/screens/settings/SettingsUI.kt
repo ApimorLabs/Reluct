@@ -40,6 +40,7 @@ internal fun SettingsUI(
     onToggleAppBlocking: (value: Boolean) -> Unit,
     onGetCoffeeProducts: () -> Unit,
     onPurchaseCoffee: (Product) -> Unit,
+    onManageAccount: () -> Unit,
     onBackClicked: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -104,6 +105,39 @@ internal fun SettingsUI(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(Dimens.MediumPadding.size)
             ) {
+                // Account Settings
+                item {
+                    ReluctDescriptionCard(
+                        title = {
+                            Text(
+                                text = stringResource(id = R.string.manage_acc_text),
+                                style = MaterialTheme.typography.titleLarge,
+                                color = LocalContentColor.current
+                            )
+                        },
+                        description = {
+                            Text(
+                                text = stringResource(id = R.string.manage_acc_desc),
+                                style = MaterialTheme.typography.bodyLarge,
+                                color = LocalContentColor.current.copy(alpha = .8f)
+                            )
+                        },
+                        leftItems = {
+                            Icon(
+                                imageVector = Icons.Rounded.AccountCircle,
+                                contentDescription = null
+                            )
+                        },
+                        rightItems = {
+                            Icon(
+                                imageVector = Icons.Rounded.ChevronRight,
+                                contentDescription = "Open"
+                            )
+                        },
+                        onClick = onManageAccount
+                    )
+                }
+
                 // Theme Settings
                 item {
                     ReluctDescriptionCard(

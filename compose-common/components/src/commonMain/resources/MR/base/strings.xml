@@ -372,4 +372,6 @@
     <string name="continue_no_acc_desc">You won\'t be able to sync and backup your data across
         devices. You can still use all local functionality without an account.
     </string>
+    <string name="manage_acc_text">Manage Account</string>
+    <string name="manage_acc_desc">Manage your Account settings</string>
 </resources>

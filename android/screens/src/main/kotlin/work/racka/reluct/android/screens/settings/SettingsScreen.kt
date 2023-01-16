@@ -19,6 +19,7 @@ import work.racka.reluct.common.model.util.Resource
 @OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
 fun SettingsScreen(
+    onNavigateToManageAcc: () -> Unit,
     goBack: () -> Unit
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
@@ -51,6 +52,7 @@ fun SettingsScreen(
         onToggleAppBlocking = viewModel::toggleAppBlocking,
         onGetCoffeeProducts = viewModel::getCoffeeProducts,
         onPurchaseCoffee = viewModel::purchaseCoffee,
+        onManageAccount = onNavigateToManageAcc,
         onBackClicked = goBack
     )
 }

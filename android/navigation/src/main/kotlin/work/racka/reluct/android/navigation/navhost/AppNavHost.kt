@@ -5,15 +5,14 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Scaffold
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.State
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
@@ -37,6 +36,7 @@ import work.racka.reluct.android.screens.onboarding.OnBoardingScreen
 import work.racka.reluct.android.screens.settings.SettingsScreen
 import work.racka.reluct.common.core.navigation.composeDestinations.onboarding.AuthenticationDestination
 import work.racka.reluct.common.core.navigation.composeDestinations.onboarding.OnBoardingDestination
+import work.racka.reluct.common.core.navigation.composeDestinations.settings.ManageAccountDestination
 import work.racka.reluct.common.core.navigation.composeDestinations.settings.SettingsDestination
 import work.racka.reluct.common.core.navigation.composeDestinations.tasks.PendingTasksDestination
 import work.racka.reluct.compose.common.components.animations.slideInVerticallyFadeReversed
@@ -56,7 +56,7 @@ fun AppNavHost(settingsCheck: State<SettingsCheck?>, modifier: Modifier = Modifi
 
     val mainPadding = PaddingValues(
         bottom = Dimens.ExtraLargePadding.size + Dimens.MediumPadding.size +
-            WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
+                WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
     )
     /**
      * Don't use the bottomBar param of Scaffold for the AppBottomBar
@@ -221,7 +221,38 @@ fun AppNavHost(settingsCheck: State<SettingsCheck?>, modifier: Modifier = Modifi
                 ) {
                     barsVisibility.bottomBar.hide()
 
-                    SettingsScreen(goBack = navController::popBackStack)
+                    SettingsScreen(
+                        onNavigateToManageAcc = {
+                            navController.navigate(ManageAccountDestination.route)
+                        },
+                        goBack = navController::popBackStack
+                    )
+                }
+
+                // Account Settings
+                composable(
+                    route = ManageAccountDestination.route,
+                    enterTransition = { scaleInEnterTransition() },
+                    exitTransition = { scaleOutExitTransition() },
+                    popEnterTransition = { scaleInPopEnterTransition() },
+                    popExitTransition = { scaleOutPopExitTransition() }
+                ) {
+                    barsVisibility.bottomBar.hide()
+
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Column(
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.spacedBy(16.dp)
+                        ) {
+                            Text(text = "Account Settings")
+                            Button(onClick = navController::popBackStack) {
+                                Text(text = "Go Back")
+                            }
+                        }
+                    }
                 }
 
                 // Independent App Screen Time Stats and Limits Graph
@@ -274,7 +305,7 @@ private fun HandleRouteChecks(
         settingsCheck.value?.let { check ->
             val accountChecked =
                 (check.accountCheck != null && check.accountCheck.isEmailVerified) ||
-                    check.loginSkipped
+                        check.loginSkipped
             if (check.isOnBoardingDone && accountChecked) {
                 // Everything is ok. Go to Dashboard
                 navController.navigate(NavbarDestinations.Dashboard.route) {
