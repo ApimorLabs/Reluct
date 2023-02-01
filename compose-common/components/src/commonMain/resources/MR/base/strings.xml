@@ -330,8 +330,13 @@
     <string name="dashboard_statistics">Statistics</string>
 
     <!--  Login & Signup  -->
+    <string name="are_you_sure_text">Are You Sure?</string>
     <string name="login_text">Login</string>
+    <string name="login_reason_text">Add an account to allow cross device syncing of your Tasks &amp;
+        Goals. You can also continue using the application without an account.
+    </string>
     <string name="logout_text">Logout</string>
+    <string name="logout_req_desc">You will be logged out of this device.</string>
     <string name="signup_text">Signup</string>
     <string name="email_text">Email</string>
     <string name="continue_no_acc_text">Continue without Account</string>
@@ -354,8 +359,9 @@
     <string name="email_error_blank">Email cannot be blank</string>
     <string name="verify_email_text">Verify Email</string>
     <string name="verify_email_done_text">Email Verified!</string>
+    <string name="verify_email_not_done_text">Email Not Verified!</string>
     <string name="verify_email_description">Verification email sent to your email from Reluct App.
-        Open the email and click the verification link. If you can\'t find the email in you main
+        Open the email and click the verification link. If you can\'t find the email in your main
         folder look in the Spam folder. After verification click the &quot;Recheck Verification&quot;
         button and continue.
     </string>
@@ -367,9 +373,21 @@
     </string>
     <string name="resend_email_text">Resend Email</string>
     <string name="refresh_verification_text">Recheck Verification</string>
+    <string name="refresh_acc_details_text">Refresh Account</string>
+    <string name="send_password_reset_text">Send Reset Email</string>
+    <string name="password_reset_text">Password Reset Email</string>
+    <string name="password_reset_email_description">Password Reset email will be sent to your email
+        from Reluct App. Open the email and click the reset link. If you can\'t find the email in
+        your main folder look in the Spam folder. You will need to login after reset request.
+    </string>
     <string name="skip_text">Skip</string>
     <string name="continue_no_acc_text">Continue without Account</string>
     <string name="continue_no_acc_desc">You won\'t be able to sync and backup your data across
         devices. You can still use all local functionality without an account.
     </string>
+    <string name="manage_acc_text">Manage Account</string>
+    <string name="manage_acc_desc">Manage your Account settings</string>
+    <string name="refresh_acc_failed">Couldn\'t refresh your account details!</string>
+    <string name="password_reset_success">Reset Email sent successfully!</string>
+    <string name="password_reset_failed">Couldn\'t Reset you Password. Contact Support.</string>
 </resources>

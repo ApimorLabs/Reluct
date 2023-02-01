@@ -35,8 +35,10 @@ import work.racka.reluct.android.navigation.util.SettingsCheck
 import work.racka.reluct.android.screens.authentication.AuthenticationScreen
 import work.racka.reluct.android.screens.onboarding.OnBoardingScreen
 import work.racka.reluct.android.screens.settings.SettingsScreen
+import work.racka.reluct.android.screens.settings.account.ManageAccountScreen
 import work.racka.reluct.common.core.navigation.composeDestinations.onboarding.AuthenticationDestination
 import work.racka.reluct.common.core.navigation.composeDestinations.onboarding.OnBoardingDestination
+import work.racka.reluct.common.core.navigation.composeDestinations.settings.ManageAccountDestination
 import work.racka.reluct.common.core.navigation.composeDestinations.settings.SettingsDestination
 import work.racka.reluct.common.core.navigation.composeDestinations.tasks.PendingTasksDestination
 import work.racka.reluct.compose.common.components.animations.slideInVerticallyFadeReversed
@@ -221,7 +223,30 @@ fun AppNavHost(settingsCheck: State<SettingsCheck?>, modifier: Modifier = Modifi
                 ) {
                     barsVisibility.bottomBar.hide()
 
-                    SettingsScreen(goBack = navController::popBackStack)
+                    SettingsScreen(
+                        onNavigateToManageAcc = {
+                            navController.navigate(ManageAccountDestination.route)
+                        },
+                        goBack = navController::popBackStack
+                    )
+                }
+
+                // Account Settings
+                composable(
+                    route = ManageAccountDestination.route,
+                    enterTransition = { scaleInEnterTransition() },
+                    exitTransition = { scaleOutExitTransition() },
+                    popEnterTransition = { scaleInPopEnterTransition() },
+                    popExitTransition = { scaleOutPopExitTransition() }
+                ) {
+                    barsVisibility.bottomBar.hide()
+
+                    ManageAccountScreen(
+                        onGoBack = navController::popBackStack,
+                        onNavigateToAuth = {
+                            navController.navigate(AuthenticationDestination.route)
+                        }
+                    )
                 }
 
                 // Independent App Screen Time Stats and Limits Graph

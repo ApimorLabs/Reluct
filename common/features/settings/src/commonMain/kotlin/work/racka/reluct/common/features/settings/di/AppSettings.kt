@@ -4,6 +4,7 @@ import org.koin.core.KoinApplication
 import org.koin.dsl.module
 import work.racka.common.mvvm.koin.vm.commonViewModel
 import work.racka.reluct.common.features.settings.AppSettingsViewModel
+import work.racka.reluct.common.features.settings.UserAccountViewModel
 
 object AppSettings {
     fun KoinApplication.appSettingsModules() {
@@ -16,6 +17,12 @@ object AppSettings {
                 settings = get(),
                 screenTimeServices = get(),
                 manageCoffeeProducts = get()
+            )
+        }
+
+        commonViewModel {
+            UserAccountViewModel(
+                manageUser = get()
             )
         }
     }
