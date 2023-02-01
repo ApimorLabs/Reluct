@@ -44,7 +44,8 @@ internal fun UserAccountUI(
         rememberAsyncImage(
             url = url,
             onStartLoading = { pfpLoading.value = true },
-            onFinishLoading = { pfpLoading.value = false })
+            onFinishLoading = { pfpLoading.value = false }
+        )
     } ?: painterResource(resource = SharedRes.assets.profile_pic)
 
     LazyColumn(
@@ -102,11 +103,17 @@ internal fun UserAccountUI(
                     )
                 }
                 Icon(
-                    imageVector = if (accountState.user.isEmailVerified) Icons.Filled.CheckCircle
-                    else Icons.Filled.Warning,
+                    imageVector = if (accountState.user.isEmailVerified) {
+                        Icons.Filled.CheckCircle
+                    } else {
+                        Icons.Filled.Warning
+                    },
                     contentDescription = stringResource(
-                        id = if (accountState.user.isEmailVerified) R.string.verify_email_done_text
-                        else R.string.verify_email_done_text
+                        id = if (accountState.user.isEmailVerified) {
+                            R.string.verify_email_done_text
+                        } else {
+                            R.string.verify_email_done_text
+                        }
                     ),
                     tint = if (accountState.user.isEmailVerified) Color.Green else Color.Yellow
                 )

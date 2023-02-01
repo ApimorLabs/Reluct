@@ -59,7 +59,9 @@ private fun HandleEvents(
             is UserAccountEvents.PasswordReset -> {
                 val msg = if (events.success) {
                     context.getString(R.string.password_reset_success)
-                } else context.getString(R.string.password_reset_failed)
+                } else {
+                    context.getString(R.string.password_reset_failed)
+                }
 
                 launch {
                     snackbarHostState.showSnackbar(
