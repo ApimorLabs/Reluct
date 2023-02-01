@@ -5,14 +5,15 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.*
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.State
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
@@ -34,6 +35,7 @@ import work.racka.reluct.android.navigation.util.SettingsCheck
 import work.racka.reluct.android.screens.authentication.AuthenticationScreen
 import work.racka.reluct.android.screens.onboarding.OnBoardingScreen
 import work.racka.reluct.android.screens.settings.SettingsScreen
+import work.racka.reluct.android.screens.settings.account.ManageAccountScreen
 import work.racka.reluct.common.core.navigation.composeDestinations.onboarding.AuthenticationDestination
 import work.racka.reluct.common.core.navigation.composeDestinations.onboarding.OnBoardingDestination
 import work.racka.reluct.common.core.navigation.composeDestinations.settings.ManageAccountDestination
@@ -239,20 +241,12 @@ fun AppNavHost(settingsCheck: State<SettingsCheck?>, modifier: Modifier = Modifi
                 ) {
                     barsVisibility.bottomBar.hide()
 
-                    Box(
-                        modifier = Modifier.fillMaxSize(),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Column(
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                            verticalArrangement = Arrangement.spacedBy(16.dp)
-                        ) {
-                            Text(text = "Account Settings")
-                            Button(onClick = navController::popBackStack) {
-                                Text(text = "Go Back")
-                            }
+                    ManageAccountScreen(
+                        onGoBack = navController::popBackStack,
+                        onNavigateToAuth = {
+                            navController.navigate(AuthenticationDestination.route)
                         }
-                    }
+                    )
                 }
 
                 // Independent App Screen Time Stats and Limits Graph

@@ -62,12 +62,15 @@ class UserAccountViewModel(
         vmScope.launch {
             val state = _uiState.value
             if (state is UserAccountState.Account) {
+                _uiState.update { state.copy(isUpdating = true) }
                 resetEvents()
-                when (val res = manageUser.requestPasswordResetEmail(state.user.email)) {
+                when (manageUser.requestPasswordResetEmail(state.user.email)) {
                     is Resource.Success -> eventsChannel.send(UserAccountEvents.PasswordReset(true))
                     is Resource.Error -> eventsChannel.send(UserAccountEvents.PasswordReset(false))
                     else -> {}
                 }
+                _uiState.update { state.copy(isUpdating = false) }
+                logout()
             } else {
                 eventsChannel.send(UserAccountEvents.PasswordReset(false))
             }
