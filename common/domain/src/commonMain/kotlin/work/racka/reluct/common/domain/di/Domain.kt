@@ -70,6 +70,7 @@ object Domain {
         factory<ManageTaskLabels> {
             ManageTaskLabelsImpl(
                 dao = get(),
+                tasksUpload = get(),
                 haptics = get(),
                 dispatcher = Dispatchers.IO
             )

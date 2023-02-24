@@ -7,7 +7,6 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.getValue
 import racka.reluct.common.authentication.managers.ManageUser
 import work.racka.reluct.common.database.dao.tasks.TasksDao
-import work.racka.reluct.common.database.models.TaskLabelDbObject
 import work.racka.reluct.common.network.model.TaskLabelNetworkObject
 import work.racka.reluct.common.network.model.TaskNetworkObject
 import work.racka.reluct.common.network.util.Constants
@@ -19,12 +18,12 @@ internal class FirebaseNetworkSyncService(
 ) : DbNetworkSync {
 
     private var currentUserId: String? = null
-    private val tasksRef = database.reference.child(Constants.FB_TASKS)
+    private val tasksRef = database.reference.child(Constants.FB_TASKS).also { it.keepSynced(true) }
     private val tasksLabelsRef = database.reference.child(Constants.FB_TASKS_LABELS)
+        .also { it.keepSynced(true) }
 
     private val tasksListener = object : ValueEventListener {
         override fun onDataChange(snapshot: DataSnapshot) {
-            println("Tasks Data Changed")
             if (snapshot.exists()) {
                 val tasks = snapshot.children.mapNotNull { taskSnapshot ->
                     taskSnapshot.getValue<TaskNetworkObject>()?.toDbObject()
@@ -40,7 +39,6 @@ internal class FirebaseNetworkSyncService(
 
     private val tasksLabelsListener = object : ValueEventListener {
         override fun onDataChange(snapshot: DataSnapshot) {
-            println("Tasks Labels data changed!")
             if (snapshot.exists()) {
                 val taskLabels = snapshot.children.mapNotNull { taskSnapshot ->
                     taskSnapshot.getValue<TaskLabelNetworkObject>()?.toDbObject()

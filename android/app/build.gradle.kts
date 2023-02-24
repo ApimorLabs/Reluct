@@ -149,6 +149,7 @@ dependencies {
     implementation(libs.firebase.crashlytics)
     implementation(libs.firebase.appcheck.integrity)
     implementation(libs.firebase.appcheck.debug)
+    implementation(libs.firebase.database)
 
     // Leaks
     debugImplementation(libs.leakcanary.android)

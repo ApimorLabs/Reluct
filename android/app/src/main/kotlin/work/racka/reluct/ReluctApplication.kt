@@ -7,6 +7,8 @@ import coil.ImageLoaderFactory
 import com.google.firebase.appcheck.FirebaseAppCheck
 import com.google.firebase.appcheck.debug.DebugAppCheckProviderFactory
 import com.google.firebase.appcheck.playintegrity.PlayIntegrityAppCheckProviderFactory
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import com.revenuecat.purchases.Purchases
 import com.revenuecat.purchases.PurchasesConfiguration
 import kotlinx.coroutines.MainScope
@@ -86,5 +88,7 @@ class ReluctApplication : Application(), ImageLoaderFactory {
                 PlayIntegrityAppCheckProviderFactory.getInstance()
             }
         )
+        // Enable offline persistence
+        Firebase.database.setPersistenceEnabled(true)
     }
 }

@@ -18,6 +18,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation(project(":common:authentication"))
+                implementation(project(":common:model"))
                 implementation(project(":common:persistence:database"))
                 implementation(project(":common:persistence:settings"))
                 implementation(libs.kotlinx.serialization.core)

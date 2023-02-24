@@ -15,6 +15,7 @@ import work.racka.reluct.common.domain.usecases.tasks.ManageTasksAlarms
 import work.racka.reluct.common.domain.usecases.tasks.ModifyTaskUseCase
 import work.racka.reluct.common.model.domain.tasks.EditTask
 import work.racka.reluct.common.model.domain.tasks.Task
+import work.racka.reluct.common.model.enums.responses.NetworkPushResponse
 import work.racka.reluct.common.model.util.time.TimeUtils
 import work.racka.reluct.common.network.sync.tasks.TasksUpload
 import work.racka.reluct.common.services.haptics.HapticFeedback
@@ -38,10 +39,10 @@ internal class ModifyTaskUseCaseImpl(
 
     override suspend fun saveTask(task: EditTask) {
         withContext(backgroundDispatcher) {
-            //TODO: dao.insertTask(task.asDatabaseModel())
-            val ans = tasksUpload.uploadTask(task.asDatabaseModel())
-            if (ans.isFailure) {
-                println("Error Saving: ${ans.exceptionOrNull()?.message}")
+            val mapped = task.asDatabaseModel()
+            val resp = tasksUpload.uploadTask(mapped)
+            if (resp !is NetworkPushResponse.Success) {
+                dao.insertTask(mapped)
             }
             haptics.click()
             task.reminderLocalDateTime?.let { dateTimeString ->
@@ -53,13 +54,16 @@ internal class ModifyTaskUseCaseImpl(
 
     override suspend fun deleteTask(taskId: String) {
         withContext(backgroundDispatcher) {
-            // TODO: dao.deleteTask(taskId)
-            tasksUpload.deleteTask(taskId)
+            val resp = tasksUpload.deleteTask(taskId)
+            if (resp !is NetworkPushResponse.Success) {
+                dao.deleteTask(taskId)
+            }
             haptics.heavyClick()
             manageTasksAlarms.removeAlarm(taskId)
         }
     }
 
+    // TODO: Implement in FB
     override suspend fun toggleTaskDone(task: Task, isDone: Boolean) {
         withContext(backgroundDispatcher) {
             val completedLocalDateTime = if (isDone) TimeUtils.currentLocalDateTime() else null
