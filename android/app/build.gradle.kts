@@ -98,6 +98,7 @@ dependencies {
     implementation(project(":android:widgets"))
     implementation(project(":common:di-integration"))
     implementation(project(":common:features:screen-time"))
+    implementation(project(":common:network"))
     implementation(project(":common:persistence:settings"))
 
     // Core Functionality

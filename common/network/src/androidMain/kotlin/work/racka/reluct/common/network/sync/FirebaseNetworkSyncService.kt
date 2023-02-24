@@ -5,13 +5,16 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.getValue
+import racka.reluct.common.authentication.managers.ManageUser
 import work.racka.reluct.common.database.dao.tasks.TasksDao
-import work.racka.reluct.common.database.models.TaskDbObject
 import work.racka.reluct.common.database.models.TaskLabelDbObject
+import work.racka.reluct.common.network.model.TaskLabelNetworkObject
+import work.racka.reluct.common.network.model.TaskNetworkObject
 import work.racka.reluct.common.network.util.Constants
 
 internal class FirebaseNetworkSyncService(
     database: FirebaseDatabase,
+    private val manageUser: ManageUser,
     private val tasksDao: TasksDao
 ) : DbNetworkSync {
 
@@ -21,9 +24,10 @@ internal class FirebaseNetworkSyncService(
 
     private val tasksListener = object : ValueEventListener {
         override fun onDataChange(snapshot: DataSnapshot) {
+            println("Tasks Data Changed")
             if (snapshot.exists()) {
                 val tasks = snapshot.children.mapNotNull { taskSnapshot ->
-                    taskSnapshot.getValue<TaskDbObject>()
+                    taskSnapshot.getValue<TaskNetworkObject>()?.toDbObject()
                 }
                 tasksDao.replaceTasks(tasks)
             }
@@ -36,9 +40,10 @@ internal class FirebaseNetworkSyncService(
 
     private val tasksLabelsListener = object : ValueEventListener {
         override fun onDataChange(snapshot: DataSnapshot) {
+            println("Tasks Labels data changed!")
             if (snapshot.exists()) {
                 val taskLabels = snapshot.children.mapNotNull { taskSnapshot ->
-                    taskSnapshot.getValue<TaskLabelDbObject>()
+                    taskSnapshot.getValue<TaskLabelNetworkObject>()?.toDbObject()
                 }
                 tasksDao.addAllTaskLabels(taskLabels)
             }
@@ -49,13 +54,16 @@ internal class FirebaseNetworkSyncService(
         }
     }
 
-    override fun syncTasksData(userId: String) {
-        currentUserId = userId
-        currentUserId?.let { user ->
-            // Sync Tasks from Network
-            tasksRef.child(user).addValueEventListener(tasksListener)
-            // Sync Tasks Labels from Network
-            tasksLabelsRef.child(user).addValueEventListener(tasksLabelsListener)
+    override fun syncTasksData() {
+        val user = manageUser.getAuthUser()
+        if (user != null) {
+            currentUserId = user.id
+            currentUserId?.let { id ->
+                // Sync Tasks from Network
+                tasksRef.child(id).addValueEventListener(tasksListener)
+                // Sync Tasks Labels from Network
+                tasksLabelsRef.child(id).addValueEventListener(tasksLabelsListener)
+            }
         }
     }
 

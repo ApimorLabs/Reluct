@@ -22,6 +22,7 @@ import timber.log.Timber
 import work.racka.reluct.common.di.intergration.KoinMain
 import work.racka.reluct.common.features.screenTime.services.ScreenTimeServices
 import work.racka.reluct.common.features.screenTime.work.ResumeAppsWork
+import work.racka.reluct.common.network.sync.DbNetworkSync
 import work.racka.reluct.common.settings.MultiplatformSettings
 
 class ReluctApplication : Application(), ImageLoaderFactory {
@@ -52,6 +53,10 @@ class ReluctApplication : Application(), ImageLoaderFactory {
         ResumeAppsWork.run {
             WorkManager.getInstance(this@ReluctApplication).scheduleWork()
         }
+
+        // Firebase Network sync
+        val syncService: DbNetworkSync = get()
+        syncService.syncTasksData()
 
         // Logging
         Timber.plant(Timber.DebugTree())

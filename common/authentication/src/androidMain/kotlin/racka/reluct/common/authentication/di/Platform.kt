@@ -11,14 +11,14 @@ import racka.reluct.common.authentication.managers.UserAuthentication
 
 internal actual object Platform {
     actual fun installModule(): Module = module {
-        factory<UserAuthentication> {
+        single<UserAuthentication> {
             AndroidFirebaseUserAuthentication(
                 auth = FirebaseAuth.getInstance(),
                 dispatcher = Dispatchers.IO
             )
         }
 
-        factory<ManageUser> {
+        single<ManageUser> {
             AndroidFirebaseManageUser(
                 auth = FirebaseAuth.getInstance(),
                 dispatcher = Dispatchers.IO

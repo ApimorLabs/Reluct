@@ -16,6 +16,7 @@ actual object Platform {
         single<DbNetworkSync> {
             FirebaseNetworkSyncService(
                 database = Firebase.database(Constants.FIREBASE_DEFAULT_DB_URL),
+                manageUser = get(),
                 tasksDao = get()
             )
         }
