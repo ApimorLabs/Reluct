@@ -53,6 +53,7 @@ object Domain {
         factory<ModifyTaskUseCase> {
             ModifyTaskUseCaseImpl(
                 dao = get(),
+                tasksUpload = get(),
                 haptics = get(),
                 manageTasksAlarms = get(),
                 backgroundDispatcher = CoroutineDispatchers.backgroundDispatcher

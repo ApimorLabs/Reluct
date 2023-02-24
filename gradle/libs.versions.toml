@@ -100,6 +100,7 @@ jna = "5.12.1"
 google_services = "4.3.14"
 play_services_auth = "20.3.0"
 firebase_bom = "31.0.1"
+firebase_appcheck_debug = "16.1.1"
 crashlytics_gradle = "2.9.2"
 
 ######## Dependency versions End #############
@@ -241,6 +242,7 @@ firebase_crashlytics = { module = "com.google.firebase:firebase-crashlytics-ktx"
 firebase_auth = { module = "com.google.firebase:firebase-auth-ktx" }
 firebase_database = { module = "com.google.firebase:firebase-database-ktx" }
 firebase_appcheck_integrity = { module = "com.google.firebase:firebase-appcheck-playintegrity" }
+firebase_appcheck_debug = { module = "com.google.firebase:firebase-appcheck-debug", version.ref = "firebase_appcheck_debug" }
 playservices_auth = { module = "com.google.android.gms:play-services-auth", version.ref = "play_services_auth" }
 
 # Square (Block)

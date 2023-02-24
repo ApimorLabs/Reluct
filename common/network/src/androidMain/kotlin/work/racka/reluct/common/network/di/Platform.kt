@@ -23,6 +23,7 @@ actual object Platform {
         factory<TasksUpload> {
             FirebaseTasksUpload(
                 database = Firebase.database(Constants.FIREBASE_DEFAULT_DB_URL),
+                manageUser = get(),
                 dispatcher = Dispatchers.IO
             )
         }

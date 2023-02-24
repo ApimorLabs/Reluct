@@ -16,10 +16,12 @@ import work.racka.reluct.common.domain.usecases.tasks.ModifyTaskUseCase
 import work.racka.reluct.common.model.domain.tasks.EditTask
 import work.racka.reluct.common.model.domain.tasks.Task
 import work.racka.reluct.common.model.util.time.TimeUtils
+import work.racka.reluct.common.network.sync.tasks.TasksUpload
 import work.racka.reluct.common.services.haptics.HapticFeedback
 
 internal class ModifyTaskUseCaseImpl(
     private val dao: TasksDao,
+    private val tasksUpload: TasksUpload,
     private val haptics: HapticFeedback,
     private val manageTasksAlarms: ManageTasksAlarms,
     private val backgroundDispatcher: CoroutineDispatcher,
@@ -36,7 +38,11 @@ internal class ModifyTaskUseCaseImpl(
 
     override suspend fun saveTask(task: EditTask) {
         withContext(backgroundDispatcher) {
-            dao.insertTask(task.asDatabaseModel())
+            //TODO: dao.insertTask(task.asDatabaseModel())
+            val ans = tasksUpload.uploadTask(task.asDatabaseModel())
+            if (ans.isFailure) {
+                println("Error Saving: ${ans.exceptionOrNull()?.message}")
+            }
             haptics.click()
             task.reminderLocalDateTime?.let { dateTimeString ->
                 manageTasksAlarms
@@ -47,7 +53,8 @@ internal class ModifyTaskUseCaseImpl(
 
     override suspend fun deleteTask(taskId: String) {
         withContext(backgroundDispatcher) {
-            dao.deleteTask(taskId)
+            // TODO: dao.deleteTask(taskId)
+            tasksUpload.deleteTask(taskId)
             haptics.heavyClick()
             manageTasksAlarms.removeAlarm(taskId)
         }

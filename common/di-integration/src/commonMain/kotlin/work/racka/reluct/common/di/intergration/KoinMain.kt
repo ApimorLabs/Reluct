@@ -13,6 +13,7 @@ import work.racka.reluct.common.features.onboarding.di.OnBoarding
 import work.racka.reluct.common.features.screenTime.di.ScreenTime
 import work.racka.reluct.common.features.settings.di.AppSettings
 import work.racka.reluct.common.features.tasks.di.Tasks
+import work.racka.reluct.common.network.di.Network
 import work.racka.reluct.common.services.di.SystemServices
 import work.racka.reluct.common.settings.di.MultiplatformSettings
 
@@ -31,6 +32,7 @@ object KoinMain {
         Database.run { databaseModules() }
         MultiplatformSettings.run { settingsModules() }
         AppUsageStats.run { appUsageModules() }
+        Network.run { install() }
 
         // Data Layer & Models
         Domain.run { install() }

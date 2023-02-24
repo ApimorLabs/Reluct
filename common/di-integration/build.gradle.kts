@@ -24,6 +24,7 @@ kotlin {
                 implementation(project(":common:features:screen-time"))
                 implementation(project(":common:features:settings"))
                 implementation(project(":common:features:tasks"))
+                implementation(project(":common:network"))
                 implementation(project(":common:model"))
                 implementation(project(":common:persistence:database"))
                 implementation(project(":common:persistence:settings"))

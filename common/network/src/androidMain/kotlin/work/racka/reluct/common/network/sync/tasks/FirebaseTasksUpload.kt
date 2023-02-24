@@ -5,79 +5,109 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
+import racka.reluct.common.authentication.managers.ManageUser
 import work.racka.reluct.common.database.models.TaskDbObject
 import work.racka.reluct.common.database.models.TaskLabelDbObject
 import work.racka.reluct.common.network.util.Constants
 
 internal class FirebaseTasksUpload(
     database: FirebaseDatabase,
+    private val manageUser: ManageUser,
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : TasksUpload {
 
     private val tasksRef = database.reference.child(Constants.FB_TASKS)
     private val tasksLabelsRef = database.reference.child(Constants.FB_TASKS_LABELS)
 
-    override suspend fun uploadTasks(userId: String, tasks: List<TaskDbObject>): Result<Unit> =
+    override suspend fun uploadTasks(tasks: List<TaskDbObject>): Result<Unit> =
         withContext(dispatcher) {
-            try {
-                val mapped = tasks.associateBy { it.id }
-                tasksRef.child(userId).setValue(mapped).await()
-                Result.success(Unit)
-            } catch (e: Exception) {
-                Result.failure(e)
+            val user = manageUser.getAuthUser()
+            if (user != null) {
+                try {
+                    val mapped = tasks.associateBy { it.id }
+                    tasksRef.child(user.id).setValue(mapped).await()
+                    Result.success(Unit)
+                } catch (e: Exception) {
+                    Result.failure(e)
+                }
+            } else {
+                Result.failure(Exception("Unauthorized"))
             }
         }
 
-    override suspend fun uploadTask(userId: String, task: TaskDbObject): Result<Unit> =
+    override suspend fun uploadTask(task: TaskDbObject): Result<Unit> =
         withContext(dispatcher) {
-            try {
-                tasksRef.child(userId).child(task.id).setValue(task).await()
-                Result.success(Unit)
-            } catch (e: Exception) {
-                Result.failure(e)
+            val user = manageUser.getAuthUser()
+            if (user != null) {
+                try {
+                    tasksRef.child(user.id).child(task.id).setValue(task).await()
+                    Result.success(Unit)
+                } catch (e: Exception) {
+                    Result.failure(e)
+                }
+            } else {
+                Result.failure(Exception("Unauthorized"))
             }
         }
 
-    override suspend fun deleteTask(userId: String, taskId: String): Result<Unit> =
+    override suspend fun deleteTask(taskId: String): Result<Unit> =
         withContext(dispatcher) {
-            try {
-                tasksRef.child(userId).child(taskId).removeValue().await()
-                Result.success(Unit)
-            } catch (e: Exception) {
-                Result.failure(e)
+            val user = manageUser.getAuthUser()
+            if (user != null) {
+                try {
+                    tasksRef.child(user.id).child(taskId).removeValue().await()
+                    Result.success(Unit)
+                } catch (e: Exception) {
+                    Result.failure(e)
+                }
+            } else {
+                Result.failure(Exception("Unauthorized"))
             }
         }
 
-    override suspend fun uploadLabels(
-        userId: String,
-        labels: List<TaskLabelDbObject>
-    ): Result<Unit> = withContext(dispatcher) {
-        try {
-            val mapped = labels.associateBy { it.id }
-            tasksLabelsRef.child(userId).setValue(mapped).await()
-            Result.success(Unit)
-        } catch (e: Exception) {
-            Result.failure(e)
-        }
-    }
-
-    override suspend fun uploadLabel(userId: String, label: TaskLabelDbObject): Result<Unit> =
+    override suspend fun uploadLabels(labels: List<TaskLabelDbObject>): Result<Unit> =
         withContext(dispatcher) {
-            try {
-                tasksLabelsRef.child(userId).child(label.id).setValue(label).await()
-                Result.success(Unit)
-            } catch (e: Exception) {
-                Result.failure(e)
+            val user = manageUser.getAuthUser()
+            if (user != null) {
+                try {
+                    val mapped = labels.associateBy { it.id }
+                    tasksLabelsRef.child(user.id).setValue(mapped).await()
+                    Result.success(Unit)
+                } catch (e: Exception) {
+                    Result.failure(e)
+                }
+            } else {
+                Result.failure(Exception("Unauthorized"))
             }
         }
 
-    override suspend fun deleteLabel(userId: String, labelId: String): Result<Unit> =
+    override suspend fun uploadLabel(label: TaskLabelDbObject): Result<Unit> =
         withContext(dispatcher) {
-            try {
-                tasksLabelsRef.child(userId).child(labelId).removeValue().await()
-                Result.success(Unit)
-            } catch (e: Exception) {
-                Result.failure(e)
+            val user = manageUser.getAuthUser()
+            if (user != null) {
+                try {
+                    tasksLabelsRef.child(user.id).child(label.id).setValue(label).await()
+                    Result.success(Unit)
+                } catch (e: Exception) {
+                    Result.failure(e)
+                }
+            } else {
+                Result.failure(Exception("Unauthorized"))
+            }
+        }
+
+    override suspend fun deleteLabel(labelId: String): Result<Unit> =
+        withContext(dispatcher) {
+            val user = manageUser.getAuthUser()
+            if (user != null) {
+                try {
+                    tasksLabelsRef.child(user.id).child(labelId).removeValue().await()
+                    Result.success(Unit)
+                } catch (e: Exception) {
+                    Result.failure(e)
+                }
+            } else {
+                Result.failure(Exception("Unauthorized"))
             }
         }
 }
