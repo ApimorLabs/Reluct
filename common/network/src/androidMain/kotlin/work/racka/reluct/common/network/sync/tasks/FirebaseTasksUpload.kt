@@ -8,6 +8,7 @@ import kotlinx.coroutines.withContext
 import racka.reluct.common.authentication.managers.ManageUser
 import work.racka.reluct.common.database.models.TaskDbObject
 import work.racka.reluct.common.database.models.TaskLabelDbObject
+import work.racka.reluct.common.network.model.toNetworkObject
 import work.racka.reluct.common.network.util.Constants
 
 internal class FirebaseTasksUpload(
@@ -24,7 +25,7 @@ internal class FirebaseTasksUpload(
             val user = manageUser.getAuthUser()
             if (user != null) {
                 try {
-                    val mapped = tasks.associateBy { it.id }
+                    val mapped = tasks.map { it.toNetworkObject() }.associateBy { it.id }
                     tasksRef.child(user.id).setValue(mapped).await()
                     Result.success(Unit)
                 } catch (e: Exception) {
@@ -40,7 +41,8 @@ internal class FirebaseTasksUpload(
             val user = manageUser.getAuthUser()
             if (user != null) {
                 try {
-                    tasksRef.child(user.id).child(task.id).setValue(task).await()
+                    val mapped = task.toNetworkObject()
+                    tasksRef.child(user.id).child(task.id).setValue(mapped).await()
                     Result.success(Unit)
                 } catch (e: Exception) {
                     Result.failure(e)
@@ -70,7 +72,7 @@ internal class FirebaseTasksUpload(
             val user = manageUser.getAuthUser()
             if (user != null) {
                 try {
-                    val mapped = labels.associateBy { it.id }
+                    val mapped = labels.map { it.toNetworkObject() }.associateBy { it.id }
                     tasksLabelsRef.child(user.id).setValue(mapped).await()
                     Result.success(Unit)
                 } catch (e: Exception) {
@@ -86,7 +88,8 @@ internal class FirebaseTasksUpload(
             val user = manageUser.getAuthUser()
             if (user != null) {
                 try {
-                    tasksLabelsRef.child(user.id).child(label.id).setValue(label).await()
+                    val mapped = label.toNetworkObject()
+                    tasksLabelsRef.child(user.id).child(label.id).setValue(mapped).await()
                     Result.success(Unit)
                 } catch (e: Exception) {
                     Result.failure(e)
