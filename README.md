@@ -1,6 +1,7 @@
+# Note: This no longer maintained, to see the maintained version of this app see [Reluct Multiplatform](https://github.com/ApimorLabs/ReluctMultiplatform)
 # ⌛ Reluct
 
-![Code Checks](https://github.com/ReluctApp/Reluct/actions/workflows/code-check-pipeline.yml/badge.svg) ![Build Pipeline](https://github.com/ReluctApp/Reluct/actions/workflows/ci-cd-pipeline.yml/badge.svg)
+![Code Checks](https://github.com/ApimorLabs/Reluct/actions/workflows/code-check-pipeline.yml/badge.svg) ![Build Pipeline](https://github.com/ApimorLabs/Reluct/actions/workflows/ci-cd-pipeline.yml/badge.svg)
 
 ![](https://imgur.com/z4lc8oX)
 
@@ -61,7 +62,7 @@
 
 ## Issues
 
-If you encounter any issues you simply file them with the relevant details [here](https://github.com/ReluctApp/Reluct/issues/new/choose)
+If you encounter any issues you simply file them with the relevant details [here](https://github.com/ApimorLabs/Reluct/issues/new/choose)
 
 ## 📃 Important Analysis
 
@@ -294,7 +295,7 @@ Personally, I think sticking to just sharing business logic and may presentation
 The most compelling reason for Kotlin Multiplatform is the sharing of business logic. There are KMP ready libraries like SQLDelight, Multiplatform Settings, [Ktor Networking](https://ktor.io/), [Analytics Kotlin](https://github.com/segmentio/analytics-kotlin) and many more that let you write
 everything in common code without having to make separate implementations. For things that are not supported you can easily make alternatives yourself with `expect/actual` or Interfaces.
 
-- I've experimented with this for things like having a view model that can be used in common code but still get backed by platform specific implementations for easy use like [here](https://github.com/ReluctApp/Reluct/tree/main/common/mvvm-core).
+- I've experimented with this for things like having a view model that can be used in common code but still get backed by platform specific implementations for easy use like [here](https://github.com/ApimorLabs/Reluct/tree/main/common/mvvm-core).
 ```kotlin
 // Define in commonMain
 expect abstract class CommonViewModel() {
@@ -335,7 +336,7 @@ class MyFeatureViewModel : CommonViewModel() {
 }
 ```
 
-- Or making an abstraction layer for things like [Billing](https://github.com/ReluctApp/Reluct/tree/main/common/billing) so you make using it in common code easier.
+- Or making an abstraction layer for things like [Billing](https://github.com/ApimorLabs/Reluct/tree/main/common/billing) so you make using it in common code easier.
 ```kotlin
 // Interface in commonMain
 interface BillingApi {
